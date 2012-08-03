@@ -9,10 +9,11 @@
             <item android:id="@+id/sortType_alphabetical" android:title="@string/sortType_Alphabetical"/>
             <item android:id="@+id/sortType_something" android:title="Something else"/>
         </menu>
-    </item><item android:id="@+id/menu_settings"
+    </item><item android:id="@+id/forceSync" android:title="Full Sync"></item><item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    
     
     
 </menu>
