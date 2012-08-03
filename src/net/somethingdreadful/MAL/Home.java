@@ -26,6 +26,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener {
     ViewPager mViewPager;
     Context context;
     PrefManager mPrefManager;
+    public MALManager mManager;
     private boolean init = false;
     
     @Override
@@ -41,6 +42,8 @@ public class Home extends FragmentActivity implements ActionBar.TabListener {
 			// Creates the adapter to return the Animu and Mango fragments
 			mSectionsPagerAdapter = new HomeSectionsPagerAdapter(
 					getSupportFragmentManager());
+			
+			mManager = new MALManager(context);
 
 			// Set up the action bar.
 			final ActionBar actionBar = getActionBar();

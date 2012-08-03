@@ -12,6 +12,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,11 +86,14 @@ public class MALManager {
 		String result = null;
 		JSONObject jReturn = null;
 		
+		System.out.println("getAnimeList() called");
+		
 		HttpGet request;
 		HttpResponse response;
 		HttpClient client = new DefaultHttpClient();
 		
 		request = new HttpGet(APIProvider + readAnimeListAPI + malUser);
+		request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 		
 		
 		try 
@@ -102,6 +106,8 @@ public class MALManager {
 			{
 				result = EntityUtils.toString(getResponseEntity);
 				jReturn = new JSONObject(result);
+				
+				System.out.println("got json response");
 				
 			}
 			
@@ -153,11 +159,39 @@ public class MALManager {
 			{
 				JSONObject raw = getAnimeList();
 				
+			
+				JSONArray jArray;
+				try 
+				{
+					jArray = raw.getJSONArray("anime");
+					
+					for (int i = 0; i < jArray.length(); i++)
+					{
+						JSONObject a = jArray.getJSONObject(i);
+						
+						int id = a.getInt("id");
+						String name = a.getString("title");
+						int watched = a.getInt("watched_episodes");
+						
+						
+					}
+				} 
+				catch (JSONException e) 
+				{
+					e.printStackTrace();
+				}
+			
 				
 			}
 			
 			return al;
 		}
 		
+		protected void onPostExectue(ArrayList<AnimeRecord> al)
+		{
+			
+		}
+		
 	}
+	
 }

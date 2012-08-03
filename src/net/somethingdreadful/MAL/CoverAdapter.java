@@ -34,8 +34,10 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		}
 		
 		TextView label = (TextView) v.findViewById(R.id.animeName);
-		label.setText(objects.get(position).toString());
-		label.setMaxWidth(label.getWidth());
+		label.setText(((AnimeRecord) objects.get(position)).getName());
+
+		TextView watchedCount = (TextView) v.findViewById(R.id.watchedCount);
+		watchedCount.setText(((AnimeRecord) objects.get(position)).getWatched());
 		
 //		ImageView icon = (ImageView) v.findViewById(R.id.coverImage);
 		
