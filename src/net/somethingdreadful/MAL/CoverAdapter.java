@@ -28,6 +28,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated method stub
 		//return super.getView(position, convertView, parent);
 		View v = convertView;
+		AnimeRecord a = ((AnimeRecord) objects.get(position));
 		
 		if (v == null)
 		{
@@ -36,13 +37,13 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		}
 		
 		TextView label = (TextView) v.findViewById(R.id.animeName);
-		label.setText(((AnimeRecord) objects.get(position)).getName());
+		label.setText(a.getName());
 
 		TextView watchedCount = (TextView) v.findViewById(R.id.watchedCount);
-		watchedCount.setText(((AnimeRecord) objects.get(position)).getWatched());
+		watchedCount.setText(a.getWatched());
 		
 		ImageView cover = (ImageView) v.findViewById(R.id.coverImage);
-		imageManager.download(((AnimeRecord) objects.get(position)).getImageUrl(), cover);
+		imageManager.download(a.getImageUrl(), cover);
 		
 //		icon.setImageResource(R.drawable.icon);
 
