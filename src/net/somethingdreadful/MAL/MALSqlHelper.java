@@ -14,7 +14,11 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 	public static final String TABLE_ANIME = "anime";
 	public static final String TABLE_MANGA = "manga";
 	
-	private static final String CREATE_ANIME_TABLE = "";
+	private static final String CREATE_ANIME_TABLE = "create table "
+			+ TABLE_ANIME + "(" + COLUMN_ID  +" integer primary key autoincrement, "
+			+ "recordID text, "
+			+ "recordName text, "
+			+ "imageUrl text";
 	
 	
 	public MALSqlHelper(Context context) {

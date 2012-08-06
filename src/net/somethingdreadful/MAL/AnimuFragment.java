@@ -111,8 +111,9 @@ public class AnimuFragment extends Fragment {
 						int id = a.getInt("id");
 						String name = a.getString("title");
 						int watched = a.getInt("watched_episodes");
+						String imageUrl = a.getString("image_url");
 						
-						AnimeRecord ar = new AnimeRecord(id, name, watched);
+						AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched);
 						
 						al.add(ar);
 						

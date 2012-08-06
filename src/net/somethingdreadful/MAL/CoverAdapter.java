@@ -14,11 +14,13 @@ import android.widget.TextView;
 public class CoverAdapter<T> extends ArrayAdapter<T> {
 	
 	private ArrayList<T> objects;
+	private ImageDownloader imageManager;
 
 	public CoverAdapter(Context context, int resource, ArrayList<T> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.objects = objects;
+		imageManager = new ImageDownloader();
 	}
 	
 	@Override
@@ -39,7 +41,8 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		TextView watchedCount = (TextView) v.findViewById(R.id.watchedCount);
 		watchedCount.setText(((AnimeRecord) objects.get(position)).getWatched());
 		
-//		ImageView icon = (ImageView) v.findViewById(R.id.coverImage);
+		ImageView cover = (ImageView) v.findViewById(R.id.coverImage);
+		imageManager.download(((AnimeRecord) objects.get(position)).getImageUrl(), cover);
 		
 //		icon.setImageResource(R.drawable.icon);
 

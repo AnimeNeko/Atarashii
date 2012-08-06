@@ -34,11 +34,12 @@ public class AnimeRecord extends GenericMALRecord {
 		
 	}
 	
-	public AnimeRecord(int id, String name, int watched)
+	public AnimeRecord(int id, String name, String imageUrl, int watched)
 	{
 		this.recordID = id;
 		this.recordName = name;
 		this.episodesWatched = watched;
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
@@ -61,6 +62,11 @@ public class AnimeRecord extends GenericMALRecord {
 	public String getWatched()
 	{
 		return Integer.toString(episodesWatched);
+	}
+	
+	public String getImageUrl()
+	{
+		return imageUrl;
 	}
 
 }
