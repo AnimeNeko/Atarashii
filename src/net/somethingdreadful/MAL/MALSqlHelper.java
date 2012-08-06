@@ -15,10 +15,19 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 	public static final String TABLE_MANGA = "manga";
 	
 	private static final String CREATE_ANIME_TABLE = "create table "
-			+ TABLE_ANIME + "(" + COLUMN_ID  +" integer primary key autoincrement, "
+			+ TABLE_ANIME + "(" 
+			+ COLUMN_ID  +" integer primary key autoincrement, "
 			+ "recordID text, "
 			+ "recordName text, "
-			+ "imageUrl text";
+			+ "imageUrl text, "
+			+ "recordStatus text, "
+			+ "myStatus text, "
+			+ "memberScore text, "
+			+ "myScore text, "
+			+ "synopsis text, "
+			+ "episodesWatched text, "
+			+ "episodesTotal text"
+			+ ");";
 	
 	
 	public MALSqlHelper(Context context) {
@@ -28,7 +37,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
+		db.execSQL(CREATE_ANIME_TABLE);
 		
 	}
 

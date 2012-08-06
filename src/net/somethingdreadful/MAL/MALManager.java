@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Base64;
 
@@ -33,6 +34,9 @@ public class MALManager {
 	PrefManager prefManager;
 	String malUser;
 	String malPass;
+	MALSqlHelper helper;
+	SQLiteDatabase db;
+	
 	
 	
 	
@@ -43,6 +47,9 @@ public class MALManager {
 		
 		malUser = prefManager.getUser();
 		malPass = prefManager.getPass();
+		
+		helper = new MALSqlHelper(this.c);
+		db = helper.getWritableDatabase();
 	}
 	
 	static public boolean verifyAccount(String user, String pass)
@@ -135,62 +142,6 @@ public class MALManager {
 		ArrayList<AnimeRecord> al = new ArrayList();
 		
 		return null;
-		
-	}
-	
-	public class getAnimeRecords extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>>
-	{
-
-		@Override
-		protected ArrayList<AnimeRecord> doInBackground(Integer... list) {
-			
-			ArrayList<AnimeRecord> al = new ArrayList();
-			
-			int listint = 0;
-			
-			for(int i : list)
-			{
-				listint = i;
-			}
-			
-			al = getAnimeRecordsFromDB(listint);
-			
-			if (al == null)
-			{
-				JSONObject raw = getAnimeList();
-				
-			
-				JSONArray jArray;
-				try 
-				{
-					jArray = raw.getJSONArray("anime");
-					
-					for (int i = 0; i < jArray.length(); i++)
-					{
-						JSONObject a = jArray.getJSONObject(i);
-						
-						int id = a.getInt("id");
-						String name = a.getString("title");
-						int watched = a.getInt("watched_episodes");
-						
-						
-					}
-				} 
-				catch (JSONException e) 
-				{
-					e.printStackTrace();
-				}
-			
-				
-			}
-			
-			return al;
-		}
-		
-		protected void onPostExectue(ArrayList<AnimeRecord> al)
-		{
-			
-		}
 		
 	}
 	
