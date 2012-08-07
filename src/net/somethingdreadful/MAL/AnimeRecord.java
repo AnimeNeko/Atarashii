@@ -34,12 +34,13 @@ public class AnimeRecord extends GenericMALRecord {
 		
 	}
 	
-	public AnimeRecord(int id, String name, String imageUrl, int watched)
+	public AnimeRecord(int id, String name, String imageUrl, int watched, String myStatus)
 	{
 		this.recordID = id;
 		this.recordName = name;
 		this.episodesWatched = watched;
 		this.imageUrl = imageUrl;
+		this.myStatus = myStatus;
 	}
 
 	@Override
@@ -67,6 +68,46 @@ public class AnimeRecord extends GenericMALRecord {
 	public String getImageUrl()
 	{
 		return imageUrl;
+	}
+
+	public String getID() {
+		
+		return Integer.toString(recordID);
+	}
+
+	public String getRecordStatus() {
+		
+		return recordStatus;
+	}
+
+	public String getMemberScore() {
+		
+		return memberScore;
+	}
+
+	public String getSynopsis() {
+		
+		return synopsis;
+	}
+
+	public String getTotal() {
+		
+		return Integer.toString(episodesTotal);
+	}
+
+	public String getRecordType() {
+		// TODO Auto-generated method stub
+		return recordType;
+	}
+
+	public String getMyStatus() {
+		// TODO Auto-generated method stub
+		return myStatus;
+	}
+
+	public String getMyScore() {
+		// TODO Auto-generated method stub
+		return myScore;
 	}
 
 }

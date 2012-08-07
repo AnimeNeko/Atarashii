@@ -25,9 +25,9 @@ public class AnimuFragment extends Fragment {
     public AnimuFragment() {
     }
 
-    ArrayList<String> ar = new ArrayList();
     ArrayList<AnimeRecord> al = new ArrayList();
     GridView gv;
+    MALManager mManager;
     Context c;
     
     
@@ -38,13 +38,9 @@ public class AnimuFragment extends Fragment {
     	View layout = inflater.inflate(R.layout.fragment_animelist, null);
     	c = layout.getContext();
     	
-    	int orientation = layout.getContext().getResources().getConfiguration().orientation;
+    	mManager = ((Home) getActivity()).mManager;
     	
-    	ar.add("Sword Art Online");
-    	ar.add("Moar Anime");
-    	ar.add("Making the names long");
-    	ar.add("A really long anime name here");
-    	ar.add("Anime");
+    	int orientation = layout.getContext().getResources().getConfiguration().orientation;
     	
     	gv = (GridView) layout.findViewById(R.id.gridview);
     	
@@ -77,10 +73,9 @@ public class AnimuFragment extends Fragment {
     public class getAnimeRecords extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>>
 	{
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		protected ArrayList<AnimeRecord> doInBackground(Integer... list) {
-			
-			ArrayList<AnimeRecord> alAnimeRecords;
 			
 			int listint = 0;
 			
@@ -90,13 +85,13 @@ public class AnimuFragment extends Fragment {
 				System.out.println("int passed: " + listint);
 			}
 			
-			al = ((Home) getActivity()).mManager.getAnimeRecordsFromDB(listint);
+			al = mManager.getAnimeRecordsFromDB(listint);
 			
 			if (al == null)
 			{
 				al = new ArrayList();
 				
-				JSONObject raw = ((Home) getActivity()).mManager.getAnimeList();
+				JSONObject raw = mManager.getAnimeList();
 				
 			
 				JSONArray jArray;
@@ -112,10 +107,13 @@ public class AnimuFragment extends Fragment {
 						String name = a.getString("title");
 						int watched = a.getInt("watched_episodes");
 						String imageUrl = a.getString("image_url");
+						String myStatus = a.getString("watched_status");
 						
-						AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched);
+						AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, myStatus);
 						
-						al.add(ar);
+						mManager.initialInsertAnime(ar);
+						
+//						al.add(ar);
 						
 					}
 				} 
@@ -124,6 +122,7 @@ public class AnimuFragment extends Fragment {
 					e.printStackTrace();
 				}
 			
+				al = mManager.getAnimeRecordsFromDB(listint);
 				
 			}
 			
