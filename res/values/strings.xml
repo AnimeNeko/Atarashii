@@ -30,5 +30,10 @@
     <string name="listType_onhold">On Hold</string>
     <string name="listType_dropped">Dropped</string>
     <string name="listType_plantowatch">Planning to Watch</string>
+    <string name="cover_Watching">I\'ve watched:</string>
+    <string name="cover_Completed">Completed at:</string>
+    <string name="cover_OnHold">On Hold at:</string>
+    <string name="cover_Dropped">Dropper after:</string>
+    <string name="cover_PlanningToWatch">Planning to watch</string>
 
 </resources>

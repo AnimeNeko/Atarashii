@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -29,6 +30,8 @@ public class AnimuFragment extends Fragment {
     GridView gv;
     MALManager mManager;
     Context c;
+    CoverAdapter<AnimeRecord> ca;
+    IAnimeFragment ready;
     
     
     @Override
@@ -61,16 +64,25 @@ public class AnimuFragment extends Fragment {
     		gv.setNumColumns(3);
     	}
     	
+    	gv.setDrawSelectorOnTop(true);
+    	
  //   	gv.setAdapter(new CoverAdapter<String>(layout.getContext(), R.layout.grid_cover_with_text_item, ar));
     	
-    	getAnimeRecords task = new getAnimeRecords();
-    	task.execute(1);
+    	getAnimeRecords(1);
+    	
+    	ready.fragmentReady();
     	
     	return layout;
     	
     }
     
-    public class getAnimeRecords extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>>
+    public void getAnimeRecords(int listint)
+    {
+    	new getAnimeRecordsTask().execute(listint);
+    	
+    }
+    
+    public class getAnimeRecordsTask extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>>
 	{
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -131,7 +143,24 @@ public class AnimuFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<AnimeRecord> result) {
-			gv.setAdapter(new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, al));
+			
+			if (ca == null)
+			{
+				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result);
+			}
+			
+			if (gv.getAdapter() == null)
+			{
+				gv.setAdapter(ca);
+			}
+			else
+			{
+				ca.clear();
+				ca.addAll(result);
+//				new AdapterHelper().update((CoverAdapter<AnimeRecord>) ca, result);
+				ca.notifyDataSetChanged();
+			}
+			
 		}
 
 	}
@@ -143,5 +172,18 @@ public class AnimuFragment extends Fragment {
     	
     	
 
+    }
+    
+    @Override
+    public void onAttach(Activity a)
+    {
+    	super.onAttach(a);
+    	ready = (IAnimeFragment) a;
+    	
+    }
+    
+    public interface IAnimeFragment
+    {
+    	public void fragmentReady();
     }
 }

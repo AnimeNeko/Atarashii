@@ -6,11 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Home extends FragmentActivity implements ActionBar.TabListener {
+public class Home extends FragmentActivity implements ActionBar.TabListener, AnimuFragment.IAnimeFragment {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -28,6 +29,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener {
     PrefManager mPrefManager;
     public MALManager mManager;
     private boolean init = false;
+    AnimuFragment af;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,11 @@ public class Home extends FragmentActivity implements ActionBar.TabListener {
 				actionBar.addTab(actionBar.newTab()
 						.setText(mSectionsPagerAdapter.getPageTitle(i))
 						.setTabListener(this));
+			
 			}
+			
+			
+			
 		}
 		else
 		{
@@ -100,10 +106,48 @@ public class Home extends FragmentActivity implements ActionBar.TabListener {
     	{
     	case R.id.menu_settings:
     		startActivity(new Intent (this, Settings.class));
-    		return true;
+    		break;
+    	
+    	case R.id.listType_all:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(0);
+    		}	
+    		break;
+    	case R.id.listType_watching:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(1);
+    		}
+    		break;
+    	case R.id.listType_completed:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(2);
+    		}
+    		break;
+    	case R.id.listType_onhold:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(3);
+    		}
+    		break;
+    	case R.id.listType_dropped:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(4);
+    		}
+    		break;
+    	case R.id.listType_plantowatch:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(5);
+    		}
+    		break;
+    		
     	}
     	
-    	return false;
+    	return super.onOptionsItemSelected(item);
     }
 
     
@@ -122,6 +166,11 @@ public class Home extends FragmentActivity implements ActionBar.TabListener {
 
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+
+	public void fragmentReady() {
+		// TODO Auto-generated method stub
+		af = (AnimuFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+	}
 
 
 }

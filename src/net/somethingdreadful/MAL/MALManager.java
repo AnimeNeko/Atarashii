@@ -102,6 +102,35 @@ public class MALManager {
 		}
 	}
 	
+	static String listSortFromInt(int i)
+	{
+		String r = "watching";
+		
+		switch (i)
+		{
+		case 0:
+			r = "";
+			break;
+		case 1:
+			r = "watching";
+			break;
+		case 2:
+			r = "completed";
+			break;
+		case 3:
+			r = "on-hold";
+			break;
+		case 4:
+			r = "dropped";
+			break;
+		case 5: 
+			r = "plan to watch";
+			break;
+		}
+		
+		return r;
+	}
+	
 	public JSONObject getAnimeList()
 	{
 		String result = null;
@@ -154,11 +183,21 @@ public class MALManager {
 	{
 		
 		ArrayList<AnimeRecord> al = new ArrayList();
+		Cursor cu;
 		
 
 //		Cursor cu = db.query(MALSqlHelper.TABLE_ANIME, null, "myStatus='watching'", null, null, null, "recordName");
 //		Cursor c = db.query(true, MALSqlHelper.TABLE_ANIME, null, null, null, null, null, "recordName", null);
-		Cursor cu = db.rawQuery("SELECT * FROM 'anime' WHERE myStatus='watching' ORDER BY recordName", null);
+		if (list == 0)
+		{
+			cu = db.rawQuery("SELECT * FROM 'anime' ORDER BY recordName", null);
+		}
+		else
+		{
+			cu = db.rawQuery("SELECT * FROM 'anime' WHERE myStatus='" + listSortFromInt(list) + "' ORDER BY recordName", null);
+		}
+		
+		
 		System.out.println(cu.getCount());
 		cu.moveToFirst();
 		getAnimeIndices(cu);
