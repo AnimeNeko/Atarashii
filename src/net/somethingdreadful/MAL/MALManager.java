@@ -193,7 +193,7 @@ public class MALManager {
 		cv.put("imageUrl", ar.getImageUrl());
 		cv.put("recordStatus", ar.getRecordStatus());
 		cv.put("myStatus", ar.getMyStatus());
-		cv.put("memberScore", ar.getMemberScore());
+//		cv.put("memberScore", ar.getMemberScore());
 		cv.put("myScore", ar.getMyScore());
 //		cv.put("synopsis", ar.getSynopsis());
 		cv.put("episodesWatched", ar.getWatched());

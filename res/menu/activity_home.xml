@@ -1,13 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_listType" android:showAsAction="ifRoom|withText" android:title="@string/menu_listType">
         <menu>
-            <item android:id="@+id/listType_watching" android:title="@string/listType_Watching"/>
+            <item android:id="@+id/listType_all" android:title="@string/listType_all"/><item android:id="@+id/listType_watching" android:title="@string/listType_Watching"/>
             <item android:id="@+id/listType_completed" android:title="@string/listType_Completed"/>
-        </menu>
-    </item><item android:id="@+id/menu_sortType" android:title="@string/menu_sortType" android:showAsAction="ifRoom|withText">
-        <menu>
-            <item android:id="@+id/sortType_alphabetical" android:title="@string/sortType_Alphabetical"/>
-            <item android:id="@+id/sortType_something" android:title="Something else"/>
+            <item android:id="@+id/listType_onhold" android:title="@string/listType_onhold"/>
+            <item android:id="@+id/listType_dropped" android:title="@string/listType_dropped"/>
+            <item android:id="@+id/listType_plantowatch" android:title="@string/listType_plantowatch"/>
+            
         </menu>
     </item><item android:id="@+id/forceSync" android:title="Full Sync"></item><item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"

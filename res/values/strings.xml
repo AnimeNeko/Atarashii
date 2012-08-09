@@ -6,7 +6,7 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_home">DreadfulMAL</string>
     <string name="listType_Watching">Watching</string>
-    <string name="menu_listType">List</string>
+    <string name="menu_listType">Switch List</string>
     <string name="listType_Completed">Completed</string>
     <string name="menu_sortType">Sort</string>
     <string name="sortType_Alphabetical">Alphanumeric</string>
@@ -26,5 +26,9 @@
     <string name="title_Stats">Stats</string>
     <string name="title_BasicStuff">Cover</string>
     <string name="title_activity_detail_view">DetailView</string>
+    <string name="listType_all">Everything</string>
+    <string name="listType_onhold">On Hold</string>
+    <string name="listType_dropped">Dropped</string>
+    <string name="listType_plantowatch">Planning to Watch</string>
 
 </resources>
