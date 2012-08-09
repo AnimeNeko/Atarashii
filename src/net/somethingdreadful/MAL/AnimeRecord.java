@@ -96,17 +96,17 @@ public class AnimeRecord extends GenericMALRecord {
 	}
 
 	public String getRecordType() {
-		// TODO Auto-generated method stub
+	
 		return recordType;
 	}
 
 	public String getMyStatus() {
-		// TODO Auto-generated method stub
+		
 		return myStatus;
 	}
 
 	public String getMyScore() {
-		// TODO Auto-generated method stub
+		
 		return myScore;
 	}
 
