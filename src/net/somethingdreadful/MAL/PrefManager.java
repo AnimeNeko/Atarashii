@@ -77,13 +77,12 @@ public class PrefManager {
 		return syncFrequency;
 	}
 	
-	public String getDefaultList()
+	public int getDefaultList()
 	{
-		String l = "";
 		
-		l = prefs.getString("defaultList", "watching");
 		
-		return l;
+		return 1;
+		
 	}
 	
 	public void commitChanges()

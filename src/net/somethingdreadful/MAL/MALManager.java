@@ -178,6 +178,38 @@ public class MALManager {
 		
 		return jReturn;
 	}
+	
+	public void downloadAndStoreAnime()
+	{
+		JSONObject raw = getAnimeList();
+		
+		
+		JSONArray jArray;
+		try 
+		{
+			jArray = raw.getJSONArray("anime");
+			
+			for (int i = 0; i < jArray.length(); i++)
+			{
+				JSONObject a = jArray.getJSONObject(i);
+				
+				int id = a.getInt("id");
+				String name = a.getString("title");
+				int watched = a.getInt("watched_episodes");
+				String imageUrl = a.getString("image_url");
+				String myStatus = a.getString("watched_status");
+				
+				AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, myStatus);
+				
+				initialInsertAnime(ar);
+				
+			}
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 
 	public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list)
 	{

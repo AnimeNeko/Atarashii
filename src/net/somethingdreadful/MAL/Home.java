@@ -30,6 +30,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     public MALManager mManager;
     private boolean init = false;
     AnimuFragment af;
+    public boolean instanceExists;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,16 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
         
         mPrefManager = new PrefManager(context);
         init = mPrefManager.getInit();
-
+        
+        if (savedInstanceState != null)
+        {
+        	instanceExists = savedInstanceState.getBoolean("instanceExists", false);
+        }
+        else
+        {
+        	instanceExists = false;
+        }
+        	
 		if (init == true) {
 			setContentView(R.layout.activity_home);
 			// Creates the adapter to return the Animu and Mango fragments
@@ -46,6 +56,11 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 					getSupportFragmentManager());
 			
 			mManager = new MALManager(context);
+			
+			if (!instanceExists)
+			{
+				
+			}
 
 			// Set up the action bar.
 			final ActionBar actionBar = getActionBar();
@@ -81,8 +96,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 						.setTabListener(this));
 			
 			}
-			
-			
+
 			
 		}
 		else
@@ -111,37 +125,43 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     	case R.id.listType_all:
     		if (af != null)
     		{
-    			af.getAnimeRecords(0);
+    			af.getAnimeRecords(0, false);
     		}	
     		break;
     	case R.id.listType_watching:
     		if (af != null)
     		{
-    			af.getAnimeRecords(1);
+    			af.getAnimeRecords(1, false);
     		}
     		break;
     	case R.id.listType_completed:
     		if (af != null)
     		{
-    			af.getAnimeRecords(2);
+    			af.getAnimeRecords(2, false);
     		}
     		break;
     	case R.id.listType_onhold:
     		if (af != null)
     		{
-    			af.getAnimeRecords(3);
+    			af.getAnimeRecords(3, false);
     		}
     		break;
     	case R.id.listType_dropped:
     		if (af != null)
     		{
-    			af.getAnimeRecords(4);
+    			af.getAnimeRecords(4, false);
     		}
     		break;
     	case R.id.listType_plantowatch:
     		if (af != null)
     		{
-    			af.getAnimeRecords(5);
+    			af.getAnimeRecords(5, false);
+    		}
+    		break;
+    	case R.id.forceSync:
+    		if (af != null)
+    		{
+    			af.getAnimeRecords(af.currentList, true);
     		}
     		break;
     		
@@ -170,6 +190,14 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 	public void fragmentReady() {
 		// TODO Auto-generated method stub
 		af = (AnimuFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle state)
+	{
+		state.putBoolean("instanceExists", true);
+		
+		super.onSaveInstanceState(state);
 	}
 
 

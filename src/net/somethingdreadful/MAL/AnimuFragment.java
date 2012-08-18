@@ -29,10 +29,24 @@ public class AnimuFragment extends Fragment {
     ArrayList<AnimeRecord> al = new ArrayList();
     GridView gv;
     MALManager mManager;
+    PrefManager mPrefManager;
     Context c;
     CoverAdapter<AnimeRecord> ca;
-    IAnimeFragment ready;
+    IAnimeFragment Iready;
+    boolean forceSyncBool = false;
+    int currentList;
     
+    @Override
+    public void onCreate(Bundle state)
+    {
+    	super.onCreate(state);
+    	
+    	if (state != null)
+    	{
+    		currentList = state.getInt("list", 1);
+    	}
+
+    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +56,13 @@ public class AnimuFragment extends Fragment {
     	c = layout.getContext();
     	
     	mManager = ((Home) getActivity()).mManager;
+    	mPrefManager = ((Home) getActivity()).mPrefManager;
+    	
+    	if (!((Home) getActivity()).instanceExists)
+    	{
+    		currentList = mPrefManager.getDefaultList();
+    	}
+
     	
     	int orientation = layout.getContext().getResources().getConfiguration().orientation;
     	
@@ -68,16 +89,19 @@ public class AnimuFragment extends Fragment {
     	
  //   	gv.setAdapter(new CoverAdapter<String>(layout.getContext(), R.layout.grid_cover_with_text_item, ar));
     	
-    	getAnimeRecords(1);
+    	getAnimeRecords(currentList, false);
     	
-    	ready.fragmentReady();
+    	Iready.fragmentReady();
     	
     	return layout;
     	
     }
     
-    public void getAnimeRecords(int listint)
+    public void getAnimeRecords(int listint, boolean forceSync)
     {
+    	forceSyncBool = forceSync;
+    	currentList = listint;
+    	
     	new getAnimeRecordsTask().execute(listint);
     	
     }
@@ -97,46 +121,15 @@ public class AnimuFragment extends Fragment {
 				System.out.println("int passed: " + listint);
 			}
 			
-			al = mManager.getAnimeRecordsFromDB(listint);
-			
-			if (al == null)
+			if (forceSyncBool)
 			{
 				al = new ArrayList();
 				
-				JSONObject raw = mManager.getAnimeList();
-				
-			
-				JSONArray jArray;
-				try 
-				{
-					jArray = raw.getJSONArray("anime");
-					
-					for (int i = 0; i < jArray.length(); i++)
-					{
-						JSONObject a = jArray.getJSONObject(i);
-						
-						int id = a.getInt("id");
-						String name = a.getString("title");
-						int watched = a.getInt("watched_episodes");
-						String imageUrl = a.getString("image_url");
-						String myStatus = a.getString("watched_status");
-						
-						AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, myStatus);
-						
-						mManager.initialInsertAnime(ar);
-						
-//						al.add(ar);
-						
-					}
-				} 
-				catch (JSONException e) 
-				{
-					e.printStackTrace();
-				}
-			
-				al = mManager.getAnimeRecordsFromDB(listint);
+				mManager.downloadAndStoreAnime();
 				
 			}
+			
+			al = mManager.getAnimeRecordsFromDB(listint);
 			
 			return al;
 		}
@@ -144,6 +137,10 @@ public class AnimuFragment extends Fragment {
 		@Override
 		protected void onPostExecute(ArrayList<AnimeRecord> result) {
 			
+			if (result == null)
+			{
+				result = new ArrayList();
+			}
 			if (ca == null)
 			{
 				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result);
@@ -166,19 +163,18 @@ public class AnimuFragment extends Fragment {
 	}
     
     @Override
-    public void onCreate(Bundle state)
+    public void onSaveInstanceState(Bundle state)
     {
-    	super.onCreate(state);
+    	state.putInt("list", currentList);
     	
-    	
-
+    	super.onSaveInstanceState(state);
     }
     
     @Override
     public void onAttach(Activity a)
     {
     	super.onAttach(a);
-    	ready = (IAnimeFragment) a;
+    	Iready = (IAnimeFragment) a;
     	
     }
     
