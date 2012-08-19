@@ -127,36 +127,42 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     		if (af != null)
     		{
     			af.getAnimeRecords(0, false);
+    			invalidateOptionsMenu();
     		}	
     		break;
     	case R.id.listType_watching:
     		if (af != null)
     		{
     			af.getAnimeRecords(1, false);
+    			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_completed:
     		if (af != null)
     		{
     			af.getAnimeRecords(2, false);
+    			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_onhold:
     		if (af != null)
     		{
     			af.getAnimeRecords(3, false);
+    			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_dropped:
     		if (af != null)
     		{
     			af.getAnimeRecords(4, false);
+    			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_plantowatch:
     		if (af != null)
     		{
     			af.getAnimeRecords(5, false);
+    			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.forceSync:
@@ -201,6 +207,33 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 		
 		super.onSaveInstanceState(state);
 	}
+	
+	@Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+    	switch (af.currentList)
+    	{
+    	case 0:
+    		menu.findItem(R.id.listType_all).setChecked(true);
+    		break;
+    	case 1:
+    		menu.findItem(R.id.listType_watching).setChecked(true);
+    		break;
+    	case 2:
+    		menu.findItem(R.id.listType_completed).setChecked(true);
+    		break;
+    	case 3:
+    		menu.findItem(R.id.listType_onhold).setChecked(true);
+    		break;
+    	case 4: 
+    		menu.findItem(R.id.listType_dropped).setChecked(true);
+    		break;
+    	case 5:
+    		menu.findItem(R.id.listType_plantowatch).setChecked(true);
+    	}
+    	
+    	return true;
+    }
 
 
 }
