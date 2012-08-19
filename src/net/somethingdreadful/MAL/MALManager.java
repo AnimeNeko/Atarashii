@@ -201,7 +201,7 @@ public class MALManager {
 				
 				AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, myStatus);
 				
-				initialInsertAnime(ar);
+				insertOrUpdateAnime(ar);
 				
 			}
 		} 
@@ -253,7 +253,7 @@ public class MALManager {
 		return al;
 	}
 	
-	public void initialInsertAnime(AnimeRecord ar)
+	public void insertOrUpdateAnime(AnimeRecord ar)
 	{
 		
 		ContentValues cv = new ContentValues();
@@ -270,9 +270,34 @@ public class MALManager {
 		cv.put("episodesWatched", ar.getWatched());
 		cv.put("episodesTotal", ar.getTotal());
 		
-		long returnedID = db.insert(MALSqlHelper.TABLE_ANIME, null, cv);
-		System.out.println(returnedID);
+		if (animeExists(ar.getID()))
+		{
+			db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[] {ar.getID()});
+		}
+		else
+		{
+			db.insert(MALSqlHelper.TABLE_ANIME, null, cv);
+		}
+		
+		
+		
 	}
+	
+	public boolean animeExists(String id) {
+		   Cursor cursor = db.rawQuery("select 1 from anime where recordID=?", 
+		        new String[] { id });
+		   boolean exists = (cursor.getCount() > 0);
+		   cursor.close();
+		   return exists;
+		}
+	
+	public boolean mangaExists(String id) {
+		   Cursor cursor = db.rawQuery("select 1 from manga where recordID=%s", 
+		        new String[] { id });
+		   boolean exists = (cursor.getCount() > 0);
+		   cursor.close();
+		   return exists;
+		}
 	
 	public void getAnimeIndices(Cursor cu)
 	{

@@ -102,14 +102,17 @@ public class AnimuFragment extends Fragment {
     	forceSyncBool = forceSync;
     	currentList = listint;
     	
-    	new getAnimeRecordsTask().execute(listint);
+    	new getAnimeRecordsTask().execute(currentList);
     	
     }
     
     public class getAnimeRecordsTask extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>>
 	{
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
+		boolean mForceSync = forceSyncBool;
+		int mList = currentList;
+    	
+    	@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		protected ArrayList<AnimeRecord> doInBackground(Integer... list) {
 			
@@ -121,7 +124,7 @@ public class AnimuFragment extends Fragment {
 				System.out.println("int passed: " + listint);
 			}
 			
-			if (forceSyncBool)
+			if (mForceSync)
 			{
 				al = new ArrayList();
 				
