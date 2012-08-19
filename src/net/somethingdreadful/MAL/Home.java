@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class Home extends FragmentActivity implements ActionBar.TabListener, AnimuFragment.IAnimeFragment {
 
@@ -162,6 +163,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     		if (af != null)
     		{
     			af.getAnimeRecords(af.currentList, true);
+    			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
     		}
     		break;
     		

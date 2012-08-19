@@ -161,6 +161,11 @@ public class AnimuFragment extends Fragment {
 				ca.notifyDataSetChanged();
 			}
 			
+			if (mForceSync)
+			{
+				Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
+			}
+			
 		}
 
 	}
