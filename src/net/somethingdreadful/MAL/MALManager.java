@@ -179,7 +179,7 @@ public class MALManager {
 		return jReturn;
 	}
 	
-	public void downloadAndStoreAnime()
+	public void downloadAndStoreAnimeList()
 	{
 		JSONObject raw = getAnimeList();
 		
@@ -196,10 +196,16 @@ public class MALManager {
 				int id = a.getInt("id");
 				String name = a.getString("title");
 				int watched = a.getInt("watched_episodes");
+				int totalEpisodes = a.getInt("episodes");
 				String imageUrl = a.getString("image_url");
+				String animeStatus = a.getString("status");
 				String myStatus = a.getString("watched_status");
+				String animeType = a.getString("type");
+				String myScore = a.getString("score");
 				
-				AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, myStatus);
+				
+				AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes, 
+						myStatus, animeStatus, animeType, myScore);
 				
 				insertOrUpdateAnime(ar);
 				
@@ -264,9 +270,9 @@ public class MALManager {
 		cv.put("imageUrl", ar.getImageUrl());
 		cv.put("recordStatus", ar.getRecordStatus());
 		cv.put("myStatus", ar.getMyStatus());
-//		cv.put("memberScore", ar.getMemberScore());
+		cv.put("memberScore", ar.getMemberScore());
 		cv.put("myScore", ar.getMyScore());
-//		cv.put("synopsis", ar.getSynopsis());
+		cv.put("synopsis", ar.getSynopsis());
 		cv.put("episodesWatched", ar.getWatched());
 		cv.put("episodesTotal", ar.getTotal());
 		

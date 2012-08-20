@@ -129,7 +129,7 @@ public class AnimuFragment extends Fragment {
 			{
 				al = new ArrayList();
 				
-				mManager.downloadAndStoreAnime();
+				mManager.downloadAndStoreAnimeList();
 				
 			}
 			

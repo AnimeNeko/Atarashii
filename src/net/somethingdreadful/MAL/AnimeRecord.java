@@ -34,13 +34,18 @@ public class AnimeRecord extends GenericMALRecord {
 		
 	}
 	
-	public AnimeRecord(int id, String name, String imageUrl, int watched, String myStatus)
+	public AnimeRecord(int id, String name, String imageUrl, int watched, int totalEpisodes, 
+			String myStatus, String animeStatus, String animeType, String myScore)
 	{
 		this.recordID = id;
 		this.recordName = name;
 		this.episodesWatched = watched;
 		this.imageUrl = imageUrl;
 		this.myStatus = myStatus;
+		this.episodesTotal = totalEpisodes;
+		this.recordStatus = animeStatus;
+		this.recordType = animeType;
+		this.myScore = myScore;
 	}
 
 	@Override
