@@ -198,6 +198,13 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 	public void fragmentReady() {
 		// TODO Auto-generated method stub
 		af = (AnimuFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		
+		if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))
+		{
+			af.getAnimeRecords(af.currentList, true);
+			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
+			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	@Override
@@ -211,26 +218,30 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 	@Override
     public boolean onPrepareOptionsMenu(Menu menu)
     {
-    	switch (af.currentList)
-    	{
-    	case 0:
-    		menu.findItem(R.id.listType_all).setChecked(true);
-    		break;
-    	case 1:
-    		menu.findItem(R.id.listType_watching).setChecked(true);
-    		break;
-    	case 2:
-    		menu.findItem(R.id.listType_completed).setChecked(true);
-    		break;
-    	case 3:
-    		menu.findItem(R.id.listType_onhold).setChecked(true);
-    		break;
-    	case 4: 
-    		menu.findItem(R.id.listType_dropped).setChecked(true);
-    		break;
-    	case 5:
-    		menu.findItem(R.id.listType_plantowatch).setChecked(true);
-    	}
+		if (af != null)
+		{
+			switch (af.currentList)
+	    	{
+	    	case 0:
+	    		menu.findItem(R.id.listType_all).setChecked(true);
+	    		break;
+	    	case 1:
+	    		menu.findItem(R.id.listType_watching).setChecked(true);
+	    		break;
+	    	case 2:
+	    		menu.findItem(R.id.listType_completed).setChecked(true);
+	    		break;
+	    	case 3:
+	    		menu.findItem(R.id.listType_onhold).setChecked(true);
+	    		break;
+	    	case 4: 
+	    		menu.findItem(R.id.listType_dropped).setChecked(true);
+	    		break;
+	    	case 5:
+	    		menu.findItem(R.id.listType_plantowatch).setChecked(true);
+	    	}
+		}
+	
     	
     	return true;
     }

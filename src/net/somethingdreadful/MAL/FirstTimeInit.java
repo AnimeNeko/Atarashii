@@ -81,7 +81,8 @@ public class FirstTimeInit extends Activity {
     				prefManager.commitChanges();
             		
             		Intent goHome = new Intent(context, Home.class);
-                	goHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                	goHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                	.putExtra("net.somethingdreadful.MAL.firstSync", true);
                 	startActivity(goHome);
             	}
             	
