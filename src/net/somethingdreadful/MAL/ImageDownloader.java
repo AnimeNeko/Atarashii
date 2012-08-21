@@ -72,6 +72,30 @@ public class ImageDownloader {
 	     }
 	}
 	
+	public Bitmap returnDrawable(Context c, String url)
+	{
+		 //Caching code right here
+   	 String filename = String.valueOf(url.hashCode());
+   	 File f = new File(getCacheDirectory(c), filename);
+
+   	  // Is the bitmap in our memory cache?
+   	 Bitmap bitmap = null;
+   	 
+   	  bitmap = (Bitmap)imageCache.get(f.getPath());
+   	  
+   	  if(bitmap == null){
+   	 
+   		  bitmap = BitmapFactory.decodeFile(f.getPath());
+   		  
+   		  if(bitmap != null){
+   			  imageCache.put(f.getPath(), bitmap);
+   		  }
+   	  
+   	  }
+   	  
+   	  return bitmap;
+	}
+	
 	//cancel a download (internal only)
 	private static boolean cancelPotentialDownload(String url, ImageView imageView) {
 	    BitmapDownloaderTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
