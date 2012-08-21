@@ -17,7 +17,7 @@ public class MangoFragment extends Fragment {
             Bundle savedInstanceState) {
         TextView textView = new TextView(getActivity());
         textView.setGravity(Gravity.CENTER);
-        textView.setText("Mangos layout goes here!");
+        textView.setText("Manga support to come in the next update. 'Til then, pretend it's here, ne?");
         return textView;
     }
 }
