@@ -179,6 +179,49 @@ public class MALManager {
 		return jReturn;
 	}
 	
+	public JSONObject getAnimeDetails(int id) {
+		
+		String result = null;
+		JSONObject jReturn = null;
+		
+		HttpGet request;
+		HttpResponse response;
+		HttpClient client = new DefaultHttpClient();
+		
+		request = new HttpGet(APIProvider + readAnimeDetailsAPI + id + readAnimeMineParam);
+		request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
+		
+		try 
+		{
+			response = client.execute(request);
+			
+			HttpEntity getResponseEntity = response.getEntity();
+			
+			if (getResponseEntity != null) 
+			{
+				result = EntityUtils.toString(getResponseEntity);
+				jReturn = new JSONObject(result);
+				
+			}
+			
+		} 
+		catch (ClientProtocolException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+		}
+
+		
+		return jReturn;
+	}
+	
 	public void downloadAndStoreAnimeList()
 	{
 		JSONObject raw = getAnimeList();
@@ -217,6 +260,48 @@ public class MALManager {
 		}
 	}
 
+	public AnimeRecord updateAnimeWithDetails(int id, AnimeRecord ar)
+	{
+		JSONObject o = getAnimeDetails(id);
+		
+		ar.setSynopsis(getDataFromJSON(o, "synopsis").replace("<br>", "\n"));
+		
+		insertOrUpdateAnime(ar);
+		
+		return ar;
+	}
+	
+	public String getDataFromJSON(JSONObject json, String get)
+	{
+		String sReturn = "";
+		
+		try 
+		{
+			sReturn = json.getString(get);
+//			System.out.println(sReturn);
+			
+			if ("episodes".equals(get))
+			{
+				if ("null".equals(sReturn))
+				{
+					sReturn = "unknown";
+				}
+			}
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (NullPointerException e)
+		{
+//			e.printStackTrace();
+			
+			sReturn = "unknown";
+		}
+		
+		return sReturn;
+	}
+	
 	public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list)
 	{
 		
@@ -287,6 +372,24 @@ public class MALManager {
 		
 		
 		
+	}
+	
+	public AnimeRecord getAnimeRecordFromDB(int recordID)
+	{
+		String[] id =  { Integer.toString(recordID) };
+		
+		Cursor cursor = db.rawQuery("select * from anime where recordID=?", id);
+		cursor.moveToFirst();
+		getAnimeIndices(cursor);
+		
+		AnimeRecord ar = new AnimeRecord(cursor.getInt(c_ID), cursor.getString(c_Name), cursor.getString(c_type), 
+				cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_episodesWatched), 
+				cursor.getInt(c_episodesTotal),	cursor.getString(c_memberScore), cursor.getString(c_myScore), 
+				cursor.getString(c_synopsis), cursor.getString(c_imageUrl));
+		
+		cursor.close();
+		
+		return ar;
 	}
 	
 	public boolean animeExists(String id) {

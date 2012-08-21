@@ -37,5 +37,6 @@
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_SyncDone">Sync Complete!</string>
+    <string name="placeholder_Loading">Loading, just a sec.</string>
 
 </resources>

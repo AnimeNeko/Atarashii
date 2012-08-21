@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.AnimuFragment.IAnimeFragment;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ public class DetailsBasicFragment extends Fragment {
     }
     
     private View layout;
+    public IDetailsBasicAnimeFragment fragmentInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,5 +51,26 @@ public class DetailsBasicFragment extends Fragment {
     public void onCreate(Bundle state)
     {
        super.onCreate(state);
+    }
+    
+    @Override
+    public void onResume()
+    {
+    	super.onResume();
+    	
+    	fragmentInterface.basicFragmentReady();
+    }
+    
+    @Override
+    public void onAttach(Activity a)
+    {
+    	super.onAttach(a);
+    	fragmentInterface = (IDetailsBasicAnimeFragment) a;
+    	
+    }
+    
+    public interface IDetailsBasicAnimeFragment
+    {
+    	public void basicFragmentReady();
     }
 }

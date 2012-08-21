@@ -73,11 +73,10 @@ public class AnimuFragment extends Fragment {
     	{
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
 			{
-				String animeTitle = ((TextView) v.findViewById(R.id.animeName)).getText().toString();
-//				Toast.makeText(getActivity(), animeTitle + " clicked", Toast.LENGTH_SHORT).show();
-				
-				startActivity(new Intent(getView().getContext(), DetailView.class));
-				
+
+				startActivity(new Intent(getView().getContext(), DetailView.class)
+					.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).recordID));
+//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
 			}
     	});
     	

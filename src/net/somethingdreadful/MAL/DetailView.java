@@ -3,6 +3,8 @@ package net.somethingdreadful.MAL;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,9 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DetailView extends FragmentActivity implements ActionBar.TabListener {
+public class DetailView extends FragmentActivity implements ActionBar.TabListener, DetailsBasicFragment.IDetailsBasicAnimeFragment {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -32,21 +35,33 @@ public class DetailView extends FragmentActivity implements ActionBar.TabListene
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    
+    MALManager mManager;
+    Context context;
+    int recordID;
+    ActionBar actionBar;
+   
+    DetailsBasicFragment bfrag;
+    
+    TextView SynopsisView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_view);
-        
-        ActionBar bar = getActionBar();
-		bar.setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_detail_view);	
+		
+		context = getApplicationContext();
+		mManager = new MALManager(context);
+		
+		recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
         
 		// Create the adapter that will return a fragment for basic stuff and stats
         mSectionsPagerAdapter = new DetailSectionsPagerAdapter(getSupportFragmentManager(), getBaseContext());
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -72,6 +87,9 @@ public class DetailView extends FragmentActivity implements ActionBar.TabListene
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        
+//        actionBar.setTitle(Integer.toString(recordID));
+       
     }
 
     @Override
@@ -105,5 +123,69 @@ public class DetailView extends FragmentActivity implements ActionBar.TabListene
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    //Called after the basic fragment is finished it's setup, populate data into it
+	public void basicFragmentReady() {
+		bfrag = (DetailsBasicFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		
+		SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
+		
+		getAnimeDetails(recordID);		
+	}
+	
+	public void getAnimeDetails(int id)
+	{
+		new getAnimeDetailsTask().execute();
+	}
+	
+	public class getAnimeDetailsTask extends AsyncTask<Void, Boolean, AnimeRecord>
+	{
+
+		int mID;
+		MALManager mmManager;
+		AnimeRecord mAr;
+		ActionBar bar;
+		ImageDownloader imageDownloader = new ImageDownloader();
+		
+		@Override
+		protected void onPreExecute()
+		{
+			mID = recordID;
+			mmManager = mManager;
+			bar = actionBar;
+		}
+		
+		@Override
+		protected AnimeRecord doInBackground(Void... arg0) {
+			
+			mAr = mmManager.getAnimeRecordFromDB(mID);
+			
+			publishProgress(true);
+			
+			if (mAr.getSynopsis() == null)
+			{
+				mAr = mmManager.updateAnimeWithDetails(mID, mAr);
+			}
+			
+			return mAr;
+		}
+		
+		@Override
+		protected void onProgressUpdate(Boolean... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+			
+			actionBar.setTitle(mAr.getName());
+			
+			((LinearLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
+				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
+		}
+
+		@Override
+		protected void onPostExecute(AnimeRecord ar)
+		{
+			SynopsisView.setText(ar.getSynopsis());
+		}
+	}
+    
 
 }
