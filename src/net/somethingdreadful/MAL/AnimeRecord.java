@@ -94,6 +94,11 @@ public class AnimeRecord extends GenericMALRecord {
 		
 		return synopsis;
 	}
+	
+	public void setSynopsis(String newSynopsis)
+	{
+		this.synopsis = newSynopsis;
+	}
 
 	public String getTotal() {
 		
