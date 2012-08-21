@@ -3,13 +3,15 @@ DreadfulMAL - MAL for ICS+
 
 THINGS THAT NEED TO BE DONE:
 
-1. Everything
+1. Not quite everything :D
 
 More specifically, pressing issues are:
 
-1. Store more things. This is like half done. I'm lazy and didn't write the extra lines to store as much as I could have from the initial sync.
+1. Display more info in DetailView (layout update needed, basically)
+2. Things to actually write to MAL, currently we only read
 
 Things that are DONE:
 
 1. Lazy load images, also store them so we only load them once [<3 ImageDownloader and TheAndroidCoder]
 2. Store + read initial sync in/from database.
+3. Basic DetailView implementation
