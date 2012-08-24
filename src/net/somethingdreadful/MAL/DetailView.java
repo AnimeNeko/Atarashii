@@ -23,6 +23,7 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -169,7 +170,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			actionBar.setTitle(mAr.getName());
 			
-			((FrameLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
+			((RelativeLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
 				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
 		}
 
