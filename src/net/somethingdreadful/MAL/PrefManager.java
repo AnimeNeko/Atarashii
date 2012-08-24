@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import net.somethingdreadful.MAL.R;
 
 public class PrefManager {
 	private static SharedPreferences prefs;

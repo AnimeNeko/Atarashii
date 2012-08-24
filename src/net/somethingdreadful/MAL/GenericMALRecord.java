@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.R;
+
 public abstract class GenericMALRecord {
 	public static final int CLEAN = 0;
 	public static final int DIRTY = 1;

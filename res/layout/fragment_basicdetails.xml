@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/backgroundContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
      >
-    
+    
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:overScrollMode="never"
-        android:scrollbars="none" >
-
+        android:scrollbars="none|vertical" >
+
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
+            
             <TextView
                 android:id="@+id/SynopsisLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/backgroundContainer"
+                android:layout_alignParentBottom="true"
                 android:background="#AA000000"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
@@ -27,11 +31,12 @@
                 android:text="Synopsis"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF" />
-
+
             <TextView
                 android:id="@+id/Synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/SynopsisLabel"
                 android:background="#AA000000"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
@@ -42,7 +47,7 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>
 
 
 

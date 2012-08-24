@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
 
+import net.somethingdreadful.MAL.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

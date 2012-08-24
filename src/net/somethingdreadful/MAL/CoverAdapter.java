@@ -3,6 +3,8 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.somethingdreadful.MAL.R;
+
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.res.Resources;

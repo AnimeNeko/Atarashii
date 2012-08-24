@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.R;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +39,7 @@ public class DetailSectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Override

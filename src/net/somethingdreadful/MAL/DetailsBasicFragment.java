@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.AnimuFragment.IAnimeFragment;
 import android.app.Activity;
 import android.os.Bundle;
@@ -25,26 +26,42 @@ public class DetailsBasicFragment extends Fragment {
             Bundle savedInstanceState) {
     	layout = inflater.inflate(R.layout.fragment_basicdetails, null);
     	
-    	ViewTreeObserver viewTreeObserver = layout.getViewTreeObserver();
-    	if (viewTreeObserver.isAlive()) {
-    	  viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-    	    public void onGlobalLayout() {
-    	      layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-    	      
-    	      int synopsisOffset = layout.getHeight();
-    	      synopsisOffset -= layout.findViewById(R.id.SynopsisLabel).getHeight();
-    	      System.out.println(synopsisOffset);
-    	    	
-    	    	
-    	      LayoutParams params = (LayoutParams) layout.findViewById(R.id.SynopsisLabel).getLayoutParams();
-    	      params.setMargins(0, synopsisOffset, 0, 0);
-    	      layout.findViewById(R.id.SynopsisLabel).setLayoutParams(params);
-    	    	
-    	    }
-    	  });
-    	}
+//    	ViewTreeObserver viewTreeObserver = layout.getViewTreeObserver();
+//    	if (viewTreeObserver.isAlive()) {
+//    	  viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+//    	    public void onGlobalLayout() {
+//    	      layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//    	      
+//    	      int synopsisOffset = layout.getHeight();
+//    	      synopsisOffset -= layout.findViewById(R.id.SynopsisLabel).getHeight();
+//    	      System.out.println(synopsisOffset);
+//    	    	
+//    	    	
+//    	      LayoutParams params = (LayoutParams) layout.findViewById(R.id.SynopsisLabel).getLayoutParams();
+//    	      params.setMargins(0, synopsisOffset, 0, 0);
+//    	      layout.findViewById(R.id.SynopsisLabel).setLayoutParams(params);
+//    	    	
+//    	    }
+//    	  });
+//    	}
     	
     	return layout;
+    }
+    
+    public void positionSynopsis()
+    {
+    	
+    	int synopsisOffset = layout.getHeight();
+	      synopsisOffset -= layout.findViewById(R.id.SynopsisLabel).getHeight();
+	      System.out.println(synopsisOffset);
+	    	
+	    	
+	      LayoutParams params = (LayoutParams) layout.findViewById(R.id.SynopsisLabel).getLayoutParams();
+	      params.setMargins(0, synopsisOffset, 0, 0);
+	      layout.findViewById(R.id.SynopsisLabel).setLayoutParams(params);
+	      
+	      layout.invalidate();
+	    	
     }
     
     @Override
@@ -59,6 +76,7 @@ public class DetailsBasicFragment extends Fragment {
     	super.onResume();
     	
     	fragmentInterface.basicFragmentReady();
+//    	positionSynopsis();
     }
     
     @Override

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.somethingdreadful.MAL.R;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;

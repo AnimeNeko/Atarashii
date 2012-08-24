@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.R;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

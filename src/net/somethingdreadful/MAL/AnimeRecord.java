@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.R;
+
 public class AnimeRecord extends GenericMALRecord {
 	
 //	private int recordID;

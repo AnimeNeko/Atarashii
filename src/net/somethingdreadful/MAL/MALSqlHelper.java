@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import net.somethingdreadful.MAL.R;
 
 public class MALSqlHelper extends SQLiteOpenHelper {
 	
