@@ -151,7 +151,6 @@ public class DetailView extends FragmentActivity implements ActionBar.TabListene
 		{
 			mID = recordID;
 			mmManager = mManager;
-			bar = actionBar;
 		}
 		
 		@Override
