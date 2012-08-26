@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import net.somethingdreadful.MAL.R;
 import android.app.ActionBar;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -141,7 +142,8 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 	{
 		FragmentManager fm = getSupportFragmentManager();
 		EpisodesPickerDialogFragment epd = new EpisodesPickerDialogFragment();
-		
+	
+		epd.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
 		epd.show(fm, "fragment_EditEpisodesWatchedDialog");
 	}
 	
