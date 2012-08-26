@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -18,6 +19,11 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 	public EpisodesPickerDialogFragment()
 	{
 		
+	}
+	
+	public interface DialogDismissedListener
+	{
+		void onDialogDismissed(int newValue);
 	}
 	
 	@Override
@@ -60,6 +66,12 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 		picker.setValue(pickerValue);
 		
 		return view;
+	}
+	
+	@Override
+	public void onDismiss(DialogInterface dialog)
+	{
+		((DetailView) getActivity()).onDialogDismissed(picker.getValue());
 	}
 
 	@Override

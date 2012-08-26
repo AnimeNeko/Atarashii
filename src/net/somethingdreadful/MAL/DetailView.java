@@ -13,8 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment {
+public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment, EpisodesPickerDialogFragment.DialogDismissedListener {
 
     MALManager mManager;
     Context context;
@@ -225,6 +226,12 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			bfrag.positionSynopsis();
 			
 		}
+	}
+
+	//Dialog returns new value, do something with it
+	public void onDialogDismissed(int newValue) {
+		Toast.makeText(context, "New watched value: " + newValue, Toast.LENGTH_SHORT).show();
+		
 	}
     
 
