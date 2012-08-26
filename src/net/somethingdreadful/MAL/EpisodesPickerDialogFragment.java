@@ -71,7 +71,15 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 	@Override
 	public void onDismiss(DialogInterface dialog)
 	{
+		
+		
+
+	}
+	
+	public void onCancel(DialogInterface dialog)
+	{
 		((DetailView) getActivity()).onDialogDismissed(picker.getValue());
+		this.dismiss();
 	}
 
 	@Override

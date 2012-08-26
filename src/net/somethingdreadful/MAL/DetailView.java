@@ -24,6 +24,8 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     AnimeRecord mAr;
    
     DetailsBasicFragment bfrag;
+    FragmentManager fm;
+    EpisodesPickerDialogFragment epd;
     
     TextView SynopsisView;
 
@@ -36,6 +38,8 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		
 		context = getApplicationContext();
 		mManager = new MALManager(context);
+		
+		fm = getSupportFragmentManager();
 		
 		//Get the recordID, passed in from the calling activity
 		recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
@@ -134,10 +138,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 	{
 		//Standard code for setting up a dialog fragment
 		//Note we use setStyle to change the theme, the default light styled dialog didn't look good so we use the dark dialog
-		
-		FragmentManager fm = getSupportFragmentManager();
-		EpisodesPickerDialogFragment epd = new EpisodesPickerDialogFragment();
-	
+		epd = new EpisodesPickerDialogFragment();
 		epd.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
 		epd.show(fm, "fragment_EditEpisodesWatchedDialog");
 	}
