@@ -33,6 +33,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     Context context;
     int recordID;
     ActionBar actionBar;
+    AnimeRecord mAr;
    
     DetailsBasicFragment bfrag;
     
@@ -103,6 +104,10 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		{
 		case android.R.id.home:
 			finish();
+			break;
+		case R.id.action_SetWatched:
+			showEpisodesWatchedDialog();
+			break;
 		}
 		
 		
@@ -132,12 +137,19 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		new getAnimeDetailsTask().execute();
 	}
 	
+	public void showEpisodesWatchedDialog()
+	{
+		FragmentManager fm = getSupportFragmentManager();
+		EpisodesPickerDialogFragment epd = new EpisodesPickerDialogFragment();
+		
+		epd.show(fm, "fragment_EditEpisodesWatchedDialog");
+	}
+	
 	public class getAnimeDetailsTask extends AsyncTask<Void, Boolean, AnimeRecord>
 	{
 
 		int mID;
 		MALManager mmManager;
-		AnimeRecord mAr;
 		ActionBar bar;
 		ImageDownloader imageDownloader = new ImageDownloader();
 		
@@ -190,7 +202,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			
 			try {
-				Thread.sleep(40); //I really bloody can't believe I had to resort to this, but there simply isn't any other way
+				Thread.sleep(100); //I really bloody can't believe I had to resort to this, but there simply isn't any other way
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

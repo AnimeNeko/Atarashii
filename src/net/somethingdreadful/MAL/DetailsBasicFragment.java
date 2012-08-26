@@ -51,6 +51,8 @@ public class DetailsBasicFragment extends Fragment {
     public void positionSynopsis()
     {
     	
+    	
+    	
     	int synopsisOffset = layout.getHeight();
 	      synopsisOffset -= layout.findViewById(R.id.SynopsisLabel).getHeight();
 	      System.out.println(synopsisOffset);

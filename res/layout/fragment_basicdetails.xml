@@ -4,20 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
      >
-    
+
+    <TextView
+        android:id="@+id/animeTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#AA000000"
+        android:padding="4dp"
+        android:text="ANIME TYPE"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/animeStatusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/animeTypeLabel"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#AA000000"
+        android:padding="4dp"
+        android:text="ANIME STATUS"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/animeMyStatusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#AA000000"
+        android:padding="4dp"
+        android:text="MY STATUS"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:fillViewport="false"
         android:overScrollMode="never"
-        android:scrollbars="none|vertical" >
-
+        android:scrollbars="none" >
+
         <LinearLayout
+            android:id="@+id/innerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            
+
             <TextView
                 android:id="@+id/SynopsisLabel"
                 android:layout_width="match_parent"
@@ -31,7 +73,7 @@
                 android:text="Synopsis"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF" />
-
+
             <TextView
                 android:id="@+id/Synopsis"
                 android:layout_width="match_parent"
@@ -43,7 +85,6 @@
                 android:paddingRight="16dp"
                 android:text="@string/placeholder_Loading"
                 android:textColor="#FFFFFF" />
-
         </LinearLayout>
     </ScrollView>
 
