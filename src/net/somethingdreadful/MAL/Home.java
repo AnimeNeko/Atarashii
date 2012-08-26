@@ -42,6 +42,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
         mPrefManager = new PrefManager(context);
         init = mPrefManager.getInit();
         
+        //The following is state handling code
         if (savedInstanceState != null)
         {
         	instanceExists = savedInstanceState.getBoolean("instanceExists", false);
@@ -101,7 +102,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 
 			
 		}
-		else
+		else //If the app hasn't been configured, take us to the first run screen to sign in
 		{
 			Intent firstRunInit = new Intent(this, FirstTimeInit.class);
         	firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -124,6 +125,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     		startActivity(new Intent (this, Settings.class));
     		break;
     	
+    	//The following is the code that handles switching the list. It calls the fragment to update, then update the menu by invalidating
     	case R.id.listType_all:
     		if (af != null)
     		{
@@ -196,10 +198,13 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-	public void fragmentReady() {
-		// TODO Auto-generated method stub
+	public void fragmentReady() { 
+		//Interface implementation for knowing when the dynamically created fragment is finished loading
+
+		//We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
 		af = (AnimuFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		
+		//Logic to check if we have just signed in. If yes, automatically do a sync
 		if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))
 		{
 			af.getAnimeRecords(af.currentList, true);
@@ -211,6 +216,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 	@Override
 	public void onSaveInstanceState(Bundle state)
 	{
+		//This is telling out future selves that we already have some things and not to do them
 		state.putBoolean("instanceExists", true);
 		
 		super.onSaveInstanceState(state);
@@ -221,6 +227,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     {
 		if (af != null)
 		{
+			//All this is handling the ticks in the switch list menu
 			switch (af.currentList)
 	    	{
 	    	case 0:
