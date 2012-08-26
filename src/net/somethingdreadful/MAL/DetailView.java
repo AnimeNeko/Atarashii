@@ -50,6 +50,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		context = getApplicationContext();
 		mManager = new MALManager(context);
 		
+		//Get the recordID, passed in from the calling activity
 		recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
 
         // Set up the action bar.
@@ -124,10 +125,14 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
    
 
     //Called after the basic fragment is finished it's setup, populate data into it
+    //Probably no longer necessary, since we no longer instantiate the fragment dynamically
 	public void basicFragmentReady() {
 		
 		SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
 		
+		//waitTask is basically a ridiculously hacky solution to a problem that shouldn't exist. It's introducing a delay on 
+		//separate thread while waiting for the activity to draw it's action bar. Unfortunately the actionBar has no callbacks
+		//for when it's actually displayed and ready, so this is really the only way I found to do it
 		new waitTask().execute();
 		
 		getAnimeDetails(recordID);		
@@ -140,6 +145,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 	
 	public void showEpisodesWatchedDialog()
 	{
+		//Standard code for setting up a dialog fragment
+		//Note we use setStyle to change the theme, the default light styled dialog didn't look good so we use the dark dialog
+		
 		FragmentManager fm = getSupportFragmentManager();
 		EpisodesPickerDialogFragment epd = new EpisodesPickerDialogFragment();
 	
@@ -167,6 +175,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			mAr = mmManager.getAnimeRecordFromDB(mID);
 			
+			//Basically I just use publishProgress as an easy way to display info we already have loaded sooner
+			//This way, I can let the database work happen on the background thread and then immediately display it while
+			//the synopsis loads if it hasn't previously been downloaded.
 			publishProgress(true);
 			
 			if (mAr.getSynopsis() == null)
@@ -184,6 +195,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			actionBar.setTitle(mAr.getName());
 			
+			
+			//I think there's a potential crash issue here. If the image isn't loaded (ie the user if bloody impatient and clicked
+			//something while the picture was still loading), it can crash.
 			((RelativeLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
 				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
 		}
@@ -219,6 +233,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			
+			//After the delay, call the method that positions the synopsis to run it's caluclations.
+			//Hopefully, the actionbar is done it's setup by now
 			bfrag.positionSynopsis();
 			
 		}
