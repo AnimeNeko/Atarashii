@@ -10,6 +10,8 @@ import android.widget.NumberPicker;
 public class EpisodesPickerDialogFragment extends DialogFragment {
 
 	int totalEpisodes;
+	int watchedEpisodes;
+	int newWwatchedEpisodes;
 	
 	public EpisodesPickerDialogFragment()
 	{
@@ -24,16 +26,19 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 		if (state == null)
 		{
 			totalEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getTotal());
+			watchedEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getWatched());
+			
 		}
 		else
 		{
 			totalEpisodes = state.getInt("totalEpisodes");
+			watchedEpisodes = state.getInt("watchedEpisodes");
 		}
 		
 		
 		NumberPicker picker = (NumberPicker) view.findViewById(R.id.episodesWatchedPicker);
 		
-		getDialog().setTitle("Watched how many?");
+		getDialog().setTitle("I've watched:");
 		
 		picker.setMinValue(0);
 		
@@ -48,6 +53,8 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 		
 		picker.setWrapSelectorWheel(false);
 		
+		picker.setValue(watchedEpisodes);
+		
 		return view;
 	}
 
@@ -55,6 +62,7 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 	public void onSaveInstanceState(Bundle state) {
 		
 		state.putInt("totalEpisodes", totalEpisodes);
+		state.putInt("watchedEpisodes", watchedEpisodes);
 		
 		super.onSaveInstanceState(state);
 	}
