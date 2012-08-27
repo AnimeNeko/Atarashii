@@ -193,6 +193,13 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     	
     }
 
+    @Override
+    public void onPause()
+    {
+    	super.onPause();
+    	
+    	instanceExists = true;
+    }
 
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
