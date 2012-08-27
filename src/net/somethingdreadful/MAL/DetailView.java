@@ -104,8 +104,22 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		case R.id.action_SetWatched:
 			showEpisodesWatchedDialog();
 			break;
+		case R.id.SetStatus_Watching:
+			setAnimeStatus(mAr.STATUS_WATCHING);
+			break;
+		case R.id.SetStatus_Complete:
+			setAnimeStatus(mAr.STATUS_COMPLETED);
+			break;
+		case R.id.SetStatus_OnHold:
+			setAnimeStatus(mAr.STATUS_ONHOLD);
+			break;
+		case R.id.SetStatus_Dropped:
+			setAnimeStatus(mAr.STATUS_DROPPED);
+			break;
+		case R.id.SetStatus_PlanToWatch:
+			setAnimeStatus(mAr.STATUS_PLANTOWATCH);
+			break;
 		}
-		
 		
 		return true;
 	}
@@ -271,7 +285,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			if (result == true)
 			{
-				ar[0].setDirty(0);
+				ar[0].setDirty(ar[0].CLEAN);
 				internalManager.insertOrUpdateAnime(ar[0]);
 			}
 			
@@ -302,7 +316,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 				}
 				
 				mAr.setEpisodesWatched(newValue);
-				mAr.setDirty(1);
+				mAr.setDirty(mAr.DIRTY);
 				
 			}
 		}
@@ -315,5 +329,11 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		new writeDetailsTask().execute(ar);
 	}
     
-
+	public void setAnimeStatus(String status)
+	{
+		mAr.setMyStatus(status);
+		mAr.setDirty(mAr.DIRTY);
+		
+		//code to update the UI here
+	}
 }
