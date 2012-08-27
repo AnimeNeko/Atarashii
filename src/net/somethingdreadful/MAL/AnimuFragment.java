@@ -26,7 +26,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AnimuFragment extends Fragment {
-    public AnimuFragment() {
+
+	// The pixel dimensions used by MAL images
+	private static final double MAL_IMAGE_WIDTH = 225;
+	private static final double MAL_IMAGE_HEIGHT = 320;
+	
+	public AnimuFragment() {
     }
 
     ArrayList<AnimeRecord> al = new ArrayList();
@@ -82,11 +87,10 @@ public class AnimuFragment extends Fragment {
 			}
     	});
     	
-    	if (orientation == layout.getContext().getResources().getConfiguration().ORIENTATION_LANDSCAPE )
-    	{
-    		gv.setNumColumns(3);
-    	}
+    	int listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
     	
+    	gv.setNumColumns(listColumns);
+
     	gv.setDrawSelectorOnTop(true);
     	
  //   	gv.setAdapter(new CoverAdapter<String>(layout.getContext(), R.layout.grid_cover_with_text_item, ar));
