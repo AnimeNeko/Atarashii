@@ -145,5 +145,10 @@ public class AnimeRecord extends GenericMALRecord {
 	{
 		this.myStatus = status;
 	}
+	
+	public void setEpisodesWatched(int watched)
+	{
+		this.episodesWatched = watched;
+	}
 
 }
