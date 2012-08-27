@@ -28,6 +28,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     EpisodesPickerDialogFragment epd;
     
     TextView SynopsisView;
+    TextView AnimeTypeView;
+    TextView AnimeStatusView;
+    TextView MyStatusView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 	public void basicFragmentReady() {
 		
 		SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
+		AnimeStatusView = (TextView) bfrag.getView().findViewById(R.id.animeStatusLabel);
+		AnimeTypeView = (TextView) bfrag.getView().findViewById(R.id.animeTypeLabel);
+		MyStatusView = (TextView) bfrag.getView().findViewById(R.id.animeMyStatusLabel);
 		
 		//waitTask is basically a ridiculously hacky solution to a problem that shouldn't exist. It's introducing a delay on 
 		//separate thread while waiting for the activity to draw it's action bar. Unfortunately the actionBar has no callbacks
@@ -182,6 +188,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			super.onProgressUpdate(values);
 			
 			actionBar.setTitle(mAr.getName());
+			AnimeStatusView.setText(mAr.getRecordStatus().toUpperCase());
+			AnimeTypeView.setText(mAr.getRecordType().toUpperCase());
+			MyStatusView.setText(mAr.getMyStatus().toUpperCase());
 			
 			
 			//I think there's a potential crash issue here. If the image isn't loaded (ie the user if bloody impatient and clicked
