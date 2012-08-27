@@ -334,6 +334,6 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		mAr.setMyStatus(status);
 		mAr.setDirty(mAr.DIRTY);
 		
-		//code to update the UI here
+		MyStatusView.setText(status.toUpperCase());
 	}
 }
