@@ -149,7 +149,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		int mID;
 		MALManager mmManager;
 		ActionBar bar;
-		ImageDownloader imageDownloader = new ImageDownloader();
+		ImageDownloader imageDownloader = new ImageDownloader(context);
 		
 		@Override
 		protected void onPreExecute()

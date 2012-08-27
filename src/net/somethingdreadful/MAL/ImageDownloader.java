@@ -23,6 +23,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -32,10 +33,16 @@ import android.widget.ImageView;
 public class ImageDownloader {
 
 	Map<String,Bitmap> imageCache;
+	Context context;
 	
-	public ImageDownloader(){
+	public ImageDownloader(Context c){
 		imageCache = new HashMap<String, Bitmap>();
-		
+		context = c;
+	}
+	
+	public ImageDownloader()
+	{
+		imageCache = new HashMap<String, Bitmap>();
 	}
 	
 	//download function
@@ -90,6 +97,10 @@ public class ImageDownloader {
    		  
    		  if(bitmap != null){
    			  imageCache.put(f.getPath(), bitmap);
+   		  }
+   		  else
+   		  {
+   			  bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.panel);
    		  }
    	  
    	  }
