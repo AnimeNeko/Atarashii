@@ -8,7 +8,7 @@ import net.somethingdreadful.MAL.R;
 public class MALSqlHelper extends SQLiteOpenHelper {
 	
 	private static final String DATABASE_NAME = "MAL.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	
 	
 	public static final String COLUMN_ID = "_id";
@@ -28,7 +28,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 			+ "myScore varchar, "
 			+ "synopsis varchar, "
 			+ "episodesWatched varchar, "
-			+ "episodesTotal varchar"
+			+ "episodesTotal varchar,"
+			+ "dirty boolean"
 			+ ");";
 	
 	
@@ -46,7 +47,10 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
+		if ((oldVersion == 1) && (newVersion == 2))
+		{
+			db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD COLUMN dirty boolean");
+		}
 		
 	}
 }

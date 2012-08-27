@@ -51,6 +51,7 @@ public class MALManager {
 	int c_synopsis;
 	int c_episodesWatched;
 	int c_episodesTotal;
+	int c_dirty;
 	
 	
 	
@@ -249,7 +250,7 @@ public class MALManager {
 				
 				
 				AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes, 
-						myStatus, animeStatus, animeType, myScore);
+						myStatus, animeStatus, animeType, myScore, 0);
 				
 				insertOrUpdateAnime(ar);
 				
@@ -331,7 +332,10 @@ public class MALManager {
 		while (cu.isAfterLast() == false)
 		{	
 			
-			AnimeRecord ar = new AnimeRecord(cu.getInt(c_ID), cu.getString(c_Name), cu.getString(c_type), cu.getString(c_recordStatus), cu.getString(c_myStatus), cu.getInt(c_episodesWatched), cu.getInt(c_episodesTotal), cu.getString(c_memberScore), cu.getString(c_myScore), cu.getString(c_synopsis), cu.getString(c_imageUrl));
+			AnimeRecord ar = new AnimeRecord(cu.getInt(c_ID), cu.getString(c_Name), cu.getString(c_type), 
+					cu.getString(c_recordStatus), cu.getString(c_myStatus), cu.getInt(c_episodesWatched), 
+					cu.getInt(c_episodesTotal), cu.getString(c_memberScore), cu.getString(c_myScore), 
+					cu.getString(c_synopsis), cu.getString(c_imageUrl), cu.getInt(c_dirty));
 			al.add(ar);
 			
 			cu.moveToNext();
@@ -363,6 +367,7 @@ public class MALManager {
 		cv.put("synopsis", ar.getSynopsis());
 		cv.put("episodesWatched", ar.getWatched());
 		cv.put("episodesTotal", ar.getTotal());
+		cv.put("dirty", ar.getDirty());
 		
 		if (animeExists(ar.getID()))
 		{
@@ -388,7 +393,7 @@ public class MALManager {
 		AnimeRecord ar = new AnimeRecord(cursor.getInt(c_ID), cursor.getString(c_Name), cursor.getString(c_type), 
 				cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_episodesWatched), 
 				cursor.getInt(c_episodesTotal),	cursor.getString(c_memberScore), cursor.getString(c_myScore), 
-				cursor.getString(c_synopsis), cursor.getString(c_imageUrl));
+				cursor.getString(c_synopsis), cursor.getString(c_imageUrl), cursor.getInt(c_dirty));
 		
 		cursor.close();
 		
@@ -424,6 +429,7 @@ public class MALManager {
 		c_synopsis = cu.getColumnIndex("synopsis");
 		c_episodesWatched = cu.getColumnIndex("episodesWatched");
 		c_episodesTotal = cu.getColumnIndex("episodesTotal");
+		c_dirty = cu.getColumnIndex("dirty");
 	}
 	
 }

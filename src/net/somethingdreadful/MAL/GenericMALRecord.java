@@ -15,7 +15,7 @@ public abstract class GenericMALRecord {
 	protected String memberScore;
 	protected String myScore;
 	protected String synopsis;
-	protected int SYNC_STATUS;
+	protected int dirty;
 	
 	public abstract void pushtoDB();
 	

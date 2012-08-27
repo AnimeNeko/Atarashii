@@ -13,13 +13,13 @@ public class AnimeRecord extends GenericMALRecord {
 //	private String memberScore;
 //	private String myScore;
 //	private String synopsis;
-//	private int SYNC_STATUS;
+//	private boolean dirty;
 	
 	private int episodesWatched;
 	private int episodesTotal;
 	
 	public AnimeRecord(int id, String name, String type, String status, String myStatus, int watched, int total, 
-												String memberScore, String myScore, String synopsis, String imageUrl)
+								String memberScore, String myScore, String synopsis, String imageUrl, int dirty)
 	{
 		this.recordID = id;
 		this.recordName = name;
@@ -34,10 +34,12 @@ public class AnimeRecord extends GenericMALRecord {
 		this.episodesTotal = total;
 		this.episodesWatched = watched;
 		
+		this.dirty = dirty;
+		
 	}
 	
 	public AnimeRecord(int id, String name, String imageUrl, int watched, int totalEpisodes, 
-			String myStatus, String animeStatus, String animeType, String myScore)
+			String myStatus, String animeStatus, String animeType, String myScore, int dirty)
 	{
 		this.recordID = id;
 		this.recordName = name;
@@ -48,6 +50,8 @@ public class AnimeRecord extends GenericMALRecord {
 		this.recordStatus = animeStatus;
 		this.recordType = animeType;
 		this.myScore = myScore;
+		
+		this.dirty = dirty;
 	}
 
 	@Override
@@ -120,6 +124,11 @@ public class AnimeRecord extends GenericMALRecord {
 	public String getMyScore() {
 		
 		return myScore;
+	}
+
+	public int getDirty() {
+		// TODO Auto-generated method stub
+		return dirty;
 	}
 
 }
