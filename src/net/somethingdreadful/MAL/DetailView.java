@@ -252,19 +252,27 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 	public class writeDetailsTask extends AsyncTask<AnimeRecord, Void, Boolean>
 	{
 
+		MALManager internalManager;
+		
+		@Override
+		protected void onPreExecute()
+		{
+			internalManager = mManager;
+		}
+		
 		
 		@Override
 		protected Boolean doInBackground(AnimeRecord... ar) {
 			
 			boolean result;
 			
-			mManager.insertOrUpdateAnime(ar[0]);
-			result = mManager.writeAnimeDetailsToMAL(ar[0]);
+			internalManager.insertOrUpdateAnime(ar[0]);
+			result = internalManager.writeAnimeDetailsToMAL(ar[0]);
 			
 			if (result == true)
 			{
 				ar[0].setDirty(0);
-				mManager.insertOrUpdateAnime(ar[0]);
+				internalManager.insertOrUpdateAnime(ar[0]);
 			}
 			
 			return result;
