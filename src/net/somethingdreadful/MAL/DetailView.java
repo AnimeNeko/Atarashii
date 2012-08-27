@@ -116,6 +116,17 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     	super.onResume();
     
     }
+    
+    @Override
+    public void onPause()
+    {
+    	super.onPause();
+    	
+    	if (mAr.getDirty() == 1)
+    	{
+    		writeDetails(mAr);
+    	}
+    }
    
 
     //Called after the basic fragment is finished it's setup, populate data into it
@@ -237,11 +248,63 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 		}
 	}
+	
+	public class writeDetailsTask extends AsyncTask<AnimeRecord, Void, Boolean>
+	{
+
+		
+		@Override
+		protected Boolean doInBackground(AnimeRecord... ar) {
+			
+			boolean result;
+			
+			mManager.insertOrUpdateAnime(ar[0]);
+			result = mManager.writeAnimeDetailsToMAL(ar[0]);
+			
+			if (result == true)
+			{
+				ar[0].setDirty(0);
+				mManager.insertOrUpdateAnime(ar[0]);
+			}
+			
+			return result;
+			
+
+		}
+		
+	}
 
 	//Dialog returns new value, do something with it
 	public void onDialogDismissed(int newValue) {
-		Toast.makeText(context, "New watched value: " + newValue, Toast.LENGTH_SHORT).show();
+		if (newValue == Integer.parseInt(mAr.getWatched()))
+		{
+			
+		}
+		else
+		{
+			if (Integer.parseInt(mAr.getTotal()) != 0)
+			{
+				if (newValue == Integer.parseInt(mAr.getTotal()))
+				{
+					mAr.setMyStatus(mAr.STATUS_COMPLETED);
+				}
+				if (newValue == 0)
+				{
+					mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
+				}
+				
+				mAr.setEpisodesWatched(newValue);
+				mAr.setDirty(1);
+				
+			}
+		}
 		
+	}
+	
+	//Create new write task and run it
+	public void writeDetails(AnimeRecord ar)
+	{
+		new writeDetailsTask().execute(ar);
 	}
     
 

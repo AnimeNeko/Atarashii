@@ -181,7 +181,17 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     	return super.onOptionsItemSelected(item);
     }
 
-    
+    @Override
+    public void onResume()
+    {
+    	super.onResume();
+    	
+    	if (instanceExists == true)
+    	{
+    		af.getAnimeRecords(af.currentList, false);
+    	}
+    	
+    }
 
 
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
