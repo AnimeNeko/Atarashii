@@ -2,16 +2,21 @@ package net.somethingdreadful.MAL;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.somethingdreadful.MAL.R;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +27,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.NetworkOnMainThreadException;
 import android.util.Base64;
+import android.widget.Toast;
 
 public class MALManager {
 	
@@ -432,4 +439,50 @@ public class MALManager {
 		c_dirty = cu.getColumnIndex("dirty");
 	}
 	
+	public boolean writeAnimeDetailsToMAL(AnimeRecord ar)
+	{
+		boolean success = false;
+		
+		HttpPut writeRequest;
+		HttpResponse response;
+		HttpClient client = new DefaultHttpClient();
+		
+		writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + ar.getID());
+		writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
+		
+		List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+		putParams.add(new BasicNameValuePair("status", ar.getMyStatus()));
+		putParams.add(new BasicNameValuePair("episodes", ar.getWatched()));
+		putParams.add(new BasicNameValuePair("score", ar.getMyScore()));
+		
+		try 
+		{
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
+			writeRequest.setEntity(entity);
+			
+			response = client.execute(writeRequest);
+			
+			System.out.println(response.getStatusLine().toString());
+			
+			if (200 == response.getStatusLine().getStatusCode()) 
+			{
+				success = true;		
+			}
+			
+		} 
+		catch (ClientProtocolException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (NetworkOnMainThreadException bullshit)
+		{
+			
+		}
+		
+		return success;
+	}
 }
