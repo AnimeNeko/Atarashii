@@ -44,6 +44,20 @@
         android:text="MY STATUS"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#FFFFFF" />
+    
+    <TextView
+        android:id="@+id/animeEpisodesWatchedCounterLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/animeMyStatusLabel"
+        android:background="#AA000000"
+        android:padding="4dp"
+        android:text="0 / 12"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
 
     <ScrollView
         android:id="@+id/scrollView"
