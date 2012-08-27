@@ -18,6 +18,12 @@ public class AnimeRecord extends GenericMALRecord {
 	private int episodesWatched;
 	private int episodesTotal;
 	
+	public static final String STATUS_WATCHING = "watching";
+	public static final String STATUS_COMPLETED = "completed";
+	public static final String STATUS_ONHOLD = "on-hold";
+	public static final String STATUS_DROPPED = "dropped";
+	public static final String STATUS_PLANTOWATCH = "plan to watch";
+	
 	public AnimeRecord(int id, String name, String type, String status, String myStatus, int watched, int total, 
 								String memberScore, String myScore, String synopsis, String imageUrl, int dirty)
 	{
@@ -129,6 +135,15 @@ public class AnimeRecord extends GenericMALRecord {
 	public int getDirty() {
 		// TODO Auto-generated method stub
 		return dirty;
+	}
+	
+	public void setDirty(int dirty) {
+		this.dirty = dirty; 
+	}
+	
+	public void setMyStatus(String status)
+	{
+		this.myStatus = status;
 	}
 
 }
