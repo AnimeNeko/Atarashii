@@ -489,4 +489,13 @@ public class MALManager {
 		
 		return success;
 	}
+
+	public String watchedCounterBuilder(int watched, int total)
+	{
+		String built = "";
+		
+		built = watched + " / " + total;
+		
+		return built;
+	}
 }
