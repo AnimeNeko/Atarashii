@@ -259,7 +259,7 @@ public class MALManager {
 				AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes, 
 						myStatus, animeStatus, animeType, myScore, 0);
 				
-				insertOrUpdateAnime(ar);
+				insertOrUpdateAnime(ar, true);
 				
 			}
 		} 
@@ -277,7 +277,7 @@ public class MALManager {
 				.replace("<br>", "\n").replace("&amp;", "&").replace("&rsquo;", "'")
 				.replace("<strong>", "").replace("</strong>", ""));
 		
-		insertOrUpdateAnime(ar);
+		insertOrUpdateAnime(ar, false);
 		
 		return ar;
 	}
@@ -358,7 +358,7 @@ public class MALManager {
 		return al;
 	}
 	
-	public void insertOrUpdateAnime(AnimeRecord ar)
+	public void insertOrUpdateAnime(AnimeRecord ar, boolean ignoreSynopsis)
 	{
 		
 		ContentValues cv = new ContentValues();
@@ -371,10 +371,14 @@ public class MALManager {
 		cv.put("myStatus", ar.getMyStatus());
 		cv.put("memberScore", ar.getMemberScore());
 		cv.put("myScore", ar.getMyScore());
-		cv.put("synopsis", ar.getSynopsis());
 		cv.put("episodesWatched", ar.getWatched());
 		cv.put("episodesTotal", ar.getTotal());
 		cv.put("dirty", ar.getDirty());
+		
+		if (ignoreSynopsis == false)
+		{
+			cv.put("synopsis", ar.getSynopsis());
+		}
 		
 		if (animeExists(ar.getID()))
 		{

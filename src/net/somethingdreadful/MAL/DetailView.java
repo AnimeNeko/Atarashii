@@ -280,13 +280,13 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			boolean result;
 			
-			internalManager.insertOrUpdateAnime(ar[0]);
+			internalManager.insertOrUpdateAnime(ar[0], false);
 			result = internalManager.writeAnimeDetailsToMAL(ar[0]);
 			
 			if (result == true)
 			{
 				ar[0].setDirty(ar[0].CLEAN);
-				internalManager.insertOrUpdateAnime(ar[0]);
+				internalManager.insertOrUpdateAnime(ar[0], false);
 			}
 			
 			return result;
