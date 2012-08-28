@@ -80,9 +80,9 @@ public class PrefManager {
 	
 	public int getDefaultList()
 	{
+		 int defList = Integer.parseInt(prefs.getString("defList", "1"));
 		
-		
-		return 1;
+		return defList;
 		
 	}
 	

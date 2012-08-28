@@ -42,5 +42,24 @@
     <string name="action_SetScore">Set Score</string>
     <string name="action_SetStatus">Set Status</string>
     <string name="action_RefreshEntry">Reload Data</string>
+    <string name="preference_category_ListSettings">List Settings</string>
+    <string name="dialog_DefaultList">Default List</string>
+    <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
+    <string-array name="listTypeArray">
+        <item >Everything</item>
+        <item >Watching</item>
+        <item >Completed</item>
+        <item >On Hold</item>
+        <item >Dropped</item>
+        <item >Planning to Watch</item>
+    </string-array>
+    <string-array name="listTypeValuesArray">
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+    </string-array>
 
 </resources>

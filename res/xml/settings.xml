@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/preference_category_ListSettings">
+        <ListPreference android:summary="@string/summary_DefaultList" android:dialogTitle="@string/dialog_DefaultList" android:title="@string/dialog_DefaultList" android:entries="@array/listTypeArray" android:entryValues="@array/listTypeValuesArray" android:key="defList"/>
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>
