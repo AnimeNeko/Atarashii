@@ -235,7 +235,6 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 		if (upgradeInit == false)
 		{
 			af.getAnimeRecords(af.currentList, true);
-			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 			
 			mPrefManager.setUpgradeInit(true);
