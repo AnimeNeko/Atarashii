@@ -31,6 +31,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     PrefManager mPrefManager;
     public MALManager mManager;
     private boolean init = false;
+    private boolean upgradeInit = false;
     AnimuFragment af;
     public boolean instanceExists;
     
@@ -41,6 +42,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
         
         mPrefManager = new PrefManager(context);
         init = mPrefManager.getInit();
+        upgradeInit = mPrefManager.getUpgradeInit();
         
         //The following is state handling code
         if (savedInstanceState != null)
@@ -227,6 +229,17 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 			af.getAnimeRecords(af.currentList, true);
 			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
+		}
+		
+		//Logic to check if we upgraded from the version before the rewrite
+		if (upgradeInit == false)
+		{
+			af.getAnimeRecords(af.currentList, true);
+			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
+			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
+			
+			mPrefManager.setUpgradeInit(true);
+			mPrefManager.commitChanges();
 		}
 	}
 	

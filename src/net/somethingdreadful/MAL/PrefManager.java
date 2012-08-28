@@ -33,6 +33,11 @@ public class PrefManager {
 		return user;
 	}
 	
+	public boolean getUpgradeInit()
+	{
+		return prefs.getBoolean("upgradeInit", false);
+	}
+	
 	public String getPass()
 	{
 		pass = prefs.getString("pass", "failed");
@@ -53,6 +58,11 @@ public class PrefManager {
 	public void setInit(boolean newInit)
 	{
 		prefeditor.putBoolean("init", newInit);
+	}
+	
+	public void setUpgradeInit(boolean newUpgradeInit)
+	{
+		prefeditor.putBoolean("upgradeInit", newUpgradeInit);
 	}
 	
 	public long getLastSyncTime()
