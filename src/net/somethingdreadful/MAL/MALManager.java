@@ -494,7 +494,15 @@ public class MALManager {
 	{
 		String built = "";
 		
-		built = watched + " / " + total;
+		if (total != 0)
+		{
+			built = watched + " / " + total;
+		}
+		else
+		{
+			built = watched + " / ?";
+		}
+		
 		
 		return built;
 	}

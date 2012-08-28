@@ -31,6 +31,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     TextView AnimeTypeView;
     TextView AnimeStatusView;
     TextView MyStatusView;
+    TextView EpisodesWatchedCounterView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -151,6 +152,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		AnimeStatusView = (TextView) bfrag.getView().findViewById(R.id.animeStatusLabel);
 		AnimeTypeView = (TextView) bfrag.getView().findViewById(R.id.animeTypeLabel);
 		MyStatusView = (TextView) bfrag.getView().findViewById(R.id.animeMyStatusLabel);
+		EpisodesWatchedCounterView = (TextView) bfrag.getView().findViewById(R.id.animeEpisodesWatchedCounterLabel);
 		
 		//waitTask is basically a ridiculously hacky solution to a problem that shouldn't exist. It's introducing a delay on 
 		//separate thread while waiting for the activity to draw it's action bar. Unfortunately the actionBar has no callbacks
@@ -216,6 +218,8 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			AnimeStatusView.setText(mAr.getRecordStatus().toUpperCase());
 			AnimeTypeView.setText(mAr.getRecordType().toUpperCase());
 			MyStatusView.setText(mAr.getMyStatus().toUpperCase());
+			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(Integer.parseInt(mAr.getWatched()), 
+																	Integer.parseInt(mAr.getTotal())));
 			
 			
 			//I think there's a potential crash issue here. If the image isn't loaded (ie the user if bloody impatient and clicked
@@ -315,10 +319,14 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 					mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
 				}
 				
-				mAr.setEpisodesWatched(newValue);
-				mAr.setDirty(mAr.DIRTY);
-				
 			}
+			
+			mAr.setEpisodesWatched(newValue);
+			mAr.setDirty(mAr.DIRTY);
+			
+			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(newValue, 
+																			Integer.parseInt(mAr.getTotal())));
+			
 		}
 		
 	}
