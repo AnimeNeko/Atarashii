@@ -63,6 +63,6 @@
     </string-array>
     <string name="preference_category_credits">Credits</string>
     <string name="summary_appcredits">Created by Anima. With contributions from Motokochan.</string>
-    <string name="summary_MALAPI">Created by Chu Yeow Cheah.</string>
+    <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
 
 </resources>
