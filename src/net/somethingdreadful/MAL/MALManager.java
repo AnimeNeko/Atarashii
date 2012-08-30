@@ -273,9 +273,7 @@ public class MALManager {
 	{
 		JSONObject o = getAnimeDetails(id);
 		
-		ar.setSynopsis(getDataFromJSON(o, "synopsis")
-				.replace("<br>", "\n").replace("&amp;", "&").replace("&rsquo;", "'")
-				.replace("<strong>", "").replace("</strong>", ""));
+		ar.setSynopsis(getDataFromJSON(o, "synopsis"));
 		
 		insertOrUpdateAnime(ar, false);
 		

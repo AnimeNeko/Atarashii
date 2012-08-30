@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import android.text.Html;
+import android.text.Spanned;
 import net.somethingdreadful.MAL.R;
 
 public class AnimeRecord extends GenericMALRecord {
@@ -102,11 +104,17 @@ public class AnimeRecord extends GenericMALRecord {
 		return memberScore;
 	}
 
+	// Use this to get the raw HTML-formatted synopsis
 	public String getSynopsis() {
 		
 		return synopsis;
 	}
 	
+	// Use this to get a formatted version of the text suited for display in the application
+	public Spanned getSpannedSynopsis() {
+		return Html.fromHtml(synopsis);
+	}
+
 	public void setSynopsis(String newSynopsis)
 	{
 		this.synopsis = newSynopsis;

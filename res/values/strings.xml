@@ -45,6 +45,7 @@
     <string name="preference_category_ListSettings">List Settings</string>
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
+    <string name="description_CoverImage">Cover Image</string>
     <string-array name="listTypeArray">
         <item >Everything</item>
         <item >Watching</item>

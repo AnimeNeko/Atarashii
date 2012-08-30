@@ -11,9 +11,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment, EpisodesPickerDialogFragment.DialogDismissedListener {
 
@@ -27,11 +29,13 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     
+    TextView ItemTitleView;
     TextView SynopsisView;
     TextView AnimeTypeView;
     TextView AnimeStatusView;
     TextView MyStatusView;
     TextView EpisodesWatchedCounterView;
+    ImageView CoverImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,17 +152,13 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     //Probably no longer necessary, since we no longer instantiate the fragment dynamically
 	public void basicFragmentReady() {
 		
+		CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
+		ItemTitleView = (TextView) bfrag.getView().findViewById(R.id.itemTitle);
 		SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
 		AnimeStatusView = (TextView) bfrag.getView().findViewById(R.id.animeStatusLabel);
 		AnimeTypeView = (TextView) bfrag.getView().findViewById(R.id.animeTypeLabel);
 		MyStatusView = (TextView) bfrag.getView().findViewById(R.id.animeMyStatusLabel);
 		EpisodesWatchedCounterView = (TextView) bfrag.getView().findViewById(R.id.animeEpisodesWatchedCounterLabel);
-		
-		//waitTask is basically a ridiculously hacky solution to a problem that shouldn't exist. It's introducing a delay on 
-		//separate thread while waiting for the activity to draw it's action bar. Unfortunately the actionBar has no callbacks
-		//for when it's actually displayed and ready, so this is really the only way I found to do it
-		new waitTask().execute();
-		
 		getAnimeDetails(recordID);		
 	}
 	
@@ -215,55 +215,27 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			super.onProgressUpdate(values);
 			
 			actionBar.setTitle(mAr.getName());
-			AnimeStatusView.setText(mAr.getRecordStatus().toUpperCase());
-			AnimeTypeView.setText(mAr.getRecordType().toUpperCase());
-			MyStatusView.setText(mAr.getMyStatus().toUpperCase());
-			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(Integer.parseInt(mAr.getWatched()), 
+			
+			
+			CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
+			ItemTitleView.setText(mAr.getName());
+			AnimeStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
+			AnimeTypeView.setText(mAr.getRecordType());
+			MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));
+			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(Integer.parseInt(mAr.getWatched()),
 																	Integer.parseInt(mAr.getTotal())));
 			
 			
 			//I think there's a potential crash issue here. If the image isn't loaded (ie the user if bloody impatient and clicked
 			//something while the picture was still loading), it can crash.
-			((RelativeLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
-				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
+//			((RelativeLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
+//				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
 		}
 
 		@Override
 		protected void onPostExecute(AnimeRecord ar)
 		{
-			SynopsisView.setText(ar.getSynopsis());
-		}
-	}
-	
-	public class waitTask extends AsyncTask<Void, Void, Void>
-	{
-
-		
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			
-			
-			try {
-				Thread.sleep(100); //I really bloody can't believe I had to resort to this, but there simply isn't any other way
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-			
-
-		}
-		
-
-		@Override
-		protected void onPostExecute(Void result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			
-			//After the delay, call the method that positions the synopsis to run it's caluclations.
-			//Hopefully, the actionbar is done it's setup by now
-			bfrag.positionSynopsis();
-			
+			SynopsisView.setText(ar.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
 		}
 	}
 	
