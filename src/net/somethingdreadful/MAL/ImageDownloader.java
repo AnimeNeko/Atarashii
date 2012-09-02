@@ -27,22 +27,54 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
+import android.app.ActivityManager;
 
 public class ImageDownloader {
 
 	HashMap<String, WeakReference<Bitmap>> imageCache;
+	LruCache betterImageCache;
 	Context context;
 	
+	final int memoryClass;
+	final int cacheSize;
+	
 	public ImageDownloader(Context c){
-		imageCache = new HashMap<String, WeakReference<Bitmap>>();
 		context = c;
+		
+		// Get memory class of this device, exceeding this amount will throw a OutOfMemory exception.
+	    memoryClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+
+	    // Use 1/8th of the available memory for this memory cache.
+	    cacheSize = 1024 * 1024 * memoryClass / 8;
+	    
+	    betterImageCache = new LruCache<String, Bitmap>(cacheSize) {
+	        @Override
+	        protected int sizeOf(String key, Bitmap bitmap) {
+	            // The cache size will be measured in bytes rather than number of items.
+	            return bitmap.getByteCount();
+	        }
+	    };
 	}
 	
 	public ImageDownloader()
 	{
-		imageCache = new HashMap<String, WeakReference<Bitmap>>();
+		
+		// Get memory class of this device, exceeding this amount will throw a OutOfMemory exception.
+	    memoryClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+
+	    // Use 1/8th of the available memory for this memory cache.
+	    cacheSize = 1024 * 1024 * memoryClass / 8;
+	    
+	    betterImageCache = new LruCache<String, Bitmap>(cacheSize) {
+	        @Override
+	        protected int sizeOf(String key, Bitmap bitmap) {
+	            // The cache size will be measured in bytes rather than number of items.
+	            return bitmap.getByteCount();
+	        }
+	    };
 	}
 	
 	//download function
@@ -58,7 +90,7 @@ public class ImageDownloader {
 	    	 
 	    	 try
 	    	 {
-	    		 bitmap = (Bitmap) imageCache.get(f.getPath()).get();
+	    		 bitmap = (Bitmap) betterImageCache.get(f.getPath());
 	    	  
 	    	 }
 	    	 catch (NullPointerException npe)
@@ -71,7 +103,7 @@ public class ImageDownloader {
 	    		  bitmap = BitmapFactory.decodeFile(f.getPath());
 	    		  
 	    		  if(bitmap != null){
-	    			  imageCache.put(f.getPath(), new WeakReference<Bitmap>(bitmap));
+	    			  betterImageCache.put(f.getPath(), bitmap);
 	    		  }
 	    	  
 	    	  }
@@ -97,14 +129,14 @@ public class ImageDownloader {
    	  // Is the bitmap in our memory cache?
    	 Bitmap bitmap = null;
    	 
-   	  bitmap = (Bitmap)imageCache.get(f.getPath()).get();
+   	  bitmap = (Bitmap) betterImageCache.get(f.getPath());
    	  
    	  if(bitmap == null){
    	 
    		  bitmap = BitmapFactory.decodeFile(f.getPath());
    		  
    		  if(bitmap != null){
-   			  imageCache.put(f.getPath(), new WeakReference<Bitmap>(bitmap));
+   			  betterImageCache.put(f.getPath(), bitmap);
    		  }
    		  else
    		  {
@@ -217,7 +249,7 @@ public class ImageDownloader {
                     String filename = String.valueOf(url.hashCode());
        	    	 	File f = new File(getCacheDirectory(imageView.getContext()), filename);
        	    	 	
-       	    	 	imageCache.put(f.getPath(), new WeakReference<Bitmap>(bitmap));
+       	    	 	betterImageCache.put(f.getPath(), bitmap);
        	    	 	
                     writeFile(bitmap, f);
                 }
