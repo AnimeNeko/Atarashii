@@ -33,7 +33,7 @@
     <string name="cover_Watching">I\'ve watched:</string>
     <string name="cover_Completed">Completed at:</string>
     <string name="cover_OnHold">On Hold at:</string>
-    <string name="cover_Dropped">Dropper after:</string>
+    <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_SyncDone">Sync Complete!</string>

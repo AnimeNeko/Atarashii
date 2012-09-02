@@ -73,62 +73,37 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		if ("watching".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_Watching);
-			android.view.ViewGroup.LayoutParams lp = flavourText.getLayoutParams();
-			((MarginLayoutParams) lp).setMargins(0, 0, dp64, dp8);
-			flavourText.setLayoutParams(lp);
+
 			watchedCount.setVisibility(watchedCount.VISIBLE);
 			
-			android.view.ViewGroup.LayoutParams mlp = label.getLayoutParams();
-			((MarginLayoutParams) mlp).setMargins(dp8, 0, dp64, dp32);
-			label.setLayoutParams(mlp);
 		}
 		if ("completed".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_Completed);
-			android.view.ViewGroup.LayoutParams lp = flavourText.getLayoutParams();
-			((MarginLayoutParams) lp).setMargins(0, 0, dp64, dp8);
-			flavourText.setLayoutParams(lp);
+
 			watchedCount.setVisibility(watchedCount.VISIBLE);
 			
-			android.view.ViewGroup.LayoutParams mlp = label.getLayoutParams();
-			((MarginLayoutParams) mlp).setMargins(dp8, 0, dp64, dp32);
-			label.setLayoutParams(mlp);
 		}
 		if ("on-hold".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_OnHold);
-			android.view.ViewGroup.LayoutParams lp = flavourText.getLayoutParams();
-			((MarginLayoutParams) lp).setMargins(0, 0, dp64, dp8);
-			flavourText.setLayoutParams(lp);
+
 			watchedCount.setVisibility(watchedCount.VISIBLE);
 			
-			android.view.ViewGroup.LayoutParams mlp = label.getLayoutParams();
-			((MarginLayoutParams) mlp).setMargins(dp8, 0, dp64, dp32);
-			label.setLayoutParams(mlp);
 		}
 		if ("dropped".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_Dropped);
-			android.view.ViewGroup.LayoutParams lp = flavourText.getLayoutParams();
-			((MarginLayoutParams) lp).setMargins(0, 0, dp64, dp8);
-			flavourText.setLayoutParams(lp);
-			watchedCount.setVisibility(watchedCount.VISIBLE);
-			
-			android.view.ViewGroup.LayoutParams mlp = label.getLayoutParams();
-			((MarginLayoutParams) mlp).setMargins(dp8, 0, dp64, dp32);
-			label.setLayoutParams(mlp);
+
+			watchedCount.setVisibility(watchedCount.INVISIBLE);
+
 		}
 		if ("plan to watch".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_PlanningToWatch);
-			android.view.ViewGroup.LayoutParams lp = flavourText.getLayoutParams();
-			((MarginLayoutParams) lp).setMargins(0, 0, dp12, dp8);
-			flavourText.setLayoutParams(lp);
-			watchedCount.setVisibility(watchedCount.GONE);
-			
-			android.view.ViewGroup.LayoutParams mlp = label.getLayoutParams();
-			((MarginLayoutParams) mlp).setMargins(dp8, 0, dp12, dp32);
-			label.setLayoutParams(mlp);
+
+			watchedCount.setVisibility(watchedCount.INVISIBLE);
+
 		}
 		
 //		icon.setImageResource(R.drawable.icon);
