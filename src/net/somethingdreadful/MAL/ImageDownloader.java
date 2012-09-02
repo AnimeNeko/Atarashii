@@ -32,17 +32,17 @@ import android.widget.ImageView;
 
 public class ImageDownloader {
 
-	Map<String,Bitmap> imageCache;
+	HashMap<String, WeakReference<Bitmap>> imageCache;
 	Context context;
 	
 	public ImageDownloader(Context c){
-		imageCache = new HashMap<String, Bitmap>();
+		imageCache = new HashMap<String, WeakReference<Bitmap>>();
 		context = c;
 	}
 	
 	public ImageDownloader()
 	{
-		imageCache = new HashMap<String, Bitmap>();
+		imageCache = new HashMap<String, WeakReference<Bitmap>>();
 	}
 	
 	//download function
@@ -51,19 +51,27 @@ public class ImageDownloader {
 	    	 
 	    	 //Caching code right here
 	    	 String filename = String.valueOf(url.hashCode());
-	    	 File f = new File(getCacheDirectory(imageView.getContext()), filename);
+	    	 File f = new File(getCacheDirectory(context), filename);
 
 	    	  // Is the bitmap in our memory cache?
 	    	 Bitmap bitmap = null;
 	    	 
-	    	  bitmap = (Bitmap)imageCache.get(f.getPath());
+	    	 try
+	    	 {
+	    		 bitmap = (Bitmap) imageCache.get(f.getPath()).get();
 	    	  
+	    	 }
+	    	 catch (NullPointerException npe)
+	    	 {
+	    		//bitmap still null! 
+	    	 }
+	    	 
 	    	  if(bitmap == null){
 	    	 
 	    		  bitmap = BitmapFactory.decodeFile(f.getPath());
 	    		  
 	    		  if(bitmap != null){
-	    			  imageCache.put(f.getPath(), bitmap);
+	    			  imageCache.put(f.getPath(), new WeakReference<Bitmap>(bitmap));
 	    		  }
 	    	  
 	    	  }
@@ -89,14 +97,14 @@ public class ImageDownloader {
    	  // Is the bitmap in our memory cache?
    	 Bitmap bitmap = null;
    	 
-   	  bitmap = (Bitmap)imageCache.get(f.getPath());
+   	  bitmap = (Bitmap)imageCache.get(f.getPath()).get();
    	  
    	  if(bitmap == null){
    	 
    		  bitmap = BitmapFactory.decodeFile(f.getPath());
    		  
    		  if(bitmap != null){
-   			  imageCache.put(f.getPath(), bitmap);
+   			  imageCache.put(f.getPath(), new WeakReference<Bitmap>(bitmap));
    		  }
    		  else
    		  {
@@ -209,7 +217,7 @@ public class ImageDownloader {
                     String filename = String.valueOf(url.hashCode());
        	    	 	File f = new File(getCacheDirectory(imageView.getContext()), filename);
        	    	 	
-       	    	 	imageCache.put(f.getPath(), bitmap);
+       	    	 	imageCache.put(f.getPath(), new WeakReference<Bitmap>(bitmap));
        	    	 	
                     writeFile(bitmap, f);
                 }

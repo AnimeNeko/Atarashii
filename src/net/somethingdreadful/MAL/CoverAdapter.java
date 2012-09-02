@@ -34,7 +34,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated constructor stub
 		this.objects = objects;
 		this.c = context;
-		imageManager = new ImageDownloader();
+		imageManager = new ImageDownloader(c);
 		
 		dp64 = dpToPx(64);
 		dp32 = dpToPx(32);
