@@ -29,7 +29,6 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     
-    TextView ItemTitleView;
     TextView SynopsisView;
     TextView AnimeTypeView;
     TextView AnimeStatusView;
@@ -153,7 +152,6 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 	public void basicFragmentReady() {
 		
 		CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
-		ItemTitleView = (TextView) bfrag.getView().findViewById(R.id.itemTitle);
 		SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
 		AnimeStatusView = (TextView) bfrag.getView().findViewById(R.id.animeStatusLabel);
 		AnimeTypeView = (TextView) bfrag.getView().findViewById(R.id.animeTypeLabel);
@@ -218,7 +216,6 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			
 			
 			CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
-			ItemTitleView.setText(mAr.getName());
 			AnimeStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
 			AnimeTypeView.setText(mAr.getRecordType());
 			MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));

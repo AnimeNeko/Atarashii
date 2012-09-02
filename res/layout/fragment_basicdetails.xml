@@ -3,84 +3,77 @@
     android:id="@+id/scrollView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
+
 	<RelativeLayout
 	    android:id="@+id/backgroundContainer"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:padding="8dp" >
-	
-	    <TextView
-	        android:id="@+id/itemTitle"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-	        android:layout_alignParentTop="true"
-	        android:paddingBottom="8dp"
-	        android:text="ItemTitle"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
-	    
-	    <!--  TODO: Set up a default image placeholder -->
+
+	    <!-- TODO: Set up a default image placeholder -->
+
 	    <ImageView
 	        android:id="@+id/detailCoverImage"
 	        android:layout_width="225dp"
 	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="8dp"
+	        android:layout_marginTop="8dp"
+	        android:contentDescription="@string/description_CoverImage"
 	        android:minHeight="320dp"
-	        android:scaleType="centerCrop"
-	        android:paddingRight="10dp"
 	        android:paddingBottom="30dp"
-	        android:layout_below="@id/itemTitle"
-	        android:contentDescription="@string/description_CoverImage" />
-	    
+	        android:paddingRight="10dp"
+	        android:scaleType="centerCrop" />
+
 	    <TextView
 	        android:id="@+id/animeTypeLabel"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@id/itemTitle"
+	        android:layout_marginTop="8dp"
 	        android:layout_toRightOf="@id/detailCoverImage"
 	        android:text="Type" />
-	    
+
 	    <TextView
 	        android:id="@+id/animeStatusLabel"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_toRightOf="@id/detailCoverImage"
 	        android:layout_below="@id/animeTypeLabel"
+	        android:layout_toRightOf="@id/detailCoverImage"
 	        android:text="Status" />
 
 	    <TextView
 	        android:id="@+id/animeMyStatusLabel"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_toRightOf="@id/detailCoverImage"
 	        android:layout_below="@id/animeStatusLabel"
-	        android:text="ViewStatus" />
-	
-		<TextView
-		    android:id="@+id/animeEpisodesWatchedCounterLabel"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentLeft="false"
 	        android:layout_toRightOf="@id/detailCoverImage"
-	        android:layout_below="@id/animeMyStatusLabel"
-		    android:text="0 / 12"
-		    android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-		<TextView
-		    android:id="@+id/SynopsisLabel"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-			android:layout_below="@id/detailCoverImage"
-		    android:text="Synopsis"
-		    android:textAppearance="?android:attr/textAppearanceLarge" />
-		
-		<TextView
-		    android:id="@+id/Synopsis"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_below="@id/SynopsisLabel"
-		    android:padding="8dp"
-		    android:text="@string/placeholder_Loading" />
+	        android:text="ViewStatus" />
 
+	    <TextView
+	        android:id="@+id/animeEpisodesWatchedCounterLabel"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="false"
+	        android:layout_below="@id/animeMyStatusLabel"
+	        android:layout_toRightOf="@id/detailCoverImage"
+	        android:text="0 / 12"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+	    <TextView
+	        android:id="@+id/SynopsisLabel"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/detailCoverImage"
+	        android:padding="8dp"
+	        android:text="Synopsis"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	    <TextView
+	        android:id="@+id/Synopsis"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/SynopsisLabel"
+	        android:padding="8dp"
+	        android:text="@string/placeholder_Loading" />
 	</RelativeLayout>
+
 </ScrollView>
