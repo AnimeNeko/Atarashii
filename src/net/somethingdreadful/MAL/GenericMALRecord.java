@@ -19,9 +19,7 @@ public abstract class GenericMALRecord {
 	protected String synopsis;
 	protected int dirty;
 	
-	public abstract void pushtoDB();
-	
-	public abstract void pullFromDB();
+	public abstract int getAmountConsumed(); //Sorry, couldn't come up with a better generic name
 	
 	public GenericMALRecord()
 	{

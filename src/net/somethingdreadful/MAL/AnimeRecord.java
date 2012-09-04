@@ -62,17 +62,6 @@ public class AnimeRecord extends GenericMALRecord {
 		this.dirty = dirty;
 	}
 
-	@Override
-	public void pushtoDB() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pullFromDB() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public String getWatched()
 	{
@@ -88,6 +77,11 @@ public class AnimeRecord extends GenericMALRecord {
 	public void setEpisodesWatched(int watched)
 	{
 		this.episodesWatched = watched;
+	}
+
+	@Override
+	public int getAmountConsumed() {
+		return episodesWatched;
 	}
 
 }

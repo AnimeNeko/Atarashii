@@ -48,7 +48,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated method stub
 		//return super.getView(position, convertView, parent);
 		View v = convertView;
-		AnimeRecord a = ((AnimeRecord) objects.get(position));
+		GenericMALRecord a = ((GenericMALRecord) objects.get(position));
 		
 		String myStatus = a.getMyStatus();
 		
@@ -64,7 +64,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		label.setText(a.getName());
 
 		TextView watchedCount = (TextView) v.findViewById(R.id.watchedCount);
-		watchedCount.setText(a.getWatched());
+		watchedCount.setText(a.getAmountConsumed());
 		
 		ImageView cover = (ImageView) v.findViewById(R.id.coverImage);
 		imageManager.download(a.getImageUrl(), cover);
