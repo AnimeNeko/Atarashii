@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class Home extends FragmentActivity implements ActionBar.TabListener, AnimuFragment.IAnimeFragment {
+public class Home extends FragmentActivity implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -32,7 +32,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     public MALManager mManager;
     private boolean init = false;
     private boolean upgradeInit = false;
-    AnimuFragment af;
+    ItemGridFragment af;
     public boolean instanceExists;
     
     @Override
@@ -221,7 +221,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 		//Interface implementation for knowing when the dynamically created fragment is finished loading
 
 		//We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-		af = (AnimuFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		
 		//Logic to check if we have just signed in. If yes, automatically do a sync
 		if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))

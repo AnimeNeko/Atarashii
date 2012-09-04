@@ -25,13 +25,13 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AnimuFragment extends Fragment {
+public class ItemGridFragment extends Fragment {
 
 	// The pixel dimensions used by MAL images
 	private static final double MAL_IMAGE_WIDTH = 225;
 	private static final double MAL_IMAGE_HEIGHT = 320;
 	
-	public AnimuFragment() {
+	public ItemGridFragment() {
     }
 
     ArrayList<AnimeRecord> al = new ArrayList();
@@ -40,7 +40,7 @@ public class AnimuFragment extends Fragment {
     PrefManager mPrefManager;
     Context c;
     CoverAdapter<AnimeRecord> ca;
-    IAnimeFragment Iready;
+    IItemGridFragment Iready;
     boolean forceSyncBool = false;
     int currentList;
     
@@ -60,11 +60,14 @@ public class AnimuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	
+    	Bundle args = getArguments();
     	View layout = inflater.inflate(R.layout.fragment_animelist, null);
     	c = layout.getContext();
     	
     	mManager = ((Home) getActivity()).mManager;
     	mPrefManager = ((Home) getActivity()).mPrefManager;
+    	
+    	String recordType = args.getString("type");
     	
     	if (!((Home) getActivity()).instanceExists)
     	{
@@ -188,11 +191,11 @@ public class AnimuFragment extends Fragment {
     public void onAttach(Activity a)
     {
     	super.onAttach(a);
-    	Iready = (IAnimeFragment) a;
+    	Iready = (IItemGridFragment) a;
     	
     }
     
-    public interface IAnimeFragment
+    public interface IItemGridFragment
     {
     	public void fragmentReady();
     }

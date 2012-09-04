@@ -19,13 +19,16 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 		
 		switch (i) {
 		case 0:
-			fragment = new AnimuFragment();
+			fragment = new ItemGridFragment();
+			args.putString("type", "anime");
 			break;
 		case 1:
-			fragment = new MangoFragment();
+			fragment = new ItemGridFragment();
+			args.putString("type", "manga");
 			break;
 		default:
-			fragment = new AnimuFragment();
+			fragment = new ItemGridFragment();
+			args.putString("type", "anime");
 			break;
 		}
 		
