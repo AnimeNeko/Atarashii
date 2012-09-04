@@ -64,7 +64,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		label.setText(a.getName());
 
 		TextView watchedCount = (TextView) v.findViewById(R.id.watchedCount);
-		watchedCount.setText("" + a.getAmountConsumed());
+		watchedCount.setText(Integer.toString(a.getPersonalProgress()));
 		
 		ImageView cover = (ImageView) v.findViewById(R.id.coverImage);
 		imageManager.download(a.getImageUrl(), cover);
