@@ -19,7 +19,7 @@ public abstract class GenericMALRecord {
 	protected String synopsis;
 	protected int dirty;
 	
-	public abstract int getAmountConsumed(); //Sorry, couldn't come up with a better generic name
+	public abstract int getPersonalProgress(); //Sorry, couldn't come up with a better generic name
 	
 	public GenericMALRecord()
 	{

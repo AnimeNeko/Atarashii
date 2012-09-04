@@ -80,7 +80,7 @@ public class AnimeRecord extends GenericMALRecord {
 	}
 
 	@Override
-	public int getAmountConsumed() {
+	public int getPersonalProgress() {
 		return episodesWatched;
 	}
 
