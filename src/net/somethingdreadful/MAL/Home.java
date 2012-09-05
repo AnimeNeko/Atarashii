@@ -131,49 +131,49 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     	case R.id.listType_all:
     		if (af != null)
     		{
-    			af.getAnimeRecords(0, false);
+    			af.getRecords(0, af.recordType, false);
     			invalidateOptionsMenu();
     		}	
     		break;
     	case R.id.listType_watching:
     		if (af != null)
     		{
-    			af.getAnimeRecords(1, false);
+    			af.getRecords(1, af.recordType, false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_completed:
     		if (af != null)
     		{
-    			af.getAnimeRecords(2, false);
+    			af.getRecords(2, af.recordType, false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_onhold:
     		if (af != null)
     		{
-    			af.getAnimeRecords(3, false);
+    			af.getRecords(3, af.recordType, false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_dropped:
     		if (af != null)
     		{
-    			af.getAnimeRecords(4, false);
+    			af.getRecords(4, af.recordType, false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_plantowatch:
     		if (af != null)
     		{
-    			af.getAnimeRecords(5, false);
+    			af.getRecords(5, af.recordType, false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.forceSync:
     		if (af != null)
     		{
-    			af.getAnimeRecords(af.currentList, true);
+    			af.getRecords(af.currentList, af.recordType, true);
     			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
     		}
     		break;
@@ -190,7 +190,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     	
     	if (instanceExists == true)
     	{
-    		af.getAnimeRecords(af.currentList, false);
+    		af.getRecords(af.currentList, af.recordType, false);
     	}
     	
     }
@@ -226,7 +226,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
 		//Logic to check if we have just signed in. If yes, automatically do a sync
 		if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))
 		{
-			af.getAnimeRecords(af.currentList, true);
+			af.getRecords(af.currentList, af.recordType, true);
 			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 		}
@@ -234,7 +234,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
 		//Logic to check if we upgraded from the version before the rewrite
 		if (upgradeInit == false)
 		{
-			af.getAnimeRecords(af.currentList, true);
+			af.getRecords(af.currentList, af.recordType, true);
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 			
 			mPrefManager.setUpgradeInit(true);

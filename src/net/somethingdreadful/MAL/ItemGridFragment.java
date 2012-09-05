@@ -35,14 +35,17 @@ public class ItemGridFragment extends Fragment {
     }
 
     ArrayList<AnimeRecord> al = new ArrayList();
+    ArrayList<MangaRecord> ml = new ArrayList();
     GridView gv;
     MALManager mManager;
     PrefManager mPrefManager;
     Context c;
     CoverAdapter<AnimeRecord> ca;
+    CoverAdapter<MangaRecord> cm;
     IItemGridFragment Iready;
     boolean forceSyncBool = false;
     int currentList;
+    String recordType;
     
     @Override
     public void onCreate(Bundle state)
@@ -98,7 +101,7 @@ public class ItemGridFragment extends Fragment {
     	
  //   	gv.setAdapter(new CoverAdapter<String>(layout.getContext(), R.layout.grid_cover_with_text_item, ar));
     	
-    	getAnimeRecords(currentList, false);
+    	getRecords(currentList, recordType, false);
     	
     	Iready.fragmentReady();
     	
@@ -106,12 +109,19 @@ public class ItemGridFragment extends Fragment {
     	
     }
     
-    public void getAnimeRecords(int listint, boolean forceSync)
+    public void getRecords(int listint, String mediaType, boolean forceSync)
     {
     	forceSyncBool = forceSync;
     	currentList = listint;
+    	recordType = mediaType;
     	
-    	new getAnimeRecordsTask().execute(currentList);
+    	if(recordType == "anime") {
+        	new getAnimeRecordsTask().execute(currentList);
+    	}
+    	else if(recordType == "manga") {
+            new getMangaRecordsTask().execute(currentList);
+    	}
+    	
     	
     }
     
@@ -120,6 +130,7 @@ public class ItemGridFragment extends Fragment {
 
 		boolean mForceSync = forceSyncBool;
 		int mList = currentList;
+		String type = recordType;
     	
     	@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
@@ -137,7 +148,7 @@ public class ItemGridFragment extends Fragment {
 			{
 				al = new ArrayList();
 				
-				mManager.downloadAndStoreAnimeList();
+				mManager.downloadAndStoreList("anime");
 				
 			}
 			
@@ -166,7 +177,6 @@ public class ItemGridFragment extends Fragment {
 			{
 				ca.clear();
 				ca.addAll(result);
-//				new AdapterHelper().update((CoverAdapter<AnimeRecord>) ca, result);
 				ca.notifyDataSetChanged();
 			}
 			
@@ -178,7 +188,68 @@ public class ItemGridFragment extends Fragment {
 		}
 
 	}
-    
+
+    public class getMangaRecordsTask extends AsyncTask<Integer, Void, ArrayList<MangaRecord>>
+	{
+		boolean mForceSync = forceSyncBool;
+		int mList = currentList;
+		String type = recordType;
+
+    	@SuppressWarnings({ "rawtypes", "unchecked" })
+		@Override
+		protected ArrayList<MangaRecord> doInBackground(Integer... list) {
+
+			int listint = 0;
+
+			for(int i : list)
+			{
+				listint = i;
+				System.out.println("int passed: " + listint);
+			}
+
+			if (mForceSync)
+			{
+				al = new ArrayList();
+
+				mManager.downloadAndStoreList("manga");
+			}
+
+			ml = mManager.getMangaRecordsFromDB(listint);
+
+			return ml;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<MangaRecord> result) {
+
+			if (result == null)
+			{
+				result = new ArrayList();
+			}
+			if (cm == null)
+			{
+				cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result);
+			}
+
+			if (gv.getAdapter() == null)
+			{
+				gv.setAdapter(cm);
+			}
+			else
+			{
+				cm.clear();
+				cm.addAll(result);
+				cm.notifyDataSetChanged();
+			}
+
+			if (mForceSync)
+			{
+				Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
+			}
+		}
+
+	}
+
     @Override
     public void onSaveInstanceState(Bundle state)
     {
