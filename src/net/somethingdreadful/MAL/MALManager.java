@@ -369,7 +369,7 @@ public class MALManager {
 		cv.put("myStatus", ar.getMyStatus());
 		cv.put("memberScore", ar.getMemberScore());
 		cv.put("myScore", ar.getMyScore());
-		cv.put("episodesWatched", ar.getWatched());
+		cv.put("episodesWatched", ar.getPersonalProgress());
 		cv.put("episodesTotal", ar.getTotal());
 		cv.put("dirty", ar.getDirty());
 		
@@ -454,7 +454,7 @@ public class MALManager {
 		
 		List<NameValuePair> putParams = new ArrayList<NameValuePair>();
 		putParams.add(new BasicNameValuePair("status", ar.getMyStatus()));
-		putParams.add(new BasicNameValuePair("episodes", ar.getWatched()));
+		putParams.add(new BasicNameValuePair("episodes", Integer.toString(ar.getPersonalProgress())));
 		putParams.add(new BasicNameValuePair("score", ar.getMyScore()));
 		
 		try 

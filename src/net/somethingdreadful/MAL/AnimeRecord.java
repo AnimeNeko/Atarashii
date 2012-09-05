@@ -56,11 +56,6 @@ public class AnimeRecord extends GenericMALRecord {
 		this.dirty = dirty;
 	}
 
-	
-	public String getWatched() {
-		return Integer.toString(episodesWatched);
-	}
-	
 	public String getTotal() {
 		
 		return Integer.toString(episodesTotal);

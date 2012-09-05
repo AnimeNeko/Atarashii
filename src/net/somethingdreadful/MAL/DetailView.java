@@ -219,7 +219,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			AnimeStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
 			AnimeTypeView.setText(mAr.getRecordType());
 			MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));
-			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(Integer.parseInt(mAr.getWatched()),
+			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(mAr.getPersonalProgress(),
 																	Integer.parseInt(mAr.getTotal())));
 			
 			
@@ -271,7 +271,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 
 	//Dialog returns new value, do something with it
 	public void onDialogDismissed(int newValue) {
-		if (newValue == Integer.parseInt(mAr.getWatched()))
+		if (newValue == mAr.getPersonalProgress())
 		{
 			
 		}
