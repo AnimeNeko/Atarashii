@@ -66,6 +66,19 @@
             android:textSize="12sp" />
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/popUpButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|left"
+        android:focusable="false"
+        android:paddingLeft="0dip"
+        android:paddingRight="22dip"
+        android:paddingTop="10dp"
+        android:scaleType="center"
+        android:src="@drawable/cover_action" />
 
 </FrameLayout>
 
