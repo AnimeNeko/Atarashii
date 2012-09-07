@@ -111,32 +111,63 @@ public class MALManager {
 		}
 	}
 	
-	static String listSortFromInt(int i)
+	static String listSortFromInt(int i, String type)
 	{
-		String r = "watching";
+		String r = "";
 		
-		switch (i)
-		{
-		case 0:
-			r = "";
-			break;
-		case 1:
-			r = "watching";
-			break;
-		case 2:
-			r = "completed";
-			break;
-		case 3:
-			r = "on-hold";
-			break;
-		case 4:
-			r = "dropped";
-			break;
-		case 5: 
-			r = "plan to watch";
-			break;
+		if(type == "anime") {
+			switch (i)
+			{
+			case 0:
+				r = "";
+				break;
+			case 1:
+				r = AnimeRecord.STATUS_WATCHING;
+				break;
+			case 2:
+				r = AnimeRecord.STATUS_COMPLETED;
+				break;
+			case 3:
+				r = AnimeRecord.STATUS_ONHOLD;
+				break;
+			case 4:
+				r = AnimeRecord.STATUS_DROPPED;
+				break;
+			case 5:
+				r = AnimeRecord.STATUS_PLANTOWATCH;
+				break;
+			default:
+				r = AnimeRecord.STATUS_WATCHING;
+				break;
+			}
 		}
-		
+		else if (type == "manga") {
+			switch (i)
+			{
+			case 0:
+				r = "";
+				break;
+			case 1:
+				r = MangaRecord.STATUS_WATCHING;
+				break;
+			case 2:
+				r = MangaRecord.STATUS_COMPLETED;
+				break;
+			case 3:
+				r = MangaRecord.STATUS_ONHOLD;
+				break;
+			case 4:
+				r = MangaRecord.STATUS_DROPPED;
+				break;
+			case 5:
+				r = MangaRecord.STATUS_PLANTOWATCH;
+				break;
+			default:
+				r = MangaRecord.STATUS_WATCHING;
+				break;
+			}
+		}
+
 		return r;
 	}
 	
@@ -383,7 +414,7 @@ public class MALManager {
 		}
 		else
 		{
-			cu = db.rawQuery("SELECT * FROM 'anime' WHERE myStatus='" + listSortFromInt(list) + "' ORDER BY recordName", null);
+			cu = db.rawQuery("SELECT * FROM 'anime' WHERE myStatus='" + listSortFromInt(list, "anime") + "' ORDER BY recordName", null);
 		}
 		
 		
@@ -428,9 +459,8 @@ public class MALManager {
 		}
 		else
 		{
-			cu = db.rawQuery("SELECT " + columnList + " FROM 'manga' WHERE myStatus='" + listSortFromInt(list) + "' ORDER BY recordName", null);
+			cu = db.rawQuery("SELECT " + columnList + " FROM 'manga' WHERE myStatus='" + listSortFromInt(list, "manga") + "' ORDER BY recordName", null);
 		}
-		
 		
 		System.out.println(cu.getCount());
 		cu.moveToFirst();
