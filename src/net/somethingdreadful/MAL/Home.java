@@ -33,6 +33,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     private boolean init = false;
     private boolean upgradeInit = false;
     ItemGridFragment af;
+    ItemGridFragment mf;
     public boolean instanceExists;
     
     @Override
@@ -129,58 +130,58 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     	
     	//The following is the code that handles switching the list. It calls the fragment to update, then update the menu by invalidating
     	case R.id.listType_all:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(0, "anime", false);
-    			af.getRecords(0, "manga", false);
+    			mf.getRecords(0, "manga", false);
     			invalidateOptionsMenu();
     		}	
     		break;
     	case R.id.listType_watching:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(1, "anime", false);
-    			af.getRecords(1, "manga", false);
+    			mf.getRecords(1, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_completed:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(2, "anime", false);
-    			af.getRecords(2, "manga", false);
+    			mf.getRecords(2, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_onhold:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(3, "anime", false);
-    			af.getRecords(3, "manga", false);
+    			mf.getRecords(3, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_dropped:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(4, "anime", false);
-    			af.getRecords(4, "manga", false);
+    			mf.getRecords(4, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_plantowatch:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(5, "anime", false);
-    			af.getRecords(5, "manga", false);
+    			mf.getRecords(5, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.forceSync:
-    		if (af != null)
+    		if (af != null && mf != null)
     		{
     			af.getRecords(af.currentList, "anime", true);
-    			af.getRecords(af.currentList, "manga", true);
+    			mf.getRecords(af.currentList, "manga", true);
     			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
     		}
     		break;
@@ -230,12 +231,13 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
 
 		//We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
 		af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 		
 		//Logic to check if we have just signed in. If yes, automatically do a sync
 		if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))
 		{
 			af.getRecords(af.currentList, "anime", true);
-			af.getRecords(af.currentList, "manga", true);
+			mf.getRecords(mf.currentList, "manga", true);
 			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 		}
@@ -244,7 +246,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
 		if (upgradeInit == false)
 		{
 			af.getRecords(af.currentList, "anime", true);
-			af.getRecords(af.currentList, "manga", true);
+			mf.getRecords(mf.currentList, "manga", true);
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 			
 			mPrefManager.setUpgradeInit(true);
