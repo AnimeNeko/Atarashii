@@ -150,6 +150,7 @@ public class ItemGridFragment extends Fragment {
 		boolean mForceSync = forceSyncBool;
 		int mList = currentList;
 		String type = recordType;
+		MALManager internalManager = mManager;
     	
     	@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
@@ -185,7 +186,7 @@ public class ItemGridFragment extends Fragment {
 			}
 			if (ca == null)
 			{
-				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result);
+				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
 			}
 			
 			if (gv.getAdapter() == null)
@@ -213,6 +214,7 @@ public class ItemGridFragment extends Fragment {
 		boolean mForceSync = forceSyncBool;
 		int mList = currentList;
 		String type = recordType;
+		MALManager internalManager = mManager;
 
     	@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
@@ -247,7 +249,7 @@ public class ItemGridFragment extends Fragment {
 			}
 			if (cm == null)
 			{
-				cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result);
+				cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
 			}
 
 			if (gv.getAdapter() == null)

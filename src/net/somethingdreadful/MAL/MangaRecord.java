@@ -77,5 +77,10 @@ public class MangaRecord extends GenericMALRecord {
 	public int getPersonalProgress() {
 		return chaptersRead;
 	}
+	
+	@Override
+	public void setPersonalProgress(int amount) {
+		this.chaptersRead = amount;
+	}
 
 }

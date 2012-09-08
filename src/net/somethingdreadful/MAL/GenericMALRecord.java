@@ -20,6 +20,8 @@ public abstract class GenericMALRecord {
 	
 	public abstract int getPersonalProgress();
 	
+	public abstract void setPersonalProgress(int amount);
+	
 	public GenericMALRecord() {
 		
 	}

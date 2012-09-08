@@ -3,11 +3,14 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import net.somethingdreadful.MAL.R;
 
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,21 +30,24 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 	private ArrayList<T> objects;
 	private ImageDownloader imageManager;
 	private Context c;
+	private MALManager mManager;
+	private String type;
 	
 	private int dp64;
 	private int dp6;
 	private int dp8;
 	private int dp12;
 	private int dp32;
-	
-	private GenericMALRecord a;
 
-	public CoverAdapter(Context context, int resource, ArrayList<T> objects) {
+	public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 		this.objects = objects;
 		this.c = context;
 		imageManager = new ImageDownloader(c);
+		mManager = m;
+		this.type = type;
+		
 		
 		dp64 = dpToPx(64);
 		dp32 = dpToPx(32);
@@ -55,6 +61,8 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated method stub
 		//return super.getView(position, convertView, parent);
 		View v = convertView;
+		final GenericMALRecord a;
+		
 		a = ((GenericMALRecord) objects.get(position));
 		
 		String myStatus = a.getMyStatus();
@@ -81,11 +89,12 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)))
 		{
 			popUpButton.setVisibility(popUpButton.VISIBLE);
-			System.out.println("true");
+//			System.out.println("true");
 			
 			popUpButton.setOnClickListener(
 					new OnClickListener()
 					{
+						
 						public void onClick(View v) 
 						{
 //							Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
@@ -112,7 +121,13 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 											switch (item.getItemId())
 											{
 												case R.id.action_PlusOneWatched:
-													Toast.makeText(c, "+1: " + a.getName(), Toast.LENGTH_SHORT).show();
+//													Toast.makeText(c, "+1: " + a.getName(), Toast.LENGTH_SHORT).show();
+//													((GenericMALRecord) objects.get(mposition))
+//													.setPersonalProgress(a.getPersonalProgress() + 1);
+//													
+//													notifyDataSetChanged();
+//													
+													setProgressPlusOne(a);
 													break;
 											}
 											
@@ -172,6 +187,68 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 //		icon.setImageResource(R.drawable.icon);
 
 		return v;
+	}
+	
+	public void setProgressPlusOne(GenericMALRecord gr)
+	{
+		gr.setPersonalProgress(gr.getPersonalProgress() + 1);
+		
+		notifyDataSetChanged();
+		
+		new writeDetailsTask().execute(gr);
+	}
+	
+	public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean>
+	{
+
+		MALManager internalManager;
+		GenericMALRecord internalGr;
+		String internalType;
+		
+		@Override
+		protected void onPreExecute()
+		{
+			internalManager = mManager;
+			internalType = type;
+		}
+		
+		
+		@Override
+		protected Boolean doInBackground(GenericMALRecord... gr) {
+			
+			boolean result;
+			
+			if ("anime".equals(internalType))
+			{
+				internalManager.saveItem((AnimeRecord) gr[0], false);
+				result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
+			}
+			else
+			{
+				internalManager.saveItem((MangaRecord) gr[0], false);
+				result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+			}
+			
+			
+			if (result == true)
+			{
+				gr[0].setDirty(gr[0].CLEAN);
+				
+				if ("anime".equals(internalType))
+				{
+					internalManager.saveItem((AnimeRecord) gr[0], false);
+				}
+				else
+				{
+					internalManager.saveItem((MangaRecord) gr[0], false);
+				}
+			}
+			
+			return result;
+			
+
+		}
+		
 	}
 	
 	public int dpToPx(float dp){

@@ -70,5 +70,10 @@ public class AnimeRecord extends GenericMALRecord {
 	public int getPersonalProgress() {
 		return episodesWatched;
 	}
+	
+	@Override
+	public void setPersonalProgress(int amount) {
+		this.episodesWatched = amount;
+	}
 
 }
