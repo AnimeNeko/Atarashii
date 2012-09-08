@@ -33,18 +33,19 @@
     <string name="cover_Watching">I\'ve watched:</string>
     <string name="cover_Completed">Completed at:</string>
     <string name="cover_OnHold">On Hold at:</string>
-    <string name="cover_Dropped">Dropper after:</string>
+    <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_SyncDone">Sync Complete!</string>
     <string name="placeholder_Loading">Loading, just a sec.</string>
-    <string name="action_SetWatched">Set Watched</string>
+    <string name="action_SetWatched">Update Progress</string>
     <string name="action_SetScore">Set Score</string>
     <string name="action_SetStatus">Set Status</string>
     <string name="action_RefreshEntry">Reload Data</string>
     <string name="preference_category_ListSettings">List Settings</string>
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
+    <string name="description_CoverImage">Cover Image</string>
     <string-array name="listTypeArray">
         <item >Everything</item>
         <item >Watching</item>
@@ -64,5 +65,7 @@
     <string name="preference_category_credits">Credits</string>
     <string name="summary_appcredits">Created by Anima. With contributions from Motokochan.</string>
     <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
+    <string name="action_PlusOneWatched">+1 Watched</string>
+    <string name="action_PlusOneRead">+1 Read</string>
 
 </resources>

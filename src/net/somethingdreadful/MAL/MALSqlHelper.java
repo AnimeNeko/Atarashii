@@ -32,6 +32,25 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 			+ "dirty boolean DEFAULT false"
 			+ ");";
 	
+	private static final String CREATE_MANGA_TABLE = "create table "
+			+ TABLE_MANGA + "(" 
+			+ COLUMN_ID  +" integer primary key autoincrement, "
+			+ "recordID varchar, "
+			+ "recordName varchar, "
+			+ "recordType varchar, "
+			+ "imageUrl varchar, "
+			+ "recordStatus varchar, "
+			+ "myStatus varchar, "
+			+ "memberScore varchar, "
+			+ "myScore varchar, "
+			+ "synopsis varchar, "
+			+ "chaptersRead varchar, "
+			+ "chaptersTotal varchar, "
+			+ "volumesRead varchar, "
+			+ "volumesTotal varchar, "
+			+ "dirty boolean DEFAULT false"
+			+ ");";
+	
 	
 	public MALSqlHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,6 +60,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_ANIME_TABLE);
+		db.execSQL(CREATE_MANGA_TABLE);
 		
 	}
 
@@ -50,6 +70,10 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 		if ((oldVersion == 1) && (newVersion == 2))
 		{
 			db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD COLUMN dirty boolean DEFAULT false");
+		}
+		if ((oldVersion == 2) && (newVersion == 3))
+		{
+			db.execSQL(CREATE_MANGA_TABLE);
 		}
 		
 	}

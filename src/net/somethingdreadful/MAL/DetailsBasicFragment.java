@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.AnimuFragment.IAnimeFragment;
+import net.somethingdreadful.MAL.ItemGridFragment.IItemGridFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,24 +48,6 @@ public class DetailsBasicFragment extends Fragment {
     	return layout;
     }
     
-    public void positionSynopsis()
-    {
-    	
-    	
-    	
-    	int synopsisOffset = layout.getHeight();
-	      synopsisOffset -= layout.findViewById(R.id.SynopsisLabel).getHeight();
-	      System.out.println(synopsisOffset);
-	    	
-	    	
-	      LayoutParams params = (LayoutParams) layout.findViewById(R.id.SynopsisLabel).getLayoutParams();
-	      params.setMargins(0, synopsisOffset, 0, 0);
-	      layout.findViewById(R.id.SynopsisLabel).setLayoutParams(params);
-	      
-	      layout.invalidate();
-	    	
-    }
-    
     @Override
     public void onCreate(Bundle state)
     {
@@ -78,7 +60,6 @@ public class DetailsBasicFragment extends Fragment {
     	super.onResume();
     	
     	fragmentInterface.basicFragmentReady();
-//    	positionSynopsis();
     }
     
     @Override

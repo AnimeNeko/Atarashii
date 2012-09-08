@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class Home extends FragmentActivity implements ActionBar.TabListener, AnimuFragment.IAnimeFragment {
+public class Home extends FragmentActivity implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -32,7 +32,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     public MALManager mManager;
     private boolean init = false;
     private boolean upgradeInit = false;
-    AnimuFragment af;
+    ItemGridFragment af;
     public boolean instanceExists;
     
     @Override
@@ -131,49 +131,56 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     	case R.id.listType_all:
     		if (af != null)
     		{
-    			af.getAnimeRecords(0, false);
+    			af.getRecords(0, "anime", false);
+    			af.getRecords(0, "manga", false);
     			invalidateOptionsMenu();
     		}	
     		break;
     	case R.id.listType_watching:
     		if (af != null)
     		{
-    			af.getAnimeRecords(1, false);
+    			af.getRecords(1, "anime", false);
+    			af.getRecords(1, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_completed:
     		if (af != null)
     		{
-    			af.getAnimeRecords(2, false);
+    			af.getRecords(2, "anime", false);
+    			af.getRecords(2, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_onhold:
     		if (af != null)
     		{
-    			af.getAnimeRecords(3, false);
+    			af.getRecords(3, "anime", false);
+    			af.getRecords(3, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_dropped:
     		if (af != null)
     		{
-    			af.getAnimeRecords(4, false);
+    			af.getRecords(4, "anime", false);
+    			af.getRecords(4, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.listType_plantowatch:
     		if (af != null)
     		{
-    			af.getAnimeRecords(5, false);
+    			af.getRecords(5, "anime", false);
+    			af.getRecords(5, "manga", false);
     			invalidateOptionsMenu();
     		}
     		break;
     	case R.id.forceSync:
     		if (af != null)
     		{
-    			af.getAnimeRecords(af.currentList, true);
+    			af.getRecords(af.currentList, "anime", true);
+    			af.getRecords(af.currentList, "manga", true);
     			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
     		}
     		break;
@@ -190,7 +197,8 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
     	
     	if (instanceExists == true)
     	{
-    		af.getAnimeRecords(af.currentList, false);
+    		af.getRecords(af.currentList, "anime", false);
+    		af.getRecords(af.currentList, "manga", false);
     	}
     	
     }
@@ -221,12 +229,13 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 		//Interface implementation for knowing when the dynamically created fragment is finished loading
 
 		//We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-		af = (AnimuFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		
 		//Logic to check if we have just signed in. If yes, automatically do a sync
 		if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))
 		{
-			af.getAnimeRecords(af.currentList, true);
+			af.getRecords(af.currentList, "anime", true);
+			af.getRecords(af.currentList, "manga", true);
 			getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 		}
@@ -234,7 +243,8 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ani
 		//Logic to check if we upgraded from the version before the rewrite
 		if (upgradeInit == false)
 		{
-			af.getAnimeRecords(af.currentList, true);
+			af.getRecords(af.currentList, "anime", true);
+			af.getRecords(af.currentList, "manga", true);
 			Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 			
 			mPrefManager.setUpgradeInit(true);

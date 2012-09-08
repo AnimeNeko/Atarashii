@@ -25,24 +25,27 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AnimuFragment extends Fragment {
+public class ItemGridFragment extends Fragment {
 
 	// The pixel dimensions used by MAL images
 	private static final double MAL_IMAGE_WIDTH = 225;
 	private static final double MAL_IMAGE_HEIGHT = 320;
 	
-	public AnimuFragment() {
+	public ItemGridFragment() {
     }
 
     ArrayList<AnimeRecord> al = new ArrayList();
+    ArrayList<MangaRecord> ml = new ArrayList();
     GridView gv;
     MALManager mManager;
     PrefManager mPrefManager;
     Context c;
     CoverAdapter<AnimeRecord> ca;
-    IAnimeFragment Iready;
+    CoverAdapter<MangaRecord> cm;
+    IItemGridFragment Iready;
     boolean forceSyncBool = false;
     int currentList;
+    String recordType;
     
     @Override
     public void onCreate(Bundle state)
@@ -60,11 +63,14 @@ public class AnimuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	
+    	Bundle args = getArguments();
     	View layout = inflater.inflate(R.layout.fragment_animelist, null);
     	c = layout.getContext();
     	
     	mManager = ((Home) getActivity()).mManager;
     	mPrefManager = ((Home) getActivity()).mPrefManager;
+    	
+    	final String recordType = args.getString("type");
     	
     	if (!((Home) getActivity()).instanceExists)
     	{
@@ -76,16 +82,35 @@ public class AnimuFragment extends Fragment {
     	
     	gv = (GridView) layout.findViewById(R.id.gridview);
     	
-    	gv.setOnItemClickListener(new OnItemClickListener()
+    	
+    	if ("anime".equals(recordType))
     	{
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
-			{
-
-				startActivity(new Intent(getView().getContext(), DetailView.class)
-					.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).recordID));
-//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
-			}
-    	});
+	    	gv.setOnItemClickListener(new OnItemClickListener()
+	    	{
+				public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
+				{
+					Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+					startDetails.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).recordID);
+	    			startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+									
+					startActivity(startDetails);
+						
+	//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
+				}
+	    	});	
+    	}
+    	else if("manga".equals(recordType))
+    	{
+    		gv.setOnItemClickListener(new OnItemClickListener()
+	    	{
+				public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
+				{
+					startActivity(new Intent(getView().getContext(), DetailView.class)
+						.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).recordID));
+	//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
+				}
+	    	});	
+    	}
     	
     	int listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
     	
@@ -95,7 +120,7 @@ public class AnimuFragment extends Fragment {
     	
  //   	gv.setAdapter(new CoverAdapter<String>(layout.getContext(), R.layout.grid_cover_with_text_item, ar));
     	
-    	getAnimeRecords(currentList, false);
+    	getRecords(currentList, recordType, false);
     	
     	Iready.fragmentReady();
     	
@@ -103,12 +128,19 @@ public class AnimuFragment extends Fragment {
     	
     }
     
-    public void getAnimeRecords(int listint, boolean forceSync)
+    public void getRecords(int listint, String mediaType, boolean forceSync)
     {
     	forceSyncBool = forceSync;
     	currentList = listint;
+    	recordType = mediaType;
     	
-    	new getAnimeRecordsTask().execute(currentList);
+    	if(recordType == "anime") {
+        	new getAnimeRecordsTask().execute(currentList);
+    	}
+    	else if(recordType == "manga") {
+            new getMangaRecordsTask().execute(currentList);
+    	}
+    	
     	
     }
     
@@ -117,6 +149,8 @@ public class AnimuFragment extends Fragment {
 
 		boolean mForceSync = forceSyncBool;
 		int mList = currentList;
+		String type = recordType;
+		MALManager internalManager = mManager;
     	
     	@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
@@ -134,7 +168,7 @@ public class AnimuFragment extends Fragment {
 			{
 				al = new ArrayList();
 				
-				mManager.downloadAndStoreAnimeList();
+				mManager.downloadAndStoreList("anime");
 				
 			}
 			
@@ -152,7 +186,7 @@ public class AnimuFragment extends Fragment {
 			}
 			if (ca == null)
 			{
-				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result);
+				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
 			}
 			
 			if (gv.getAdapter() == null)
@@ -163,7 +197,6 @@ public class AnimuFragment extends Fragment {
 			{
 				ca.clear();
 				ca.addAll(result);
-//				new AdapterHelper().update((CoverAdapter<AnimeRecord>) ca, result);
 				ca.notifyDataSetChanged();
 			}
 			
@@ -175,7 +208,69 @@ public class AnimuFragment extends Fragment {
 		}
 
 	}
-    
+
+    public class getMangaRecordsTask extends AsyncTask<Integer, Void, ArrayList<MangaRecord>>
+	{
+		boolean mForceSync = forceSyncBool;
+		int mList = currentList;
+		String type = recordType;
+		MALManager internalManager = mManager;
+
+    	@SuppressWarnings({ "rawtypes", "unchecked" })
+		@Override
+		protected ArrayList<MangaRecord> doInBackground(Integer... list) {
+
+			int listint = 0;
+
+			for(int i : list)
+			{
+				listint = i;
+				System.out.println("int passed: " + listint);
+			}
+
+			if (mForceSync)
+			{
+				al = new ArrayList();
+
+				mManager.downloadAndStoreList("manga");
+			}
+
+			ml = mManager.getMangaRecordsFromDB(listint);
+
+			return ml;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<MangaRecord> result) {
+
+			if (result == null)
+			{
+				result = new ArrayList();
+			}
+			if (cm == null)
+			{
+				cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+			}
+
+			if (gv.getAdapter() == null)
+			{
+				gv.setAdapter(cm);
+			}
+			else
+			{
+				cm.clear();
+				cm.addAll(result);
+				cm.notifyDataSetChanged();
+			}
+
+			if (mForceSync)
+			{
+				Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
+			}
+		}
+
+	}
+
     @Override
     public void onSaveInstanceState(Bundle state)
     {
@@ -188,11 +283,11 @@ public class AnimuFragment extends Fragment {
     public void onAttach(Activity a)
     {
     	super.onAttach(a);
-    	Iready = (IAnimeFragment) a;
+    	Iready = (IItemGridFragment) a;
     	
     }
     
-    public interface IAnimeFragment
+    public interface IItemGridFragment
     {
     	public void fragmentReady();
     }

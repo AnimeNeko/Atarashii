@@ -34,7 +34,7 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 		if (state == null)
 		{
 			totalEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getTotal());
-			watchedEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getWatched());
+			watchedEpisodes = ((DetailView) getActivity()).mAr.getPersonalProgress();
 			pickerValue = watchedEpisodes;
 			
 		}

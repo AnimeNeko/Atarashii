@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
-import net.somethingdreadful.MAL.R;
+import android.text.Html;
+import android.text.Spanned;
 
 public abstract class GenericMALRecord {
 	public static final int CLEAN = 0;
@@ -17,14 +18,79 @@ public abstract class GenericMALRecord {
 	protected String synopsis;
 	protected int dirty;
 	
-	public abstract void pushtoDB();
+	public abstract int getPersonalProgress();
 	
-	public abstract void pullFromDB();
+	public abstract void setPersonalProgress(int amount);
 	
-	public GenericMALRecord()
-	{
+	public GenericMALRecord() {
 		
 	}
 	
+	public String getName() {
+		return recordName;
+	}
 	
+	
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public String getID() {
+		
+		return Integer.toString(recordID);
+	}
+
+	public String getRecordStatus() {
+		
+		return recordStatus;
+	}
+
+	public String getMemberScore() {
+		
+		return memberScore;
+	}
+
+	// Use this to get the raw HTML-formatted synopsis
+	public String getSynopsis() {
+		
+		return synopsis;
+	}
+	
+	// Use this to get a formatted version of the text suited for display in the application
+	public Spanned getSpannedSynopsis() {
+		return Html.fromHtml(synopsis);
+	}
+
+	public void setSynopsis(String newSynopsis) {
+		this.synopsis = newSynopsis;
+	}
+
+	public String getRecordType() {
+	
+		return recordType;
+	}
+
+	public String getMyStatus() {
+		
+		return myStatus;
+	}
+
+	public String getMyScore() {
+		
+		return myScore;
+	}
+
+	public int getDirty() {
+		// TODO Auto-generated method stub
+		return dirty;
+	}
+	
+	public void setDirty(int dirty) {
+		this.dirty = dirty; 
+	}
+	
+	public void setMyStatus(String status) {
+		this.myStatus = status;
+	}
 }

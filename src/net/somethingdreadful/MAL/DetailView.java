@@ -11,9 +11,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment, EpisodesPickerDialogFragment.DialogDismissedListener {
 
@@ -22,16 +24,19 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     int recordID;
     ActionBar actionBar;
     AnimeRecord mAr;
+    MangaRecord mMr;
+    String recordType;
    
     DetailsBasicFragment bfrag;
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     
     TextView SynopsisView;
-    TextView AnimeTypeView;
-    TextView AnimeStatusView;
+    TextView RecordTypeView;
+    TextView RecordStatusView;
     TextView MyStatusView;
-    TextView EpisodesWatchedCounterView;
+    TextView ProgressCounterView;
+    ImageView CoverImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,10 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		//Get the recordID, passed in from the calling activity
 		recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
 
+		//Get the recordType, also passed from calling activity
+		//Record type will determine how the detail view lays out itself
+		recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
+		
         // Set up the action bar.
         actionBar = getActionBar();
 //        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -103,22 +112,22 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			finish();
 			break;
 		case R.id.action_SetWatched:
-			showEpisodesWatchedDialog();
+			showProgressDialog();
 			break;
 		case R.id.SetStatus_Watching:
-			setAnimeStatus(mAr.STATUS_WATCHING);
+			setStatus(1);
 			break;
 		case R.id.SetStatus_Complete:
-			setAnimeStatus(mAr.STATUS_COMPLETED);
+			setStatus(2);
 			break;
 		case R.id.SetStatus_OnHold:
-			setAnimeStatus(mAr.STATUS_ONHOLD);
+			setStatus(3);
 			break;
 		case R.id.SetStatus_Dropped:
-			setAnimeStatus(mAr.STATUS_DROPPED);
+			setStatus(4);
 			break;
 		case R.id.SetStatus_PlanToWatch:
-			setAnimeStatus(mAr.STATUS_PLANTOWATCH);
+			setStatus(5);
 			break;
 		}
 		
@@ -137,9 +146,19 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     {
     	super.onPause();
     	
-    	if (mAr.getDirty() == 1)
+    	if("anime".equals(recordType))
     	{
-    		writeDetails(mAr);
+    		if (mAr.getDirty() == 1)
+    		{
+    			writeDetails(mAr);
+    		}
+    	}
+    	else
+    	{
+    		if (mMr.getDirty() == 1)
+    		{
+    			writeDetails(mMr);
+    		}
     	}
     }
    
@@ -148,23 +167,30 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     //Probably no longer necessary, since we no longer instantiate the fragment dynamically
 	public void basicFragmentReady() {
 		
+		CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
 		SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
-		AnimeStatusView = (TextView) bfrag.getView().findViewById(R.id.animeStatusLabel);
-		AnimeTypeView = (TextView) bfrag.getView().findViewById(R.id.animeTypeLabel);
+		RecordStatusView = (TextView) bfrag.getView().findViewById(R.id.animeStatusLabel);
+		RecordTypeView = (TextView) bfrag.getView().findViewById(R.id.animeTypeLabel);
 		MyStatusView = (TextView) bfrag.getView().findViewById(R.id.animeMyStatusLabel);
-		EpisodesWatchedCounterView = (TextView) bfrag.getView().findViewById(R.id.animeEpisodesWatchedCounterLabel);
-		
-		//waitTask is basically a ridiculously hacky solution to a problem that shouldn't exist. It's introducing a delay on 
-		//separate thread while waiting for the activity to draw it's action bar. Unfortunately the actionBar has no callbacks
-		//for when it's actually displayed and ready, so this is really the only way I found to do it
-		new waitTask().execute();
-		
+		ProgressCounterView = (TextView) bfrag.getView().findViewById(R.id.animeEpisodesWatchedCounterLabel);
 		getAnimeDetails(recordID);		
 	}
 	
 	public void getAnimeDetails(int id)
 	{
-		new getAnimeDetailsTask().execute();
+		new getDetailsTask().execute();
+	}
+	
+	public void showProgressDialog() // Just a function to keep logic out of the switch statement
+	{
+		if ("anime".equals(recordType))
+		{
+			showEpisodesWatchedDialog();
+		}
+		else
+		{
+			showMangaProgressDialog();
+		}
 	}
 	
 	public void showEpisodesWatchedDialog()
@@ -176,37 +202,65 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		epd.show(fm, "fragment_EditEpisodesWatchedDialog");
 	}
 	
-	public class getAnimeDetailsTask extends AsyncTask<Void, Boolean, AnimeRecord>
+	public void showMangaProgressDialog() //TODO Create MangaProgressFragment, will have both chapter and volume pickers
+	{
+		//Standard code for setting up a dialog fragment
+		Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
+	}
+	
+	public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord>
 	{
 
 		int mID;
 		MALManager mmManager;
 		ActionBar bar;
 		ImageDownloader imageDownloader = new ImageDownloader(context);
+		String internalType;
 		
 		@Override
 		protected void onPreExecute()
 		{
 			mID = recordID;
 			mmManager = mManager;
+			internalType = recordType;
 		}
 		
 		@Override
-		protected AnimeRecord doInBackground(Void... arg0) {
+		protected GenericMALRecord doInBackground(Void... arg0) {
 			
-			mAr = mmManager.getAnimeRecordFromDB(mID);
-			
-			//Basically I just use publishProgress as an easy way to display info we already have loaded sooner
-			//This way, I can let the database work happen on the background thread and then immediately display it while
-			//the synopsis loads if it hasn't previously been downloaded.
-			publishProgress(true);
-			
-			if (mAr.getSynopsis() == null)
+			if ("anime".equals(internalType))
 			{
-				mAr = mmManager.updateAnimeWithDetails(mID, mAr);
+				mAr = mmManager.getAnimeRecordFromDB(mID);
+				
+				//Basically I just use publishProgress as an easy way to display info we already have loaded sooner
+				//This way, I can let the database work happen on the background thread and then immediately display it while
+				//the synopsis loads if it hasn't previously been downloaded.
+				publishProgress(true);
+				
+				if (mAr.getSynopsis() == null)
+				{
+					mAr = mmManager.updateWithDetails(mID, mAr);
+				}
+				
+				return mAr;
+			}
+			else
+			{
+				mMr = mmManager.getMangaRecordFromDB(mID);
+				
+				//Basically I just use publishProgress as an easy way to display info we already have loaded sooner
+				//This way, I can let the database work happen on the background thread and then immediately display it while
+				//the synopsis loads if it hasn't previously been downloaded.
+				publishProgress(true);
+				
+				if (mMr.getSynopsis() == null)
+				{
+					mMr = mmManager.updateWithDetails(mID, mMr);
+				}
+				
+				return mMr;
 			}
 			
-			return mAr;
 		}
 		
 		@Override
@@ -214,83 +268,87 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 			
-			actionBar.setTitle(mAr.getName());
-			AnimeStatusView.setText(mAr.getRecordStatus().toUpperCase());
-			AnimeTypeView.setText(mAr.getRecordType().toUpperCase());
-			MyStatusView.setText(mAr.getMyStatus().toUpperCase());
-			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(Integer.parseInt(mAr.getWatched()), 
-																	Integer.parseInt(mAr.getTotal())));
+			if ("anime".equals(internalType))
+			{
+				actionBar.setTitle(mAr.getName());
+				
+				
+				CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
+				RecordStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
+				RecordTypeView.setText(mAr.getRecordType());
+				MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));
+				ProgressCounterView.setText(mManager.watchedCounterBuilder(mAr.getPersonalProgress(),
+																		Integer.parseInt(mAr.getTotal())));
+			}
+			else
+			{
+				actionBar.setTitle(mMr.getName());
+				
+				//TODO set stuff, related to having a different layout and such
+				CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mMr.getImageUrl())));
+				
+			}
 			
 			
 			//I think there's a potential crash issue here. If the image isn't loaded (ie the user if bloody impatient and clicked
 			//something while the picture was still loading), it can crash.
-			((RelativeLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
-				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
+//			((RelativeLayout) bfrag.getView().findViewById(R.id.backgroundContainer))
+//				.setBackgroundDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
 		}
 
 		@Override
-		protected void onPostExecute(AnimeRecord ar)
+		protected void onPostExecute(GenericMALRecord gr)
 		{
-			SynopsisView.setText(ar.getSynopsis());
+			SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
 		}
 	}
 	
-	public class waitTask extends AsyncTask<Void, Void, Void>
-	{
-
-		
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			
-			
-			try {
-				Thread.sleep(100); //I really bloody can't believe I had to resort to this, but there simply isn't any other way
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-			
-
-		}
-		
-
-		@Override
-		protected void onPostExecute(Void result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			
-			//After the delay, call the method that positions the synopsis to run it's caluclations.
-			//Hopefully, the actionbar is done it's setup by now
-			bfrag.positionSynopsis();
-			
-		}
-	}
-	
-	public class writeDetailsTask extends AsyncTask<AnimeRecord, Void, Boolean>
+	public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean>
 	{
 
 		MALManager internalManager;
+		GenericMALRecord internalGr;
+		String internalType;
 		
 		@Override
 		protected void onPreExecute()
 		{
 			internalManager = mManager;
+			internalType = recordType;
+
 		}
 		
 		
 		@Override
-		protected Boolean doInBackground(AnimeRecord... ar) {
+		protected Boolean doInBackground(GenericMALRecord... gr) {
 			
 			boolean result;
 			
-			internalManager.insertOrUpdateAnime(ar[0], false);
-			result = internalManager.writeAnimeDetailsToMAL(ar[0]);
+			
+			if ("anime".equals(internalType))
+			{
+				internalManager.saveItem((AnimeRecord) gr[0], false);
+				result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
+			}
+			else
+			{
+				internalManager.saveItem((MangaRecord) gr[0], false);
+				result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+			}
+			
 			
 			if (result == true)
 			{
-				ar[0].setDirty(ar[0].CLEAN);
-				internalManager.insertOrUpdateAnime(ar[0], false);
+				gr[0].setDirty(gr[0].CLEAN);
+				
+				if ("anime".equals(internalType))
+				{
+					internalManager.saveItem((AnimeRecord) gr[0], false);
+				}
+				else
+				{
+					internalManager.saveItem((MangaRecord) gr[0], false);
+				}
 			}
 			
 			return result;
@@ -302,39 +360,119 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 
 	//Dialog returns new value, do something with it
 	public void onDialogDismissed(int newValue) {
-		if (newValue == Integer.parseInt(mAr.getWatched()))
+		if ("anime".equals(recordType))
 		{
-			
+			if (newValue == mAr.getPersonalProgress())
+			{
+				
+			}
+			else
+			{
+				if (Integer.parseInt(mAr.getTotal()) != 0)
+				{
+					if (newValue == Integer.parseInt(mAr.getTotal()))
+					{
+						mAr.setMyStatus(mAr.STATUS_COMPLETED);
+					}
+					if (newValue == 0)
+					{
+						mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
+					}
+					
+				}
+				
+				mAr.setEpisodesWatched(newValue);
+				mAr.setDirty(mAr.DIRTY);
+				
+				ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue, 
+																				Integer.parseInt(mAr.getTotal())));
+				
+			}
 		}
 		else
 		{
-			if (Integer.parseInt(mAr.getTotal()) != 0)
+			if (newValue == mMr.getPersonalProgress())
 			{
-				if (newValue == Integer.parseInt(mAr.getTotal()))
-				{
-					mAr.setMyStatus(mAr.STATUS_COMPLETED);
-				}
-				if (newValue == 0)
-				{
-					mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
-				}
 				
 			}
-			
-			mAr.setEpisodesWatched(newValue);
-			mAr.setDirty(mAr.DIRTY);
-			
-			EpisodesWatchedCounterView.setText(mManager.watchedCounterBuilder(newValue, 
-																			Integer.parseInt(mAr.getTotal())));
-			
+			else
+			{
+				if (Integer.parseInt(mMr.getTotal()) != 0)
+				{
+					if (newValue == Integer.parseInt(mAr.getTotal()))
+					{
+						mMr.setMyStatus(mMr.STATUS_COMPLETED);
+					}
+					if (newValue == 0)
+					{
+						mMr.setMyStatus(mMr.STATUS_PLANTOWATCH);
+					}
+					
+				}
+				
+				mMr.setChaptersRead(newValue);
+				mMr.setDirty(mAr.DIRTY);
+				
+				ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue, 
+																				Integer.parseInt(mMr.getTotal())));
+				
+			}
 		}
+		
 		
 	}
 	
 	//Create new write task and run it
-	public void writeDetails(AnimeRecord ar)
+	public void writeDetails(GenericMALRecord gr)
 	{
-		new writeDetailsTask().execute(ar);
+		new writeDetailsTask().execute(gr);
+	}
+	
+	public void setStatus(int pickValue)
+	{
+		if ("anime".equals(recordType))
+		{
+			switch (pickValue)
+			{
+				case 1:
+					setAnimeStatus(mAr.STATUS_WATCHING);
+					break;
+				case 2:
+					setAnimeStatus(mAr.STATUS_COMPLETED);
+					break;
+				case 3:
+					setAnimeStatus(mAr.STATUS_ONHOLD);
+					break;
+				case 4:
+					setAnimeStatus(mAr.STATUS_DROPPED);
+					break;
+				case 5:
+					setAnimeStatus(mAr.STATUS_PLANTOWATCH);
+					break;
+			}
+				
+		}
+		else
+		{
+			switch (pickValue)
+			{
+				case 1:
+					setMangaStatus(mMr.STATUS_WATCHING);
+					break;
+				case 2:
+					setMangaStatus(mMr.STATUS_COMPLETED);
+					break;
+				case 3:
+					setMangaStatus(mMr.STATUS_ONHOLD);
+					break;
+				case 4:
+					setMangaStatus(mMr.STATUS_DROPPED);
+					break;
+				case 5:
+					setMangaStatus(mMr.STATUS_PLANTOWATCH);
+					break;
+			}
+		}
 	}
     
 	public void setAnimeStatus(String status)
@@ -342,6 +480,14 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		mAr.setMyStatus(status);
 		mAr.setDirty(mAr.DIRTY);
 		
-		MyStatusView.setText(status.toUpperCase());
+		MyStatusView.setText(WordUtils.capitalize(status));
+	}
+	
+	public void setMangaStatus(String status)
+	{
+		mMr.setMyStatus(status);
+		mMr.setDirty(mAr.DIRTY);
+		
+		MyStatusView.setText(WordUtils.capitalize(status));
 	}
 }
