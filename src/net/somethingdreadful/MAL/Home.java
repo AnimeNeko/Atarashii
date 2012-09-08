@@ -137,7 +137,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     			invalidateOptionsMenu();
     		}	
     		break;
-    	case R.id.listType_watching:
+    	case R.id.listType_inprogress:
     		if (af != null && mf != null)
     		{
     			af.getRecords(1, "anime", false);
@@ -169,7 +169,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     			invalidateOptionsMenu();
     		}
     		break;
-    	case R.id.listType_plantowatch:
+    	case R.id.listType_planned:
     		if (af != null && mf != null)
     		{
     			af.getRecords(5, "anime", false);
@@ -275,7 +275,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
 	    		menu.findItem(R.id.listType_all).setChecked(true);
 	    		break;
 	    	case 1:
-	    		menu.findItem(R.id.listType_watching).setChecked(true);
+	    		menu.findItem(R.id.listType_inprogress).setChecked(true);
 	    		break;
 	    	case 2:
 	    		menu.findItem(R.id.listType_completed).setChecked(true);
@@ -287,7 +287,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
 	    		menu.findItem(R.id.listType_dropped).setChecked(true);
 	    		break;
 	    	case 5:
-	    		menu.findItem(R.id.listType_plantowatch).setChecked(true);
+	    		menu.findItem(R.id.listType_planned).setChecked(true);
 	    	}
 		}
 	

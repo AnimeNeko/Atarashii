@@ -114,7 +114,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		case R.id.action_SetWatched:
 			showProgressDialog();
 			break;
-		case R.id.SetStatus_Watching:
+		case R.id.SetStatus_InProgress:
 			setStatus(1);
 			break;
 		case R.id.SetStatus_Complete:
@@ -126,7 +126,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		case R.id.SetStatus_Dropped:
 			setStatus(4);
 			break;
-		case R.id.SetStatus_PlanToWatch:
+		case R.id.SetStatus_Planned:
 			setStatus(5);
 			break;
 		}

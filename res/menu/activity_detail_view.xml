@@ -3,11 +3,11 @@
     </item>
     <item android:id="@+id/action_SetStatus" android:title="@string/action_SetStatus" android:showAsAction="ifRoom">
         <menu>
-            <item android:id="@+id/SetStatus_Watching" android:title="@string/listType_Watching"/>
+            <item android:id="@+id/SetStatus_InProgress" android:title="@string/listType_InProgress"/>
             <item android:id="@+id/SetStatus_Complete" android:title="@string/listType_Completed"/>
             <item android:id="@+id/SetStatus_OnHold" android:title="@string/listType_onhold"/>
             <item android:id="@+id/SetStatus_Dropped" android:title="@string/listType_dropped"/>
-            <item android:id="@+id/SetStatus_PlanToWatch" android:title="@string/listType_plantowatch"/>
+            <item android:id="@+id/SetStatus_Planned" android:title="@string/listType_planned"/>
         </menu>
     </item>
     <item android:id="@+id/action_SetScore" android:title="@string/action_SetScore"></item>
