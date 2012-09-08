@@ -199,7 +199,7 @@ public class Home extends FragmentActivity implements ActionBar.TabListener, Ite
     	if (instanceExists == true)
     	{
     		af.getRecords(af.currentList, "anime", false);
-    		af.getRecords(af.currentList, "manga", false);
+    		mf.getRecords(af.currentList, "manga", false);
     	}
     	
     }
