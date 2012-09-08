@@ -70,7 +70,7 @@ public class ItemGridFragment extends Fragment {
     	mManager = ((Home) getActivity()).mManager;
     	mPrefManager = ((Home) getActivity()).mPrefManager;
     	
-    	String recordType = args.getString("type");
+    	final String recordType = args.getString("type");
     	
     	if (!((Home) getActivity()).instanceExists)
     	{
@@ -82,16 +82,35 @@ public class ItemGridFragment extends Fragment {
     	
     	gv = (GridView) layout.findViewById(R.id.gridview);
     	
-    	gv.setOnItemClickListener(new OnItemClickListener()
+    	
+    	if ("anime".equals(recordType))
     	{
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
-			{
-
-				startActivity(new Intent(getView().getContext(), DetailView.class)
-					.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).recordID));
-//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
-			}
-    	});
+	    	gv.setOnItemClickListener(new OnItemClickListener()
+	    	{
+				public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
+				{
+					Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+					startDetails.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).recordID);
+	    			startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+									
+					startActivity(startDetails);
+						
+	//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
+				}
+	    	});	
+    	}
+    	else if("manga".equals(recordType))
+    	{
+    		gv.setOnItemClickListener(new OnItemClickListener()
+	    	{
+				public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
+				{
+					startActivity(new Intent(getView().getContext(), DetailView.class)
+						.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).recordID));
+	//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
+				}
+	    	});	
+    	}
     	
     	int listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
     	

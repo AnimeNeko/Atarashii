@@ -58,6 +58,10 @@ public class MALManager {
 	int c_synopsis;
 	int c_episodesWatched;
 	int c_episodesTotal;
+	int c_readVolumes;
+	int c_readChapters;
+	int c_totalVolumes;
+	int c_totalChapters;
 	int c_dirty;
 	
 	
@@ -574,6 +578,26 @@ public class MALManager {
 		return ar;
 	}
 	
+	public MangaRecord getMangaRecordFromDB(int recordID)
+	{
+		String[] id =  { Integer.toString(recordID) };
+		
+		Cursor cursor = db.rawQuery("select * from manga where recordID=?", id);
+		cursor.moveToFirst();
+		getIndices(cursor);
+		
+		MangaRecord mr = new MangaRecord(cursor.getInt(c_ID), cursor.getString(c_Name), cursor.getString(c_type), 
+				cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_readVolumes), 
+				cursor.getInt(c_readChapters),	cursor.getInt(c_totalVolumes), cursor.getInt(c_totalChapters), 
+				cursor.getString(c_memberScore), cursor.getString(c_myScore), cursor.getString(c_synopsis), 
+				cursor.getString(c_imageUrl), cursor.getInt(c_dirty));
+		
+		cursor.close();
+		
+		return mr;
+	}
+	
+	
 	public boolean itemExists(String id, String type) {
 		if (type == "anime" || type == "manga") {
 			Cursor cursor = db.rawQuery("select 1 from " + type + " where recordID=?", 
@@ -601,6 +625,10 @@ public class MALManager {
 		c_synopsis = cu.getColumnIndex("synopsis");
 		c_episodesWatched = cu.getColumnIndex("episodesWatched");
 		c_episodesTotal = cu.getColumnIndex("episodesTotal");
+		c_readVolumes = cu.getColumnIndex("volumesRead");
+		c_readChapters = cu.getColumnIndex("chaptersRead");
+		c_totalVolumes = cu.getColumnIndex("volumesTotal");
+		c_totalChapters = cu.getColumnIndex("chaptersTotal");
 		c_dirty = cu.getColumnIndex("dirty");
 	}
 	
