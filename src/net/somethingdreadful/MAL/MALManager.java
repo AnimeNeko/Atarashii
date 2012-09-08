@@ -38,6 +38,9 @@ public class MALManager {
 	final static String readMangaDetailsAPI = "manga/";
 	final static String writeMangaDetailsAPI = "mangalist/anime/";
 	final static String readMineParam = "?mine=1";
+	
+	final static String TYPE_ANIME = "anime";
+	final static String TYPE_MANGA = "manga";
 
 	
 	Context c;
@@ -632,47 +635,94 @@ public class MALManager {
 		c_dirty = cu.getColumnIndex("dirty");
 	}
 	
-	public boolean writeAnimeDetailsToMAL(AnimeRecord ar)
+	public boolean writeDetailsToMAL(GenericMALRecord gr, String type)
 	{
 		boolean success = false;
 		
-		HttpPut writeRequest;
-		HttpResponse response;
-		HttpClient client = new DefaultHttpClient();
-		
-		writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + ar.getID());
-		writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-		
-		List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-		putParams.add(new BasicNameValuePair("status", ar.getMyStatus()));
-		putParams.add(new BasicNameValuePair("episodes", Integer.toString(ar.getPersonalProgress())));
-		putParams.add(new BasicNameValuePair("score", ar.getMyScore()));
-		
-		try 
+		if (type.equals(TYPE_ANIME))
 		{
-			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-			writeRequest.setEntity(entity);
+			HttpPut writeRequest;
+			HttpResponse response;
+			HttpClient client = new DefaultHttpClient();
 			
-			response = client.execute(writeRequest);
+			writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + gr.getID());
+			writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 			
-			System.out.println(response.getStatusLine().toString());
+			List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+			putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
+			putParams.add(new BasicNameValuePair("episodes", Integer.toString(gr.getPersonalProgress())));
+			putParams.add(new BasicNameValuePair("score", gr.getMyScore()));
 			
-			if (200 == response.getStatusLine().getStatusCode()) 
+			try 
 			{
-				success = true;		
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
+				writeRequest.setEntity(entity);
+				
+				response = client.execute(writeRequest);
+				
+				System.out.println(response.getStatusLine().toString());
+				
+				if (200 == response.getStatusLine().getStatusCode()) 
+				{
+					success = true;		
+				}
+				
+			} 
+			catch (ClientProtocolException e) 
+			{
+				e.printStackTrace();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
 			}
-			
-		} 
-		catch (ClientProtocolException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
+			catch (NetworkOnMainThreadException bullshit)
+			{
+				
+			}
 		}
-		catch (NetworkOnMainThreadException bullshit)
+		else if (type.equals(TYPE_MANGA))
 		{
+			HttpPut writeRequest;
+			HttpResponse response;
+			HttpClient client = new DefaultHttpClient();
+			
+			writeRequest = new HttpPut(APIProvider + writeMangaDetailsAPI + gr.getID());
+			writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
+			
+			List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+			putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
+			putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
+			putParams.add(new BasicNameValuePair("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress())));
+			putParams.add(new BasicNameValuePair("score", gr.getMyScore()));
+			
+			try 
+			{
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
+				writeRequest.setEntity(entity);
+				
+				response = client.execute(writeRequest);
+				
+				System.out.println(response.getStatusLine().toString());
+				
+				if (200 == response.getStatusLine().getStatusCode()) 
+				{
+					success = true;		
+				}
+				
+			} 
+			catch (ClientProtocolException e) 
+			{
+				e.printStackTrace();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+			catch (NetworkOnMainThreadException bullshit)
+			{
+				
+			}
 			
 		}
 		

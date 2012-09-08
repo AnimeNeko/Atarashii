@@ -112,22 +112,22 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 			finish();
 			break;
 		case R.id.action_SetWatched:
-			showEpisodesWatchedDialog();
+			showProgressDialog();
 			break;
 		case R.id.SetStatus_Watching:
-			setAnimeStatus(mAr.STATUS_WATCHING);
+			setStatus(1);
 			break;
 		case R.id.SetStatus_Complete:
-			setAnimeStatus(mAr.STATUS_COMPLETED);
+			setStatus(2);
 			break;
 		case R.id.SetStatus_OnHold:
-			setAnimeStatus(mAr.STATUS_ONHOLD);
+			setStatus(3);
 			break;
 		case R.id.SetStatus_Dropped:
-			setAnimeStatus(mAr.STATUS_DROPPED);
+			setStatus(4);
 			break;
 		case R.id.SetStatus_PlanToWatch:
-			setAnimeStatus(mAr.STATUS_PLANTOWATCH);
+			setStatus(5);
 			break;
 		}
 		
@@ -146,9 +146,19 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     {
     	super.onPause();
     	
-    	if (mAr.getDirty() == 1)
+    	if("anime".equals(recordType))
     	{
-    		writeDetails(mAr);
+    		if (mAr.getDirty() == 1)
+    		{
+    			writeDetails(mAr);
+    		}
+    	}
+    	else
+    	{
+    		if (mMr.getDirty() == 1)
+    		{
+    			writeDetails(mMr);
+    		}
     	}
     }
    
@@ -171,6 +181,18 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		new getDetailsTask().execute();
 	}
 	
+	public void showProgressDialog() // Just a function to keep logic out of the switch statement
+	{
+		if ("anime".equals(recordType))
+		{
+			showEpisodesWatchedDialog();
+		}
+		else
+		{
+			showMangaProgressDialog();
+		}
+	}
+	
 	public void showEpisodesWatchedDialog()
 	{
 		//Standard code for setting up a dialog fragment
@@ -178,6 +200,12 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		epd = new EpisodesPickerDialogFragment();
 		epd.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
 		epd.show(fm, "fragment_EditEpisodesWatchedDialog");
+	}
+	
+	public void showMangaProgressDialog() //TODO Create MangaProgressFragment, will have both chapter and volume pickers
+	{
+		//Standard code for setting up a dialog fragment
+		Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
 	}
 	
 	public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord>
@@ -275,30 +303,52 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		}
 	}
 	
-	public class writeDetailsTask extends AsyncTask<AnimeRecord, Void, Boolean>
+	public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean>
 	{
 
 		MALManager internalManager;
+		GenericMALRecord internalGr;
+		String internalType;
 		
 		@Override
 		protected void onPreExecute()
 		{
 			internalManager = mManager;
+			internalType = recordType;
+
 		}
 		
 		
 		@Override
-		protected Boolean doInBackground(AnimeRecord... ar) {
+		protected Boolean doInBackground(GenericMALRecord... gr) {
 			
 			boolean result;
 			
-			internalManager.saveItem(ar[0], false);
-			result = internalManager.writeAnimeDetailsToMAL(ar[0]);
+			
+			if ("anime".equals(internalType))
+			{
+				internalManager.saveItem((AnimeRecord) gr[0], false);
+				result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
+			}
+			else
+			{
+				internalManager.saveItem((MangaRecord) gr[0], false);
+				result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+			}
+			
 			
 			if (result == true)
 			{
-				ar[0].setDirty(ar[0].CLEAN);
-				internalManager.saveItem(ar[0], false);
+				gr[0].setDirty(gr[0].CLEAN);
+				
+				if ("anime".equals(internalType))
+				{
+					internalManager.saveItem((AnimeRecord) gr[0], false);
+				}
+				else
+				{
+					internalManager.saveItem((MangaRecord) gr[0], false);
+				}
 			}
 			
 			return result;
@@ -310,39 +360,119 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 
 	//Dialog returns new value, do something with it
 	public void onDialogDismissed(int newValue) {
-		if (newValue == mAr.getPersonalProgress())
+		if ("anime".equals(recordType))
 		{
-			
+			if (newValue == mAr.getPersonalProgress())
+			{
+				
+			}
+			else
+			{
+				if (Integer.parseInt(mAr.getTotal()) != 0)
+				{
+					if (newValue == Integer.parseInt(mAr.getTotal()))
+					{
+						mAr.setMyStatus(mAr.STATUS_COMPLETED);
+					}
+					if (newValue == 0)
+					{
+						mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
+					}
+					
+				}
+				
+				mAr.setEpisodesWatched(newValue);
+				mAr.setDirty(mAr.DIRTY);
+				
+				ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue, 
+																				Integer.parseInt(mAr.getTotal())));
+				
+			}
 		}
 		else
 		{
-			if (Integer.parseInt(mAr.getTotal()) != 0)
+			if (newValue == mMr.getPersonalProgress())
 			{
-				if (newValue == Integer.parseInt(mAr.getTotal()))
-				{
-					mAr.setMyStatus(mAr.STATUS_COMPLETED);
-				}
-				if (newValue == 0)
-				{
-					mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
-				}
 				
 			}
-			
-			mAr.setEpisodesWatched(newValue);
-			mAr.setDirty(mAr.DIRTY);
-			
-			ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue, 
-																			Integer.parseInt(mAr.getTotal())));
-			
+			else
+			{
+				if (Integer.parseInt(mMr.getTotal()) != 0)
+				{
+					if (newValue == Integer.parseInt(mAr.getTotal()))
+					{
+						mMr.setMyStatus(mMr.STATUS_COMPLETED);
+					}
+					if (newValue == 0)
+					{
+						mMr.setMyStatus(mMr.STATUS_PLANTOWATCH);
+					}
+					
+				}
+				
+				mMr.setChaptersRead(newValue);
+				mMr.setDirty(mAr.DIRTY);
+				
+				ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue, 
+																				Integer.parseInt(mMr.getTotal())));
+				
+			}
 		}
+		
 		
 	}
 	
 	//Create new write task and run it
-	public void writeDetails(AnimeRecord ar)
+	public void writeDetails(GenericMALRecord gr)
 	{
-		new writeDetailsTask().execute(ar);
+		new writeDetailsTask().execute(gr);
+	}
+	
+	public void setStatus(int pickValue)
+	{
+		if ("anime".equals(recordType))
+		{
+			switch (pickValue)
+			{
+				case 1:
+					setAnimeStatus(mAr.STATUS_WATCHING);
+					break;
+				case 2:
+					setAnimeStatus(mAr.STATUS_COMPLETED);
+					break;
+				case 3:
+					setAnimeStatus(mAr.STATUS_ONHOLD);
+					break;
+				case 4:
+					setAnimeStatus(mAr.STATUS_DROPPED);
+					break;
+				case 5:
+					setAnimeStatus(mAr.STATUS_PLANTOWATCH);
+					break;
+			}
+				
+		}
+		else
+		{
+			switch (pickValue)
+			{
+				case 1:
+					setMangaStatus(mMr.STATUS_WATCHING);
+					break;
+				case 2:
+					setMangaStatus(mMr.STATUS_COMPLETED);
+					break;
+				case 3:
+					setMangaStatus(mMr.STATUS_ONHOLD);
+					break;
+				case 4:
+					setMangaStatus(mMr.STATUS_DROPPED);
+					break;
+				case 5:
+					setMangaStatus(mMr.STATUS_PLANTOWATCH);
+					break;
+			}
+		}
 	}
     
 	public void setAnimeStatus(String status)
@@ -350,6 +480,14 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 		mAr.setMyStatus(status);
 		mAr.setDirty(mAr.DIRTY);
 		
-		MyStatusView.setText(status.toUpperCase());
+		MyStatusView.setText(WordUtils.capitalize(status));
+	}
+	
+	public void setMangaStatus(String status)
+	{
+		mMr.setMyStatus(status);
+		mMr.setDirty(mAr.DIRTY);
+		
+		MyStatusView.setText(WordUtils.capitalize(status));
 	}
 }
