@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.AnimuFragment.IAnimeFragment;
+import net.somethingdreadful.MAL.ItemGridFragment.IItemGridFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

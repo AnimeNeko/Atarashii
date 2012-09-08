@@ -1,9 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.text.Html;
-import android.text.Spanned;
-import net.somethingdreadful.MAL.R;
-
 public class AnimeRecord extends GenericMALRecord {
 	
 //	private int recordID;
@@ -27,8 +23,7 @@ public class AnimeRecord extends GenericMALRecord {
 	public static final String STATUS_PLANTOWATCH = "plan to watch";
 	
 	public AnimeRecord(int id, String name, String type, String status, String myStatus, int watched, int total, 
-								String memberScore, String myScore, String synopsis, String imageUrl, int dirty)
-	{
+								String memberScore, String myScore, String synopsis, String imageUrl, int dirty) {
 		this.recordID = id;
 		this.recordName = name;
 		this.recordType = type;
@@ -47,8 +42,7 @@ public class AnimeRecord extends GenericMALRecord {
 	}
 	
 	public AnimeRecord(int id, String name, String imageUrl, int watched, int totalEpisodes, 
-			String myStatus, String animeStatus, String animeType, String myScore, int dirty)
-	{
+			String myStatus, String animeStatus, String animeType, String myScore, int dirty) {
 		this.recordID = id;
 		this.recordName = name;
 		this.episodesWatched = watched;
@@ -62,32 +56,19 @@ public class AnimeRecord extends GenericMALRecord {
 		this.dirty = dirty;
 	}
 
-	@Override
-	public void pushtoDB() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pullFromDB() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public String getWatched()
-	{
-		return Integer.toString(episodesWatched);
-	}
-	
 	public String getTotal() {
 		
 		return Integer.toString(episodesTotal);
 	}
 	
 	
-	public void setEpisodesWatched(int watched)
-	{
+	public void setEpisodesWatched(int watched) {
 		this.episodesWatched = watched;
+	}
+
+	@Override
+	public int getPersonalProgress() {
+		return episodesWatched;
 	}
 
 }

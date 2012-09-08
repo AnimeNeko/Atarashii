@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL;
 
 import android.text.Html;
 import android.text.Spanned;
-import net.somethingdreadful.MAL.R;
 
 public abstract class GenericMALRecord {
 	public static final int CLEAN = 0;
@@ -19,24 +18,19 @@ public abstract class GenericMALRecord {
 	protected String synopsis;
 	protected int dirty;
 	
-	public abstract void pushtoDB();
+	public abstract int getPersonalProgress();
 	
-	public abstract void pullFromDB();
-	
-	public GenericMALRecord()
-	{
+	public GenericMALRecord() {
 		
 	}
 	
-	public String getName()
-	{
+	public String getName() {
 		return recordName;
 	}
 	
 	
 	
-	public String getImageUrl()
-	{
+	public String getImageUrl() {
 		return imageUrl;
 	}
 
@@ -66,12 +60,9 @@ public abstract class GenericMALRecord {
 		return Html.fromHtml(synopsis);
 	}
 
-	public void setSynopsis(String newSynopsis)
-	{
+	public void setSynopsis(String newSynopsis) {
 		this.synopsis = newSynopsis;
 	}
-
-	
 
 	public String getRecordType() {
 	
@@ -97,10 +88,7 @@ public abstract class GenericMALRecord {
 		this.dirty = dirty; 
 	}
 	
-	public void setMyStatus(String status)
-	{
+	public void setMyStatus(String status) {
 		this.myStatus = status;
 	}
-	
-	
 }
