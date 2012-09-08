@@ -11,11 +11,14 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CoverAdapter<T> extends ArrayAdapter<T> {
 	
@@ -48,7 +51,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated method stub
 		//return super.getView(position, convertView, parent);
 		View v = convertView;
-		AnimeRecord a = ((AnimeRecord) objects.get(position));
+		final AnimeRecord a = ((AnimeRecord) objects.get(position));
 		
 		String myStatus = a.getMyStatus();
 		
@@ -68,6 +71,25 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		
 		ImageView cover = (ImageView) v.findViewById(R.id.coverImage);
 		imageManager.download(a.getImageUrl(), cover);
+		
+		ImageView popUpButton = (ImageView) v.findViewById(R.id.popUpButton);
+		popUpButton.setOnClickListener(
+				new OnClickListener()
+				{
+					public void onClick(View v) 
+					{
+//						Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
+						showPopupMenu(v);
+					}
+
+					private void showPopupMenu(View v) {
+						PopupMenu pm = new PopupMenu(c, v);
+						pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
+						
+						pm.show();
+						
+					}
+				});
 		
 		TextView flavourText = (TextView) v.findViewById(R.id.stringWatched);
 		if ("watching".equals(myStatus))
