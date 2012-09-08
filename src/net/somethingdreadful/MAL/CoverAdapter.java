@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 	private int dp8;
 	private int dp12;
 	private int dp32;
+	
+	private GenericMALRecord a;
 
 	public CoverAdapter(Context context, int resource, ArrayList<T> objects) {
 		super(context, resource, objects);
@@ -51,7 +55,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated method stub
 		//return super.getView(position, convertView, parent);
 		View v = convertView;
-		GenericMALRecord a = ((GenericMALRecord) objects.get(position));
+		a = ((GenericMALRecord) objects.get(position));
 		
 		String myStatus = a.getMyStatus();
 		
@@ -73,23 +77,60 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		imageManager.download(a.getImageUrl(), cover);
 		
 		ImageView popUpButton = (ImageView) v.findViewById(R.id.popUpButton);
-		popUpButton.setOnClickListener(
-				new OnClickListener()
-				{
-					public void onClick(View v) 
+		
+		if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)))
+		{
+			popUpButton.setVisibility(popUpButton.VISIBLE);
+			System.out.println("true");
+			
+			popUpButton.setOnClickListener(
+					new OnClickListener()
 					{
-//						Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
-						showPopupMenu(v);
-					}
-
-					private void showPopupMenu(View v) {
-						PopupMenu pm = new PopupMenu(c, v);
-						pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
+						public void onClick(View v) 
+						{
+//							Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
+							showPopupMenu(v);
+						}
 						
-						pm.show();
+						private void showPopupMenu(View v) {
+							PopupMenu pm = new PopupMenu(c, v);
+							
+							if (a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING))
+							{
+								pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
+							}
+							if (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))
+							{
+								pm.getMenuInflater().inflate(R.menu.cover_action_menu_manga, pm.getMenu());
+							}
+								
+							pm.setOnMenuItemClickListener(
+									new OnMenuItemClickListener() 
+									{
+										public boolean onMenuItemClick(MenuItem item)
+										{
+											switch (item.getItemId())
+											{
+												case R.id.action_PlusOneWatched:
+													Toast.makeText(c, "+1: " + a.getName(), Toast.LENGTH_SHORT).show();
+													break;
+											}
+											
+											return true;
+										}
+									});
+							
+							pm.show();
+							
+						}
 						
-					}
-				});
+					});
+		}
+		else
+		{
+			popUpButton.setVisibility(popUpButton.INVISIBLE);
+		}
+		
 		
 		TextView flavourText = (TextView) v.findViewById(R.id.stringWatched);
 		if ("watching".equals(myStatus))
