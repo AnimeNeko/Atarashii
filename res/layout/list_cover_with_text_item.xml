@@ -52,12 +52,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF"
             android:textSize="32sp" />
-
+
         <TextView
             android:id="@+id/stringWatched"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/watchedCount"
+            android:layout_alignWithParentIfMissing="true"
             android:layout_marginRight="4dp"
             android:layout_toLeftOf="@id/watchedCount"
             android:text="I&apos;ve watched:"
