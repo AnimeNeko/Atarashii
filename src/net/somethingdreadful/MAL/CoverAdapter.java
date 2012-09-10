@@ -1,13 +1,8 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.text.WordUtils;
-
 import net.somethingdreadful.MAL.R;
 
-import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -17,13 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CoverAdapter<T> extends ArrayAdapter<T> {
 	
@@ -173,14 +166,14 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		{
 			flavourText.setText(R.string.cover_Dropped);
 
-			watchedCount.setVisibility(watchedCount.INVISIBLE);
+			watchedCount.setVisibility(watchedCount.GONE);
 
 		}
 		if ("plan to watch".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_PlanningToWatch);
 
-			watchedCount.setVisibility(watchedCount.INVISIBLE);
+			watchedCount.setVisibility(watchedCount.GONE);
 
 		}
 		
