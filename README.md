@@ -14,11 +14,9 @@ THINGS THAT NEED TO BE DONE:
 
 More specifically, pressing issues are:
 
-1. Display more info in DetailView (layout update needed, basically) (almost done)
-2. Things to actually write to MAL (Almost done)
+1. Finish manga support
+2. Better detail view layout
 
 Things that are DONE:
 
-1. Lazy load images, also store them so we only load them once [<3 ImageDownloader and TheAndroidCoder]
-2. Store + read initial sync in/from database.
-3. Basic DetailView implementation
+1. All KINDS of stuff <3
