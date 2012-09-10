@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="@string/preference_category_ListSettings">
         <ListPreference android:summary="@string/summary_DefaultList" android:dialogTitle="@string/dialog_DefaultList" android:title="@string/dialog_DefaultList" android:entries="@array/listTypeArray" android:entryValues="@array/listTypeValuesArray" android:key="defList"/>
+        <CheckBoxPreference android:key="traditionalList" android:summary="@string/preference_summary_TraditionList" android:title="@string/preference_TraditionalList"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_credits">
         <Preference android:summary="@string/summary_appcredits" android:selectable="false" android:title="@string/app_name"/>

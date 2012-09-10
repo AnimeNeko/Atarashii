@@ -32,6 +32,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 	private Context c;
 	private MALManager mManager;
 	private String type;
+	private int resource;
 	
 	private int dp64;
 	private int dp6;
@@ -47,6 +48,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		imageManager = new ImageDownloader(c);
 		mManager = m;
 		this.type = type;
+		this.resource = resource;
 		
 		
 		dp64 = dpToPx(64);
@@ -70,7 +72,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		if (v == null)
 		{
 			LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = inflater.inflate(R.layout.grid_cover_with_text_item, parent, false);
+			v = inflater.inflate(resource, parent, false);
 		}
 		
 		

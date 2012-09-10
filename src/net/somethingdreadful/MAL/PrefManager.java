@@ -96,6 +96,11 @@ public class PrefManager {
 		
 	}
 	
+	public boolean getTraditionalListEnabled()
+	{
+		return prefs.getBoolean("traditionalList", false);
+	}
+	
 	public void commitChanges()
 	{
 		prefeditor.commit();
