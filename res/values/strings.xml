@@ -67,5 +67,6 @@
     <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
     <string name="action_PlusOneWatched">+1 Watched</string>
     <string name="action_PlusOneRead">+1 Read</string>
+    <string name="action_MarkAsComplete">Mark Completed</string>
 
 </resources>

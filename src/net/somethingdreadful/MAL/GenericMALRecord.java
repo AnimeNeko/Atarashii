@@ -7,6 +7,11 @@ public abstract class GenericMALRecord {
 	public static final int CLEAN = 0;
 	public static final int DIRTY = 1;
 	
+	//these are the same for both, so put them in here
+	public static final String STATUS_COMPLETED = "completed";
+	public static final String STATUS_ONHOLD = "on-hold";
+	public static final String STATUS_DROPPED = "dropped";
+	
 	protected int recordID;
 	protected String recordName;
 	protected String recordType;
@@ -21,6 +26,8 @@ public abstract class GenericMALRecord {
 	public abstract int getPersonalProgress();
 	
 	public abstract void setPersonalProgress(int amount);
+	
+	public abstract String getTotal();
 	
 	public GenericMALRecord() {
 		

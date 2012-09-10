@@ -8,9 +8,6 @@ public class MangaRecord extends GenericMALRecord {
 	private int chaptersRead;
 	
 	public static final String STATUS_WATCHING = "reading";
-	public static final String STATUS_COMPLETED = "completed";
-	public static final String STATUS_ONHOLD = "on-hold";
-	public static final String STATUS_DROPPED = "dropped";
 	public static final String STATUS_PLANTOWATCH = "plan to read";
 	
 	public MangaRecord(int id, String name, String type, String status, String myStatus,

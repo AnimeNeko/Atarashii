@@ -121,13 +121,11 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 											switch (item.getItemId())
 											{
 												case R.id.action_PlusOneWatched:
-//													Toast.makeText(c, "+1: " + a.getName(), Toast.LENGTH_SHORT).show();
-//													((GenericMALRecord) objects.get(mposition))
-//													.setPersonalProgress(a.getPersonalProgress() + 1);
-//													
-//													notifyDataSetChanged();
-//													
 													setProgressPlusOne(a);
+													break;
+												
+												case R.id.action_MarkAsComplete:
+													setMarkAsComplete(a);
 													break;
 											}
 											
@@ -193,9 +191,25 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 	{
 		gr.setPersonalProgress(gr.getPersonalProgress() + 1);
 		
+		if (gr.getPersonalProgress() == Integer.parseInt(gr.getTotal()))
+		{
+			gr.setMyStatus(gr.STATUS_COMPLETED);
+		}
+		
 		notifyDataSetChanged();
 		
 		new writeDetailsTask().execute(gr);
+	}
+	
+	public void setMarkAsComplete(GenericMALRecord gr)
+	{
+		gr.setMyStatus(gr.STATUS_COMPLETED);
+		
+		new writeDetailsTask().execute(gr);
+		
+		objects.remove(gr);
+		
+		notifyDataSetChanged();
 	}
 	
 	public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean>
