@@ -36,7 +36,7 @@ public class MALManager {
 	final static String writeAnimeDetailsAPI = "animelist/anime/";
 	final static String readMangaListAPI = "mangalist/";
 	final static String readMangaDetailsAPI = "manga/";
-	final static String writeMangaDetailsAPI = "mangalist/anime/";
+	final static String writeMangaDetailsAPI = "mangalist/manga/";
 	final static String readMineParam = "?mine=1";
 	
 	final static String TYPE_ANIME = "anime";
