@@ -20,15 +20,14 @@
             android:layout_marginTop="8dp"
             android:contentDescription="@string/description_CoverImage"
             android:minHeight="320dp"
-            android:paddingBottom="32dp"
-            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/itemTypeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
             android:textStyle="bold"
@@ -38,7 +37,7 @@
             android:id="@+id/itemTypeContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemTypeLabel"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="Type Content" />
@@ -48,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemTypeContent"
             android:layout_toRightOf="@id/detailCoverImage"
             android:textStyle="bold"
@@ -58,7 +56,7 @@
             android:id="@+id/itemStatusContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemStatusLabel"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="Media Status Content" />
@@ -68,7 +66,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemStatusContent"
             android:layout_toRightOf="@id/detailCoverImage"
             android:textStyle="bold"
@@ -78,7 +75,7 @@
             android:id="@+id/itemMyStatusContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemMyStatusLabel"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="Status" />
@@ -89,7 +86,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemMyStatusContent"
             android:layout_toRightOf="@id/detailCoverImage"
             android:textStyle="bold"
@@ -100,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemProgressCounterLabel"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="0 / 12" />
@@ -110,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detailCoverImage"
-            android:padding="8dp"
+            android:layout_marginLeft="8dp"
             android:text="@string/label_detailItemSynopsis"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -119,7 +115,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/SynopsisLabel"
-            android:padding="8dp"
             android:layout_marginLeft="16dp"
             android:text="@string/placeholder_Loading" />
     </RelativeLayout>
