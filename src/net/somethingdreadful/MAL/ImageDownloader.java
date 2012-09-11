@@ -306,7 +306,14 @@ public class ImageDownloader {
         protected void onPostExecute(Bitmap bitmap) {
         	if (bitmap != null)
         	{
-        		cover.get().setImageBitmap(bitmap);
+        		try
+        		{
+        			cover.get().setImageBitmap(bitmap);
+        		}
+        		catch (NullPointerException npe)
+        		{
+        			
+        		}
         	}
         }
             
