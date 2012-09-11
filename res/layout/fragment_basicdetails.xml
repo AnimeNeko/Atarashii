@@ -1,79 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-	<RelativeLayout
-	    android:id="@+id/backgroundContainer"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:padding="8dp" >
+    android:layout_height="fill_parent">
 
-	    <!-- TODO: Set up a default image placeholder -->
-
-	    <ImageView
-	        android:id="@+id/detailCoverImage"
-	        android:layout_width="225dp"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="8dp"
-	        android:layout_marginTop="8dp"
-	        android:contentDescription="@string/description_CoverImage"
-	        android:minHeight="320dp"
-	        android:paddingBottom="30dp"
-	        android:paddingRight="10dp"
-	        android:scaleType="centerCrop" />
-
-	    <TextView
-	        android:id="@+id/animeTypeLabel"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="8dp"
-	        android:layout_toRightOf="@id/detailCoverImage"
-	        android:text="Type" />
+    <RelativeLayout
+        android:id="@+id/backgroundContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
-	    <TextView
-	        android:id="@+id/animeStatusLabel"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/animeTypeLabel"
-	        android:layout_toRightOf="@id/detailCoverImage"
-	        android:text="Status" />
+        <!-- TODO: Set up a default image placeholder -->
+        <ImageView
+            android:id="@+id/detailCoverImage"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/description_CoverImage"
+            android:minHeight="320dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp"
+            android:scaleType="centerCrop" />
 
-	    <TextView
-	        android:id="@+id/animeMyStatusLabel"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/animeStatusLabel"
-	        android:layout_toRightOf="@id/detailCoverImage"
-	        android:text="ViewStatus" />
+        <TextView
+            android:id="@+id/itemTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:textStyle="bold"
+            android:text="@string/label_detailItemType" />
 
-	    <TextView
-	        android:id="@+id/animeEpisodesWatchedCounterLabel"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="false"
-	        android:layout_below="@id/animeMyStatusLabel"
-	        android:layout_toRightOf="@id/detailCoverImage"
-	        android:text="0 / 12"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-	    <TextView
-	        android:id="@+id/SynopsisLabel"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/detailCoverImage"
-	        android:padding="8dp"
-	        android:text="Synopsis"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/itemTypeContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@id/itemTypeLabel"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:text="Type Content" />
 
-	    <TextView
-	        android:id="@+id/Synopsis"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/SynopsisLabel"
-	        android:padding="8dp"
-	        android:text="@string/placeholder_Loading" />
-	</RelativeLayout>
+        <TextView
+            android:id="@+id/itemStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/itemTypeContent"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:textStyle="bold"
+            android:text="@string/label_detailItemStatus" />
+
+        <TextView
+            android:id="@+id/itemStatusContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@id/itemStatusLabel"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:text="Media Status Content" />
+
+        <TextView
+            android:id="@+id/itemMyStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/itemStatusContent"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:textStyle="bold"
+            android:text="@string/label_detailItemViewStatus" />
+
+        <TextView
+            android:id="@+id/itemMyStatusContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@id/itemMyStatusLabel"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:text="Status" />
+
+        <TextView
+            android:id="@+id/itemProgressCounterLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/itemMyStatusContent"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:textStyle="bold"
+            android:text="@string/label_detailItemProgressCounter" />
+
+        <TextView
+            android:id="@+id/itemProgressCounterContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@id/itemProgressCounterLabel"
+            android:layout_toRightOf="@id/detailCoverImage"
+            android:text="0 / 12" />
+
+        <TextView
+            android:id="@+id/SynopsisLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detailCoverImage"
+            android:layout_marginLeft="8dp"
+            android:text="@string/label_detailItemSynopsis"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/Synopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/SynopsisLabel"
+            android:layout_marginLeft="16dp"
+            android:text="@string/placeholder_Loading" />
+    </RelativeLayout>
 
 </ScrollView>

@@ -70,5 +70,9 @@
     <string name="action_MarkAsComplete">Mark Completed</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
-
+    <string name="label_detailItemType">Type of Media</string>
+    <string name="label_detailItemStatus">Media Status</string>
+    <string name="label_detailItemViewStatus">View Status</string>
+    <string name="label_detailItemProgressCounter">Current Progress</string>
+    <string name="label_detailItemSynopsis">Synopsis</string>
 </resources>
