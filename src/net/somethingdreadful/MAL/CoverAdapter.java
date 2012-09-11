@@ -56,6 +56,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated method stub
 		//return super.getView(position, convertView, parent);
 		View v = convertView;
+		ViewHolder viewHolder;
 		final GenericMALRecord a;
 		
 		a = ((GenericMALRecord) objects.get(position));
@@ -66,27 +67,35 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		{
 			LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(resource, parent, false);
+			
+			viewHolder = new ViewHolder();
+			viewHolder.label = (TextView) v.findViewById(R.id.animeName);
+			viewHolder.progressCount = (TextView) v.findViewById(R.id.watchedCount);
+			viewHolder.cover = (ImageView) v.findViewById(R.id.coverImage);
+			viewHolder.actionButton = (ImageView) v.findViewById(R.id.popUpButton);
+			viewHolder.flavourText = (TextView) v.findViewById(R.id.stringWatched);
+			
+			v.setTag(viewHolder);
+			
+		}
+		else
+		{
+			viewHolder = (ViewHolder) v.getTag();
 		}
 		
 		
-		
-		TextView label = (TextView) v.findViewById(R.id.animeName);
-		label.setText(a.getName());
+		viewHolder.label.setText(a.getName());
 
-		TextView watchedCount = (TextView) v.findViewById(R.id.watchedCount);
-		watchedCount.setText(Integer.toString(a.getPersonalProgress()));
+		viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress()));
 		
-		ImageView cover = (ImageView) v.findViewById(R.id.coverImage);
-		imageManager.download(a.getImageUrl(), cover);
-		
-		ImageView popUpButton = (ImageView) v.findViewById(R.id.popUpButton);
+		imageManager.download(a.getImageUrl(), viewHolder.cover);
 		
 		if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)))
 		{
-			popUpButton.setVisibility(popUpButton.VISIBLE);
+			viewHolder.actionButton.setVisibility(viewHolder.actionButton.VISIBLE);
 //			System.out.println("true");
 			
-			popUpButton.setOnClickListener(
+			viewHolder.actionButton.setOnClickListener(
 					new OnClickListener()
 					{
 						
@@ -136,7 +145,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		}
 		else
 		{
-			popUpButton.setVisibility(popUpButton.INVISIBLE);
+			viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
 		}
 		
 		
@@ -145,35 +154,35 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 		{
 			flavourText.setText(R.string.cover_Watching);
 
-			watchedCount.setVisibility(watchedCount.VISIBLE);
+			viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
 			
 		}
 		if ("completed".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_Completed);
 
-			watchedCount.setVisibility(watchedCount.VISIBLE);
+			viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
 			
 		}
 		if ("on-hold".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_OnHold);
 
-			watchedCount.setVisibility(watchedCount.VISIBLE);
+			viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
 			
 		}
 		if ("dropped".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_Dropped);
 
-			watchedCount.setVisibility(watchedCount.GONE);
+			viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
 
 		}
 		if ("plan to watch".equals(myStatus))
 		{
 			flavourText.setText(R.string.cover_PlanningToWatch);
 
-			watchedCount.setVisibility(watchedCount.GONE);
+			viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
 
 		}
 		
@@ -265,6 +274,15 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 	    DisplayMetrics metrics = resources.getDisplayMetrics();
 	    float px = dp * (metrics.densityDpi/160f);
 	    return (int) px;
+	}
+	
+	static class ViewHolder
+	{
+		TextView label;
+		TextView progressCount;
+		TextView flavourText;
+		ImageView cover;
+		ImageView actionButton;
 	}
 
 }

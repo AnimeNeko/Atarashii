@@ -98,25 +98,35 @@ public class ImageDownloader {
 	    		//bitmap still null! 
 	    	 }
 	    	 
-	    	  if(bitmap == null){
+	    	 if (bitmap == null)
+	    	 {
+	    		 imageView.setImageResource(R.drawable.panel);
+	    		 new DecodeFileTask(imageView, url).execute(f.getPath());
+	    	 }
+	    	 else
+	    	 {
+	    		 imageView.setImageBitmap(bitmap);
+	    	 }
 	    	 
-	    		  bitmap = BitmapFactory.decodeFile(f.getPath());
-	    		  
-	    		  if(bitmap != null){
-	    			  betterImageCache.put(f.getPath(), bitmap);
-	    		  }
-	    	  
-	    	  }
-	    	  //No? download it
-	    	  if(bitmap == null){
-	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
-	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-	    		  imageView.setImageDrawable(downloadedDrawable);
-	    		  task.execute(url);
-	    	  }else{
-	    		  //Yes? set the image
-	    		  imageView.setImageBitmap(bitmap);
-	    	  }
+//	    	  if(bitmap == null){
+//	    	 
+//	    		  bitmap = BitmapFactory.decodeFile(f.getPath());
+//	    		  
+//	    		  if(bitmap != null){
+//	    			  betterImageCache.put(f.getPath(), bitmap);
+//	    		  }
+//	    	  
+//	    	  }
+//	    	  //No? download it
+//	    	  if(bitmap == null){
+//	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
+//	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+//	    		  imageView.setImageDrawable(downloadedDrawable);
+//	    		  task.execute(url);
+//	    	  }else{
+//	    		  //Yes? set the image
+//	    		  imageView.setImageBitmap(bitmap);
+//	    	  }
 	     }
 	}
 	
@@ -258,6 +268,50 @@ public class ImageDownloader {
         
         
     }
+    
+    public class DecodeFileTask extends AsyncTask<String, Void, Bitmap> {
+    	
+    	Bitmap bm;
+    	WeakReference<ImageView> cover;
+    	String url;
+       
+        public DecodeFileTask(ImageView imageView, String url) {
+        	  cover = new WeakReference<ImageView>(imageView);
+        	  this.url = url;
+        }
+
+        @Override
+        // Decode bitmap in a separate thead
+        protected Bitmap doInBackground(String... params) {
+          
+        	bm = BitmapFactory.decodeFile(params[0]);
+        	
+        	if(bm != null){
+  			  betterImageCache.put(params[0], bm);
+  		  }
+        	
+        	//No? download it
+	    	  if(bm == null){
+	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
+	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+	    		  cover.get().setImageDrawable(downloadedDrawable);
+	    		  task.execute(url);
+	    	  }
+             
+             return bm;
+        }
+
+        @Override
+        // Finish the calling function, pretty much
+        protected void onPostExecute(Bitmap bitmap) {
+        	if (bitmap != null)
+        	{
+        		cover.get().setImageBitmap(bitmap);
+        	}
+        }
+            
+    }
+
     
     static class DownloadedDrawable extends ColorDrawable {
         private final WeakReference<BitmapDownloaderTask> bitmapDownloaderTaskReference;
