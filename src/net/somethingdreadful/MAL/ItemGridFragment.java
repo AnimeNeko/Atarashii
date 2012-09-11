@@ -44,7 +44,9 @@ public class ItemGridFragment extends Fragment {
     CoverAdapter<MangaRecord> cm;
     IItemGridFragment Iready;
     boolean forceSyncBool = false;
+    boolean useTraditionalList = false;
     int currentList;
+    int listColumns;
     String recordType;
     
     @Override
@@ -55,6 +57,7 @@ public class ItemGridFragment extends Fragment {
     	if (state != null)
     	{
     		currentList = state.getInt("list", 1);
+    		useTraditionalList = state.getBoolean("traditionalList");
     	}
 
     }
@@ -75,6 +78,7 @@ public class ItemGridFragment extends Fragment {
     	if (!((Home) getActivity()).instanceExists)
     	{
     		currentList = mPrefManager.getDefaultList();
+    		useTraditionalList = mPrefManager.getTraditionalListEnabled();
     	}
 
     	
@@ -112,7 +116,14 @@ public class ItemGridFragment extends Fragment {
 	    	});	
     	}
     	
-    	int listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
+    	if (useTraditionalList)
+    	{
+    		listColumns = 1;
+    	}
+    	else
+    	{
+    		listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
+    	}
     	
     	gv.setNumColumns(listColumns);
 
@@ -149,6 +160,7 @@ public class ItemGridFragment extends Fragment {
 
 		boolean mForceSync = forceSyncBool;
 		int mList = currentList;
+		boolean mTraditionalList = useTraditionalList;
 		String type = recordType;
 		MALManager internalManager = mManager;
     	
@@ -186,7 +198,15 @@ public class ItemGridFragment extends Fragment {
 			}
 			if (ca == null)
 			{
-				ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+				if (mTraditionalList)
+				{
+					ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type);
+				}
+				else
+				{
+					ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+			
+				}
 			}
 			
 			if (gv.getAdapter() == null)
@@ -213,6 +233,7 @@ public class ItemGridFragment extends Fragment {
 	{
 		boolean mForceSync = forceSyncBool;
 		int mList = currentList;
+		boolean mTraditionalList = useTraditionalList;
 		String type = recordType;
 		MALManager internalManager = mManager;
 
@@ -249,7 +270,14 @@ public class ItemGridFragment extends Fragment {
 			}
 			if (cm == null)
 			{
-				cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+				if (mTraditionalList)
+				{
+					cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type);
+				}
+				else
+				{
+					cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+				}
 			}
 
 			if (gv.getAdapter() == null)
@@ -275,6 +303,7 @@ public class ItemGridFragment extends Fragment {
     public void onSaveInstanceState(Bundle state)
     {
     	state.putInt("list", currentList);
+    	state.putBoolean("traditionalList", useTraditionalList);
     	
     	super.onSaveInstanceState(state);
     }
