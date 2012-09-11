@@ -290,13 +290,6 @@ public class ImageDownloader {
   			  betterImageCache.put(params[0], bm);
   		  }
         	
-        	//No? download it
-	    	  if(bm == null){
-	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
-	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-	    		  cover.get().setImageDrawable(downloadedDrawable);
-	    		  task.execute(url);
-	    	  }
              
              return bm;
         }
@@ -314,6 +307,13 @@ public class ImageDownloader {
         		{
         			
         		}
+        	}
+        	else
+        	{
+  	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
+  	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+  	    		  cover.get().setImageDrawable(downloadedDrawable);
+  	    		  task.execute(url);
         	}
         }
             
