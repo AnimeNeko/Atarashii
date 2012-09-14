@@ -77,4 +77,6 @@
     <string name="label_detailItemViewStatus">View Status</string>
     <string name="label_detailItemProgressCounter">Current Progress</string>
     <string name="label_detailItemSynopsis">Synopsis</string>
+    <string name="label_Chapters">Chapters:</string>
+    <string name="label_Volumes">Volumes:</string>
 </resources>

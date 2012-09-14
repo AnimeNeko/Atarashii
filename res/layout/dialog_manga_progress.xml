@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/chapterLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/label_Chapters" />
+
+        <TextView
+            android:id="@+id/volumeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/label_Volumes" />
+
+        <NumberPicker
+            android:id="@+id/chapterPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/chapterLabel"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp" />
+
+        <NumberPicker
+            android:id="@+id/volumePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/chapterLabel"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="8dp" />
+
+    </RelativeLayout>

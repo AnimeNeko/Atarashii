@@ -17,7 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment, EpisodesPickerDialogFragment.DialogDismissedListener {
+public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment, 
+EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener {
 
     MALManager mManager;
     Context context;
@@ -30,6 +31,7 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     DetailsBasicFragment bfrag;
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
+    MangaProgressDialogFragment mpdf;
 
     TextView SynopsisView;
     TextView RecordTypeView;
@@ -203,7 +205,10 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
     public void showMangaProgressDialog() //TODO Create MangaProgressFragment, will have both chapter and volume pickers
     {
         //Standard code for setting up a dialog fragment
-        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
+    	mpdf = new MangaProgressDialogFragment();
+    	mpdf.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+    	mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
 
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord>
@@ -492,4 +497,9 @@ public class DetailView extends FragmentActivity implements DetailsBasicFragment
 
         MyStatusView.setText(WordUtils.capitalize(status));
     }
+
+	public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
+		// TODO Auto-generated method stub
+		
+	}
 }
