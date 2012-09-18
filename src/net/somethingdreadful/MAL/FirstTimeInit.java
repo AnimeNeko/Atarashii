@@ -45,7 +45,7 @@ public class FirstTimeInit extends Activity {
         {
         	public void onClick(View v)
         	{
-        		testMalUser = malUser.getText().toString();
+        		testMalUser = malUser.getText().toString().replace(" ", "");
         		testMalPass = malPass.getText().toString();
         		tryConnection();
         	}
