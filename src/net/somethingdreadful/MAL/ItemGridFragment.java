@@ -109,8 +109,11 @@ public class ItemGridFragment extends Fragment {
 	    	{
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
 				{
-					startActivity(new Intent(getView().getContext(), DetailView.class)
-						.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).recordID));
+					Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+					startDetails.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).recordID);
+	    			startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+									
+					startActivity(startDetails);
 	//				Toast.makeText(c, ca.getItem(position).getID(), Toast.LENGTH_SHORT).show();
 				}
 	    	});	
