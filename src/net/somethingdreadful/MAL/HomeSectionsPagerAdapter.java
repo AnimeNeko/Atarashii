@@ -19,15 +19,15 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 		switch (i) {
 		case 0:
 			fragment = new ItemGridFragment();
-			args.putString("type", "anime");
+			args.putString("type", MALManager.TYPE_ANIME);
 			break;
 		case 1:
 			fragment = new ItemGridFragment();
-			args.putString("type", "manga");
+			args.putString("type", MALManager.TYPE_MANGA);
 			break;
 		default:
 			fragment = new ItemGridFragment();
-			args.putString("type", "anime");
+			args.putString("type", MALManager.TYPE_ANIME);
 			break;
 		}
 		

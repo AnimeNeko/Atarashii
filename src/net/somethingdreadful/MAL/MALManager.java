@@ -298,8 +298,8 @@ public class MALManager {
 		JSONArray jArray;
 		try 
 		{
-			if(type == "anime") {
-				jArray = raw.getJSONArray("anime");
+			if(type == TYPE_ANIME) {
+				jArray = raw.getJSONArray(TYPE_ANIME);
 
 				for (int i = 0; i < jArray.length(); i++) {
 					JSONObject a = jArray.getJSONObject(i);
@@ -320,8 +320,8 @@ public class MALManager {
 					saveItem(ar, true);
 				}
 			}
-			else if(type == "manga") {
-				jArray = raw.getJSONArray("manga");
+			else if(type == TYPE_MANGA) {
+				jArray = raw.getJSONArray(TYPE_MANGA);
 				
 				for (int i = 0; i < jArray.length(); i++)
 				{
