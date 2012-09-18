@@ -5,8 +5,12 @@
         <CheckBoxPreference android:key="traditionalList" android:summary="@string/preference_summary_TraditionList" android:title="@string/preference_TraditionalList"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_credits">
-        <Preference android:summary="@string/summary_appcredits" android:selectable="false" android:title="@string/app_name"/>
+        <PreferenceScreen android:title="@string/app_name" android:summary="@string/summary_appcredits"><Preference android:summary="@string/contributor_summary_Anima" android:selectable="false" android:title="@string/contributor_name_Anima" />
+        <Preference android:selectable="false" android:title="@string/contributor_name_Motokochan" android:summary="@string/contributor_summary_Motokochan"/>
+</PreferenceScreen>
         <Preference android:selectable="false" android:title="MAL API" android:summary="@string/summary_MALAPI"/>
+        
+        
     </PreferenceCategory>
     
 

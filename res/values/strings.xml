@@ -65,7 +65,7 @@
         <item >5</item>
     </string-array>
     <string name="preference_category_credits">Credits</string>
-    <string name="summary_appcredits">Created by Anima. With contributions from Motokochan.</string>
+    <string name="summary_appcredits">Atarashii! is an open source project. \nTap to view contributors.</string>
     <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
     <string name="action_PlusOneWatched">+1 Watched</string>
     <string name="action_PlusOneRead">+1 Read</string>
@@ -79,4 +79,8 @@
     <string name="label_detailItemSynopsis">Synopsis</string>
     <string name="label_Chapters">Chapters:</string>
     <string name="label_Volumes">Volumes:</string>
+    <string name="contributor_name_Anima">Chris \&quot;Anima\&quot; Fanti</string>
+    <string name="contributor_summary_Anima">\&quot;All the other apps suck!\&quot; \n\nThe founder of the project and also the main coder.  Was tired of the other apps sucking so he went and made his own.</string>
+    <string name="contributor_name_Motokochan">Motokochan</string>
+    <string name="contributor_summary_Motokochan">Cleans up Anima\'s terrible code, and also did much of the heavy lifting for manga support.</string>
 </resources>
