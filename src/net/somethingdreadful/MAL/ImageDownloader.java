@@ -297,23 +297,26 @@ public class ImageDownloader {
         @Override
         // Finish the calling function, pretty much
         protected void onPostExecute(Bitmap bitmap) {
-        	if (bitmap != null)
+        	if (cover.get() != null)
         	{
-        		try
-        		{
-        			cover.get().setImageBitmap(bitmap);
-        		}
-        		catch (NullPointerException npe)
-        		{
-        			
-        		}
-        	}
-        	else
-        	{
-  	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
-  	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-  	    		  cover.get().setImageDrawable(downloadedDrawable);
-  	    		  task.execute(url);
+	        	if (bitmap != null)
+	        	{
+	        		try
+	        		{
+	        			cover.get().setImageBitmap(bitmap);
+	        		}
+	        		catch (NullPointerException npe)
+	        		{
+	        			
+	        		}
+	        	}
+	        	else
+	        	{
+	  	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
+	  	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+	  	    		  cover.get().setImageDrawable(downloadedDrawable);
+	  	    		  task.execute(url);
+	        	}
         	}
         }
             
