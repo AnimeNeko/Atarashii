@@ -10,5 +10,4 @@
             <item android:id="@+id/SetStatus_Planned" android:title="@string/listType_planned"/>
         </menu>
     </item>
-    <item android:id="@+id/action_SetScore" android:title="@string/action_SetScore"></item>
 </menu>
