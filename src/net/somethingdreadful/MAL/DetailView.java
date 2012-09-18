@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -396,36 +397,6 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
             }
         }
-        else
-        {
-            if (newValue == mMr.getPersonalProgress())
-            {
-
-            }
-            else
-            {
-                if (Integer.parseInt(mMr.getTotal()) != 0)
-                {
-                    if (newValue == Integer.parseInt(mAr.getTotal()))
-                    {
-                        mMr.setMyStatus(mMr.STATUS_COMPLETED);
-                    }
-                    if (newValue == 0)
-                    {
-                        mMr.setMyStatus(mMr.STATUS_PLANTOWATCH);
-                    }
-
-                }
-
-                mMr.setChaptersRead(newValue);
-                mMr.setDirty(mAr.DIRTY);
-
-                ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue,
-                        Integer.parseInt(mMr.getTotal())));
-
-            }
-        }
-
 
     }
 
@@ -499,7 +470,49 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     }
 
 	public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
-		// TODO Auto-generated method stub
+
+		if ("manga".equals(recordType))
+        {
+			
+			if (newChapterValue == mMr.getPersonalProgress())
+            {
+
+            }
+            else
+            {
+                if (Integer.parseInt(mMr.getTotal()) != 0)
+                {
+                    if (newChapterValue == Integer.parseInt(mMr.getTotal()))
+                    {
+                        mMr.setMyStatus(mMr.STATUS_COMPLETED);
+                    }
+                    if (newChapterValue == 0)
+                    {
+                        mMr.setMyStatus(mMr.STATUS_PLANTOWATCH);
+                    }
+
+                }
+
+                mMr.setPersonalProgress(newChapterValue);
+                mMr.setDirty(mMr.DIRTY);
+
+                ProgressCounterView.setText(mManager.watchedCounterBuilder(newChapterValue,
+                        Integer.parseInt(mMr.getTotal())));
+
+            }
+            
+            if (newVolumeValue == mMr.getVolumeProgress())
+    		{
+    			
+    		}
+            else
+            {
+            	mMr.setVolumesRead(newVolumeValue);
+            	mMr.setDirty(mMr.DIRTY);
+            }
+        }
+		
+		
 		
 	}
 }
