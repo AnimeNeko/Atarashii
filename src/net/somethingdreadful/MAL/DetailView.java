@@ -2,23 +2,22 @@ package net.somethingdreadful.MAL;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import android.app.ActionBar;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class DetailView extends FragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment, 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
 EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener {
 
     MALManager mManager;
@@ -61,7 +60,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
 
         // Set up the action bar.
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         //        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -94,7 +93,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_detail_view, menu);
+        getSupportMenuInflater().inflate(R.menu.activity_detail_view, menu);
 
         return true;
     }
@@ -206,10 +205,10 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     public void showMangaProgressDialog() //TODO Create MangaProgressFragment, will have both chapter and volume pickers
     {
         //Standard code for setting up a dialog fragment
-//        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
-    	mpdf = new MangaProgressDialogFragment();
-    	mpdf.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-    	mpdf.show(fm, "fragment_EditMangaProgressDialog");
+        //        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
+        mpdf = new MangaProgressDialogFragment();
+        mpdf.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
 
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord>
@@ -469,12 +468,12 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         MyStatusView.setText(WordUtils.capitalize(status));
     }
 
-	public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
+    public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
 
-		if ("manga".equals(recordType))
+        if ("manga".equals(recordType))
         {
-			
-			if (newChapterValue == mMr.getPersonalProgress())
+
+            if (newChapterValue == mMr.getPersonalProgress())
             {
 
             }
@@ -500,19 +499,19 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                         Integer.parseInt(mMr.getTotal())));
 
             }
-            
+
             if (newVolumeValue == mMr.getVolumeProgress())
-    		{
-    			
-    		}
+            {
+
+            }
             else
             {
-            	mMr.setVolumesRead(newVolumeValue);
-            	mMr.setDirty(mMr.DIRTY);
+                mMr.setVolumesRead(newVolumeValue);
+                mMr.setDirty(mMr.DIRTY);
             }
         }
-		
-		
-		
-	}
+
+
+
+    }
 }
