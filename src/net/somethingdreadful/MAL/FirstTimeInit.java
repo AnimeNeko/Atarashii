@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
 
-public class FirstTimeInit extends Activity {
+
+public class FirstTimeInit extends SherlockActivity {
     static EditText malUser;
     static EditText malPass;
     static String testMalUser;
