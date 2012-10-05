@@ -10,4 +10,5 @@
     android:listSelector="#00343434"
     android:gravity="center"
     android:fastScrollEnabled="true"
+    android:fadingEdge="none"
 />
