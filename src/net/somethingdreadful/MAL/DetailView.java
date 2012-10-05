@@ -198,7 +198,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //Standard code for setting up a dialog fragment
         //Note we use setStyle to change the theme, the default light styled dialog didn't look good so we use the dark dialog
         epd = new EpisodesPickerDialogFragment();
-        epd.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        epd.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_Sherlock_Dialog);
         epd.show(fm, "fragment_EditEpisodesWatchedDialog");
     }
 
@@ -207,7 +207,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //Standard code for setting up a dialog fragment
         //        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
         mpdf = new MangaProgressDialogFragment();
-        mpdf.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        mpdf.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_Sherlock_Dialog);
         mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
 
