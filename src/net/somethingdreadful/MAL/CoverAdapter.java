@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -222,6 +223,13 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         objects.remove(gr);
 
         notifyDataSetChanged();
+    }
+
+    public void supportAddAll(Collection<? extends T> collection) {
+        for (T record : collection)
+        {
+            this.add(record);
+        }
     }
 
     public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean>

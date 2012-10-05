@@ -124,7 +124,7 @@ public class ItemGridFragment extends SherlockFragment {
             {
                 listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
             }
-            catch (NoSuchMethodError e)
+            catch (NoSuchFieldError e)
             {
                 listColumns = (int) Math.ceil(((WindowManager) c.getSystemService(c.WINDOW_SERVICE)).getDefaultDisplay().getWidth() / MAL_IMAGE_WIDTH);
             }
@@ -221,7 +221,7 @@ public class ItemGridFragment extends SherlockFragment {
             else
             {
                 ca.clear();
-                ca.addAll(result);
+                ca.supportAddAll(result);
                 ca.notifyDataSetChanged();
             }
 
@@ -292,7 +292,7 @@ public class ItemGridFragment extends SherlockFragment {
             else
             {
                 cm.clear();
-                cm.addAll(result);
+                cm.supportAddAll(result);
                 cm.notifyDataSetChanged();
             }
 
