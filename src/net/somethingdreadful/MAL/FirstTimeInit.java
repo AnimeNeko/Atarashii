@@ -27,6 +27,7 @@ public class FirstTimeInit extends SherlockActivity {
     static Context context;
     static private Handler messenger;
     static PrefManager prefManager;
+    static MALManager mManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class FirstTimeInit extends SherlockActivity {
         context = getApplicationContext();
 
         prefManager = new PrefManager(context);
+        mManager = new MALManager(context);
 
         connectButton.setOnClickListener(new OnClickListener()
         {
@@ -107,7 +109,7 @@ public class FirstTimeInit extends SherlockActivity {
         @Override
         public void run()
         {
-            boolean valid = MALManager.verifyAccount(testMalUser, testMalPass);
+            boolean valid = mManager.verifyAccount(testMalUser, testMalPass);
 
             String words = "";
             Message msg = new Message();
