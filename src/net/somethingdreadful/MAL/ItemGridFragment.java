@@ -6,8 +6,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +128,7 @@ public class ItemGridFragment extends SherlockFragment {
             }
             catch (NoSuchFieldError e)
             {
-                listColumns = (int) Math.ceil(((WindowManager) c.getSystemService(c.WINDOW_SERVICE)).getDefaultDisplay().getWidth() / MAL_IMAGE_WIDTH);
+                listColumns = (int) Math.ceil(pxToDp(((WindowManager) c.getSystemService(c.WINDOW_SERVICE)).getDefaultDisplay().getWidth()) / MAL_IMAGE_WIDTH);
             }
         }
 
@@ -324,5 +326,12 @@ public class ItemGridFragment extends SherlockFragment {
     public interface IItemGridFragment
     {
         public void fragmentReady();
+    }
+
+    public int pxToDp(int px){
+        Resources resources = c.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int dp = (int)(px / (metrics.density + 0.5));
+        return dp;
     }
 }
