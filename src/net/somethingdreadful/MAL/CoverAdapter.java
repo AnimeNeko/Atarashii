@@ -3,9 +3,11 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -90,58 +92,68 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
         imageManager.download(a.getImageUrl(), viewHolder.cover);
 
-        if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)))
+        if (Build.VERSION.SDK_INT >= 11)
         {
-            viewHolder.actionButton.setVisibility(viewHolder.actionButton.VISIBLE);
-            //			System.out.println("true");
+            if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)))
+            {
+                viewHolder.actionButton.setVisibility(viewHolder.actionButton.VISIBLE);
+                //			System.out.println("true");
 
-            viewHolder.actionButton.setOnClickListener(
-                    new OnClickListener()
-                    {
-
-                        public void onClick(View v)
+                viewHolder.actionButton.setOnClickListener(
+                        new OnClickListener()
                         {
-                            //							Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
-                            showPopupMenu(v);
-                        }
 
-                        private void showPopupMenu(View v) {
-                            PopupMenu pm = new PopupMenu(c, v);
-
-                            if (a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING))
+                            @Override
+                            public void onClick(View v)
                             {
-                                pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
-                            }
-                            if (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))
-                            {
-                                pm.getMenuInflater().inflate(R.menu.cover_action_menu_manga, pm.getMenu());
+                                //							Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
+                                showPopupMenu(v);
                             }
 
-                            pm.setOnMenuItemClickListener(
-                                    new OnMenuItemClickListener()
-                                    {
-                                        public boolean onMenuItemClick(MenuItem item)
+                            @SuppressLint("NewApi")
+                            private void showPopupMenu(View v) {
+                                PopupMenu pm = new PopupMenu(c, v);
+
+                                if (a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING))
+                                {
+                                    pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
+                                }
+                                if (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))
+                                {
+                                    pm.getMenuInflater().inflate(R.menu.cover_action_menu_manga, pm.getMenu());
+                                }
+
+                                pm.setOnMenuItemClickListener(
+                                        new OnMenuItemClickListener()
                                         {
-                                            switch (item.getItemId())
+                                            @Override
+                                            public boolean onMenuItemClick(MenuItem item)
                                             {
-                                                case R.id.action_PlusOneWatched:
-                                                    setProgressPlusOne(a);
-                                                    break;
+                                                switch (item.getItemId())
+                                                {
+                                                    case R.id.action_PlusOneWatched:
+                                                        setProgressPlusOne(a);
+                                                        break;
 
-                                                case R.id.action_MarkAsComplete:
-                                                    setMarkAsComplete(a);
-                                                    break;
+                                                    case R.id.action_MarkAsComplete:
+                                                        setMarkAsComplete(a);
+                                                        break;
+                                                }
+
+                                                return true;
                                             }
+                                        });
 
-                                            return true;
-                                        }
-                                    });
+                                pm.show();
 
-                            pm.show();
+                            }
 
-                        }
-
-                    });
+                        });
+            }
+            else
+            {
+                viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
+            }
         }
         else
         {
