@@ -217,7 +217,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //Standard code for setting up a dialog fragment
         //        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
         mpdf = new MangaProgressDialogFragment();
-        mpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, R.style.Theme_Sherlock_Dialog);
+        if (Build.VERSION.SDK_INT >= 11)
+        {
+            mpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        }
+        else
+        {
+            mpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
+        }
         mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
 
