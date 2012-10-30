@@ -5,14 +5,15 @@ import org.apache.commons.lang3.text.WordUtils;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -165,6 +166,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     }
 
     //Called after the basic fragment is finished it's setup, populate data into it
+    @Override
     public void basicFragmentReady() {
 
         CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
@@ -198,7 +200,15 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //Standard code for setting up a dialog fragment
         //Note we use setStyle to change the theme, the default light styled dialog didn't look good so we use the dark dialog
         epd = new EpisodesPickerDialogFragment();
-        epd.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_Sherlock_Dialog);
+
+        if (Build.VERSION.SDK_INT >= 11)
+        {
+            epd.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        }
+        else
+        {
+            epd.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
+        }
         epd.show(fm, "fragment_EditEpisodesWatchedDialog");
     }
 
@@ -207,7 +217,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //Standard code for setting up a dialog fragment
         //        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
         mpdf = new MangaProgressDialogFragment();
-        mpdf.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_Sherlock_Dialog);
+        mpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, R.style.Theme_Sherlock_Dialog);
         mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
 
@@ -366,6 +376,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     }
 
     //Dialog returns new value, do something with it
+    @Override
     public void onDialogDismissed(int newValue) {
         if ("anime".equals(recordType))
         {
@@ -468,6 +479,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         MyStatusView.setText(WordUtils.capitalize(status));
     }
 
+    @Override
     public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
 
         if ("manga".equals(recordType))

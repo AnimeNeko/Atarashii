@@ -1,5 +1,9 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar"/>
-
+    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="numberPickerUpButtonStyle">@style/NPWidget.Holo.ImageButton.NumberPickerUpButton</item>
+        <item name="numberPickerDownButtonStyle">@style/NPWidget.Holo.ImageButton.NumberPickerDownButton</item>
+        <item name="numberPickerInputTextStyle">@style/NPWidget.Holo.EditText.NumberPickerInputText</item>
+        <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
+    </style>
 </resources>
