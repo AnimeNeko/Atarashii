@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ABS4.0"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/library"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

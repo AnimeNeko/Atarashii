@@ -16,3 +16,5 @@ gen/
 local.properties
 /.settings
 /lint.xml
+/.classpath
+/.project

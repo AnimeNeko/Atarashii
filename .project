@@ -3,6 +3,8 @@
 	<name>DreadfulMALX</name>
 	<comment></comment>
 	<projects>
+		<project>ABS4.0</project>
+		<project>library</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
