@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/BaseCard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:padding="12dp"
+    android:background="#FFFFFF" >
+
+    <TextView
+        android:id="@+id/CardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="SYNOPSIS"
+        android:textSize="18sp" 
+        android:textColor="#0099CC"/>
+
+    <ViewStub
+        android:id="@+id/contentStub"
+        android:inflatedId="@+id/inflatedStub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/CardTitle"
+        android:layout_below="@+id/CardTitle"
+        android:layout_marginTop="8dp" />
+
+</RelativeLayout>

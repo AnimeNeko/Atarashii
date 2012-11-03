@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fadingEdge="none">
+    android:background="#EEEEEE"
+    android:fadingEdge="none" >
 
     <RelativeLayout
         android:id="@+id/backgroundContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp" >
 
         <!-- TODO: Set up a default image placeholder -->
+
         <ImageView
             android:id="@+id/detailCoverImage"
             android:layout_width="225dp"
@@ -31,15 +33,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
-            android:textStyle="bold"
-            android:text="@string/label_detailItemType" />
+            android:text="@string/label_detailItemType"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemTypeContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemTypeLabel"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="Type Content" />
 
@@ -47,18 +49,18 @@
             android:id="@+id/itemStatusLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_below="@id/itemTypeContent"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
-            android:textStyle="bold"
-            android:text="@string/label_detailItemStatus" />
+            android:text="@string/label_detailItemStatus"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemStatusContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemStatusLabel"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="Media Status Content" />
 
@@ -66,18 +68,18 @@
             android:id="@+id/itemMyStatusLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_below="@id/itemStatusContent"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
-            android:textStyle="bold"
-            android:text="@string/label_detailItemViewStatus" />
+            android:text="@string/label_detailItemViewStatus"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemMyStatusContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemMyStatusLabel"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="Status" />
 
@@ -86,38 +88,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
-            android:layout_marginTop="8dp"
             android:layout_below="@id/itemMyStatusContent"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
-            android:textStyle="bold"
-            android:text="@string/label_detailItemProgressCounter" />
+            android:text="@string/label_detailItemProgressCounter"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemProgressCounterContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/itemProgressCounterLabel"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/detailCoverImage"
             android:text="0 / 12" />
 
-        <TextView
-            android:id="@+id/SynopsisLabel"
+        <fragment
+            android:name="net.somethingdreadful.MAL.GenericCardFragment"
+            android:id="@+id/SynopsisFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/detailCoverImage"
-            android:layout_marginLeft="8dp"
-            android:text="@string/label_detailItemSynopsis"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/Synopsis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/SynopsisLabel"
-            android:layout_marginLeft="16dp"
-            android:text="@string/placeholder_Loading" />
+            tools:layout="@layout/card_layout_base" />
     </RelativeLayout>
 
 </ScrollView>

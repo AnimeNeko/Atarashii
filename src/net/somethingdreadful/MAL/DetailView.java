@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     String recordType;
 
     DetailsBasicFragment bfrag;
+    GenericCardFragment SynopsisFragment;
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     MangaProgressDialogFragment mpdf;
@@ -41,12 +43,18 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     TextView ProgressCounterView;
     ImageView CoverImageView;
 
+    Spanned SynopsisText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
 
         bfrag = (DetailsBasicFragment) getSupportFragmentManager().findFragmentById(R.id.DetailsFragment);
+
+        SynopsisFragment = (GenericCardFragment) getSupportFragmentManager().findFragmentById(R.id.SynopsisFragment);
+        SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
+        SynopsisFragment.inflateContentStub();
 
         context = getApplicationContext();
         mManager = new MALManager(context);
@@ -170,7 +178,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     public void basicFragmentReady() {
 
         CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
-        SynopsisView = (TextView) bfrag.getView().findViewById(R.id.Synopsis);
+
         RecordStatusView = (TextView) bfrag.getView().findViewById(R.id.itemStatusContent);
         RecordTypeView = (TextView) bfrag.getView().findViewById(R.id.itemTypeContent);
         MyStatusView = (TextView) bfrag.getView().findViewById(R.id.itemMyStatusContent);
@@ -325,7 +333,16 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
         @Override
         protected void onPostExecute(GenericMALRecord gr) {
-            SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
+            SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.inflatedStub);
+            if (SynopsisView != null)
+            {
+                SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
+                SynopsisText = gr.getSpannedSynopsis();
+            }
+            else
+            {
+                SynopsisText = gr.getSpannedSynopsis();
+            }
         }
     }
 
@@ -531,6 +548,19 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         }
 
 
+
+    }
+
+    public void contentInflated(int contentType) {
+        switch (contentType) {
+            case 0:
+                SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.inflatedStub);
+                if (SynopsisText != null)
+                {
+                    SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
+                }
+                break;
+        }
 
     }
 }
