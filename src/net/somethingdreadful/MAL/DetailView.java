@@ -43,9 +43,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     TextView RecordStatusView;
     TextView MyStatusView;
     TextView ProgressCounterView;
+    TextView ProgressCurrentView;
+    TextView ProgressTotalView;
     ImageView CoverImageView;
 
+
     Spanned SynopsisText;
+    String ProgressText;
+    String TotalProgressText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,21 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             }
 
         });
+
+        ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
+        ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+        ProgressFragment.inflateContentStub();
+
+        ProgressFragment.getView().setOnClickListener(new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                //TODO: Added some kind of clicking feedback, like highlight it or something
+                showProgressDialog();
+            }
+
+        });
+
 
         context = getApplicationContext();
         mManager = new MALManager(context);
@@ -323,6 +343,18 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     ProgressCounterView.setText(mManager.watchedCounterBuilder(mAr.getPersonalProgress(),
                             Integer.parseInt(mAr.getTotal())));
                 }
+
+                ProgressText = Integer.toString(mAr.getPersonalProgress());
+                TotalProgressText = mAr.getTotal();
+
+                ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
+                ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
+
+                if(ProgressTotalView != null)
+                {
+                    ProgressCurrentView.setText(ProgressText);
+                    ProgressTotalView.setText("/" + TotalProgressText);
+                }
             }
             else {
                 actionBar.setTitle(mMr.getName());
@@ -339,6 +371,18 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 else {
                     ProgressCounterView.setText(mManager.watchedCounterBuilder(mMr.getPersonalProgress(),
                             Integer.parseInt(mMr.getTotal())));
+                }
+
+                ProgressText = Integer.toString(mMr.getPersonalProgress());
+                TotalProgressText = mMr.getTotal();
+
+                ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
+                ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
+
+                if(ProgressTotalView != null)
+                {
+                    ProgressCurrentView.setText(ProgressText);
+                    ProgressTotalView.setText("/" + TotalProgressText);
                 }
             }
         }
@@ -440,6 +484,8 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue,
                         Integer.parseInt(mAr.getTotal())));
+
+                ProgressCurrentView.setText(Integer.toString(newValue));
 
             }
         }
@@ -546,6 +592,9 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 ProgressCounterView.setText(mManager.watchedCounterBuilder(newChapterValue,
                         Integer.parseInt(mMr.getTotal())));
 
+                ProgressCurrentView.setText(Integer.toString(newChapterValue));
+
+
             }
 
             if (newVolumeValue == mMr.getVolumeProgress())
@@ -572,6 +621,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
                 }
                 break;
+            case 1:
+                ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
+                ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
+                if(ProgressText != null)
+                {
+                    ProgressCurrentView.setText(ProgressText);
+                    ProgressTotalView.setText("/" + TotalProgressText);
+                }
         }
 
     }
