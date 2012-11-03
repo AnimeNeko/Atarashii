@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Spanned;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
     DetailsBasicFragment bfrag;
     GenericCardFragment SynopsisFragment;
+    GenericCardFragment ProgressFragment;
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     MangaProgressDialogFragment mpdf;
@@ -50,16 +52,26 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
 
-        bfrag = (DetailsBasicFragment) getSupportFragmentManager().findFragmentById(R.id.DetailsFragment);
+        fm = getSupportFragmentManager();
 
-        SynopsisFragment = (GenericCardFragment) getSupportFragmentManager().findFragmentById(R.id.SynopsisFragment);
-        SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
+        bfrag = (DetailsBasicFragment) fm.findFragmentById(R.id.DetailsFragment);
+
+        SynopsisFragment = (GenericCardFragment) fm.findFragmentById(R.id.SynopsisFragment);
+        SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, true);
         SynopsisFragment.inflateContentStub();
+
+        SynopsisFragment.getView().setOnClickListener(new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                //Code for doing something when the card is clicked goes here
+                //Probably going to be expand collapse in portrait, but disabled and use a scrollview in landscape since cards will scroll horizontally
+            }
+
+        });
 
         context = getApplicationContext();
         mManager = new MALManager(context);
-
-        fm = getSupportFragmentManager();
 
         //Get the recordID, passed in from the calling activity
         recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);

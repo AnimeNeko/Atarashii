@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -13,13 +14,15 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class GenericCardFragment extends SherlockFragment {
 
     public static int CONTENT_TYPE_SYNOPSIS = 0;
+    public static int CONTENT_TYPE_PROGRESS = 1;
 
     String title;
     int layoutResID;
     int contentType;
     boolean actionable;
     ViewStub contentStub;
-    TextView CardTitle;
+    TextView cardTitle;
+    ImageView actionableIcon;
     Activity parent;
 
     public GenericCardFragment() {
@@ -30,7 +33,8 @@ public class GenericCardFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View base = inflater.inflate(R.layout.card_layout_base, container);
         contentStub = (ViewStub) base.findViewById(R.id.contentStub);
-        CardTitle = (TextView) base.findViewById(R.id.CardTitle);
+        cardTitle = (TextView) base.findViewById(R.id.CardTitle);
+        actionableIcon = (ImageView) base.findViewById(R.id.actionableIcon);
 
         if (state != null)
         {
@@ -40,7 +44,16 @@ public class GenericCardFragment extends SherlockFragment {
             this.contentType = state.getInt("contentType");
 
 
-            CardTitle.setText(title);
+            cardTitle.setText(title);
+
+            if (actionable)
+            {
+                actionableIcon.setVisibility(actionableIcon.VISIBLE);
+            }
+            else
+            {
+                actionableIcon.setVisibility(actionableIcon.INVISIBLE);
+            }
         }
 
 
@@ -58,7 +71,16 @@ public class GenericCardFragment extends SherlockFragment {
         this.actionable = actionable;
         this.contentType = contentType;
 
-        CardTitle.setText(title);
+        cardTitle.setText(title);
+
+        if (actionable)
+        {
+            actionableIcon.setVisibility(actionableIcon.VISIBLE);
+        }
+        else
+        {
+            actionableIcon.setVisibility(actionableIcon.INVISIBLE);
+        }
 
     }
 
@@ -88,6 +110,7 @@ public class GenericCardFragment extends SherlockFragment {
 
         super.onAttach(a);
     }
+
 
 
 

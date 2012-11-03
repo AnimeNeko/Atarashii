@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="SYNOPSIS"
+        android:text="TITLE"
         android:textSize="18sp" 
         android:textColor="#0099CC"/>
 
@@ -27,5 +27,13 @@
         android:layout_alignLeft="@+id/CardTitle"
         android:layout_below="@+id/CardTitle"
         android:layout_marginTop="8dp" />
+
+    <ImageView
+        android:id="@+id/actionableIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/CardTitle"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_cardaction" />
 
 </RelativeLayout>
