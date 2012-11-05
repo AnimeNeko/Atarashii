@@ -1,7 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -39,10 +37,9 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     MangaProgressDialogFragment mpdf;
 
     TextView SynopsisView;
-    TextView RecordTypeView;
-    TextView RecordStatusView;
-    TextView MyStatusView;
-    TextView ProgressCounterView;
+    //    TextView RecordTypeView;
+    //    TextView RecordStatusView;
+    //    TextView MyStatusView;
     TextView ProgressCurrentView;
     TextView ProgressTotalView;
     ImageView CoverImageView;
@@ -211,10 +208,6 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
         CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
 
-        RecordStatusView = (TextView) bfrag.getView().findViewById(R.id.itemStatusContent);
-        RecordTypeView = (TextView) bfrag.getView().findViewById(R.id.itemTypeContent);
-        MyStatusView = (TextView) bfrag.getView().findViewById(R.id.itemMyStatusContent);
-        ProgressCounterView = (TextView) bfrag.getView().findViewById(R.id.itemProgressCounterContent);
         getDetails(recordID);
     }
 
@@ -332,17 +325,9 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 actionBar.setTitle(mAr.getName());
 
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
-                RecordStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
-                RecordTypeView.setText(mAr.getRecordType());
-                MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));
-                if(mAr.getMyStatus().equals(AnimeRecord.STATUS_COMPLETED)) {
-                    bfrag.getView().findViewById(R.id.itemProgressCounterLabel).setVisibility(View.GONE);
-                    ProgressCounterView.setVisibility(View.GONE);
-                }
-                else {
-                    ProgressCounterView.setText(mManager.watchedCounterBuilder(mAr.getPersonalProgress(),
-                            Integer.parseInt(mAr.getTotal())));
-                }
+                //                RecordStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
+                //                RecordTypeView.setText(mAr.getRecordType());
+                //                MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));
 
                 ProgressText = Integer.toString(mAr.getPersonalProgress());
                 TotalProgressText = mAr.getTotal();
@@ -360,18 +345,9 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 actionBar.setTitle(mMr.getName());
 
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mMr.getImageUrl())));
-                RecordStatusView.setText(WordUtils.capitalize(mMr.getRecordStatus()));
-                RecordTypeView.setText(mMr.getRecordType());
-                MyStatusView.setText(WordUtils.capitalize(mMr.getMyStatus()));
-
-                if(mMr.getMyStatus().equals(MangaRecord.STATUS_COMPLETED)) {
-                    bfrag.getView().findViewById(R.id.itemProgressCounterLabel).setVisibility(View.GONE);
-                    ProgressCounterView.setVisibility(View.GONE);
-                }
-                else {
-                    ProgressCounterView.setText(mManager.watchedCounterBuilder(mMr.getPersonalProgress(),
-                            Integer.parseInt(mMr.getTotal())));
-                }
+                //                RecordStatusView.setText(WordUtils.capitalize(mMr.getRecordStatus()));
+                //                RecordTypeView.setText(mMr.getRecordType());
+                //                MyStatusView.setText(WordUtils.capitalize(mMr.getMyStatus()));
 
                 ProgressText = Integer.toString(mMr.getPersonalProgress());
                 TotalProgressText = mMr.getTotal();
@@ -389,7 +365,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
         @Override
         protected void onPostExecute(GenericMALRecord gr) {
-            SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.inflatedStub);
+            SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
             if (SynopsisView != null)
             {
                 SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
@@ -482,8 +458,6 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 mAr.setEpisodesWatched(newValue);
                 mAr.setDirty(mAr.DIRTY);
 
-                ProgressCounterView.setText(mManager.watchedCounterBuilder(newValue,
-                        Integer.parseInt(mAr.getTotal())));
 
                 ProgressCurrentView.setText(Integer.toString(newValue));
 
@@ -550,7 +524,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         mAr.setMyStatus(status);
         mAr.setDirty(mAr.DIRTY);
 
-        MyStatusView.setText(WordUtils.capitalize(status));
+        //        MyStatusView.setText(WordUtils.capitalize(status));
     }
 
     public void setMangaStatus(String status)
@@ -558,7 +532,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         mMr.setMyStatus(status);
         mMr.setDirty(mAr.DIRTY);
 
-        MyStatusView.setText(WordUtils.capitalize(status));
+        //        MyStatusView.setText(WordUtils.capitalize(status));
     }
 
     @Override
@@ -589,9 +563,6 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 mMr.setPersonalProgress(newChapterValue);
                 mMr.setDirty(mMr.DIRTY);
 
-                ProgressCounterView.setText(mManager.watchedCounterBuilder(newChapterValue,
-                        Integer.parseInt(mMr.getTotal())));
-
                 ProgressCurrentView.setText(Integer.toString(newChapterValue));
 
 
@@ -615,7 +586,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     public void contentInflated(int contentType) {
         switch (contentType) {
             case 0:
-                SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.inflatedStub);
+                SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
                 if (SynopsisText != null)
                 {
                     SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
