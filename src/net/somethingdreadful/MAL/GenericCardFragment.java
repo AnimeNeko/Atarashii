@@ -15,6 +15,7 @@ public class GenericCardFragment extends SherlockFragment {
 
     public static int CONTENT_TYPE_SYNOPSIS = 0;
     public static int CONTENT_TYPE_PROGRESS = 1;
+    public static int CONTENT_TYPE_INFO = 2;
 
     String title;
     int layoutResID;

@@ -42,12 +42,21 @@
                   android:layout_margin="8dp" 
                   tools:layout="@layout/card_layout_base" />
     
-              <fragment android:id="@+id/ProgressFragment" 
+              <fragment android:id="@+id/StatusFragment" 
                   android:name="net.somethingdreadful.MAL.GenericCardFragment" 
                   android:layout_width="match_parent" 
                   android:layout_height="wrap_content" 
                   android:layout_alignParentLeft="true" 
                   android:layout_below="@id/SynopsisFragment" 
+                  android:layout_margin="8dp" 
+                  tools:layout="@layout/card_layout_base" />
+              
+              <fragment android:id="@+id/ProgressFragment" 
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
+                  android:layout_width="match_parent" 
+                  android:layout_height="wrap_content" 
+                  android:layout_alignParentLeft="true" 
+                  android:layout_below="@id/StatusFragment" 
                   android:layout_margin="8dp" 
                   tools:layout="@layout/card_layout_base" />
 

@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -32,14 +34,15 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     DetailsBasicFragment bfrag;
     GenericCardFragment SynopsisFragment;
     GenericCardFragment ProgressFragment;
+    GenericCardFragment StatusFragment;
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     MangaProgressDialogFragment mpdf;
 
     TextView SynopsisView;
-    //    TextView RecordTypeView;
-    //    TextView RecordStatusView;
-    //    TextView MyStatusView;
+    TextView RecordTypeView;
+    TextView RecordStatusView;
+    TextView MyStatusView;
     TextView ProgressCurrentView;
     TextView ProgressTotalView;
     ImageView CoverImageView;
@@ -48,6 +51,9 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     Spanned SynopsisText;
     String ProgressText;
     String TotalProgressText;
+    String RecordStatusText;
+    String RecordTypeText;
+    String MyStatusText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,18 +65,18 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         bfrag = (DetailsBasicFragment) fm.findFragmentById(R.id.DetailsFragment);
 
         SynopsisFragment = (GenericCardFragment) fm.findFragmentById(R.id.SynopsisFragment);
-        SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, true);
+        SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
         SynopsisFragment.inflateContentStub();
 
-        SynopsisFragment.getView().setOnClickListener(new OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                //Code for doing something when the card is clicked goes here
-                //Probably going to be expand collapse in portrait, but disabled and use a scrollview in landscape since cards will scroll horizontally
-            }
-
-        });
+        //        SynopsisFragment.getView().setOnClickListener(new OnClickListener(){
+        //
+        //            @Override
+        //            public void onClick(View v) {
+        //                //Code for doing something when the card is clicked goes here
+        //                //Probably going to be expand collapse in portrait, but disabled and use a scrollview in landscape since cards will scroll horizontally
+        //            }
+        //
+        //        });
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
         ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
@@ -85,6 +91,10 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             }
 
         });
+
+        StatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.StatusFragment);
+        StatusFragment.setArgsSensibly("INFO", R.layout.card_layout_status, GenericCardFragment.CONTENT_TYPE_INFO, false);
+        StatusFragment.inflateContentStub();
 
 
         context = getApplicationContext();
@@ -340,6 +350,21 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
                 }
+
+                RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
+                RecordTypeText = WordUtils.capitalize(mAr.getRecordType());
+                MyStatusText = WordUtils.capitalize(mAr.getMyStatus());
+
+                RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
+                RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
+                MyStatusView = (TextView) StatusFragment.getView().findViewById(R.id.myStatus);
+                if (RecordStatusView != null)
+                {
+                    RecordTypeView.setText(RecordTypeText);
+                    RecordStatusView.setText(RecordStatusText);
+                    MyStatusView.setText(MyStatusText);
+                }
+
             }
             else {
                 actionBar.setTitle(mMr.getName());
@@ -359,6 +384,20 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
+                }
+
+                RecordStatusText = WordUtils.capitalize(mMr.getRecordStatus());
+                RecordTypeText = WordUtils.capitalize(mMr.getRecordType());
+                MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
+
+                RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
+                RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
+                MyStatusView = (TextView) StatusFragment.getView().findViewById(R.id.myStatus);
+                if (RecordStatusView != null)
+                {
+                    RecordTypeView.setText(RecordTypeText);
+                    RecordStatusView.setText(RecordStatusText);
+                    MyStatusView.setText(MyStatusText);
                 }
             }
         }
@@ -600,6 +639,19 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
                 }
+                break;
+            case 2:
+                RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
+                RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
+                MyStatusView = (TextView) StatusFragment.getView().findViewById(R.id.myStatus);
+                if (RecordStatusText != null)
+                {
+                    RecordTypeView.setText(RecordTypeText);
+                    RecordStatusView.setText(RecordStatusText);
+                    MyStatusView.setText(MyStatusText);
+                }
+
+                break;
         }
 
     }

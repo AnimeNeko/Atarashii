@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/mediaTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="8dp"
+            android:text="Media Type"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mediaStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mediaTypeLabel"
+            android:layout_marginTop="8dp"
+            android:text="Media Status"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mediaStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/mediaStatusLabel"
+            android:layout_alignParentRight="true"
+            android:text="Status"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/mediaType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/mediaTypeLabel"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:text="Type"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/myStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mediaStatusLabel"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="My Status"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/myStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/myStatusLabel"
+            android:layout_alignBottom="@+id/myStatusLabel"
+            android:layout_alignParentRight="true"
+            android:text="My Status"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
