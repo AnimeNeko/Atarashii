@@ -363,6 +363,7 @@ public class MALManager {
         JSONObject o = getDetails(id, "anime");
 
         ar.setSynopsis(getDataFromJSON(o, "synopsis"));
+        ar.setMemberScore(getDataFromJSON(o, "members_score"));
 
         saveItem(ar, false);
 
@@ -374,6 +375,7 @@ public class MALManager {
         JSONObject o = getDetails(id, "manga");
 
         mr.setSynopsis(getDataFromJSON(o, "synopsis"));
+        mr.setMemberScore(getDataFromJSON(o, "members_score"));
 
         saveItem(mr, false);
 
