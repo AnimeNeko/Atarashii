@@ -1,7 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_SetWatched" android:title="@string/action_SetWatched" android:showAsAction="ifRoom">
-    </item>
-    <item android:id="@+id/action_SetStatus" android:title="@string/action_SetStatus" android:showAsAction="ifRoom">
+    <item android:id="@+id/action_SetStatus" android:title="@string/action_SetStatus" android:showAsAction="ifRoom" android:enabled="false" android:visible="false">
         <menu>
             <item android:id="@+id/SetStatus_InProgress" android:title="@string/listType_InProgress"/>
             <item android:id="@+id/SetStatus_Complete" android:title="@string/listType_Completed"/>
@@ -10,4 +8,5 @@
             <item android:id="@+id/SetStatus_Planned" android:title="@string/listType_planned"/>
         </menu>
     </item>
+    <item android:id="@+id/action_Share" android:title="@string/action_Share" android:showAsAction="always|withText" android:icon="@drawable/ic_action_share"></item>
 </menu>

@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name="net.somethingdreadful.MAL.DetailView"
-            android:label="@string/title_activity_detail_view" android:uiOptions="splitActionBarWhenNarrow">
+            android:label="@string/title_activity_detail_view">
         </activity>
     </application>
 

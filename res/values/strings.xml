@@ -83,4 +83,5 @@
     <string name="contributor_summary_Anima">\&quot;All the other apps suck!\&quot; \n\nThe founder of the project and also the main coder.  Was tired of the other apps sucking so he went and made his own.</string>
     <string name="contributor_name_Motokochan">Motokochan</string>
     <string name="contributor_summary_Motokochan">Cleans up Anima\'s terrible code, and also did much of the heavy lifting for manga support.</string>
+    <string name="action_Share">Share</string>
 </resources>

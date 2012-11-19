@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import org.apache.commons.lang3.text.WordUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -165,8 +166,8 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.action_SetWatched:
-                showProgressDialog();
+            case R.id.action_Share:
+                Share();
                 break;
             case R.id.SetStatus_InProgress:
                 setStatus(1);
@@ -200,19 +201,26 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     {
         super.onPause();
 
-        if("anime".equals(recordType))
+        try
         {
-            if (mAr.getDirty() == 1)
+            if("anime".equals(recordType))
             {
-                writeDetails(mAr);
+                if (mAr.getDirty() == 1)
+                {
+                    writeDetails(mAr);
+                }
+            }
+            else
+            {
+                if (mMr.getDirty() == 1)
+                {
+                    writeDetails(mMr);
+                }
             }
         }
-        else
+        catch (NullPointerException npe)
         {
-            if (mMr.getDirty() == 1)
-            {
-                writeDetails(mMr);
-            }
+
         }
     }
 
@@ -675,5 +683,20 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 break;
         }
 
+    }
+
+    public void Share() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+        sharingIntent.setType("text/plain");
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        String url = "http://myanimelist.net/" + recordType + "/" + recordID;
+
+        String content = "Check out " + actionBar.getTitle() + " on MyAnimeList!\n" + url + "\n\nShared from Atarashii!, Modern MAL for Android";
+
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, content);
+
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }
