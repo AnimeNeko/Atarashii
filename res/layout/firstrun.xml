@@ -58,25 +58,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/edittext_malPass"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
             android:padding="8dp"
             android:text="@string/fr_action_connect" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/button_connectToMal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="24dp"
-            android:text="@string/fr_noaccount" />
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView1"
+            android:layout_below="@id/button_connectToMal"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
             android:text="@string/fr_noaccount_button" />
     </RelativeLayout>
 

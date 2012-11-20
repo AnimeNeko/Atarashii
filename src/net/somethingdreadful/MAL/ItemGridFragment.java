@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,9 @@ public class ItemGridFragment extends SherlockFragment {
     boolean useTraditionalList = false;
     int currentList;
     int listColumns;
+    int screenWidthDp;
+    int gridCellWidth;
+    int gridCellHeight;
     String recordType;
 
     @Override
@@ -88,6 +92,7 @@ public class ItemGridFragment extends SherlockFragment {
         {
             gv.setOnItemClickListener(new OnItemClickListener()
             {
+                @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id)
                 {
                     Intent startDetails = new Intent(getView().getContext(), DetailView.class);
@@ -104,6 +109,7 @@ public class ItemGridFragment extends SherlockFragment {
         {
             gv.setOnItemClickListener(new OnItemClickListener()
             {
+                @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id)
                 {
                     Intent startDetails = new Intent(getView().getContext(), DetailView.class);
@@ -124,12 +130,17 @@ public class ItemGridFragment extends SherlockFragment {
         {
             try
             {
-                listColumns = (int) Math.ceil(layout.getContext().getResources().getConfiguration().screenWidthDp / MAL_IMAGE_WIDTH);
+                screenWidthDp = layout.getContext().getResources().getConfiguration().screenWidthDp;
             }
             catch (NoSuchFieldError e)
             {
-                listColumns = (int) Math.ceil(pxToDp(((WindowManager) c.getSystemService(c.WINDOW_SERVICE)).getDefaultDisplay().getWidth()) / MAL_IMAGE_WIDTH);
+                screenWidthDp = pxToDp(((WindowManager) c.getSystemService(c.WINDOW_SERVICE)).getDefaultDisplay().getWidth());
             }
+
+            listColumns = (int) Math.ceil(screenWidthDp / MAL_IMAGE_WIDTH);
+            this.gridCellWidth = screenWidthDp / listColumns;
+            this.gridCellHeight = (int) Math.ceil(gridCellWidth / (MAL_IMAGE_WIDTH / MAL_IMAGE_HEIGHT));
+            Log.v("MALX", "Grid Cell Size: " + this.gridCellWidth + "x" + this.gridCellHeight);
         }
 
         gv.setNumColumns(listColumns);
@@ -153,10 +164,10 @@ public class ItemGridFragment extends SherlockFragment {
         recordType = mediaType;
 
         if(recordType == "anime") {
-            new getAnimeRecordsTask().execute(currentList);
+            new getAnimeRecordsTask(this.gridCellHeight).execute(currentList);
         }
         else if(recordType == "manga") {
-            new getMangaRecordsTask().execute(currentList);
+            new getMangaRecordsTask(this.gridCellHeight).execute(currentList);
         }
 
 
@@ -170,6 +181,11 @@ public class ItemGridFragment extends SherlockFragment {
         boolean mTraditionalList = useTraditionalList;
         String type = recordType;
         MALManager internalManager = mManager;
+        int gridCellHeight;
+
+        getAnimeRecordsTask(int imageHeight) {
+            this.gridCellHeight = imageHeight;
+        }
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
@@ -207,11 +223,11 @@ public class ItemGridFragment extends SherlockFragment {
             {
                 if (mTraditionalList)
                 {
-                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type);
+                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 }
                 else
                 {
-                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
 
                 }
             }
@@ -243,6 +259,11 @@ public class ItemGridFragment extends SherlockFragment {
         boolean mTraditionalList = useTraditionalList;
         String type = recordType;
         MALManager internalManager = mManager;
+        int gridCellHeight;
+
+        getMangaRecordsTask(int imageHeight) {
+            this.gridCellHeight = imageHeight;
+        }
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override

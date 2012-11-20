@@ -28,6 +28,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     private MALManager mManager;
     private String type;
     private int resource;
+    private int imageCoverHeight = 0;
 
     private int dp64;
     private int dp6;
@@ -45,6 +46,24 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         this.type = type;
         this.resource = resource;
 
+
+        dp64 = dpToPx(64);
+        dp32 = dpToPx(32);
+        dp12 = dpToPx(12);
+        dp6 = dpToPx(6);
+        dp8 = dpToPx(8);
+    }
+
+    public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type, int coverheight) {
+        super(context, resource, objects);
+        // TODO Auto-generated constructor stub
+        this.objects = objects;
+        this.c = context;
+        imageManager = new ImageDownloader(c);
+        mManager = m;
+        this.type = type;
+        this.resource = resource;
+        this.imageCoverHeight = coverheight;
 
         dp64 = dpToPx(64);
         dp32 = dpToPx(32);
@@ -79,6 +98,9 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
             v.setTag(viewHolder);
 
+            if (this.imageCoverHeight > 0) {
+                v.getLayoutParams().height = dpToPx(this.imageCoverHeight);
+            }
         }
         else
         {

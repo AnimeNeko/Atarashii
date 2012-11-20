@@ -13,14 +13,13 @@
     <string name="fr_hint_user">MAL Username</string>
     <string name="fr_hint_pass">MAL Password</string>
     <string name="fr_action_connect">Connect to MAL</string>
-    <string name="fr_textblurb">Enter your MAL credentials below. This app uses them solely to connect to MAL and work with it. No funny business. Really.</string>
+    <string name="fr_textblurb">Enter your MyAnimeList credentials below:</string>
     <string name="dialog_Verifying">Verifying</string>
     <string name="dialog_VerifyingBlurb">Making sure your account is OK. Hold tight a sec.</string>
     <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and try again.</string>
     <string name="toast_AccountOK">Account OK!</string>
     <string name="title_activity_firstRun">First Run Setup</string>
-    <string name="fr_noaccount">Don\'t have a MAL account? No problem, push the below button to be whisked away to the MAL registration page. It\'s free, and will only take a second.</string>
-    <string name="fr_noaccount_button">Register on MAL</string>
+    <string name="fr_noaccount_button">Create an Account</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_Stats">Stats</string>
