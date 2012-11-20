@@ -25,6 +25,7 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener {
 
     MALManager mManager;
+    PrefManager pManager;
     Context context;
     int recordID;
     ActionBar actionBar;
@@ -104,6 +105,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
         context = getApplicationContext();
         mManager = new MALManager(context);
+        pManager = new PrefManager(context);
 
         //Get the recordID, passed in from the calling activity
         recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
@@ -691,12 +693,19 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         sharingIntent.setType("text/plain");
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
-        String url = "http://myanimelist.net/" + recordType + "/" + recordID;
-
-        String content = "Check out " + actionBar.getTitle() + " on MyAnimeList!\n" + url + "\n\nShared from Atarashii!, Modern MAL for Android";
-
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, content);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, makeShareText());
 
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    public String makeShareText() {
+        String shareText = pManager.getCustomShareText();
+
+        shareText = shareText.replace("$title;", actionBar.getTitle());
+        shareText = shareText.replace("$link;", "http://myanimelist.net/" + recordType + "/" + Integer.toString(recordID));
+
+        shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
+
+        return shareText;
     }
 }

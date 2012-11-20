@@ -84,4 +84,9 @@
     <string name="contributor_name_Motokochan">Motokochan</string>
     <string name="contributor_summary_Motokochan">Cleans up Anima\'s terrible code, and also did much of the heavy lifting for manga support.</string>
     <string name="action_Share">Share</string>
+    <string name="preference_category_sharing">Sharing</string>
+    <string name="preference_customShareText">Custom Share Text</string>
+    <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
+    <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
+    <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
 </resources>
