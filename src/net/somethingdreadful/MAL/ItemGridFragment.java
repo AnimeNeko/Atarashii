@@ -140,7 +140,7 @@ public class ItemGridFragment extends SherlockFragment {
             listColumns = (int) Math.ceil(screenWidthDp / MAL_IMAGE_WIDTH);
             this.gridCellWidth = screenWidthDp / listColumns;
             this.gridCellHeight = (int) Math.ceil(gridCellWidth / (MAL_IMAGE_WIDTH / MAL_IMAGE_HEIGHT));
-            Log.v("MALX", "Grid Cell Size: " + this.gridCellWidth + "x" + this.gridCellHeight);
+            Log.v("MALX", "Grid Cell Size for " + recordType + ": " + this.gridCellWidth + "x" + this.gridCellHeight);
         }
 
         gv.setNumColumns(listColumns);
@@ -300,11 +300,11 @@ public class ItemGridFragment extends SherlockFragment {
             {
                 if (mTraditionalList)
                 {
-                    cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type);
+                    cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 }
                 else
                 {
-                    cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type);
+                    cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 }
             }
 
