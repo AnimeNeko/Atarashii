@@ -1,0 +1,6 @@
+[submodule "third-party/ActionBarSherlock"]
+	path = third-party/ActionBarSherlock
+	url = https://github.com/JakeWharton/ActionBarSherlock.git
+[submodule "third-party/android-numberpicker"]
+	path = third-party/android-numberpicker
+	url = https://github.com/SimonVT/android-numberpicker.git
