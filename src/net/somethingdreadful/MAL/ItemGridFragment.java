@@ -352,7 +352,7 @@ public class ItemGridFragment extends SherlockFragment {
     public int pxToDp(int px){
         Resources resources = c.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        int dp = (int)(px / (metrics.density + 0.5));
+        int dp = (int)(px / (metrics.density));
         return dp;
     }
 }
