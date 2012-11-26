@@ -180,6 +180,10 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         else
         {
             viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
+
+            //Compatibility with setting the overlay alpha pre-API 11
+            ImageView overlayPanel = (ImageView) v.findViewById(R.id.textOverlayPanel);
+            overlayPanel.setAlpha(175);
         }
 
 
