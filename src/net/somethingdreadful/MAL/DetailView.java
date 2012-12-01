@@ -85,7 +85,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //        });
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
-        ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+        ProgressFragment.setArgsSensibly("PERSONAL STATS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
         ProgressFragment.inflateContentStub();
 
         ProgressFragment.getView().setOnClickListener(new OnClickListener(){
@@ -99,7 +99,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         });
 
         StatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.StatusFragment);
-        StatusFragment.setArgsSensibly("INFO", R.layout.card_layout_status, GenericCardFragment.CONTENT_TYPE_INFO, false);
+        StatusFragment.setArgsSensibly("MAL STATS", R.layout.card_layout_status, GenericCardFragment.CONTENT_TYPE_INFO, false);
         StatusFragment.inflateContentStub();
 
 
@@ -355,32 +355,34 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressText = Integer.toString(mAr.getPersonalProgress());
                 TotalProgressText = mAr.getTotal();
+                MyStatusText = WordUtils.capitalize(mAr.getMyStatus());
+                MyScoreText = mAr.getFormattedScore();
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
+                MyStatusView = (TextView) ProgressFragment.getView().findViewById(R.id.myStatus);
+                MyScoreView = (TextView) ProgressFragment.getView().findViewById(R.id.myScore);
+
 
                 if(ProgressTotalView != null)
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
+                    MyStatusView.setText(MyStatusText);
+                    MyScoreView.setText(MyScoreText);
                 }
 
                 RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mAr.getRecordType());
-                MyStatusText = WordUtils.capitalize(mAr.getMyStatus());
-                MyScoreText = mAr.getMyScore();
                 MemberScoreText = mAr.getMemberScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
-                MyStatusView = (TextView) StatusFragment.getView().findViewById(R.id.myStatus);
-                MyScoreView = (TextView) StatusFragment.getView().findViewById(R.id.myScore);
+
                 if (RecordStatusView != null)
                 {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
-                    MyStatusView.setText(MyStatusText);
-                    MyScoreView.setText(MyScoreText);
                 }
 
             }
@@ -394,32 +396,34 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressText = Integer.toString(mMr.getPersonalProgress());
                 TotalProgressText = mMr.getTotal();
+                MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
+                MyScoreText = mMr.getFormattedScore();
+
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
+                MyStatusView = (TextView) ProgressFragment.getView().findViewById(R.id.myStatus);
+                MyScoreView = (TextView) ProgressFragment.getView().findViewById(R.id.myScore);
+
 
                 if(ProgressTotalView != null)
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
+                    MyStatusView.setText(MyStatusText);
+                    MyScoreView.setText(MyScoreText);
                 }
 
                 RecordStatusText = WordUtils.capitalize(mMr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mMr.getRecordType());
-                MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
-                MyScoreText = mMr.getMyScore();
                 MemberScoreText = mMr.getMemberScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
-                MyStatusView = (TextView) StatusFragment.getView().findViewById(R.id.myStatus);
-                MyScoreView = (TextView) StatusFragment.getView().findViewById(R.id.myScore);
                 if (RecordStatusView != null)
                 {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
-                    MyStatusView.setText(MyStatusText);
-                    MyScoreView.setText(MyScoreText);
                 }
             }
         }
@@ -661,24 +665,24 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             case 1:
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
+                MyStatusView = (TextView) ProgressFragment.getView().findViewById(R.id.myStatus);
+                MyScoreView = (TextView) ProgressFragment.getView().findViewById(R.id.myScore);
                 if(ProgressText != null)
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
+                    MyStatusView.setText(MyStatusText);
+                    MyScoreView.setText(MyScoreText);
                 }
                 break;
             case 2:
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
-                MyStatusView = (TextView) StatusFragment.getView().findViewById(R.id.myStatus);
-                MyScoreView = (TextView) StatusFragment.getView().findViewById(R.id.myScore);
                 MemberScoreView = (TextView) StatusFragment.getView().findViewById(R.id.memberScore);
                 if (RecordStatusText != null)
                 {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
-                    MyStatusView.setText(MyStatusText);
-                    MyScoreView.setText(MyScoreText);
                     MemberScoreView.setText(MemberScoreText);
                 }
 

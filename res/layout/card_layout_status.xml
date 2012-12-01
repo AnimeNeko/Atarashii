@@ -42,56 +42,13 @@
             android:layout_marginTop="8dp"
             android:text="Type"
             android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/myStatusLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/mediaStatusLabel"
-            android:layout_marginTop="8dp"
-            android:text="My Status"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/myStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/myStatusLabel"
-            android:layout_alignBottom="@+id/myStatusLabel"
-            android:layout_alignParentRight="true"
-            android:text="My Status"
-            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/myScoreLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/myStatus"
-            android:layout_marginTop="8dp"
-            android:text="My Score"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/myScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/myScoreLabel"
-            android:layout_alignBottom="@+id/myScoreLabel"
-            android:layout_alignParentRight="true"
-            android:text="My Score Value"
-            android:textSize="16sp" />
-
         <TextView
             android:id="@+id/memberScoreLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/myScoreLabel"
+            android:layout_below="@id/mediaStatusLabel"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="MAL Score"

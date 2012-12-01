@@ -84,10 +84,14 @@ public abstract class GenericMALRecord {
     }
 
     public String getMyScore() {
+        return myScore;
+    }
+
+    public String getFormattedScore() {
 
         if ("0".equals(myScore))
         {
-            return "Not Scored Yet";
+            return "?";
         }
         else
         {
