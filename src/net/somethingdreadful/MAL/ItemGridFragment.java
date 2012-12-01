@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -246,6 +247,8 @@ public class ItemGridFragment extends SherlockFragment {
             if (mForceSync)
             {
                 Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
+                NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+                nm.cancel(R.id.notification_sync);
             }
 
         }
@@ -322,6 +325,8 @@ public class ItemGridFragment extends SherlockFragment {
             if (mForceSync)
             {
                 Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
+                NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+                nm.cancel(1);
             }
         }
 
@@ -352,7 +357,7 @@ public class ItemGridFragment extends SherlockFragment {
     public int pxToDp(int px){
         Resources resources = c.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        int dp = (int)(px / (metrics.density + 0.5));
+        int dp = (int)(px / (metrics.density));
         return dp;
     }
 }
