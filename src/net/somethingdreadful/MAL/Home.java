@@ -131,6 +131,10 @@ public class Home extends SherlockFragmentActivity implements ActionBar.TabListe
                 startActivity(new Intent (this, Settings.class));
                 break;
 
+            case R.id.menu_about:
+                startActivity(new Intent(this, About.class));
+                break;
+
                 //The following is the code that handles switching the list. It calls the fragment to update, then update the menu by invalidating
             case R.id.listType_all:
                 if (af != null && mf != null)

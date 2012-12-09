@@ -29,4 +29,8 @@
         android:icon="@drawable/ic_action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/menu_about"
+        android:title="@string/title_activity_about"
+        android:orderInCategory="9001"
+        android:showAsAction="never" />
 </menu>
