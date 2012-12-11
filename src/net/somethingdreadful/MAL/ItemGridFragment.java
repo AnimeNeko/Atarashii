@@ -197,7 +197,6 @@ public class ItemGridFragment extends SherlockFragment {
             for(int i : list)
             {
                 listint = i;
-                System.out.println("int passed: " + listint);
             }
 
             if (mForceSync)
@@ -277,7 +276,6 @@ public class ItemGridFragment extends SherlockFragment {
             for(int i : list)
             {
                 listint = i;
-                System.out.println("int passed: " + listint);
             }
 
             if (mForceSync)

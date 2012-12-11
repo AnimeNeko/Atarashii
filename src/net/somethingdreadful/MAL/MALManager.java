@@ -25,6 +25,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Base64;
+import android.util.Log;
 
 public class MALManager {
 
@@ -193,8 +194,6 @@ public class MALManager {
             throw new RuntimeException("getList called with unknown list type.");
         }
 
-        System.out.println("getList() called");
-
         HttpGet request;
         HttpResponse response;
         HttpClient client = new DefaultHttpClient();
@@ -214,7 +213,7 @@ public class MALManager {
                 result = EntityUtils.toString(getResponseEntity);
                 jReturn = new JSONObject(result);
 
-                System.out.println("got json response");
+                Log.v("MALX", "Got JSON Response from the API");
 
             }
 
@@ -426,7 +425,7 @@ public class MALManager {
         }
 
 
-        System.out.println(cu.getCount());
+        Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
         getIndices(cu);
 
@@ -470,7 +469,7 @@ public class MALManager {
             cu = db.rawQuery("SELECT " + columnList + " FROM 'manga' WHERE myStatus='" + listSortFromInt(list, "manga") + "' ORDER BY recordName", null);
         }
 
-        System.out.println(cu.getCount());
+        Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
 
         while (cu.isAfterLast() == false)
@@ -661,8 +660,6 @@ public class MALManager {
 
                 response = client.execute(writeRequest);
 
-                System.out.println(response.getStatusLine().toString());
-
                 if (200 == response.getStatusLine().getStatusCode())
                 {
                     success = true;
@@ -699,8 +696,6 @@ public class MALManager {
                 writeRequest.setEntity(entity);
 
                 response = client.execute(writeRequest);
-
-                System.out.println(response.getStatusLine().toString());
 
                 if (200 == response.getStatusLine().getStatusCode())
                 {
