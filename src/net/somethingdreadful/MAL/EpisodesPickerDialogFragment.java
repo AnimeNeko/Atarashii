@@ -1,8 +1,11 @@
 package net.somethingdreadful.MAL;
 
 import net.simonvt.widget.NumberPicker;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
+
+    View view;
 
     NumberPicker picker;
 
@@ -28,9 +33,36 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Log.v("MALX", "onCreateDialog Fired");
+
+        view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
+
+        return new AlertDialog.Builder(getActivity())
+        .setPositiveButton("Update", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
+                ((DetailView) getActivity()).onDialogDismissed(picker.getValue());
+                dismiss();
+            }
+        }
+                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        dismiss();
+                    }
+                }
+                        ).setView(view).setTitle("I've watched:").create();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state)
     {
-        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
+        //        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
 
         if (state == null)
         {
@@ -49,7 +81,7 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
         picker = (NumberPicker) view.findViewById(R.id.episodesWatchedPicker);
 
-        getDialog().setTitle("I've watched:");
+        //     getDialog().setTitle("I've watched:");
 
         picker.setMinValue(0);
 
@@ -65,8 +97,8 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
         picker.setWrapSelectorWheel(false);
 
         picker.setValue(pickerValue);
-
-        return view;
+        Log.v("MALX", "onCreateView Finished");
+        return null;
     }
 
     @Override
@@ -80,7 +112,7 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
     @Override
     public void onCancel(DialogInterface dialog)
     {
-        ((DetailView) getActivity()).onDialogDismissed(picker.getValue());
+
         this.dismiss();
     }
 
