@@ -86,7 +86,6 @@
     <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
     <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
-
     <!--  About Screen Text -->
     <string name="contributors_card_title">Major Contributors</string>
     <string name="acknowledgements_card_title">Acknowledgements</string>
@@ -96,5 +95,8 @@
     <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
     <string name="contributor_motokochan_name"> Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
-
+    <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
+    <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access your MyAnimeList account</string>
+    <string name="permission_updateMedia">Update Records</string>
+    <string name="permission_description_updateMedia">Allow this app to update records on your MyAnimeList account</string>
 </resources>
