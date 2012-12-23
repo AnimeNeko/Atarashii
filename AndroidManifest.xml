@@ -39,6 +39,7 @@
             android:name="net.somethingdreadful.MAL.DetailView"
             android:label="@string/title_activity_detail_view">
         </activity>
+
         <receiver android:name="net.somethingdreadful.MAL.UpdateReceiver" android:permission="net.somethingdreadful.MAL.permissions.UPDATE_MEDIA" android:exported="true" >
             <intent-filter>
                 <action android:name="net.somethingdreadful.MAL.action.UPDATE_MEDIA" />
