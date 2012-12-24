@@ -7,11 +7,11 @@
         android:id="@+id/progressCountTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignBaseline="@+id/progressCountCurrent"
+        android:layout_alignParentRight="true"
         android:text="/?"
         android:textSize="32sp" />
-
+
     <TextView
         android:id="@+id/progressCountCurrent"
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_toLeftOf="@id/progressCountTotal"
         android:text="24"
         android:textSize="58sp" />
-
+
     <TextView
         android:id="@+id/myStatus"
         android:layout_width="wrap_content"
@@ -29,35 +29,6 @@
         android:layout_alignBottom="@+id/progressCountCurrent"
         android:layout_alignParentLeft="true"
         android:text="View Status"
-        android:textSize="32sp" />
-
-    <TextView
-        android:id="@+id/scoreMaxLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@+id/myScore"
-        android:text="/10"
-        android:textSize="32sp" />
-
-    <TextView
-        android:id="@+id/myScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/progressCountCurrent"
-        android:layout_marginTop="16dp"
-        android:layout_toLeftOf="@+id/scoreMaxLabel"
-        android:text="9"
-        android:textSize="58sp" />
-
-    <TextView
-        android:id="@+id/myScoreLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/myScore"
-        android:layout_alignBottom="@+id/myScore"
-        android:layout_alignParentLeft="true"
-        android:text="Score"
         android:textSize="32sp" />
 
 </RelativeLayout>

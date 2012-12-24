@@ -89,14 +89,7 @@ public abstract class GenericMALRecord {
 
     public String getFormattedScore() {
 
-        if ("0".equals(myScore))
-        {
-            return "?";
-        }
-        else
-        {
-            return myScore;
-        }
+        return myScore;
     }
 
     public int getDirty() {

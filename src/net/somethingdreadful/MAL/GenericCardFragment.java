@@ -13,9 +13,10 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class GenericCardFragment extends SherlockFragment {
 
-    public static int CONTENT_TYPE_SYNOPSIS = 0;
-    public static int CONTENT_TYPE_PROGRESS = 1;
-    public static int CONTENT_TYPE_INFO = 2;
+    public static final int CONTENT_TYPE_SYNOPSIS = 0;
+    public static final int CONTENT_TYPE_PROGRESS = 1;
+    public static final int CONTENT_TYPE_INFO = 2;
+    public static final int CONTENT_TYPE_SCORE = 3;
 
     String title;
     int layoutResID;
