@@ -55,7 +55,12 @@ public abstract class GenericMALRecord {
 
     public String getMemberScore() {
 
-        return memberScore;
+        if (memberScore != null) {
+            return memberScore;
+        }
+        else {
+            return "0";
+        }
     }
 
     // Use this to get the raw HTML-formatted synopsis
@@ -89,7 +94,12 @@ public abstract class GenericMALRecord {
 
     public String getFormattedScore() {
 
-        return myScore;
+        if(myScore != null) {
+            return myScore;
+        }
+        else {
+            return "0";
+        }
     }
 
     public int getDirty() {
