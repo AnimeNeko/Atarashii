@@ -90,7 +90,7 @@
     <!--  About Screen Text -->
     <string name="contributors_card_title">Major Contributors</string>
     <string name="acknowledgements_card_title">Acknowledgements</string>
-    <string name="acknowledgements">Atarashii! uses the <a href="http://mal-api.com/">Unofficial MAL API</a> by Chu Yeow Cheah.</string>
+    <string name="acknowledgements">Atarashii! uses the <a href="http://mal-api.com/">Unofficial MAL API</a> by Chu Yeow Cheah. \n\nAtarashii also implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a> and SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, both of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
     <string name="app_description">Atarashii! is a mobile client for the popular MyAnimeList.net website. It focuses primarily on ease-of-use while still being visually pleasing.</string>
     <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
     <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
