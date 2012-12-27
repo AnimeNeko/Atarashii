@@ -20,7 +20,7 @@ public class AnimeRecord extends GenericMALRecord {
     public static final String STATUS_PLANTOWATCH = "plan to watch";
 
     public AnimeRecord(int id, String name, String type, String status, String myStatus, int watched, int total,
-            String memberScore, String myScore, String synopsis, String imageUrl, int dirty) {
+            float memberScore, int myScore, String synopsis, String imageUrl, int dirty) {
         this.recordID = id;
         this.recordName = name;
         this.recordType = type;
@@ -39,7 +39,7 @@ public class AnimeRecord extends GenericMALRecord {
     }
 
     public AnimeRecord(int id, String name, String imageUrl, int watched, int totalEpisodes,
-            String myStatus, String animeStatus, String animeType, String myScore, int dirty) {
+            String myStatus, String animeStatus, String animeType, int myScore, int dirty) {
         this.recordID = id;
         this.recordName = name;
         this.episodesWatched = watched;

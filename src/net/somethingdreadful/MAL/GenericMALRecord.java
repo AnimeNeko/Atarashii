@@ -18,8 +18,8 @@ public abstract class GenericMALRecord {
     protected String imageUrl;
     protected String recordStatus;
     protected String myStatus;
-    protected String memberScore;
-    protected String myScore;
+    protected float memberScore;
+    protected int myScore;
     protected String synopsis;
     protected int dirty;
 
@@ -53,14 +53,9 @@ public abstract class GenericMALRecord {
         return recordStatus;
     }
 
-    public String getMemberScore() {
+    public float getMemberScore() {
 
-        if (memberScore != null) {
-            return memberScore;
-        }
-        else {
-            return "0";
-        }
+        return memberScore;
     }
 
     // Use this to get the raw HTML-formatted synopsis
@@ -88,18 +83,13 @@ public abstract class GenericMALRecord {
         return myStatus;
     }
 
-    public String getMyScore() {
+    public int getMyScore() {
         return myScore;
     }
 
-    public String getFormattedScore() {
+    public String getMyScoreString() {
 
-        if(myScore != null) {
-            return myScore;
-        }
-        else {
-            return "0";
-        }
+        return Integer.toString(myScore);
     }
 
     public int getDirty() {
@@ -115,7 +105,7 @@ public abstract class GenericMALRecord {
         this.myStatus = status;
     }
 
-    public void setMemberScore(String memberScore) {
+    public void setMemberScore(float memberScore) {
         this.memberScore = memberScore;
     }
 }

@@ -62,8 +62,8 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     String RecordStatusText;
     String RecordTypeText;
     String MyStatusText;
-    String MyScoreText;
-    String MemberScoreText;
+    int MyScore;
+    float MemberScore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -322,7 +322,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mAr.getSynopsis() == null) || (mAr.getMemberScore() == null))
+                if ((mAr.getSynopsis() == null) || (mAr.getMemberScore() <= 0))
                 {
                     mAr = mmManager.updateWithDetails(mID, mAr);
                 }
@@ -338,7 +338,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mMr.getSynopsis() == null) || (mMr.getMemberScore() == null))
+                if ((mMr.getSynopsis() == null) || (mMr.getMemberScore() <= 0))
                 {
                     mMr = mmManager.updateWithDetails(mID, mMr);
                 }
@@ -364,7 +364,6 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 ProgressText = Integer.toString(mAr.getPersonalProgress());
                 TotalProgressText = mAr.getTotal();
                 MyStatusText = WordUtils.capitalize(mAr.getMyStatus());
-                MyScoreText = mAr.getFormattedScore();
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
@@ -382,7 +381,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mAr.getRecordType());
-                MemberScoreText = mAr.getMemberScore();
+                MemberScore = mAr.getMemberScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
@@ -398,8 +397,8 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 if (MALScoreBar != null)
                 {
-                    MALScoreBar.setRating(Float.parseFloat(MemberScoreText) / 2);
-                    MyScoreBar.setRating(Float.parseFloat(MyScoreText) / 2);
+                    MALScoreBar.setRating(MemberScore / 2);
+                    MyScoreBar.setRating(MyScore / 2);
                 }
 
             }
@@ -414,7 +413,6 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 ProgressText = Integer.toString(mMr.getPersonalProgress());
                 TotalProgressText = mMr.getTotal();
                 MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
-                MyScoreText = mMr.getFormattedScore();
 
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
@@ -433,7 +431,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 RecordStatusText = WordUtils.capitalize(mMr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mMr.getRecordType());
-                MemberScoreText = mMr.getMemberScore();
+                MemberScore = mMr.getMemberScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
@@ -448,8 +446,8 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 if (MALScoreBar != null)
                 {
-                    MALScoreBar.setRating(Float.parseFloat(MemberScoreText));
-                    MyScoreBar.setRating(Float.parseFloat(MyScoreText) / 2);
+                    MALScoreBar.setRating(MemberScore / 2);
+                    MyScoreBar.setRating(MyScore / 2);
                 }
             }
         }
@@ -457,19 +455,17 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         @Override
         protected void onPostExecute(GenericMALRecord gr) {
             SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
-            MemberScoreView = (TextView) StatusFragment.getView().findViewById(R.id.memberScore);
             if (SynopsisView != null)
             {
                 SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
                 SynopsisText = gr.getSpannedSynopsis();
-                MemberScoreText = gr.getMemberScore();
-                MemberScoreView.setText(MemberScoreText);
+                MemberScore = gr.getMemberScore();
 
             }
             else
             {
                 SynopsisText = gr.getSpannedSynopsis();
-                MemberScoreText = gr.getMemberScore();
+                MemberScore = gr.getMemberScore();
             }
         }
     }
@@ -702,12 +698,10 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             case GenericCardFragment.CONTENT_TYPE_INFO:
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
-                MemberScoreView = (TextView) StatusFragment.getView().findViewById(R.id.memberScore);
                 if (RecordStatusText != null)
                 {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
-                    MemberScoreView.setText(MemberScoreText);
                 }
 
                 break;
@@ -715,10 +709,10 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             case GenericCardFragment.CONTENT_TYPE_SCORE:
                 MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                 MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
-                if (MemberScoreText != null)
+                if (MemberScore > 0)
                 {
-                    MALScoreBar.setRating(Float.parseFloat(MemberScoreText) / 2);
-                    MyScoreBar.setRating(Float.parseFloat(MyScoreText) / 2);
+                    MALScoreBar.setRating(MemberScore / 2);
+                    MyScoreBar.setRating(MyScore / 2);
                 }
 
                 break;
