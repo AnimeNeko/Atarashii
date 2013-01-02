@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+
     <TextView
         android:id="@+id/progressCountTotal"
         android:layout_width="wrap_content"
@@ -10,8 +10,8 @@
         android:layout_alignBaseline="@+id/progressCountCurrent"
         android:layout_alignParentRight="true"
         android:text="/?"
-        android:textSize="32sp" />
-
+        android:textSize="28sp" />
+
     <TextView
         android:id="@+id/progressCountCurrent"
         android:layout_width="wrap_content"
@@ -19,16 +19,16 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@id/progressCountTotal"
         android:text="24"
-        android:textSize="58sp" />
-
+        android:textSize="40sp" />
+
     <TextView
-        android:id="@+id/myStatus"
+        android:id="@+id/cardEpisodesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/progressCountCurrent"
         android:layout_alignBottom="@+id/progressCountCurrent"
         android:layout_alignParentLeft="true"
-        android:text="View Status"
-        android:textSize="32sp" />
+        android:text="Episodes"
+        android:textSize="28sp" />
 
 </RelativeLayout>

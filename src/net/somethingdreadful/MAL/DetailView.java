@@ -39,6 +39,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     GenericCardFragment ProgressFragment;
     GenericCardFragment StatusFragment;
     GenericCardFragment ScoreFragment;
+    GenericCardFragment WatchStatusFragment;
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     MangaProgressDialogFragment mpdf;
@@ -70,6 +71,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
 
+        //Get the recordID, passed in from the calling activity
+        recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
+
+        //Get the recordType, also passed from calling activity
+        //Record type will determine how the detail view lays out itself
+        recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
+
+
         fm = getSupportFragmentManager();
 
         bfrag = (DetailsBasicFragment) fm.findFragmentById(R.id.DetailsFragment);
@@ -89,7 +98,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         //        });
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
-        ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+        if("manga".equals(recordType))
+        {
+            ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress_manga, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+        }
+        else
+        {
+            ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+        }
         ProgressFragment.inflateContentStub();
 
         ProgressFragment.getView().setOnClickListener(new OnClickListener(){
@@ -110,17 +126,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         ScoreFragment.setArgsSensibly("SCORE", R.layout.card_layout_score, GenericCardFragment.CONTENT_TYPE_SCORE, false);
         ScoreFragment.inflateContentStub();
 
+        WatchStatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.WatchStatusFragment);
+        WatchStatusFragment.setArgsSensibly("STATUS", R.layout.card_layout_watchstatus, GenericCardFragment.CONTENT_TYPE_WATCHSTATUS, true);
+        WatchStatusFragment.inflateContentStub();
+
 
         context = getApplicationContext();
         mManager = new MALManager(context);
         pManager = new PrefManager(context);
-
-        //Get the recordID, passed in from the calling activity
-        recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
-
-        //Get the recordType, also passed from calling activity
-        //Record type will determine how the detail view lays out itself
-        recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
 
         // Set up the action bar.
         actionBar = getSupportActionBar();
@@ -367,7 +380,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
-                MyStatusView = (TextView) ProgressFragment.getView().findViewById(R.id.myStatus);
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.statusLabel);
 
 
 
@@ -375,8 +388,12 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
-                    MyStatusView.setText(MyStatusText);
 
+                }
+
+                if(MyStatusView != null)
+                {
+                    MyStatusView.setText(MyStatusText);
                 }
 
                 RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
@@ -417,7 +434,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
-                MyStatusView = (TextView) ProgressFragment.getView().findViewById(R.id.myStatus);
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.statusLabel);
 
 
 
@@ -425,9 +442,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
-                    MyStatusView.setText(MyStatusText);
 
                 }
+
+                if(MyStatusView != null)
+                {
+                    MyStatusView.setText(MyStatusText);
+                }
+
 
                 RecordStatusText = WordUtils.capitalize(mMr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mMr.getRecordType());
@@ -546,10 +568,12 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     if (newValue == Integer.parseInt(mAr.getTotal()))
                     {
                         mAr.setMyStatus(mAr.STATUS_COMPLETED);
+                        MyStatusView.setText(WordUtils.capitalize(mAr.STATUS_COMPLETED));
                     }
                     if (newValue == 0)
                     {
                         mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
+                        MyStatusView.setText(WordUtils.capitalize(mAr.STATUS_PLANTOWATCH));
                     }
 
                 }
@@ -694,12 +718,12 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
             case GenericCardFragment.CONTENT_TYPE_PROGRESS:
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
-                MyStatusView = (TextView) ProgressFragment.getView().findViewById(R.id.myStatus);
+
                 if(ProgressText != null)
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
-                    MyStatusView.setText(MyStatusText);
+
                 }
                 break;
             case GenericCardFragment.CONTENT_TYPE_INFO:
@@ -722,6 +746,14 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     MyScoreBar.setRating(MyScore / 2);
                 }
 
+                break;
+
+            case GenericCardFragment.CONTENT_TYPE_WATCHSTATUS:
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.statusLabel);
+                if (MyStatusText != null)
+                {
+                    MyStatusView.setText(MyStatusText);
+                }
                 break;
         }
 

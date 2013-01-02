@@ -48,11 +48,19 @@
                   android:layout_margin="8dp" 
                   tools:layout="@layout/card_layout_base" />
               
-              <fragment android:id="@+id/ProgressFragment" 
+              <fragment android:id="@+id/WatchStatusFragment" 
                   android:name="net.somethingdreadful.MAL.GenericCardFragment" 
                   android:layout_width="300dp" 
                   android:layout_height="fill_parent" 
                   android:layout_toRightOf="@id/StatusFragment" 
+                  android:layout_margin="8dp" 
+                  tools:layout="@layout/card_layout_base" />
+              
+              <fragment android:id="@+id/ProgressFragment" 
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
+                  android:layout_width="300dp" 
+                  android:layout_height="fill_parent" 
+                  android:layout_toRightOf="@id/WatchStatusFragment" 
                   android:layout_margin="8dp" 
                   tools:layout="@layout/card_layout_base" />
               
