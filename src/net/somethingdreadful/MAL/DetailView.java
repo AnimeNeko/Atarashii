@@ -467,6 +467,13 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 SynopsisText = gr.getSpannedSynopsis();
                 MemberScore = gr.getMemberScore();
             }
+
+            if (MALScoreBar != null)
+            {
+                MALScoreBar.setRating(MemberScore / 2);
+                MyScoreBar.setRating(MyScore / 2);
+            }
+
         }
     }
 
