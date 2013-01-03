@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -87,15 +88,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
         SynopsisFragment.inflateContentStub();
 
-        //        SynopsisFragment.getView().setOnClickListener(new OnClickListener(){
-        //
-        //            @Override
-        //            public void onClick(View v) {
-        //                //Code for doing something when the card is clicked goes here
-        //                //Probably going to be expand collapse in portrait, but disabled and use a scrollview in landscape since cards will scroll horizontally
-        //            }
-        //
-        //        });
+
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
         if("manga".equals(recordType))
@@ -380,20 +373,12 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
-                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.statusLabel);
-
-
 
                 if(ProgressTotalView != null)
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
 
-                }
-
-                if(MyStatusView != null)
-                {
-                    MyStatusView.setText(MyStatusText);
                 }
 
                 RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
@@ -418,6 +403,13 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                     MyScoreBar.setRating(MyScore / 2);
                 }
 
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
+
+                if(MyStatusView != null)
+                {
+                    MyStatusView.setText(MyStatusText);
+                }
+
             }
             else {
                 actionBar.setTitle(mMr.getName());
@@ -434,7 +426,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
-                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.statusLabel);
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
 
 
 
@@ -749,9 +741,10 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
                 break;
 
             case GenericCardFragment.CONTENT_TYPE_WATCHSTATUS:
-                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.statusLabel);
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
                 if (MyStatusText != null)
                 {
+                    Log.v("MALX", "MyStatusText not null, setting");
                     MyStatusView.setText(MyStatusText);
                 }
                 break;
