@@ -51,6 +51,8 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
     TextView RecordTypeView;
     TextView RecordStatusView;
     TextView MyStatusView;
+    TextView ProgressCurrentVolumeView;
+    TextView ProgressTotalVolumeView;
     TextView ProgressCurrentView;
     TextView ProgressTotalView;
     ImageView CoverImageView;
@@ -61,6 +63,8 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
 
 
     Spanned SynopsisText;
+    String VolumeProgressText;
+    String VolumeTotalText;
     String ProgressText;
     String TotalProgressText;
     String RecordStatusText;
@@ -445,22 +449,27 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
                 //                RecordTypeView.setText(mMr.getRecordType());
                 //                MyStatusView.setText(WordUtils.capitalize(mMr.getMyStatus()));
 
+                VolumeProgressText = Integer.toString(mMr.getVolumeProgress());
+                VolumeTotalText = mMr.getVolumeTotal();
                 ProgressText = Integer.toString(mMr.getPersonalProgress());
                 TotalProgressText = mMr.getTotal();
                 MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
 
 
+                ProgressCurrentVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountCurrent);
+                ProgressTotalVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountTotal);
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
                 MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
 
-
-
+                if(ProgressTotalVolumeView != null) {
+                    ProgressCurrentVolumeView.setText(VolumeProgressText);
+                    ProgressTotalVolumeView.setText("/" + VolumeTotalText);
+                }
                 if(ProgressTotalView != null)
                 {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
-
                 }
 
                 if(MyStatusView != null)
