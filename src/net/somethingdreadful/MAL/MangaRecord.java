@@ -52,7 +52,7 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     public String getVolumeTotal() {
-        return Integer.toString(chaptersTotal);
+        return Integer.toString(volumesTotal);
     }
     @Override
     public String getTotal() {
