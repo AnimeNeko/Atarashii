@@ -32,7 +32,7 @@
     <string name="listType_dropped">Dropped</string>
     <string name="listType_planned">Planned</string>
     <string name="cover_Watching">I\'ve watched:</string>
-    <string name="cover_Completed">Completed at:</string>
+    <string name="cover_Completed">Completed</string>
     <string name="cover_Reading">I\'ve read:</string>
     <string name="cover_OnHold">On Hold at:</string>
     <string name="cover_Dropped">Dropped</string>

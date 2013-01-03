@@ -202,7 +202,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         {
             flavourText.setText(R.string.cover_Completed);
 
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
+            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
 
         }
         if ("on-hold".equals(myStatus))
