@@ -24,7 +24,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
-EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener {
+EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
+StatusPickerDialogFragment.StatusDialogDismissedListener {
 
     MALManager mManager;
     PrefManager pManager;
@@ -44,6 +45,7 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
     FragmentManager fm;
     EpisodesPickerDialogFragment epd;
     MangaProgressDialogFragment mpdf;
+    StatusPickerDialogFragment spdf;
 
     TextView SynopsisView;
     TextView RecordTypeView;
@@ -122,6 +124,16 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         WatchStatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.WatchStatusFragment);
         WatchStatusFragment.setArgsSensibly("STATUS", R.layout.card_layout_watchstatus, GenericCardFragment.CONTENT_TYPE_WATCHSTATUS, true);
         WatchStatusFragment.inflateContentStub();
+
+        WatchStatusFragment.getView().setOnClickListener(new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                //TODO: Added some kind of clicking feedback, like highlight it or something
+                showStatusDialog();
+            }
+
+        });
 
 
         context = getApplicationContext();
@@ -264,6 +276,20 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         {
             showMangaProgressDialog();
         }
+    }
+
+    public void showStatusDialog() {
+        spdf = new StatusPickerDialogFragment();
+
+        if (Build.VERSION.SDK_INT >= 11)
+        {
+            spdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        }
+        else
+        {
+            spdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
+        }
+        spdf.show(fm, "fragment_EditStatusDialog");
     }
 
     public void showEpisodesWatchedDialog()
@@ -772,5 +798,11 @@ EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragmen
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
 
         return shareText;
+    }
+
+    @Override
+    public void onStatusDialogDismissed() {
+
+
     }
 }
