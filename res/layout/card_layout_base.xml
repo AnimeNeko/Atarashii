@@ -27,7 +27,7 @@
         android:layout_alignLeft="@+id/CardTitle"
         android:layout_below="@+id/CardTitle"
         android:layout_marginTop="8dp" />
-
+
     <ImageView
         android:id="@+id/actionableIcon"
         android:layout_width="wrap_content"
