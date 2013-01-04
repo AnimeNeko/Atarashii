@@ -20,7 +20,7 @@
         android:layout_toLeftOf="@id/progressCountTotal"
         android:text="24"
         android:textSize="40sp" />
-
+
     <TextView
         android:id="@+id/cardEpisodesLabel"
         android:layout_width="wrap_content"

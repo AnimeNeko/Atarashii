@@ -6,8 +6,8 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp"
-    android:padding="12dp"
-    android:background="#FFFFFF" >
+    android:background="#FFFFFF"
+    android:padding="12dp" >
 
     <TextView
         android:id="@+id/CardTitle"
@@ -16,18 +16,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="TITLE"
-        android:textSize="18sp" 
-        android:textColor="#0099CC"/>
+        android:textColor="#0099CC"
+        android:textSize="18sp" />
 
     <ViewStub
         android:id="@+id/contentStub"
-        android:inflatedId="@+id/inflatedStub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/CardTitle"
         android:layout_below="@+id/CardTitle"
-        android:layout_marginTop="8dp" />
-
+        android:layout_marginTop="8dp"
+        android:inflatedId="@+id/inflatedStub" />
+
     <ImageView
         android:id="@+id/actionableIcon"
         android:layout_width="wrap_content"

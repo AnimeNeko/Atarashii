@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent" >
+
     <TextView
         android:id="@+id/mediaTypeLabel"
         android:layout_width="wrap_content"
@@ -44,5 +44,3 @@
         android:textSize="16sp" />
 
 </RelativeLayout>
-
-    

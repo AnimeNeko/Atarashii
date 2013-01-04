@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <TextView
         android:id="@+id/MALScoreLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MAL Score"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
     <RatingBar
         android:id="@+id/MALScoreBar"
         style="ratingBarStyleSmall"
@@ -22,7 +22,7 @@
         android:max="5"
         android:numStars="5"
         android:stepSize="0.5" />
-
+
     <TextView
         android:id="@+id/MyScoreLabel"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_below="@id/MALScoreBar"
         android:text="My Score"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
     <RatingBar
         android:id="@+id/MyScoreBar"
         android:layout_width="wrap_content"

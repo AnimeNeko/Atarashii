@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+
     <TextView
         android:id="@+id/progressVolumesCountTotal"
         android:layout_width="wrap_content"
@@ -11,7 +11,7 @@
         android:layout_alignParentRight="true"
         android:text="/?"
         android:textSize="28sp" />
-
+
     <TextView
         android:id="@+id/progressVolumesCountCurrent"
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_toLeftOf="@id/progressVolumesCountTotal"
         android:text="24"
         android:textSize="40sp" />
-
+
     <TextView
         android:id="@+id/cardVolumesLabel"
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_alignParentLeft="true"
         android:text="Volumes"
         android:textSize="28sp" />
-    
+
     <TextView
         android:id="@+id/progressCountTotal"
         android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
         android:layout_alignParentRight="true"
         android:text="/?"
         android:textSize="28sp" />
-
+
     <TextView
         android:id="@+id/progressCountCurrent"
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
         android:layout_toLeftOf="@id/progressCountTotal"
         android:text="24"
         android:textSize="40sp" />
-
+
     <TextView
         android:id="@+id/cardEpisodesLabel"
         android:layout_width="wrap_content"

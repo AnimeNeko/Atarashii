@@ -2,7 +2,7 @@
 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+
     <RadioButton
         android:id="@+id/statusRadio_InProgress"
         style="?android:attr/borderlessButtonStyle"
@@ -11,7 +11,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/listType_InProgress" />
-
+
     <RadioButton
         android:id="@+id/statusRadio_Completed"
         style="?android:attr/borderlessButtonStyle"
@@ -20,7 +20,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/listType_Completed" />
-
+
     <RadioButton
         android:id="@+id/statusRadio_OnHold"
         style="?android:attr/borderlessButtonStyle"
@@ -29,7 +29,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/listType_onhold" />
-
+
     <RadioButton
         android:id="@+id/statusRadio_Dropped"
         style="?android:attr/borderlessButtonStyle"
@@ -38,7 +38,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/listType_dropped" />
-
+
     <RadioButton
         android:id="@+id/statusRadio_Planned"
         style="?android:attr/borderlessButtonStyle"

@@ -9,7 +9,7 @@
         android:layout_height="fill_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/panel" />
-    
+
     <ImageView
         android:id="@+id/textOverlayPanel"
         android:layout_width="fill_parent"
@@ -18,7 +18,7 @@
         android:alpha="0.7"
         android:scaleType="fitXY"
         android:src="@drawable/panel" />
-
+
     <TextView
         android:id="@+id/animeName"
         android:layout_width="fill_parent"
@@ -34,12 +34,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
-
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right" >
-
+
         <TextView
             android:id="@+id/watchedCount"
             android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF"
             android:textSize="32sp" />
-
+
         <TextView
             android:id="@+id/stringWatched"
             android:layout_width="wrap_content"
@@ -65,9 +65,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
-
     </RelativeLayout>
-
+
     <ImageView
         android:id="@+id/popUpButton"
         style="?android:attr/borderlessButtonStyle"
@@ -82,46 +81,3 @@
         android:src="@drawable/cover_action" />
 
 </FrameLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

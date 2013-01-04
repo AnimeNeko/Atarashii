@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridview"
-    android:layout_width="fill_parent" 
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:numColumns="2"
-    android:verticalSpacing="1dp"
-    android:horizontalSpacing="1dp"
-    android:stretchMode="columnWidth"
-    android:listSelector="#00343434"
-    android:gravity="center"
-    android:fastScrollEnabled="true"
     android:fadingEdge="none"
-/>
+    android:fastScrollEnabled="true"
+    android:gravity="center"
+    android:horizontalSpacing="1dp"
+    android:listSelector="#00343434"
+    android:numColumns="2"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="1dp" />
