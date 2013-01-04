@@ -69,7 +69,7 @@
 
     <ImageView
         android:id="@+id/popUpButton"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="bottom|left"

@@ -5,7 +5,7 @@
 
     <RadioButton
         android:id="@+id/statusRadio_InProgress"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
@@ -14,7 +14,7 @@
 
     <RadioButton
         android:id="@+id/statusRadio_Completed"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
@@ -23,7 +23,7 @@
 
     <RadioButton
         android:id="@+id/statusRadio_OnHold"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
@@ -32,7 +32,7 @@
 
     <RadioButton
         android:id="@+id/statusRadio_Dropped"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
@@ -41,7 +41,7 @@
 
     <RadioButton
         android:id="@+id/statusRadio_Planned"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
