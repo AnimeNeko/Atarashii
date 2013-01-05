@@ -2,11 +2,13 @@ package net.somethingdreadful.MAL;
 
 import net.simonvt.widget.NumberPicker;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +43,11 @@ public class MangaProgressDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.v("MALX", "onCreateDialog Fired");
 
-        view = getActivity().getLayoutInflater().inflate(R.layout.dialog_manga_progress, null);
+        view = View.inflate(new ContextThemeWrapper(getActivity(), R.style.AlertDialog), R.layout.dialog_manga_progress, null);
 
-        return new AlertDialog.Builder(getActivity())
-        .setPositiveButton("Update", new DialogInterface.OnClickListener()
+        Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
+
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int whichButton)
@@ -61,7 +64,10 @@ public class MangaProgressDialogFragment extends DialogFragment {
                         dismiss();
                     }
                 }
-                        ).setView(view).setTitle("I've read:").create();
+                        ).setView(view).setTitle("I've read:");
+
+        return builder.create();
+
     }
 
     @Override

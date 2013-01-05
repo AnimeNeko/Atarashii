@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
@@ -5,6 +6,10 @@
         <item name="numberPickerDownButtonStyle">@style/NPWidget.Holo.ImageButton.NumberPickerDownButton</item>
         <item name="numberPickerInputTextStyle">@style/NPWidget.Holo.EditText.NumberPickerInputText</item>
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
+    </style>
+
+    <style name="AlertDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
     </style>
 
 </resources>
