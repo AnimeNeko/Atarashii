@@ -201,21 +201,6 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
             case R.id.action_Share:
                 Share();
                 break;
-            case R.id.SetStatus_InProgress:
-                setStatus(1);
-                break;
-            case R.id.SetStatus_Complete:
-                setStatus(2);
-                break;
-            case R.id.SetStatus_OnHold:
-                setStatus(3);
-                break;
-            case R.id.SetStatus_Dropped:
-                setStatus(4);
-                break;
-            case R.id.SetStatus_Planned:
-                setStatus(5);
-                break;
         }
 
         return true;
@@ -622,49 +607,70 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
         new writeDetailsTask().execute(gr);
     }
 
-    public void setStatus(int pickValue)
+    public void setStatus(String currentStatus)
     {
+        String prevStatus;
+
         if ("anime".equals(recordType))
         {
-            switch (pickValue)
+            prevStatus = mAr.getMyStatus();
+
+            if (AnimeRecord.STATUS_WATCHING.equals(currentStatus))
             {
-                case 1:
-                    setAnimeStatus(mAr.STATUS_WATCHING);
-                    break;
-                case 2:
-                    setAnimeStatus(mAr.STATUS_COMPLETED);
-                    break;
-                case 3:
-                    setAnimeStatus(mAr.STATUS_ONHOLD);
-                    break;
-                case 4:
-                    setAnimeStatus(mAr.STATUS_DROPPED);
-                    break;
-                case 5:
-                    setAnimeStatus(mAr.STATUS_PLANTOWATCH);
-                    break;
+                mAr.setMyStatus(AnimeRecord.STATUS_WATCHING);
+            }
+            if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus))
+            {
+                mAr.setMyStatus(AnimeRecord.STATUS_COMPLETED);
+            }
+            if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus))
+            {
+                mAr.setMyStatus(AnimeRecord.STATUS_ONHOLD);
+            }
+            if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus))
+            {
+                mAr.setMyStatus(AnimeRecord.STATUS_DROPPED);
+            }
+            if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus)))
+            {
+                mAr.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
             }
 
+            if (!prevStatus.equals(currentStatus))
+            {
+                mAr.setDirty(GenericMALRecord.DIRTY);
+                MyStatusView.setText(WordUtils.capitalize(currentStatus));
+            }
         }
         else
         {
-            switch (pickValue)
+            prevStatus = mMr.getMyStatus();
+
+            if (MangaRecord.STATUS_WATCHING.equals(currentStatus))
             {
-                case 1:
-                    setMangaStatus(mMr.STATUS_WATCHING);
-                    break;
-                case 2:
-                    setMangaStatus(mMr.STATUS_COMPLETED);
-                    break;
-                case 3:
-                    setMangaStatus(mMr.STATUS_ONHOLD);
-                    break;
-                case 4:
-                    setMangaStatus(mMr.STATUS_DROPPED);
-                    break;
-                case 5:
-                    setMangaStatus(mMr.STATUS_PLANTOWATCH);
-                    break;
+                mMr.setMyStatus(MangaRecord.STATUS_WATCHING);
+            }
+            if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus))
+            {
+                mMr.setMyStatus(MangaRecord.STATUS_COMPLETED);
+            }
+            if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus))
+            {
+                mMr.setMyStatus(MangaRecord.STATUS_ONHOLD);
+            }
+            if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus))
+            {
+                mMr.setMyStatus(MangaRecord.STATUS_DROPPED);
+            }
+            if (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus))
+            {
+                mMr.setMyStatus(MangaRecord.STATUS_PLANTOWATCH);
+            }
+
+            if (!prevStatus.equals(currentStatus))
+            {
+                mAr.setDirty(GenericMALRecord.DIRTY);
+                MyStatusView.setText(WordUtils.capitalize(currentStatus));
             }
         }
     }
@@ -810,8 +816,7 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
     }
 
     @Override
-    public void onStatusDialogDismissed() {
-
-
+    public void onStatusDialogDismissed(String currentStatus) {
+        setStatus(currentStatus);
     }
 }

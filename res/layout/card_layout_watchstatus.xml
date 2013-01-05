@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/cardStatusLabel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="right"
         android:text="Reading"
         android:textSize="28sp" />
     
