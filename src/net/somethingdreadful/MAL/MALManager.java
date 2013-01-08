@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
@@ -42,6 +44,7 @@ public class MALManager {
     final static String TYPE_ANIME = "anime";
     final static String TYPE_MANGA = "manga";
 
+    final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
 
     Context c;
     PrefManager prefManager;
@@ -91,8 +94,8 @@ public class MALManager {
         try
         {
             HttpClient client = new DefaultHttpClient();
+            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
             response = client.execute(request);
-
         }
         catch (ClientProtocolException e)
         {
@@ -197,6 +200,7 @@ public class MALManager {
         HttpGet request;
         HttpResponse response;
         HttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
         request = new HttpGet(APIProvider + readListAPI + malUser);
         request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
@@ -255,6 +259,7 @@ public class MALManager {
         HttpGet request;
         HttpResponse response;
         HttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
         request = new HttpGet(APIProvider + readDetailsAPI + id + readMineParam);
         request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
@@ -644,6 +649,7 @@ public class MALManager {
             HttpPut writeRequest;
             HttpResponse response;
             HttpClient client = new DefaultHttpClient();
+            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
             writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + gr.getID());
             writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
@@ -680,6 +686,7 @@ public class MALManager {
             HttpPut writeRequest;
             HttpResponse response;
             HttpClient client = new DefaultHttpClient();
+            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
             writeRequest = new HttpPut(APIProvider + writeMangaDetailsAPI + gr.getID());
             writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
