@@ -12,7 +12,7 @@ public class MangaRecord extends GenericMALRecord {
 
     public MangaRecord(int id, String name, String type, String status, String myStatus,
             int readVolumes, int readChapters, int totalVolumes, int totalChapters,
-            float memberScore, int myScore, String synopsis, String imageUrl, int dirty) {
+            float memberScore, int myScore, String synopsis, String imageUrl, int dirty, long lastUpdate) {
         this.recordID = id;
         this.recordName = name;
         this.recordType = type;
@@ -29,11 +29,12 @@ public class MangaRecord extends GenericMALRecord {
         this.chaptersRead = readChapters;
 
         this.dirty = dirty;
+        this.lastUpdate = lastUpdate;
     }
 
     public MangaRecord(int id, String name, String type, String status, String myStatus,
             int readVolumes, int readChapters, int totalVolumes, int totalChapters,
-            int myScore, String imageUrl, int dirty) {
+            int myScore, String imageUrl, int dirty, long lastUpdate) {
         this.recordID = id;
         this.recordName = name;
         this.recordType = type;
@@ -48,6 +49,7 @@ public class MangaRecord extends GenericMALRecord {
         this.chaptersRead = readChapters;
 
         this.dirty = dirty;
+        this.lastUpdate = lastUpdate;
 
     }
 

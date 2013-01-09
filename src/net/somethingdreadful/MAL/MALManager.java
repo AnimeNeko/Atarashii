@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -69,6 +70,7 @@ public class MALManager {
     int c_totalVolumes;
     int c_totalChapters;
     int c_dirty;
+    int c_lastUpdate;
 
 
 
@@ -298,6 +300,8 @@ public class MALManager {
     {
         JSONObject raw = getList(type);
 
+        long lastUpdate = new Date().getTime() / 1000;
+
         JSONArray jArray;
         try
         {
@@ -318,7 +322,7 @@ public class MALManager {
                     int myScore = a.getInt("score");
 
                     AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes,
-                            myStatus, animeStatus, animeType, myScore, 0);
+                            myStatus, animeStatus, animeType, myScore, 0, lastUpdate);
 
                     saveItem(ar, true);
                 }
@@ -344,7 +348,7 @@ public class MALManager {
                         int myScore = a.getInt("score");
 
                         MangaRecord mr = new MangaRecord(id, name, mangaType, mangaStatus, myStatus,
-                                readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0);
+                                readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0, lastUpdate);
 
                         saveItem(mr, true);
                     }
@@ -440,7 +444,7 @@ public class MALManager {
             AnimeRecord ar = new AnimeRecord(cu.getInt(c_ID), cu.getString(c_Name), cu.getString(c_type),
                     cu.getString(c_recordStatus), cu.getString(c_myStatus), cu.getInt(c_episodesWatched),
                     cu.getInt(c_episodesTotal), cu.getFloat(c_memberScore), cu.getInt(c_myScore),
-                    cu.getString(c_synopsis), cu.getString(c_imageUrl), cu.getInt(c_dirty));
+                    cu.getString(c_synopsis), cu.getString(c_imageUrl), cu.getInt(c_dirty), cu.getLong(c_lastUpdate));
             al.add(ar);
 
             cu.moveToNext();
@@ -461,33 +465,27 @@ public class MALManager {
         ArrayList<MangaRecord> ml = new ArrayList();
         Cursor cu;
 
-        String columnList = "recordID, recordName, recordType, imageUrl, " +
-                "recordStatus, myStatus, memberScore, myScore, synopsis, " +
-                "chaptersRead, chaptersTotal, volumesRead, volumesTotal, dirty";
-
         if (list == 0)
         {
-            cu = db.rawQuery("SELECT " + columnList + " FROM 'manga' ORDER BY recordName", null);
+            cu = db.rawQuery("SELECT * FROM 'manga' ORDER BY recordName", null);
         }
         else
         {
-            cu = db.rawQuery("SELECT " + columnList + " FROM 'manga' WHERE myStatus='" + listSortFromInt(list, "manga") + "' ORDER BY recordName", null);
+            cu = db.rawQuery("SELECT * FROM 'manga' WHERE myStatus='" + listSortFromInt(list, "manga") + "' ORDER BY recordName", null);
         }
 
         Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
+        getIndices(cu);
 
         while (cu.isAfterLast() == false)
         {
 
-            MangaRecord mr = new MangaRecord(cu.getInt(cu.getColumnIndex("recordID")), cu.getString(cu.getColumnIndex("recordName")),
-                    cu.getString(cu.getColumnIndex("recordType")),
-                    cu.getString(cu.getColumnIndex("recordStatus")), cu.getString(cu.getColumnIndex("myStatus")),
-                    cu.getInt(cu.getColumnIndex("volumesRead")), cu.getInt(cu.getColumnIndex("chaptersRead")),
-                    cu.getInt(cu.getColumnIndex("volumesTotal")), cu.getInt(cu.getColumnIndex("chaptersTotal")),
-                    cu.getInt(cu.getColumnIndex("memberScore")), cu.getInt(cu.getColumnIndex("myScore")),
-                    cu.getString(cu.getColumnIndex("synopsis")), cu.getString(cu.getColumnIndex("imageUrl")),
-                    cu.getInt(cu.getColumnIndex("dirty")));
+            MangaRecord mr = new MangaRecord(cu.getInt(c_ID), cu.getString(c_Name), cu.getString(c_type),
+                    cu.getString(c_recordStatus), cu.getString(c_myStatus), cu.getInt(c_readVolumes),
+                    cu.getInt(c_readChapters), cu.getInt(c_totalVolumes), cu.getInt(c_totalChapters),
+                    cu.getFloat(c_memberScore), cu.getInt(c_myScore), cu.getString(c_synopsis),
+                    cu.getString(c_imageUrl), cu.getInt(c_dirty), cu.getLong(c_lastUpdate));
             ml.add(mr);
 
             cu.moveToNext();
@@ -520,6 +518,7 @@ public class MALManager {
         cv.put("volumesTotal", mr.getVolumeTotal());
         cv.put("chaptersTotal", mr.getTotal());
         cv.put("dirty", mr.getDirty());
+        cv.put("lastUpdate", mr.getLastUpdate());
 
         if (ignoreSynopsis == false)
         {
@@ -552,6 +551,7 @@ public class MALManager {
         cv.put("episodesWatched", ar.getPersonalProgress());
         cv.put("episodesTotal", ar.getTotal());
         cv.put("dirty", ar.getDirty());
+        cv.put("lastUpdate", ar.getLastUpdate());
 
         if (ignoreSynopsis == false)
         {
@@ -579,7 +579,7 @@ public class MALManager {
         AnimeRecord ar = new AnimeRecord(cursor.getInt(c_ID), cursor.getString(c_Name), cursor.getString(c_type),
                 cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_episodesWatched),
                 cursor.getInt(c_episodesTotal),	cursor.getFloat(c_memberScore), cursor.getInt(c_myScore),
-                cursor.getString(c_synopsis), cursor.getString(c_imageUrl), cursor.getInt(c_dirty));
+                cursor.getString(c_synopsis), cursor.getString(c_imageUrl), cursor.getInt(c_dirty), cursor.getLong(c_lastUpdate));
 
         cursor.close();
 
@@ -598,7 +598,7 @@ public class MALManager {
                 cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_readVolumes),
                 cursor.getInt(c_readChapters),	cursor.getInt(c_totalVolumes), cursor.getInt(c_totalChapters),
                 cursor.getFloat(c_memberScore), cursor.getInt(c_myScore), cursor.getString(c_synopsis),
-                cursor.getString(c_imageUrl), cursor.getInt(c_dirty));
+                cursor.getString(c_imageUrl), cursor.getInt(c_dirty), cursor.getLong(c_lastUpdate));
 
         cursor.close();
 
@@ -638,6 +638,7 @@ public class MALManager {
         c_totalVolumes = cu.getColumnIndex("volumesTotal");
         c_totalChapters = cu.getColumnIndex("chaptersTotal");
         c_dirty = cu.getColumnIndex("dirty");
+        c_lastUpdate = cu.getColumnIndex("lastUpdate");
     }
 
     public boolean writeDetailsToMAL(GenericMALRecord gr, String type)

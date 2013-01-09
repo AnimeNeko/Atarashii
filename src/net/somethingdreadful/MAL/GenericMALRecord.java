@@ -22,6 +22,7 @@ public abstract class GenericMALRecord {
     protected int myScore;
     protected String synopsis;
     protected int dirty;
+    protected long lastUpdate;
 
     public abstract int getPersonalProgress();
 
@@ -99,6 +100,14 @@ public abstract class GenericMALRecord {
 
     public void setDirty(int dirty) {
         this.dirty = dirty;
+    }
+
+    public long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(long lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public void setMyStatus(String status) {
