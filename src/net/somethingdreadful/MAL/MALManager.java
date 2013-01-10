@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -359,6 +360,9 @@ public class MALManager {
 
                 }
             }
+
+            clearDeletedItems(type, lastUpdate);
+
         }
         catch (JSONException e)
         {
@@ -740,5 +744,13 @@ public class MALManager {
 
 
         return built;
+    }
+
+    public void clearDeletedItems(String type, long currentTime) {
+        Log.v("MALX", "Removing deleted items of type " + type + " older than " + DateFormat.getDateTimeInstance().format(currentTime * 1000));
+
+        int recordsRemoved = db.delete(type, "lastUpdate < ?", new String[] {String.valueOf(currentTime)});
+
+        Log.v("MALX", "Removed " + recordsRemoved + " "+ type + " items");
     }
 }
