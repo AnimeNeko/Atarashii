@@ -301,7 +301,7 @@ public class MALManager {
     {
         JSONObject raw = getList(type);
 
-        long lastUpdate = new Date().getTime() / 1000;
+        long currentTime = new Date().getTime() / 1000;
 
         JSONArray jArray;
         try
@@ -323,7 +323,7 @@ public class MALManager {
                     int myScore = a.getInt("score");
 
                     AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes,
-                            myStatus, animeStatus, animeType, myScore, 0, lastUpdate);
+                            myStatus, animeStatus, animeType, myScore, 0, currentTime);
 
                     saveItem(ar, true);
                 }
@@ -349,7 +349,7 @@ public class MALManager {
                         int myScore = a.getInt("score");
 
                         MangaRecord mr = new MangaRecord(id, name, mangaType, mangaStatus, myStatus,
-                                readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0, lastUpdate);
+                                readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0, currentTime);
 
                         saveItem(mr, true);
                     }
@@ -361,7 +361,7 @@ public class MALManager {
                 }
             }
 
-            clearDeletedItems(type, lastUpdate);
+            clearDeletedItems(type, currentTime);
 
         }
         catch (JSONException e)
