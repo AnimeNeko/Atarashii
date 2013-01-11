@@ -22,19 +22,19 @@ Importing the Projects to Eclipse with the ADT Plugin
 You should already have the ADT Plugin installed. If you do not, follow the
 instructions at https://developer.android.com/tools/sdk/eclipse-adt.html
 
-NOTE: Due to naming conflicts, you will need to import each project individually.
+NOTE: Due to naming conflicts because of the default names used by Eclipse,
+you will need to import each project individually.
 
 First, import the main Atarashii project:
 
   - In Eclipse, create a new "Android Project from Existing Code"
-  - Select the Atarashii checkout root folder
+  - Select the Atarashii root folder inside the checkout
   - Deselect all items and only select the Atarashii main project, which should
     be listed at the top
-  - You may rename this project from the default name given by Eclipse
+  - You should rename this project from the default name given by Eclipse
 
-Next, import each of the third-party modules. Currently, these are only
-ActionBarSherlock and android-numberpicker. For each project, follow these
-steps:
+Next, import each of the third-party modules from inside the third-party
+directory. For each project, follow these steps:
 
   - In Eclipse, create a new "Android Project from Existing Code"
   - Select the library folder for each library
@@ -53,4 +53,4 @@ in the libs directory.
 You should now be able to successfully build and develop Atarashii!
 
 
-Revision 20121124
+Revision 20130111
