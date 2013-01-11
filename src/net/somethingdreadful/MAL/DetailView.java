@@ -701,6 +701,23 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
         }
     }
 
+    public void setRating(int rating) {
+        Log.v("MALX", "setRating received rating: " + rating);
+
+        if ("anime".equals(recordType)) {
+            MyScoreBar.setRating((float) rating / 2);
+
+            mAr.setMyScore(rating);
+            mAr.setDirty(GenericMALRecord.DIRTY);
+        }
+        else {
+            MyScoreBar.setRating((float) rating / 2);
+
+            mMr.setMyScore(rating);
+            mMr.setDirty(GenericMALRecord.DIRTY);
+        }
+    }
+
     public void setAnimeStatus(String status)
     {
         mAr.setMyStatus(status);
@@ -848,7 +865,8 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
 
     @Override
     public void onRatingDialogDismissed(int rating) {
-
+        setRating(rating);
+        Log.v("MALX", "Listener recieved rating: " + rating);
 
     }
 }

@@ -5,6 +5,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +108,7 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
             public void onRatingChanged(RatingBar ratingBar, float mRating,
                     boolean fromUser) {
                 rating = (int) (mRating * 2);
+                Log.v("MALX", "Rating set to: " + rating);
 
             }
 
