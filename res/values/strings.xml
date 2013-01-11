@@ -106,4 +106,19 @@
         <item >Dropped</item>
         <item >Planned</item>
     </string-array>
+    <string name="dialog_title_delete">Are you sure!?</string>
+    <string name="dialog_title_rating">Rating</string>
+    <string-array name="array_ratings_text">
+        <item >Unrated</item>
+        <item >1: Appalling</item>
+        <item >2: Horrible</item>
+        <item >3: Very Bad</item>
+        <item >4: Bad</item>
+        <item >5: Average</item>
+        <item >6: Fine</item>
+        <item >7: Good</item>
+        <item >8: Very Good</item>
+        <item >9: Great</item>
+        <item >10: Masterpiece</item>
+    </string-array>
 </resources>

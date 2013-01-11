@@ -117,4 +117,8 @@ public abstract class GenericMALRecord {
     public void setMemberScore(float memberScore) {
         this.memberScore = memberScore;
     }
+
+    public void setMyScore(int myScore) {
+        this.myScore = myScore;
+    }
 }

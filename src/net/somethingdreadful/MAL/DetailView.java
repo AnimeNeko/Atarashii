@@ -25,7 +25,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
 EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
-StatusPickerDialogFragment.StatusDialogDismissedListener {
+StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener {
 
     MALManager mManager;
     PrefManager pManager;
@@ -46,6 +46,7 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
     EpisodesPickerDialogFragment epd;
     MangaProgressDialogFragment mpdf;
     StatusPickerDialogFragment spdf;
+    RatingPickerDialogFragment rpdf;
 
     TextView SynopsisView;
     TextView RecordTypeView;
@@ -122,8 +123,19 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
         StatusFragment.inflateContentStub();
 
         ScoreFragment = (GenericCardFragment) fm.findFragmentById(R.id.ScoreFragment);
-        ScoreFragment.setArgsSensibly("SCORE", R.layout.card_layout_score, GenericCardFragment.CONTENT_TYPE_SCORE, false);
+        ScoreFragment.setArgsSensibly("RATING", R.layout.card_layout_score, GenericCardFragment.CONTENT_TYPE_SCORE, true);
         ScoreFragment.inflateContentStub();
+
+        ScoreFragment.getView().setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showRatingDialog();
+
+            }
+
+
+        });
 
         WatchStatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.WatchStatusFragment);
         WatchStatusFragment.setArgsSensibly("STATUS", R.layout.card_layout_watchstatus, GenericCardFragment.CONTENT_TYPE_WATCHSTATUS, true);
@@ -279,6 +291,20 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
             spdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         spdf.show(fm, "fragment_EditStatusDialog");
+    }
+
+    public void showRatingDialog() {
+        rpdf = new RatingPickerDialogFragment();
+
+        if (Build.VERSION.SDK_INT >= 11)
+        {
+            rpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        }
+        else
+        {
+            rpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
+        }
+        rpdf.show(fm, "fragment_EditRatingDialog");
     }
 
     public void showEpisodesWatchedDialog()
@@ -818,5 +844,11 @@ StatusPickerDialogFragment.StatusDialogDismissedListener {
     @Override
     public void onStatusDialogDismissed(String currentStatus) {
         setStatus(currentStatus);
+    }
+
+    @Override
+    public void onRatingDialogDismissed(int rating) {
+
+
     }
 }
