@@ -425,6 +425,7 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
                 RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mAr.getRecordType());
                 MemberScore = mAr.getMemberScore();
+                MyScore = mAr.getMyScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
@@ -492,6 +493,7 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
                 RecordStatusText = WordUtils.capitalize(mMr.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mMr.getRecordType());
                 MemberScore = mMr.getMemberScore();
+                MyScore = mMr.getMyScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
