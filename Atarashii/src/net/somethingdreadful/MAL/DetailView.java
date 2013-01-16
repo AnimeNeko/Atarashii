@@ -697,7 +697,7 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
 
             if (!prevStatus.equals(currentStatus))
             {
-                mAr.setDirty(GenericMALRecord.DIRTY);
+                mMr.setDirty(GenericMALRecord.DIRTY);
                 MyStatusView.setText(WordUtils.capitalize(currentStatus));
             }
         }
