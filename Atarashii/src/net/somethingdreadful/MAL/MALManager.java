@@ -48,33 +48,19 @@ public class MALManager {
 
     final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
 
+    private String[] animeColumns = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
+            "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
+
+    private String[] mangaColumns = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
+            "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
+            "imageUrl", "dirty", "lastUpdate"};
+
     Context c;
     PrefManager prefManager;
     String malUser;
     String malPass;
     MALSqlHelper helper;
     SQLiteDatabase db;
-
-    int c_ID;
-    int c_Name;
-    int c_type;
-    int c_imageUrl;
-    int c_recordStatus;
-    int c_myStatus;
-    int c_memberScore;
-    int c_myScore;
-    int c_synopsis;
-    int c_episodesWatched;
-    int c_episodesTotal;
-    int c_readVolumes;
-    int c_readChapters;
-    int c_totalVolumes;
-    int c_totalChapters;
-    int c_dirty;
-    int c_lastUpdate;
-
-
-
 
     public MALManager(Context c)
     {
@@ -424,31 +410,44 @@ public class MALManager {
 
     public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list)
     {
+        Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
         ArrayList<AnimeRecord> al = new ArrayList();
         Cursor cu;
 
         if (list == 0)
         {
-            cu = db.rawQuery("SELECT * FROM 'anime' ORDER BY recordName", null);
+            cu = db.query("anime", this.animeColumns, null, null, null, null, "recordName ASC");
         }
         else
         {
-            cu = db.rawQuery("SELECT * FROM 'anime' WHERE myStatus='" + listSortFromInt(list, "anime") + "' ORDER BY recordName", null);
+            cu = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
 
 
         Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
-        getIndices(cu);
 
         while (cu.isAfterLast() == false)
         {
 
-            AnimeRecord ar = new AnimeRecord(cu.getInt(c_ID), cu.getString(c_Name), cu.getString(c_type),
-                    cu.getString(c_recordStatus), cu.getString(c_myStatus), cu.getInt(c_episodesWatched),
-                    cu.getInt(c_episodesTotal), cu.getFloat(c_memberScore), cu.getInt(c_myScore),
-                    cu.getString(c_synopsis), cu.getString(c_imageUrl), cu.getInt(c_dirty), cu.getLong(c_lastUpdate));
+            int recordId = cu.getInt(0);
+            String recordName = cu.getString(1);
+            String recordType = cu.getString(2);
+            String recordStatus = cu.getString(3);
+            String myStatus = cu.getString(4);
+            int episodesWatched = cu.getInt(5);
+            int episodesTotal = cu.getInt(6);
+            float memberScore = cu.getFloat(7);
+            int myScore = cu.getInt(8);
+            String synopsis = cu.getString(9);
+            String imageUrl = cu.getString(10);
+            int dirty = cu.getInt(11);
+            long lastUpdate = cu.getLong(12);
+
+            AnimeRecord ar = new AnimeRecord(recordId, recordName, recordType, recordStatus, myStatus,
+                    episodesWatched, episodesTotal, memberScore, myScore, synopsis, imageUrl, dirty, lastUpdate);
+
             al.add(ar);
 
             cu.moveToNext();
@@ -466,30 +465,45 @@ public class MALManager {
 
     public ArrayList<MangaRecord> getMangaRecordsFromDB(int list)
     {
+        Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
+
         ArrayList<MangaRecord> ml = new ArrayList();
         Cursor cu;
 
         if (list == 0)
         {
-            cu = db.rawQuery("SELECT * FROM 'manga' ORDER BY recordName", null);
+            cu = db.query("manga", this.mangaColumns, null, null, null, null, "recordName ASC");
         }
         else
         {
-            cu = db.rawQuery("SELECT * FROM 'manga' WHERE myStatus='" + listSortFromInt(list, "manga") + "' ORDER BY recordName", null);
+            cu = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
 
         Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
-        getIndices(cu);
 
         while (cu.isAfterLast() == false)
         {
 
-            MangaRecord mr = new MangaRecord(cu.getInt(c_ID), cu.getString(c_Name), cu.getString(c_type),
-                    cu.getString(c_recordStatus), cu.getString(c_myStatus), cu.getInt(c_readVolumes),
-                    cu.getInt(c_readChapters), cu.getInt(c_totalVolumes), cu.getInt(c_totalChapters),
-                    cu.getFloat(c_memberScore), cu.getInt(c_myScore), cu.getString(c_synopsis),
-                    cu.getString(c_imageUrl), cu.getInt(c_dirty), cu.getLong(c_lastUpdate));
+            int recordId = cu.getInt(0);
+            String recordName = cu.getString(1);
+            String recordType = cu.getString(2);
+            String recordStatus = cu.getString(3);
+            String myStatus = cu.getString(4);
+            int volumesRead = cu.getInt(5);
+            int chaptersRead = cu.getInt(6);
+            int volumesTotal = cu.getInt(7);
+            int chaptersTotal = cu.getInt(8);
+            float memberScore = cu.getFloat(9);
+            int myScore = cu.getInt(10);
+            String synopsis = cu.getString(11);
+            String imageUrl = cu.getString(12);
+            int dirty = cu.getInt(13);
+            long lastUpdate = cu.getLong(14);
+
+            MangaRecord mr = new MangaRecord(recordId, recordName, recordType, recordStatus, myStatus,
+                    volumesRead, chaptersRead, volumesTotal, chaptersTotal, memberScore, myScore, synopsis,
+                    imageUrl, dirty, lastUpdate);
             ml.add(mr);
 
             cu.moveToNext();
@@ -572,39 +586,65 @@ public class MALManager {
         }
     }
 
-    public AnimeRecord getAnimeRecordFromDB(int recordID)
+    public AnimeRecord getAnimeRecordFromDB(int id)
     {
-        String[] id =  { Integer.toString(recordID) };
+        Log.v("MALX", "getAnimeRecordFromDB() has been invoked for id " + id);
 
-        Cursor cursor = db.rawQuery("select * from anime where recordID=?", id);
-        cursor.moveToFirst();
-        getIndices(cursor);
+        Cursor cu = db.query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 
-        AnimeRecord ar = new AnimeRecord(cursor.getInt(c_ID), cursor.getString(c_Name), cursor.getString(c_type),
-                cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_episodesWatched),
-                cursor.getInt(c_episodesTotal),	cursor.getFloat(c_memberScore), cursor.getInt(c_myScore),
-                cursor.getString(c_synopsis), cursor.getString(c_imageUrl), cursor.getInt(c_dirty), cursor.getLong(c_lastUpdate));
+        cu.moveToFirst();
 
-        cursor.close();
+        int recordId = cu.getInt(0);
+        String recordName = cu.getString(1);
+        String recordType = cu.getString(2);
+        String recordStatus = cu.getString(3);
+        String myStatus = cu.getString(4);
+        int episodesWatched = cu.getInt(5);
+        int episodesTotal = cu.getInt(6);
+        float memberScore = cu.getFloat(7);
+        int myScore = cu.getInt(8);
+        String synopsis = cu.getString(9);
+        String imageUrl = cu.getString(10);
+        int dirty = cu.getInt(11);
+        long lastUpdate = cu.getLong(12);
+
+        AnimeRecord ar = new AnimeRecord(recordId, recordName, recordType, recordStatus, myStatus,
+                episodesWatched, episodesTotal, memberScore, myScore, synopsis, imageUrl, dirty, lastUpdate);
+
+        cu.close();
 
         return ar;
     }
 
-    public MangaRecord getMangaRecordFromDB(int recordID)
+    public MangaRecord getMangaRecordFromDB(int id)
     {
-        String[] id =  { Integer.toString(recordID) };
+        Log.v("MALX", "getMangaRecordFromDB() has been invoked for id " + id);
 
-        Cursor cursor = db.rawQuery("select * from manga where recordID=?", id);
-        cursor.moveToFirst();
-        getIndices(cursor);
+        Cursor cu = db.query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 
-        MangaRecord mr = new MangaRecord(cursor.getInt(c_ID), cursor.getString(c_Name), cursor.getString(c_type),
-                cursor.getString(c_recordStatus), cursor.getString(c_myStatus), cursor.getInt(c_readVolumes),
-                cursor.getInt(c_readChapters),	cursor.getInt(c_totalVolumes), cursor.getInt(c_totalChapters),
-                cursor.getFloat(c_memberScore), cursor.getInt(c_myScore), cursor.getString(c_synopsis),
-                cursor.getString(c_imageUrl), cursor.getInt(c_dirty), cursor.getLong(c_lastUpdate));
+        cu.moveToFirst();
 
-        cursor.close();
+        int recordId = cu.getInt(0);
+        String recordName = cu.getString(1);
+        String recordType = cu.getString(2);
+        String recordStatus = cu.getString(3);
+        String myStatus = cu.getString(4);
+        int volumesRead = cu.getInt(5);
+        int chaptersRead = cu.getInt(6);
+        int volumesTotal = cu.getInt(7);
+        int chaptersTotal = cu.getInt(8);
+        float memberScore = cu.getFloat(9);
+        int myScore = cu.getInt(10);
+        String synopsis = cu.getString(11);
+        String imageUrl = cu.getString(12);
+        int dirty = cu.getInt(13);
+        long lastUpdate = cu.getLong(14);
+
+        MangaRecord mr = new MangaRecord(recordId, recordName, recordType, recordStatus, myStatus,
+                volumesRead, chaptersRead, volumesTotal, chaptersTotal, memberScore, myScore, synopsis,
+                imageUrl, dirty, lastUpdate);
+
+        cu.close();
 
         return mr;
     }
@@ -622,27 +662,6 @@ public class MALManager {
         {
             throw new RuntimeException("itemExists called with unknown type.");
         }
-    }
-
-    public void getIndices(Cursor cu)
-    {
-        c_ID = cu.getColumnIndex("recordID");
-        c_Name = cu.getColumnIndex("recordName");
-        c_type = cu.getColumnIndex("recordType");
-        c_imageUrl = cu.getColumnIndex("imageUrl");
-        c_recordStatus = cu.getColumnIndex("recordStatus");
-        c_myStatus = cu.getColumnIndex("myStatus");
-        c_memberScore = cu.getColumnIndex("memberScore");
-        c_myScore = cu.getColumnIndex("myScore");
-        c_synopsis = cu.getColumnIndex("synopsis");
-        c_episodesWatched = cu.getColumnIndex("episodesWatched");
-        c_episodesTotal = cu.getColumnIndex("episodesTotal");
-        c_readVolumes = cu.getColumnIndex("volumesRead");
-        c_readChapters = cu.getColumnIndex("chaptersRead");
-        c_totalVolumes = cu.getColumnIndex("volumesTotal");
-        c_totalChapters = cu.getColumnIndex("chaptersTotal");
-        c_dirty = cu.getColumnIndex("dirty");
-        c_lastUpdate = cu.getColumnIndex("lastUpdate");
     }
 
     public boolean writeDetailsToMAL(GenericMALRecord gr, String type)
