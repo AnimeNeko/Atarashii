@@ -8,8 +8,6 @@
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
     </style>
 
-    <style name="AlertDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
-    </style>
+    <style name="AlertDialog" parent="@android:style/Theme.Dialog"></style>
 
 </resources>
