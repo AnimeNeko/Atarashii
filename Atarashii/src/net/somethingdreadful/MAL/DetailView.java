@@ -516,18 +516,22 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
 
         @Override
         protected void onPostExecute(GenericMALRecord gr) {
-            SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
-            if (SynopsisView != null)
-            {
-                SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
-                SynopsisText = gr.getSpannedSynopsis();
-                MemberScore = gr.getMemberScore();
 
-            }
-            else
-            {
-                SynopsisText = gr.getSpannedSynopsis();
-                MemberScore = gr.getMemberScore();
+            if (SynopsisFragment.getView() != null) {
+                SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
+
+                if (SynopsisView != null)
+                {
+                    SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
+                    SynopsisText = gr.getSpannedSynopsis();
+                    MemberScore = gr.getMemberScore();
+
+                }
+                else
+                {
+                    SynopsisText = gr.getSpannedSynopsis();
+                    MemberScore = gr.getMemberScore();
+                }
             }
 
             if (MALScoreBar != null)
