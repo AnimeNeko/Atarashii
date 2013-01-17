@@ -25,7 +25,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
 EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
-StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener {
+StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener,
+RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
     MALManager mManager;
     PrefManager pManager;
@@ -47,6 +48,7 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
     MangaProgressDialogFragment mpdf;
     StatusPickerDialogFragment spdf;
     RatingPickerDialogFragment rpdf;
+    RemoveConfirmationDialogFragment rcdf;
 
     TextView SynopsisView;
     TextView RecordTypeView;
@@ -213,9 +215,27 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
             case R.id.action_Share:
                 Share();
                 break;
+            case R.id.action_Remove:
+                showRemoveDialog();
+                break;
         }
 
         return true;
+    }
+
+    public void showRemoveDialog() {
+        rcdf = new RemoveConfirmationDialogFragment();
+
+        if (Build.VERSION.SDK_INT >= 11)
+        {
+            rcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        }
+        else
+        {
+            rcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
+        }
+        rcdf.show(fm, "fragment_RemoveConfirmationDialog");
+
     }
 
     @Override
@@ -873,6 +893,12 @@ StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFrag
     public void onRatingDialogDismissed(int rating) {
         setRating(rating);
         Log.v("MALX", "Listener recieved rating: " + rating);
+
+    }
+
+    @Override
+    public void onRemoveConfirmed() {
+        Log.v("MALX", "Remove confirmed.");
 
     }
 }

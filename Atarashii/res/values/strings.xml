@@ -106,7 +106,7 @@
         <item >Dropped</item>
         <item >Planned</item>
     </string-array>
-    <string name="dialog_title_delete">Are you sure!?</string>
+    <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_title_rating">Rating</string>
     <string-array name="array_ratings_text">
         <item >Unrated</item>
@@ -121,4 +121,6 @@
         <item >9: Great</item>
         <item >10: Masterpiece</item>
     </string-array>
+    <string name="action_Remove">Remove from list</string>
+    <string name="dialog_message_remove">Absolutely sure? Once it\s gone, it\s gone.</string>
 </resources>
