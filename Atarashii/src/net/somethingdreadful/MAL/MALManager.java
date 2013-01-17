@@ -13,6 +13,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -668,27 +669,24 @@ public class MALManager {
     {
         boolean success = false;
 
-        if (type.equals(TYPE_ANIME))
-        {
-            HttpPut writeRequest;
+        if (gr.FLAG_DELETE) {
+            HttpDelete deleteRequest;
             HttpResponse response;
             HttpClient client = new DefaultHttpClient();
             client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
-            writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + gr.getID());
-            writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
+            if ("anime".equals(type)) {
+                deleteRequest = new HttpDelete(APIProvider + writeAnimeDetailsAPI + gr.getID());
+            }
+            else {
+                deleteRequest = new HttpDelete(APIProvider + writeMangaDetailsAPI + gr.getID());
+            }
 
-            List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-            putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
-            putParams.add(new BasicNameValuePair("episodes", Integer.toString(gr.getPersonalProgress())));
-            putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
+            deleteRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
             try
             {
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                writeRequest.setEntity(entity);
-
-                response = client.execute(writeRequest);
+                response = client.execute(deleteRequest);
 
                 if (200 == response.getStatusLine().getStatusCode())
                 {
@@ -705,44 +703,84 @@ public class MALManager {
                 e.printStackTrace();
             }
         }
-        else if (type.equals(TYPE_MANGA))
-        {
-            HttpPut writeRequest;
-            HttpResponse response;
-            HttpClient client = new DefaultHttpClient();
-            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
+        else {
 
-            writeRequest = new HttpPut(APIProvider + writeMangaDetailsAPI + gr.getID());
-            writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-            List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-            putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
-            putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
-            putParams.add(new BasicNameValuePair("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress())));
-            putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
-
-            try
+            if (type.equals(TYPE_ANIME))
             {
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                writeRequest.setEntity(entity);
+                HttpPut writeRequest;
+                HttpResponse response;
+                HttpClient client = new DefaultHttpClient();
+                client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
-                response = client.execute(writeRequest);
 
-                if (200 == response.getStatusLine().getStatusCode())
+                writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + gr.getID());
+                writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
+
+                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+                putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
+                putParams.add(new BasicNameValuePair("episodes", Integer.toString(gr.getPersonalProgress())));
+                putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
+
+                try
                 {
-                    success = true;
+                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
+                    writeRequest.setEntity(entity);
+
+                    response = client.execute(writeRequest);
+
+                    if (200 == response.getStatusLine().getStatusCode())
+                    {
+                        success = true;
+                    }
+
                 }
-
+                catch (ClientProtocolException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (ClientProtocolException e)
+            else if (type.equals(TYPE_MANGA))
             {
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+                HttpPut writeRequest;
+                HttpResponse response;
+                HttpClient client = new DefaultHttpClient();
+                client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
+                writeRequest = new HttpPut(APIProvider + writeMangaDetailsAPI + gr.getID());
+                writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
+
+                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+                putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
+                putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
+                putParams.add(new BasicNameValuePair("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress())));
+                putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
+
+                try
+                {
+                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
+                    writeRequest.setEntity(entity);
+
+                    response = client.execute(writeRequest);
+
+                    if (200 == response.getStatusLine().getStatusCode())
+                    {
+                        success = true;
+                    }
+
+                }
+                catch (ClientProtocolException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return success;
@@ -772,4 +810,16 @@ public class MALManager {
 
         Log.v("MALX", "Removed " + recordsRemoved + " "+ type + " items");
     }
+
+    public boolean deleteItemFromDatabase(String type, int recordID) {
+        int deleted = db.delete(type, "recordID = ?", new String[] {String.valueOf(recordID)});
+
+        if (deleted == 1 ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }

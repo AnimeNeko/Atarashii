@@ -582,32 +582,38 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
             boolean result;
 
-
-            if ("anime".equals(internalType))
-            {
-                internalManager.saveItem((AnimeRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
+            if (gr[0].FLAG_DELETE) {
+                internalManager.deleteItemFromDatabase(internalType, Integer.parseInt(gr[0].getID()));
+                result = internalManager.writeDetailsToMAL(gr[0], internalType);
             }
-            else
-            {
-                internalManager.saveItem((MangaRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
-            }
-
-
-            if (result == true)
-            {
-                gr[0].setDirty(gr[0].CLEAN);
-
+            else {
                 if ("anime".equals(internalType))
                 {
                     internalManager.saveItem((AnimeRecord) gr[0], false);
+                    result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
                 }
                 else
                 {
                     internalManager.saveItem((MangaRecord) gr[0], false);
+                    result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+                }
+
+
+                if (result == true)
+                {
+                    gr[0].setDirty(gr[0].CLEAN);
+
+                    if ("anime".equals(internalType))
+                    {
+                        internalManager.saveItem((AnimeRecord) gr[0], false);
+                    }
+                    else
+                    {
+                        internalManager.saveItem((MangaRecord) gr[0], false);
+                    }
                 }
             }
+
 
             return result;
 
@@ -898,7 +904,16 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
     @Override
     public void onRemoveConfirmed() {
-        Log.v("MALX", "Remove confirmed.");
+        Log.v("MALX", "Item flagged for being removing.");
+        if ("anime".equals(recordType)) {
+            mAr.markForDeletion(true);
+            mAr.setDirty(GenericMALRecord.DIRTY);
+        }
+        else {
+            mMr.markForDeletion(true);
+            mMr.setDirty(GenericMALRecord.DIRTY);
+        }
 
+        finish();
     }
 }

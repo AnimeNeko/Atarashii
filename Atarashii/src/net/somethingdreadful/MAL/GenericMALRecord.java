@@ -23,6 +23,7 @@ public abstract class GenericMALRecord {
     protected String synopsis;
     protected int dirty;
     protected long lastUpdate;
+    protected boolean FLAG_DELETE = false;
 
     public abstract int getPersonalProgress();
 
@@ -120,5 +121,9 @@ public abstract class GenericMALRecord {
 
     public void setMyScore(int myScore) {
         this.myScore = myScore;
+    }
+
+    public void markForDeletion(boolean mark) {
+        FLAG_DELETE = mark;
     }
 }
