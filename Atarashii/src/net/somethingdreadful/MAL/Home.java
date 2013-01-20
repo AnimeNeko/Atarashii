@@ -131,6 +131,10 @@ public class Home extends SherlockFragmentActivity implements ActionBar.TabListe
                 startActivity(new Intent (this, Settings.class));
                 break;
 
+            case R.id.menu_logout:
+                startActivity(new Intent(this, Logout.class));
+                break;
+
             case R.id.menu_about:
                 startActivity(new Intent(this, About.class));
                 break;

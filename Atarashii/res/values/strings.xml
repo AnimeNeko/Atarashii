@@ -27,6 +27,7 @@
     <string name="title_Stats">Stats</string>
     <string name="title_BasicStuff">Cover</string>
     <string name="title_activity_detail_view">DetailView</string>
+    <string name="title_activity_logout">Logout</string>
     <string name="listType_all">Everything</string>
     <string name="listType_onhold">On Hold</string>
     <string name="listType_dropped">Dropped</string>

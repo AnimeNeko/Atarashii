@@ -29,6 +29,10 @@
         android:icon="@drawable/ic_menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/menu_logout"
+        android:title="@string/title_activity_logout"
+        android:orderInCategory="9000"
+        android:showAsAction="never" />
     <item android:id="@+id/menu_about"
         android:title="@string/title_activity_about"
         android:icon="@drawable/ic_menu_about"
