@@ -203,6 +203,16 @@ public class ItemGridFragment extends SherlockFragment {
             {
                 al = new ArrayList();
 
+                if(mManager == null) {
+                    Log.w("MALX", "mManager is null. Attempting to re-create the object.");
+
+                    try {
+                        mManager = new MALManager(c);
+                    } finally {
+                        Log.v("MALX", "Successfully re-created mManager");
+                    }
+                }
+
                 mManager.downloadAndStoreList("anime");
 
             }
@@ -281,6 +291,16 @@ public class ItemGridFragment extends SherlockFragment {
             if (mForceSync)
             {
                 al = new ArrayList();
+
+                if(mManager == null) {
+                    Log.w("MALX", "mManager is null. Attempting to re-create the object.");
+
+                    try {
+                        mManager = new MALManager(c);
+                    } finally {
+                        Log.v("MALX", "Successfully re-created mManager");
+                    }
+                }
 
                 mManager.downloadAndStoreList("manga");
             }
