@@ -252,17 +252,6 @@ public class Home extends SherlockFragmentActivity implements ActionBar.TabListe
             getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
             syncNotify();
         }
-
-        //Logic to check if we upgraded from the version before the rewrite
-        if (upgradeInit == false)
-        {
-            af.getRecords(af.currentList, "anime", true);
-            mf.getRecords(mf.currentList, "manga", true);
-            syncNotify();
-
-            mPrefManager.setUpgradeInit(true);
-            mPrefManager.commitChanges();
-        }
     }
 
     @Override
