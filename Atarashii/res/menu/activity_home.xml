@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_listType" android:showAsAction="ifRoom|withText"
+        android:title="@string/menu_listType" android:icon="@drawable/ic_action_switchlist">
+        <menu>
+            <group android:id="@+id/listGroup" android:checkableBehavior="single">
+                <item android:id="@+id/listType_all" android:title="@string/listType_all"
+                    android:checkable="true" />
+                <item android:id="@+id/listType_inprogress" android:title="@string/listType_InProgress"
+                    android:checkable="true" />
+                <item android:id="@+id/listType_completed" android:title="@string/listType_Completed"
+                    android:checkable="true" />
+                <item android:id="@+id/listType_onhold" android:title="@string/listType_onhold"
+                    android:checkable="true" />
+                <item android:id="@+id/listType_dropped" android:title="@string/listType_dropped"
+                    android:checkable="true" />
+                <item android:id="@+id/listType_planned" android:title="@string/listType_planned"
+                    android:checkable="true" />
+            </group>
+
+        </menu>
+    </item>
+    <item android:id="@+id/forceSync"
+        android:title="@string/menu_sync"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="always|collapseActionView" />
+    <item android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        android:icon="@drawable/ic_menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/menu_about"
+        android:title="@string/title_activity_about"
+        android:icon="@drawable/ic_menu_about"
+        android:orderInCategory="9001"
+        android:showAsAction="never" />
+</menu>

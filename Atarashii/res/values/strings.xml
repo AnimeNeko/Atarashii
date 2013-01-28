@@ -1,0 +1,126 @@
+<resources>
+
+    <string name="app_name">Atarashii!</string>
+    <string name="title_MangoSection">Manga</string>
+    <string name="title_AnimuSection">Anime</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_sync">Full Sync</string>
+    <string name="title_activity_home">Atarashii!</string>
+    <string name="listType_InProgress">In Progress</string>
+    <string name="menu_listType">Switch List</string>
+    <string name="listType_Completed">Completed</string>
+    <string name="menu_sortType">Sort</string>
+    <string name="sortType_Alphabetical">Alphanumeric</string>
+    <string name="fr_hint_user">MAL Username</string>
+    <string name="fr_hint_pass">MAL Password</string>
+    <string name="fr_action_connect">Connect to MAL</string>
+    <string name="fr_textblurb">Enter your MyAnimeList credentials below:</string>
+    <string name="dialog_Verifying">Verifying</string>
+    <string name="dialog_VerifyingBlurb">Making sure your account is OK. Hold tight a sec.</string>
+    <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and try again.</string>
+    <string name="toast_AccountOK">Account OK!</string>
+    <string name="title_activity_firstRun">First Run Setup</string>
+    <string name="fr_noaccount_button">Create an Account</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_Stats">Stats</string>
+    <string name="title_BasicStuff">Cover</string>
+    <string name="title_activity_detail_view">DetailView</string>
+    <string name="listType_all">Everything</string>
+    <string name="listType_onhold">On Hold</string>
+    <string name="listType_dropped">Dropped</string>
+    <string name="listType_planned">Planned</string>
+    <string name="cover_Watching">I\'ve watched:</string>
+    <string name="cover_Completed">Completed</string>
+    <string name="cover_Reading">I\'ve read:</string>
+    <string name="cover_OnHold">On Hold at:</string>
+    <string name="cover_Dropped">Dropped</string>
+    <string name="cover_PlanningToWatch">Planning to watch</string>
+    <string name="cover_PlanningToRead">Planning to read</string>
+    <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
+    <string name="toast_SyncDone">Sync Complete!</string>
+    <string name="placeholder_Loading">Loading, just a sec.</string>
+    <string name="action_SetWatched">Update Progress</string>
+    <string name="action_SetScore">Set Score</string>
+    <string name="action_SetStatus">Set Status</string>
+    <string name="action_RefreshEntry">Reload Data</string>
+    <string name="preference_category_ListSettings">List Settings</string>
+    <string name="dialog_DefaultList">Default List</string>
+    <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
+    <string name="description_CoverImage">Cover Image</string>
+    <string-array name="listTypeArray">
+        <item >Everything</item>
+        <item >Watching</item>
+        <item >Completed</item>
+        <item >On Hold</item>
+        <item >Dropped</item>
+        <item >Planning to Watch</item>
+    </string-array>
+    <string-array name="listTypeValuesArray">
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+    </string-array>
+    <string name="preference_category_credits">Credits</string>
+    <string name="summary_appcredits">Atarashii! is an open source project. \nTap to view contributors.</string>
+    <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
+    <string name="action_PlusOneWatched">+1 Watched</string>
+    <string name="action_PlusOneRead">+1 Read</string>
+    <string name="action_MarkAsComplete">Mark Completed</string>
+    <string name="preference_TraditionalList">Use Traditional List</string>
+    <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
+    <string name="label_detailItemType">Type of Media</string>
+    <string name="label_detailItemStatus">Media Status</string>
+    <string name="label_detailItemViewStatus">View Status</string>
+    <string name="label_detailItemProgressCounter">Current Progress</string>
+    <string name="label_detailItemSynopsis">Synopsis</string>
+    <string name="label_Chapters">Chapters:</string>
+    <string name="label_Volumes">Volumes:</string>
+    <string name="action_Share">Share</string>
+    <string name="preference_category_sharing">Sharing</string>
+    <string name="preference_customShareText">Custom Share Text</string>
+    <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
+    <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
+    <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
+    <!--  About Screen Text -->
+    <string name="contributors_card_title">Major Contributors</string>
+    <string name="acknowledgements_card_title">Acknowledgements</string>
+    <string name="acknowledgements">Atarashii! uses the <a href="http://mal-api.com/">Unofficial MAL API</a> by Chu Yeow Cheah. \n\nAtarashii also implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a> and SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, both of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
+    <string name="app_description">Atarashii! is a mobile client for the popular MyAnimeList.net website. It focuses primarily on ease-of-use while still being visually pleasing.</string>
+    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
+    <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
+    <string name="contributor_motokochan_name"> Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
+    <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
+    <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
+    <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access your MyAnimeList account</string>
+    <string name="permission_updateMedia">Update Records</string>
+    <string name="permission_description_updateMedia">Allow this app to update records on your MyAnimeList account</string>
+    <string-array name="statusMangaArray">
+        <item >Reading</item>
+        <item >Completed</item>
+        <item >On Hold</item>
+        <item >Dropped</item>
+        <item >Planned</item>
+    </string-array>
+    <string name="dialog_title_remove">Remove from list</string>
+    <string name="dialog_title_rating">Rating</string>
+    <string-array name="array_ratings_text">
+        <item >Unrated</item>
+        <item >1: Appalling</item>
+        <item >2: Horrible</item>
+        <item >3: Very Bad</item>
+        <item >4: Bad</item>
+        <item >5: Average</item>
+        <item >6: Fine</item>
+        <item >7: Good</item>
+        <item >8: Very Good</item>
+        <item >9: Great</item>
+        <item >10: Masterpiece</item>
+    </string-array>
+    <string name="action_Remove">Remove from list</string>
+    <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
+</resources>

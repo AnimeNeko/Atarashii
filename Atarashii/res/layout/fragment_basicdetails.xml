@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE" >
+
+    <ImageView
+        android:id="@+id/detailCoverImage"
+        android:layout_width="225dp"
+        android:layout_height="320dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/description_CoverImage"
+        android:paddingBottom="8dp"
+        android:paddingRight="8dp"
+        android:scaleType="centerCrop" />
+
+    <ScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none" >
+
+        <RelativeLayout
+            android:id="@+id/backgroundContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp" >
+
+            <!-- TODO: Set up a default image placeholder -->
+
+            <View
+                android:id="@+id/paddingView"
+                android:layout_width="wrap_content"
+                android:layout_height="328dp" />
+
+            <fragment
+                android:id="@+id/SynopsisFragment"
+                android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/paddingView"
+                android:layout_margin="8dp"
+                tools:layout="@layout/card_layout_base" />
+
+            <fragment
+                android:id="@+id/StatusFragment"
+                android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/SynopsisFragment"
+                android:layout_margin="8dp"
+                tools:layout="@layout/card_layout_base" />
+
+            <fragment
+                android:id="@+id/WatchStatusFragment"
+                android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/StatusFragment"
+                android:layout_margin="8dp"
+                tools:layout="@layout/card_layout_base" />
+
+            <fragment
+                android:id="@+id/ProgressFragment"
+                android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/WatchStatusFragment"
+                android:layout_margin="8dp"
+                tools:layout="@layout/card_layout_base" />
+
+            <fragment
+                android:id="@+id/ScoreFragment"
+                android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/ProgressFragment"
+                android:layout_margin="8dp"
+                tools:layout="@layout/card_layout_base" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
