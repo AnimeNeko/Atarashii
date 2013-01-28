@@ -1,0 +1,56 @@
+Configuring Atarashii! for Development and Building
+
+
+Fetching the Code
+-----------------
+After cloning the Atarashii code, you will need to fetch the third-party
+code stored as submodules. In the root Atarashii directory, run the
+following two commands:
+
+  - git submodule init
+  - git submodule update
+ 
+This will fetch the required third-party libraries used in the code.
+
+If you will be working with the submodule code directly, please read about
+maintaining submodules at
+http://git-scm.com/book/en/Git-Tools-Submodules
+
+
+Importing the Projects to Eclipse with the ADT Plugin
+-----------------------------------------------------
+You should already have the ADT Plugin installed. If you do not, follow the
+instructions at https://developer.android.com/tools/sdk/eclipse-adt.html
+
+NOTE: Due to naming conflicts because of the default names used by Eclipse,
+you will need to import each project individually.
+
+First, import the main Atarashii project:
+
+  - In Eclipse, create a new "Android Project from Existing Code"
+  - Select the Atarashii root folder inside the checkout
+  - Deselect all items and only select the Atarashii main project, which should
+    be listed at the top
+  - You should rename this project from the default name given by Eclipse
+
+Next, import each of the third-party modules from inside the third-party
+directory. For each project, follow these steps:
+
+  - In Eclipse, create a new "Android Project from Existing Code"
+  - Select the library folder for each library
+  - You should only see one project, named "library"
+  - You *must* rename this project from the default name given by Eclipse. It
+    is recommended to use the name of the library for ease of reference.
+
+
+Linking Atarashii and the Libraries
+-----------------------------------
+View the project properties for the Atarashii project in Eclipse. Select the
+"Java Build Path" node in the tree. From the Projects tab, add the library
+projects. On the library tab, select "Add JARs..." and add the jar files found
+in the libs directory.
+
+You should now be able to successfully build and develop Atarashii!
+
+
+Revision 20130111
