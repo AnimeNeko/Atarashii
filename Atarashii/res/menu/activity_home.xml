@@ -31,6 +31,7 @@
         android:showAsAction="never" />
     <item android:id="@+id/menu_logout"
         android:title="@string/title_activity_logout"
+        android:icon="@drawable/ic_menu_account"
         android:orderInCategory="9000"
         android:showAsAction="never" />
     <item android:id="@+id/menu_about"
