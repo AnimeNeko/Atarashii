@@ -44,10 +44,6 @@
             android:label="@string/title_activity_detail_view">
         </activity>
         <activity
-            android:name="net.somethingdreadful.MAL.Logout"
-            android:label="@string/title_activity_logout">
-        </activity>
-        <activity
             android:name="net.somethingdreadful.MAL.About"
             android:label="@string/title_activity_about">
         </activity>
