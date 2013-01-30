@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class MALSqlHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "MAL.db";
+    protected static final String DATABASE_NAME = "MAL.db";
     private static final int DATABASE_VERSION = 4;
 
 
