@@ -5,18 +5,23 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class Home extends SherlockFragmentActivity implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment {
+public class Home extends SherlockFragmentActivity
+implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
+LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -132,7 +137,7 @@ public class Home extends SherlockFragmentActivity implements ActionBar.TabListe
                 break;
 
             case R.id.menu_logout:
-                startActivity(new Intent(this, Logout.class));
+                showLogoutDialog();
                 break;
 
             case R.id.menu_about:
@@ -299,6 +304,18 @@ public class Home extends SherlockFragmentActivity implements ActionBar.TabListe
         return true;
     }
 
+    @Override
+    public void onLogoutConfirmed() {
+        mPrefManager.setInit(false);
+        mPrefManager.setUser("");
+        mPrefManager.setPass("");
+        mPrefManager.commitChanges();
+
+        context.deleteDatabase(MALSqlHelper.DATABASE_NAME);
+
+        startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
     private void syncNotify() {
         Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
 
@@ -315,6 +332,23 @@ public class Home extends SherlockFragmentActivity implements ActionBar.TabListe
         nm.notify(R.id.notification_sync, syncNotification);
 
     }
+
+    private void showLogoutDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+
+        LogoutConfirmationDialogFragment lcdf = new LogoutConfirmationDialogFragment();
+
+        if (Build.VERSION.SDK_INT >= 11)
+        {
+            lcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
+        }
+        else
+        {
+            lcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
+        }
+        lcdf.show(fm, "fragment_LogoutConfirmationDialog");
+    }
+
 
 
 }
