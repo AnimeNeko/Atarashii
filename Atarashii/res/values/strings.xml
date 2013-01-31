@@ -112,7 +112,7 @@
     <string name="dialog_title_rating">Rating</string>
     <string name="dialog_logout_title">Confirm Logout</string>
     <string name="dialog_logout_label_confirm">Logout</string>
-    <string name="dialog_logout_message">Are you sure you wish to logout? This will erase all stored data.</string>
+    <string name="dialog_logout_message">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string-array name="array_ratings_text">
         <item >Unrated</item>
         <item >1: Appalling</item>

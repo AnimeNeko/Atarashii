@@ -312,6 +312,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mPrefManager.commitChanges();
 
         context.deleteDatabase(MALSqlHelper.DATABASE_NAME);
+        new ImageDownloader(context).wipeCache();
 
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }

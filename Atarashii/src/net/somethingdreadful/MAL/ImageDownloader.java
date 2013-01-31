@@ -383,5 +383,18 @@ public class ImageDownloader {
         }
         return null;
     }
+
+    public void wipeCache() {
+        File file = new File(getCacheDirectory(context), "");
+        if (file != null && file.isDirectory()) {
+            File[] files = file.listFiles();
+            if(files != null) {
+                for(File f : files) {
+                    f.delete();
+
+                }
+            }
+        }
+    }
 }
 
