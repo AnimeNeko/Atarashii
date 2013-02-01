@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 
@@ -45,7 +44,7 @@ public class LogoutConfirmationDialogFragment extends SherlockDialogFragment {
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        startActivity(new Intent(getActivity(), Home.class));
+        //      startActivity(new Intent(getActivity(), Home.class)); //Relaunching Home without needing to, causes bad things
         this.dismiss();
     }
 
