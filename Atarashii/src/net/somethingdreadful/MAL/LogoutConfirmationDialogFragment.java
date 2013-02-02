@@ -44,7 +44,6 @@ public class LogoutConfirmationDialogFragment extends SherlockDialogFragment {
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        //      startActivity(new Intent(getActivity(), Home.class)); //Relaunching Home without needing to, causes bad things
         this.dismiss();
     }
 
