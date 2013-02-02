@@ -118,6 +118,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(firstRunInit);
+            finish();
         }
     }
 
@@ -315,6 +316,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         new ImageDownloader(context).wipeCache();
 
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
     }
 
     private void syncNotify() {
