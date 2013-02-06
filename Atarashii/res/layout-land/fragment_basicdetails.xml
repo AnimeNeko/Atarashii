@@ -4,16 +4,6 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"  >
     
-    <ImageView android:id="@+id/detailCoverImage" 
-        android:layout_width="225dp" 
-        android:layout_height="320dp" 
-        android:layout_marginLeft="8dp" 
-        android:layout_marginTop="8dp" 
-        android:contentDescription="@string/description_CoverImage" 
-         android:paddingBottom="8dp" 
-         android:paddingRight="8dp" 
-         android:scaleType="centerCrop" />
-    
     <HorizontalScrollView xmlns:tools="http://schemas.android.com/tools" 
         android:id="@+id/scrollView" 
         android:layout_width="fill_parent"
@@ -27,41 +17,54 @@
     
               <!-- TODO: Set up a default image placeholder -->
 
-            <View
-                android:id="@+id/paddingView"
-                android:layout_width="233dp"
-                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/detailCoverImage"
+                android:layout_width="225dp"
+                android:layout_height="320dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/description_CoverImage"
+                android:paddingBottom="8dp"
+                android:paddingRight="8dp"
+                android:scaleType="centerCrop" />
     
-              <fragment android:id="@+id/SynopsisFragment" 
-                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
-                  android:layout_width="300dp" 
-                  android:layout_height="fill_parent" 
-                  android:layout_toRightOf="@id/paddingView" 
-                  android:layout_margin="8dp" 
+              <fragment
+                  android:id="@+id/SynopsisFragment"
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                  android:layout_width="300dp"
+                  android:layout_height="fill_parent"
+                  android:layout_margin="8dp"
+                  android:layout_toRightOf="@id/detailCoverImage"
                   tools:layout="@layout/card_layout_base" />
     
-              <fragment android:id="@+id/StatusFragment" 
-                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
-                  android:layout_width="300dp" 
-                  android:layout_height="fill_parent" 
-                  android:layout_toRightOf="@id/SynopsisFragment" 
-                  android:layout_margin="8dp" 
+              <fragment
+                  android:id="@+id/StatusFragment"
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                  android:layout_width="300dp"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="8dp"
+                  android:layout_toRightOf="@id/SynopsisFragment"
                   tools:layout="@layout/card_layout_base" />
               
-              <fragment android:id="@+id/WatchStatusFragment" 
-                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
-                  android:layout_width="300dp" 
-                  android:layout_height="fill_parent" 
-                  android:layout_toRightOf="@id/StatusFragment" 
-                  android:layout_margin="8dp" 
+              <fragment
+                  android:id="@+id/WatchStatusFragment"
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                  android:layout_width="300dp"
+                  android:layout_height="match_parent"
+                  android:layout_below="@id/StatusFragment"
+                  android:layout_margin="8dp"
+                  android:layout_toRightOf="@id/SynopsisFragment"
                   tools:layout="@layout/card_layout_base" />
               
-              <fragment android:id="@+id/ProgressFragment" 
-                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
-                  android:layout_width="300dp" 
-                  android:layout_height="fill_parent" 
-                  android:layout_toRightOf="@id/WatchStatusFragment" 
-                  android:layout_margin="8dp" 
+              <fragment
+                  android:id="@+id/ProgressFragment"
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                  android:layout_width="300dp"
+                  android:layout_height="fill_parent"
+                  android:layout_margin="8dp"
+                  android:layout_toRightOf="@id/StatusFragment"
                   tools:layout="@layout/card_layout_base" />
               
               <fragment android:id="@+id/ScoreFragment" 
