@@ -16,6 +16,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
@@ -667,6 +669,7 @@ public class MALManager {
 
     public boolean writeDetailsToMAL(GenericMALRecord gr, String type)
     {
+        // TODO refactoring
         boolean success = false;
 
         if (gr.FLAG_DELETE) {
@@ -705,84 +708,61 @@ public class MALManager {
         }
         else {
 
+            HttpResponse response;
+            String uri = "";
+
+            List<NameValuePair> putParams = new ArrayList<NameValuePair>();
             if (type.equals(TYPE_ANIME))
             {
-                HttpPut writeRequest;
-                HttpResponse response;
-                HttpClient client = new DefaultHttpClient();
-                client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-
-                writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + gr.getID());
-                writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+                uri = APIProvider + writeAnimeDetailsAPI;
                 putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
                 putParams.add(new BasicNameValuePair("episodes", Integer.toString(gr.getPersonalProgress())));
                 putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
 
-                try
-                {
-                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                    writeRequest.setEntity(entity);
-
-                    response = client.execute(writeRequest);
-
-                    if (200 == response.getStatusLine().getStatusCode())
-                    {
-                        success = true;
-                    }
-
-                }
-                catch (ClientProtocolException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
             }
             else if (type.equals(TYPE_MANGA))
             {
-                HttpPut writeRequest;
-                HttpResponse response;
-                HttpClient client = new DefaultHttpClient();
-                client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-                writeRequest = new HttpPut(APIProvider + writeMangaDetailsAPI + gr.getID());
-                writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+                uri = APIProvider + writeMangaDetailsAPI + gr.getID();
                 putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
                 putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
                 putParams.add(new BasicNameValuePair("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress())));
                 putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
 
-                try
-                {
-                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                    writeRequest.setEntity(entity);
+            }
 
-                    response = client.execute(writeRequest);
+            HttpClient client = new DefaultHttpClient();
+            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
+            HttpEntityEnclosingRequestBase writeRequest;
+            if (gr.FLAG_CREATE) {
+                writeRequest = new HttpPost(uri);
+            } else {
+                writeRequest = new HttpPut(uri + gr.getID());
+            }
 
-                    if (200 == response.getStatusLine().getStatusCode())
-                    {
-                        success = true;
-                    }
+            writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
-                }
-                catch (ClientProtocolException e)
+            try
+            {
+                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
+                writeRequest.setEntity(entity);
+
+                response = client.execute(writeRequest);
+
+                if (200 == response.getStatusLine().getStatusCode())
                 {
-                    e.printStackTrace();
+                    success = true;
                 }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+
+            }
+            catch (ClientProtocolException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
             }
         }
-
         return success;
     }
 

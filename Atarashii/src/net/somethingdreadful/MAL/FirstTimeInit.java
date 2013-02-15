@@ -111,7 +111,6 @@ public class FirstTimeInit extends SherlockActivity {
         {
             boolean valid = mManager.verifyAccount(testMalUser, testMalPass);
 
-            String words = "";
             Message msg = new Message();
 
             if (valid == false)

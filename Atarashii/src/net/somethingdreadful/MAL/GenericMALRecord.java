@@ -24,6 +24,7 @@ public abstract class GenericMALRecord {
     protected int dirty;
     protected long lastUpdate;
     protected boolean FLAG_DELETE = false;
+    protected boolean FLAG_CREATE = false;
 
     public abstract int getPersonalProgress();
 
