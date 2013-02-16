@@ -48,6 +48,12 @@
             android:label="@string/title_activity_about">
         </activity>
 
+        <activity
+                android:name="net.somethingdreadful.MAL.SearchActivity"
+                android:label="Search">
+        </activity>
+
+
         <receiver android:name="net.somethingdreadful.MAL.UpdateReceiver" android:permission="net.somethingdreadful.MAL.permissions.UPDATE_MEDIA" android:exported="true" >
             <intent-filter>
                 <action android:name="net.somethingdreadful.MAL.action.UPDATE_MEDIA" />

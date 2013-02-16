@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_listType" android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_listType" android:icon="@drawable/ic_action_switchlist">
+    <item android:id="@+id/menu_listType" android:showAsAction="always|withText"
+        android:title="@string/menu_listType" android:icon="@drawable/ic_action_switchlist"
+        >
+
         <menu>
             <group android:id="@+id/listGroup" android:checkableBehavior="single">
                 <item android:id="@+id/listType_all" android:title="@string/listType_all"
@@ -23,7 +25,13 @@
     <item android:id="@+id/forceSync"
         android:title="@string/menu_sync"
         android:icon="@drawable/ic_action_refresh"
-        android:showAsAction="always|collapseActionView" />
+        android:showAsAction="always" />
+
+    <item android:id="@+id/addToList"
+            android:title="add to list"
+            android:icon="@drawable/abs__ic_search"
+            android:showAsAction="always"
+            />
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
         android:icon="@drawable/ic_menu_settings"
