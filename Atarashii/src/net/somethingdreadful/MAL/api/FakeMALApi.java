@@ -1,7 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
+import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,28 +21,40 @@ public class FakeMALApi extends BaseMALApi
 
     }
 
-    public JSONArray getList() throws JSONException {
-        return new JSONArray("");
+    @Override
+    public HttpResponse call_api(HTTP_METHOD http_method, String uri, HashMap<String, String> data, Boolean is_auth) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public JSONObject getList(MALApiListType listType) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public boolean isAuth() {
-        return true;
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public JSONArray search() throws JSONException {
-        return new JSONArray("");
+    @Override
+    public JSONArray search(MALApiListType listType, String query) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public boolean updateGenreInList() {
-        return true;
+    @Override
+    public boolean updateGenreInList(MALApiListType listType, String genre_id, HashMap<String, String> data) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public boolean addGenreToList() {
-        return true;
+    @Override
+    public boolean addGenreToList(MALApiListType listType, String genre_id, HashMap<String, String> data) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public boolean deleteGenreFromList() {
-        return true;
+    @Override
+    public boolean deleteGenreFromList(MALApiListType listType, String genre_id, HashMap<String, String> data) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
 
 }

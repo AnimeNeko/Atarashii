@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import android.test.AndroidTestCase;
+
 /**
  * Created with IntelliJ IDEA.
  * User: apkawa
