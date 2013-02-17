@@ -5,20 +5,26 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.MALApiListType;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SearchActivity extends SherlockFragmentActivity
  {
@@ -44,6 +50,10 @@ public class SearchActivity extends SherlockFragmentActivity
     ItemGridFragment mf;
     public boolean instanceExists;
 
+    private ListView result_list_widget;
+    private  ArrayAdapter<String> result_list_adapter;
+    private TextView search_query_widget;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +62,29 @@ public class SearchActivity extends SherlockFragmentActivity
         mPrefManager = new PrefManager(context);
 
         setContentView(R.layout.activity_search);
-        // Creates the adapter to return the Animu and Mango fragments
-        mSectionsPagerAdapter = new HomeSectionsPagerAdapter(
-                getSupportFragmentManager());
-
         mManager = new MALManager(context);
 
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String[] values = new String[] {"test", "test2"};
-        ListView result = (ListView) findViewById(R.id.searchResult);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.search_item, R.id.searchResultRow, values);
-        result.setAdapter(adapter);
+        result_list_widget = (ListView) findViewById(R.id.searchResult);
+        result_list_adapter = new ArrayAdapter<String>(this, R.layout.search_item, R.id.searchResultRow);
+        result_list_widget.setAdapter(result_list_adapter);
+
+        search_query_widget = (EditText) findViewById(R.id.searchQuery);
+
+        Button doSearchGoButton = (Button) findViewById(R.id.searchGo);
+        doSearchGoButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new networkThread().execute();
+                    }
+                }
+        );
 
     }
 
@@ -217,6 +235,33 @@ public class SearchActivity extends SherlockFragmentActivity
 
         return true;
     }
+
+     public class networkThread extends AsyncTask<Void, Void, Void>
+     {
+         JSONArray _result;
+
+         @Override
+         protected Void doInBackground(Void... params) {
+             //To change body of implemented methods use File | Settings | File Templates.
+             String query = search_query_widget.getText().toString();
+             MALApi api = new MALApi(null, null);
+             _result = api.search(MALApiListType.ANIME, query);
+             return null;
+         }
+
+         protected void onPostExecute(Void result) {
+
+             for (int i = 0; i < _result.length(); i++) {
+                 try {
+                     JSONObject genre = (JSONObject) _result.get(i);
+                     result_list_adapter.add(genre.getString("title"));
+                 } catch (JSONException e) {
+
+                 }
+             }
+
+         }
+     }
 
 
 }

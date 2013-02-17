@@ -163,31 +163,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         //        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //        final FrameLayout layout = (FrameLayout) bfrag.getView().findViewById(R.id.backgroundContainer);
-        //
-        //
-        //    	ViewTreeObserver viewTreeObserver = layout.getViewTreeObserver();
-        //    	if (viewTreeObserver.isAlive()) {
-        //    	  viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-        //    	    public void onGlobalLayout() {
-        //    	      layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-        //
-        //    	      int synopsisOffset = layout.getHeight();
-        //    	      synopsisOffset -= layout.findViewById(R.id.SynopsisLabel).getHeight();
-        //    	      System.out.println(synopsisOffset);
-        //
-        //
-        //    	      LayoutParams params = (LayoutParams) layout.findViewById(R.id.SynopsisLabel).getLayoutParams();
-        //    	      params.setMargins(0, synopsisOffset, 0, 0);
-        //    	      layout.findViewById(R.id.SynopsisLabel).setLayoutParams(params);
-        //
-        //
-        //
-        //    	    }
-        //    	  });
-        //    	}
-
-
     }
 
     @Override

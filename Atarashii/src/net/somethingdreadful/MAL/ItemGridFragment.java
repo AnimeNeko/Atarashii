@@ -32,8 +32,8 @@ public class ItemGridFragment extends SherlockFragment {
     public ItemGridFragment() {
     }
 
-    ArrayList<AnimeRecord> al = new ArrayList();
-    ArrayList<MangaRecord> ml = new ArrayList();
+    ArrayList<AnimeRecord> al = new ArrayList<>();
+    ArrayList<MangaRecord> ml = new ArrayList<>();
     GridView gv;
     MALManager mManager;
     PrefManager mPrefManager;
