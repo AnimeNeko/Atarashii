@@ -1,22 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -29,6 +12,22 @@ import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 public class ImageDownloader {
 
@@ -39,30 +38,8 @@ public class ImageDownloader {
     final int memoryClass;
     final int cacheSize;
 
-    public ImageDownloader(Context c){
+    public ImageDownloader(Context c) {
         context = c;
-
-        // Get memory class of this device, exceeding this amount will throw a OutOfMemory exception.
-        memoryClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
-
-        // Use 1/8th of the available memory for this memory cache.
-        cacheSize = 1024 * 1024 * memoryClass / 8;
-
-        betterImageCache = new LruCache<String, Bitmap>(cacheSize) {
-            @SuppressLint("NewApi")
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in bytes rather than number of items.
-                if (Integer.valueOf(android.os.Build.VERSION.SDK_INT) >= 12)
-                    return bitmap.getByteCount();
-                else
-                    return (bitmap.getRowBytes() * bitmap.getHeight());
-            }
-        };
-    }
-
-    public ImageDownloader()
-    {
 
         // Get memory class of this device, exceeding this amount will throw a OutOfMemory exception.
         memoryClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
@@ -94,50 +71,24 @@ public class ImageDownloader {
             // Is the bitmap in our memory cache?
             Bitmap bitmap = null;
 
-            try
-            {
+            try {
                 bitmap = (Bitmap) betterImageCache.get(f.getPath());
 
-            }
-            catch (NullPointerException npe)
-            {
+            } catch (NullPointerException npe) {
                 //bitmap still null!
             }
 
-            if (bitmap == null)
-            {
+            if (bitmap == null) {
                 imageView.setImageResource(R.drawable.panel);
                 new DecodeFileTask(imageView, url).execute(f.getPath());
-            }
-            else
-            {
+            } else {
                 imageView.setImageBitmap(bitmap);
             }
 
-            //	    	  if(bitmap == null){
-            //
-            //	    		  bitmap = BitmapFactory.decodeFile(f.getPath());
-            //
-            //	    		  if(bitmap != null){
-            //	    			  betterImageCache.put(f.getPath(), bitmap);
-            //	    		  }
-            //
-            //	    	  }
-            //	    	  //No? download it
-            //	    	  if(bitmap == null){
-            //	    		  BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
-            //	    		  DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-            //	    		  imageView.setImageDrawable(downloadedDrawable);
-            //	    		  task.execute(url);
-            //	    	  }else{
-            //	    		  //Yes? set the image
-            //	    		  imageView.setImageBitmap(bitmap);
-            //	    	  }
         }
     }
 
-    public Bitmap returnDrawable(Context c, String url)
-    {
+    public Bitmap returnDrawable(Context c, String url) {
         //Caching code right here
         String filename = String.valueOf(url.hashCode());
         File f = new File(getCacheDirectory(c), filename);
@@ -147,15 +98,13 @@ public class ImageDownloader {
 
         bitmap = (Bitmap) betterImageCache.get(f.getPath());
 
-        if(bitmap == null){
+        if (bitmap == null) {
 
             bitmap = BitmapFactory.decodeFile(f.getPath());
 
-            if(bitmap != null){
+            if (bitmap != null) {
                 betterImageCache.put(f.getPath(), bitmap);
-            }
-            else
-            {
+            } else {
                 bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.panel);
             }
 
@@ -185,7 +134,7 @@ public class ImageDownloader {
         if (imageView != null) {
             Drawable drawable = imageView.getDrawable();
             if (drawable instanceof DownloadedDrawable) {
-                DownloadedDrawable downloadedDrawable = (DownloadedDrawable)drawable;
+                DownloadedDrawable downloadedDrawable = (DownloadedDrawable) drawable;
                 return downloadedDrawable.getBitmapDownloaderTask();
             }
         }
@@ -194,7 +143,7 @@ public class ImageDownloader {
 
     //our caching functions
     // Find the dir to save cached images
-    private static File getCacheDirectory(Context context){
+    private static File getCacheDirectory(Context context) {
         String sdState = android.os.Environment.getExternalStorageState();
         File cacheDir;
 
@@ -202,12 +151,11 @@ public class ImageDownloader {
             File sdDir = android.os.Environment.getExternalStorageDirectory();
 
             //TODO : Change your direcory here
-            cacheDir = new File(sdDir,"data/net.somethingdreadful.MAL/images/");
-        }
-        else
+            cacheDir = new File(sdDir, "data/net.somethingdreadful.MAL/images/");
+        } else
             cacheDir = context.getCacheDir();
 
-        if(!cacheDir.exists())
+        if (!cacheDir.exists())
             cacheDir.mkdirs();
         return cacheDir;
     }
@@ -220,10 +168,11 @@ public class ImageDownloader {
             bmp.compress(Bitmap.CompressFormat.PNG, 80, out);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            try { if (out != null ) out.close(); }
-            catch(Exception ex) {}
+        } finally {
+            try {
+                if (out != null) out.close();
+            } catch (Exception ex) {
+            }
         }
     }
     ///////////////////////
@@ -292,7 +241,7 @@ public class ImageDownloader {
 
             bm = BitmapFactory.decodeFile(params[0]);
 
-            if(bm != null){
+            if (bm != null) {
                 betterImageCache.put(params[0], bm);
             }
 
@@ -303,21 +252,14 @@ public class ImageDownloader {
         @Override
         // Finish the calling function, pretty much
         protected void onPostExecute(Bitmap bitmap) {
-            if (cover.get() != null)
-            {
-                if (bitmap != null)
-                {
-                    try
-                    {
+            if (cover.get() != null) {
+                if (bitmap != null) {
+                    try {
                         cover.get().setImageBitmap(bitmap);
-                    }
-                    catch (NullPointerException npe)
-                    {
+                    } catch (NullPointerException npe) {
 
                     }
-                }
-                else
-                {
+                } else {
                     BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
                     DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
                     cover.get().setImageDrawable(downloadedDrawable);
@@ -388,8 +330,8 @@ public class ImageDownloader {
         File file = new File(getCacheDirectory(context), "");
         if (file != null && file.isDirectory()) {
             File[] files = file.listFiles();
-            if(files != null) {
-                for(File f : files) {
+            if (files != null) {
+                for (File f : files) {
                     f.delete();
 
                 }

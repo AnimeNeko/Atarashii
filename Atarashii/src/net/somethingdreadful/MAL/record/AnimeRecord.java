@@ -1,4 +1,6 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.record;
+
+import java.util.HashMap;
 
 public class AnimeRecord extends GenericMALRecord {
 
@@ -8,8 +10,13 @@ public class AnimeRecord extends GenericMALRecord {
     public static final String STATUS_WATCHING = "watching";
     public static final String STATUS_PLANTOWATCH = "plan to watch";
 
+    public AnimeRecord(HashMap<String, Object> record_data) {
+        super(record_data);
+    }
+
+
     public AnimeRecord(int id, String name, String type, String status, String myStatus, int watched, int total,
-            float memberScore, int myScore, String synopsis, String imageUrl, int dirty, long lastUpdate) {
+                       float memberScore, int myScore, String synopsis, String imageUrl, int dirty, long lastUpdate) {
         this.recordID = id;
         this.recordName = name;
         this.recordType = type;
@@ -29,7 +36,7 @@ public class AnimeRecord extends GenericMALRecord {
     }
 
     public AnimeRecord(int id, String name, String imageUrl, int watched, int totalEpisodes,
-            String myStatus, String animeStatus, String animeType, int myScore, int dirty, long lastUpdate) {
+                       String myStatus, String animeStatus, String animeType, int myScore, int dirty, long lastUpdate) {
         this.recordID = id;
         this.recordName = name;
         this.episodesWatched = watched;
@@ -46,23 +53,35 @@ public class AnimeRecord extends GenericMALRecord {
 
     @Override
     public String getTotal() {
-
-        return Integer.toString(episodesTotal);
+        return ((Integer) recordData.get("episodesTotal")).toString();
     }
 
 
     public void setEpisodesWatched(int watched) {
         this.episodesWatched = watched;
+        recordData.put("episodesWatched", watched);
     }
 
     @Override
     public int getPersonalProgress() {
-        return episodesWatched;
+        return (int) recordData.get("episodesWatched");
     }
 
     @Override
     public void setPersonalProgress(int amount) {
         this.episodesWatched = amount;
+        recordData.put("episodesWatched", amount);
+    }
+
+    @Override
+    protected HashMap<String, Class<?>> getTypeMap() {
+        if (typeMap != null) {
+            return typeMap;
+        }
+        typeMap = super.getTypeMap();
+        typeMap.put("episodesTotal", int.class);
+        typeMap.put("episodesWatched", int.class);
+        return typeMap;
     }
 
 }

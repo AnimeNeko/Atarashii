@@ -3,11 +3,10 @@ package net.somethingdreadful.MAL;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
-public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
+public class SearchSectionsPagerAdapter extends HomeSectionsPagerAdapter {
 
-    public HomeSectionsPagerAdapter(FragmentManager fm) {
+    public SearchSectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -16,7 +15,7 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         Bundle args = new Bundle();
 
-        fragment = new ItemGridFragment();
+        fragment = new BaseItemGridFragment();
         switch (i) {
             case 0:
                 args.putString("type", MALManager.TYPE_ANIME);
@@ -33,21 +32,5 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
         return fragment;
     }
 
-    @Override
-    public int getCount() {
-        return 2;
-    }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-
-                return "Anime".toUpperCase();
-            case 1:
-
-                return "Manga".toUpperCase();
-        }
-        return null;
-    }
 }

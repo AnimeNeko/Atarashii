@@ -1,11 +1,15 @@
 package net.somethingdreadful.MAL;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.util.Base64;
+import android.util.Log;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -13,11 +17,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
@@ -26,13 +26,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-import android.util.Base64;
-import android.util.Log;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MALManager {
 
@@ -65,8 +63,7 @@ public class MALManager {
     MALSqlHelper helper;
     SQLiteDatabase db;
 
-    public MALManager(Context c)
-    {
+    public MALManager(Context c) {
         this.c = c;
         prefManager = new PrefManager(c);
 
@@ -77,24 +74,18 @@ public class MALManager {
         db = helper.getWritableDatabase();
     }
 
-    static public boolean verifyAccount(String user, String pass)
-    {
+    static public boolean verifyAccount(String user, String pass) {
         HttpGet request = new HttpGet(APIProvider + VerifyAPI);
         HttpResponse response = null;
         request.setHeader("Authorization", "basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
 
-        try
-        {
+        try {
             HttpClient client = new DefaultHttpClient();
             client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
             response = client.execute(request);
-        }
-        catch (ClientProtocolException e)
-        {
+        } catch (ClientProtocolException e) {
             e.printStackTrace();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -102,24 +93,18 @@ public class MALManager {
         StatusLine statusLine = response.getStatusLine();
         int statusCode = statusLine.getStatusCode();
 
-        if (statusCode == 200)
-        {
+        if (statusCode == 200) {
             return true;
-        }
-
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    static String listSortFromInt(int i, String type)
-    {
+    static String listSortFromInt(int i, String type) {
         String r = "";
 
-        if(type == "anime") {
-            switch (i)
-            {
+        if (type == "anime") {
+            switch (i) {
                 case 0:
                     r = "";
                     break;
@@ -142,10 +127,8 @@ public class MALManager {
                     r = AnimeRecord.STATUS_WATCHING;
                     break;
             }
-        }
-        else if (type == "manga") {
-            switch (i)
-            {
+        } else if (type == "manga") {
+            switch (i) {
                 case 0:
                     r = "";
                     break;
@@ -180,12 +163,9 @@ public class MALManager {
 
         if (type == "anime") {
             readListAPI = MALManager.readAnimeListAPI;
-        }
-        else if (type == "manga") {
+        } else if (type == "manga") {
             readListAPI = MALManager.readMangaListAPI;
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("getList called with unknown list type.");
         }
 
@@ -198,14 +178,12 @@ public class MALManager {
         request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
 
-        try
-        {
+        try {
             response = client.execute(request);
 
             HttpEntity getResponseEntity = response.getEntity();
 
-            if (getResponseEntity != null)
-            {
+            if (getResponseEntity != null) {
                 result = EntityUtils.toString(getResponseEntity);
                 jReturn = new JSONObject(result);
 
@@ -213,17 +191,11 @@ public class MALManager {
 
             }
 
-        }
-        catch (ClientProtocolException e)
-        {
+        } catch (ClientProtocolException e) {
             e.printStackTrace();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -239,12 +211,9 @@ public class MALManager {
 
         if (type == "anime") {
             readDetailsAPI = MALManager.readAnimeDetailsAPI;
-        }
-        else if (type == "manga") {
+        } else if (type == "manga") {
             readDetailsAPI = MALManager.readMangaDetailsAPI;
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("getDetails called with unknown list type.");
         }
 
@@ -256,46 +225,36 @@ public class MALManager {
         request = new HttpGet(APIProvider + readDetailsAPI + id + readMineParam);
         request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
-        try
-        {
+        try {
             response = client.execute(request);
 
             HttpEntity getResponseEntity = response.getEntity();
 
-            if (getResponseEntity != null)
-            {
+            if (getResponseEntity != null) {
                 result = EntityUtils.toString(getResponseEntity);
                 jReturn = new JSONObject(result);
 
             }
 
-        }
-        catch (ClientProtocolException e)
-        {
+        } catch (ClientProtocolException e) {
             e.printStackTrace();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return jReturn;
     }
 
-    public void downloadAndStoreList(String type)
-    {
+    public void downloadAndStoreList(String type) {
         JSONObject raw = getList(type);
 
         long currentTime = new Date().getTime() / 1000;
 
         JSONArray jArray;
-        try
-        {
-            if(type == TYPE_ANIME) {
+        try {
+            if (type == TYPE_ANIME) {
                 jArray = raw.getJSONArray(TYPE_ANIME);
 
                 for (int i = 0; i < jArray.length(); i++) {
@@ -316,12 +275,10 @@ public class MALManager {
 
                     saveItem(ar, true);
                 }
-            }
-            else if(type == TYPE_MANGA) {
+            } else if (type == TYPE_MANGA) {
                 jArray = raw.getJSONArray(TYPE_MANGA);
 
-                for (int i = 0; i < jArray.length(); i++)
-                {
+                for (int i = 0; i < jArray.length(); i++) {
                     try {
                         JSONObject a = jArray.getJSONObject(i);
 
@@ -341,8 +298,7 @@ public class MALManager {
                                 readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0, currentTime);
 
                         saveItem(mr, true);
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         throw e;
                     }
 
@@ -352,15 +308,12 @@ public class MALManager {
 
             clearDeletedItems(type, currentTime);
 
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public AnimeRecord updateWithDetails(int id, AnimeRecord ar)
-    {
+    public AnimeRecord updateWithDetails(int id, AnimeRecord ar) {
         JSONObject o = getDetails(id, "anime");
 
         ar.setSynopsis(getDataFromJSON(o, "synopsis"));
@@ -371,8 +324,7 @@ public class MALManager {
         return ar;
     }
 
-    public MangaRecord updateWithDetails(int id, MangaRecord mr)
-    {
+    public MangaRecord updateWithDetails(int id, MangaRecord mr) {
         JSONObject o = getDetails(id, "manga");
 
         mr.setSynopsis(getDataFromJSON(o, "synopsis"));
@@ -383,47 +335,35 @@ public class MALManager {
         return mr;
     }
 
-    public String getDataFromJSON(JSONObject json, String get)
-    {
+    public String getDataFromJSON(JSONObject json, String get) {
         String sReturn = "";
 
-        try
-        {
+        try {
             sReturn = json.getString(get);
 
-            if ("episodes".equals(get))
-            {
-                if ("null".equals(sReturn))
-                {
+            if ("episodes".equals(get)) {
+                if ("null".equals(sReturn)) {
                     sReturn = "unknown";
                 }
             }
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             sReturn = "unknown";
         }
 
         return sReturn;
     }
 
-    public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list)
-    {
+    public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list) {
         Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
         ArrayList<AnimeRecord> al = new ArrayList();
         Cursor cu;
 
-        if (list == 0)
-        {
+        if (list == 0) {
             cu = db.query("anime", this.animeColumns, null, null, null, null, "recordName ASC");
-        }
-        else
-        {
+        } else {
             cu = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
 
@@ -431,8 +371,7 @@ public class MALManager {
         Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
 
-        while (cu.isAfterLast() == false)
-        {
+        while (cu.isAfterLast() == false) {
 
             int recordId = cu.getInt(0);
             String recordName = cu.getString(1);
@@ -456,8 +395,7 @@ public class MALManager {
             cu.moveToNext();
         }
 
-        if (al.isEmpty())
-        {
+        if (al.isEmpty()) {
             return null;
         }
 
@@ -466,27 +404,22 @@ public class MALManager {
         return al;
     }
 
-    public ArrayList<MangaRecord> getMangaRecordsFromDB(int list)
-    {
+    public ArrayList<MangaRecord> getMangaRecordsFromDB(int list) {
         Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
 
         ArrayList<MangaRecord> ml = new ArrayList();
         Cursor cu;
 
-        if (list == 0)
-        {
+        if (list == 0) {
             cu = db.query("manga", this.mangaColumns, null, null, null, null, "recordName ASC");
-        }
-        else
-        {
+        } else {
             cu = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
 
         Log.v("MALX", "Got " + cu.getCount() + " records.");
         cu.moveToFirst();
 
-        while (cu.isAfterLast() == false)
-        {
+        while (cu.isAfterLast() == false) {
 
             int recordId = cu.getInt(0);
             String recordName = cu.getString(1);
@@ -512,8 +445,7 @@ public class MALManager {
             cu.moveToNext();
         }
 
-        if (ml.isEmpty())
-        {
+        if (ml.isEmpty()) {
             return null;
         }
 
@@ -522,8 +454,7 @@ public class MALManager {
         return ml;
     }
 
-    public void saveItem(MangaRecord mr, boolean ignoreSynopsis)
-    {
+    public void saveItem(MangaRecord mr, boolean ignoreSynopsis) {
         ContentValues cv = new ContentValues();
 
         cv.put("recordID", mr.getID());
@@ -541,23 +472,18 @@ public class MALManager {
         cv.put("dirty", mr.getDirty());
         cv.put("lastUpdate", mr.getLastUpdate());
 
-        if (ignoreSynopsis == false)
-        {
+        if (ignoreSynopsis == false) {
             cv.put("synopsis", mr.getSynopsis());
         }
 
-        if (itemExists(mr.getID(), "manga"))
-        {
-            db.update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[] {mr.getID()});
-        }
-        else
-        {
+        if (itemExists(mr.getID(), "manga")) {
+            db.update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[]{mr.getID()});
+        } else {
             db.insert(MALSqlHelper.TABLE_MANGA, null, cv);
         }
     }
 
-    public void saveItem(AnimeRecord ar, boolean ignoreSynopsis)
-    {
+    public void saveItem(AnimeRecord ar, boolean ignoreSynopsis) {
 
         ContentValues cv = new ContentValues();
 
@@ -574,23 +500,18 @@ public class MALManager {
         cv.put("dirty", ar.getDirty());
         cv.put("lastUpdate", ar.getLastUpdate());
 
-        if (ignoreSynopsis == false)
-        {
+        if (ignoreSynopsis == false) {
             cv.put("synopsis", ar.getSynopsis());
         }
 
-        if (itemExists(ar.getID(), "anime"))
-        {
-            db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[] {ar.getID()});
-        }
-        else
-        {
+        if (itemExists(ar.getID(), "anime")) {
+            db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[]{ar.getID()});
+        } else {
             db.insert(MALSqlHelper.TABLE_ANIME, null, cv);
         }
     }
 
-    public AnimeRecord getAnimeRecordFromDB(int id)
-    {
+    public AnimeRecord getAnimeRecordFromDB(int id) {
         Log.v("MALX", "getAnimeRecordFromDB() has been invoked for id " + id);
 
         Cursor cu = db.query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
@@ -619,8 +540,7 @@ public class MALManager {
         return ar;
     }
 
-    public MangaRecord getMangaRecordFromDB(int id)
-    {
+    public MangaRecord getMangaRecordFromDB(int id) {
         Log.v("MALX", "getMangaRecordFromDB() has been invoked for id " + id);
 
         Cursor cu = db.query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
@@ -656,23 +576,20 @@ public class MALManager {
     public boolean itemExists(String id, String type) {
         if (type == "anime" || type == "manga") {
             Cursor cursor = db.rawQuery("select 1 from " + type + " where recordID=?",
-                    new String[] { id });
+                    new String[]{id});
             boolean exists = (cursor.getCount() > 0);
             cursor.close();
             return exists;
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("itemExists called with unknown type.");
         }
     }
 
-    public boolean writeDetailsToMAL(GenericMALRecord gr, String type)
-    {
+    public boolean writeDetailsToMAL(GenericMALRecord gr, String type) {
         // TODO refactoring
         boolean success = false;
 
-        if (gr.FLAG_DELETE) {
+        if (gr.hasDelete()) {
             HttpDelete deleteRequest;
             HttpResponse response;
             HttpClient client = new DefaultHttpClient();
@@ -680,48 +597,37 @@ public class MALManager {
 
             if ("anime".equals(type)) {
                 deleteRequest = new HttpDelete(APIProvider + writeAnimeDetailsAPI + gr.getID());
-            }
-            else {
+            } else {
                 deleteRequest = new HttpDelete(APIProvider + writeMangaDetailsAPI + gr.getID());
             }
 
             deleteRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
-            try
-            {
+            try {
                 response = client.execute(deleteRequest);
 
-                if (200 == response.getStatusLine().getStatusCode())
-                {
+                if (200 == response.getStatusLine().getStatusCode()) {
                     success = true;
                 }
 
-            }
-            catch (ClientProtocolException e)
-            {
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        else {
+        } else {
 
             HttpResponse response;
             String uri = "";
 
             List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-            if (type.equals(TYPE_ANIME))
-            {
+            if (type.equals(TYPE_ANIME)) {
                 uri = APIProvider + writeAnimeDetailsAPI;
                 putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
                 putParams.add(new BasicNameValuePair("episodes", Integer.toString(gr.getPersonalProgress())));
                 putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
 
-            }
-            else if (type.equals(TYPE_MANGA))
-            {
+            } else if (type.equals(TYPE_MANGA)) {
                 uri = APIProvider + writeMangaDetailsAPI + gr.getID();
                 putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
                 putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
@@ -733,7 +639,7 @@ public class MALManager {
             HttpClient client = new DefaultHttpClient();
             client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
             HttpEntityEnclosingRequestBase writeRequest;
-            if (gr.FLAG_CREATE) {
+            if (gr.hasCreate()) {
                 writeRequest = new HttpPost(uri);
             } else {
                 writeRequest = new HttpPut(uri + gr.getID());
@@ -741,41 +647,31 @@ public class MALManager {
 
             writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
-            try
-            {
+            try {
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
                 writeRequest.setEntity(entity);
 
                 response = client.execute(writeRequest);
 
-                if (200 == response.getStatusLine().getStatusCode())
-                {
+                if (200 == response.getStatusLine().getStatusCode()) {
                     success = true;
                 }
 
-            }
-            catch (ClientProtocolException e)
-            {
+            } catch (ClientProtocolException e) {
                 e.printStackTrace();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return success;
     }
 
-    public String watchedCounterBuilder(int watched, int total)
-    {
+    public String watchedCounterBuilder(int watched, int total) {
         String built = "";
 
-        if (total != 0)
-        {
+        if (total != 0) {
             built = watched + " / " + total;
-        }
-        else
-        {
+        } else {
             built = watched + " / ?";
         }
 
@@ -786,18 +682,17 @@ public class MALManager {
     public void clearDeletedItems(String type, long currentTime) {
         Log.v("MALX", "Removing deleted items of type " + type + " older than " + DateFormat.getDateTimeInstance().format(currentTime * 1000));
 
-        int recordsRemoved = db.delete(type, "lastUpdate < ?", new String[] {String.valueOf(currentTime)});
+        int recordsRemoved = db.delete(type, "lastUpdate < ?", new String[]{String.valueOf(currentTime)});
 
-        Log.v("MALX", "Removed " + recordsRemoved + " "+ type + " items");
+        Log.v("MALX", "Removed " + recordsRemoved + " " + type + " items");
     }
 
     public boolean deleteItemFromDatabase(String type, int recordID) {
-        int deleted = db.delete(type, "recordID = ?", new String[] {String.valueOf(recordID)});
+        int deleted = db.delete(type, "recordID = ?", new String[]{String.valueOf(recordID)});
 
-        if (deleted == 1 ) {
+        if (deleted == 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

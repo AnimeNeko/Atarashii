@@ -4,8 +4,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import com.jayway.android.robotium.solo.Solo;
 
-import java.util.ArrayList;
-
 /**
  * This is a simple framework for a test of an Application.  See
  * {@link android.test.ApplicationTestCase ApplicationTestCase} for more information on
@@ -39,15 +37,6 @@ public class SearchActivityTest extends ActivityInstrumentationTestCase2<SearchA
     }
 
     public void testDoSearch() {
-        solo.clickOnText("Do search");
-        solo.clearEditText((EditText) getActivity().findViewById(R.id.searchQuery));
-
-        ArrayList<EditText> editTexts = solo.getCurrentEditTexts();
-        for (EditText t : editTexts) {
-            System.out.println(t.getId());
-            System.out.println(t.getText());
-        }
-
         solo.enterText((EditText) getActivity().findViewById(R.id.searchQuery), "Minami-ke");
         solo.clickOnText("Go");
         assertTrue(solo.searchText("Minami-ke Tadaima"));

@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.record;
 
 public class MangaRecord extends GenericMALRecord {
 
@@ -11,8 +11,8 @@ public class MangaRecord extends GenericMALRecord {
     public static final String STATUS_PLANTOWATCH = "plan to read";
 
     public MangaRecord(int id, String name, String type, String status, String myStatus,
-            int readVolumes, int readChapters, int totalVolumes, int totalChapters,
-            float memberScore, int myScore, String synopsis, String imageUrl, int dirty, long lastUpdate) {
+                       int readVolumes, int readChapters, int totalVolumes, int totalChapters,
+                       float memberScore, int myScore, String synopsis, String imageUrl, int dirty, long lastUpdate) {
         this.recordID = id;
         this.recordName = name;
         this.recordType = type;
@@ -33,8 +33,8 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     public MangaRecord(int id, String name, String type, String status, String myStatus,
-            int readVolumes, int readChapters, int totalVolumes, int totalChapters,
-            int myScore, String imageUrl, int dirty, long lastUpdate) {
+                       int readVolumes, int readChapters, int totalVolumes, int totalChapters,
+                       int myScore, String imageUrl, int dirty, long lastUpdate) {
         this.recordID = id;
         this.recordName = name;
         this.recordType = type;
@@ -56,6 +56,7 @@ public class MangaRecord extends GenericMALRecord {
     public String getVolumeTotal() {
         return Integer.toString(volumesTotal);
     }
+
     @Override
     public String getTotal() {
         return Integer.toString(chaptersTotal);

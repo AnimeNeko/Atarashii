@@ -1,22 +1,32 @@
 <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+    <EditText
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:hint="Do enter search text"
+            android:id="@+id/searchQuery"
+            android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/searchGo" android:layout_alignBottom="@+id/searchGo"
+            android:layout_marginLeft="7dp"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Go"
             android:id="@+id/searchGo"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="8dp"/>
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Do search"
-            android:id="@+id/searchQuery" android:layout_alignParentLeft="true" android:layout_marginLeft="8dp"
-            android:layout_alignTop="@+id/searchGo" android:layout_toLeftOf="@+id/searchGo"
-            android:layout_alignBottom="@+id/searchGo"/>
-    <ListView
+            android:layout_alignParentRight="true" android:layout_alignParentTop="true"/>
+    <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+
+            android:id="@+id/searchResult"
+            android:layout_below="@+id/searchGo"
+
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/searchResult" android:layout_alignLeft="@+id/searchQuery" android:layout_below="@+id/searchGo"
-            android:choiceMode="singleChoice"/>
+            android:background="#333333"
+            tools:context=".SearchActivity"
+            android:layout_alignParentLeft="true"/>
 </RelativeLayout>

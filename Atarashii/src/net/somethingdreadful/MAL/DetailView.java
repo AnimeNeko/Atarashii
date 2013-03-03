@@ -1,7 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,17 +14,20 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
-EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
-StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener,
-RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
+        EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
+        StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener,
+        RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
     MALManager mManager;
     PrefManager pManager;
@@ -98,19 +99,15 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         SynopsisFragment.inflateContentStub();
 
 
-
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
-        if("manga".equals(recordType))
-        {
+        if ("manga".equals(recordType)) {
             ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress_manga, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
-        }
-        else
-        {
+        } else {
             ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
         }
         ProgressFragment.inflateContentStub();
 
-        ProgressFragment.getView().setOnClickListener(new OnClickListener(){
+        ProgressFragment.getView().setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -143,7 +140,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         WatchStatusFragment.setArgsSensibly("STATUS", R.layout.card_layout_watchstatus, GenericCardFragment.CONTENT_TYPE_WATCHSTATUS, true);
         WatchStatusFragment.inflateContentStub();
 
-        WatchStatusFragment.getView().setOnClickListener(new OnClickListener(){
+        WatchStatusFragment.getView().setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -173,17 +170,14 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         return true;
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -201,12 +195,9 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     public void showRemoveDialog() {
         rcdf = new RemoveConfirmationDialogFragment();
 
-        if (Build.VERSION.SDK_INT >= 11)
-        {
+        if (Build.VERSION.SDK_INT >= 11) {
             rcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-        }
-        else
-        {
+        } else {
             rcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         rcdf.show(fm, "fragment_RemoveConfirmationDialog");
@@ -214,36 +205,26 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
-        try
-        {
-            if("anime".equals(recordType))
-            {
-                if (mAr.getDirty() == 1)
-                {
+        try {
+            if ("anime".equals(recordType)) {
+                if (mAr.getDirty() == 1) {
                     writeDetails(mAr);
                 }
-            }
-            else
-            {
-                if (mMr.getDirty() == 1)
-                {
+            } else {
+                if (mMr.getDirty() == 1) {
                     writeDetails(mMr);
                 }
             }
-        }
-        catch (NullPointerException npe)
-        {
+        } catch (NullPointerException npe) {
 
         }
     }
@@ -257,19 +238,15 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         getDetails(recordID);
     }
 
-    public void getDetails(int id)
-    {
+    public void getDetails(int id) {
         new getDetailsTask().execute();
     }
 
     public void showProgressDialog() // Just a function to keep logic out of the switch statement
     {
-        if ("anime".equals(recordType))
-        {
+        if ("anime".equals(recordType)) {
             showEpisodesWatchedDialog();
-        }
-        else
-        {
+        } else {
             showMangaProgressDialog();
         }
     }
@@ -277,12 +254,9 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     public void showStatusDialog() {
         spdf = new StatusPickerDialogFragment();
 
-        if (Build.VERSION.SDK_INT >= 11)
-        {
+        if (Build.VERSION.SDK_INT >= 11) {
             spdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-        }
-        else
-        {
+        } else {
             spdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         spdf.show(fm, "fragment_EditStatusDialog");
@@ -291,52 +265,40 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     public void showRatingDialog() {
         rpdf = new RatingPickerDialogFragment();
 
-        if (Build.VERSION.SDK_INT >= 11)
-        {
+        if (Build.VERSION.SDK_INT >= 11) {
             rpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-        }
-        else
-        {
+        } else {
             rpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         rpdf.show(fm, "fragment_EditRatingDialog");
     }
 
-    public void showEpisodesWatchedDialog()
-    {
+    public void showEpisodesWatchedDialog() {
         //Standard code for setting up a dialog fragment
         //Note we use setStyle to change the theme, the default light styled dialog didn't look good so we use the dark dialog
         epd = new EpisodesPickerDialogFragment();
 
-        if (Build.VERSION.SDK_INT >= 11)
-        {
+        if (Build.VERSION.SDK_INT >= 11) {
             epd.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-        }
-        else
-        {
+        } else {
             epd.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         epd.show(fm, "fragment_EditEpisodesWatchedDialog");
     }
 
-    public void showMangaProgressDialog()
-    {
+    public void showMangaProgressDialog() {
         //Standard code for setting up a dialog fragment
         //        Toast.makeText(context, "TODO: Make a MangaProgressFragment", Toast.LENGTH_SHORT).show();
         mpdf = new MangaProgressDialogFragment();
-        if (Build.VERSION.SDK_INT >= 11)
-        {
+        if (Build.VERSION.SDK_INT >= 11) {
             mpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-        }
-        else
-        {
+        } else {
             mpdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
 
-    public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord>
-    {
+    public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord> {
 
         int mID;
         MALManager mmManager;
@@ -345,8 +307,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         String internalType;
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             mID = recordID;
             mmManager = mManager;
             internalType = recordType;
@@ -355,8 +316,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         @Override
         protected GenericMALRecord doInBackground(Void... arg0) {
 
-            if ("anime".equals(internalType))
-            {
+            if ("anime".equals(internalType)) {
                 mAr = mmManager.getAnimeRecordFromDB(mID);
 
                 //Basically I just use publishProgress as an easy way to display info we already have loaded sooner
@@ -364,15 +324,12 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mAr.getSynopsis() == null) || (mAr.getMemberScore() <= 0))
-                {
+                if ((mAr.getSynopsis() == null) || (mAr.getMemberScore() <= 0)) {
                     mAr = mmManager.updateWithDetails(mID, mAr);
                 }
 
                 return mAr;
-            }
-            else
-            {
+            } else {
                 mMr = mmManager.getMangaRecordFromDB(mID);
 
                 //Basically I just use publishProgress as an easy way to display info we already have loaded sooner
@@ -380,8 +337,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mMr.getSynopsis() == null) || (mMr.getMemberScore() <= 0))
-                {
+                if ((mMr.getSynopsis() == null) || (mMr.getMemberScore() <= 0)) {
                     mMr = mmManager.updateWithDetails(mID, mMr);
                 }
 
@@ -410,8 +366,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
 
-                if(ProgressTotalView != null)
-                {
+                if (ProgressTotalView != null) {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
 
@@ -425,8 +380,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
 
-                if (RecordStatusView != null)
-                {
+                if (RecordStatusView != null) {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
                 }
@@ -434,21 +388,18 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                 MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
 
-                if (MALScoreBar != null)
-                {
+                if (MALScoreBar != null) {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
 
                 MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
 
-                if(MyStatusView != null)
-                {
+                if (MyStatusView != null) {
                     MyStatusView.setText(MyStatusText);
                 }
 
-            }
-            else {
+            } else {
                 actionBar.setTitle(mMr.getName());
 
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mMr.getImageUrl())));
@@ -469,18 +420,16 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
                 MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
 
-                if(ProgressTotalVolumeView != null) {
+                if (ProgressTotalVolumeView != null) {
                     ProgressCurrentVolumeView.setText(VolumeProgressText);
                     ProgressTotalVolumeView.setText("/" + VolumeTotalText);
                 }
-                if(ProgressTotalView != null)
-                {
+                if (ProgressTotalView != null) {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
                 }
 
-                if(MyStatusView != null)
-                {
+                if (MyStatusView != null) {
                     MyStatusView.setText(MyStatusText);
                 }
 
@@ -492,8 +441,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
-                if (RecordStatusView != null)
-                {
+                if (RecordStatusView != null) {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
                 }
@@ -501,8 +449,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                 MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
 
-                if (MALScoreBar != null)
-                {
+                if (MALScoreBar != null) {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
@@ -515,22 +462,18 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
             if (SynopsisFragment.getView() != null) {
                 SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
 
-                if (SynopsisView != null)
-                {
+                if (SynopsisView != null) {
                     SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
                     SynopsisText = gr.getSpannedSynopsis();
                     MemberScore = gr.getMemberScore();
 
-                }
-                else
-                {
+                } else {
                     SynopsisText = gr.getSpannedSynopsis();
                     MemberScore = gr.getMemberScore();
                 }
             }
 
-            if (MALScoreBar != null)
-            {
+            if (MALScoreBar != null) {
                 MALScoreBar.setRating(MemberScore / 2);
                 MyScoreBar.setRating(MyScore / 2);
             }
@@ -544,8 +487,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         String internalType;
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             internalManager = mManager;
             internalType = recordType;
 
@@ -557,33 +499,25 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
             boolean result;
 
-            if (gr[0].FLAG_DELETE) {
+            if (gr[0].hasDelete()) {
                 internalManager.deleteItemFromDatabase(internalType, Integer.parseInt(gr[0].getID()));
                 result = internalManager.writeDetailsToMAL(gr[0], internalType);
-            }
-            else {
-                if ("anime".equals(internalType))
-                {
+            } else {
+                if ("anime".equals(internalType)) {
                     internalManager.saveItem((AnimeRecord) gr[0], false);
                     result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
-                }
-                else
-                {
+                } else {
                     internalManager.saveItem((MangaRecord) gr[0], false);
                     result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
                 }
 
 
-                if (result == true)
-                {
+                if (result == true) {
                     gr[0].setDirty(gr[0].CLEAN);
 
-                    if ("anime".equals(internalType))
-                    {
+                    if ("anime".equals(internalType)) {
                         internalManager.saveItem((AnimeRecord) gr[0], false);
-                    }
-                    else
-                    {
+                    } else {
                         internalManager.saveItem((MangaRecord) gr[0], false);
                     }
                 }
@@ -600,23 +534,16 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     //Dialog returns new value, do something with it
     @Override
     public void onDialogDismissed(int newValue) {
-        if ("anime".equals(recordType))
-        {
-            if (newValue == mAr.getPersonalProgress())
-            {
+        if ("anime".equals(recordType)) {
+            if (newValue == mAr.getPersonalProgress()) {
 
-            }
-            else
-            {
-                if (Integer.parseInt(mAr.getTotal()) != 0)
-                {
-                    if (newValue == Integer.parseInt(mAr.getTotal()))
-                    {
+            } else {
+                if (Integer.parseInt(mAr.getTotal()) != 0) {
+                    if (newValue == Integer.parseInt(mAr.getTotal())) {
                         mAr.setMyStatus(mAr.STATUS_COMPLETED);
                         MyStatusView.setText(WordUtils.capitalize(mAr.STATUS_COMPLETED));
                     }
-                    if (newValue == 0)
-                    {
+                    if (newValue == 0) {
                         mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
                         MyStatusView.setText(WordUtils.capitalize(mAr.STATUS_PLANTOWATCH));
                     }
@@ -635,73 +562,56 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     }
 
     //Create new write task and run it
-    public void writeDetails(GenericMALRecord gr)
-    {
+    public void writeDetails(GenericMALRecord gr) {
         new writeDetailsTask().execute(gr);
     }
 
-    public void setStatus(String currentStatus)
-    {
+    public void setStatus(String currentStatus) {
         String prevStatus;
 
-        if ("anime".equals(recordType))
-        {
+        if ("anime".equals(recordType)) {
             prevStatus = mAr.getMyStatus();
 
-            if (AnimeRecord.STATUS_WATCHING.equals(currentStatus))
-            {
+            if (AnimeRecord.STATUS_WATCHING.equals(currentStatus)) {
                 mAr.setMyStatus(AnimeRecord.STATUS_WATCHING);
             }
-            if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus))
-            {
+            if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus)) {
                 mAr.setMyStatus(AnimeRecord.STATUS_COMPLETED);
             }
-            if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus))
-            {
+            if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus)) {
                 mAr.setMyStatus(AnimeRecord.STATUS_ONHOLD);
             }
-            if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus))
-            {
+            if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus)) {
                 mAr.setMyStatus(AnimeRecord.STATUS_DROPPED);
             }
-            if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus)))
-            {
+            if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus))) {
                 mAr.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
             }
 
-            if (!prevStatus.equals(currentStatus))
-            {
+            if (!prevStatus.equals(currentStatus)) {
                 mAr.setDirty(GenericMALRecord.DIRTY);
                 MyStatusView.setText(WordUtils.capitalize(currentStatus));
             }
-        }
-        else
-        {
+        } else {
             prevStatus = mMr.getMyStatus();
 
-            if (MangaRecord.STATUS_WATCHING.equals(currentStatus))
-            {
+            if (MangaRecord.STATUS_WATCHING.equals(currentStatus)) {
                 mMr.setMyStatus(MangaRecord.STATUS_WATCHING);
             }
-            if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus))
-            {
+            if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus)) {
                 mMr.setMyStatus(MangaRecord.STATUS_COMPLETED);
             }
-            if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus))
-            {
+            if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus)) {
                 mMr.setMyStatus(MangaRecord.STATUS_ONHOLD);
             }
-            if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus))
-            {
+            if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus)) {
                 mMr.setMyStatus(MangaRecord.STATUS_DROPPED);
             }
-            if (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus))
-            {
+            if (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus)) {
                 mMr.setMyStatus(MangaRecord.STATUS_PLANTOWATCH);
             }
 
-            if (!prevStatus.equals(currentStatus))
-            {
+            if (!prevStatus.equals(currentStatus)) {
                 mMr.setDirty(GenericMALRecord.DIRTY);
                 MyStatusView.setText(WordUtils.capitalize(currentStatus));
             }
@@ -716,8 +626,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
             mAr.setMyScore(rating);
             mAr.setDirty(GenericMALRecord.DIRTY);
-        }
-        else {
+        } else {
             MyScoreBar.setRating((float) rating / 2);
 
             mMr.setMyScore(rating);
@@ -725,16 +634,14 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         }
     }
 
-    public void setAnimeStatus(String status)
-    {
+    public void setAnimeStatus(String status) {
         mAr.setMyStatus(status);
         mAr.setDirty(mAr.DIRTY);
 
         //        MyStatusView.setText(WordUtils.capitalize(status));
     }
 
-    public void setMangaStatus(String status)
-    {
+    public void setMangaStatus(String status) {
         mMr.setMyStatus(status);
         mMr.setDirty(mAr.DIRTY);
 
@@ -744,23 +651,16 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
     @Override
     public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
 
-        if ("manga".equals(recordType))
-        {
+        if ("manga".equals(recordType)) {
 
-            if (newChapterValue == mMr.getPersonalProgress())
-            {
+            if (newChapterValue == mMr.getPersonalProgress()) {
 
-            }
-            else
-            {
-                if (Integer.parseInt(mMr.getTotal()) != 0)
-                {
-                    if (newChapterValue == Integer.parseInt(mMr.getTotal()))
-                    {
+            } else {
+                if (Integer.parseInt(mMr.getTotal()) != 0) {
+                    if (newChapterValue == Integer.parseInt(mMr.getTotal())) {
                         mMr.setMyStatus(mMr.STATUS_COMPLETED);
                     }
-                    if (newChapterValue == 0)
-                    {
+                    if (newChapterValue == 0) {
                         mMr.setMyStatus(mMr.STATUS_PLANTOWATCH);
                     }
 
@@ -774,17 +674,13 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
             }
 
-            if (newVolumeValue == mMr.getVolumeProgress())
-            {
+            if (newVolumeValue == mMr.getVolumeProgress()) {
 
-            }
-            else
-            {
+            } else {
                 mMr.setVolumesRead(newVolumeValue);
                 mMr.setDirty(mMr.DIRTY);
             }
         }
-
 
 
     }
@@ -793,8 +689,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         switch (contentType) {
             case GenericCardFragment.CONTENT_TYPE_SYNOPSIS:
                 SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
-                if (SynopsisText != null)
-                {
+                if (SynopsisText != null) {
                     SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
                 }
                 break;
@@ -802,8 +697,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
 
-                if(ProgressText != null)
-                {
+                if (ProgressText != null) {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
 
@@ -812,8 +706,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
             case GenericCardFragment.CONTENT_TYPE_INFO:
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
-                if (RecordStatusText != null)
-                {
+                if (RecordStatusText != null) {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
                 }
@@ -823,8 +716,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
             case GenericCardFragment.CONTENT_TYPE_SCORE:
                 MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                 MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
-                if (MemberScore > 0)
-                {
+                if (MemberScore > 0) {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
@@ -833,8 +725,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
 
             case GenericCardFragment.CONTENT_TYPE_WATCHSTATUS:
                 MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
-                if (MyStatusText != null)
-                {
+                if (MyStatusText != null) {
                     Log.v("MALX", "MyStatusText not null, setting");
                     MyStatusView.setText(MyStatusText);
                 }
@@ -883,8 +774,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener{
         if ("anime".equals(recordType)) {
             mAr.markForDeletion(true);
             mAr.setDirty(GenericMALRecord.DIRTY);
-        }
-        else {
+        } else {
             mMr.markForDeletion(true);
             mMr.setDirty(GenericMALRecord.DIRTY);
         }
