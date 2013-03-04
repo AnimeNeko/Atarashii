@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.record;
 
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -14,22 +15,10 @@ public abstract class GenericMALRecord {
     public static final String STATUS_ONHOLD = "on-hold";
     public static final String STATUS_DROPPED = "dropped";
 
-    protected int recordID;
-    protected String recordName;
-    protected String recordType;
-    protected String imageUrl;
-    protected String recordStatus;
-    protected String myStatus;
-    protected float memberScore;
-    protected int myScore;
-    protected String synopsis;
-    protected int dirty;
-    protected long lastUpdate;
     protected boolean FLAG_DELETE = false;
     protected boolean FLAG_CREATE = false;
 
     protected HashMap<String, Class<?>> typeMap;
-
     protected HashMap<String, Object> recordData;
 
     public abstract int getPersonalProgress();
@@ -39,24 +28,32 @@ public abstract class GenericMALRecord {
     public abstract String getTotal();
 
 
-    public GenericMALRecord() {
-
-    }
-
     public GenericMALRecord(HashMap<String, Object> record_data) {
         this.recordData = record_data;
     }
 
-    public GenericMALRecord(int id, String name, String type, String status,
-                            float memberScore, String synopsis, String imageUrl) {
-        this.recordID = id;
-        this.recordName = name;
-        this.recordType = type;
-        this.imageUrl = imageUrl;
-        this.recordStatus = status;
-        this.memberScore = memberScore;
-        this.synopsis = synopsis;
-        this.myStatus = "";
+
+    public Object getSafeValueOrDefault(String field) {
+        try {
+            Object value = recordData.get(field);
+            if (value != null) {
+                return value;
+            }
+        } catch (NullPointerException e) {
+            Log.e("FAIL", Log.getStackTraceString(e));
+            return null;
+        }
+        Class<?> cls = getTypeMap().get(field);
+        if (cls == String.class) {
+            return "";
+        }
+        if (cls == int.class) {
+            return 0;
+        }
+        if (cls == float.class) {
+            return 0.0;
+        }
+        return null;
     }
 
     public String getName() {
@@ -68,7 +65,7 @@ public abstract class GenericMALRecord {
     }
 
     public String getID() {
-        return ((Integer) recordData.get("recordID")).toString();
+        return (recordData.get("recordID")).toString();
     }
 
     public String getRecordStatus() {
@@ -80,7 +77,6 @@ public abstract class GenericMALRecord {
     }
 
     public void setMemberScore(float memberScore) {
-        this.memberScore = memberScore;
         recordData.put("memberScore", memberScore);
     }
 
@@ -95,7 +91,6 @@ public abstract class GenericMALRecord {
     }
 
     public void setSynopsis(String newSynopsis) {
-        this.synopsis = newSynopsis;
         recordData.put("synopsis", newSynopsis);
     }
 
@@ -104,21 +99,18 @@ public abstract class GenericMALRecord {
     }
 
     public String getMyStatus() {
-        return (String) recordData.get("myStatus");
+        return (String) this.getSafeValueOrDefault("myStatus");
     }
 
     public void setMyStatus(String status) {
-        this.myStatus = status;
         recordData.put("myStatus", status);
-
     }
 
     public int getMyScore() {
-        return (int) recordData.get("myScore");
+        return (int) this.getSafeValueOrDefault("myScore");
     }
 
     public void setMyScore(int myScore) {
-        this.myScore = myScore;
         recordData.put("myScore", myScore);
     }
 
@@ -131,12 +123,15 @@ public abstract class GenericMALRecord {
     }
 
     public void setDirty(int dirty) {
-        this.dirty = dirty;
         recordData.put("dirty", dirty);
     }
 
     public long getLastUpdate() {
-        return (long) recordData.get("LastUpdate");
+        return (long) recordData.get("lastUpdate");
+    }
+
+    public void setLastUpdate(long lastUpdate) {
+        recordData.put("lastUpdate", lastUpdate);
     }
 
     public void markForDeletion(boolean mark) {

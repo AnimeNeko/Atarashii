@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -20,8 +19,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class Home extends SherlockFragmentActivity
-implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
-LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
+        implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
+        LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -54,16 +53,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         upgradeInit = mPrefManager.getUpgradeInit();
 
         //The following is state handling code
-        if (savedInstanceState != null)
-        {
-            instanceExists = savedInstanceState.getBoolean("instanceExists", false);
-        }
-        else
-        {
-            instanceExists = false;
-        }
+        instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
 
-        if (init == true) {
+        if (init) {
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
             mSectionsPagerAdapter = new HomeSectionsPagerAdapter(
@@ -71,8 +63,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
             mManager = new MALManager(context);
 
-            if (!instanceExists)
-            {
+            if (!instanceExists) {
 
             }
 
@@ -91,12 +82,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             // reference to the
             // Tab.
             mViewPager
-            .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    actionBar.setSelectedNavigationItem(position);
-                }
-            });
+                    .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                        @Override
+                        public void onPageSelected(int position) {
+                            actionBar.setSelectedNavigationItem(position);
+                        }
+                    });
 
             // Add tabs for the animu and mango lists
             for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
@@ -112,8 +103,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             }
 
 
-        }
-        else //If the app hasn't been configured, take us to the first run screen to sign in
+        } else //If the app hasn't been configured, take us to the first run screen to sign in
         {
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -129,12 +119,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.menu_settings:
-                startActivity(new Intent (this, Settings.class));
+                startActivity(new Intent(this, Settings.class));
                 break;
 
             case R.id.menu_logout:
@@ -142,7 +130,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 break;
 
             case R.id.menu_about:
-                startActivity(new Intent(this, About.class));
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
 
             case R.id.addToList:
@@ -150,56 +138,49 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
                 //The following is the code that handles switching the list. It calls the fragment to update, then update the menu by invalidating
             case R.id.listType_all:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(0, "anime", false);
                     mf.getRecords(0, "manga", false);
                     invalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_inprogress:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(1, "anime", false);
                     mf.getRecords(1, "manga", false);
                     invalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_completed:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(2, "anime", false);
                     mf.getRecords(2, "manga", false);
                     invalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_onhold:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(3, "anime", false);
                     mf.getRecords(3, "manga", false);
                     invalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_dropped:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(4, "anime", false);
                     mf.getRecords(4, "manga", false);
                     invalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_planned:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(5, "anime", false);
                     mf.getRecords(5, "manga", false);
                     invalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
-                if (af != null && mf != null)
-                {
+                if (af != null && mf != null) {
                     af.getRecords(af.currentList, "anime", true);
                     mf.getRecords(af.currentList, "manga", true);
                     syncNotify();
@@ -212,12 +193,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
-        if (instanceExists == true)
-        {
+        if (instanceExists) {
             af.getRecords(af.currentList, "anime", false);
             mf.getRecords(af.currentList, "manga", false);
         }
@@ -225,8 +204,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
         instanceExists = true;
@@ -258,8 +236,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 
         //Logic to check if we have just signed in. If yes, automatically do a sync
-        if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false))
-        {
+        if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false)) {
             af.getRecords(af.currentList, "anime", true);
             mf.getRecords(mf.currentList, "manga", true);
             getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
@@ -268,8 +245,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle state)
-    {
+    public void onSaveInstanceState(Bundle state) {
         //This is telling out future selves that we already have some things and not to do them
         state.putBoolean("instanceExists", true);
 
@@ -277,13 +253,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        if (af != null)
-        {
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (af != null) {
             //All this is handling the ticks in the switch list menu
-            switch (af.currentList)
-            {
+            switch (af.currentList) {
                 case 0:
                     menu.findItem(R.id.listType_all).setChecked(true);
                     break;
@@ -344,17 +317,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         LogoutConfirmationDialogFragment lcdf = new LogoutConfirmationDialogFragment();
 
-        if (Build.VERSION.SDK_INT >= 11)
-        {
+        if (Build.VERSION.SDK_INT >= 11) {
             lcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog);
-        }
-        else
-        {
+        } else {
             lcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         lcdf.show(fm, "fragment_LogoutConfirmationDialog");
     }
-
 
 
 }

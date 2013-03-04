@@ -19,7 +19,7 @@
     <permission android:name="net.somethingdreadful.MAL.permissions.UPDATE_MEDIA"
                 android:permissionGroup="net.somethingdreadful.MAL.permissions.USE_ATARASHII"
                 android:description="@string/permission_description_updateMedia" android:protectionLevel="normal"
-                android:label="@string/permission_updateMedia"></permission>
+                android:label="@string/permission_updateMedia"/>
 
     <application
             android:icon="@drawable/icon"
@@ -51,7 +51,7 @@
                 android:label="@string/title_activity_detail_view">
         </activity>
         <activity
-                android:name="net.somethingdreadful.MAL.About"
+                android:name=".AboutActivity"
                 android:label="@string/title_activity_about">
         </activity>
 

@@ -120,7 +120,7 @@ public class ItemGridFragment extends SherlockFragment {
             try {
                 screenWidthDp = layout.getContext().getResources().getConfiguration().screenWidthDp;
             } catch (NoSuchFieldError e) {
-                screenWidthDp = pxToDp(((WindowManager) c.getSystemService(c.WINDOW_SERVICE)).getDefaultDisplay().getWidth());
+                screenWidthDp = pxToDp(((WindowManager) c.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth());
             }
 
             listColumns = (int) Math.ceil(screenWidthDp / MAL_IMAGE_WIDTH);
@@ -132,8 +132,6 @@ public class ItemGridFragment extends SherlockFragment {
         gv.setNumColumns(listColumns);
 
         gv.setDrawSelectorOnTop(true);
-
-        //   	gridView.setAdapter(new CoverAdapter<String>(layout.getContext(), R.layout.grid_cover_with_text_item, ar));
 
         getRecords(currentList, recordType, false);
 
@@ -209,9 +207,9 @@ public class ItemGridFragment extends SherlockFragment {
             }
             if (ca == null) {
                 if (mTraditionalList) {
-                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    ca = new CoverAdapter<>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 } else {
-                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    ca = new CoverAdapter<>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
 
                 }
             }
@@ -284,9 +282,9 @@ public class ItemGridFragment extends SherlockFragment {
             }
             if (cm == null) {
                 if (mTraditionalList) {
-                    cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    cm = new CoverAdapter<>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 } else {
-                    cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    cm = new CoverAdapter<>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 }
             }
 

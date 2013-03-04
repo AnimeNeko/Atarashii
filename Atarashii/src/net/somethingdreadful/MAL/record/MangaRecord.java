@@ -1,87 +1,70 @@
 package net.somethingdreadful.MAL.record;
 
-public class MangaRecord extends GenericMALRecord {
+import java.util.HashMap;
 
-    private int volumesTotal;
-    private int chaptersTotal;
-    private int volumesRead;
-    private int chaptersRead;
+public class MangaRecord extends GenericMALRecord {
 
     public static final String STATUS_WATCHING = "reading";
     public static final String STATUS_PLANTOWATCH = "plan to read";
 
-    public MangaRecord(int id, String name, String type, String status, String myStatus,
-                       int readVolumes, int readChapters, int totalVolumes, int totalChapters,
-                       float memberScore, int myScore, String synopsis, String imageUrl, int dirty, long lastUpdate) {
-        this.recordID = id;
-        this.recordName = name;
-        this.recordType = type;
-        this.imageUrl = imageUrl;
-        this.recordStatus = status;
-        this.myStatus = myStatus;
-        this.memberScore = memberScore;
-        this.myScore = myScore;
-        this.synopsis = synopsis;
-
-        this.volumesTotal = totalVolumes;
-        this.chaptersTotal = totalChapters;
-        this.volumesRead = readVolumes;
-        this.chaptersRead = readChapters;
-
-        this.dirty = dirty;
-        this.lastUpdate = lastUpdate;
+    public MangaRecord(HashMap<String, Object> record_data) {
+        super(record_data);
     }
 
-    public MangaRecord(int id, String name, String type, String status, String myStatus,
-                       int readVolumes, int readChapters, int totalVolumes, int totalChapters,
-                       int myScore, String imageUrl, int dirty, long lastUpdate) {
-        this.recordID = id;
-        this.recordName = name;
-        this.recordType = type;
-        this.imageUrl = imageUrl;
-        this.recordStatus = status;
-        this.myStatus = myStatus;
-        this.myScore = myScore;
-
-        this.volumesTotal = totalVolumes;
-        this.chaptersTotal = totalChapters;
-        this.volumesRead = readVolumes;
-        this.chaptersRead = readChapters;
-
-        this.dirty = dirty;
-        this.lastUpdate = lastUpdate;
-
-    }
-
-    public String getVolumeTotal() {
-        return Integer.toString(volumesTotal);
+    public int getVolumesTotal() {
+        return (int) this.recordData.get("volumesTotal");
     }
 
     @Override
     public String getTotal() {
-        return Integer.toString(chaptersTotal);
-    }
-
-    public void setVolumesRead(int read) {
-        this.volumesRead = read;
-    }
-
-    public void setChaptersRead(int read) {
-        this.chaptersRead = read;
+        return Integer.toString(getChaptersTotal());
     }
 
     public int getVolumeProgress() {
-        return volumesRead;
+        return getVolumesRead();
+    }
+
+    public int getVolumesRead() {
+        return (int) this.recordData.get("volumesRead");
+    }
+
+    public void setVolumesRead(int read) {
+        this.recordData.put("volumesRead", read);
+    }
+
+    public int getChaptersTotal() {
+        return (int) this.recordData.get("chaptersTotal");
+    }
+
+    public int getChaptersRead() {
+        return (int) this.recordData.get("chaptersRead");
+    }
+
+    public void setChaptersRead(int chaptersRead) {
+        this.recordData.put("chaptersRead", chaptersRead);
     }
 
     @Override
     public int getPersonalProgress() {
-        return chaptersRead;
+        return getChaptersRead();
     }
 
     @Override
     public void setPersonalProgress(int amount) {
-        this.chaptersRead = amount;
+        setChaptersRead(amount);
+    }
+
+    @Override
+    protected HashMap<String, Class<?>> getTypeMap() {
+        if (typeMap != null) {
+            return typeMap;
+        }
+        typeMap = super.getTypeMap();
+        typeMap.put("volumesTotal", int.class);
+        typeMap.put("chaptersTotal", int.class);
+        typeMap.put("volumesRead", int.class);
+        typeMap.put("chaptersRead", int.class);
+        return typeMap;
     }
 
 }

@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SearchActivity extends SherlockFragmentActivity
         implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
@@ -110,7 +109,7 @@ public class SearchActivity extends SherlockFragmentActivity
                 break;
 
             case R.id.menu_about:
-                startActivity(new Intent(this, About.class));
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
 
         }
@@ -184,22 +183,11 @@ public class SearchActivity extends SherlockFragmentActivity
             ArrayList<AnimeRecord> list = new ArrayList<>();
             for (int i = 0; i < _result.length(); i++) {
                 try {
+
                     JSONObject genre = (JSONObject) _result.get(i);
-
-//                    String image_url = genre.getString("image_url").replaceFirst("t.jpg$", ".jpg");
-                    HashMap<String, Object> record_data = new HashMap<>();
-                    record_data.put("recordID", genre.getInt("id"));
-                    record_data.put("recordName", genre.getString("title"));
-                    record_data.put("recordType", genre.getString("type"));
-                    record_data.put("recordStatus", "TODO: Status?");
-                    record_data.put("memberScore", (float) genre.getDouble("members_score"));
-                    record_data.put("imageUrl", genre.getString("image_url").replaceFirst("t.jpg$", ".jpg"));
-                    record_data.put("episodesTotal", genre.getInt("episodes"));
-
-                    AnimeRecord record = new AnimeRecord(record_data);
-
-
+                    AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, MALManager.TYPE_ANIME));
                     list.add(record);
+
                 } catch (JSONException e) {
                     Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
 

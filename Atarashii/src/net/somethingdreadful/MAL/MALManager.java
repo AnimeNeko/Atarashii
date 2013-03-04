@@ -14,7 +14,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
@@ -30,6 +29,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class MALManager {
@@ -76,34 +76,31 @@ public class MALManager {
 
     static public boolean verifyAccount(String user, String pass) {
         HttpGet request = new HttpGet(APIProvider + VerifyAPI);
-        HttpResponse response = null;
         request.setHeader("Authorization", "basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
 
         try {
             HttpClient client = new DefaultHttpClient();
             client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-            response = client.execute(request);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
+            HttpResponse response = client.execute(request);
+            int statusCode = 0;
+            if (response != null) {
+                StatusLine statusLine = response.getStatusLine();
+                statusCode = statusLine.getStatusCode();
+            }
+            return statusCode == 200;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
 
 
-        StatusLine statusLine = response.getStatusLine();
-        int statusCode = statusLine.getStatusCode();
-
-        if (statusCode == 200) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     static String listSortFromInt(int i, String type) {
         String r = "";
 
-        if (type == "anime") {
+        if (type.equals("anime")) {
             switch (i) {
                 case 0:
                     r = "";
@@ -127,7 +124,7 @@ public class MALManager {
                     r = AnimeRecord.STATUS_WATCHING;
                     break;
             }
-        } else if (type == "manga") {
+        } else if (type.equals("manga")) {
             switch (i) {
                 case 0:
                     r = "";
@@ -157,13 +154,13 @@ public class MALManager {
     }
 
     public JSONObject getList(String type) {
-        String readListAPI = null;
-        String result = null;
+        String readListAPI;
+        String result;
         JSONObject jReturn = null;
 
-        if (type == "anime") {
+        if (type.equals("anime")) {
             readListAPI = MALManager.readAnimeListAPI;
-        } else if (type == "manga") {
+        } else if (type.equals("manga")) {
             readListAPI = MALManager.readMangaListAPI;
         } else {
             throw new RuntimeException("getList called with unknown list type.");
@@ -191,11 +188,7 @@ public class MALManager {
 
             }
 
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
@@ -205,16 +198,19 @@ public class MALManager {
 
     public JSONObject getDetails(int id, String type) {
 
-        String result = null;
+        String result;
         JSONObject jReturn = null;
-        String readDetailsAPI = null;
+        String readDetailsAPI;
 
-        if (type == "anime") {
-            readDetailsAPI = MALManager.readAnimeDetailsAPI;
-        } else if (type == "manga") {
-            readDetailsAPI = MALManager.readMangaDetailsAPI;
-        } else {
-            throw new RuntimeException("getDetails called with unknown list type.");
+        switch (type) {
+            case "anime":
+                readDetailsAPI = MALManager.readAnimeDetailsAPI;
+                break;
+            case "manga":
+                readDetailsAPI = MALManager.readMangaDetailsAPI;
+                break;
+            default:
+                throw new RuntimeException("getDetails called with unknown list type.");
         }
 
         HttpGet request;
@@ -236,15 +232,37 @@ public class MALManager {
 
             }
 
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-
         return jReturn;
+    }
+
+    public HashMap<String, Object> getRecordDataFromJSONObject(JSONObject jsonObject, String type) {
+        HashMap<String, Object> recordData = new HashMap<>();
+        try {
+            recordData.put("recordID", jsonObject.getInt("id"));
+            recordData.put("recordName", jsonObject.getString("title"));
+            recordData.put("recordType", jsonObject.getString("type"));
+            recordData.put("recordStatus", jsonObject.getString("status"));
+            recordData.put("myScore", jsonObject.optInt("score"));
+            recordData.put("memberScore", (float) jsonObject.optDouble("members_score", 0.0));
+            recordData.put("imageUrl", jsonObject.getString("image_url").replaceFirst("t.jpg$", ".jpg"));
+            if (type == TYPE_ANIME) {
+                recordData.put("episodesTotal", jsonObject.optInt("episodes"));
+                recordData.put("episodesWatched", jsonObject.optInt("watched_episodes"));
+                recordData.put("myStatus", jsonObject.getString("watched_status"));
+            } else if (type == TYPE_MANGA) {
+                recordData.put("myStatus", jsonObject.getString("read_status"));
+                recordData.put("volumesTotal", jsonObject.optInt("volumes"));
+                recordData.put("chaptersTotal", jsonObject.optInt("chapters"));
+                recordData.put("volumesRead", jsonObject.optInt("volumes_read"));
+                recordData.put("chaptersRead", jsonObject.optInt("chapters_read"));
+            }
+        } catch (JSONException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
+        }
+        return recordData;
     }
 
     public void downloadAndStoreList(String type) {
@@ -256,53 +274,21 @@ public class MALManager {
         try {
             if (type == TYPE_ANIME) {
                 jArray = raw.getJSONArray(TYPE_ANIME);
-
                 for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject a = jArray.getJSONObject(i);
-
-                    int id = a.getInt("id");
-                    String name = a.getString("title");
-                    int watched = a.getInt("watched_episodes");
-                    int totalEpisodes = a.getInt("episodes");
-                    String imageUrl = a.getString("image_url");
-                    String animeStatus = a.getString("status");
-                    String myStatus = a.getString("watched_status");
-                    String animeType = a.getString("type");
-                    int myScore = a.getInt("score");
-
-                    AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes,
-                            myStatus, animeStatus, animeType, myScore, 0, currentTime);
-
+                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), TYPE_ANIME);
+                    AnimeRecord ar = new AnimeRecord(recordData);
+                    ar.setDirty(0);
+                    ar.setLastUpdate(currentTime);
                     saveItem(ar, true);
                 }
             } else if (type == TYPE_MANGA) {
                 jArray = raw.getJSONArray(TYPE_MANGA);
-
                 for (int i = 0; i < jArray.length(); i++) {
-                    try {
-                        JSONObject a = jArray.getJSONObject(i);
-
-                        int id = a.getInt("id");
-                        String name = a.getString("title");
-                        int readVolumes = a.getInt("volumes_read");
-                        int readChapters = a.getInt("chapters_read");
-                        int totalVolumes = a.getInt("volumes");
-                        int totalChapters = a.getInt("chapters");
-                        String imageUrl = a.getString("image_url");
-                        String mangaStatus = a.getString("status");
-                        String myStatus = a.getString("read_status");
-                        String mangaType = a.getString("type");
-                        int myScore = a.getInt("score");
-
-                        MangaRecord mr = new MangaRecord(id, name, mangaType, mangaStatus, myStatus,
-                                readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0, currentTime);
-
-                        saveItem(mr, true);
-                    } catch (JSONException e) {
-                        throw e;
-                    }
-
-
+                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), TYPE_ANIME);
+                    MangaRecord mr = new MangaRecord(recordData);
+                    mr.setDirty(0);
+                    mr.setLastUpdate(currentTime);
+                    saveItem(mr, true);
                 }
             }
 
@@ -313,29 +299,27 @@ public class MALManager {
         }
     }
 
-    public AnimeRecord updateWithDetails(int id, AnimeRecord ar) {
-        JSONObject o = getDetails(id, "anime");
+    public AnimeRecord updateWithDetails(int id, AnimeRecord animeRecord) {
+        JSONObject jsonObject = getDetails(id, "anime");
 
-        ar.setSynopsis(getDataFromJSON(o, "synopsis"));
-        ar.setMemberScore(Float.parseFloat(getDataFromJSON(o, "members_score")));
+        animeRecord.setSynopsis(getDataFromJSON(jsonObject, "synopsis"));
+        animeRecord.setMemberScore(Float.parseFloat(getDataFromJSON(jsonObject, "members_score")));
 
-        saveItem(ar, false);
+        saveItem(animeRecord, false);
 
-        return ar;
+        return animeRecord;
     }
 
-    public MangaRecord updateWithDetails(int id, MangaRecord mr) {
-        JSONObject o = getDetails(id, "manga");
-
-        mr.setSynopsis(getDataFromJSON(o, "synopsis"));
-        mr.setMemberScore(Float.parseFloat(getDataFromJSON(o, "members_score")));
-
-        saveItem(mr, false);
-
-        return mr;
+    public MangaRecord updateWithDetails(int id, MangaRecord mangaRecord) {
+        JSONObject jsonObject = getDetails(id, "manga");
+        mangaRecord.setSynopsis(getDataFromJSON(jsonObject, "synopsis"));
+        mangaRecord.setMemberScore(Float.parseFloat(getDataFromJSON(jsonObject, "members_score")));
+        saveItem(mangaRecord, false);
+        return mangaRecord;
     }
 
     public String getDataFromJSON(JSONObject json, String get) {
+        // TODO: replace to jsonObject.optString(get, fallback);
         String sReturn = "";
 
         try {
@@ -355,103 +339,86 @@ public class MALManager {
         return sReturn;
     }
 
+    public Object getObjectFromCursorColumn(Cursor cursor, int index) {
+        int object_type = cursor.getType(index);
+        if (object_type == Cursor.FIELD_TYPE_STRING) {
+            return cursor.getString(index);
+        }
+        if (object_type == Cursor.FIELD_TYPE_FLOAT) {
+            return cursor.getFloat(index);
+        }
+        if (object_type == Cursor.FIELD_TYPE_INTEGER) {
+            return cursor.getInt(index);
+        }
+        return null;
+    }
+
+    public HashMap<String, Object> getRecordDataFromCursor(Cursor cursor) {
+        HashMap<String, Object> record_data = new HashMap<>();
+        String[] columns = cursor.getColumnNames();
+        for (int i = 0; i < columns.length; i++) {
+            record_data.put(columns[i], this.getObjectFromCursorColumn(cursor, i));
+        }
+        return record_data;
+    }
+
     public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list) {
         Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
-        ArrayList<AnimeRecord> al = new ArrayList();
-        Cursor cu;
+        ArrayList<AnimeRecord> animeRecordArrayList = new ArrayList<>();
+        Cursor cursor;
 
         if (list == 0) {
-            cu = db.query("anime", this.animeColumns, null, null, null, null, "recordName ASC");
+            cursor = db.query("anime", this.animeColumns, null, null, null, null, "recordName ASC");
         } else {
-            cu = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
+            cursor = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
 
 
-        Log.v("MALX", "Got " + cu.getCount() + " records.");
-        cu.moveToFirst();
+        Log.v("MALX", "Got " + cursor.getCount() + " records.");
+        cursor.moveToFirst();
 
-        while (cu.isAfterLast() == false) {
-
-            int recordId = cu.getInt(0);
-            String recordName = cu.getString(1);
-            String recordType = cu.getString(2);
-            String recordStatus = cu.getString(3);
-            String myStatus = cu.getString(4);
-            int episodesWatched = cu.getInt(5);
-            int episodesTotal = cu.getInt(6);
-            float memberScore = cu.getFloat(7);
-            int myScore = cu.getInt(8);
-            String synopsis = cu.getString(9);
-            String imageUrl = cu.getString(10);
-            int dirty = cu.getInt(11);
-            long lastUpdate = cu.getLong(12);
-
-            AnimeRecord ar = new AnimeRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                    episodesWatched, episodesTotal, memberScore, myScore, synopsis, imageUrl, dirty, lastUpdate);
-
-            al.add(ar);
-
-            cu.moveToNext();
+        while (!cursor.isAfterLast()) {
+            animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor)));
+            cursor.moveToNext();
         }
 
-        if (al.isEmpty()) {
+        if (animeRecordArrayList.isEmpty()) {
             return null;
         }
 
-        cu.close();
+        cursor.close();
 
-        return al;
+        return animeRecordArrayList;
     }
 
     public ArrayList<MangaRecord> getMangaRecordsFromDB(int list) {
         Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
 
-        ArrayList<MangaRecord> ml = new ArrayList();
-        Cursor cu;
+        ArrayList<MangaRecord> mangaRecordArrayList = new ArrayList<>();
+        Cursor cursor;
 
         if (list == 0) {
-            cu = db.query("manga", this.mangaColumns, null, null, null, null, "recordName ASC");
+            cursor = db.query("manga", this.mangaColumns, null, null, null, null, "recordName ASC");
         } else {
-            cu = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+            cursor = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
 
-        Log.v("MALX", "Got " + cu.getCount() + " records.");
-        cu.moveToFirst();
+        Log.v("MALX", "Got " + cursor.getCount() + " records.");
+        cursor.moveToFirst();
 
-        while (cu.isAfterLast() == false) {
-
-            int recordId = cu.getInt(0);
-            String recordName = cu.getString(1);
-            String recordType = cu.getString(2);
-            String recordStatus = cu.getString(3);
-            String myStatus = cu.getString(4);
-            int volumesRead = cu.getInt(5);
-            int chaptersRead = cu.getInt(6);
-            int volumesTotal = cu.getInt(7);
-            int chaptersTotal = cu.getInt(8);
-            float memberScore = cu.getFloat(9);
-            int myScore = cu.getInt(10);
-            String synopsis = cu.getString(11);
-            String imageUrl = cu.getString(12);
-            int dirty = cu.getInt(13);
-            long lastUpdate = cu.getLong(14);
-
-            MangaRecord mr = new MangaRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                    volumesRead, chaptersRead, volumesTotal, chaptersTotal, memberScore, myScore, synopsis,
-                    imageUrl, dirty, lastUpdate);
-            ml.add(mr);
-
-            cu.moveToNext();
+        while (!cursor.isAfterLast()) {
+            mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor)));
+            cursor.moveToNext();
         }
 
-        if (ml.isEmpty()) {
+        if (mangaRecordArrayList.isEmpty()) {
             return null;
         }
 
-        cu.close();
+        cursor.close();
 
-        return ml;
+        return mangaRecordArrayList;
     }
 
     public void saveItem(MangaRecord mr, boolean ignoreSynopsis) {
@@ -467,12 +434,12 @@ public class MALManager {
         cv.put("myScore", mr.getMyScore());
         cv.put("volumesRead", mr.getVolumeProgress());
         cv.put("chaptersRead", mr.getPersonalProgress());
-        cv.put("volumesTotal", mr.getVolumeTotal());
+        cv.put("volumesTotal", mr.getVolumesTotal());
         cv.put("chaptersTotal", mr.getTotal());
         cv.put("dirty", mr.getDirty());
         cv.put("lastUpdate", mr.getLastUpdate());
 
-        if (ignoreSynopsis == false) {
+        if (!ignoreSynopsis) {
             cv.put("synopsis", mr.getSynopsis());
         }
 
@@ -500,7 +467,7 @@ public class MALManager {
         cv.put("dirty", ar.getDirty());
         cv.put("lastUpdate", ar.getLastUpdate());
 
-        if (ignoreSynopsis == false) {
+        if (!ignoreSynopsis) {
             cv.put("synopsis", ar.getSynopsis());
         }
 
@@ -517,24 +484,7 @@ public class MALManager {
         Cursor cu = db.query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 
         cu.moveToFirst();
-
-        int recordId = cu.getInt(0);
-        String recordName = cu.getString(1);
-        String recordType = cu.getString(2);
-        String recordStatus = cu.getString(3);
-        String myStatus = cu.getString(4);
-        int episodesWatched = cu.getInt(5);
-        int episodesTotal = cu.getInt(6);
-        float memberScore = cu.getFloat(7);
-        int myScore = cu.getInt(8);
-        String synopsis = cu.getString(9);
-        String imageUrl = cu.getString(10);
-        int dirty = cu.getInt(11);
-        long lastUpdate = cu.getLong(12);
-
-        AnimeRecord ar = new AnimeRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                episodesWatched, episodesTotal, memberScore, myScore, synopsis, imageUrl, dirty, lastUpdate);
-
+        AnimeRecord ar = new AnimeRecord(this.getRecordDataFromCursor(cu));
         cu.close();
 
         return ar;
@@ -547,25 +497,7 @@ public class MALManager {
 
         cu.moveToFirst();
 
-        int recordId = cu.getInt(0);
-        String recordName = cu.getString(1);
-        String recordType = cu.getString(2);
-        String recordStatus = cu.getString(3);
-        String myStatus = cu.getString(4);
-        int volumesRead = cu.getInt(5);
-        int chaptersRead = cu.getInt(6);
-        int volumesTotal = cu.getInt(7);
-        int chaptersTotal = cu.getInt(8);
-        float memberScore = cu.getFloat(9);
-        int myScore = cu.getInt(10);
-        String synopsis = cu.getString(11);
-        String imageUrl = cu.getString(12);
-        int dirty = cu.getInt(13);
-        long lastUpdate = cu.getLong(14);
-
-        MangaRecord mr = new MangaRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                volumesRead, chaptersRead, volumesTotal, chaptersTotal, memberScore, myScore, synopsis,
-                imageUrl, dirty, lastUpdate);
+        MangaRecord mr = new MangaRecord(this.getRecordDataFromCursor(cu));
 
         cu.close();
 
@@ -574,7 +506,7 @@ public class MALManager {
 
 
     public boolean itemExists(String id, String type) {
-        if (type == "anime" || type == "manga") {
+        if (type.equals("anime") || type.equals("manga")) {
             Cursor cursor = db.rawQuery("select 1 from " + type + " where recordID=?",
                     new String[]{id});
             boolean exists = (cursor.getCount() > 0);
@@ -610,8 +542,6 @@ public class MALManager {
                     success = true;
                 }
 
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -620,7 +550,7 @@ public class MALManager {
             HttpResponse response;
             String uri = "";
 
-            List<NameValuePair> putParams = new ArrayList<NameValuePair>();
+            List<NameValuePair> putParams = new ArrayList<>();
             if (type.equals(TYPE_ANIME)) {
                 uri = APIProvider + writeAnimeDetailsAPI;
                 putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
@@ -657,26 +587,11 @@ public class MALManager {
                     success = true;
                 }
 
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return success;
-    }
-
-    public String watchedCounterBuilder(int watched, int total) {
-        String built = "";
-
-        if (total != 0) {
-            built = watched + " / " + total;
-        } else {
-            built = watched + " / ?";
-        }
-
-
-        return built;
     }
 
     public void clearDeletedItems(String type, long currentTime) {
@@ -690,11 +605,7 @@ public class MALManager {
     public boolean deleteItemFromDatabase(String type, int recordID) {
         int deleted = db.delete(type, "recordID = ?", new String[]{String.valueOf(recordID)});
 
-        if (deleted == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return deleted == 1;
     }
 
 }

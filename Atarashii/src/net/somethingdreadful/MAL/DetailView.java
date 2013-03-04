@@ -224,7 +224,7 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                     writeDetails(mMr);
                 }
             }
-        } catch (NullPointerException npe) {
+        } catch (NullPointerException ignored) {
 
         }
     }
@@ -239,6 +239,7 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     }
 
     public void getDetails(int id) {
+        //TODO: What?
         new getDetailsTask().execute();
     }
 
@@ -403,12 +404,9 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                 actionBar.setTitle(mMr.getName());
 
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mMr.getImageUrl())));
-                //                RecordStatusView.setText(WordUtils.capitalize(mMr.getRecordStatus()));
-                //                RecordTypeView.setText(mMr.getRecordType());
-                //                MyStatusView.setText(WordUtils.capitalize(mMr.getMyStatus()));
 
                 VolumeProgressText = Integer.toString(mMr.getVolumeProgress());
-                VolumeTotalText = mMr.getVolumeTotal();
+                VolumeTotalText = Integer.toString(mMr.getVolumesTotal());
                 ProgressText = Integer.toString(mMr.getPersonalProgress());
                 TotalProgressText = mMr.getTotal();
                 MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
