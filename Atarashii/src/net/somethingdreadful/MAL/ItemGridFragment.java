@@ -151,8 +151,6 @@ public class ItemGridFragment extends SherlockFragment {
         } else if (recordType.equals("manga")) {
             new getMangaRecordsTask(this.gridCellHeight).execute(currentList);
         }
-
-
     }
 
     public class getAnimeRecordsTask extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>> {
@@ -179,7 +177,6 @@ public class ItemGridFragment extends SherlockFragment {
 
             if (mForceSync) {
                 al = new ArrayList();
-
                 if (mManager == null) {
                     Log.w("MALX", "mManager is null. Attempting to re-create the object.");
 
@@ -189,11 +186,9 @@ public class ItemGridFragment extends SherlockFragment {
                         Log.v("MALX", "Successfully re-created mManager");
                     }
                 }
-
-                mManager.downloadAndStoreList("anime");
+                mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
 
             }
-
             al = mManager.getAnimeRecordsFromDB(listint);
 
             return al;
@@ -246,16 +241,12 @@ public class ItemGridFragment extends SherlockFragment {
         @SuppressWarnings({"rawtypes", "unchecked"})
         @Override
         protected ArrayList<MangaRecord> doInBackground(Integer... list) {
-
             int listint = 0;
-
             for (int i : list) {
                 listint = i;
             }
-
             if (mForceSync) {
                 al = new ArrayList();
-
                 if (mManager == null) {
                     Log.w("MALX", "mManager is null. Attempting to re-create the object.");
 
@@ -265,8 +256,7 @@ public class ItemGridFragment extends SherlockFragment {
                         Log.v("MALX", "Successfully re-created mManager");
                     }
                 }
-
-                mManager.downloadAndStoreList("manga");
+                mManager.downloadAndStoreList(MALManager.TYPE_MANGA);
             }
 
             ml = mManager.getMangaRecordsFromDB(listint);
@@ -299,7 +289,7 @@ public class ItemGridFragment extends SherlockFragment {
             if (mForceSync) {
                 Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
                 NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-                nm.cancel(1);
+                nm.cancel(R.id.notification_sync);
             }
         }
 

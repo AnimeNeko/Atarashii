@@ -32,19 +32,22 @@ public abstract class BaseMALApi {
         this.password = password;
     }
 
+    public abstract HttpResponse call_api(HTTP_METHOD http_method, String uri, Boolean is_auth);
+
     public abstract HttpResponse call_api(HTTP_METHOD http_method, String uri, HashMap<String, String> data, Boolean is_auth);
 
-    public abstract JSONObject getList(MALApiListType listType);
+    public abstract JSONArray getList(ListType listType);
+
+    public abstract JSONObject getDetail(Integer id, ListType listType);
 
     public abstract boolean isAuth();
 
-    public abstract JSONArray search(MALApiListType listType, String query);
+    public abstract JSONArray search(ListType listType, String query);
 
-    public abstract boolean updateGenreInList(MALApiListType listType, String genre_id, HashMap<String, String> data);
+    public abstract boolean addOrUpdateGenreInList(boolean hasCreate, ListType listType, String genre_id, HashMap<String, String> data);
 
-    public abstract boolean addGenreToList(MALApiListType listType, String genre_id, HashMap<String, String> data);
+    public abstract boolean deleteGenreFromList(ListType listType, String genre_id);
 
-    public abstract boolean deleteGenreFromList(MALApiListType listType, String genre_id, HashMap<String, String> data);
 
     public String getUsername() {
         return username;
@@ -60,5 +63,20 @@ public abstract class BaseMALApi {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public enum ListType {
+        ANIME, MANGA
+    }
+
+    public static String getListTypeString(ListType listType) {
+        switch (listType) {
+            case ANIME:
+                return "anime";
+            case MANGA:
+                return "manga";
+            default:
+                return null;
+        }
     }
 }

@@ -29,8 +29,6 @@ public class Settings extends SherlockPreferenceActivity {
             case android.R.id.home:
                 finish();
         }
-
-
         return true;
     }
 

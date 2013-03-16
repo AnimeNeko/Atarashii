@@ -1,7 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
@@ -29,11 +27,11 @@ public class HomeTest extends ActivityInstrumentationTestCase2<Home> {
         assertEquals(1, 0);
     }
 
-    public void testExcludeDirtyFromList() {
+/*    public void _testExcludeDirtyFromList() {
         MALSqlHelper helper = new MALSqlHelper(getActivity().getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor;
         String[] col = {"recordID"};
-        cursor = db.query("anime", col, null, null, null, null, "recordName ASC");
-    }
+        Cursor cursor = db.query("anime", col, "status <> 'null'", null, null, null, "recordName ASC");
+        assertTrue(cursor.getCount() > 1);
+    }*/
 }

@@ -17,7 +17,6 @@ public abstract class GenericMALRecord {
 
     protected boolean FLAG_DELETE = false;
 
-
     protected boolean FLAG_CREATE = false;
 
     protected HashMap<String, Class<?>> typeMap;
@@ -100,7 +99,11 @@ public abstract class GenericMALRecord {
     }
 
     public String getMyStatus() {
-        return (String) this.getSafeValueOrDefault("myStatus");
+        String status = (String) this.getSafeValueOrDefault("myStatus");
+        if (status.equals("null")) {
+            status = "";
+        }
+        return status;
     }
 
     public void setMyStatus(String status) {

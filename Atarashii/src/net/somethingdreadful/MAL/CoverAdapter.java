@@ -85,7 +85,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
         if (Build.VERSION.SDK_INT >= 11) {
             if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))) {
-                viewHolder.actionButton.setVisibility(viewHolder.actionButton.VISIBLE);
+                viewHolder.actionButton.setVisibility(View.VISIBLE);
                 viewHolder.actionButton.setOnClickListener(
                         new OnClickListener() {
 
@@ -129,10 +129,10 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
                         });
             } else {
-                viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
+                viewHolder.actionButton.setVisibility(View.INVISIBLE);
             }
         } else {
-            viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
+            viewHolder.actionButton.setVisibility(View.INVISIBLE);
 
             //Compatibility with setting the overlay alpha pre-API 11
             ImageView overlayPanel = (ImageView) v.findViewById(R.id.textOverlayPanel);
@@ -141,47 +141,47 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
 
         TextView flavourText = (TextView) v.findViewById(R.id.stringWatched);
-        if ("watching".equals(myStatus)) {
-            flavourText.setText(R.string.cover_Watching);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
-
+        switch (myStatus) {
+            case "watching": {
+                flavourText.setText(R.string.cover_Watching);
+                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                break;
+            }
+            case "reading": {
+                flavourText.setText(R.string.cover_Reading);
+                break;
+            }
+            case "completed": {
+                flavourText.setText(R.string.cover_Completed);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            case "on-hold": {
+                flavourText.setText(R.string.cover_OnHold);
+                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                break;
+            }
+            case "dropped": {
+                flavourText.setText(R.string.cover_Dropped);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            case "plan to watch": {
+                flavourText.setText(R.string.cover_PlanningToWatch);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            case "plan to read": {
+                flavourText.setText(R.string.cover_PlanningToRead);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            default: {
+                flavourText.setVisibility(View.GONE);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
         }
-        if ("reading".equals(myStatus)) {
-            flavourText.setText(R.string.cover_Reading);
-        }
-        if ("completed".equals(myStatus)) {
-            flavourText.setText(R.string.cover_Completed);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-        if ("on-hold".equals(myStatus)) {
-            flavourText.setText(R.string.cover_OnHold);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
-
-        }
-        if ("dropped".equals(myStatus)) {
-            flavourText.setText(R.string.cover_Dropped);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-        if ("plan to watch".equals(myStatus)) {
-            flavourText.setText(R.string.cover_PlanningToWatch);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-        if ("plan to read".equals(myStatus)) {
-            flavourText.setText(R.string.cover_PlanningToRead);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-
-        //		icon.setImageResource(R.drawable.icon);
 
         return v;
     }
@@ -190,7 +190,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         gr.setPersonalProgress(gr.getPersonalProgress() + 1);
 
         if (gr.getPersonalProgress() == Integer.parseInt(gr.getTotal())) {
-            gr.setMyStatus(gr.STATUS_COMPLETED);
+            gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
         }
 
         notifyDataSetChanged();
@@ -199,7 +199,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void setMarkAsComplete(GenericMALRecord gr) {
-        gr.setMyStatus(gr.STATUS_COMPLETED);
+        gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
 
         new writeDetailsTask().execute(gr);
 
@@ -233,15 +233,15 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
             if ("anime".equals(internalType)) {
                 internalManager.saveItem((AnimeRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
+                result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
             } else {
                 internalManager.saveItem((MangaRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+                result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
             }
 
 
-            if (result == true) {
-                gr[0].setDirty(gr[0].CLEAN);
+            if (result) {
+                gr[0].setDirty(GenericMALRecord.CLEAN);
 
                 if ("anime".equals(internalType)) {
                     internalManager.saveItem((AnimeRecord) gr[0], false);

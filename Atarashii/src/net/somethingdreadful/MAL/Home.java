@@ -17,6 +17,7 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 public class Home extends SherlockFragmentActivity
         implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
@@ -287,10 +288,8 @@ public class Home extends SherlockFragmentActivity
         mPrefManager.setUser("");
         mPrefManager.setPass("");
         mPrefManager.commitChanges();
-
-        context.deleteDatabase(MALSqlHelper.DATABASE_NAME);
+        context.deleteDatabase(new MALSqlHelper(context).getDatabaseName());
         new ImageDownloader(context).wipeCache();
-
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }

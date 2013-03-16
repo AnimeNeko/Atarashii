@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.sql;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -69,14 +69,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_ANIME_TABLE);
         db.execSQL(CREATE_MANGA_TABLE);
 
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

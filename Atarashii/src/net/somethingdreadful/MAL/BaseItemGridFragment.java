@@ -70,6 +70,8 @@ public class BaseItemGridFragment extends SherlockFragment {
         mManager = activity.mManager;
         mPrefManager = activity.mPrefManager;
 
+        useTraditionalList = mPrefManager.getTraditionalListEnabled();
+
         final String recordType = args.getString("type");
 
         int orientation = layout.getContext().getResources().getConfiguration().orientation;
@@ -105,7 +107,7 @@ public class BaseItemGridFragment extends SherlockFragment {
             try {
                 screenWidthDp = layout.getContext().getResources().getConfiguration().screenWidthDp;
             } catch (NoSuchFieldError e) {
-                screenWidthDp = pxToDp(((WindowManager) context.getSystemService(context.WINDOW_SERVICE)).getDefaultDisplay().getWidth());
+                screenWidthDp = pxToDp(((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth());
             }
 
             listColumns = (int) Math.ceil(screenWidthDp / MAL_IMAGE_WIDTH);
@@ -186,7 +188,6 @@ public class BaseItemGridFragment extends SherlockFragment {
     public int pxToDp(int px) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        int dp = (int) (px / (metrics.density));
-        return dp;
+        return (int) (px / (metrics.density));
     }
 }

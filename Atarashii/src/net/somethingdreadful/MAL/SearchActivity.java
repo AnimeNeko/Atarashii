@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,9 +16,10 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.MALApiListType;
 import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,7 @@ public class SearchActivity extends SherlockFragmentActivity
     BaseItemGridFragment mangaItemGridFragment;
 
     private TextView search_query_widget;
+    private Button doSearchButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,17 +72,24 @@ public class SearchActivity extends SherlockFragmentActivity
         mViewPager = (ViewPager) findViewById(R.id.searchResult);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setPageMargin(32);
-        // Add tabs for the animu and mango lists
+        // For swipe
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
+        // Add tabs for the animu and manga lists
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             actionBar.addTab(actionBar.newTab()
                     .setText(mSectionsPagerAdapter.getPageTitle(i))
+                    .setTag(mSectionsPagerAdapter.getTag(i))
                     .setTabListener(this));
         }
 
-        search_query_widget = (EditText) findViewById(R.id.searchQuery);
 
-        Button doSearchGoButton = (Button) findViewById(R.id.searchGo);
-        doSearchGoButton.setOnClickListener(
+        doSearchButton = (Button) findViewById(R.id.searchGo);
+        doSearchButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -88,7 +98,17 @@ public class SearchActivity extends SherlockFragmentActivity
                 }
         );
 
-
+        search_query_widget = (EditText) findViewById(R.id.searchQuery);
+        search_query_widget.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    doSearchButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -121,7 +141,6 @@ public class SearchActivity extends SherlockFragmentActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
@@ -133,6 +152,7 @@ public class SearchActivity extends SherlockFragmentActivity
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        mViewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
@@ -145,30 +165,48 @@ public class SearchActivity extends SherlockFragmentActivity
 
     public class networkThread extends AsyncTask<Void, Void, Void> {
         JSONArray _result;
+        MALApi.ListType listType;
+
 
         @Override
         protected Void doInBackground(Void... params) {
+            listType = (BaseMALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
             String query = search_query_widget.getText().toString();
-            MALApi api = new MALApi(null, null);
-            _result = api.search(MALApiListType.ANIME, query);
+            MALApi api = new MALApi(context);
+            _result = api.search(listType, query);
             return null;
         }
 
         protected void onPostExecute(Void result) {
-            ArrayList<AnimeRecord> list = new ArrayList<>();
-            for (int i = 0; i < _result.length(); i++) {
-                try {
+            String type = MALApi.getListTypeString(listType);
+            try {
+                switch (listType) {
+                    case ANIME: {
+                        ArrayList<AnimeRecord> list = new ArrayList<>();
+                        for (int i = 0; i < _result.length(); i++) {
+                            JSONObject genre = (JSONObject) _result.get(i);
+                            AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                            list.add(record);
+                        }
+                        animeItemGridFragment.setAnimeRecords(list);
+                        break;
+                    }
+                    case MANGA: {
+                        ArrayList<MangaRecord> list = new ArrayList<>();
+                        for (int i = 0; i < _result.length(); i++) {
+                            JSONObject genre = (JSONObject) _result.get(i);
+                            MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                            list.add(record);
+                        }
+                        mangaItemGridFragment.setMangaRecords(list);
+                        break;
+                    }
 
-                    JSONObject genre = (JSONObject) _result.get(i);
-                    AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, MALManager.TYPE_ANIME));
-                    list.add(record);
-
-                } catch (JSONException e) {
-                    Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
 
                 }
+            } catch (JSONException e) {
+                Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
             }
-            animeItemGridFragment.setAnimeRecords(list);
 
         }
     }

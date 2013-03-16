@@ -456,7 +456,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                     SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
                     SynopsisText = gr.getSpannedSynopsis();
                     MemberScore = gr.getMemberScore();
-
                 } else {
                     SynopsisText = gr.getSpannedSynopsis();
                     MemberScore = gr.getMemberScore();
@@ -467,7 +466,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                 MALScoreBar.setRating(MemberScore / 2);
                 MyScoreBar.setRating(MyScore / 2);
             }
-
         }
     }
 
@@ -494,14 +492,14 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
             } else {
                 if ("anime".equals(internalType)) {
                     internalManager.saveItem((AnimeRecord) gr[0], false);
-                    result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
+                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
                 } else {
                     internalManager.saveItem((MangaRecord) gr[0], false);
-                    result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
                 }
 
-                if (result == true) {
-                    gr[0].setDirty(gr[0].CLEAN);
+                if (result) {
+                    gr[0].setDirty(GenericMALRecord.CLEAN);
 
                     if ("anime".equals(internalType)) {
                         internalManager.saveItem((AnimeRecord) gr[0], false);
@@ -528,18 +526,18 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
             } else {
                 if (Integer.parseInt(animeRecord.getTotal()) != 0) {
                     if (newValue == Integer.parseInt(animeRecord.getTotal())) {
-                        animeRecord.setMyStatus(animeRecord.STATUS_COMPLETED);
-                        MyStatusView.setText(WordUtils.capitalize(animeRecord.STATUS_COMPLETED));
+                        animeRecord.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
+                        MyStatusView.setText(WordUtils.capitalize(GenericMALRecord.STATUS_COMPLETED));
                     }
                     if (newValue == 0) {
-                        animeRecord.setMyStatus(animeRecord.STATUS_PLANTOWATCH);
-                        MyStatusView.setText(WordUtils.capitalize(animeRecord.STATUS_PLANTOWATCH));
+                        animeRecord.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
+                        MyStatusView.setText(WordUtils.capitalize(AnimeRecord.STATUS_PLANTOWATCH));
                     }
 
                 }
 
                 animeRecord.setEpisodesWatched(newValue);
-                animeRecord.setDirty(animeRecord.DIRTY);
+                animeRecord.setDirty(GenericMALRecord.DIRTY);
 
 
                 ProgressCurrentView.setText(Integer.toString(newValue));
@@ -632,16 +630,16 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
             } else {
                 if (Integer.parseInt(mangaRecord.getTotal()) != 0) {
                     if (newChapterValue == Integer.parseInt(mangaRecord.getTotal())) {
-                        mangaRecord.setMyStatus(mangaRecord.STATUS_COMPLETED);
+                        mangaRecord.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
                     }
                     if (newChapterValue == 0) {
-                        mangaRecord.setMyStatus(mangaRecord.STATUS_PLANTOWATCH);
+                        mangaRecord.setMyStatus(MangaRecord.STATUS_PLANTOWATCH);
                     }
 
                 }
 
                 mangaRecord.setPersonalProgress(newChapterValue);
-                mangaRecord.setDirty(mangaRecord.DIRTY);
+                mangaRecord.setDirty(GenericMALRecord.DIRTY);
 
                 ProgressCurrentView.setText(Integer.toString(newChapterValue));
 
@@ -652,7 +650,7 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
             } else {
                 mangaRecord.setVolumesRead(newVolumeValue);
-                mangaRecord.setDirty(mangaRecord.DIRTY);
+                mangaRecord.setDirty(GenericMALRecord.DIRTY);
             }
         }
 

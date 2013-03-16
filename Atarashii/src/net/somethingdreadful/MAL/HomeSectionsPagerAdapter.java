@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import net.somethingdreadful.MAL.api.MALApi;
 
 public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -40,14 +41,17 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        return MALApi.getListTypeString(getTag(position)).toUpperCase();
+    }
+
+    public MALApi.ListType getTag(int position) {
         switch (position) {
             case 0:
-
-                return "Anime".toUpperCase();
+                return MALApi.ListType.ANIME;
             case 1:
-
-                return "Manga".toUpperCase();
+                return MALApi.ListType.MANGA;
+            default:
+                return null;
         }
-        return null;
     }
 }
