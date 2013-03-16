@@ -11,9 +11,6 @@ import android.test.AndroidTestCase;
  */
 public class MALManagerTest extends AndroidTestCase {
     // TODO adding testing user and/or mock http
-    private String username = "";
-    private String password = "";
-
     static MALManager manager;
 
     public MALManagerTest() {
@@ -27,7 +24,7 @@ public class MALManagerTest extends AndroidTestCase {
     }
 
     public void testLoginSuccess() {
-        assertTrue(MALManager.verifyAccount(username, password));
+        assertTrue(MALManager.verifyAccount(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD));
     }
 
     public void testFalireLogin() {
@@ -38,7 +35,6 @@ public class MALManagerTest extends AndroidTestCase {
         // TODO:
         //assertTrue(manager.writeDetailsToMAL());
     }
-
 
 
 }

@@ -1,35 +1,28 @@
 package net.somethingdreadful.MAL.api;
 
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.entity.StringEntity;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.content.Context;
+import android.util.Base64;
+import net.somethingdreadful.MAL.PrefManager;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-
+import org.apache.http.client.methods.*;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.IOException;
-
-import android.util.Base64;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,12 +39,18 @@ public class MALApi extends BaseMALApi {
         super(username, password);
     }
 
-    public JSONObject responseToJSONObject (HttpResponse response) throws IOException {
+    public MALApi(Context context) {
+        super(null, null);
+        PrefManager prefManager = new PrefManager(context);
+        setUsername(prefManager.getUser());
+        setPassword(prefManager.getPass());
+    }
+
+    public JSONObject responseToJSONObject(HttpResponse response) throws IOException {
         HttpEntity getResponseEntity = response.getEntity();
 
         JSONObject result = null;
-        if (response != null)
-        {
+        if (response != null) {
             try {
                 String raw_data = EntityUtils.toString(getResponseEntity);
                 result = new JSONObject(raw_data);
@@ -70,8 +69,7 @@ public class MALApi extends BaseMALApi {
         HttpEntity getResponseEntity = response.getEntity();
 
         JSONArray result = null;
-        if (response != null)
-        {
+        if (response != null) {
             try {
                 String raw_data = EntityUtils.toString(getResponseEntity);
                 result = new JSONArray(raw_data);
@@ -91,7 +89,7 @@ public class MALApi extends BaseMALApi {
     }
 
     private String getApiPrefixByMALListType(MALApiListType listType) {
-        switch (listType){
+        switch (listType) {
             case ANIME:
                 return new String("/anime/");
             default:
@@ -105,13 +103,13 @@ public class MALApi extends BaseMALApi {
 
     public String addGetQueryToURI(String uri, HashMap<String, String> query) {
         List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-        for (String key: query.keySet()) {
+        for (String key : query.keySet()) {
             putParams.add(new BasicNameValuePair(key, query.get(key)));
         }
         String get_query = URLEncodedUtils.format(putParams, "utf-8");
 
         String new_uri = new String(uri);
-        if (! new_uri.endsWith("?")) {
+        if (!new_uri.endsWith("?")) {
             new_uri += "?";
         }
 
@@ -151,12 +149,11 @@ public class MALApi extends BaseMALApi {
         }
 
         HttpResponse response = null;
-        try
-        {
+        try {
 
             if (http_method == HTTP_METHOD.POST || http_method == HTTP_METHOD.PUT) {
                 List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-                for (String key: data.keySet()) {
+                for (String key : data.keySet()) {
                     putParams.add(new BasicNameValuePair(key, data.get(key)));
                 }
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
@@ -165,13 +162,9 @@ public class MALApi extends BaseMALApi {
             }
 
             response = client.execute(writeRequest);
-        }
-        catch (ClientProtocolException e)
-        {
+        } catch (ClientProtocolException e) {
             e.printStackTrace();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return response;

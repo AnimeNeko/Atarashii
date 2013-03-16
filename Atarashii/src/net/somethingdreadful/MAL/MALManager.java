@@ -38,10 +38,10 @@ public class MALManager {
     final static String VerifyAPI = "account/verify_credentials";
     final static String readAnimeListAPI = "animelist/";
     final static String readAnimeDetailsAPI = "anime/";
-    final static String writeAnimeDetailsAPI = "animelist/anime/";
+    final static String writeAnimeDetailsAPI = "animelist/anime";
     final static String readMangaListAPI = "mangalist/";
     final static String readMangaDetailsAPI = "manga/";
-    final static String writeMangaDetailsAPI = "mangalist/manga/";
+    final static String writeMangaDetailsAPI = "mangalist/manga";
     final static String readMineParam = "?mine=1";
 
     final static String TYPE_ANIME = "anime";
@@ -268,7 +268,7 @@ public class MALManager {
     public void downloadAndStoreList(String type) {
         JSONObject raw = getList(type);
 
-        long currentTime = new Date().getTime() / 1000;
+        int currentTime = (int) new Date().getTime() / 1000;
 
         JSONArray jArray;
         try {
@@ -277,7 +277,6 @@ public class MALManager {
                 for (int i = 0; i < jArray.length(); i++) {
                     HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), TYPE_ANIME);
                     AnimeRecord ar = new AnimeRecord(recordData);
-                    ar.setDirty(0);
                     ar.setLastUpdate(currentTime);
                     saveItem(ar, true);
                 }
@@ -286,7 +285,6 @@ public class MALManager {
                 for (int i = 0; i < jArray.length(); i++) {
                     HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), TYPE_ANIME);
                     MangaRecord mr = new MangaRecord(recordData);
-                    mr.setDirty(0);
                     mr.setLastUpdate(currentTime);
                     saveItem(mr, true);
                 }
@@ -297,6 +295,30 @@ public class MALManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public AnimeRecord getAnimeRecordFromMAL(int id) {
+        AnimeRecord record;
+        String type = TYPE_ANIME;
+        JSONObject jObject = this.getDetails(id, type);
+        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jObject, type);
+        record = new AnimeRecord(recordData);
+        if (record.getMyStatus() == "null") {
+            record.markForCreate(true);
+        }
+        return record;
+    }
+
+    public MangaRecord getMangaRecordFromMAL(int id) {
+        MangaRecord record;
+        String type = TYPE_MANGA;
+        JSONObject jObject = this.getDetails(id, type);
+        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jObject, type);
+        record = new MangaRecord(recordData);
+        if (record.getMyStatus() == "null") {
+            record.markForCreate(true);
+        }
+        return record;
     }
 
     public AnimeRecord updateWithDetails(int id, AnimeRecord animeRecord) {
@@ -369,7 +391,7 @@ public class MALManager {
         Cursor cursor;
 
         if (list == 0) {
-            cursor = db.query("anime", this.animeColumns, null, null, null, null, "recordName ASC");
+            cursor = db.query("anime", this.animeColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
         } else {
             cursor = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
@@ -399,7 +421,7 @@ public class MALManager {
         Cursor cursor;
 
         if (list == 0) {
-            cursor = db.query("manga", this.mangaColumns, null, null, null, null, "recordName ASC");
+            cursor = db.query("manga", this.mangaColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
         } else {
             cursor = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
@@ -444,7 +466,7 @@ public class MALManager {
         }
 
         if (itemExists(mr.getID(), "manga")) {
-            db.update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[]{mr.getID()});
+            db.update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[]{mr.getID().toString()});
         } else {
             db.insert(MALSqlHelper.TABLE_MANGA, null, cv);
         }
@@ -467,12 +489,13 @@ public class MALManager {
         cv.put("dirty", ar.getDirty());
         cv.put("lastUpdate", ar.getLastUpdate());
 
+
         if (!ignoreSynopsis) {
             cv.put("synopsis", ar.getSynopsis());
         }
 
         if (itemExists(ar.getID(), "anime")) {
-            db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[]{ar.getID()});
+            db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[]{ar.getID().toString()});
         } else {
             db.insert(MALSqlHelper.TABLE_ANIME, null, cv);
         }
@@ -504,10 +527,27 @@ public class MALManager {
         return mr;
     }
 
+    public AnimeRecord getAnimeRecord(int recordID) {
+        if (this.itemExists(recordID, "anime")) {
+            return getAnimeRecordFromDB(recordID);
+        }
+        return getAnimeRecordFromMAL(recordID);
+    }
+
+    public MangaRecord getMangaRecord(int recordID) {
+        if (this.itemExists(recordID, "anime")) {
+            return this.getMangaRecordFromDB(recordID);
+        }
+        return getMangaRecordFromMAL(recordID);
+    }
+
+    public boolean itemExists(int id, String type) {
+        return this.itemExists(Integer.toString(id), type);
+    }
 
     public boolean itemExists(String id, String type) {
         if (type.equals("anime") || type.equals("manga")) {
-            Cursor cursor = db.rawQuery("select 1 from " + type + " where recordID=?",
+            Cursor cursor = db.rawQuery("select 1 from " + type + " WHERE recordID=? LIMIT 1",
                     new String[]{id});
             boolean exists = (cursor.getCount() > 0);
             cursor.close();
@@ -558,7 +598,7 @@ public class MALManager {
                 putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
 
             } else if (type.equals(TYPE_MANGA)) {
-                uri = APIProvider + writeMangaDetailsAPI + gr.getID();
+                uri = APIProvider + writeMangaDetailsAPI;
                 putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
                 putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
                 putParams.add(new BasicNameValuePair("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress())));
@@ -571,10 +611,14 @@ public class MALManager {
             HttpEntityEnclosingRequestBase writeRequest;
             if (gr.hasCreate()) {
                 writeRequest = new HttpPost(uri);
+                if (type.equals(TYPE_ANIME)) {
+                    putParams.add(new BasicNameValuePair("anime_id", gr.getID().toString()));
+                } else if (type.equals(TYPE_MANGA)) {
+                    putParams.add(new BasicNameValuePair("manga_id", gr.getID().toString()));
+                }
             } else {
-                writeRequest = new HttpPut(uri + gr.getID());
+                writeRequest = new HttpPut(uri + "/" + gr.getID());
             }
-
             writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
 
             try {

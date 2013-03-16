@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.api;
 
 import android.test.AndroidTestCase;
+import net.somethingdreadful.MAL.TestSettings;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,16 +13,16 @@ import org.json.JSONObject;
  * Time: 17:58
  * To change this template use File | Settings | File Templates.
  */
-public class MALApiTest extends AndroidTestCase{
+public class MALApiTest extends AndroidTestCase {
     public void testIsAuth() throws Exception {
 
         // TODO get testing user
-        MALApi api = new MALApi("todo_username", "todo_password");
+        MALApi api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
         assertTrue(api.isAuth());
     }
 
     public void testIsAuthFailure() throws Exception {
-        MALApi api = new MALApi("test", "test");
+        MALApi api = new MALApi("todo_username", "todo_password");
         assertFalse(api.isAuth());
     }
 

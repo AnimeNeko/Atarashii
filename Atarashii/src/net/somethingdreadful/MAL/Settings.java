@@ -2,25 +2,16 @@ package net.somethingdreadful.MAL;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 public class Settings extends SherlockPreferenceActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.title_activity_settings);
-
-        //        //		PreferenceManager prefMgr = getPreferenceManager();
-        //        //		prefMgr.setSharedPreferencesName("prefs");
-        //
-        //        getSupportFragmentManager().beginTransaction()
-        //        .add(android.R.id.content, new SettingsFragment())
-        //        .commit();
 
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
@@ -32,12 +23,9 @@ public class Settings extends SherlockPreferenceActivity {
     }
 
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }

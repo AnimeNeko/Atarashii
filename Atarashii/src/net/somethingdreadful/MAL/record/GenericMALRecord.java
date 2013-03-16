@@ -16,6 +16,8 @@ public abstract class GenericMALRecord {
     public static final String STATUS_DROPPED = "dropped";
 
     protected boolean FLAG_DELETE = false;
+
+
     protected boolean FLAG_CREATE = false;
 
     protected HashMap<String, Class<?>> typeMap;
@@ -31,7 +33,6 @@ public abstract class GenericMALRecord {
     public GenericMALRecord(HashMap<String, Object> record_data) {
         this.recordData = record_data;
     }
-
 
     public Object getSafeValueOrDefault(String field) {
         try {
@@ -64,8 +65,8 @@ public abstract class GenericMALRecord {
         return (String) recordData.get("imageUrl");
     }
 
-    public String getID() {
-        return (recordData.get("recordID")).toString();
+    public Integer getID() {
+        return (int) recordData.get("recordID");
     }
 
     public String getRecordStatus() {
@@ -119,33 +120,38 @@ public abstract class GenericMALRecord {
     }
 
     public int getDirty() {
-        return (int) recordData.get("dirty");
+        return (int) this.getSafeValueOrDefault("dirty");
     }
 
     public void setDirty(int dirty) {
         recordData.put("dirty", dirty);
     }
 
-    public long getLastUpdate() {
-        return (long) recordData.get("lastUpdate");
+    public int getLastUpdate() {
+        return (int) this.getSafeValueOrDefault("lastUpdate");
     }
 
-    public void setLastUpdate(long lastUpdate) {
+    public void setLastUpdate(int lastUpdate) {
         recordData.put("lastUpdate", lastUpdate);
-    }
-
-    public void markForDeletion(boolean mark) {
-        FLAG_DELETE = mark;
     }
 
     public boolean hasCreate() {
         return FLAG_CREATE;
     }
 
+    public void markForCreate(boolean FLAG_CREATE) {
+        this.FLAG_CREATE = FLAG_CREATE;
+    }
+
+    public void markForDeletion(boolean mark) {
+        FLAG_DELETE = mark;
+    }
+
     public boolean hasDelete() {
         return FLAG_DELETE;
 
     }
+
 
     protected HashMap<String, Class<?>> getTypeMap() {
         if (typeMap != null) {
@@ -163,7 +169,7 @@ public abstract class GenericMALRecord {
         typeMap.put("myStatus", String.class);
         typeMap.put("myScore", int.class);
         typeMap.put("dirty", int.class);
-        typeMap.put("lastUpdate", long.class);
+        typeMap.put("lastUpdate", int.class);
         return typeMap;
     }
 }

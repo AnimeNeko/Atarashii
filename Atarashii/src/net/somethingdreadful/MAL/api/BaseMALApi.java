@@ -1,18 +1,18 @@
 package net.somethingdreadful.MAL.api;
 
+import android.os.Build;
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
-import android.os.Build;
-import org.json.JSONObject;
 
 /**
  * Created with IntelliJ IDEA.
  * User: apkawa
  * Date: 16.02.13
  * Time: 23:38
- *
+ * <p/>
  * http://mal-api.com/docs/
  */
 
@@ -21,6 +21,7 @@ enum HTTP_METHOD {
 }
 
 public abstract class BaseMALApi {
+
     public String username;
     public String password;
 
@@ -29,7 +30,6 @@ public abstract class BaseMALApi {
     public BaseMALApi(String username, String password) {
         this.username = username;
         this.password = password;
-
     }
 
     public abstract HttpResponse call_api(HTTP_METHOD http_method, String uri, HashMap<String, String> data, Boolean is_auth);
@@ -42,7 +42,23 @@ public abstract class BaseMALApi {
 
     public abstract boolean updateGenreInList(MALApiListType listType, String genre_id, HashMap<String, String> data);
 
-    public abstract boolean addGenreToList(MALApiListType listType, String genre_id, HashMap<String, String> data) ;
+    public abstract boolean addGenreToList(MALApiListType listType, String genre_id, HashMap<String, String> data);
 
     public abstract boolean deleteGenreFromList(MALApiListType listType, String genre_id, HashMap<String, String> data);
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

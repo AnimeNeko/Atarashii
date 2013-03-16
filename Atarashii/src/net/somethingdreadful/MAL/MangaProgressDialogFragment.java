@@ -66,25 +66,18 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        //        View view = inflater.inflate(R.layout.dialog_manga_progress, container);
 
         if (state == null) {
-            //			totalEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getTotal());
-            //			watchedEpisodes = ((DetailView) getActivity()).mAr.getPersonalProgress();
-            //			pickerValue = watchedEpisodes;
 
-            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mMr.getTotal());
-            chaptersRead = ((DetailView) getActivity()).mMr.getPersonalProgress();
+            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mangaRecord.getTotal());
+            chaptersRead = ((DetailView) getActivity()).mangaRecord.getPersonalProgress();
             chapterPickerValue = chaptersRead;
 
-            volumesTotal = ((DetailView) getActivity()).mMr.getVolumesTotal();
-            volumesRead = ((DetailView) getActivity()).mMr.getVolumeProgress();
+            volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumesTotal();
+            volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumeProgress();
             volumePickerValue = volumesRead;
 
         } else {
-            //			totalEpisodes = state.getInt("totalEpisodes");
-            //			watchedEpisodes = state.getInt("watchedEpisodes");
-            //			pickerValue = state.getInt("pickerValue");
 
             chaptersTotal = state.getInt("chaptersTotal");
             chaptersRead = state.getInt("chaptersRead");

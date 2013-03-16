@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class RatingPickerDialogFragment extends SherlockDialogFragment implements SlidingRatingBar.IUpdateRatingText {
@@ -28,14 +27,11 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
     String[] ratingsText;
 
 
-
-    public RatingPickerDialogFragment()
-    {
+    public RatingPickerDialogFragment() {
 
     }
 
-    public interface RatingDialogDismissedListener
-    {
+    public interface RatingDialogDismissedListener {
         void onRatingDialogDismissed(int rating);
     }
 
@@ -46,49 +42,38 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener()
-        {
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onRatingDialogDismissed(rating);
                 dismiss();
             }
         }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle(getResources().getString(R.string.dialog_title_rating));
+        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dismiss();
+            }
+        }
+        ).setView(view).setTitle(getResources().getString(R.string.dialog_title_rating));
 
         return builder.create();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         ratingsText = getResources().getStringArray(R.array.array_ratings_text);
 
-        if (state == null)
-        {
+        if (state == null) {
             type = ((DetailView) getActivity()).recordType;
 
-            if ("anime".equals(type))
-            {
-                rating = ((DetailView) getActivity()).mAr.getMyScore();
+            if ("anime".equals(type)) {
+                rating = ((DetailView) getActivity()).animeRecord.getMyScore();
+            } else {
+                rating = ((DetailView) getActivity()).mangaRecord.getMyScore();
             }
-            else
-            {
-                rating = ((DetailView) getActivity()).mMr.getMyScore();
-            }
-        }
-        else
-        {
+        } else {
             type = state.getString("type");
             rating = state.getInt("rating");
 
@@ -106,7 +91,7 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float mRating,
-                    boolean fromUser) {
+                                        boolean fromUser) {
                 rating = (int) (mRating * 2);
                 Log.v("MALX", "Rating set to: " + rating);
 
@@ -118,16 +103,13 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog)
-    {
-
+    public void onDismiss(DialogInterface dialog) {
 
 
     }
 
     @Override
-    public void onCancel(DialogInterface dialog)
-    {
+    public void onCancel(DialogInterface dialog) {
 
         this.dismiss();
     }
@@ -144,7 +126,6 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
     public void updateRatingText(int rating) {
         FlavourText.setText(ratingsText[rating]);
     }
-
 
 
 }

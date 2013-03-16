@@ -84,7 +84,6 @@ public class BaseItemGridFragment extends SherlockFragment {
                     Intent startDetails = new Intent(getView().getContext(), DetailView.class);
                     startDetails.putExtra("net.somethingdreadful.MAL.recordID", animeRecordCoverAdapter.getItem(position).getID());
                     startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
-
                     startActivity(startDetails);
                 }
             });

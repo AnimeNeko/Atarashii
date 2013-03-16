@@ -34,8 +34,8 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     Context context;
     int recordID;
     ActionBar actionBar;
-    AnimeRecord mAr;
-    MangaRecord mMr;
+    AnimeRecord animeRecord;
+    MangaRecord mangaRecord;
     String recordType;
 
     DetailsBasicFragment bfrag;
@@ -60,8 +60,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     TextView ProgressCurrentView;
     TextView ProgressTotalView;
     ImageView CoverImageView;
-    TextView MyScoreView;
-    TextView MemberScoreView;
     RatingBar MALScoreBar;
     RatingBar MyScoreBar;
 
@@ -100,11 +98,11 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
+        int card_layout_progress = R.layout.card_layout_progress;
         if ("manga".equals(recordType)) {
-            ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress_manga, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
-        } else {
-            ProgressFragment.setArgsSensibly("PROGRESS", R.layout.card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+            card_layout_progress = R.layout.card_layout_progress_manga;
         }
+        ProgressFragment.setArgsSensibly("PROGRESS", card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
         ProgressFragment.inflateContentStub();
 
         ProgressFragment.getView().setOnClickListener(new OnClickListener() {
@@ -157,7 +155,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
         // Set up the action bar.
         actionBar = getSupportActionBar();
-        //        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
@@ -216,12 +213,12 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
         try {
             if ("anime".equals(recordType)) {
-                if (mAr.getDirty() == 1) {
-                    writeDetails(mAr);
+                if (animeRecord.getDirty() == 1) {
+                    writeDetails(animeRecord);
                 }
             } else {
-                if (mMr.getDirty() == 1) {
-                    writeDetails(mMr);
+                if (mangaRecord.getDirty() == 1) {
+                    writeDetails(mangaRecord);
                 }
             }
         } catch (NullPointerException ignored) {
@@ -300,17 +297,15 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     }
 
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord> {
-
-        int mID;
-        MALManager mmManager;
-        ActionBar bar;
+        int mRecordID;
+        MALManager mMalManager;
         ImageDownloader imageDownloader = new ImageDownloader(context);
         String internalType;
 
         @Override
         protected void onPreExecute() {
-            mID = recordID;
-            mmManager = mManager;
+            mRecordID = recordID;
+            mMalManager = mManager;
             internalType = recordType;
         }
 
@@ -318,31 +313,31 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
         protected GenericMALRecord doInBackground(Void... arg0) {
 
             if ("anime".equals(internalType)) {
-                mAr = mmManager.getAnimeRecordFromDB(mID);
+                animeRecord = mMalManager.getAnimeRecord(mRecordID);
 
                 //Basically I just use publishProgress as an easy way to display info we already have loaded sooner
                 //This way, I can let the database work happen on the background thread and then immediately display it while
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mAr.getSynopsis() == null) || (mAr.getMemberScore() <= 0)) {
-                    mAr = mmManager.updateWithDetails(mID, mAr);
+                if ((animeRecord.getSynopsis() == null) || (animeRecord.getMemberScore() <= 0)) {
+                    animeRecord = mMalManager.updateWithDetails(mRecordID, animeRecord);
                 }
 
-                return mAr;
+                return animeRecord;
             } else {
-                mMr = mmManager.getMangaRecordFromDB(mID);
+                mangaRecord = mMalManager.getMangaRecord(mRecordID);
 
                 //Basically I just use publishProgress as an easy way to display info we already have loaded sooner
                 //This way, I can let the database work happen on the background thread and then immediately display it while
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mMr.getSynopsis() == null) || (mMr.getMemberScore() <= 0)) {
-                    mMr = mmManager.updateWithDetails(mID, mMr);
+                if ((mangaRecord.getSynopsis() == null) || (mangaRecord.getMemberScore() <= 0)) {
+                    mangaRecord = mMalManager.updateWithDetails(mRecordID, mangaRecord);
                 }
 
-                return mMr;
+                return mangaRecord;
             }
 
         }
@@ -353,16 +348,13 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
             super.onProgressUpdate(values);
 
             if ("anime".equals(internalType)) {
-                actionBar.setTitle(mAr.getName());
+                actionBar.setTitle(animeRecord.getName());
 
-                CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mAr.getImageUrl())));
-                //                RecordStatusView.setText(WordUtils.capitalize(mAr.getRecordStatus()));
-                //                RecordTypeView.setText(mAr.getRecordType());
-                //                MyStatusView.setText(WordUtils.capitalize(mAr.getMyStatus()));
+                CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, animeRecord.getImageUrl())));
 
-                ProgressText = Integer.toString(mAr.getPersonalProgress());
-                TotalProgressText = mAr.getTotal();
-                MyStatusText = WordUtils.capitalize(mAr.getMyStatus());
+                ProgressText = Integer.toString(animeRecord.getPersonalProgress());
+                TotalProgressText = animeRecord.getTotal();
+                MyStatusText = WordUtils.capitalize(animeRecord.getMyStatus());
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
@@ -373,10 +365,10 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
                 }
 
-                RecordStatusText = WordUtils.capitalize(mAr.getRecordStatus());
-                RecordTypeText = WordUtils.capitalize(mAr.getRecordType());
-                MemberScore = mAr.getMemberScore();
-                MyScore = mAr.getMyScore();
+                RecordStatusText = WordUtils.capitalize(animeRecord.getRecordStatus());
+                RecordTypeText = WordUtils.capitalize(animeRecord.getRecordType());
+                MemberScore = animeRecord.getMemberScore();
+                MyScore = animeRecord.getMyScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
@@ -401,15 +393,15 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                 }
 
             } else {
-                actionBar.setTitle(mMr.getName());
+                actionBar.setTitle(mangaRecord.getName());
 
-                CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mMr.getImageUrl())));
+                CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mangaRecord.getImageUrl())));
 
-                VolumeProgressText = Integer.toString(mMr.getVolumeProgress());
-                VolumeTotalText = Integer.toString(mMr.getVolumesTotal());
-                ProgressText = Integer.toString(mMr.getPersonalProgress());
-                TotalProgressText = mMr.getTotal();
-                MyStatusText = WordUtils.capitalize(mMr.getMyStatus());
+                VolumeProgressText = Integer.toString(mangaRecord.getVolumeProgress());
+                VolumeTotalText = Integer.toString(mangaRecord.getVolumesTotal());
+                ProgressText = Integer.toString(mangaRecord.getPersonalProgress());
+                TotalProgressText = mangaRecord.getTotal();
+                MyStatusText = WordUtils.capitalize(mangaRecord.getMyStatus());
 
 
                 ProgressCurrentVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountCurrent);
@@ -432,10 +424,10 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                 }
 
 
-                RecordStatusText = WordUtils.capitalize(mMr.getRecordStatus());
-                RecordTypeText = WordUtils.capitalize(mMr.getRecordType());
-                MemberScore = mMr.getMemberScore();
-                MyScore = mMr.getMyScore();
+                RecordStatusText = WordUtils.capitalize(mangaRecord.getRecordStatus());
+                RecordTypeText = WordUtils.capitalize(mangaRecord.getRecordType());
+                MemberScore = mangaRecord.getMemberScore();
+                MyScore = mangaRecord.getMyScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
@@ -481,7 +473,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
     public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean> {
         MALManager internalManager;
-        GenericMALRecord internalGr;
         String internalType;
 
         @Override
@@ -498,7 +489,7 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
             boolean result;
 
             if (gr[0].hasDelete()) {
-                internalManager.deleteItemFromDatabase(internalType, Integer.parseInt(gr[0].getID()));
+                internalManager.deleteItemFromDatabase(internalType, gr[0].getID());
                 result = internalManager.writeDetailsToMAL(gr[0], internalType);
             } else {
                 if ("anime".equals(internalType)) {
@@ -508,7 +499,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                     internalManager.saveItem((MangaRecord) gr[0], false);
                     result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
                 }
-
 
                 if (result == true) {
                     gr[0].setDirty(gr[0].CLEAN);
@@ -533,23 +523,23 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     @Override
     public void onDialogDismissed(int newValue) {
         if ("anime".equals(recordType)) {
-            if (newValue == mAr.getPersonalProgress()) {
+            if (newValue == animeRecord.getPersonalProgress()) {
 
             } else {
-                if (Integer.parseInt(mAr.getTotal()) != 0) {
-                    if (newValue == Integer.parseInt(mAr.getTotal())) {
-                        mAr.setMyStatus(mAr.STATUS_COMPLETED);
-                        MyStatusView.setText(WordUtils.capitalize(mAr.STATUS_COMPLETED));
+                if (Integer.parseInt(animeRecord.getTotal()) != 0) {
+                    if (newValue == Integer.parseInt(animeRecord.getTotal())) {
+                        animeRecord.setMyStatus(animeRecord.STATUS_COMPLETED);
+                        MyStatusView.setText(WordUtils.capitalize(animeRecord.STATUS_COMPLETED));
                     }
                     if (newValue == 0) {
-                        mAr.setMyStatus(mAr.STATUS_PLANTOWATCH);
-                        MyStatusView.setText(WordUtils.capitalize(mAr.STATUS_PLANTOWATCH));
+                        animeRecord.setMyStatus(animeRecord.STATUS_PLANTOWATCH);
+                        MyStatusView.setText(WordUtils.capitalize(animeRecord.STATUS_PLANTOWATCH));
                     }
 
                 }
 
-                mAr.setEpisodesWatched(newValue);
-                mAr.setDirty(mAr.DIRTY);
+                animeRecord.setEpisodesWatched(newValue);
+                animeRecord.setDirty(animeRecord.DIRTY);
 
 
                 ProgressCurrentView.setText(Integer.toString(newValue));
@@ -568,49 +558,49 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
         String prevStatus;
 
         if ("anime".equals(recordType)) {
-            prevStatus = mAr.getMyStatus();
+            prevStatus = animeRecord.getMyStatus();
 
             if (AnimeRecord.STATUS_WATCHING.equals(currentStatus)) {
-                mAr.setMyStatus(AnimeRecord.STATUS_WATCHING);
+                animeRecord.setMyStatus(AnimeRecord.STATUS_WATCHING);
             }
             if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus)) {
-                mAr.setMyStatus(AnimeRecord.STATUS_COMPLETED);
+                animeRecord.setMyStatus(AnimeRecord.STATUS_COMPLETED);
             }
             if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus)) {
-                mAr.setMyStatus(AnimeRecord.STATUS_ONHOLD);
+                animeRecord.setMyStatus(AnimeRecord.STATUS_ONHOLD);
             }
             if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus)) {
-                mAr.setMyStatus(AnimeRecord.STATUS_DROPPED);
+                animeRecord.setMyStatus(AnimeRecord.STATUS_DROPPED);
             }
             if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus))) {
-                mAr.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
+                animeRecord.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
             }
 
             if (!prevStatus.equals(currentStatus)) {
-                mAr.setDirty(GenericMALRecord.DIRTY);
+                animeRecord.setDirty(GenericMALRecord.DIRTY);
                 MyStatusView.setText(WordUtils.capitalize(currentStatus));
             }
         } else {
-            prevStatus = mMr.getMyStatus();
+            prevStatus = mangaRecord.getMyStatus();
 
             if (MangaRecord.STATUS_WATCHING.equals(currentStatus)) {
-                mMr.setMyStatus(MangaRecord.STATUS_WATCHING);
+                mangaRecord.setMyStatus(MangaRecord.STATUS_WATCHING);
             }
             if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus)) {
-                mMr.setMyStatus(MangaRecord.STATUS_COMPLETED);
+                mangaRecord.setMyStatus(MangaRecord.STATUS_COMPLETED);
             }
             if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus)) {
-                mMr.setMyStatus(MangaRecord.STATUS_ONHOLD);
+                mangaRecord.setMyStatus(MangaRecord.STATUS_ONHOLD);
             }
             if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus)) {
-                mMr.setMyStatus(MangaRecord.STATUS_DROPPED);
+                mangaRecord.setMyStatus(MangaRecord.STATUS_DROPPED);
             }
             if (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus)) {
-                mMr.setMyStatus(MangaRecord.STATUS_PLANTOWATCH);
+                mangaRecord.setMyStatus(MangaRecord.STATUS_PLANTOWATCH);
             }
 
             if (!prevStatus.equals(currentStatus)) {
-                mMr.setDirty(GenericMALRecord.DIRTY);
+                mangaRecord.setDirty(GenericMALRecord.DIRTY);
                 MyStatusView.setText(WordUtils.capitalize(currentStatus));
             }
         }
@@ -622,28 +612,14 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
         if ("anime".equals(recordType)) {
             MyScoreBar.setRating((float) rating / 2);
 
-            mAr.setMyScore(rating);
-            mAr.setDirty(GenericMALRecord.DIRTY);
+            animeRecord.setMyScore(rating);
+            animeRecord.setDirty(GenericMALRecord.DIRTY);
         } else {
             MyScoreBar.setRating((float) rating / 2);
 
-            mMr.setMyScore(rating);
-            mMr.setDirty(GenericMALRecord.DIRTY);
+            mangaRecord.setMyScore(rating);
+            mangaRecord.setDirty(GenericMALRecord.DIRTY);
         }
-    }
-
-    public void setAnimeStatus(String status) {
-        mAr.setMyStatus(status);
-        mAr.setDirty(mAr.DIRTY);
-
-        //        MyStatusView.setText(WordUtils.capitalize(status));
-    }
-
-    public void setMangaStatus(String status) {
-        mMr.setMyStatus(status);
-        mMr.setDirty(mAr.DIRTY);
-
-        //        MyStatusView.setText(WordUtils.capitalize(status));
     }
 
     @Override
@@ -651,32 +627,32 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
         if ("manga".equals(recordType)) {
 
-            if (newChapterValue == mMr.getPersonalProgress()) {
+            if (newChapterValue == mangaRecord.getPersonalProgress()) {
 
             } else {
-                if (Integer.parseInt(mMr.getTotal()) != 0) {
-                    if (newChapterValue == Integer.parseInt(mMr.getTotal())) {
-                        mMr.setMyStatus(mMr.STATUS_COMPLETED);
+                if (Integer.parseInt(mangaRecord.getTotal()) != 0) {
+                    if (newChapterValue == Integer.parseInt(mangaRecord.getTotal())) {
+                        mangaRecord.setMyStatus(mangaRecord.STATUS_COMPLETED);
                     }
                     if (newChapterValue == 0) {
-                        mMr.setMyStatus(mMr.STATUS_PLANTOWATCH);
+                        mangaRecord.setMyStatus(mangaRecord.STATUS_PLANTOWATCH);
                     }
 
                 }
 
-                mMr.setPersonalProgress(newChapterValue);
-                mMr.setDirty(mMr.DIRTY);
+                mangaRecord.setPersonalProgress(newChapterValue);
+                mangaRecord.setDirty(mangaRecord.DIRTY);
 
                 ProgressCurrentView.setText(Integer.toString(newChapterValue));
 
 
             }
 
-            if (newVolumeValue == mMr.getVolumeProgress()) {
+            if (newVolumeValue == mangaRecord.getVolumeProgress()) {
 
             } else {
-                mMr.setVolumesRead(newVolumeValue);
-                mMr.setDirty(mMr.DIRTY);
+                mangaRecord.setVolumesRead(newVolumeValue);
+                mangaRecord.setDirty(mangaRecord.DIRTY);
             }
         }
 
@@ -770,11 +746,11 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     public void onRemoveConfirmed() {
         Log.v("MALX", "Item flagged for being removing.");
         if ("anime".equals(recordType)) {
-            mAr.markForDeletion(true);
-            mAr.setDirty(GenericMALRecord.DIRTY);
+            animeRecord.markForDeletion(true);
+            animeRecord.setDirty(GenericMALRecord.DIRTY);
         } else {
-            mMr.markForDeletion(true);
-            mMr.setDirty(GenericMALRecord.DIRTY);
+            mangaRecord.markForDeletion(true);
+            mangaRecord.setDirty(GenericMALRecord.DIRTY);
         }
 
         finish();

@@ -31,7 +31,6 @@ public class SearchActivityTest extends ActivityInstrumentationTestCase2<SearchA
         solo.finishOpenedActivities();
     }
 
-
     public void testOnCreate() {
         assertNotNull(getActivity());
     }
@@ -40,6 +39,12 @@ public class SearchActivityTest extends ActivityInstrumentationTestCase2<SearchA
         solo.enterText((EditText) getActivity().findViewById(R.id.searchQuery), "Minami-ke");
         solo.clickOnText("Go");
         assertTrue(solo.searchText("Minami-ke Tadaima"));
+    }
+
+    public void testDoSearchAndGoToDetailView() {
+        this.testDoSearch();
+        solo.clickOnText("Minami-ke");
+        assertTrue(solo.waitForText("Minami-ke"));
     }
 
 }

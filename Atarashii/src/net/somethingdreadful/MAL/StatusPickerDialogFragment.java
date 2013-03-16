@@ -66,9 +66,9 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
             type = ((DetailView) getActivity()).recordType;
 
             if ("anime".equals(type)) {
-                currentStatus = ((DetailView) getActivity()).mAr.getMyStatus();
+                currentStatus = ((DetailView) getActivity()).animeRecord.getMyStatus();
             } else {
-                currentStatus = ((DetailView) getActivity()).mMr.getMyStatus();
+                currentStatus = ((DetailView) getActivity()).mangaRecord.getMyStatus();
             }
         } else {
             type = state.getString("type");

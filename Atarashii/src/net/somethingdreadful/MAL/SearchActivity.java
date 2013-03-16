@@ -63,7 +63,6 @@ public class SearchActivity extends SherlockFragmentActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
         mSectionsPagerAdapter = new SearchSectionsPagerAdapter(
                 getSupportFragmentManager());
 
@@ -89,17 +88,22 @@ public class SearchActivity extends SherlockFragmentActivity
                 }
         );
 
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_home, menu);
+        getSupportMenuInflater().inflate(R.menu.activity_search_view, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+
             case R.id.menu_settings:
                 startActivity(new Intent(this, Settings.class));
                 break;
@@ -117,34 +121,6 @@ public class SearchActivity extends SherlockFragmentActivity
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (animeItemGridFragment != null) {
-            //All this is handling the ticks in the switch list menu
-            switch (animeItemGridFragment.currentList) {
-                case 0:
-                    menu.findItem(R.id.listType_all).setChecked(true);
-                    break;
-                case 1:
-                    menu.findItem(R.id.listType_inprogress).setChecked(true);
-                    break;
-                case 2:
-                    menu.findItem(R.id.listType_completed).setChecked(true);
-                    break;
-                case 3:
-                    menu.findItem(R.id.listType_onhold).setChecked(true);
-                    break;
-                case 4:
-                    menu.findItem(R.id.listType_dropped).setChecked(true);
-                    break;
-                case 5:
-                    menu.findItem(R.id.listType_planned).setChecked(true);
-            }
-        }
-
-        return true;
-    }
 
     @Override
     public void fragmentReady() {
@@ -172,7 +148,6 @@ public class SearchActivity extends SherlockFragmentActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            //To change body of implemented methods use File | Settings | File Templates.
             String query = search_query_widget.getText().toString();
             MALApi api = new MALApi(null, null);
             _result = api.search(MALApiListType.ANIME, query);
