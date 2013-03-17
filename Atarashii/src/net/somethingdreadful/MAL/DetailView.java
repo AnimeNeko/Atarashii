@@ -232,11 +232,10 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
         CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
 
-        getDetails(recordID);
+        getDetails();
     }
 
-    public void getDetails(int id) {
-        //TODO: What?
+    public void getDetails() {
         new getDetailsTask().execute();
     }
 
@@ -343,10 +342,11 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
         }
 
         @Override
-        protected void onProgressUpdate(Boolean... values) {
-            // TODO Auto-generated method stub
-            super.onProgressUpdate(values);
-
+        protected void onPostExecute(GenericMALRecord gr) {
+            if (ProgressFragment.getView() == null) {
+                // Parent activity is destroy, skipping
+                return;
+            }
             if ("anime".equals(internalType)) {
                 actionBar.setTitle(animeRecord.getName());
 
@@ -444,10 +444,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                     MyScoreBar.setRating(MyScore / 2);
                 }
             }
-        }
-
-        @Override
-        protected void onPostExecute(GenericMALRecord gr) {
 
             if (SynopsisFragment.getView() != null) {
                 SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);

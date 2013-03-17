@@ -27,11 +27,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
 public class ImageDownloader {
 
-    HashMap<String, WeakReference<Bitmap>> imageCache;
     LruCache betterImageCache;
     Context context;
 
@@ -52,7 +50,7 @@ public class ImageDownloader {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
                 // The cache size will be measured in bytes rather than number of items.
-                if (Integer.valueOf(android.os.Build.VERSION.SDK_INT) >= 12)
+                if (android.os.Build.VERSION.SDK_INT >= 12)
                     return bitmap.getByteCount();
                 else
                     return (bitmap.getRowBytes() * bitmap.getHeight());
@@ -94,9 +92,7 @@ public class ImageDownloader {
         File f = new File(getCacheDirectory(c), filename);
 
         // Is the bitmap in our memory cache?
-        Bitmap bitmap = null;
-
-        bitmap = (Bitmap) betterImageCache.get(f.getPath());
+        Bitmap bitmap = (Bitmap) betterImageCache.get(f.getPath());
 
         if (bitmap == null) {
 
@@ -155,8 +151,9 @@ public class ImageDownloader {
         } else
             cacheDir = context.getCacheDir();
 
-        if (!cacheDir.exists())
+        if (!cacheDir.exists()) {
             cacheDir.mkdirs();
+        }
         return cacheDir;
     }
 
@@ -171,7 +168,7 @@ public class ImageDownloader {
         } finally {
             try {
                 if (out != null) out.close();
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
         }
     }
@@ -183,7 +180,7 @@ public class ImageDownloader {
         private final WeakReference<ImageView> imageViewReference;
 
         public BitmapDownloaderTask(ImageView imageView) {
-            imageViewReference = new WeakReference<ImageView>(imageView);
+            imageViewReference = new WeakReference<>(imageView);
         }
 
         @Override
@@ -231,7 +228,7 @@ public class ImageDownloader {
         String url;
 
         public DecodeFileTask(ImageView imageView, String url) {
-            cover = new WeakReference<ImageView>(imageView);
+            cover = new WeakReference<>(imageView);
             this.url = url;
         }
 
@@ -256,7 +253,7 @@ public class ImageDownloader {
                 if (bitmap != null) {
                     try {
                         cover.get().setImageBitmap(bitmap);
-                    } catch (NullPointerException npe) {
+                    } catch (NullPointerException ignored) {
 
                     }
                 } else {
@@ -277,7 +274,7 @@ public class ImageDownloader {
         public DownloadedDrawable(BitmapDownloaderTask bitmapDownloaderTask) {
             super(Color.BLACK);
             bitmapDownloaderTaskReference =
-                    new WeakReference<BitmapDownloaderTask>(bitmapDownloaderTask);
+                    new WeakReference<>(bitmapDownloaderTask);
         }
 
         public BitmapDownloaderTask getBitmapDownloaderTask() {
@@ -305,8 +302,7 @@ public class ImageDownloader {
                 InputStream inputStream = null;
                 try {
                     inputStream = entity.getContent();
-                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    return bitmap;
+                    return BitmapFactory.decodeStream(inputStream);
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
@@ -319,21 +315,18 @@ public class ImageDownloader {
             getRequest.abort();
             Log.w("ImageDownloader", "Error while retrieving bitmap from " + url + e.toString());
         } finally {
-            if (client != null) {
-                //client.close();
-            }
+            //client.close();
         }
         return null;
     }
 
     public void wipeCache() {
         File file = new File(getCacheDirectory(context), "");
-        if (file != null && file.isDirectory()) {
+        if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {
                 for (File f : files) {
                     f.delete();
-
                 }
             }
         }

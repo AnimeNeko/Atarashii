@@ -31,12 +31,27 @@ public class MALManager {
             "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
             "imageUrl", "dirty", "lastUpdate"};
 
-    SQLiteDatabase db;
+    static MALSqlHelper malSqlHelper;
+
     MALApi malApi;
+    static SQLiteDatabase dbRead;
 
     public MALManager(Context context) {
         malApi = new MALApi(context);
-        db = new MALSqlHelper(context).getWritableDatabase();
+        if (malSqlHelper == null) {
+            malSqlHelper = MALSqlHelper.getHelper(context);
+        }
+    }
+
+    public synchronized static SQLiteDatabase getDBWrite() {
+        return malSqlHelper.getWritableDatabase();
+    }
+
+    public static SQLiteDatabase getDBRead() {
+        if (dbRead == null) {
+            dbRead = malSqlHelper.getReadableDatabase();
+        }
+        return dbRead;
     }
 
     static String listSortFromInt(int i, String type) {
@@ -126,11 +141,12 @@ public class MALManager {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("lastUpdate", 0);
-        db.update(type, contentValues, null, null);
+        getDBWrite().update(type, contentValues, null, null);
 
         int currentTime = (int) new Date().getTime() / 1000;
         JSONArray jArray = malApi.getList(getListTypeFromString(type));
         try {
+            getDBWrite().beginTransaction();
             switch (type) {
                 case TYPE_ANIME: {
                     for (int i = 0; i < jArray.length(); i++) {
@@ -150,9 +166,12 @@ public class MALManager {
                     }
                     break;
             }
+            getDBWrite().setTransactionSuccessful();
             clearDeletedItems(type, currentTime);
         } catch (JSONException e) {
             e.printStackTrace();
+        } finally {
+            getDBWrite().endTransaction();
         }
     }
 
@@ -161,7 +180,7 @@ public class MALManager {
         JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(type));
         HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, type);
         AnimeRecord record = new AnimeRecord(recordData);
-        if (record.getMyStatus().equals("null")) {
+        if (record.getMyStatus().isEmpty()) {
             record.markForCreate(true);
         }
         return record;
@@ -172,7 +191,7 @@ public class MALManager {
         JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(type));
         HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, type);
         MangaRecord record = new MangaRecord(recordData);
-        if (record.getMyStatus().equals("null")) {
+        if (record.getMyStatus().isEmpty()) {
             record.markForCreate(true);
         }
         return record;
@@ -184,8 +203,9 @@ public class MALManager {
         animeRecord.setSynopsis(getDataFromJSON(jsonObject, "synopsis"));
         animeRecord.setMemberScore(Float.parseFloat(getDataFromJSON(jsonObject, "members_score")));
 
-        saveItem(animeRecord, false);
-
+        if (!getDBWrite().inTransaction()) {
+            saveItem(animeRecord, false);
+        }
         return animeRecord;
     }
 
@@ -248,9 +268,9 @@ public class MALManager {
         Cursor cursor;
 
         if (list == 0) {
-            cursor = db.query("anime", this.animeColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
+            cursor = getDBRead().query("anime", this.animeColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
         } else {
-            cursor = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
+            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
 
 
@@ -278,9 +298,9 @@ public class MALManager {
         Cursor cursor;
 
         if (list == 0) {
-            cursor = db.query("manga", this.mangaColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
+            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
         } else {
-            cursor = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
 
         Log.v("MALX", "Got " + cursor.getCount() + " records.");
@@ -323,9 +343,9 @@ public class MALManager {
         }
 
         if (itemExists(mr.getID(), "manga")) {
-            db.update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[]{mr.getID().toString()});
+            getDBWrite().update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[]{mr.getID().toString()});
         } else {
-            db.insert(MALSqlHelper.TABLE_MANGA, null, cv);
+            getDBWrite().insert(MALSqlHelper.TABLE_MANGA, null, cv);
         }
     }
 
@@ -352,15 +372,15 @@ public class MALManager {
         }
 
         if (itemExists(ar.getID(), "anime")) {
-            db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[]{ar.getID().toString()});
+            getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[]{ar.getID().toString()});
         } else {
-            db.insert(MALSqlHelper.TABLE_ANIME, null, cv);
+            getDBWrite().insert(MALSqlHelper.TABLE_ANIME, null, cv);
         }
     }
 
     public AnimeRecord getAnimeRecordFromDB(int id) {
         Log.v("MALX", "getAnimeRecordFromDB() has been invoked for id " + id);
-        Cursor cu = db.query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cu = getDBRead().query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
         cu.moveToFirst();
         AnimeRecord ar = new AnimeRecord(this.getRecordDataFromCursor(cu));
         cu.close();
@@ -370,7 +390,7 @@ public class MALManager {
     public MangaRecord getMangaRecordFromDB(int id) {
         Log.v("MALX", "getMangaRecordFromDB() has been invoked for id " + id);
 
-        Cursor cu = db.query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cu = getDBRead().query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 
         cu.moveToFirst();
 
@@ -401,7 +421,7 @@ public class MALManager {
 
     public boolean itemExists(String id, String type) {
         if (type.equals("anime") || type.equals("manga")) {
-            Cursor cursor = db.rawQuery("select 1 from " + type + " WHERE recordID=? LIMIT 1",
+            Cursor cursor = getDBRead().rawQuery("select 1 from " + type + " WHERE recordID=? LIMIT 1",
                     new String[]{id});
             boolean exists = (cursor.getCount() > 0);
             cursor.close();
@@ -440,13 +460,13 @@ public class MALManager {
     public void clearDeletedItems(String type, long currentTime) {
         Log.v("MALX", "Removing deleted items of type " + type + " older than " + DateFormat.getDateTimeInstance().format(currentTime * 1000));
 
-        int recordsRemoved = db.delete(type, "lastUpdate < ?", new String[]{String.valueOf(currentTime)});
+        int recordsRemoved = getDBWrite().delete(type, "lastUpdate < ?", new String[]{String.valueOf(currentTime)});
 
         Log.v("MALX", "Removed " + recordsRemoved + " " + type + " items");
     }
 
     public boolean deleteItemFromDatabase(String type, int recordID) {
-        int deleted = db.delete(type, "recordID = ?", new String[]{String.valueOf(recordID)});
+        int deleted = getDBWrite().delete(type, "recordID = ?", new String[]{String.valueOf(recordID)});
 
         return deleted == 1;
     }

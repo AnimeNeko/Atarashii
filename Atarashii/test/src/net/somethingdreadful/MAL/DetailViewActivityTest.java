@@ -58,7 +58,7 @@ public class DetailViewActivityTest extends ActivityInstrumentationTestCase2<Det
 
     public void testShowItemNotInList() {
         testOnCreate();
-        MALSqlHelper helper = new MALSqlHelper(getActivity().getApplicationContext());
+        MALSqlHelper helper = MALSqlHelper.getHelper(getActivity().getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] col = {"recordID"};
         String[] args = {"1187"};

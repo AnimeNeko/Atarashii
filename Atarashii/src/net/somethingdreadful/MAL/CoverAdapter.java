@@ -225,7 +225,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             internalType = type;
         }
 
-
         @Override
         protected Boolean doInBackground(GenericMALRecord... gr) {
 
@@ -249,10 +248,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                     internalManager.saveItem((MangaRecord) gr[0], false);
                 }
             }
-
             return result;
-
-
         }
 
     }

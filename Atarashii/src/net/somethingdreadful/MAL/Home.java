@@ -102,8 +102,6 @@ public class Home extends SherlockFragmentActivity
                         .setTabListener(this));
 
             }
-
-
         } else //If the app hasn't been configured, take us to the first run screen to sign in
         {
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
@@ -196,12 +194,10 @@ public class Home extends SherlockFragmentActivity
     @Override
     public void onResume() {
         super.onResume();
-
         if (instanceExists) {
             af.getRecords(af.currentList, "anime", false);
             mf.getRecords(af.currentList, "manga", false);
         }
-
     }
 
     @Override
@@ -288,7 +284,7 @@ public class Home extends SherlockFragmentActivity
         mPrefManager.setUser("");
         mPrefManager.setPass("");
         mPrefManager.commitChanges();
-        context.deleteDatabase(new MALSqlHelper(context).getDatabaseName());
+        context.deleteDatabase(MALSqlHelper.getHelper(context).getDatabaseName());
         new ImageDownloader(context).wipeCache();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();

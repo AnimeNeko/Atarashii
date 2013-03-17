@@ -10,6 +10,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     protected static final String DATABASE_NAME = "MAL.db";
     private static final int DATABASE_VERSION = 5;
 
+    private static MALSqlHelper instance;
 
     public static final String COLUMN_ID = "_id";
     public static final String TABLE_ANIME = "anime";
@@ -67,6 +68,14 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
     public MALSqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static synchronized MALSqlHelper getHelper(Context context) {
+        if (instance == null) {
+            instance = new MALSqlHelper(context);
+        }
+        return instance;
+
     }
 
     @Override
