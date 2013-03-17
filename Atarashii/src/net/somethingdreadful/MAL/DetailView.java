@@ -508,7 +508,6 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
             return result;
 
-
         }
 
     }

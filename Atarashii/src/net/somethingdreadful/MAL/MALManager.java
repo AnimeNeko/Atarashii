@@ -402,14 +402,14 @@ public class MALManager {
     }
 
     public AnimeRecord getAnimeRecord(int recordID) {
-        if (this.itemExists(recordID, "anime")) {
+        if (this.itemExists(recordID, TYPE_ANIME)) {
             return getAnimeRecordFromDB(recordID);
         }
         return getAnimeRecordFromMAL(recordID);
     }
 
     public MangaRecord getMangaRecord(int recordID) {
-        if (this.itemExists(recordID, "anime")) {
+        if (this.itemExists(recordID, TYPE_MANGA)) {
             return this.getMangaRecordFromDB(recordID);
         }
         return getMangaRecordFromMAL(recordID);
