@@ -10,6 +10,7 @@ import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.GenericMALRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,9 +113,10 @@ public class MALManager {
 
     public HashMap<String, Object> getRecordDataFromJSONObject(JSONObject jsonObject, String type) {
         HashMap<String, Object> recordData = new HashMap<>();
+
         try {
             recordData.put("recordID", jsonObject.getInt("id"));
-            recordData.put("recordName", jsonObject.getString("title"));
+            recordData.put("recordName", StringEscapeUtils.unescapeHtml4(jsonObject.getString("title")));
             recordData.put("recordType", jsonObject.getString("type"));
             recordData.put("recordStatus", jsonObject.getString("status"));
             recordData.put("myScore", jsonObject.optInt("score"));

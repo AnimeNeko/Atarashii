@@ -23,9 +23,6 @@ public class HomeTest extends ActivityInstrumentationTestCase2<Home> {
         assertNotNull(activity);
     }
 
-    public void testFailed() {
-        assertEquals(1, 0);
-    }
 
 /*    public void _testExcludeDirtyFromList() {
         MALSqlHelper helper = new MALSqlHelper(getActivity().getApplicationContext());

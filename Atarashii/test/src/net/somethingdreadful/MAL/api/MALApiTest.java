@@ -40,8 +40,6 @@ public class MALApiTest extends AndroidTestCase {
         JSONArray result = api.getList(BaseMALApi.ListType.ANIME);
         assertNotNull(result);
         assertTrue(isInMALList(BaseMALApi.ListType.ANIME, 3225));
-        JSONObject genre = (JSONObject) result.get(0);
-        assertEquals(3225, genre.getInt("id"));
     }
 
 

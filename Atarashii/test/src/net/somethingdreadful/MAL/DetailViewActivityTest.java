@@ -1,11 +1,8 @@
 package net.somethingdreadful.MAL;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.test.ActivityInstrumentationTestCase2;
 import com.jayway.android.robotium.solo.Solo;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 /**
  * This is a simple framework for a test of an Application.  See
@@ -26,7 +23,7 @@ public class DetailViewActivityTest extends ActivityInstrumentationTestCase2<Det
 
     @Override
     public DetailView getActivity() {
-        return getActivity(1187, "anime");
+        return getActivity(1887, "anime");
     }
 
     public DetailView getActivity(int recordID, String recordType) {
@@ -53,19 +50,6 @@ public class DetailViewActivityTest extends ActivityInstrumentationTestCase2<Det
 
     public void testOnCreate() {
         assertNotNull(getActivity());
-        assertTrue(solo.waitForText("Lucky&#9734;Star"));
+        assertTrue(solo.waitForText("Lucky☆Star"));
     }
-
-    public void testShowItemNotInList() {
-        testOnCreate();
-        MALSqlHelper helper = MALSqlHelper.getHelper(getActivity().getApplicationContext());
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String[] col = {"recordID"};
-        String[] args = {"1187"};
-        Cursor cursor = db.query("anime", col, "recordID = ? AND dirty = 1", args, null, null, "recordName ASC");
-        assertTrue(cursor.getCount() == 1);
-
-    }
-
-
 }
