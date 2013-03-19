@@ -7,13 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import net.somethingdreadful.MAL.api.BaseMALApi;
@@ -26,7 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends SherlockFragmentActivity
+public class SearchActivity extends BaseActionBarSearchView
         implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 
     /**
@@ -47,16 +41,12 @@ public class SearchActivity extends SherlockFragmentActivity
     BaseItemGridFragment animeItemGridFragment;
     BaseItemGridFragment mangaItemGridFragment;
 
-    private TextView search_query_widget;
-    private Button doSearchButton;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
 
         mPrefManager = new PrefManager(context);
-
 
         setContentView(R.layout.activity_search);
         mManager = new MALManager(context);
@@ -87,33 +77,35 @@ public class SearchActivity extends SherlockFragmentActivity
                     .setTabListener(this));
         }
 
-
-        doSearchButton = (Button) findViewById(R.id.searchGo);
-        doSearchButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new networkThread().execute();
-                    }
-                }
-        );
-
-        search_query_widget = (EditText) findViewById(R.id.searchQuery);
-        search_query_widget.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    doSearchButton.performClick();
-                    return true;
-                }
-                return false;
+        String query = getIntent().getStringExtra("net.somethingdreadful.MAL.search_query");
+        int ordinalListType = getIntent().getIntExtra(
+                "net.somethingdreadful.MAL.search_type", BaseMALApi.ListType.ANIME.ordinal());
+        BaseMALApi.ListType listType = BaseMALApi.ListType.values()[ordinalListType];
+        if (query != null && !query.isEmpty()) {
+            doSearch(query, listType);
+            setQuery(query);
+            if (listType == BaseMALApi.ListType.MANGA) {
+                actionBar.setSelectedNavigationItem(1);
             }
-        });
+        }
+    }
+
+    @Override
+    public BaseMALApi.ListType getCurrentListType() {
+        return (BaseMALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
+    }
+
+    @Override
+    public void doSearch(String query, BaseMALApi.ListType listType) {
+        networkThread nt = new networkThread();
+        nt.setListType(listType);
+        nt.execute(query);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.activity_search_view, menu);
+        super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -144,7 +136,6 @@ public class SearchActivity extends SherlockFragmentActivity
     @Override
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
-
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
         animeItemGridFragment = (BaseItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
         mangaItemGridFragment = (BaseItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
@@ -163,22 +154,29 @@ public class SearchActivity extends SherlockFragmentActivity
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 
-    public class networkThread extends AsyncTask<Void, Void, Void> {
+    public class networkThread extends AsyncTask<String, Void, Void> {
         JSONArray _result;
+
+        public MALApi.ListType getListType() {
+            return listType;
+        }
+
+        public void setListType(MALApi.ListType listType) {
+            this.listType = listType;
+        }
+
         MALApi.ListType listType;
 
-
         @Override
-        protected Void doInBackground(Void... params) {
-            listType = (BaseMALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
-            String query = search_query_widget.getText().toString();
+        protected Void doInBackground(String... params) {
+            String query = params[0];
             MALApi api = new MALApi(context);
-            _result = api.search(listType, query);
+            _result = api.search(getListType(), query);
             return null;
         }
 
         protected void onPostExecute(Void result) {
-            String type = MALApi.getListTypeString(listType);
+            String type = MALApi.getListTypeString(getListType());
             try {
                 switch (listType) {
                     case ANIME: {
@@ -201,8 +199,6 @@ public class SearchActivity extends SherlockFragmentActivity
                         mangaItemGridFragment.setMangaRecords(list);
                         break;
                     }
-
-
                 }
             } catch (JSONException e) {
                 Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));

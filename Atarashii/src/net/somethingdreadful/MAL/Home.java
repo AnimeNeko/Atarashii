@@ -14,12 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
-public class Home extends SherlockFragmentActivity
+public class Home extends BaseActionBarSearchView
         implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
         LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
@@ -39,7 +39,6 @@ public class Home extends SherlockFragmentActivity
     PrefManager mPrefManager;
     public MALManager mManager;
     private boolean init = false;
-    private boolean upgradeInit = false;
     ItemGridFragment af;
     ItemGridFragment mf;
     public boolean instanceExists;
@@ -51,7 +50,6 @@ public class Home extends SherlockFragmentActivity
 
         mPrefManager = new PrefManager(context);
         init = mPrefManager.getInit();
-        upgradeInit = mPrefManager.getUpgradeInit();
 
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
@@ -114,7 +112,15 @@ public class Home extends SherlockFragmentActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.activity_home, menu);
+        super.onCreateOptionsMenu(menu);
         return true;
+    }
+
+
+    @Override
+    public BaseMALApi.ListType getCurrentListType() {
+        String listName = getSupportActionBar().getSelectedTab().getText().toString();
+        return BaseMALApi.getListTypeByString(listName);
     }
 
     @Override
@@ -132,10 +138,6 @@ public class Home extends SherlockFragmentActivity
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
 
-//            case R.id.addToList:
-//                startActivity(new Intent(this, SearchActivity.class));
-
-                //The following is the code that handles switching the list. It calls the fragment to update, then update the menu by invalidating
             case R.id.listType_all:
                 if (af != null && mf != null) {
                     af.getRecords(0, "anime", false);

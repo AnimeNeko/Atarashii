@@ -70,13 +70,10 @@ public abstract class BaseMALApi {
     }
 
     public static String getListTypeString(ListType listType) {
-        switch (listType) {
-            case ANIME:
-                return "anime";
-            case MANGA:
-                return "manga";
-            default:
-                return null;
-        }
+        return listType.name().toLowerCase();
+    }
+
+    public static ListType getListTypeByString(String listTypeName) {
+        return ListType.valueOf(listTypeName.toUpperCase());
     }
 }

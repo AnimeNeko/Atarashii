@@ -55,7 +55,7 @@
         </activity>
 
         <activity
-                android:name="net.somethingdreadful.MAL.SearchActivity"
+                android:name=".SearchActivity"
                 android:label="Search">
         </activity>
 
