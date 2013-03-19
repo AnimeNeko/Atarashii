@@ -132,8 +132,8 @@ public class Home extends SherlockFragmentActivity
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
 
-            case R.id.addToList:
-                startActivity(new Intent(this, SearchActivity.class));
+//            case R.id.addToList:
+//                startActivity(new Intent(this, SearchActivity.class));
 
                 //The following is the code that handles switching the list. It calls the fragment to update, then update the menu by invalidating
             case R.id.listType_all:
