@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.EditText;
+import android.view.KeyEvent;
 import com.jayway.android.robotium.solo.Solo;
 
 /**
@@ -33,18 +33,36 @@ public class SearchActivityTest extends ActivityInstrumentationTestCase2<SearchA
 
     public void testOnCreate() {
         assertNotNull(getActivity());
+        assertTrue(solo.searchText("ANIME"));
+        assertTrue(solo.searchText("MANGA"));
+        assertTrue(solo.searchText("Search in MAL"));
     }
 
-    public void testDoSearch() {
-        solo.enterText((EditText) getActivity().findViewById(R.id.searchQuery), "Minami-ke");
-        solo.clickOnText("Go");
-        assertTrue(solo.searchText("Minami-ke Tadaima"));
+    public void testDoSearchAnime() {
+        solo.clickOnEditText(0);
+        solo.enterText(0, "Minami-ke");
+        solo.sendKey(KeyEvent.KEYCODE_ENTER);
+        assertTrue(solo.waitForText("Minami-ke Tadaima"));
     }
 
-    public void testDoSearchAndGoToDetailView() {
-        this.testDoSearch();
-        solo.clickOnText("Minami-ke");
-        assertTrue(solo.waitForText("Minami-ke"));
+    public void testDoBeginSearchAnimeAndGoToDetailView() {
+        this.testDoSearchAnime();
+        solo.clickOnText("Minami-ke Tadaima");
+        assertTrue(solo.waitForText("Minami-ke Tadaima"));
+    }
+
+    public void testDoSearchManga() {
+        solo.clickOnText("MANGA");
+        solo.clickOnEditText(0);
+        solo.enterText(0, "Otaku no musume-san");
+        solo.sendKey(KeyEvent.KEYCODE_ENTER);
+        assertTrue(solo.waitForText("Otaku no musume-san"));
+    }
+
+    public void testDoBeginSearchMangaAndGoToDetailView() {
+        this.testDoSearchManga();
+        solo.clickOnText("Otaku no musume-san");
+        assertTrue(solo.waitForText("Otaku no musume-san"));
     }
 
 }

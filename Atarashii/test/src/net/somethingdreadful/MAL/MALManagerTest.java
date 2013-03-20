@@ -17,10 +17,4 @@ public class MALManagerTest extends AndroidTestCase {
     }
 
 
-    public void testWriteDetailsToMal() {
-        // TODO:
-        //assertTrue(manager.writeDetailsToMAL());
-    }
-
-
 }

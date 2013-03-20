@@ -9,8 +9,15 @@ import java.util.HashMap;
 
 
 public class MALApiTest extends AndroidTestCase {
+
+    MALApi api;
+
+    @Override
+    public void setUp() throws Exception {
+        api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
+    }
+
     public void testIsAuth() throws Exception {
-        MALApi api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
         assertTrue(api.isAuth());
     }
 
@@ -20,7 +27,6 @@ public class MALApiTest extends AndroidTestCase {
     }
 
     public void testSearchAnime() throws Exception {
-        MALApi api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
         JSONArray result = api.search(BaseMALApi.ListType.ANIME, "Minami-ke Tadaima");
         assertNotNull(result);
         JSONObject genre = (JSONObject) result.get(0);
@@ -36,23 +42,19 @@ public class MALApiTest extends AndroidTestCase {
     }
 
     public void testGetAnimeList() throws Exception {
-        MALApi api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
         JSONArray result = api.getList(BaseMALApi.ListType.ANIME);
         assertNotNull(result);
         assertTrue(isInMALList(BaseMALApi.ListType.ANIME, 3225));
     }
 
-
     public void testAddUpdateDeleteAnimeGenre() throws Exception {
         BaseMALApi.ListType listType = BaseMALApi.ListType.ANIME;
 
-        MALApi api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
 
         HashMap<String, String> statusMap = new HashMap<>();
         statusMap.put("status", "watched_status");
         statusMap.put("episodes", "watched_episodes");
         statusMap.put("score", "score");
-
 
         boolean hasCreate = true;
         HashMap<String, String> listRecord = new HashMap<>();
@@ -83,14 +85,12 @@ public class MALApiTest extends AndroidTestCase {
         for (HashMap.Entry<String, String> entry : listRecord.entrySet()) {
             assertEquals(entry.getValue(), genre.getString(statusMap.get(entry.getKey())));
         }
-
         // DELETE
         api.deleteGenreFromList(listType, genre_id.toString());
         assertFalse(isInMALList(listType, genre_id));
     }
 
     private JSONArray getMALList(BaseMALApi.ListType listType) {
-        MALApi api = new MALApi(TestSettings.MAL_USERNAME, TestSettings.MAL_PASSWORD);
         return api.getList(listType);
     }
 
