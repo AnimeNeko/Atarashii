@@ -3,12 +3,11 @@ package net.somethingdreadful.MAL;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-public class About extends SherlockActivity {
+public class AboutActivity extends SherlockActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +18,8 @@ public class About extends SherlockActivity {
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
 
-        TextView animaMalContent = (TextView)findViewById(R.id.contributor_anima_name);
-        TextView motokochanMalContent = (TextView)findViewById(R.id.contributor_motokochan_name);
+        TextView animaMalContent = (TextView) findViewById(R.id.contributor_anima_name);
+        TextView motokochanMalContent = (TextView) findViewById(R.id.contributor_motokochan_name);
         TextView acknowledgementsContent = (TextView) findViewById(R.id.acknowledgements_card_content);
 
         animaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
@@ -31,7 +30,7 @@ public class About extends SherlockActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }

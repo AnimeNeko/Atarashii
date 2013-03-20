@@ -12,8 +12,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.actionbarsherlock.app.SherlockActivity;
+import net.somethingdreadful.MAL.api.MALApi;
 
 
 public class FirstTimeInit extends SherlockActivity {
@@ -21,13 +21,11 @@ public class FirstTimeInit extends SherlockActivity {
     static EditText malPass;
     static String testMalUser;
     static String testMalPass;
-    static Button connectButton;
     static ProgressDialog pd;
     static Thread netThread;
     static Context context;
     static private Handler messenger;
     static PrefManager prefManager;
-    static MALManager mManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,12 +39,9 @@ public class FirstTimeInit extends SherlockActivity {
         context = getApplicationContext();
 
         prefManager = new PrefManager(context);
-        mManager = new MALManager(context);
 
-        connectButton.setOnClickListener(new OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        connectButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
                 testMalUser = malUser.getText().toString().trim();
                 testMalPass = malPass.getText().toString().trim();
                 tryConnection();
@@ -54,8 +49,7 @@ public class FirstTimeInit extends SherlockActivity {
 
         });
 
-        registerButton.setOnClickListener(new OnClickListener()
-        {
+        registerButton.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/register.php"));
                 startActivity(browserIntent);
@@ -65,16 +59,13 @@ public class FirstTimeInit extends SherlockActivity {
 
         messenger = new Handler() {
             @Override
-            public void handleMessage(Message msg)
-            {
-                if (msg.what == 2)
-                {
+            public void handleMessage(Message msg) {
+                if (msg.what == 2) {
                     pd.dismiss();
 
                     Toast.makeText(context, context.getString(R.string.toast_VerifyProblem), Toast.LENGTH_SHORT).show();
                 }
-                if (msg.what == 3)
-                {
+                if (msg.what == 3) {
                     pd.dismiss();
 
                     Toast.makeText(context, context.getString(R.string.toast_AccountOK), Toast.LENGTH_SHORT).show();
@@ -86,41 +77,31 @@ public class FirstTimeInit extends SherlockActivity {
 
                     Intent goHome = new Intent(context, Home.class);
                     goHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .putExtra("net.somethingdreadful.MAL.firstSync", true);
+                            .putExtra("net.somethingdreadful.MAL.firstSync", true);
                     startActivity(goHome);
                 }
-
                 super.handleMessage(msg);
             }
         };
     }
 
 
-    private void tryConnection()
-    {
+    private void tryConnection() {
         pd = ProgressDialog.show(this, context.getString(R.string.dialog_Verifying), context.getString(R.string.dialog_VerifyingBlurb));
         netThread = new networkThread();
         netThread.start();
 
     }
 
-    public class networkThread extends Thread
-    {
+    public class networkThread extends Thread {
         @Override
-        public void run()
-        {
-            boolean valid = mManager.verifyAccount(testMalUser, testMalPass);
-
-            String words = "";
+        public void run() {
+            boolean valid = new MALApi(testMalUser, testMalPass).isAuth();
             Message msg = new Message();
-
-            if (valid == false)
-            {
+            if (!valid) {
                 msg.what = 2;
                 messenger.sendMessage(msg);
-            }
-            else
-            {
+            } else {
                 msg.what = 3;
                 messenger.sendMessage(msg);
             }

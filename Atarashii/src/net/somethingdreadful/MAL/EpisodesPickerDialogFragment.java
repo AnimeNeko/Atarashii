@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import net.simonvt.widget.NumberPicker;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -11,8 +10,8 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import net.simonvt.widget.NumberPicker;
 
 public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
@@ -24,13 +23,11 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
     int watchedEpisodes;
     int pickerValue;
 
-    public EpisodesPickerDialogFragment()
-    {
+    public EpisodesPickerDialogFragment() {
 
     }
 
-    public interface DialogDismissedListener
-    {
+    public interface DialogDismissedListener {
         void onDialogDismissed(int newValue);
     }
 
@@ -42,43 +39,35 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener()
-        {
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onDialogDismissed(picker.getValue());
                 dismiss();
             }
         }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle("I've watched:");
+        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dismiss();
+            }
+        }
+        ).setView(view).setTitle("I've watched:");
 
         return builder.create();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         //        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
 
-        if (state == null)
-        {
-            totalEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getTotal());
-            watchedEpisodes = ((DetailView) getActivity()).mAr.getPersonalProgress();
+        if (state == null) {
+            totalEpisodes = Integer.parseInt(((DetailView) getActivity()).animeRecord.getTotal());
+            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getPersonalProgress();
             pickerValue = watchedEpisodes;
 
-        }
-        else
-        {
+        } else {
             totalEpisodes = state.getInt("totalEpisodes");
             watchedEpisodes = state.getInt("watchedEpisodes");
             pickerValue = state.getInt("pickerValue");
@@ -91,12 +80,9 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
         picker.setMinValue(0);
 
-        if (totalEpisodes != 0)
-        {
+        if (totalEpisodes != 0) {
             picker.setMaxValue(totalEpisodes);
-        }
-        else
-        {
+        } else {
             picker.setMaxValue(999);
         }
 
@@ -108,16 +94,13 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog)
-    {
-
+    public void onDismiss(DialogInterface dialog) {
 
 
     }
 
     @Override
-    public void onCancel(DialogInterface dialog)
-    {
+    public void onCancel(DialogInterface dialog) {
 
         this.dismiss();
     }
@@ -131,7 +114,6 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
         super.onSaveInstanceState(state);
     }
-
 
 
 }

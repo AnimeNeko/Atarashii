@@ -1,8 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -19,6 +16,12 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class CoverAdapter<T> extends ArrayAdapter<T> {
 
@@ -30,33 +33,9 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     private int resource;
     private int imageCoverHeight = 0;
 
-    private int dp64;
-    private int dp6;
-    private int dp8;
-    private int dp12;
-    private int dp32;
-
-    public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type) {
-        super(context, resource, objects);
-        // TODO Auto-generated constructor stub
-        this.objects = objects;
-        this.c = context;
-        imageManager = new ImageDownloader(c);
-        mManager = m;
-        this.type = type;
-        this.resource = resource;
-
-
-        dp64 = dpToPx(64);
-        dp32 = dpToPx(32);
-        dp12 = dpToPx(12);
-        dp6 = dpToPx(6);
-        dp8 = dpToPx(8);
-    }
 
     public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type, int coverheight) {
         super(context, resource, objects);
-        // TODO Auto-generated constructor stub
         this.objects = objects;
         this.c = context;
         imageManager = new ImageDownloader(c);
@@ -65,17 +44,10 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         this.resource = resource;
         this.imageCoverHeight = coverheight;
 
-        dp64 = dpToPx(64);
-        dp32 = dpToPx(32);
-        dp12 = dpToPx(12);
-        dp6 = dpToPx(6);
-        dp8 = dpToPx(8);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-        //return super.getView(position, convertView, parent);
         View v = convertView;
         ViewHolder viewHolder;
         final GenericMALRecord a;
@@ -84,8 +56,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
         String myStatus = a.getMyStatus();
 
-        if (v == null)
-        {
+        if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(resource, parent, false);
 
@@ -101,9 +72,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             if (this.imageCoverHeight > 0) {
                 v.getLayoutParams().height = dpToPx(this.imageCoverHeight);
             }
-        }
-        else
-        {
+        } else {
             viewHolder = (ViewHolder) v.getTag();
         }
 
@@ -114,21 +83,14 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
         imageManager.download(a.getImageUrl(), viewHolder.cover);
 
-        if (Build.VERSION.SDK_INT >= 11)
-        {
-            if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)))
-            {
-                viewHolder.actionButton.setVisibility(viewHolder.actionButton.VISIBLE);
-                //			System.out.println("true");
-
+        if (Build.VERSION.SDK_INT >= 11) {
+            if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))) {
+                viewHolder.actionButton.setVisibility(View.VISIBLE);
                 viewHolder.actionButton.setOnClickListener(
-                        new OnClickListener()
-                        {
+                        new OnClickListener() {
 
                             @Override
-                            public void onClick(View v)
-                            {
-                                //							Toast.makeText(c, a.getName(), Toast.LENGTH_SHORT).show();
+                            public void onClick(View v) {
                                 showPopupMenu(v);
                             }
 
@@ -136,23 +98,18 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                             private void showPopupMenu(View v) {
                                 PopupMenu pm = new PopupMenu(c, v);
 
-                                if (a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING))
-                                {
+                                if (a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) {
                                     pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
                                 }
-                                if (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))
-                                {
+                                if (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)) {
                                     pm.getMenuInflater().inflate(R.menu.cover_action_menu_manga, pm.getMenu());
                                 }
 
                                 pm.setOnMenuItemClickListener(
-                                        new OnMenuItemClickListener()
-                                        {
+                                        new OnMenuItemClickListener() {
                                             @Override
-                                            public boolean onMenuItemClick(MenuItem item)
-                                            {
-                                                switch (item.getItemId())
-                                                {
+                                            public boolean onMenuItemClick(MenuItem item) {
+                                                switch (item.getItemId()) {
                                                     case R.id.action_PlusOneWatched:
                                                         setProgressPlusOne(a);
                                                         break;
@@ -171,15 +128,11 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                             }
 
                         });
+            } else {
+                viewHolder.actionButton.setVisibility(View.INVISIBLE);
             }
-            else
-            {
-                viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
-            }
-        }
-        else
-        {
-            viewHolder.actionButton.setVisibility(viewHolder.actionButton.INVISIBLE);
+        } else {
+            viewHolder.actionButton.setVisibility(View.INVISIBLE);
 
             //Compatibility with setting the overlay alpha pre-API 11
             ImageView overlayPanel = (ImageView) v.findViewById(R.id.textOverlayPanel);
@@ -188,63 +141,56 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
 
         TextView flavourText = (TextView) v.findViewById(R.id.stringWatched);
-        if ("watching".equals(myStatus))
-        {
-            flavourText.setText(R.string.cover_Watching);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
-
+        switch (myStatus) {
+            case "watching": {
+                flavourText.setText(R.string.cover_Watching);
+                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                break;
+            }
+            case "reading": {
+                flavourText.setText(R.string.cover_Reading);
+                break;
+            }
+            case "completed": {
+                flavourText.setText(R.string.cover_Completed);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            case "on-hold": {
+                flavourText.setText(R.string.cover_OnHold);
+                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                break;
+            }
+            case "dropped": {
+                flavourText.setText(R.string.cover_Dropped);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            case "plan to watch": {
+                flavourText.setText(R.string.cover_PlanningToWatch);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            case "plan to read": {
+                flavourText.setText(R.string.cover_PlanningToRead);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
+            default: {
+                flavourText.setVisibility(View.GONE);
+                viewHolder.progressCount.setVisibility(View.GONE);
+                break;
+            }
         }
-        if ("reading".equals(myStatus)) {
-            flavourText.setText(R.string.cover_Reading);
-        }
-        if ("completed".equals(myStatus))
-        {
-            flavourText.setText(R.string.cover_Completed);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-        if ("on-hold".equals(myStatus))
-        {
-            flavourText.setText(R.string.cover_OnHold);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.VISIBLE);
-
-        }
-        if ("dropped".equals(myStatus))
-        {
-            flavourText.setText(R.string.cover_Dropped);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-        if ("plan to watch".equals(myStatus))
-        {
-            flavourText.setText(R.string.cover_PlanningToWatch);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-        if ("plan to read".equals(myStatus)) {
-            flavourText.setText(R.string.cover_PlanningToRead);
-
-            viewHolder.progressCount.setVisibility(viewHolder.progressCount.GONE);
-
-        }
-
-        //		icon.setImageResource(R.drawable.icon);
 
         return v;
     }
 
-    public void setProgressPlusOne(GenericMALRecord gr)
-    {
+    public void setProgressPlusOne(GenericMALRecord gr) {
         gr.setPersonalProgress(gr.getPersonalProgress() + 1);
 
-        if (gr.getPersonalProgress() == Integer.parseInt(gr.getTotal()))
-        {
-            gr.setMyStatus(gr.STATUS_COMPLETED);
+        if (gr.getPersonalProgress() == Integer.parseInt(gr.getTotal())) {
+            gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
         }
 
         notifyDataSetChanged();
@@ -252,9 +198,8 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         new writeDetailsTask().execute(gr);
     }
 
-    public void setMarkAsComplete(GenericMALRecord gr)
-    {
-        gr.setMyStatus(gr.STATUS_COMPLETED);
+    public void setMarkAsComplete(GenericMALRecord gr) {
+        gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
 
         new writeDetailsTask().execute(gr);
 
@@ -264,74 +209,58 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void supportAddAll(Collection<? extends T> collection) {
-        for (T record : collection)
-        {
+        for (T record : collection) {
             this.add(record);
         }
     }
 
-    public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean>
-    {
+    public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean> {
 
         MALManager internalManager;
-        GenericMALRecord internalGr;
         String internalType;
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             internalManager = mManager;
             internalType = type;
         }
-
 
         @Override
         protected Boolean doInBackground(GenericMALRecord... gr) {
 
             boolean result;
 
-            if ("anime".equals(internalType))
-            {
+            if ("anime".equals(internalType)) {
                 internalManager.saveItem((AnimeRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_ANIME);
-            }
-            else
-            {
+                result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
+            } else {
                 internalManager.saveItem((MangaRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], internalManager.TYPE_MANGA);
+                result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
             }
 
 
-            if (result == true)
-            {
-                gr[0].setDirty(gr[0].CLEAN);
+            if (result) {
+                gr[0].setDirty(GenericMALRecord.CLEAN);
 
-                if ("anime".equals(internalType))
-                {
+                if ("anime".equals(internalType)) {
                     internalManager.saveItem((AnimeRecord) gr[0], false);
-                }
-                else
-                {
+                } else {
                     internalManager.saveItem((MangaRecord) gr[0], false);
                 }
             }
-
             return result;
-
-
         }
 
     }
 
-    public int dpToPx(float dp){
+    public int dpToPx(float dp) {
         Resources resources = c.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi/160f);
+        float px = dp * (metrics.densityDpi / 160f);
         return (int) px;
     }
 
-    static class ViewHolder
-    {
+    static class ViewHolder {
         TextView label;
         TextView progressCount;
         TextView flavourText;

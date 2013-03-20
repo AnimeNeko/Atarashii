@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import net.simonvt.widget.NumberPicker;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -12,6 +11,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import net.simonvt.widget.NumberPicker;
 
 
 public class MangaProgressDialogFragment extends DialogFragment {
@@ -29,13 +29,11 @@ public class MangaProgressDialogFragment extends DialogFragment {
     int volumesRead;
     int volumePickerValue;
 
-    public MangaProgressDialogFragment()
-    {
+    public MangaProgressDialogFragment() {
 
     }
 
-    public interface MangaDialogDismissedListener
-    {
+    public interface MangaDialogDismissedListener {
         void onMangaDialogDismissed(int newChapterValue, int newVolumeValue);
     }
 
@@ -47,54 +45,39 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener()
-        {
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onMangaDialogDismissed(chapterPicker.getValue(), volumePicker.getValue());
                 dismiss();
             }
         }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle("I've read:");
+        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dismiss();
+            }
+        }
+        ).setView(view).setTitle("I've read:");
 
         return builder.create();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state)
-    {
-        //        View view = inflater.inflate(R.layout.dialog_manga_progress, container);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
 
-        if (state == null)
-        {
-            //			totalEpisodes = Integer.parseInt(((DetailView) getActivity()).mAr.getTotal());
-            //			watchedEpisodes = ((DetailView) getActivity()).mAr.getPersonalProgress();
-            //			pickerValue = watchedEpisodes;
+        if (state == null) {
 
-            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mMr.getTotal());
-            chaptersRead = ((DetailView) getActivity()).mMr.getPersonalProgress();
+            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mangaRecord.getTotal());
+            chaptersRead = ((DetailView) getActivity()).mangaRecord.getPersonalProgress();
             chapterPickerValue = chaptersRead;
 
-            volumesTotal = Integer.parseInt(((DetailView) getActivity()).mMr.getVolumeTotal());
-            volumesRead = ((DetailView) getActivity()).mMr.getVolumeProgress();
+            volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumesTotal();
+            volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumeProgress();
             volumePickerValue = volumesRead;
 
-        }
-        else
-        {
-            //			totalEpisodes = state.getInt("totalEpisodes");
-            //			watchedEpisodes = state.getInt("watchedEpisodes");
-            //			pickerValue = state.getInt("pickerValue");
+        } else {
 
             chaptersTotal = state.getInt("chaptersTotal");
             chaptersRead = state.getInt("chaptersRead");
@@ -114,21 +97,15 @@ public class MangaProgressDialogFragment extends DialogFragment {
         chapterPicker.setMinValue(0);
         volumePicker.setMinValue(0);
 
-        if (chaptersTotal != 0)
-        {
+        if (chaptersTotal != 0) {
             chapterPicker.setMaxValue(chaptersTotal);
-        }
-        else
-        {
+        } else {
             chapterPicker.setMaxValue(999);
         }
 
-        if (volumesTotal != 0)
-        {
+        if (volumesTotal != 0) {
             volumePicker.setMaxValue(volumesTotal);
-        }
-        else
-        {
+        } else {
             volumePicker.setMaxValue(999);
         }
 
@@ -142,16 +119,13 @@ public class MangaProgressDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog)
-    {
-
+    public void onDismiss(DialogInterface dialog) {
 
 
     }
 
     @Override
-    public void onCancel(DialogInterface dialog)
-    {
+    public void onCancel(DialogInterface dialog) {
         this.dismiss();
     }
 
@@ -168,7 +142,6 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
         super.onSaveInstanceState(state);
     }
-
 
 
 }

@@ -1,53 +1,29 @@
 package net.somethingdreadful.MAL;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-import android.util.Base64;
 import android.util.Log;
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class MALManager {
 
-    final static String APIProvider = "http://mal-api.com/";
-    final static String VerifyAPI = "account/verify_credentials";
-    final static String readAnimeListAPI = "animelist/";
-    final static String readAnimeDetailsAPI = "anime/";
-    final static String writeAnimeDetailsAPI = "animelist/anime/";
-    final static String readMangaListAPI = "mangalist/";
-    final static String readMangaDetailsAPI = "manga/";
-    final static String writeMangaDetailsAPI = "mangalist/manga/";
-    final static String readMineParam = "?mine=1";
-
     final static String TYPE_ANIME = "anime";
     final static String TYPE_MANGA = "manga";
-
-    final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
 
     private String[] animeColumns = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
             "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
@@ -56,68 +32,34 @@ public class MALManager {
             "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
             "imageUrl", "dirty", "lastUpdate"};
 
-    Context c;
-    PrefManager prefManager;
-    String malUser;
-    String malPass;
-    MALSqlHelper helper;
-    SQLiteDatabase db;
+    static MALSqlHelper malSqlHelper;
 
-    public MALManager(Context c)
-    {
-        this.c = c;
-        prefManager = new PrefManager(c);
+    MALApi malApi;
+    static SQLiteDatabase dbRead;
 
-        malUser = prefManager.getUser();
-        malPass = prefManager.getPass();
-
-        helper = new MALSqlHelper(this.c);
-        db = helper.getWritableDatabase();
-    }
-
-    static public boolean verifyAccount(String user, String pass)
-    {
-        HttpGet request = new HttpGet(APIProvider + VerifyAPI);
-        HttpResponse response = null;
-        request.setHeader("Authorization", "basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
-
-        try
-        {
-            HttpClient client = new DefaultHttpClient();
-            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-            response = client.execute(request);
-        }
-        catch (ClientProtocolException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-
-        StatusLine statusLine = response.getStatusLine();
-        int statusCode = statusLine.getStatusCode();
-
-        if (statusCode == 200)
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
+    public MALManager(Context context) {
+        malApi = new MALApi(context);
+        if (malSqlHelper == null) {
+            malSqlHelper = MALSqlHelper.getHelper(context);
         }
     }
 
-    static String listSortFromInt(int i, String type)
-    {
+    public synchronized static SQLiteDatabase getDBWrite() {
+        return malSqlHelper.getWritableDatabase();
+    }
+
+    public static SQLiteDatabase getDBRead() {
+        if (dbRead == null) {
+            dbRead = malSqlHelper.getReadableDatabase();
+        }
+        return dbRead;
+    }
+
+    static String listSortFromInt(int i, String type) {
         String r = "";
 
-        if(type == "anime") {
-            switch (i)
-            {
+        if (type.equals("anime")) {
+            switch (i) {
                 case 0:
                     r = "";
                     break;
@@ -140,10 +82,8 @@ public class MALManager {
                     r = AnimeRecord.STATUS_WATCHING;
                     break;
             }
-        }
-        else if (type == "manga") {
-            switch (i)
-            {
+        } else if (type.equals("manga")) {
+            switch (i) {
                 case 0:
                     r = "";
                     break;
@@ -171,357 +111,218 @@ public class MALManager {
         return r;
     }
 
-    public JSONObject getList(String type) {
-        String readListAPI = null;
-        String result = null;
-        JSONObject jReturn = null;
+    public HashMap<String, Object> getRecordDataFromJSONObject(JSONObject jsonObject, String type) {
+        HashMap<String, Object> recordData = new HashMap<>();
 
-        if (type == "anime") {
-            readListAPI = MALManager.readAnimeListAPI;
-        }
-        else if (type == "manga") {
-            readListAPI = MALManager.readMangaListAPI;
-        }
-        else
-        {
-            throw new RuntimeException("getList called with unknown list type.");
-        }
-
-        HttpGet request;
-        HttpResponse response;
-        HttpClient client = new DefaultHttpClient();
-        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-        request = new HttpGet(APIProvider + readListAPI + malUser);
-        request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-
-        try
-        {
-            response = client.execute(request);
-
-            HttpEntity getResponseEntity = response.getEntity();
-
-            if (getResponseEntity != null)
-            {
-                result = EntityUtils.toString(getResponseEntity);
-                jReturn = new JSONObject(result);
-
-                Log.v("MALX", "Got JSON Response from the API");
-
+        try {
+            recordData.put("recordID", jsonObject.getInt("id"));
+            recordData.put("recordName", StringEscapeUtils.unescapeHtml4(jsonObject.getString("title")));
+            recordData.put("recordType", jsonObject.getString("type"));
+            recordData.put("recordStatus", jsonObject.getString("status"));
+            recordData.put("myScore", jsonObject.optInt("score"));
+            recordData.put("memberScore", (float) jsonObject.optDouble("members_score", 0.0));
+            recordData.put("imageUrl", jsonObject.getString("image_url").replaceFirst("t.jpg$", ".jpg"));
+            if (type.equals(TYPE_ANIME)) {
+                recordData.put("episodesTotal", jsonObject.optInt("episodes"));
+                recordData.put("episodesWatched", jsonObject.optInt("watched_episodes"));
+                recordData.put("myStatus", jsonObject.getString("watched_status"));
+            } else if (type.equals(TYPE_MANGA)) {
+                recordData.put("myStatus", jsonObject.getString("read_status"));
+                recordData.put("volumesTotal", jsonObject.optInt("volumes"));
+                recordData.put("chaptersTotal", jsonObject.optInt("chapters"));
+                recordData.put("volumesRead", jsonObject.optInt("volumes_read"));
+                recordData.put("chaptersRead", jsonObject.optInt("chapters_read"));
             }
-
+        } catch (JSONException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
         }
-        catch (ClientProtocolException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-
-        return jReturn;
+        return recordData;
     }
 
-    public JSONObject getDetails(int id, String type) {
+    public void downloadAndStoreList(String type) {
 
-        String result = null;
-        JSONObject jReturn = null;
-        String readDetailsAPI = null;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("lastUpdate", 0);
+        getDBWrite().update(type, contentValues, null, null);
 
-        if (type == "anime") {
-            readDetailsAPI = MALManager.readAnimeDetailsAPI;
-        }
-        else if (type == "manga") {
-            readDetailsAPI = MALManager.readMangaDetailsAPI;
-        }
-        else
-        {
-            throw new RuntimeException("getDetails called with unknown list type.");
-        }
-
-        HttpGet request;
-        HttpResponse response;
-        HttpClient client = new DefaultHttpClient();
-        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-        request = new HttpGet(APIProvider + readDetailsAPI + id + readMineParam);
-        request.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-        try
-        {
-            response = client.execute(request);
-
-            HttpEntity getResponseEntity = response.getEntity();
-
-            if (getResponseEntity != null)
-            {
-                result = EntityUtils.toString(getResponseEntity);
-                jReturn = new JSONObject(result);
-
-            }
-
-        }
-        catch (ClientProtocolException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        return jReturn;
-    }
-
-    public void downloadAndStoreList(String type)
-    {
-        JSONObject raw = getList(type);
-
-        long currentTime = new Date().getTime() / 1000;
-
-        JSONArray jArray;
-        try
-        {
-            if(type == TYPE_ANIME) {
-                jArray = raw.getJSONArray(TYPE_ANIME);
-
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject a = jArray.getJSONObject(i);
-
-                    int id = a.getInt("id");
-                    String name = a.getString("title");
-                    int watched = a.getInt("watched_episodes");
-                    int totalEpisodes = a.getInt("episodes");
-                    String imageUrl = a.getString("image_url");
-                    String animeStatus = a.getString("status");
-                    String myStatus = a.getString("watched_status");
-                    String animeType = a.getString("type");
-                    int myScore = a.getInt("score");
-
-                    AnimeRecord ar = new AnimeRecord(id, name, imageUrl, watched, totalEpisodes,
-                            myStatus, animeStatus, animeType, myScore, 0, currentTime);
-
-                    saveItem(ar, true);
+        int currentTime = (int) new Date().getTime() / 1000;
+        JSONArray jArray = malApi.getList(getListTypeFromString(type));
+        try {
+            getDBWrite().beginTransaction();
+            switch (type) {
+                case TYPE_ANIME: {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+                        AnimeRecord ar = new AnimeRecord(recordData);
+                        ar.setLastUpdate(currentTime);
+                        saveItem(ar, true);
+                    }
+                    break;
                 }
-            }
-            else if(type == TYPE_MANGA) {
-                jArray = raw.getJSONArray(TYPE_MANGA);
-
-                for (int i = 0; i < jArray.length(); i++)
-                {
-                    try {
-                        JSONObject a = jArray.getJSONObject(i);
-
-                        int id = a.getInt("id");
-                        String name = a.getString("title");
-                        int readVolumes = a.getInt("volumes_read");
-                        int readChapters = a.getInt("chapters_read");
-                        int totalVolumes = a.getInt("volumes");
-                        int totalChapters = a.getInt("chapters");
-                        String imageUrl = a.getString("image_url");
-                        String mangaStatus = a.getString("status");
-                        String myStatus = a.getString("read_status");
-                        String mangaType = a.getString("type");
-                        int myScore = a.getInt("score");
-
-                        MangaRecord mr = new MangaRecord(id, name, mangaType, mangaStatus, myStatus,
-                                readVolumes, readChapters, totalVolumes, totalChapters, myScore, imageUrl, 0, currentTime);
-
+                case TYPE_MANGA:
+                    for (int i = 0; i < jArray.length(); i++) {
+                        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+                        MangaRecord mr = new MangaRecord(recordData);
+                        mr.setLastUpdate(currentTime);
                         saveItem(mr, true);
                     }
-                    catch (JSONException e) {
-                        throw e;
-                    }
-
-
-                }
+                    break;
             }
-
+            getDBWrite().setTransactionSuccessful();
             clearDeletedItems(type, currentTime);
-
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
+        } finally {
+            getDBWrite().endTransaction();
         }
     }
 
-    public AnimeRecord updateWithDetails(int id, AnimeRecord ar)
-    {
-        JSONObject o = getDetails(id, "anime");
-
-        ar.setSynopsis(getDataFromJSON(o, "synopsis"));
-        ar.setMemberScore(Float.parseFloat(getDataFromJSON(o, "members_score")));
-
-        saveItem(ar, false);
-
-        return ar;
+    public AnimeRecord getAnimeRecordFromMAL(int id) {
+        String type = TYPE_ANIME;
+        JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(type));
+        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, type);
+        AnimeRecord record = new AnimeRecord(recordData);
+        if (record.getMyStatus().isEmpty()) {
+            record.markForCreate(true);
+        }
+        return record;
     }
 
-    public MangaRecord updateWithDetails(int id, MangaRecord mr)
-    {
-        JSONObject o = getDetails(id, "manga");
-
-        mr.setSynopsis(getDataFromJSON(o, "synopsis"));
-        mr.setMemberScore(Float.parseFloat(getDataFromJSON(o, "members_score")));
-
-        saveItem(mr, false);
-
-        return mr;
+    public MangaRecord getMangaRecordFromMAL(int id) {
+        String type = TYPE_MANGA;
+        JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(type));
+        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, type);
+        MangaRecord record = new MangaRecord(recordData);
+        if (record.getMyStatus().isEmpty()) {
+            record.markForCreate(true);
+        }
+        return record;
     }
 
-    public String getDataFromJSON(JSONObject json, String get)
-    {
+    public AnimeRecord updateWithDetails(int id, AnimeRecord animeRecord) {
+        JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(TYPE_ANIME));
+
+        animeRecord.setSynopsis(getDataFromJSON(jsonObject, "synopsis"));
+        animeRecord.setMemberScore(Float.parseFloat(getDataFromJSON(jsonObject, "members_score")));
+
+        if (!getDBWrite().inTransaction()) {
+            saveItem(animeRecord, false);
+        }
+        return animeRecord;
+    }
+
+    public MangaRecord updateWithDetails(int id, MangaRecord mangaRecord) {
+        JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(TYPE_MANGA));
+        mangaRecord.setSynopsis(getDataFromJSON(jsonObject, "synopsis"));
+        mangaRecord.setMemberScore(Float.parseFloat(getDataFromJSON(jsonObject, "members_score")));
+        saveItem(mangaRecord, false);
+        return mangaRecord;
+    }
+
+    public String getDataFromJSON(JSONObject json, String get) {
+        // TODO: replace to jsonObject.optString(get, fallback);
         String sReturn = "";
 
-        try
-        {
+        try {
             sReturn = json.getString(get);
 
-            if ("episodes".equals(get))
-            {
-                if ("null".equals(sReturn))
-                {
+            if ("episodes".equals(get)) {
+                if ("null".equals(sReturn)) {
                     sReturn = "unknown";
                 }
             }
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             sReturn = "unknown";
         }
 
         return sReturn;
     }
 
-    public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list)
-    {
+    public Object getObjectFromCursorColumn(Cursor cursor, int index) {
+        int object_type = cursor.getType(index);
+        if (object_type == Cursor.FIELD_TYPE_STRING) {
+            return cursor.getString(index);
+        }
+        if (object_type == Cursor.FIELD_TYPE_FLOAT) {
+            return cursor.getFloat(index);
+        }
+        if (object_type == Cursor.FIELD_TYPE_INTEGER) {
+            return cursor.getInt(index);
+        }
+        return null;
+    }
+
+    public HashMap<String, Object> getRecordDataFromCursor(Cursor cursor) {
+        HashMap<String, Object> record_data = new HashMap<>();
+        String[] columns = cursor.getColumnNames();
+        for (int i = 0; i < columns.length; i++) {
+            record_data.put(columns[i], this.getObjectFromCursorColumn(cursor, i));
+        }
+        return record_data;
+    }
+
+    public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list) {
         Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
-        ArrayList<AnimeRecord> al = new ArrayList();
-        Cursor cu;
+        ArrayList<AnimeRecord> animeRecordArrayList = new ArrayList<>();
+        Cursor cursor;
 
-        if (list == 0)
-        {
-            cu = db.query("anime", this.animeColumns, null, null, null, null, "recordName ASC");
-        }
-        else
-        {
-            cu = db.query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
+        if (list == 0) {
+            cursor = getDBRead().query("anime", this.animeColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
+        } else {
+            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
 
 
-        Log.v("MALX", "Got " + cu.getCount() + " records.");
-        cu.moveToFirst();
+        Log.v("MALX", "Got " + cursor.getCount() + " records.");
+        cursor.moveToFirst();
 
-        while (cu.isAfterLast() == false)
-        {
-
-            int recordId = cu.getInt(0);
-            String recordName = cu.getString(1);
-            String recordType = cu.getString(2);
-            String recordStatus = cu.getString(3);
-            String myStatus = cu.getString(4);
-            int episodesWatched = cu.getInt(5);
-            int episodesTotal = cu.getInt(6);
-            float memberScore = cu.getFloat(7);
-            int myScore = cu.getInt(8);
-            String synopsis = cu.getString(9);
-            String imageUrl = cu.getString(10);
-            int dirty = cu.getInt(11);
-            long lastUpdate = cu.getLong(12);
-
-            AnimeRecord ar = new AnimeRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                    episodesWatched, episodesTotal, memberScore, myScore, synopsis, imageUrl, dirty, lastUpdate);
-
-            al.add(ar);
-
-            cu.moveToNext();
+        while (!cursor.isAfterLast()) {
+            animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor)));
+            cursor.moveToNext();
         }
 
-        if (al.isEmpty())
-        {
+        if (animeRecordArrayList.isEmpty()) {
             return null;
         }
 
-        cu.close();
+        cursor.close();
 
-        return al;
+        return animeRecordArrayList;
     }
 
-    public ArrayList<MangaRecord> getMangaRecordsFromDB(int list)
-    {
+    public ArrayList<MangaRecord> getMangaRecordsFromDB(int list) {
         Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
 
-        ArrayList<MangaRecord> ml = new ArrayList();
-        Cursor cu;
+        ArrayList<MangaRecord> mangaRecordArrayList = new ArrayList<>();
+        Cursor cursor;
 
-        if (list == 0)
-        {
-            cu = db.query("manga", this.mangaColumns, null, null, null, null, "recordName ASC");
-        }
-        else
-        {
-            cu = db.query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+        if (list == 0) {
+            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
+        } else {
+            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
 
-        Log.v("MALX", "Got " + cu.getCount() + " records.");
-        cu.moveToFirst();
+        Log.v("MALX", "Got " + cursor.getCount() + " records.");
+        cursor.moveToFirst();
 
-        while (cu.isAfterLast() == false)
-        {
-
-            int recordId = cu.getInt(0);
-            String recordName = cu.getString(1);
-            String recordType = cu.getString(2);
-            String recordStatus = cu.getString(3);
-            String myStatus = cu.getString(4);
-            int volumesRead = cu.getInt(5);
-            int chaptersRead = cu.getInt(6);
-            int volumesTotal = cu.getInt(7);
-            int chaptersTotal = cu.getInt(8);
-            float memberScore = cu.getFloat(9);
-            int myScore = cu.getInt(10);
-            String synopsis = cu.getString(11);
-            String imageUrl = cu.getString(12);
-            int dirty = cu.getInt(13);
-            long lastUpdate = cu.getLong(14);
-
-            MangaRecord mr = new MangaRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                    volumesRead, chaptersRead, volumesTotal, chaptersTotal, memberScore, myScore, synopsis,
-                    imageUrl, dirty, lastUpdate);
-            ml.add(mr);
-
-            cu.moveToNext();
+        while (!cursor.isAfterLast()) {
+            mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor)));
+            cursor.moveToNext();
         }
 
-        if (ml.isEmpty())
-        {
+        if (mangaRecordArrayList.isEmpty()) {
             return null;
         }
 
-        cu.close();
+        cursor.close();
 
-        return ml;
+        return mangaRecordArrayList;
     }
 
-    public void saveItem(MangaRecord mr, boolean ignoreSynopsis)
-    {
+    public void saveItem(MangaRecord mr, boolean ignoreSynopsis) {
         ContentValues cv = new ContentValues();
 
         cv.put("recordID", mr.getID());
@@ -534,28 +335,23 @@ public class MALManager {
         cv.put("myScore", mr.getMyScore());
         cv.put("volumesRead", mr.getVolumeProgress());
         cv.put("chaptersRead", mr.getPersonalProgress());
-        cv.put("volumesTotal", mr.getVolumeTotal());
+        cv.put("volumesTotal", mr.getVolumesTotal());
         cv.put("chaptersTotal", mr.getTotal());
         cv.put("dirty", mr.getDirty());
         cv.put("lastUpdate", mr.getLastUpdate());
 
-        if (ignoreSynopsis == false)
-        {
+        if (!ignoreSynopsis) {
             cv.put("synopsis", mr.getSynopsis());
         }
 
-        if (itemExists(mr.getID(), "manga"))
-        {
-            db.update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[] {mr.getID()});
-        }
-        else
-        {
-            db.insert(MALSqlHelper.TABLE_MANGA, null, cv);
+        if (itemExists(mr.getID(), "manga")) {
+            getDBWrite().update(MALSqlHelper.TABLE_MANGA, cv, "recordID=?", new String[]{mr.getID().toString()});
+        } else {
+            getDBWrite().insert(MALSqlHelper.TABLE_MANGA, null, cv);
         }
     }
 
-    public void saveItem(AnimeRecord ar, boolean ignoreSynopsis)
-    {
+    public void saveItem(AnimeRecord ar, boolean ignoreSynopsis) {
 
         ContentValues cv = new ContentValues();
 
@@ -572,253 +368,119 @@ public class MALManager {
         cv.put("dirty", ar.getDirty());
         cv.put("lastUpdate", ar.getLastUpdate());
 
-        if (ignoreSynopsis == false)
-        {
+
+        if (!ignoreSynopsis) {
             cv.put("synopsis", ar.getSynopsis());
         }
 
-        if (itemExists(ar.getID(), "anime"))
-        {
-            db.update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[] {ar.getID()});
-        }
-        else
-        {
-            db.insert(MALSqlHelper.TABLE_ANIME, null, cv);
+        if (itemExists(ar.getID(), "anime")) {
+            getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, "recordID=?", new String[]{ar.getID().toString()});
+        } else {
+            getDBWrite().insert(MALSqlHelper.TABLE_ANIME, null, cv);
         }
     }
 
-    public AnimeRecord getAnimeRecordFromDB(int id)
-    {
+    public AnimeRecord getAnimeRecordFromDB(int id) {
         Log.v("MALX", "getAnimeRecordFromDB() has been invoked for id " + id);
-
-        Cursor cu = db.query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
-
+        Cursor cu = getDBRead().query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
         cu.moveToFirst();
-
-        int recordId = cu.getInt(0);
-        String recordName = cu.getString(1);
-        String recordType = cu.getString(2);
-        String recordStatus = cu.getString(3);
-        String myStatus = cu.getString(4);
-        int episodesWatched = cu.getInt(5);
-        int episodesTotal = cu.getInt(6);
-        float memberScore = cu.getFloat(7);
-        int myScore = cu.getInt(8);
-        String synopsis = cu.getString(9);
-        String imageUrl = cu.getString(10);
-        int dirty = cu.getInt(11);
-        long lastUpdate = cu.getLong(12);
-
-        AnimeRecord ar = new AnimeRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                episodesWatched, episodesTotal, memberScore, myScore, synopsis, imageUrl, dirty, lastUpdate);
-
+        AnimeRecord ar = new AnimeRecord(this.getRecordDataFromCursor(cu));
         cu.close();
-
         return ar;
     }
 
-    public MangaRecord getMangaRecordFromDB(int id)
-    {
+    public MangaRecord getMangaRecordFromDB(int id) {
         Log.v("MALX", "getMangaRecordFromDB() has been invoked for id " + id);
 
-        Cursor cu = db.query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cu = getDBRead().query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 
         cu.moveToFirst();
 
-        int recordId = cu.getInt(0);
-        String recordName = cu.getString(1);
-        String recordType = cu.getString(2);
-        String recordStatus = cu.getString(3);
-        String myStatus = cu.getString(4);
-        int volumesRead = cu.getInt(5);
-        int chaptersRead = cu.getInt(6);
-        int volumesTotal = cu.getInt(7);
-        int chaptersTotal = cu.getInt(8);
-        float memberScore = cu.getFloat(9);
-        int myScore = cu.getInt(10);
-        String synopsis = cu.getString(11);
-        String imageUrl = cu.getString(12);
-        int dirty = cu.getInt(13);
-        long lastUpdate = cu.getLong(14);
-
-        MangaRecord mr = new MangaRecord(recordId, recordName, recordType, recordStatus, myStatus,
-                volumesRead, chaptersRead, volumesTotal, chaptersTotal, memberScore, myScore, synopsis,
-                imageUrl, dirty, lastUpdate);
+        MangaRecord mr = new MangaRecord(this.getRecordDataFromCursor(cu));
 
         cu.close();
 
         return mr;
     }
 
+    public AnimeRecord getAnimeRecord(int recordID) {
+        if (this.itemExists(recordID, TYPE_ANIME)) {
+            return getAnimeRecordFromDB(recordID);
+        }
+        return getAnimeRecordFromMAL(recordID);
+    }
+
+    public MangaRecord getMangaRecord(int recordID) {
+        if (this.itemExists(recordID, TYPE_MANGA)) {
+            return this.getMangaRecordFromDB(recordID);
+        }
+        return getMangaRecordFromMAL(recordID);
+    }
+
+    public boolean itemExists(int id, String type) {
+        return this.itemExists(Integer.toString(id), type);
+    }
 
     public boolean itemExists(String id, String type) {
-        if (type == "anime" || type == "manga") {
-            Cursor cursor = db.rawQuery("select 1 from " + type + " where recordID=?",
-                    new String[] { id });
+        if (type.equals("anime") || type.equals("manga")) {
+            Cursor cursor = getDBRead().rawQuery("select 1 from " + type + " WHERE recordID=? LIMIT 1",
+                    new String[]{id});
             boolean exists = (cursor.getCount() > 0);
             cursor.close();
             return exists;
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("itemExists called with unknown type.");
         }
     }
 
-    public boolean writeDetailsToMAL(GenericMALRecord gr, String type)
-    {
-        boolean success = false;
+    public boolean writeDetailsToMAL(GenericMALRecord gr, String type) {
+        boolean success;
+        MALApi.ListType listType = getListTypeFromString(type);
 
-        if (gr.FLAG_DELETE) {
-            HttpDelete deleteRequest;
-            HttpResponse response;
-            HttpClient client = new DefaultHttpClient();
-            client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-            if ("anime".equals(type)) {
-                deleteRequest = new HttpDelete(APIProvider + writeAnimeDetailsAPI + gr.getID());
-            }
-            else {
-                deleteRequest = new HttpDelete(APIProvider + writeMangaDetailsAPI + gr.getID());
-            }
-
-            deleteRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-            try
-            {
-                response = client.execute(deleteRequest);
-
-                if (200 == response.getStatusLine().getStatusCode())
-                {
-                    success = true;
+        if (gr.hasDelete()) {
+            success = malApi.deleteGenreFromList(listType, gr.getID().toString());
+        } else {
+            HashMap<String, String> data = new HashMap<>();
+            data.put("status", gr.getMyStatus());
+            data.put("score", gr.getMyScoreString());
+            switch (listType) {
+                case ANIME: {
+                    data.put("episodes", Integer.toString(gr.getPersonalProgress()));
+                    break;
                 }
-
+                case MANGA: {
+                    data.put("chapters", Integer.toString(gr.getPersonalProgress()));
+                    data.put("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress()));
+                    break;
+                }
             }
-            catch (ClientProtocolException e)
-            {
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            success = malApi.addOrUpdateGenreInList(gr.hasCreate(), listType, gr.getID().toString(), data);
         }
-        else {
-
-            if (type.equals(TYPE_ANIME))
-            {
-                HttpPut writeRequest;
-                HttpResponse response;
-                HttpClient client = new DefaultHttpClient();
-                client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-
-                writeRequest = new HttpPut(APIProvider + writeAnimeDetailsAPI + gr.getID());
-                writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-                putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
-                putParams.add(new BasicNameValuePair("episodes", Integer.toString(gr.getPersonalProgress())));
-                putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
-
-                try
-                {
-                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                    writeRequest.setEntity(entity);
-
-                    response = client.execute(writeRequest);
-
-                    if (200 == response.getStatusLine().getStatusCode())
-                    {
-                        success = true;
-                    }
-
-                }
-                catch (ClientProtocolException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            else if (type.equals(TYPE_MANGA))
-            {
-                HttpPut writeRequest;
-                HttpResponse response;
-                HttpClient client = new DefaultHttpClient();
-                client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
-
-                writeRequest = new HttpPut(APIProvider + writeMangaDetailsAPI + gr.getID());
-                writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((malUser + ":" + malPass).getBytes(), Base64.NO_WRAP));
-
-                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-                putParams.add(new BasicNameValuePair("status", gr.getMyStatus()));
-                putParams.add(new BasicNameValuePair("chapters", Integer.toString(gr.getPersonalProgress())));
-                putParams.add(new BasicNameValuePair("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress())));
-                putParams.add(new BasicNameValuePair("score", gr.getMyScoreString()));
-
-                try
-                {
-                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                    writeRequest.setEntity(entity);
-
-                    response = client.execute(writeRequest);
-
-                    if (200 == response.getStatusLine().getStatusCode())
-                    {
-                        success = true;
-                    }
-
-                }
-                catch (ClientProtocolException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         return success;
-    }
-
-    public String watchedCounterBuilder(int watched, int total)
-    {
-        String built = "";
-
-        if (total != 0)
-        {
-            built = watched + " / " + total;
-        }
-        else
-        {
-            built = watched + " / ?";
-        }
-
-
-        return built;
     }
 
     public void clearDeletedItems(String type, long currentTime) {
         Log.v("MALX", "Removing deleted items of type " + type + " older than " + DateFormat.getDateTimeInstance().format(currentTime * 1000));
 
-        int recordsRemoved = db.delete(type, "lastUpdate < ?", new String[] {String.valueOf(currentTime)});
+        int recordsRemoved = getDBWrite().delete(type, "lastUpdate < ?", new String[]{String.valueOf(currentTime)});
 
-        Log.v("MALX", "Removed " + recordsRemoved + " "+ type + " items");
+        Log.v("MALX", "Removed " + recordsRemoved + " " + type + " items");
     }
 
     public boolean deleteItemFromDatabase(String type, int recordID) {
-        int deleted = db.delete(type, "recordID = ?", new String[] {String.valueOf(recordID)});
+        int deleted = getDBWrite().delete(type, "recordID = ?", new String[]{String.valueOf(recordID)});
 
-        if (deleted == 1 ) {
-            return true;
-        }
-        else {
-            return false;
+        return deleted == 1;
+    }
+
+    private MALApi.ListType getListTypeFromString(String type) {
+        switch (type) {
+            case TYPE_ANIME:
+                return MALApi.ListType.ANIME;
+            case TYPE_MANGA:
+                return MALApi.ListType.MANGA;
+            default:
+                return null;
         }
     }
 

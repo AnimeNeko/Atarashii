@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 
 public class StatusPickerDialogFragment extends SherlockDialogFragment {
 
@@ -23,14 +25,11 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
     RadioGroup statusGroup;
 
 
-
-    public StatusPickerDialogFragment()
-    {
+    public StatusPickerDialogFragment() {
 
     }
 
-    public interface StatusDialogDismissedListener
-    {
+    public interface StatusDialogDismissedListener {
         void onStatusDialogDismissed(String status);
     }
 
@@ -41,48 +40,37 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener()
-        {
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onStatusDialogDismissed(currentStatus);
                 dismiss();
             }
         }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle("Status");
+        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dismiss();
+            }
+        }
+        ).setView(view).setTitle("Status");
 
         return builder.create();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
 
-        if (state == null)
-        {
+        if (state == null) {
             type = ((DetailView) getActivity()).recordType;
 
-            if ("anime".equals(type))
-            {
-                currentStatus = ((DetailView) getActivity()).mAr.getMyStatus();
+            if ("anime".equals(type)) {
+                currentStatus = ((DetailView) getActivity()).animeRecord.getMyStatus();
+            } else {
+                currentStatus = ((DetailView) getActivity()).mangaRecord.getMyStatus();
             }
-            else
-            {
-                currentStatus = ((DetailView) getActivity()).mMr.getMyStatus();
-            }
-        }
-        else
-        {
+        } else {
             type = state.getString("type");
             currentStatus = state.getString("status");
         }
@@ -96,12 +84,9 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         switch (checkedId) {
                             case R.id.statusRadio_InProgress:
-                                if ("anime".equals(type))
-                                {
+                                if ("anime".equals(type)) {
                                     currentStatus = AnimeRecord.STATUS_WATCHING;
-                                }
-                                else
-                                {
+                                } else {
                                     currentStatus = MangaRecord.STATUS_WATCHING;
                                 }
                                 break;
@@ -119,12 +104,9 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
                                 break;
 
                             case R.id.statusRadio_Planned:
-                                if ("anime".equals(type))
-                                {
+                                if ("anime".equals(type)) {
                                     currentStatus = AnimeRecord.STATUS_PLANTOWATCH;
-                                }
-                                else
-                                {
+                                } else {
                                     currentStatus = MangaRecord.STATUS_PLANTOWATCH;
                                 }
                                 break;
@@ -132,40 +114,32 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
                     }
                 });
 
-        if ((AnimeRecord.STATUS_WATCHING.equals(currentStatus)) || (MangaRecord.STATUS_WATCHING.equals(currentStatus)))
-        {
+        if ((AnimeRecord.STATUS_WATCHING.equals(currentStatus)) || (MangaRecord.STATUS_WATCHING.equals(currentStatus))) {
             statusGroup.check(R.id.statusRadio_InProgress);
         }
-        if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus))
-        {
+        if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus)) {
             statusGroup.check(R.id.statusRadio_Completed);
         }
-        if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus))
-        {
+        if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus)) {
             statusGroup.check(R.id.statusRadio_OnHold);
         }
-        if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus))
-        {
+        if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus)) {
             statusGroup.check(R.id.statusRadio_Dropped);
         }
-        if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus)) || (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus)))
-        {
+        if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus)) || (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus))) {
             statusGroup.check(R.id.statusRadio_Planned);
         }
         return null;
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog)
-    {
-
+    public void onDismiss(DialogInterface dialog) {
 
 
     }
 
     @Override
-    public void onCancel(DialogInterface dialog)
-    {
+    public void onCancel(DialogInterface dialog) {
 
         this.dismiss();
     }
@@ -178,7 +152,6 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
 
         super.onSaveInstanceState(state);
     }
-
 
 
 }
