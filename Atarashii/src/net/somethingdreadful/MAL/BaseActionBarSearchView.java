@@ -35,7 +35,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
             mSearchView.setIconifiedByDefault(false);
         }
         String query = getQuery();
-        if (!query.isEmpty()) {
+        if (!query.equals("")) {
             mSearchView.setQuery(query, false);
         }
         return true;
@@ -47,7 +47,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (!query.isEmpty()) {
+        if (!query.equals("")) {
             if (SearchActivity.class.isInstance(this)) {
                 this.doSearch(query, getCurrentListType());
             } else {

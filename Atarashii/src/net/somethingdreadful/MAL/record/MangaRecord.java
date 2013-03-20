@@ -12,7 +12,7 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     public int getVolumesTotal() {
-        return (int) this.recordData.get("volumesTotal");
+        return (Integer)this.recordData.get("volumesTotal");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     public int getVolumesRead() {
-        return (int) this.recordData.get("volumesRead");
+        return (Integer)this.recordData.get("volumesRead");
     }
 
     public void setVolumesRead(int read) {
@@ -33,11 +33,11 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     public int getChaptersTotal() {
-        return (int) this.recordData.get("chaptersTotal");
+        return (Integer)this.recordData.get("chaptersTotal");
     }
 
     public int getChaptersRead() {
-        return (int) this.recordData.get("chaptersRead");
+        return (Integer)this.recordData.get("chaptersRead");
     }
 
     public void setChaptersRead(int chaptersRead) {

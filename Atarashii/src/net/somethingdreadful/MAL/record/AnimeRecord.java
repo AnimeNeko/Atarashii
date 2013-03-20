@@ -23,7 +23,7 @@ public class AnimeRecord extends GenericMALRecord {
 
     @Override
     public int getPersonalProgress() {
-        return (int) recordData.get("episodesWatched");
+        return (Integer)recordData.get("episodesWatched");
     }
 
     @Override

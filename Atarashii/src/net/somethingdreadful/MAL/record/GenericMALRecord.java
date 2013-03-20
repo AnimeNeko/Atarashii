@@ -1,10 +1,10 @@
 package net.somethingdreadful.MAL.record;
 
+import java.util.HashMap;
+
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
-
-import java.util.HashMap;
 
 public abstract class GenericMALRecord {
     public static final int CLEAN = 0;
@@ -65,7 +65,7 @@ public abstract class GenericMALRecord {
     }
 
     public Integer getID() {
-        return (int) recordData.get("recordID");
+        return (Integer)recordData.get("recordID");
     }
 
     public String getRecordStatus() {
@@ -73,7 +73,7 @@ public abstract class GenericMALRecord {
     }
 
     public float getMemberScore() {
-        return (float) recordData.get("memberScore");
+        return (Float)recordData.get("memberScore");
     }
 
     public void setMemberScore(float memberScore) {
@@ -111,7 +111,7 @@ public abstract class GenericMALRecord {
     }
 
     public int getMyScore() {
-        return (int) this.getSafeValueOrDefault("myScore");
+        return (Integer)this.getSafeValueOrDefault("myScore");
     }
 
     public void setMyScore(int myScore) {
@@ -123,7 +123,7 @@ public abstract class GenericMALRecord {
     }
 
     public int getDirty() {
-        return (int) this.getSafeValueOrDefault("dirty");
+        return (Integer)this.getSafeValueOrDefault("dirty");
     }
 
     public void setDirty(int dirty) {
@@ -131,7 +131,7 @@ public abstract class GenericMALRecord {
     }
 
     public int getLastUpdate() {
-        return (int) this.getSafeValueOrDefault("lastUpdate");
+        return (Integer)this.getSafeValueOrDefault("lastUpdate");
     }
 
     public void setLastUpdate(int lastUpdate) {
@@ -160,7 +160,7 @@ public abstract class GenericMALRecord {
         if (typeMap != null) {
             return typeMap;
         }
-        typeMap = new HashMap<>();
+        typeMap = new HashMap<String, Class<?>>();
 
         typeMap.put("recordID", int.class);
         typeMap.put("recordName", String.class);

@@ -1,15 +1,23 @@
 package net.somethingdreadful.MAL.api;
 
-import android.content.Context;
-import android.util.Base64;
-import android.util.Log;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import net.somethingdreadful.MAL.PrefManager;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -19,10 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import android.content.Context;
+import android.util.Base64;
+import android.util.Log;
 
 public class MALApi extends BaseMALApi {
     private static String api_host = "http://mal-api.com";
@@ -46,9 +53,11 @@ public class MALApi extends BaseMALApi {
         try {
             String raw_data = EntityUtils.toString(getResponseEntity);
             result = new JSONObject(raw_data);
-        } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
             Log.e(this.getClass().getName(), Log.getStackTraceString(e));
 
+        } catch (IOException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
         }
         return result;
     }
@@ -60,9 +69,11 @@ public class MALApi extends BaseMALApi {
         try {
             String raw_data = EntityUtils.toString(getResponseEntity);
             result = new JSONArray(raw_data);
-        } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
             Log.e(this.getClass().getName(), Log.getStackTraceString(e));
 
+        } catch (IOException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
         }
         return result;
 
@@ -79,7 +90,7 @@ public class MALApi extends BaseMALApi {
         if (query == null || query.isEmpty()) {
             return uri;
         }
-        List<NameValuePair> putParams = new ArrayList<>();
+        List<NameValuePair> putParams = new ArrayList<NameValuePair>();
         for (String key : query.keySet()) {
             putParams.add(new BasicNameValuePair(key, query.get(key)));
         }
@@ -131,7 +142,7 @@ public class MALApi extends BaseMALApi {
         try {
 
             if (http_method == HTTP_METHOD.POST || http_method == HTTP_METHOD.PUT) {
-                List<NameValuePair> putParams = new ArrayList<>();
+                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
                 for (String key : data.keySet()) {
                     putParams.add(new BasicNameValuePair(key, data.get(key)));
                 }
@@ -159,7 +170,7 @@ public class MALApi extends BaseMALApi {
     @Override
     public JSONArray search(ListType listType, String query) {
         String uri = getFullPath(getListTypeString(listType) + "/search");
-        HashMap<String, String> data = new HashMap<>();
+        HashMap<String, String> data = new HashMap<String, String>();
         data.put("q", query);
         boolean isAuth = true;
         HttpResponse response = call_api(HTTP_METHOD.GET, uri, data, isAuth);
@@ -177,8 +188,11 @@ public class MALApi extends BaseMALApi {
             if (getResponseEntity != null) {
                 jsonArray = new JSONObject(EntityUtils.toString(getResponseEntity)).getJSONArray(getListTypeString(listType));
             }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
+
+        } catch (IOException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
         }
         return jsonArray;
     }
@@ -194,12 +208,16 @@ public class MALApi extends BaseMALApi {
             if (getResponseEntity != null) {
                 jsonObject = new JSONObject(EntityUtils.toString(getResponseEntity));
             }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
+
+        } catch (IOException e) {
+            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
         }
         return jsonObject;
     }
 
+    @Override
     public boolean addOrUpdateGenreInList(boolean hasCreate, ListType listType, String genre_id, HashMap<String, String> data) {
         String listPrefix = getListTypeString(listType);
         String uri = getFullPath(listPrefix + "list" + "/" + listPrefix);
@@ -208,7 +226,7 @@ public class MALApi extends BaseMALApi {
             uri += "/" + genre_id;
             methodType = HTTP_METHOD.PUT;
         } else {
-            data = new HashMap<>(data);
+            data = new HashMap<String, String>(data);
             data.put(listPrefix + "_id", genre_id);
             methodType = HTTP_METHOD.POST;
         }

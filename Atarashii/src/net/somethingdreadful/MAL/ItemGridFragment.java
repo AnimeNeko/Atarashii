@@ -1,5 +1,9 @@
 package net.somethingdreadful.MAL;
 
+import java.util.ArrayList;
+
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -18,11 +22,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockFragment;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
 
-import java.util.ArrayList;
+import com.actionbarsherlock.app.SherlockFragment;
 
 public class ItemGridFragment extends SherlockFragment {
 
@@ -33,8 +34,8 @@ public class ItemGridFragment extends SherlockFragment {
     public ItemGridFragment() {
     }
 
-    ArrayList<AnimeRecord> al = new ArrayList<>();
-    ArrayList<MangaRecord> ml = new ArrayList<>();
+    ArrayList<AnimeRecord> al = new ArrayList<AnimeRecord>();
+    ArrayList<MangaRecord> ml = new ArrayList<MangaRecord>();
     GridView gv;
     MALManager mManager;
     PrefManager mPrefManager;
@@ -65,7 +66,7 @@ public class ItemGridFragment extends SherlockFragment {
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         Bundle args = getArguments();
         View layout = inflater.inflate(R.layout.fragment_animelist, null);
@@ -198,13 +199,13 @@ public class ItemGridFragment extends SherlockFragment {
         protected void onPostExecute(ArrayList<AnimeRecord> result) {
 
             if (result == null) {
-                result = new ArrayList<>();
+                result = new ArrayList<AnimeRecord>();
             }
             if (ca == null) {
                 if (mTraditionalList) {
-                    ca = new CoverAdapter<>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 } else {
-                    ca = new CoverAdapter<>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
 
                 }
             }
@@ -268,13 +269,13 @@ public class ItemGridFragment extends SherlockFragment {
         protected void onPostExecute(ArrayList<MangaRecord> result) {
 
             if (result == null) {
-                result = new ArrayList<>();
+                result = new ArrayList<MangaRecord>();
             }
             if (cm == null) {
                 if (mTraditionalList) {
-                    cm = new CoverAdapter<>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 } else {
-                    cm = new CoverAdapter<>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
                 }
             }
 

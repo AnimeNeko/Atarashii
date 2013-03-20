@@ -1,24 +1,28 @@
 package net.somethingdreadful.MAL;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.GenericMALRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.util.Log;
 
 public class MALManager {
 
@@ -112,7 +116,7 @@ public class MALManager {
     }
 
     public HashMap<String, Object> getRecordDataFromJSONObject(JSONObject jsonObject, String type) {
-        HashMap<String, Object> recordData = new HashMap<>();
+        HashMap<String, Object> recordData = new HashMap<String, Object>();
 
         try {
             recordData.put("recordID", jsonObject.getInt("id"));
@@ -149,25 +153,25 @@ public class MALManager {
         JSONArray jArray = malApi.getList(getListTypeFromString(type));
         try {
             getDBWrite().beginTransaction();
-            switch (type) {
-                case TYPE_ANIME: {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
-                        AnimeRecord ar = new AnimeRecord(recordData);
-                        ar.setLastUpdate(currentTime);
-                        saveItem(ar, true);
-                    }
-                    break;
+            if(type.equals(TYPE_ANIME)) {
+
+                for (int i = 0; i < jArray.length(); i++) {
+                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+                    AnimeRecord ar = new AnimeRecord(recordData);
+                    ar.setLastUpdate(currentTime);
+                    saveItem(ar, true);
                 }
-                case TYPE_MANGA:
-                    for (int i = 0; i < jArray.length(); i++) {
-                        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
-                        MangaRecord mr = new MangaRecord(recordData);
-                        mr.setLastUpdate(currentTime);
-                        saveItem(mr, true);
-                    }
-                    break;
+
             }
+            else {
+                for (int i = 0; i < jArray.length(); i++) {
+                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+                    MangaRecord mr = new MangaRecord(recordData);
+                    mr.setLastUpdate(currentTime);
+                    saveItem(mr, true);
+                }
+            }
+
             getDBWrite().setTransactionSuccessful();
             clearDeletedItems(type, currentTime);
         } catch (JSONException e) {
@@ -182,7 +186,7 @@ public class MALManager {
         JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(type));
         HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, type);
         AnimeRecord record = new AnimeRecord(recordData);
-        if (record.getMyStatus().isEmpty()) {
+        if (record.getMyStatus().equals("")) {
             record.markForCreate(true);
         }
         return record;
@@ -193,7 +197,7 @@ public class MALManager {
         JSONObject jsonObject = malApi.getDetail(id, getListTypeFromString(type));
         HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, type);
         MangaRecord record = new MangaRecord(recordData);
-        if (record.getMyStatus().isEmpty()) {
+        if (record.getMyStatus().equals("")) {
             record.markForCreate(true);
         }
         return record;
@@ -240,22 +244,28 @@ public class MALManager {
         return sReturn;
     }
 
+    @SuppressLint("NewApi")
     public Object getObjectFromCursorColumn(Cursor cursor, int index) {
-        int object_type = cursor.getType(index);
-        if (object_type == Cursor.FIELD_TYPE_STRING) {
-            return cursor.getString(index);
+        if (Build.VERSION.SDK_INT >= 11) {
+            int object_type = cursor.getType(index);
+            if (object_type == Cursor.FIELD_TYPE_STRING) {
+                return cursor.getString(index);
+            }
+            if (object_type == Cursor.FIELD_TYPE_FLOAT) {
+                return cursor.getFloat(index);
+            }
+            if (object_type == Cursor.FIELD_TYPE_INTEGER) {
+                return cursor.getInt(index);
+            }
         }
-        if (object_type == Cursor.FIELD_TYPE_FLOAT) {
-            return cursor.getFloat(index);
-        }
-        if (object_type == Cursor.FIELD_TYPE_INTEGER) {
-            return cursor.getInt(index);
+        else {
+            //TODO: Add alternate method for getting field type, as cursor.getType() does not exist prior to API 11
         }
         return null;
     }
 
     public HashMap<String, Object> getRecordDataFromCursor(Cursor cursor) {
-        HashMap<String, Object> record_data = new HashMap<>();
+        HashMap<String, Object> record_data = new HashMap<String, Object>();
         String[] columns = cursor.getColumnNames();
         for (int i = 0; i < columns.length; i++) {
             record_data.put(columns[i], this.getObjectFromCursorColumn(cursor, i));
@@ -266,7 +276,7 @@ public class MALManager {
     public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list) {
         Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
-        ArrayList<AnimeRecord> animeRecordArrayList = new ArrayList<>();
+        ArrayList<AnimeRecord> animeRecordArrayList = new ArrayList<AnimeRecord>();
         Cursor cursor;
 
         if (list == 0) {
@@ -296,7 +306,7 @@ public class MALManager {
     public ArrayList<MangaRecord> getMangaRecordsFromDB(int list) {
         Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
 
-        ArrayList<MangaRecord> mangaRecordArrayList = new ArrayList<>();
+        ArrayList<MangaRecord> mangaRecordArrayList = new ArrayList<MangaRecord>();
         Cursor cursor;
 
         if (list == 0) {
@@ -440,7 +450,7 @@ public class MALManager {
         if (gr.hasDelete()) {
             success = malApi.deleteGenreFromList(listType, gr.getID().toString());
         } else {
-            HashMap<String, String> data = new HashMap<>();
+            HashMap<String, String> data = new HashMap<String, String>();
             data.put("status", gr.getMyStatus());
             data.put("score", gr.getMyScoreString());
             switch (listType) {
@@ -474,13 +484,17 @@ public class MALManager {
     }
 
     private MALApi.ListType getListTypeFromString(String type) {
-        switch (type) {
-            case TYPE_ANIME:
-                return MALApi.ListType.ANIME;
-            case TYPE_MANGA:
-                return MALApi.ListType.MANGA;
-            default:
-                return null;
+        if (type.equals(TYPE_ANIME)) {
+
+            return MALApi.ListType.ANIME;
+        }
+
+        else if (type.equals(TYPE_MANGA)) {
+            return MALApi.ListType.MANGA;
+        }
+
+        else {
+            return null;
         }
     }
 

@@ -133,7 +133,7 @@ public class BaseItemGridFragment extends SherlockFragment {
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight);
+            adapter = new CoverAdapter<AnimeRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight);
         }
         if (gridView.getAdapter() == null) {
             gridView.setAdapter(adapter);
@@ -153,7 +153,7 @@ public class BaseItemGridFragment extends SherlockFragment {
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight);
+            adapter = new CoverAdapter<MangaRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight);
         }
         if (gridView.getAdapter() == null) {
             gridView.setAdapter(adapter);

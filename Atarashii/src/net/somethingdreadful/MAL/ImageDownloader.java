@@ -1,5 +1,21 @@
 package net.somethingdreadful.MAL;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
+
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -12,21 +28,6 @@ import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
 
 public class ImageDownloader {
 
@@ -180,7 +181,7 @@ public class ImageDownloader {
         private final WeakReference<ImageView> imageViewReference;
 
         public BitmapDownloaderTask(ImageView imageView) {
-            imageViewReference = new WeakReference<>(imageView);
+            imageViewReference = new WeakReference<ImageView>(imageView);
         }
 
         @Override
@@ -228,7 +229,7 @@ public class ImageDownloader {
         String url;
 
         public DecodeFileTask(ImageView imageView, String url) {
-            cover = new WeakReference<>(imageView);
+            cover = new WeakReference<ImageView>(imageView);
             this.url = url;
         }
 
@@ -274,7 +275,7 @@ public class ImageDownloader {
         public DownloadedDrawable(BitmapDownloaderTask bitmapDownloaderTask) {
             super(Color.BLACK);
             bitmapDownloaderTaskReference =
-                    new WeakReference<>(bitmapDownloaderTask);
+                    new WeakReference<BitmapDownloaderTask>(bitmapDownloaderTask);
         }
 
         public BitmapDownloaderTask getBitmapDownloaderTask() {

@@ -27,7 +27,7 @@
             android:theme="@style/AppTheme"
             >
         <activity
-                android:name="net.somethingdreadful.MAL.Home"
+                android:name=".Home"
                 android:label="@string/title_activity_home"
                 android:theme="@style/AppTheme">
             <intent-filter>
@@ -37,16 +37,16 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="net.somethingdreadful.MAL.FirstTimeInit"
+                android:name=".FirstTimeInit"
                 android:label="@string/title_activity_firstRun"
                 android:theme="@style/AppTheme">
         </activity>
         <activity
-                android:name="net.somethingdreadful.MAL.Settings"
+                android:name=".Settings"
                 android:label="@string/title_activity_settings">
         </activity>
         <activity
-                android:name="net.somethingdreadful.MAL.DetailView"
+                android:name=".DetailView"
                 android:label="@string/title_activity_detail_view">
         </activity>
         <activity

@@ -1,5 +1,16 @@
 package net.somethingdreadful.MAL;
 
+import java.util.ArrayList;
+
+import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,21 +18,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import net.somethingdreadful.MAL.api.BaseMALApi;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class SearchActivity extends BaseActionBarSearchView
-        implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
+implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -81,7 +84,7 @@ public class SearchActivity extends BaseActionBarSearchView
         int ordinalListType = getIntent().getIntExtra(
                 "net.somethingdreadful.MAL.search_type", BaseMALApi.ListType.ANIME.ordinal());
         BaseMALApi.ListType listType = BaseMALApi.ListType.values()[ordinalListType];
-        if (query != null && !query.isEmpty()) {
+        if (query != null && !query.equals("")) {
             doSearch(query, listType);
             setQuery(query);
             if (listType == BaseMALApi.ListType.MANGA) {
@@ -175,12 +178,13 @@ public class SearchActivity extends BaseActionBarSearchView
             return null;
         }
 
+        @Override
         protected void onPostExecute(Void result) {
             String type = MALApi.getListTypeString(getListType());
             try {
                 switch (listType) {
                     case ANIME: {
-                        ArrayList<AnimeRecord> list = new ArrayList<>();
+                        ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
                         for (int i = 0; i < _result.length(); i++) {
                             JSONObject genre = (JSONObject) _result.get(i);
                             AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
@@ -190,7 +194,7 @@ public class SearchActivity extends BaseActionBarSearchView
                         break;
                     }
                     case MANGA: {
-                        ArrayList<MangaRecord> list = new ArrayList<>();
+                        ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
                         for (int i = 0; i < _result.length(); i++) {
                             JSONObject genre = (JSONObject) _result.get(i);
                             MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
