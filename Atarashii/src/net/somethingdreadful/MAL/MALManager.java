@@ -245,8 +245,9 @@ public class MALManager {
     }
 
     @SuppressLint("NewApi")
-    public Object getObjectFromCursorColumn(Cursor cursor, int index) {
+    public Object getObjectFromCursorColumn(Cursor cursor, int index, HashMap<String, Class<?>> typeMap) {
         if (Build.VERSION.SDK_INT >= 11) {
+            // TODO Maybe use switch? switch with int, char available >= 1.6
             int object_type = cursor.getType(index);
             if (object_type == Cursor.FIELD_TYPE_STRING) {
                 return cursor.getString(index);
@@ -259,16 +260,26 @@ public class MALManager {
             }
         }
         else {
-            //TODO: Add alternate method for getting field type, as cursor.getType() does not exist prior to API 11
+            String object_name = cursor.getColumnName(index);
+            Class<?> cls = typeMap.get(object_name);
+            if (cls == String.class) {
+                return cursor.getString(index);
+            }
+            if (cls == Float.class) {
+                return cursor.getFloat(index);
+            }
+            if (cls == Integer.class) {
+                return cursor.getInt(index);
+            }
         }
         return null;
     }
 
-    public HashMap<String, Object> getRecordDataFromCursor(Cursor cursor) {
+    public HashMap<String, Object> getRecordDataFromCursor(Cursor cursor, HashMap<String, Class<?>> typeMap) {
         HashMap<String, Object> record_data = new HashMap<String, Object>();
         String[] columns = cursor.getColumnNames();
         for (int i = 0; i < columns.length; i++) {
-            record_data.put(columns[i], this.getObjectFromCursorColumn(cursor, i));
+            record_data.put(columns[i], this.getObjectFromCursorColumn(cursor, i, typeMap));
         }
         return record_data;
     }
@@ -290,7 +301,7 @@ public class MALManager {
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-            animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor)));
+            animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor, AnimeRecord.getTypeMap())));
             cursor.moveToNext();
         }
 
@@ -319,7 +330,7 @@ public class MALManager {
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-            mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor)));
+            mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor, MangaRecord.getTypeMap())));
             cursor.moveToNext();
         }
 
@@ -392,23 +403,23 @@ public class MALManager {
 
     public AnimeRecord getAnimeRecordFromDB(int id) {
         Log.v("MALX", "getAnimeRecordFromDB() has been invoked for id " + id);
-        Cursor cu = getDBRead().query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
-        cu.moveToFirst();
-        AnimeRecord ar = new AnimeRecord(this.getRecordDataFromCursor(cu));
-        cu.close();
+        Cursor cursor = getDBRead().query("anime", this.animeColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        cursor.moveToFirst();
+        AnimeRecord ar = new AnimeRecord(this.getRecordDataFromCursor(cursor, AnimeRecord.getTypeMap()));
+        cursor.close();
         return ar;
     }
 
     public MangaRecord getMangaRecordFromDB(int id) {
         Log.v("MALX", "getMangaRecordFromDB() has been invoked for id " + id);
 
-        Cursor cu = getDBRead().query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().query("manga", this.mangaColumns, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 
-        cu.moveToFirst();
+        cursor.moveToFirst();
 
-        MangaRecord mr = new MangaRecord(this.getRecordDataFromCursor(cu));
+        MangaRecord mr = new MangaRecord(this.getRecordDataFromCursor(cursor, MangaRecord.getTypeMap()));
 
-        cu.close();
+        cursor.close();
 
         return mr;
     }

@@ -19,12 +19,12 @@ public abstract class GenericMALRecord {
 
     protected boolean FLAG_CREATE = false;
 
-    protected HashMap<String, Class<?>> typeMap;
+    protected static HashMap<String, Class<?>> typeMap;
     protected HashMap<String, Object> recordData;
 
-    public abstract int getPersonalProgress();
+    public abstract Integer getPersonalProgress();
 
-    public abstract void setPersonalProgress(int amount);
+    public abstract void setPersonalProgress(Integer amount);
 
     public abstract String getTotal();
 
@@ -47,10 +47,10 @@ public abstract class GenericMALRecord {
         if (cls == String.class) {
             return "";
         }
-        if (cls == int.class) {
+        if (cls == Integer.class) {
             return 0;
         }
-        if (cls == float.class) {
+        if (cls == Float.class) {
             return 0.0;
         }
         return null;
@@ -72,11 +72,11 @@ public abstract class GenericMALRecord {
         return (String) recordData.get("recordStatus");
     }
 
-    public float getMemberScore() {
+    public Float getMemberScore() {
         return (Float)recordData.get("memberScore");
     }
 
-    public void setMemberScore(float memberScore) {
+    public void setMemberScore(Float memberScore) {
         recordData.put("memberScore", memberScore);
     }
 
@@ -110,11 +110,11 @@ public abstract class GenericMALRecord {
         recordData.put("myStatus", status);
     }
 
-    public int getMyScore() {
+    public Integer getMyScore() {
         return (Integer)this.getSafeValueOrDefault("myScore");
     }
 
-    public void setMyScore(int myScore) {
+    public void setMyScore(Integer myScore) {
         recordData.put("myScore", myScore);
     }
 
@@ -122,15 +122,15 @@ public abstract class GenericMALRecord {
         return Integer.toString(getMyScore());
     }
 
-    public int getDirty() {
+    public Integer getDirty() {
         return (Integer)this.getSafeValueOrDefault("dirty");
     }
 
-    public void setDirty(int dirty) {
+    public void setDirty(Integer dirty) {
         recordData.put("dirty", dirty);
     }
 
-    public int getLastUpdate() {
+    public Integer getLastUpdate() {
         return (Integer)this.getSafeValueOrDefault("lastUpdate");
     }
 
@@ -155,24 +155,23 @@ public abstract class GenericMALRecord {
 
     }
 
-
-    protected HashMap<String, Class<?>> getTypeMap() {
+    public static HashMap<String, Class<?>> getTypeMap() {
         if (typeMap != null) {
             return typeMap;
         }
         typeMap = new HashMap<String, Class<?>>();
 
-        typeMap.put("recordID", int.class);
+        typeMap.put("recordID", Integer.class);
         typeMap.put("recordName", String.class);
         typeMap.put("recordType", String.class);
         typeMap.put("recordStatus", String.class);
         typeMap.put("imageUrl", String.class);
-        typeMap.put("memberScore", float.class);
+        typeMap.put("memberScore", Float.class);
         typeMap.put("synopsis", String.class);
         typeMap.put("myStatus", String.class);
-        typeMap.put("myScore", int.class);
-        typeMap.put("dirty", int.class);
-        typeMap.put("lastUpdate", int.class);
+        typeMap.put("myScore", Integer.class);
+        typeMap.put("dirty", Integer.class);
+        typeMap.put("lastUpdate",Integer.class);
         return typeMap;
     }
 }

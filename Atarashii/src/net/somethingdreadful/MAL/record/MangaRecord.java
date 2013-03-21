@@ -11,7 +11,7 @@ public class MangaRecord extends GenericMALRecord {
         super(record_data);
     }
 
-    public int getVolumesTotal() {
+    public Integer getVolumesTotal() {
         return (Integer)this.recordData.get("volumesTotal");
     }
 
@@ -20,50 +20,49 @@ public class MangaRecord extends GenericMALRecord {
         return Integer.toString(getChaptersTotal());
     }
 
-    public int getVolumeProgress() {
+    public Integer getVolumeProgress() {
         return getVolumesRead();
     }
 
-    public int getVolumesRead() {
+    public Integer getVolumesRead() {
         return (Integer)this.recordData.get("volumesRead");
     }
 
-    public void setVolumesRead(int read) {
+    public void setVolumesRead(Integer read) {
         this.recordData.put("volumesRead", read);
     }
 
-    public int getChaptersTotal() {
+    public Integer getChaptersTotal() {
         return (Integer)this.recordData.get("chaptersTotal");
     }
 
-    public int getChaptersRead() {
+    public Integer getChaptersRead() {
         return (Integer)this.recordData.get("chaptersRead");
     }
 
-    public void setChaptersRead(int chaptersRead) {
+    public void setChaptersRead(Integer chaptersRead) {
         this.recordData.put("chaptersRead", chaptersRead);
     }
 
     @Override
-    public int getPersonalProgress() {
+    public Integer getPersonalProgress() {
         return getChaptersRead();
     }
 
     @Override
-    public void setPersonalProgress(int amount) {
+    public void setPersonalProgress(Integer amount) {
         setChaptersRead(amount);
     }
 
-    @Override
-    protected HashMap<String, Class<?>> getTypeMap() {
+    public static HashMap<String, Class<?>> getTypeMap() {
         if (typeMap != null) {
             return typeMap;
         }
-        typeMap = super.getTypeMap();
-        typeMap.put("volumesTotal", int.class);
-        typeMap.put("chaptersTotal", int.class);
-        typeMap.put("volumesRead", int.class);
-        typeMap.put("chaptersRead", int.class);
+        typeMap = GenericMALRecord.getTypeMap();
+        typeMap.put("volumesTotal", Integer.class);
+        typeMap.put("chaptersTotal", Integer.class);
+        typeMap.put("volumesRead", Integer.class);
+        typeMap.put("chaptersRead", Integer.class);
         return typeMap;
     }
 
