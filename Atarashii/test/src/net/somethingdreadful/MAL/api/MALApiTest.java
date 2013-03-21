@@ -50,14 +50,13 @@ public class MALApiTest extends AndroidTestCase {
     public void testAddUpdateDeleteAnimeGenre() throws Exception {
         BaseMALApi.ListType listType = BaseMALApi.ListType.ANIME;
 
-
-        HashMap<String, String> statusMap = new HashMap<>();
+        HashMap<String, String> statusMap = new HashMap<String, String>();
         statusMap.put("status", "watched_status");
         statusMap.put("episodes", "watched_episodes");
         statusMap.put("score", "score");
 
         boolean hasCreate = true;
-        HashMap<String, String> listRecord = new HashMap<>();
+        HashMap<String, String> listRecord = new HashMap<String, String>();
         Integer genre_id = 1887;
 
         // DELETE

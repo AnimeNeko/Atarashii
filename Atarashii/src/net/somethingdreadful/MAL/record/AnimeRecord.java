@@ -17,28 +17,27 @@ public class AnimeRecord extends GenericMALRecord {
     }
 
 
-    public void setEpisodesWatched(int watched) {
+    public void setEpisodesWatched(Integer watched) {
         recordData.put("episodesWatched", watched);
     }
 
     @Override
-    public int getPersonalProgress() {
+    public Integer getPersonalProgress() {
         return (Integer)recordData.get("episodesWatched");
     }
 
     @Override
-    public void setPersonalProgress(int amount) {
+    public void setPersonalProgress(Integer amount) {
         recordData.put("episodesWatched", amount);
     }
 
-    @Override
-    protected HashMap<String, Class<?>> getTypeMap() {
+    public static HashMap<String, Class<?>> getTypeMap() {
         if (typeMap != null) {
             return typeMap;
         }
-        typeMap = super.getTypeMap();
-        typeMap.put("episodesTotal", int.class);
-        typeMap.put("episodesWatched", int.class);
+        typeMap = GenericMALRecord.getTypeMap();
+        typeMap.put("episodesTotal", Integer.class);
+        typeMap.put("episodesWatched", Integer.class);
         return typeMap;
     }
 
