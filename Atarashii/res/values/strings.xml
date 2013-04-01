@@ -157,4 +157,5 @@
     <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered.
         Not easily anyways.
     </string>
+    <string name="action_AddToList">Add to list</string>
 </resources>

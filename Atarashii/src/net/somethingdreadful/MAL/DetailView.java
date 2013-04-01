@@ -1,5 +1,11 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
+
+import org.apache.commons.lang3.text.WordUtils;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
@@ -14,20 +21,17 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.GenericMALRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
-import org.apache.commons.lang3.text.WordUtils;
 
 public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
-        EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
-        StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener,
-        RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
+EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
+StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener,
+RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
     MALManager mManager;
     PrefManager pManager;
@@ -37,6 +41,7 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
     AnimeRecord animeRecord;
     MangaRecord mangaRecord;
     String recordType;
+    boolean isAdded = true;
 
     DetailsBasicFragment bfrag;
     GenericCardFragment SynopsisFragment;
@@ -161,7 +166,12 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_detail_view, menu);
+        if (isAdded) {
+            getSupportMenuInflater().inflate(R.menu.activity_detail_view, menu);
+        }
+        else {
+            getSupportMenuInflater().inflate(R.menu.activity_detail_view_unrecorded, menu);
+        }
 
         return true;
     }
@@ -392,6 +402,11 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                     MyStatusView.setText(MyStatusText);
                 }
 
+                if ("".equals(animeRecord.getMyStatus())) {
+                    Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
+                    setAddToListUI(true);
+                }
+
             } else {
                 actionBar.setTitle(mangaRecord.getName());
 
@@ -442,6 +457,11 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                 if (MALScoreBar != null) {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
+                }
+
+                if ("".equals(mangaRecord.getMyStatus())) {
+                    Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
+                    setAddToListUI(true);
                 }
             }
 
@@ -538,6 +558,31 @@ public class DetailView extends SherlockFragmentActivity implements DetailsBasic
                 ProgressCurrentView.setText(Integer.toString(newValue));
 
             }
+        }
+
+    }
+
+    public void setAddToListUI(boolean enabled) {
+        if (enabled) { //Configure DetailView to show the add to list UI, hide extraneous elements
+            isAdded = false;
+            supportInvalidateOptionsMenu();
+
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.hide(ScoreFragment);
+            ft.hide(ProgressFragment);
+            ft.hide(WatchStatusFragment);
+            ft.commit();
+
+        }
+        else { //Record was added, revert UI changes.
+            isAdded = true;
+            supportInvalidateOptionsMenu();
+
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.show(ScoreFragment);
+            ft.show(ProgressFragment);
+            ft.show(WatchStatusFragment);
+            ft.commit();
         }
 
     }
