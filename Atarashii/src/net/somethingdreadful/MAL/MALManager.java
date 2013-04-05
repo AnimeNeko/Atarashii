@@ -291,7 +291,7 @@ public class MALManager {
         Cursor cursor;
 
         if (list == 0) {
-            cursor = getDBRead().query("anime", this.animeColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
+            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = 'watching' OR myStatus = 'completed' OR myStatus = 'plan to watch' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
         } else {
             cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
         }
@@ -321,7 +321,7 @@ public class MALManager {
         Cursor cursor;
 
         if (list == 0) {
-            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus != 'null'", null, null, null, "recordName ASC");
+            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = 'reading' OR myStatus = 'completed' OR myStatus = 'plan to read' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
         } else {
             cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
         }
