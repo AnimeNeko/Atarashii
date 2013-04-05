@@ -194,6 +194,9 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             case R.id.action_Remove:
                 showRemoveDialog();
                 break;
+            case R.id.action_addToList:
+                addToList();
+                break;
         }
 
         return true;
@@ -505,13 +508,26 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             if (gr[0].hasDelete()) {
                 internalManager.deleteItemFromDatabase(internalType, gr[0].getID());
                 result = internalManager.writeDetailsToMAL(gr[0], internalType);
-            } else {
+            }
+            else {
                 if ("anime".equals(internalType)) {
                     internalManager.saveItem((AnimeRecord) gr[0], false);
-                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
+                    if (gr[0].hasCreate()) {
+                        result = internalManager.addItemToMAL(gr[0], internalType);
+                    }
+                    else {
+                        result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
+                    }
+
                 } else {
                     internalManager.saveItem((MangaRecord) gr[0], false);
-                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
+                    if (gr[0].hasCreate()) {
+                        result = internalManager.addItemToMAL(gr[0], internalType);
+                    }
+                    else {
+                        result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
+                    }
+
                 }
 
                 if (result) {
@@ -792,5 +808,24 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         }
 
         finish();
+    }
+
+    public void addToList() {
+        if (recordType.equals("anime")) {
+            animeRecord.markForCreate(true);
+            animeRecord.setMyStatus(AnimeRecord.STATUS_WATCHING);
+            MyStatusView.setText(WordUtils.capitalize(AnimeRecord.STATUS_WATCHING));
+
+            animeRecord.setDirty(1);
+        }
+        else {
+            mangaRecord.markForCreate(true);
+            mangaRecord.setMyStatus(MangaRecord.STATUS_WATCHING);
+            MyStatusView.setText(WordUtils.capitalize(MangaRecord.STATUS_WATCHING));
+
+            mangaRecord.setDirty(1);
+        }
+
+        setAddToListUI(false);
     }
 }

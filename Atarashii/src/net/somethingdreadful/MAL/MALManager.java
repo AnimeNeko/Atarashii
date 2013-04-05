@@ -494,6 +494,33 @@ public class MALManager {
         return deleted == 1;
     }
 
+    public boolean addItemToMAL(GenericMALRecord gr, String type) {
+        boolean success;
+        MALApi.ListType listType = getListTypeFromString(type);
+
+        if (gr.hasDelete()) {
+            success = malApi.deleteGenreFromList(listType, gr.getID().toString());
+        } else {
+            HashMap<String, String> data = new HashMap<String, String>();
+            data.put("score", "0");
+            data.put("status", gr.getMyStatus());
+            switch (listType) {
+                case ANIME: {
+                    data.put("episodes", Integer.toString(gr.getPersonalProgress()));
+                    break;
+                }
+                case MANGA: {
+                    data.put("chapters", Integer.toString(gr.getPersonalProgress()));
+                    data.put("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress()));
+                    break;
+                }
+            }
+
+            success = malApi.addOrUpdateGenreInList(true, listType, gr.getID().toString(), data);
+        }
+        return success;
+    }
+
     private MALApi.ListType getListTypeFromString(String type) {
         if (type.equals(TYPE_ANIME)) {
 

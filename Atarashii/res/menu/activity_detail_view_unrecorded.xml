@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/addToList" android:title="@string/action_AddToList" android:icon="@drawable/ic_action_add_to_list" android:showAsAction="always"></item>
+    <item android:id="@+id/action_addToList" android:title="@string/action_AddToList" android:icon="@drawable/ic_action_add_to_list" android:showAsAction="always"></item>
     
 
 </menu>
