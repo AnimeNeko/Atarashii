@@ -1,11 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
-import android.os.Build;
-import org.apache.http.HttpResponse;
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import android.os.Build;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,25 +16,23 @@ import java.util.HashMap;
  * http://mal-api.com/docs/
  */
 
-enum HTTP_METHOD {
-    GET, POST, PUT, DELETE
-}
-
 public abstract class BaseMALApi {
 
     public String username;
     public String password;
+    
+	protected RestHelper restHelper;
 
     final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
 
     public BaseMALApi(String username, String password) {
         this.username = username;
         this.password = password;
+        
+        restHelper = new RestHelper(username, password);
+        restHelper.applyUserAgent(USER_AGENT);
+        
     }
-
-    public abstract HttpResponse call_api(HTTP_METHOD http_method, String uri, Boolean is_auth);
-
-    public abstract HttpResponse call_api(HTTP_METHOD http_method, String uri, HashMap<String, String> data, Boolean is_auth);
 
     public abstract JSONArray getList(ListType listType);
 
@@ -55,6 +53,7 @@ public abstract class BaseMALApi {
 
     public void setUsername(String username) {
         this.username = username;
+        restHelper.setCredentials(this.username, this.password);
     }
 
     public String getPassword() {
@@ -63,6 +62,7 @@ public abstract class BaseMALApi {
 
     public void setPassword(String password) {
         this.password = password;
+        restHelper.setCredentials(this.username, this.password);
     }
 
     public enum ListType {

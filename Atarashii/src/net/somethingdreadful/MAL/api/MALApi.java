@@ -1,245 +1,172 @@
 package net.somethingdreadful.MAL.api;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map.Entry;
 
 import net.somethingdreadful.MAL.PrefManager;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Base64;
 import android.util.Log;
 
 public class MALApi extends BaseMALApi {
-    private static String api_host = "http://mal-api.com";
+	private static final String TAG = MALApi.class.getSimpleName();
+	private static String api_host = "http://mal-api.com";
 
+	public MALApi(String username, String password) {
+		super(username, password);
+	}
 
-    public MALApi(String username, String password) {
-        super(username, password);
-    }
+	public MALApi(Context context) {
+		super(null, null);
+		PrefManager prefManager = new PrefManager(context);
+		setUsername(prefManager.getUser());
+		setPassword(prefManager.getPass());
+	}
 
-    public MALApi(Context context) {
-        super(null, null);
-        PrefManager prefManager = new PrefManager(context);
-        setUsername(prefManager.getUser());
-        setPassword(prefManager.getPass());
-    }
+	public JSONArray responseToJSONArray(RestResult<String> response) {
+		JSONArray result = null;
+		try {
+			result = new JSONArray(response.result);
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+		return result;
 
-    public JSONObject responseToJSONObject(HttpResponse response) throws IOException {
-        HttpEntity getResponseEntity = response.getEntity();
+	}
 
-        JSONObject result = null;
-        try {
-            String raw_data = EntityUtils.toString(getResponseEntity);
-            result = new JSONObject(raw_data);
-        } catch (JSONException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
+	private static String getFullPath(String path) {
+		if (!path.startsWith("/")) {
+			path = "/" + path;
+		}
+		return MALApi.api_host + path;
+	}
 
-        } catch (IOException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-        }
-        return result;
-    }
+	private String encodeAsFormPost(HashMap<String, String> data) {
+		StringBuffer encodedData = new StringBuffer();
+		if (data != null) {
 
-    public JSONArray responseToJSONArray(HttpResponse response) {
-        HttpEntity getResponseEntity = response.getEntity();
+			for (Entry<String, String> entry : data.entrySet()) {
+				encodedData.append(String.format("%s=%s&", entry.getKey(),
+						entry.getValue()));
+			}
 
-        JSONArray result = null;
-        try {
-            String raw_data = EntityUtils.toString(getResponseEntity);
-            result = new JSONArray(raw_data);
-        } catch (JSONException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
+		}
+		encodedData.deleteCharAt(encodedData.length() - 1);
+		return encodedData.toString();
+	}
 
-        } catch (IOException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-        }
-        return result;
+	@Override
+	public boolean isAuth() {
+		URL url;
+		try {
+			url = new URL(getFullPath("account/verify_credentials"));
 
-    }
+			RestResult<String> response = restHelper.get(url);
+			return response != null && response.code == 200;
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+			return false;
+		}
+	}
 
-    private static String getFullPath(String path) {
-        if (!path.startsWith("/")) {
-            path = "/" + path;
-        }
-        return MALApi.api_host + path;
-    }
+	@Override
+	public JSONArray search(ListType listType, String query) {
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType)
+					+ String.format("/search?q=%s", query)));
+			response = restHelper.get(url);
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return responseToJSONArray(response);
+	}
 
-    public static String addGetQueryToURI(String uri, HashMap<String, String> query) {
-        if (query == null || query.isEmpty()) {
-            return uri;
-        }
-        List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-        for (String key : query.keySet()) {
-            putParams.add(new BasicNameValuePair(key, query.get(key)));
-        }
-        String get_query = URLEncodedUtils.format(putParams, "utf-8");
+	@Override
+	public JSONArray getList(ListType listType) {
+		JSONArray jsonArray = null;
+		try {
+			URL url = new URL(getFullPath(getListTypeString(listType) + "list/"
+					+ getUsername()));
+			RestResult<String> response = restHelper.get(url);
 
-        if (!uri.endsWith("?")) {
-            uri += "?";
-        }
-        uri += get_query;
-        return uri;
-    }
+			if (response != null) {
+				jsonArray = new JSONObject(response.result)
+						.getJSONArray(getListTypeString(listType));
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 
-    @Override
-    public HttpResponse call_api(HTTP_METHOD http_method, String uri, Boolean is_auth) {
-        return this.call_api(http_method, uri, null, is_auth);
-    }
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return jsonArray;
+	}
 
-    @Override
-    public HttpResponse call_api(HTTP_METHOD http_method, String uri, HashMap<String, String> data, Boolean is_auth) {
-        HttpClient client = new DefaultHttpClient();
-        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
+	@Override
+	public JSONObject getDetail(Integer id, ListType listType) {
+		JSONObject jsonObject = null;
+		try {
+			URL url = new URL(getFullPath(getListTypeString(listType) + "/"
+					+ id));
+			RestResult<String> response = restHelper.get(url);
 
-        HttpRequestBase writeRequest;
+			if (response != null) {
+				jsonObject = new JSONObject(response.result);
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 
-        uri = addGetQueryToURI(uri, data);
-        switch (http_method) {
-            case POST:
-                writeRequest = new HttpPost(uri);
-                break;
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return jsonObject;
+	}
 
-            case PUT:
-                writeRequest = new HttpPut(uri);
-                break;
+	@Override
+	public boolean addOrUpdateGenreInList(boolean hasCreate, ListType listType,
+			String genre_id, HashMap<String, String> data) {
+		String listPrefix = getListTypeString(listType);
+		String uri = getFullPath(listPrefix + "list" + "/" + listPrefix);
+		RestResult<String> response = null;
+		try {
+			if (!hasCreate) {
+				uri += "/" + genre_id;
+				response = restHelper.put(new URL(uri), encodeAsFormPost(data));
 
-            case DELETE:
-                writeRequest = new HttpDelete(uri);
-                break;
+			} else {
+				data = new HashMap<String, String>(data);
+				data.put(listPrefix + "_id", genre_id);
+				response = restHelper.post(new URL(uri), encodeAsFormPost(data));
+			}
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
 
-            default:
-                writeRequest = new HttpGet(uri);
-                break;
-        }
+		return response.code == 200;
+	}
 
-        if (is_auth) {
-            writeRequest.setHeader("Authorization", "basic " + Base64.encodeToString((this.username + ":" + this.password).getBytes(), Base64.NO_WRAP));
-        }
-
-        HttpResponse response = null;
-        try {
-
-            if (http_method == HTTP_METHOD.POST || http_method == HTTP_METHOD.PUT) {
-                List<NameValuePair> putParams = new ArrayList<NameValuePair>();
-                for (String key : data.keySet()) {
-                    putParams.add(new BasicNameValuePair(key, data.get(key)));
-                }
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(putParams);
-                HttpEntityEnclosingRequestBase t_writeRequest = (HttpEntityEnclosingRequestBase) writeRequest;
-                t_writeRequest.setEntity(entity);
-                writeRequest = t_writeRequest;
-            }
-
-            response = client.execute(writeRequest);
-        } catch (IOException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-        }
-        return response;
-    }
-
-
-    @Override
-    public boolean isAuth() {
-        String uri = getFullPath("account/verify_credentials");
-        HttpResponse response = call_api(HTTP_METHOD.GET, uri, true);
-        return response != null && response.getStatusLine().getStatusCode() == 200;
-    }
-
-    @Override
-    public JSONArray search(ListType listType, String query) {
-        String uri = getFullPath(getListTypeString(listType) + "/search");
-        HashMap<String, String> data = new HashMap<String, String>();
-        data.put("q", query);
-        boolean isAuth = true;
-        HttpResponse response = call_api(HTTP_METHOD.GET, uri, data, isAuth);
-        return this.responseToJSONArray(response);
-    }
-
-    @Override
-    public JSONArray getList(ListType listType) {
-        String uri = getFullPath(getListTypeString(listType) + "list/" + this.getUsername());
-        JSONArray jsonArray = null;
-        try {
-            HttpResponse response = call_api(HTTP_METHOD.GET, uri, true);
-            HttpEntity getResponseEntity = response.getEntity();
-
-            if (getResponseEntity != null) {
-                jsonArray = new JSONObject(EntityUtils.toString(getResponseEntity)).getJSONArray(getListTypeString(listType));
-            }
-        } catch (JSONException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-
-        } catch (IOException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-        }
-        return jsonArray;
-    }
-
-    @Override
-    public JSONObject getDetail(Integer id, ListType listType) {
-        JSONObject jsonObject = null;
-        String uri = getFullPath(getListTypeString(listType) + "/" + id);
-        try {
-            HttpResponse response = call_api(HTTP_METHOD.GET, uri, true);
-            HttpEntity getResponseEntity = response.getEntity();
-
-            if (getResponseEntity != null) {
-                jsonObject = new JSONObject(EntityUtils.toString(getResponseEntity));
-            }
-        } catch (JSONException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-
-        } catch (IOException e) {
-            Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-        }
-        return jsonObject;
-    }
-
-    @Override
-    public boolean addOrUpdateGenreInList(boolean hasCreate, ListType listType, String genre_id, HashMap<String, String> data) {
-        String listPrefix = getListTypeString(listType);
-        String uri = getFullPath(listPrefix + "list" + "/" + listPrefix);
-        HTTP_METHOD methodType;
-        if (!hasCreate) {
-            uri += "/" + genre_id;
-            methodType = HTTP_METHOD.PUT;
-        } else {
-            data = new HashMap<String, String>(data);
-            data.put(listPrefix + "_id", genre_id);
-            methodType = HTTP_METHOD.POST;
-        }
-        HttpResponse response = call_api(methodType, uri, data, true);
-        return response.getStatusLine().getStatusCode() == 200;
-    }
-
-    @Override
-    public boolean deleteGenreFromList(ListType listType, String genre_id) {
-        String listPrefix = getListTypeString(listType);
-        String uri = getFullPath(listPrefix + "list" + "/" + listPrefix + "/" + genre_id);
-        HttpResponse response = call_api(HTTP_METHOD.DELETE, uri, true);
-        return response.getStatusLine().getStatusCode() == 200;
-    }
+	@Override
+	public boolean deleteGenreFromList(ListType listType, String genre_id) {
+		String listPrefix = getListTypeString(listType);
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(listPrefix + "list" + "/" + listPrefix
+					+ "/" + genre_id));
+			response = restHelper.delete(url);
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+			return false;
+		}
+		return response.code == 200;
+	}
 
 }
