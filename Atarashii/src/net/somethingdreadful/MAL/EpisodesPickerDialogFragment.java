@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import net.simonvt.widget.NumberPicker;
+import net.simonvt.numberpicker.NumberPicker;
 
 public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
