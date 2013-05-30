@@ -79,6 +79,11 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_ANIME_TABLE);
         db.execSQL(CREATE_MANGA_TABLE);

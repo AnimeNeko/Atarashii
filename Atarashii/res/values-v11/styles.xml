@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+    <style name="AtarashiiLightBg" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
+        <item name="android:windowBackground">@color/bg_light</item>
+    </style>
+    
+    <style name="AtarashiiDarkBg" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
+        <item name="android:windowBackground">@color/bg_dark</item>
     </style>
 
     <style name="AlertDialog" parent="@android:style/Theme.Holo.Light.Dialog"></style>

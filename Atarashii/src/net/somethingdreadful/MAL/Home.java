@@ -1,5 +1,8 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,16 +15,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import net.somethingdreadful.MAL.api.BaseMALApi;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 public class Home extends BaseActionBarSearchView
-        implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
-        LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
+implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
+LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -81,12 +83,12 @@ public class Home extends BaseActionBarSearchView
             // reference to the
             // Tab.
             mViewPager
-                    .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                        @Override
-                        public void onPageSelected(int position) {
-                            actionBar.setSelectedNavigationItem(position);
-                        }
-                    });
+            .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    actionBar.setSelectedNavigationItem(position);
+                }
+            });
 
             // Add tabs for the animu and mango lists
             for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
@@ -142,42 +144,42 @@ public class Home extends BaseActionBarSearchView
                 if (af != null && mf != null) {
                     af.getRecords(0, "anime", false);
                     mf.getRecords(0, "manga", false);
-                    invalidateOptionsMenu();
+                    supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_inprogress:
                 if (af != null && mf != null) {
                     af.getRecords(1, "anime", false);
                     mf.getRecords(1, "manga", false);
-                    invalidateOptionsMenu();
+                    supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_completed:
                 if (af != null && mf != null) {
                     af.getRecords(2, "anime", false);
                     mf.getRecords(2, "manga", false);
-                    invalidateOptionsMenu();
+                    supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_onhold:
                 if (af != null && mf != null) {
                     af.getRecords(3, "anime", false);
                     mf.getRecords(3, "manga", false);
-                    invalidateOptionsMenu();
+                    supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_dropped:
                 if (af != null && mf != null) {
                     af.getRecords(4, "anime", false);
                     mf.getRecords(4, "manga", false);
-                    invalidateOptionsMenu();
+                    supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_planned:
                 if (af != null && mf != null) {
                     af.getRecords(5, "anime", false);
                     mf.getRecords(5, "manga", false);
-                    invalidateOptionsMenu();
+                    supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
@@ -280,6 +282,7 @@ public class Home extends BaseActionBarSearchView
         return true;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onLogoutConfirmed() {
         mPrefManager.setInit(false);
