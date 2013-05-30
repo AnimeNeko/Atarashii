@@ -50,7 +50,17 @@ View the project properties for the Atarashii project in Eclipse. Select the
 projects. On the library tab, select "Add JARs..." and add the jar files found
 in the libs directory.
 
+
+A Word on Croutons
+------------------
+Our newest third party component, Crouton, will have an error within it's own 
+project. While it is OCD-inducing, this is completely fine. It is throwing an 
+error because it expects an Android Support Library to be provided, but it is 
+not included in the Crouton library itself. However, Atarashii! already has an 
+exported Support Library from ABS, so it will compile with the project just fine.
+
+
 You should now be able to successfully build and develop Atarashii!
 
 
-Revision 20130111
+Revision 20130530

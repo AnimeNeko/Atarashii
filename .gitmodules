@@ -6,3 +6,7 @@
 	path = third-party/android-numberpicker
 	url = https://github.com/SimonVT/android-numberpicker.git
 	ignore = dirty
+[submodule "third-party/Crouton"]
+	path = third-party/Crouton
+	url = https://github.com/keyboardsurfer/Crouton.git
+	ignore = dirty
