@@ -78,7 +78,7 @@ public class ImageDownloader {
             }
 
             if (bitmap == null) {
-                imageView.setImageResource(R.drawable.panel);
+                imageView.setImageResource(R.drawable.transpanel);
                 new DecodeFileTask(imageView, url).execute(f.getPath());
             } else {
                 imageView.setImageBitmap(bitmap);
@@ -102,7 +102,7 @@ public class ImageDownloader {
             if (bitmap != null) {
                 betterImageCache.put(f.getPath(), bitmap);
             } else {
-                bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.panel);
+                bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.transpanel);
             }
 
         }
