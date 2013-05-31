@@ -20,6 +20,7 @@
                 android:permissionGroup="net.somethingdreadful.MAL.permissions.USE_ATARASHII"
                 android:description="@string/permission_description_updateMedia" android:protectionLevel="normal"
                 android:label="@string/permission_updateMedia"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
             android:icon="@drawable/icon"
@@ -34,6 +35,8 @@
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
+                
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </activity>
         <activity

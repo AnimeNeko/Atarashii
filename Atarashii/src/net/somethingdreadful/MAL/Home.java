@@ -6,8 +6,12 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +24,9 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class Home extends BaseActionBarSearchView
 implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
@@ -44,6 +51,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     ItemGridFragment af;
     ItemGridFragment mf;
     public boolean instanceExists;
+    boolean networkAvailable = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         .setTabListener(this));
 
             }
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    checkNetworkAndDisplayCrouton();
+                }}, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+
         } else //If the app hasn't been configured, take us to the first run screen to sign in
         {
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
@@ -202,6 +217,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             af.getRecords(af.currentList, "anime", false);
             mf.getRecords(af.currentList, "manga", false);
         }
+
+        checkNetworkAndDisplayCrouton();
     }
 
     @Override
@@ -278,6 +295,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             }
         }
 
+        if (networkAvailable) {
+            menu.findItem(R.id.forceSync).setEnabled(true);
+        }
+        else {
+            menu.findItem(R.id.forceSync).setEnabled(false);
+        }
 
         return true;
     }
@@ -325,5 +348,36 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         lcdf.show(fm, "fragment_LogoutConfirmationDialog");
     }
 
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        else {
+            return false;
+        }
 
+    }
+
+    public void checkNetworkAndDisplayCrouton() {
+        if (!isNetworkAvailable() && networkAvailable == true) {
+            Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+        }
+
+        if (isNetworkAvailable() && networkAvailable == false) {
+            Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
+            //TODO: Sync here, but first sync any records marked DIRTY
+        }
+
+        if (!isNetworkAvailable()) {
+            networkAvailable = false;
+        }
+        else {
+            networkAvailable = true;
+        }
+
+        supportInvalidateOptionsMenu();
+    }
 }

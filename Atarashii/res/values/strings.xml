@@ -158,4 +158,6 @@
         Not easily anyways.
     </string>
     <string name="action_AddToList">Add to list</string>
+    <string name="crouton_noConnectivityOnRun">No connection available! Don\'t panic, we\'ll run in offline mode for now. When connectivity is restored, we\'ll sync up any pending changes.</string>
+    <string name="crouton_connectionRestored">Connection Restored! Any changes you might have made while offline are now being synced.</string>
 </resources>
