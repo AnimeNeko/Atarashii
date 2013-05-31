@@ -1,5 +1,9 @@
 package net.somethingdreadful.MAL;
 
+import java.util.ArrayList;
+
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -15,11 +19,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import com.actionbarsherlock.app.SherlockFragment;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
 
-import java.util.ArrayList;
+import com.actionbarsherlock.app.SherlockFragment;
 
 public class BaseItemGridFragment extends SherlockFragment {
 
@@ -38,6 +39,7 @@ public class BaseItemGridFragment extends SherlockFragment {
     CoverAdapter<MangaRecord> mangaRecordCoverAdapter;
     IBaseItemGridFragment Iready;
     boolean useTraditionalList = false;
+    boolean useSecondaryAmounts = false;
     int currentList;
     int listColumns;
     int screenWidthDp;
@@ -52,6 +54,7 @@ public class BaseItemGridFragment extends SherlockFragment {
         if (state != null) {
             currentList = state.getInt("list", 1);
             useTraditionalList = state.getBoolean("traditionalList");
+            useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
         }
 
     }
@@ -59,7 +62,7 @@ public class BaseItemGridFragment extends SherlockFragment {
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         Bundle args = getArguments();
         View layout = inflater.inflate(R.layout.fragment_animelist, null);
@@ -71,6 +74,7 @@ public class BaseItemGridFragment extends SherlockFragment {
         mPrefManager = activity.mPrefManager;
 
         useTraditionalList = mPrefManager.getTraditionalListEnabled();
+        useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
 
         final String recordType = args.getString("type");
 
@@ -133,7 +137,7 @@ public class BaseItemGridFragment extends SherlockFragment {
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<AnimeRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight);
+            adapter = new CoverAdapter<AnimeRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
         }
         if (gridView.getAdapter() == null) {
             gridView.setAdapter(adapter);
@@ -153,7 +157,7 @@ public class BaseItemGridFragment extends SherlockFragment {
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<MangaRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight);
+            adapter = new CoverAdapter<MangaRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
         }
         if (gridView.getAdapter() == null) {
             gridView.setAdapter(adapter);

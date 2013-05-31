@@ -12,7 +12,7 @@ public class AnimeRecord extends GenericMALRecord {
     }
 
     @Override
-    public String getTotal() {
+    public String getTotal(boolean useSecondaryAmount) {
         return recordData.get("episodesTotal").toString();
     }
 
@@ -22,12 +22,12 @@ public class AnimeRecord extends GenericMALRecord {
     }
 
     @Override
-    public Integer getPersonalProgress() {
+    public Integer getPersonalProgress(boolean useSecondaryAmount) {
         return (Integer)recordData.get("episodesWatched");
     }
 
     @Override
-    public void setPersonalProgress(Integer amount) {
+    public void setPersonalProgress(boolean useSecondaryAmount, Integer amount) {
         recordData.put("episodesWatched", amount);
     }
 

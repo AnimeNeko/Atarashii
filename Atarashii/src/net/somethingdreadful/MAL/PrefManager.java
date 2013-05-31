@@ -100,6 +100,10 @@ public class PrefManager {
         return prefs.getBoolean("traditionalList", false);
     }
 
+    public boolean getUseSecondaryAmountsEnabled() {
+        return prefs.getBoolean("displayVolumes", false);
+    }
+
     public String getCustomShareText()
     {
         return prefs.getString("customShareText", "Check out $title; on MyAnimeList!\n$link;");

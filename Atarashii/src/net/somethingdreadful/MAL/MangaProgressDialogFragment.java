@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.simonvt.numberpicker.NumberPicker;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -11,7 +12,6 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import net.simonvt.numberpicker.NumberPicker;
 
 
 public class MangaProgressDialogFragment extends DialogFragment {
@@ -52,13 +52,13 @@ public class MangaProgressDialogFragment extends DialogFragment {
                 dismiss();
             }
         }
-        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dismiss();
-            }
-        }
-        ).setView(view).setTitle("I've read:");
+                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dismiss();
+                    }
+                }
+                        ).setView(view).setTitle("I've read:");
 
         return builder.create();
 
@@ -69,8 +69,8 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
         if (state == null) {
 
-            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mangaRecord.getTotal());
-            chaptersRead = ((DetailView) getActivity()).mangaRecord.getPersonalProgress();
+            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mangaRecord.getTotal(false));
+            chaptersRead = ((DetailView) getActivity()).mangaRecord.getPersonalProgress(false);
             chapterPickerValue = chaptersRead;
 
             volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumesTotal();

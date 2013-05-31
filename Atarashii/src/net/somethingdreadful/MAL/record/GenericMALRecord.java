@@ -22,11 +22,11 @@ public abstract class GenericMALRecord {
     protected static HashMap<String, Class<?>> typeMap;
     protected HashMap<String, Object> recordData;
 
-    public abstract Integer getPersonalProgress();
+    public abstract Integer getPersonalProgress(boolean useSecondaryAmount);
 
-    public abstract void setPersonalProgress(Integer amount);
+    public abstract void setPersonalProgress(boolean useSecondaryAmount, Integer amount);
 
-    public abstract String getTotal();
+    public abstract String getTotal(boolean useSecondaryAmount);
 
 
     public GenericMALRecord(HashMap<String, Object> record_data) {

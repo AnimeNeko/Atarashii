@@ -16,8 +16,14 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     @Override
-    public String getTotal() {
-        return Integer.toString(getChaptersTotal());
+    public String getTotal(boolean useSecondaryAmount) {
+        if (useSecondaryAmount) {
+            return Integer.toString(getVolumesTotal());
+        }
+        else {
+            return Integer.toString(getChaptersTotal());
+        }
+
     }
 
     public Integer getVolumeProgress() {
@@ -45,13 +51,23 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     @Override
-    public Integer getPersonalProgress() {
-        return getChaptersRead();
+    public Integer getPersonalProgress(boolean useSecondaryAmount) {
+        if (useSecondaryAmount) {
+            return getVolumesRead();
+        }
+        else {
+            return getChaptersRead();
+        }
     }
 
     @Override
-    public void setPersonalProgress(Integer amount) {
-        setChaptersRead(amount);
+    public void setPersonalProgress(boolean useSecondaryAmount, Integer amount) {
+        if (useSecondaryAmount) {
+            setVolumesRead(amount);
+        }
+        else {
+            setChaptersRead(amount);
+        }
     }
 
     public static HashMap<String, Class<?>> getTypeMap() {

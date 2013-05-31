@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.simonvt.numberpicker.NumberPicker;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -10,8 +11,8 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import net.simonvt.numberpicker.NumberPicker;
 
 public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
@@ -46,13 +47,13 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
                 dismiss();
             }
         }
-        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dismiss();
-            }
-        }
-        ).setView(view).setTitle("I've watched:");
+                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dismiss();
+                    }
+                }
+                        ).setView(view).setTitle("I've watched:");
 
         return builder.create();
 
@@ -63,8 +64,8 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
         //        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
 
         if (state == null) {
-            totalEpisodes = Integer.parseInt(((DetailView) getActivity()).animeRecord.getTotal());
-            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getPersonalProgress();
+            totalEpisodes = Integer.parseInt(((DetailView) getActivity()).animeRecord.getTotal(false));
+            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getPersonalProgress(false);
             pickerValue = watchedEpisodes;
 
         } else {

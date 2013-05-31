@@ -12,6 +12,10 @@
             android:key="traditionalList"
             android:summary="@string/preference_summary_TraditionList"
             android:title="@string/preference_TraditionalList" />
+        
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_mangaSettings">
+        <CheckBoxPreference android:title="@string/preference_displayVolumes" android:summary="@string/preference_summary_displayVolumes" android:key="displayVolumes" android:defaultValue="false"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference

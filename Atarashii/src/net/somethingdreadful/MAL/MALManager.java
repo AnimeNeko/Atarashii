@@ -355,9 +355,9 @@ public class MALManager {
         cv.put("memberScore", mr.getMemberScore());
         cv.put("myScore", mr.getMyScore());
         cv.put("volumesRead", mr.getVolumeProgress());
-        cv.put("chaptersRead", mr.getPersonalProgress());
+        cv.put("chaptersRead", mr.getPersonalProgress(false));
         cv.put("volumesTotal", mr.getVolumesTotal());
-        cv.put("chaptersTotal", mr.getTotal());
+        cv.put("chaptersTotal", mr.getTotal(false));
         cv.put("dirty", mr.getDirty());
         cv.put("lastUpdate", mr.getLastUpdate());
 
@@ -384,8 +384,8 @@ public class MALManager {
         cv.put("myStatus", ar.getMyStatus());
         cv.put("memberScore", ar.getMemberScore());
         cv.put("myScore", ar.getMyScore());
-        cv.put("episodesWatched", ar.getPersonalProgress());
-        cv.put("episodesTotal", ar.getTotal());
+        cv.put("episodesWatched", ar.getPersonalProgress(false));
+        cv.put("episodesTotal", ar.getTotal(false));
         cv.put("dirty", ar.getDirty());
         cv.put("lastUpdate", ar.getLastUpdate());
 
@@ -466,11 +466,11 @@ public class MALManager {
             data.put("score", gr.getMyScoreString());
             switch (listType) {
                 case ANIME: {
-                    data.put("episodes", Integer.toString(gr.getPersonalProgress()));
+                    data.put("episodes", Integer.toString(gr.getPersonalProgress(false)));
                     break;
                 }
                 case MANGA: {
-                    data.put("chapters", Integer.toString(gr.getPersonalProgress()));
+                    data.put("chapters", Integer.toString(gr.getPersonalProgress(false)));
                     data.put("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress()));
                     break;
                 }
@@ -506,11 +506,11 @@ public class MALManager {
             data.put("status", gr.getMyStatus());
             switch (listType) {
                 case ANIME: {
-                    data.put("episodes", Integer.toString(gr.getPersonalProgress()));
+                    data.put("episodes", Integer.toString(gr.getPersonalProgress(false)));
                     break;
                 }
                 case MANGA: {
-                    data.put("chapters", Integer.toString(gr.getPersonalProgress()));
+                    data.put("chapters", Integer.toString(gr.getPersonalProgress(false)));
                     data.put("volumes", Integer.toString(((MangaRecord) gr).getVolumeProgress()));
                     break;
                 }

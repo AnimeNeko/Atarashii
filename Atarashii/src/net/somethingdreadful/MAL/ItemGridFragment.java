@@ -45,6 +45,7 @@ public class ItemGridFragment extends SherlockFragment {
     IItemGridFragment Iready;
     boolean forceSyncBool = false;
     boolean useTraditionalList = false;
+    boolean useSecondaryAmounts = false;
     int currentList;
     int listColumns;
     int screenWidthDp;
@@ -59,6 +60,7 @@ public class ItemGridFragment extends SherlockFragment {
         if (state != null) {
             currentList = state.getInt("list", 1);
             useTraditionalList = state.getBoolean("traditionalList");
+            useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
         }
 
     }
@@ -74,6 +76,8 @@ public class ItemGridFragment extends SherlockFragment {
 
         mManager = ((Home) getActivity()).mManager;
         mPrefManager = ((Home) getActivity()).mPrefManager;
+
+        useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
 
         final String recordType = args.getString("type");
 
@@ -203,9 +207,9 @@ public class ItemGridFragment extends SherlockFragment {
             }
             if (ca == null) {
                 if (mTraditionalList) {
-                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight, useSecondaryAmounts);
                 } else {
-                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    ca = new CoverAdapter<AnimeRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight, useSecondaryAmounts);
 
                 }
             }
@@ -273,9 +277,9 @@ public class ItemGridFragment extends SherlockFragment {
             }
             if (cm == null) {
                 if (mTraditionalList) {
-                    cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    cm = new CoverAdapter<MangaRecord>(c, R.layout.list_cover_with_text_item, result, internalManager, type, this.gridCellHeight, useSecondaryAmounts);
                 } else {
-                    cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight);
+                    cm = new CoverAdapter<MangaRecord>(c, R.layout.grid_cover_with_text_item, result, internalManager, type, this.gridCellHeight, useSecondaryAmounts);
                 }
             }
 

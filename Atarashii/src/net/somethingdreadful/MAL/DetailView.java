@@ -79,6 +79,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     String MyStatusText;
     int MyScore;
     float MemberScore;
+    boolean useSecondaryAmounts;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         context = getApplicationContext();
         mManager = new MALManager(context);
         pManager = new PrefManager(context);
+
+        useSecondaryAmounts = pManager.getUseSecondaryAmountsEnabled();
 
         // Set up the action bar.
         actionBar = getSupportActionBar();
@@ -365,8 +368,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, animeRecord.getImageUrl())));
 
-                ProgressText = Integer.toString(animeRecord.getPersonalProgress());
-                TotalProgressText = animeRecord.getTotal();
+                ProgressText = Integer.toString(animeRecord.getPersonalProgress(false));
+                TotalProgressText = animeRecord.getTotal(false);
                 MyStatusText = WordUtils.capitalize(animeRecord.getMyStatus());
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
@@ -417,8 +420,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 VolumeProgressText = Integer.toString(mangaRecord.getVolumeProgress());
                 VolumeTotalText = Integer.toString(mangaRecord.getVolumesTotal());
-                ProgressText = Integer.toString(mangaRecord.getPersonalProgress());
-                TotalProgressText = mangaRecord.getTotal();
+                ProgressText = Integer.toString(mangaRecord.getPersonalProgress(false));
+                TotalProgressText = mangaRecord.getTotal(false);
                 MyStatusText = WordUtils.capitalize(mangaRecord.getMyStatus());
 
 
@@ -552,11 +555,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     @Override
     public void onDialogDismissed(int newValue) {
         if ("anime".equals(recordType)) {
-            if (newValue == animeRecord.getPersonalProgress()) {
+            if (newValue == animeRecord.getPersonalProgress(false)) {
 
             } else {
-                if (Integer.parseInt(animeRecord.getTotal()) != 0) {
-                    if (newValue == Integer.parseInt(animeRecord.getTotal())) {
+                if (Integer.parseInt(animeRecord.getTotal(false)) != 0) {
+                    if (newValue == Integer.parseInt(animeRecord.getTotal(false))) {
                         animeRecord.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
                         MyStatusView.setText(WordUtils.capitalize(GenericMALRecord.STATUS_COMPLETED));
                     }
@@ -681,11 +684,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         if ("manga".equals(recordType)) {
 
-            if (newChapterValue == mangaRecord.getPersonalProgress()) {
+            if (newChapterValue == mangaRecord.getPersonalProgress(false)) {
 
             } else {
-                if (Integer.parseInt(mangaRecord.getTotal()) != 0) {
-                    if (newChapterValue == Integer.parseInt(mangaRecord.getTotal())) {
+                if (Integer.parseInt(mangaRecord.getTotal(false)) != 0) {
+                    if (newChapterValue == Integer.parseInt(mangaRecord.getTotal(false))) {
                         mangaRecord.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
                     }
                     if (newChapterValue == 0) {
@@ -694,7 +697,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 }
 
-                mangaRecord.setPersonalProgress(newChapterValue);
+                mangaRecord.setPersonalProgress(false, newChapterValue);
                 mangaRecord.setDirty(GenericMALRecord.DIRTY);
 
                 ProgressCurrentView.setText(Integer.toString(newChapterValue));

@@ -32,9 +32,10 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     private String type;
     private int resource;
     private int imageCoverHeight = 0;
+    private boolean useSecondaryAmounts;
 
 
-    public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type, int coverheight) {
+    public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type, int coverheight, boolean useSecondaryAmounts) {
         super(context, resource, objects);
         this.objects = objects;
         this.c = context;
@@ -43,6 +44,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         this.type = type;
         this.resource = resource;
         this.imageCoverHeight = coverheight;
+        this.useSecondaryAmounts = useSecondaryAmounts;
 
     }
 
@@ -79,7 +81,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
         viewHolder.label.setText(a.getName());
 
-        viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress()));
+        viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress(useSecondaryAmounts)));
 
         imageManager.download(a.getImageUrl(), viewHolder.cover);
 
@@ -180,9 +182,9 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void setProgressPlusOne(GenericMALRecord gr) {
-        gr.setPersonalProgress(gr.getPersonalProgress() + 1);
+        gr.setPersonalProgress(useSecondaryAmounts, gr.getPersonalProgress(useSecondaryAmounts) + 1);
 
-        if (gr.getPersonalProgress() == Integer.parseInt(gr.getTotal())) {
+        if (gr.getPersonalProgress(useSecondaryAmounts) == Integer.parseInt(gr.getTotal(useSecondaryAmounts))) {
             gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
         }
 
