@@ -51,7 +51,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     ItemGridFragment af;
     ItemGridFragment mf;
     public boolean instanceExists;
-    boolean networkAvailable = true;
+    boolean networkAvailable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
+        networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
 
         if (init) {
             setContentView(R.layout.activity_home);
@@ -266,6 +267,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void onSaveInstanceState(Bundle state) {
         //This is telling out future selves that we already have some things and not to do them
         state.putBoolean("instanceExists", true);
+        state.putBoolean("networkAvailable", networkAvailable);
 
         super.onSaveInstanceState(state);
     }
