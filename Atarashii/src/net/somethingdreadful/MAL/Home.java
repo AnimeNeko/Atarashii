@@ -52,6 +52,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     ItemGridFragment mf;
     public boolean instanceExists;
     boolean networkAvailable;
+    BroadcastReceiver networkReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,11 +113,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
             }
 
-            registerReceiver(new BroadcastReceiver() {
+            networkReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     checkNetworkAndDisplayCrouton();
-                }}, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+                }
+            };
 
         } else //If the app hasn't been configured, take us to the first run screen to sign in
         {
@@ -220,6 +222,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
 
         checkNetworkAndDisplayCrouton();
+
+        registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     @Override
@@ -227,6 +231,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         super.onPause();
 
         instanceExists = true;
+
+        unregisterReceiver(networkReceiver);
     }
 
     @Override
