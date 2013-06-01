@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.util.Log;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 public class ImageDownloader {
@@ -57,6 +58,7 @@ public class ImageDownloader {
                     return (bitmap.getRowBytes() * bitmap.getHeight());
             }
         };
+
     }
 
     //download function
@@ -78,10 +80,14 @@ public class ImageDownloader {
             }
 
             if (bitmap == null) {
+                imageView.clearAnimation(); //Not entirely sure if this part is working
                 imageView.setImageResource(R.drawable.transpanel);
+                imageView.setVisibility(ImageView.INVISIBLE);
                 new DecodeFileTask(imageView, url).execute(f.getPath());
             } else {
+                imageView.clearAnimation(); //This part works great.
                 imageView.setImageBitmap(bitmap);
+                imageView.setVisibility(ImageView.VISIBLE);
             }
 
         }
@@ -205,7 +211,8 @@ public class ImageDownloader {
                 // Change bitmap only if this process is still associated with it
                 if (this == bitmapDownloaderTask) {
                     imageView.setImageBitmap(bitmap);
-
+                    imageView.startAnimation(AnimationUtils.loadAnimation(context, R.animator.image_fade_in));
+                    imageView.setVisibility(ImageView.VISIBLE);
                     //cache the image
 
 
@@ -254,6 +261,8 @@ public class ImageDownloader {
                 if (bitmap != null) {
                     try {
                         cover.get().setImageBitmap(bitmap);
+                        cover.get().startAnimation(AnimationUtils.loadAnimation(context, R.animator.image_fade_in));
+                        cover.get().setVisibility(ImageView.VISIBLE);
                     } catch (NullPointerException ignored) {
 
                     }
