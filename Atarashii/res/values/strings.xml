@@ -119,6 +119,8 @@
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on
         extending application for manga support.
     </string>
+    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
+    <string name="contributor_apkawa_summary">Implemented search functionality. </string>
     <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
     <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access
         your MyAnimeList account

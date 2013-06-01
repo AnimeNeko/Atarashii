@@ -20,6 +20,7 @@ public class AboutActivity extends SherlockActivity {
 
         TextView animaMalContent = (TextView) findViewById(R.id.contributor_anima_name);
         TextView motokochanMalContent = (TextView) findViewById(R.id.contributor_motokochan_name);
+        TextView apkawaMalContent = (TextView) findViewById(R.id.contributor_apkawa_name);
         TextView acknowledgementsContent = (TextView) findViewById(R.id.acknowledgements_card_content);
 
         animaMalContent.setMovementMethod(LinkMovementMethod.getInstance());

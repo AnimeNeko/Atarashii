@@ -89,8 +89,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:paddingLeft="8dp"
                     android:text="@string/contributor_motokochan_summary" />
+
+                <TextView
+                    android:id="@+id/contributor_apkawa_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contributor_apkawa_name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="@string/contributor_apkawa_summary" />
             </LinearLayout>
         </ScrollView>
 
