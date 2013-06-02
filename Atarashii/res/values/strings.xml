@@ -99,8 +99,9 @@
     <string name="acknowledgements">Atarashii! uses the
         <a href="http://mal-api.com/">Unofficial MAL API</a>
         by Chu Yeow Cheah. \n\nAtarashii also implements Jake Wharton\'s
-        <a href="http://actionbarsherlock.com">ActionBarSherlock</a>
-        and SimonVT\'s<a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, both of which
+        <a href="http://actionbarsherlock.com">ActionBarSherlock</a>,
+        SimonVT\'s<a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and
+        Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which
         are licensed under the
         <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
         license.
