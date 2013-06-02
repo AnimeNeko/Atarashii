@@ -9,6 +9,8 @@ import net.somethingdreadful.MAL.record.MangaRecord;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
@@ -183,6 +185,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
     public void setProgressPlusOne(GenericMALRecord gr) {
         gr.setPersonalProgress(useSecondaryAmounts, gr.getPersonalProgress(useSecondaryAmounts) + 1);
+        gr.setDirty(GenericMALRecord.DIRTY);
 
         if (gr.getPersonalProgress(useSecondaryAmounts) == Integer.parseInt(gr.getTotal(useSecondaryAmounts))) {
             gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
@@ -195,6 +198,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
     public void setMarkAsComplete(GenericMALRecord gr) {
         gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
+        gr.setDirty(GenericMALRecord.DIRTY);
 
         new writeDetailsTask().execute(gr);
 
@@ -227,10 +231,19 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
             if ("anime".equals(internalType)) {
                 internalManager.saveItem((AnimeRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
             } else {
                 internalManager.saveItem((MangaRecord) gr[0], false);
-                result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
+            }
+
+            if (isNetworkAvailable()) {
+                if ("anime".equals(internalType)) {
+                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
+                } else {
+                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
+                }
+            }
+            else {
+                result = false;
             }
 
 
@@ -253,6 +266,19 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return (int) px;
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) c
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 
     static class ViewHolder {
