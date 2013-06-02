@@ -24,6 +24,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.util.Log;
@@ -267,10 +269,14 @@ public class ImageDownloader {
 
                     }
                 } else {
-                    BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
-                    DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-                    cover.get().setImageDrawable(downloadedDrawable);
-                    task.execute(url);
+
+                    if (isNetworkAvailable()) {
+                        BitmapDownloaderTask task = new BitmapDownloaderTask(cover.get());
+                        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+                        cover.get().setImageDrawable(downloadedDrawable);
+                        task.execute(url);
+                    }
+
                 }
             }
         }
@@ -341,5 +347,19 @@ public class ImageDownloader {
             }
         }
     }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
 }
 
