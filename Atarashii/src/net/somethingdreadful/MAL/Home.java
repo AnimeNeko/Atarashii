@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -304,10 +303,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
 
         if (networkAvailable) {
-            menu.findItem(R.id.forceSync).setEnabled(true);
+            menu.findItem(R.id.forceSync).setVisible(true);
+            menu.findItem(R.id.action_search).setVisible(true);
         }
         else {
-            menu.findItem(R.id.forceSync).setEnabled(false);
+            menu.findItem(R.id.forceSync).setVisible(false);
+            menu.findItem(R.id.action_search).setVisible(false);
         }
 
         return true;
@@ -327,7 +328,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     private void syncNotify() {
-        Toast.makeText(context, R.string.toast_SyncMessage, Toast.LENGTH_LONG).show();
+        Crouton.makeText(this, R.string.toast_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -377,6 +378,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
             //TODO: Sync here, but first sync any records marked DIRTY
+            af.getRecords(af.currentList, "anime", true);
+            mf.getRecords(af.currentList, "manga", true);
+            syncNotify();
         }
 
         if (!isNetworkAvailable()) {

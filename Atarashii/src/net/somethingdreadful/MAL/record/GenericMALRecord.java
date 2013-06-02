@@ -87,7 +87,13 @@ public abstract class GenericMALRecord {
 
     // Use this to get a formatted version of the text suited for display in the application
     public Spanned getSpannedSynopsis() {
-        return Html.fromHtml(getSynopsis());
+
+        try {
+            return Html.fromHtml(getSynopsis());
+        }
+        catch (NullPointerException npe) {
+            return null;
+        }
     }
 
     public void setSynopsis(String newSynopsis) {

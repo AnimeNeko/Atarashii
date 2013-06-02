@@ -21,9 +21,11 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ItemGridFragment extends SherlockFragment {
 
@@ -191,8 +193,10 @@ public class ItemGridFragment extends SherlockFragment {
                         Log.v("MALX", "Successfully re-created mManager");
                     }
                 }
-                mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
 
+                if (mManager.cleanDirtyAnimeRecords()) {
+                    mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
+                }
             }
             al = mManager.getAnimeRecordsFromDB(listint);
 
@@ -223,7 +227,6 @@ public class ItemGridFragment extends SherlockFragment {
             }
 
             if (mForceSync) {
-                Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
                 NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
             }
@@ -261,7 +264,10 @@ public class ItemGridFragment extends SherlockFragment {
                         Log.v("MALX", "Successfully re-created mManager");
                     }
                 }
-                mManager.downloadAndStoreList(MALManager.TYPE_MANGA);
+                if (mManager.cleanDirtyMangaRecords()) {
+                    mManager.downloadAndStoreList(MALManager.TYPE_MANGA);
+                }
+
             }
 
             ml = mManager.getMangaRecordsFromDB(listint);
@@ -292,7 +298,7 @@ public class ItemGridFragment extends SherlockFragment {
             }
 
             if (mForceSync) {
-                Toast.makeText(c, R.string.toast_SyncDone, Toast.LENGTH_SHORT).show();
+                Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
                 NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
             }

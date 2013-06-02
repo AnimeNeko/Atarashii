@@ -536,4 +536,73 @@ public class MALManager {
         }
     }
 
+    public boolean cleanDirtyAnimeRecords() {
+        Cursor animeCursor;
+        Cursor mangaCursor;
+        boolean totalSuccess = true;
+
+        animeCursor = getDBRead().query("anime", this.animeColumns, "dirty = 1", null, null, null, "recordName ASC");
+
+        Log.v("MALX", "Got " + animeCursor.getCount() + " dirty anime records. Cleaning..");
+        animeCursor.moveToFirst();
+
+        while (!animeCursor.isAfterLast()) {
+            AnimeRecord ar = new AnimeRecord(this.getRecordDataFromCursor(animeCursor, AnimeRecord.getTypeMap()));
+
+            totalSuccess = writeDetailsToMAL(ar, "anime");
+
+            if (totalSuccess) {
+                ar.setDirty(GenericMALRecord.CLEAN);
+                saveItem(ar, false);
+            }
+
+            if (!totalSuccess) {
+                break;
+            }
+
+            animeCursor.moveToNext();
+        }
+
+        animeCursor.close();
+
+        Log.v("MALX", "Cleaned dirty anime records, status: " + totalSuccess);
+
+        return totalSuccess;
+    }
+
+    public boolean cleanDirtyMangaRecords() {
+        Cursor mangaCursor;
+        boolean totalSuccess = true;
+
+        if (totalSuccess) {
+            mangaCursor = getDBRead().query("manga", this.mangaColumns, "dirty = 1", null, null, null, "recordName ASC");
+
+            Log.v("MALX", "Got " + mangaCursor.getCount() + " dirty manga records. Cleaning..");
+            mangaCursor.moveToFirst();
+
+            while (!mangaCursor.isAfterLast()) {
+                MangaRecord mr = new MangaRecord(this.getRecordDataFromCursor(mangaCursor, MangaRecord.getTypeMap()));
+
+                totalSuccess = writeDetailsToMAL(mr, "manga");
+
+                if (totalSuccess) {
+                    mr.setDirty(GenericMALRecord.CLEAN);
+                    saveItem(mr, false);
+                }
+
+                if (!totalSuccess) {
+                    break;
+                }
+
+                mangaCursor.moveToNext();
+            }
+
+            mangaCursor.close();
+        }
+
+        Log.v("MALX", "Cleaned dirty manga records, status: " + totalSuccess);
+
+        return totalSuccess;
+    }
+
 }

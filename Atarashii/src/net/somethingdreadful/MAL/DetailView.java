@@ -9,11 +9,14 @@ import org.apache.commons.lang3.text.WordUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
@@ -80,6 +83,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     int MyScore;
     float MemberScore;
     boolean useSecondaryAmounts;
+    boolean networkAvailable = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +96,12 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         //Get the recordType, also passed from calling activity
         //Record type will determine how the detail view lays out itself
         recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
+
+        context = getApplicationContext();
+        mManager = new MALManager(context);
+        pManager = new PrefManager(context);
+
+        networkAvailable = isNetworkAvailable();
 
 
         fm = getSupportFragmentManager();
@@ -153,11 +163,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             }
 
         });
-
-
-        context = getApplicationContext();
-        mManager = new MALManager(context);
-        pManager = new PrefManager(context);
 
         useSecondaryAmounts = pManager.getUseSecondaryAmountsEnabled();
 
@@ -335,9 +340,16 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((animeRecord.getSynopsis() == null) || (animeRecord.getMemberScore() <= 0)) {
-                    animeRecord = mMalManager.updateWithDetails(mRecordID, animeRecord);
+                if(networkAvailable) {
+                    if ((animeRecord.getSynopsis() == null) || (animeRecord.getMemberScore() <= 0)) {
+                        animeRecord = mMalManager.updateWithDetails(mRecordID, animeRecord);
+                    }
                 }
+                else {
+
+                }
+
+
 
                 return animeRecord;
             } else {
@@ -348,8 +360,10 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if ((mangaRecord.getSynopsis() == null) || (mangaRecord.getMemberScore() <= 0)) {
-                    mangaRecord = mMalManager.updateWithDetails(mRecordID, mangaRecord);
+                if(networkAvailable) {
+                    if ((mangaRecord.getSynopsis() == null) || (mangaRecord.getMemberScore() <= 0)) {
+                        mangaRecord = mMalManager.updateWithDetails(mRecordID, mangaRecord);
+                    }
                 }
 
                 return mangaRecord;
@@ -358,14 +372,9 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         }
 
         @Override
-        protected void onPostExecute(GenericMALRecord gr) {
-            if (ProgressFragment.getView() == null) {
-                // Parent activity is destroy, skipping
-                return;
-            }
+        protected void onProgressUpdate(Boolean... progress) {
             if ("anime".equals(internalType)) {
                 actionBar.setTitle(animeRecord.getName());
-
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, animeRecord.getImageUrl())));
 
                 ProgressText = Integer.toString(animeRecord.getPersonalProgress(false));
@@ -394,26 +403,12 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     RecordStatusView.setText(RecordStatusText);
                 }
 
-                MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
-                MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
-
-                if (MALScoreBar != null) {
-                    MALScoreBar.setRating(MemberScore / 2);
-                    MyScoreBar.setRating(MyScore / 2);
-                }
-
-                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
-
-                if (MyStatusView != null) {
-                    MyStatusView.setText(MyStatusText);
-                }
-
                 if ("".equals(animeRecord.getMyStatus())) {
                     Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
                     setAddToListUI(true);
                 }
-
-            } else {
+            }
+            else {
                 actionBar.setTitle(mangaRecord.getName());
 
                 CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mangaRecord.getImageUrl())));
@@ -447,8 +442,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 RecordStatusText = WordUtils.capitalize(mangaRecord.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mangaRecord.getRecordType());
-                MemberScore = mangaRecord.getMemberScore();
-                MyScore = mangaRecord.getMyScore();
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);
@@ -457,6 +450,21 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     RecordStatusView.setText(RecordStatusText);
                 }
 
+                if ("".equals(mangaRecord.getMyStatus())) {
+                    Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
+                    setAddToListUI(true);
+                }
+
+            }
+        }
+
+        @Override
+        protected void onPostExecute(GenericMALRecord gr) {
+            if (ProgressFragment.getView() == null) {
+                // Parent activity is destroy, skipping
+                return;
+            }
+            if ("anime".equals(internalType)) {
                 MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                 MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
 
@@ -465,22 +473,41 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     MyScoreBar.setRating(MyScore / 2);
                 }
 
-                if ("".equals(mangaRecord.getMyStatus())) {
-                    Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
-                    setAddToListUI(true);
+                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
+
+                if (MyStatusView != null) {
+                    MyStatusView.setText(MyStatusText);
                 }
+
+            } else {
+
+                MemberScore = mangaRecord.getMemberScore();
+                MyScore = mangaRecord.getMyScore();
+
+                MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
+                MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
+
+                if (MALScoreBar != null) {
+                    MALScoreBar.setRating(MemberScore / 2);
+                    MyScoreBar.setRating(MyScore / 2);
+                }
+            }
+
+            if (gr.getSpannedSynopsis() != null) {
+                SynopsisText = gr.getSpannedSynopsis();
+                MemberScore = gr.getMemberScore();
+            }
+            else {
+                SynopsisText = Html.fromHtml("<em>No data loaded.</em>");
+                MemberScore = 0.0f;
             }
 
             if (SynopsisFragment.getView() != null) {
                 SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
 
                 if (SynopsisView != null) {
-                    SynopsisView.setText(gr.getSpannedSynopsis(), TextView.BufferType.SPANNABLE);
-                    SynopsisText = gr.getSpannedSynopsis();
-                    MemberScore = gr.getMemberScore();
-                } else {
-                    SynopsisText = gr.getSpannedSynopsis();
-                    MemberScore = gr.getMemberScore();
+                    SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
+
                 }
             }
 
@@ -494,11 +521,13 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean> {
         MALManager internalManager;
         String internalType;
+        boolean internalNetworkAvailable;
 
         @Override
         protected void onPreExecute() {
             internalManager = mManager;
             internalType = recordType;
+            internalNetworkAvailable = networkAvailable;
 
         }
 
@@ -508,30 +537,40 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             boolean result;
 
+            if ("anime".equals(internalType)) {
+                internalManager.saveItem((AnimeRecord) gr[0], false);
+            } else {
+                internalManager.saveItem((MangaRecord) gr[0], false);
+            }
+
             if (gr[0].hasDelete()) {
                 internalManager.deleteItemFromDatabase(internalType, gr[0].getID());
                 result = internalManager.writeDetailsToMAL(gr[0], internalType);
             }
             else {
-                if ("anime".equals(internalType)) {
-                    internalManager.saveItem((AnimeRecord) gr[0], false);
-                    if (gr[0].hasCreate()) {
-                        result = internalManager.addItemToMAL(gr[0], internalType);
-                    }
-                    else {
-                        result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
-                    }
+                if (internalNetworkAvailable){
+                    if ("anime".equals(internalType)) {
+                        if (gr[0].hasCreate()) {
+                            result = internalManager.addItemToMAL(gr[0], internalType);
+                        }
+                        else {
+                            result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
+                        }
 
-                } else {
-                    internalManager.saveItem((MangaRecord) gr[0], false);
-                    if (gr[0].hasCreate()) {
-                        result = internalManager.addItemToMAL(gr[0], internalType);
-                    }
-                    else {
-                        result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
-                    }
+                    } else {
+                        if (gr[0].hasCreate()) {
+                            result = internalManager.addItemToMAL(gr[0], internalType);
+                        }
+                        else {
+                            result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
+                        }
 
+                    }
                 }
+                else {
+                    result = false;
+                }
+
 
                 if (result) {
                     gr[0].setDirty(GenericMALRecord.CLEAN);
@@ -541,6 +580,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     } else {
                         internalManager.saveItem((MangaRecord) gr[0], false);
                     }
+
                 }
             }
 
@@ -830,5 +870,18 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         }
 
         setAddToListUI(false);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 }
