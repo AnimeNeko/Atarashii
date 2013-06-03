@@ -33,37 +33,34 @@ First, import the main Atarashii project:
     be listed at the top
   - You should rename this project from the default name given by Eclipse
 
-Next, import the third-party modules from inside the third-party directory.
-With the latest version of ADT, this is now possible in one fell swoop.
+Next, import each of the third-party modules from inside the third-party
+directory. For each project, follow these steps:
 
   - In Eclipse, create a new "Android Project from Existing Code"
-  - Select the third-party directory from Atarashii's root
-  - You will see a big list of things. We only want the libraries, so untick
-    the list items that aren't the libraries.
-  - You *must* ensure that no libraries are imported with a conflicting name.
-    Left-click each of the checkmarked libraries, then click the name beside it
-	and rename it to whatever you choose to ensure it is unique.
+  - Select the library folder for each library
+  - You should only see one project, named "library"
+  - You *must* rename this project from the default name given by Eclipse. It
+    is recommended to use the name of the library for ease of reference.
 
 
-Fixing Support Library Conflicts & More
-----------------------------------------
-While Atarashii! provides its own Android Support Library, so does ABS. This 
-is an issue, as their signatures will conflict due to Atarashii! utilizing a newer
-version. To resolve this:
+Linking Atarashii and the Libraries
+-----------------------------------
+View the project properties for the Atarashii project in Eclipse. Select the
+"Java Build Path" node in the tree. From the Projects tab, add the library
+projects. On the library tab, select "Add JARs..." and add the jar files found
+in the libs directory.
 
-  - Right-click the ActionBarSherlock project in your Package Explorer
-  - Select Properties -> Java Build Path -> Order and Export
-  - Untick Android Private Libraries
-  
-Additionally, the Crouton library depends on this version of the Support Library,
-but does not bring it's own. To tell Crouton to use our Support Library:
 
-  - Right-click the Crouton project in your Package Explorer
-  - Select Properties -> Java Build Path -> Libraries
-  - Add JARs... -> Atarashii/libs/android-support-v4.jar
-   
-  
+A Word on Croutons
+------------------
+Our newest third party component, Crouton, will have an error within it's own 
+project. While it is OCD-inducing, this is completely fine. It is throwing an 
+error because it expects an Android Support Library to be provided, but it is 
+not included in the Crouton library itself. However, Atarashii! already has an 
+exported Support Library from ABS, so it will compile with the project just fine.
+
+
 You should now be able to successfully build and develop Atarashii!
 
 
-Revision 20130602
+Revision 20130530
