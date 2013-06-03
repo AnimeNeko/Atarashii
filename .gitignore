@@ -4,6 +4,9 @@ gen
 lint.xml
 out
 
+#Java Binaries
+*.jar
+
 #Eclipse
 .project
 .classpath
