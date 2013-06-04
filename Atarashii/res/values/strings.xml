@@ -39,9 +39,7 @@
     <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="cover_PlanningToRead">Planning to read</string>
-    <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet
-        speed.
-    </string>
+    <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_SyncDone">Sync Complete!</string>
     <string name="placeholder_Loading">Loading, just a sec.</string>
     <string name="action_SetWatched">Update Progress</string>
@@ -52,6 +50,7 @@
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
     <string name="description_CoverImage">Cover Image</string>
+
     <string-array name="listTypeArray">
         <item>Everything</item>
         <item>Watching</item>
@@ -68,6 +67,7 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
     <string name="preference_category_credits">Credits</string>
     <string name="summary_appcredits">Atarashii! is an open source project. \nTap to view contributors.</string>
     <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
@@ -75,9 +75,7 @@
     <string name="action_PlusOneRead">+1 Read</string>
     <string name="action_MarkAsComplete">Mark Completed</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
-    <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style.
-        Requires restart to take effect.
-    </string>
+    <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="label_detailItemType">Type of Media</string>
     <string name="label_detailItemStatus">Media Status</string>
     <string name="label_detailItemViewStatus">View Status</string>
@@ -88,47 +86,25 @@
     <string name="action_Share">Share</string>
     <string name="preference_category_sharing">Sharing</string>
     <string name="preference_customShareText">Custom Share Text</string>
-    <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title;
-        and $link; in place of the title and link to MAL, we\'ll do the rest.
-    </string>
+    <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
     <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
-    <!--  AboutActivity Screen Text -->
+    <!-- AboutActivity Screen Text -->
     <string name="contributors_card_title">Major Contributors</string>
     <string name="acknowledgements_card_title">Acknowledgements</string>
-    <string name="acknowledgements">Atarashii! uses the
-        <a href="http://mal-api.com/">Unofficial MAL API</a>
-        by Chu Yeow Cheah. \n\nAtarashii also implements Jake Wharton\'s
-        <a href="http://actionbarsherlock.com">ActionBarSherlock</a>,
-        SimonVT\'s<a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and
-        Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which
-        are licensed under the
-        <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
-        license.
-    </string>
-    <string name="app_description">Atarashii! is a mobile client for the popular MyAnimeList.net website. It focuses
-        primarily on ease-of-use while still being visually pleasing.
-    </string>
-    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)
-    </string>
-    <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of
-        the poor UI of other apps and their general lack of maintenance, he went and created this one.
-    </string>
-    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">
-        motokochan</a>)
-    </string>
-    <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on
-        extending application for manga support.
-    </string>
+    <string name="acknowledgements">Atarashii! uses the<a href="http://mal-api.com/">Unofficial MAL API</a> by Chu Yeow Cheah. \n\nAtarashii also implements Jake Wharton\'s<a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s<a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
+    <string name="app_description">Atarashii! is a mobile client for the popular MyAnimeList.net website. It focuses primarily on ease-of-use while still being visually pleasing.</string>
+    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
+    <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
+    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
+    <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
     <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
-    <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access
-        your MyAnimeList account
-    </string>
+    <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access your MyAnimeList account</string>
     <string name="permission_updateMedia">Update Records</string>
-    <string name="permission_description_updateMedia">Allow this app to update records on your MyAnimeList account
-    </string>
+    <string name="permission_description_updateMedia">Allow this app to update records on your MyAnimeList account</string>
+
     <string-array name="statusMangaArray">
         <item>Reading</item>
         <item>Completed</item>
@@ -136,13 +112,14 @@
         <item>Dropped</item>
         <item>Planned</item>
     </string-array>
+
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_title_rating">Rating</string>
     <string name="dialog_logout_title">Confirm Logout</string>
     <string name="dialog_logout_label_confirm">Logout</string>
-    <string name="dialog_logout_message">Are you sure you wish to logout? This will erase all stored data and images.
-    </string>
+    <string name="dialog_logout_message">Are you sure you wish to logout? This will erase all stored data and images.</string>
+
     <string-array name="array_ratings_text">
         <item>Unrated</item>
         <item>1: Appalling</item>
@@ -156,14 +133,14 @@
         <item>9: Great</item>
         <item>10: Masterpiece</item>
     </string-array>
+
     <string name="action_Remove">Remove from list</string>
-    <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered.
-        Not easily anyways.
-    </string>
+    <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
     <string name="action_AddToList">Add to list</string>
     <string name="crouton_noConnectivityOnRun">No connection available! Don\'t panic, we\'ll run in offline mode for now. When connectivity is restored, we\'ll sync up any pending changes.</string>
     <string name="crouton_connectionRestored">Connection Restored! Any changes you might have made while offline are now being synced.</string>
     <string name="preference_category_mangaSettings">Manga</string>
     <string name="preference_displayVolumes">Use Volumes on Covers</string>
     <string name="preference_summary_displayVolumes">If checked, will display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
+
 </resources>
