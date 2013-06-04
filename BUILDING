@@ -5,16 +5,15 @@ Fetching the Code
 -----------------
 After cloning the Atarashii code, you will need to fetch the third-party
 code stored as submodules. In the root Atarashii directory, run the
-following two commands:
+following command:
 
-  - git submodule init
-  - git submodule update
+  git submodule update --init
  
 This will fetch the required third-party libraries used in the code.
 
-If you will be working with the submodule code directly, please read about
-maintaining submodules at
-http://git-scm.com/book/en/Git-Tools-Submodules
+We do not normally modify the third party libraries we use, but if you find
+yourself working with the submodule code directly, please read about
+maintaining submodules at http://git-scm.com/book/en/Git-Tools-Submodules
 
 
 Importing the Projects to Eclipse with the ADT Plugin
@@ -22,45 +21,43 @@ Importing the Projects to Eclipse with the ADT Plugin
 You should already have the ADT Plugin installed. If you do not, follow the
 instructions at https://developer.android.com/tools/sdk/eclipse-adt.html
 
-NOTE: Due to naming conflicts because of the default names used by Eclipse,
-you will need to import each project individually.
+NOTE: Eclipse often picks a basic name like "library" or "home" based on the
+folder the code is in. It is encouraged to rename the project to that you
+can easily identify the items inside your workspace.
 
-First, import the main Atarashii project:
+First, import each of the third-party modules from inside the third-party
+directory. You can do this all at once with the following steps:
 
-  - In Eclipse, create a new "Android Project from Existing Code"
-  - Select the Atarashii root folder inside the checkout
-  - Deselect all items and only select the Atarashii main project, which should
-    be listed at the top
-  - You should rename this project from the default name given by Eclipse
+  - In Eclipse, create a new "Android Project from Existing Code".
+  - Choose the third-party folder.
+  - Uncheck every project detected except for the library items. As of the
+    last revision of this document, there should be three items checked.
+  - It is recommended to update the names of the projects that will be
+    created to match the library name.
 
-Next, import each of the third-party modules from inside the third-party
-directory. For each project, follow these steps:
+Next, import the main Atarashii project:
 
-  - In Eclipse, create a new "Android Project from Existing Code"
-  - Select the library folder for each library
-  - You should only see one project, named "library"
-  - You *must* rename this project from the default name given by Eclipse. It
-    is recommended to use the name of the library for ease of reference.
-
-
-Linking Atarashii and the Libraries
------------------------------------
-View the project properties for the Atarashii project in Eclipse. Select the
-"Java Build Path" node in the tree. From the Projects tab, add the library
-projects. On the library tab, select "Add JARs..." and add the jar files found
-in the libs directory.
+  - In Eclipse, create a new "Android Project from Existing Code".
+  - Select the Atarashii project folder inside the checkout.
+  - Only select the Atarashii main project.
+  - It is recommended that you rename the project from the default name
+    suggested by Eclipse.
 
 
-A Word on Croutons
-------------------
-Our newest third party component, Crouton, will have an error within it's own 
-project. While it is OCD-inducing, this is completely fine. It is throwing an 
-error because it expects an Android Support Library to be provided, but it is 
-not included in the Crouton library itself. However, Atarashii! already has an 
-exported Support Library from ABS, so it will compile with the project just fine.
+Fixing the Android Support Library Build Errors
+-----------------------------------------------
+ActionBarSherlock, Cruton, and Atarashii all use the Android Support Library
+for compatibility. This library version must match across all the projects or
+you will experience build errors.
+
+To fix the errors around this library, simply add the support library to all
+three projects. In Eclipse, this can be done from the context menu when you
+right-click a project. From the context menu, select "Android Tools", then
+"Add Support Library". This will need to be done individually for all three
+projects that require it.
 
 
 You should now be able to successfully build and develop Atarashii!
 
 
-Revision 20130530
+Revision 20130603
