@@ -31,6 +31,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 public class DetailView extends SherlockFragmentActivity implements DetailsBasicFragment.IDetailsBasicAnimeFragment,
 EpisodesPickerDialogFragment.DialogDismissedListener, MangaProgressDialogFragment.MangaDialogDismissedListener,
 StatusPickerDialogFragment.StatusDialogDismissedListener, RatingPickerDialogFragment.RatingDialogDismissedListener,
@@ -726,8 +729,10 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             if (newChapterValue == mangaRecord.getPersonalProgress(false)) {
 
-            } else {
+            }
+            else {
                 if (Integer.parseInt(mangaRecord.getTotal(false)) != 0) {
+
                     if (newChapterValue == Integer.parseInt(mangaRecord.getTotal(false))) {
                         mangaRecord.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
                     }
@@ -747,9 +752,16 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             if (newVolumeValue == mangaRecord.getVolumeProgress()) {
 
-            } else {
+            }
+            else {
                 mangaRecord.setVolumesRead(newVolumeValue);
                 mangaRecord.setDirty(GenericMALRecord.DIRTY);
+
+                ProgressCurrentVolumeView.setText(Integer.toString(newVolumeValue));
+            }
+
+            if (newChapterValue == 9001 || newVolumeValue == 9001) {
+                Crouton.makeText(this, "It's over 9000!!", Style.INFO).show();
             }
         }
 

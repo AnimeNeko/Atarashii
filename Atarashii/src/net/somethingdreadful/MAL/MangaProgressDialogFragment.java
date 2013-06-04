@@ -100,13 +100,13 @@ public class MangaProgressDialogFragment extends DialogFragment {
         if (chaptersTotal != 0) {
             chapterPicker.setMaxValue(chaptersTotal);
         } else {
-            chapterPicker.setMaxValue(9999);
+            chapterPicker.setMaxValue(9001);
         }
 
         if (volumesTotal != 0) {
             volumePicker.setMaxValue(volumesTotal);
         } else {
-            volumePicker.setMaxValue(9999);
+            volumePicker.setMaxValue(9001);
         }
 
         chapterPicker.setWrapSelectorWheel(false);
