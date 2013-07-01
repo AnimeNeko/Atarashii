@@ -25,6 +25,7 @@ public class AboutActivity extends SherlockActivity {
 
         animaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         motokochanMalContent.setMovementMethod(LinkMovementMethod.getInstance());
+        apkawaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         acknowledgementsContent.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
