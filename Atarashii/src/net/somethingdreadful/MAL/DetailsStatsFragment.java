@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import net.somethingdreadful.MAL.R;
 
 public class DetailsStatsFragment extends Fragment {
     public DetailsStatsFragment() {
@@ -18,7 +17,6 @@ public class DetailsStatsFragment extends Fragment {
             Bundle savedInstanceState) {
         TextView textView = new TextView(getActivity());
         textView.setGravity(Gravity.CENTER);
-        Bundle args = getArguments();
         textView.setText("STATS HERE");
         return textView;
     }

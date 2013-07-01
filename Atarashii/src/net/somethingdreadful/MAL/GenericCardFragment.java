@@ -67,7 +67,6 @@ public class GenericCardFragment extends SherlockFragment {
 
 
     public void setArgsSensibly(String title, int layoutResID, int contentType, boolean actionable) {
-        Bundle args = new Bundle();
 
         this.title = title;
         this.layoutResID = layoutResID;

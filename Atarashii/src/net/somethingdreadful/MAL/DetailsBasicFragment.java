@@ -1,18 +1,12 @@
 package net.somethingdreadful.MAL;
 
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.ItemGridFragment.IItemGridFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 public class DetailsBasicFragment extends Fragment {
     public DetailsBasicFragment() {
