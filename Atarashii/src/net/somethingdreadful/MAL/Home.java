@@ -52,6 +52,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public boolean instanceExists;
     boolean networkAvailable;
     BroadcastReceiver networkReceiver;
+    MenuItem searchItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.activity_home, menu);
+        searchItem = menu.findItem(R.id.action_search);
         super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -223,6 +225,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         checkNetworkAndDisplayCrouton();
 
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        
+        if (mSearchView != null) {
+        	mSearchView.clearFocus();
+            mSearchView.setFocusable(false);
+            mSearchView.setQuery("", false);
+            searchItem.collapseActionView();      
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,6 +23,9 @@ import android.util.Log;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class SearchActivity extends BaseActionBarSearchView
 implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
@@ -38,24 +42,33 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    ActionBar actionBar;
     Context context;
     PrefManager mPrefManager;
     public MALManager mManager;
     BaseItemGridFragment animeItemGridFragment;
     BaseItemGridFragment mangaItemGridFragment;
+    Activity activity;
+    
+    boolean noAnimeRecordsFound = false;
+    boolean noMangaRecordsFound = false;
+    
+    boolean searchedOnce;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-
+        activity = this;
         mPrefManager = new PrefManager(context);
+        
+        searchedOnce = false;
 
         setContentView(R.layout.activity_search);
         mManager = new MALManager(context);
 
         // Set up the action bar.
-        final ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -99,10 +112,20 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
     }
 
     @Override
-    public void doSearch(String query, BaseMALApi.ListType listType) {
-        networkThread nt = new networkThread();
-        nt.setListType(listType);
-        nt.execute(query);
+    public void doSearch(String query, BaseMALApi.ListType listType) { //ignore listtype, search both anime and manga
+        networkThread animethread = new networkThread();
+        animethread.setListType(BaseMALApi.ListType.ANIME);
+        animethread.execute(query);
+        
+        networkThread mangathread = new networkThread();
+        mangathread.setListType(BaseMALApi.ListType.MANGA);
+        mangathread.execute(query);
+        
+        if (mSearchView != null) {
+        	mSearchView.clearFocus();
+            mSearchView.setFocusable(false);
+        }
+        
     }
 
     @Override
@@ -181,34 +204,73 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
         @Override
         protected void onPostExecute(Void result) {
             String type = MALApi.getListTypeString(getListType());
+            
             try {
                 switch (listType) {
                     case ANIME: {
                         ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
-                        for (int i = 0; i < _result.length(); i++) {
-                            JSONObject genre = (JSONObject) _result.get(i);
-                            AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
-                            list.add(record);
+                        
+                        if (_result.length() == 0) {
+                        	noAnimeRecordsFound = true;
                         }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre = (JSONObject) _result.get(i);
+                                AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }
+                        }
+                        
                         animeItemGridFragment.setAnimeRecords(list);
                         break;
                     }
                     case MANGA: {
                         ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
-                        for (int i = 0; i < _result.length(); i++) {
-                            JSONObject genre = (JSONObject) _result.get(i);
-                            MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
-                            list.add(record);
+                        
+                        if (_result.length() == 0) {
+                        	noMangaRecordsFound = true;
                         }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre =  (JSONObject) _result.get(i);
+                                MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }	
+                        }
+                        
                         mangaItemGridFragment.setMangaRecords(list);
                         break;
                     }
                 }
+                
             } catch (JSONException e) {
                 Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
             }
-
+            displayCrouton();
         }
+    }
+    
+    public void displayCrouton() {
+    	if (!searchedOnce) {
+    		searchedOnce = true;
+    	}
+    	else {
+    		if (noAnimeRecordsFound && noMangaRecordsFound) {
+            	Crouton.makeText(activity, R.string.crouton_nothingFound, Style.ALERT).show();
+            }
+            else if (noAnimeRecordsFound) {          	
+            	mViewPager.setCurrentItem(1);
+            	actionBar.setSelectedNavigationItem(1);
+            }
+            else if (noMangaRecordsFound) {
+            	mViewPager.setCurrentItem(0);
+            	actionBar.setSelectedNavigationItem(0);
+            }
+    		
+    		searchedOnce = false;
+    		noAnimeRecordsFound = false;
+    		noMangaRecordsFound = false;
+    	}
     }
 
 

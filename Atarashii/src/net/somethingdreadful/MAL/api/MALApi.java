@@ -84,7 +84,8 @@ public class MALApi extends BaseMALApi {
 					+ String.format("/search?q=%s", query)));
 			response = restHelper.get(url);
 		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
 		}
 		return responseToJSONArray(response);
 	}

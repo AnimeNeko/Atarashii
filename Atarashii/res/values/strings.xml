@@ -142,5 +142,8 @@
     <string name="preference_category_mangaSettings">Manga</string>
     <string name="preference_displayVolumes">Use Volumes on Covers</string>
     <string name="preference_summary_displayVolumes">If checked, will display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
+    <string name="crouton_noAnimeFound">No anime results found. Maybe refine your query?</string>
+    <string name="crouton_noMangaFound">No manga results found. Maybe refine your query?</string>
+    <string name="crouton_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
 
 </resources>
