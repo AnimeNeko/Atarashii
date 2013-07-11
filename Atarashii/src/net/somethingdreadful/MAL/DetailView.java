@@ -189,11 +189,13 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-    	if (networkAvailable) {
-    		menu.findItem(R.id.action_Remove).setVisible(true);
-    	}
-    	else {
-    		menu.findItem(R.id.action_Remove).setVisible(false);
+    	if (isAdded) {
+    		if (networkAvailable) {
+        		menu.findItem(R.id.action_Remove).setVisible(true);
+        	}
+        	else {
+        		menu.findItem(R.id.action_Remove).setVisible(false);
+        	}
     	}
     	
         return true;
