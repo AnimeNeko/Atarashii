@@ -140,7 +140,7 @@ public class ItemGridFragment extends SherlockFragment {
 
         gv.setDrawSelectorOnTop(true);
 
-        getRecords(currentList, recordType, false);
+        getRecords(currentList, recordType, false, this.c);
 
         Iready.fragmentReady();
 
@@ -148,15 +148,16 @@ public class ItemGridFragment extends SherlockFragment {
 
     }
 
-    public void getRecords(int listint, String mediaType, boolean forceSync) {
+    public void getRecords(int listint, String mediaType, boolean forceSync, Context c) {
         forceSyncBool = forceSync;
         currentList = listint;
         recordType = mediaType;
+        Context context = c;
 
         if (recordType.equals("anime")) {
-            new getAnimeRecordsTask(this.gridCellHeight).execute(currentList);
+            new getAnimeRecordsTask(this.gridCellHeight, context).execute(currentList);
         } else if (recordType.equals("manga")) {
-            new getMangaRecordsTask(this.gridCellHeight).execute(currentList);
+            new getMangaRecordsTask(this.gridCellHeight, context).execute(currentList);
         }
     }
 
@@ -167,9 +168,11 @@ public class ItemGridFragment extends SherlockFragment {
         String type = recordType;
         MALManager internalManager = mManager;
         int gridCellHeight;
+        Context context;
 
-        getAnimeRecordsTask(int imageHeight) {
+        getAnimeRecordsTask(int imageHeight, Context c) {
             this.gridCellHeight = imageHeight;
+            this.context = c;
         }
 
         @SuppressWarnings({"rawtypes", "unchecked"})
@@ -184,11 +187,12 @@ public class ItemGridFragment extends SherlockFragment {
 
             if (mForceSync) {
                 al = new ArrayList();
+
                 if (mManager == null) {
                     Log.w("MALX", "mManager is null. Attempting to re-create the object.");
 
                     try {
-                        mManager = new MALManager(c);
+                        mManager = new MALManager(this.context);
                     } finally {
                         Log.v("MALX", "Successfully re-created mManager");
                     }
@@ -241,9 +245,11 @@ public class ItemGridFragment extends SherlockFragment {
         String type = recordType;
         MALManager internalManager = mManager;
         int gridCellHeight;
+        Context context;
 
-        getMangaRecordsTask(int imageHeight) {
+        getMangaRecordsTask(int imageHeight, Context c) {
             this.gridCellHeight = imageHeight;
+            this.context = c;
         }
 
         @SuppressWarnings({"rawtypes", "unchecked"})
@@ -255,11 +261,12 @@ public class ItemGridFragment extends SherlockFragment {
             }
             if (mForceSync) {
                 al = new ArrayList();
+
                 if (mManager == null) {
                     Log.w("MALX", "mManager is null. Attempting to re-create the object.");
 
                     try {
-                        mManager = new MALManager(c);
+                        mManager = new MALManager(this.context);
                     } finally {
                         Log.v("MALX", "Successfully re-created mManager");
                     }
