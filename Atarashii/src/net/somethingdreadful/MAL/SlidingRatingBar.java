@@ -43,6 +43,10 @@ public class SlidingRatingBar extends RatingBar {
                     }
                     prevX = x;
                 }
+                break;
+             case MotionEvent.ACTION_DOWN:
+            	passer.updateRatingText(getProgress());
+            	break;
         }
         return true;
     }
