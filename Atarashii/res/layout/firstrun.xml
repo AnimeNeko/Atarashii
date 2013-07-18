@@ -36,6 +36,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:hint="@string/fr_hint_user"
+            android:imeOptions="actionNext"
+            android:inputType="text"
             android:padding="8dp" >
 
             <requestFocus />
