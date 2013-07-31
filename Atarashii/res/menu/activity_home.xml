@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_listType" android:showAsAction="ifRoom|withText"
-          android:title="@string/menu_listType" android:icon="@drawable/ic_action_switchlist"
+          android:title="@string/menu_listType" android:icon="@drawable/ic_menu_switchlist"
             >
 
         <menu>
@@ -24,11 +24,11 @@
     </item>
     <item android:id="@+id/forceSync"
           android:title="@string/menu_sync"
-          android:icon="@drawable/ic_action_refresh"
+          android:icon="@drawable/ic_menu_refresh"
           android:showAsAction="ifRoom"/>
     <item android:id="@+id/action_search"
           android:title="Search"
-          android:icon="@drawable/ic_action_search"
+          android:icon="@drawable/ic_menu_search"
           android:showAsAction="always|collapseActionView"
           android:actionViewClass="com.actionbarsherlock.widget.SearchView"
             />
