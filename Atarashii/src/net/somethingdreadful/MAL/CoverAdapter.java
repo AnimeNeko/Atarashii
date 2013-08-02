@@ -25,10 +25,11 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class CoverAdapter<T> extends ArrayAdapter<T> {
 
     private ArrayList<T> objects;
-    private ImageDownloader imageManager;
     private Context c;
     private MALManager mManager;
     private String type;
@@ -41,7 +42,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         super(context, resource, objects);
         this.objects = objects;
         this.c = context;
-        imageManager = new ImageDownloader(c);
         mManager = m;
         this.type = type;
         this.resource = resource;
@@ -85,7 +85,9 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
         viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress(useSecondaryAmounts)));
 
-        imageManager.download(a.getImageUrl(), viewHolder.cover);
+        Picasso coverimage = Picasso.with(c);
+
+        coverimage.load(a.getImageUrl()).into(viewHolder.cover);
 
         if (Build.VERSION.SDK_INT >= 11) {
             if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))) {

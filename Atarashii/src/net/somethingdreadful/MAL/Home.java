@@ -331,7 +331,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mPrefManager.setPass("");
         mPrefManager.commitChanges();
         context.deleteDatabase(MALSqlHelper.getHelper(context).getDatabaseName());
-        new ImageDownloader(context).wipeCache();
+        //Moving to Picasso, we aren't using ImageDownloader anymore.
+        //We need to find a way to clear the application cache.
+        //new ImageDownloader(context).wipeCache();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
