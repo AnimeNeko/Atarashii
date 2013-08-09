@@ -29,7 +29,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchItem.getActionView();
-        mSearchView.setQueryHint("Search in MAL"); // TODO use R.string
+        mSearchView.setQueryHint(getString(R.string.search_prompt)); 
         mSearchView.setOnQueryTextListener(this);
         if (SearchActivity.class.isInstance(this)) {
             mSearchView.setIconifiedByDefault(false);
