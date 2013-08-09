@@ -145,5 +145,6 @@
     <string name="crouton_noAnimeFound">No anime results found. Maybe refine your query?</string>
     <string name="crouton_noMangaFound">No manga results found. Maybe refine your query?</string>
     <string name="crouton_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
+    <string name="search_prompt">Search in MAL</string>
 
 </resources>
