@@ -161,6 +161,46 @@ public class ItemGridFragment extends SherlockFragment {
         }
     }
 
+    public void setAnimeRecords(ArrayList<AnimeRecord> objects){
+    	CoverAdapter<AnimeRecord> adapter = ca;
+    	if (adapter == null){
+    		int list_cover_item = R.layout.grid_cover_with_text_item;
+    		if (useTraditionalList){
+    			list_cover_item = R.layout.list_cover_with_text_item;
+    		}
+    		adapter = new CoverAdapter<AnimeRecord>(c,list_cover_item,objects,mManager,recordType,this.gridCellHeight,useSecondaryAmounts);
+    		
+    	}
+    	if (gv.getAdapter() == null){
+    		gv.setAdapter(adapter);
+    	}else{
+    		adapter.clear();
+    		adapter.supportAddAll(objects);
+    		adapter.notifyDataSetChanged();
+    	}
+    	ca = adapter;
+    }
+    public void setMangaRecords(ArrayList<MangaRecord> objects) {
+        CoverAdapter<MangaRecord> adapter = cm;
+        if (adapter == null) {
+            int list_cover_item = R.layout.grid_cover_with_text_item;
+            if (useTraditionalList) {
+                list_cover_item = R.layout.list_cover_with_text_item;
+            }
+            adapter = new CoverAdapter<MangaRecord>(c, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+        }
+        if (gv.getAdapter() == null) {
+            gv.setAdapter(adapter);
+        } else {
+            adapter.clear();
+            adapter.supportAddAll(objects);
+            adapter.notifyDataSetChanged();
+        }
+        cm = adapter;
+
+    }
+    
+    
     public class getAnimeRecordsTask extends AsyncTask<Integer, Void, ArrayList<AnimeRecord>> {
 
         boolean mForceSync = forceSyncBool;

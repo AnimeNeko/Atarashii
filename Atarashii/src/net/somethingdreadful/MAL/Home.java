@@ -1,6 +1,16 @@
 package net.somethingdreadful.MAL;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import net.somethingdreadful.MAL.SearchActivity.networkThread;
 import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -12,6 +22,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +31,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -261,10 +273,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists) {
+        /*if (instanceExists) {
             af.getRecords(af.currentList, "anime", false, this.context);
             mf.getRecords(af.currentList, "manga", false, this.context);
-        }
+        }*/
 
         checkNetworkAndDisplayCrouton();
 
@@ -445,6 +457,96 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         supportInvalidateOptionsMenu();
     }
+    /*a thread to fetch most popular anime/manga*/
+    
+    public void getMostPopular(BaseMALApi.ListType listType){
+    	 getPopularNetworkThread animethread = new getPopularNetworkThread();
+         animethread.setListType(BaseMALApi.ListType.ANIME);
+         animethread.execute(query);
+         
+         /*getPopularNetworkThread mangathread = new getPopularNetworkThread();
+         mangathread.setListType(BaseMALApi.ListType.MANGA);
+         mangathread.execute(query);*/
+         //API doesn't support getting popular manga :/  so we'll be getting an empty set
+    }
+    
+    
+    public class getPopularNetworkThread extends AsyncTask<String, Void, Void> {
+        JSONArray _result;
+
+        public MALApi.ListType getListType() {
+            return listType;
+        }
+
+        public void setListType(MALApi.ListType listType) {
+            this.listType = listType;
+        }
+
+        MALApi.ListType listType;
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String query = params[0];
+            MALApi api = new MALApi(context);
+            _result = api.getMostPopular(getListType());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            String type = MALApi.getListTypeString(getListType());
+            
+            try {
+                switch (listType) {
+                    case ANIME: {
+                        ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
+                        
+                        if (_result.length() == 0) {
+                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+                        }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre = (JSONObject) _result.get(i);
+                                AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }
+                        }
+                        
+                        af.setAnimeRecords(list);
+                        break;
+                    }
+                    case MANGA: {
+                        ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
+                        
+                        if (_result.length() == 0) {
+                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+                        }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre =  (JSONObject) _result.get(i);
+                                MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }	
+                        }
+                        
+                        mf.setMangaRecords(list);
+                        break;
+                    }
+                }
+                
+            } catch (JSONException e) {
+                Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
+            }
+
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     
     /*private classes for nav drawer*/
     private ActionBarHelper createActionBarHelper() {
@@ -456,6 +558,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			/* do stuff when drawer item is clicked here */
+			switch (position){
+			case 0:
+				af.getRecords(0, "anime", false, Home.this.context);
+                mf.getRecords(0, "manga", false, Home.this.context);
+				break;
+			case 1:
+				
+				break;
+			case 2:
+				getMostPopular(BaseMALApi.ListType.ANIME);
+				break;
+			}			
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}

@@ -31,6 +31,7 @@ public class MALApi extends BaseMALApi {
 
 	public JSONArray responseToJSONArray(RestResult<String> response) {
 		JSONArray result = null;
+
 		try {
 			result = new JSONArray(response.result);
 		} catch (JSONException e) {
@@ -168,6 +169,24 @@ public class MALApi extends BaseMALApi {
 			return false;
 		}
 		return response.code == 200;
+	}
+	
+	@Override
+	public JSONArray getMostPopular(ListType listType){
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType)
+					+ "/popular"));
+			System.out.println("The url is "+url.toString());
+			response = restHelper.get(url);
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
+		}
+			
+		
+		return responseToJSONArray(response);
 	}
 
 }
