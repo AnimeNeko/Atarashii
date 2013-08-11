@@ -47,6 +47,7 @@ public abstract class BaseMALApi {
     public abstract boolean deleteGenreFromList(ListType listType, String genre_id);
     
     public abstract JSONArray getMostPopular(ListType listType);
+    public abstract JSONArray getTopRated(ListType listType);
 
 
     public String getUsername() {

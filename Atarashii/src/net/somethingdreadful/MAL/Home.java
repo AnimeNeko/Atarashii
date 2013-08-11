@@ -82,7 +82,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public static final String[] DRAWER_OPTIONS = 
         {
                 "My List",   
-                "This Season",
+                "Top Rated",
                 "Most Popular"
         };
     
@@ -457,22 +457,37 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         supportInvalidateOptionsMenu();
     }
-    /*a thread to fetch most popular anime/manga*/
+    /* thread & methods to fetch most popular anime/manga*/
+    //in order to reuse the code from the thread class, 1 signifies a getPopular job and 2 signifies a getTop job. Probably a better way to do this
     
     public void getMostPopular(BaseMALApi.ListType listType){
-    	 getPopularNetworkThread animethread = new getPopularNetworkThread();
+    	networkThread animethread = new networkThread(1);
          animethread.setListType(BaseMALApi.ListType.ANIME);
          animethread.execute(query);
          
-         /*getPopularNetworkThread mangathread = new getPopularNetworkThread();
+         /*networkThread mangathread = new networkThread(1);
          mangathread.setListType(BaseMALApi.ListType.MANGA);
          mangathread.execute(query);*/
-         //API doesn't support getting popular manga :/  so we'll be getting an empty set
+         //API doesn't support getting popular manga :/  
+    }
+    public void getTopRated(BaseMALApi.ListType listType){
+    	networkThread animethread = new networkThread(2);
+        animethread.setListType(BaseMALApi.ListType.ANIME);
+        animethread.execute(query);
+        
+        /*networkThread mangathread = new networkThread(2);
+        mangathread.setListType(BaseMALApi.ListType.MANGA);
+        mangathread.execute(query);*/
+        //API doesn't support getting top rated manga :/  
     }
     
     
-    public class getPopularNetworkThread extends AsyncTask<String, Void, Void> {
+    public class networkThread extends AsyncTask<String, Void, Void> {
         JSONArray _result;
+        int job;
+        public networkThread(int job){
+        	this.job = job;
+        }
 
         public MALApi.ListType getListType() {
             return listType;
@@ -488,7 +503,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         protected Void doInBackground(String... params) {
             String query = params[0];
             MALApi api = new MALApi(context);
-            _result = api.getMostPopular(getListType());
+            switch (job){
+            case 1:
+            	_result = api.getMostPopular(getListType()); //if job == 1 then get the most popular
+            	break;
+            case 2:
+            	_result = api.getTopRated(getListType()); //if job == 2 then get the top rated
+            	break;
+            }
             return null;
         }
 
@@ -564,10 +586,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 mf.getRecords(0, "manga", false, Home.this.context);
 				break;
 			case 1:
-				
+				getTopRated(BaseMALApi.ListType.ANIME);
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				break;
 			case 2:
 				getMostPopular(BaseMALApi.ListType.ANIME);
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				break;
 			}			
 			mDrawerLayout.closeDrawer(listView);

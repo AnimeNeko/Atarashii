@@ -188,5 +188,21 @@ public class MALApi extends BaseMALApi {
 		
 		return responseToJSONArray(response);
 	}
+	
+	@Override
+	public JSONArray getTopRated(ListType listType){
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType)
+					+ "/top"));
+			System.out.println("The url is "+url.toString());
+			response = restHelper.get(url);
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
+		}
+		return responseToJSONArray(response);
+	}
 
 }
