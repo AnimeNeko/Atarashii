@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -216,6 +217,10 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 break;
             case R.id.action_addToList:
                 addToList();
+                break;
+            case R.id.action_ViewMALPage:
+                Uri malurl = Uri.parse("http://myanimelist.net/" + recordType + "/" + recordID + "/");
+                startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
         }
 

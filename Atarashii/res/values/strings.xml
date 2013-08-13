@@ -74,6 +74,7 @@
     <string name="action_PlusOneWatched">+1 Watched</string>
     <string name="action_PlusOneRead">+1 Read</string>
     <string name="action_MarkAsComplete">Mark Completed</string>
+    <string name="action_viewMALPage">View Details on MyAnimeList</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="label_detailItemType">Type of Media</string>
