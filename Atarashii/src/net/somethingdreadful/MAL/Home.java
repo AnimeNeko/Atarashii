@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -79,6 +80,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     private ListView listView;
     private SherlockActionBarDrawerToggle mDrawerToggle;
     private ActionBarHelper mActionBar;
+    View mActiveView;
+    View mPreviousView;
+    
     public static final String[] DRAWER_OPTIONS = 
         {
                 "My List",   
@@ -111,7 +115,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
             
-            listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, DRAWER_OPTIONS));
+            
+            HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
+            listView.setAdapter(adapter);
     		listView.setOnItemClickListener(new DrawerItemClickListener());
     		listView.setCacheColorHint(0);
     		listView.setScrollingCacheEnabled(false);
@@ -593,7 +599,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				getMostPopular(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				break;
-			}			
+			}
+			//This part is for figuring out which item in the nav drawer is selected and highlighting it
+			mPreviousView = mActiveView;
+			if (mPreviousView != null)
+				mPreviousView.setBackgroundColor(Color.parseColor("#333333"));
+			mActiveView = view;
+			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1"));
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}
