@@ -39,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -82,7 +83,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     private ActionBarHelper mActionBar;
     View mActiveView;
     View mPreviousView;
-    
+    boolean myList = true; //tracks if the user is on 'My List' or not
     public static final String[] DRAWER_OPTIONS = 
         {
                 "My List",   
@@ -202,6 +203,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         String listName = getSupportActionBar().getSelectedTab().getText().toString();
         return BaseMALApi.getListTypeByString(listName);
     }
+    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -350,6 +353,15 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+    	MenuItem item  = menu.findItem(R.id.menu_listType);
+    	if(!myList){//if not on my list then disable menu items like listType, etc
+    		item.setEnabled(false);
+    		item.setVisible(false);
+    	}
+    	else{
+    		item.setEnabled(true);
+    		item.setVisible(true);
+    	}
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.currentList) {
@@ -412,6 +424,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentText(getString(R.string.toast_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
+        myList = true;
+        supportInvalidateOptionsMenu();
 
     }
 
@@ -590,22 +604,26 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			case 0:
 				af.getRecords(0, "anime", false, Home.this.context);
                 mf.getRecords(0, "manga", false, Home.this.context);
+                myList = true;
 				break;
 			case 1:
 				getTopRated(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				myList = false;
 				break;
 			case 2:
 				getMostPopular(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				myList = false;
 				break;
 			}
-			//This part is for figuring out which item in the nav drawer is selected and highlighting it
+			Home.this.supportInvalidateOptionsMenu();
+			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
 			mPreviousView = mActiveView;
 			if (mPreviousView != null)
-				mPreviousView.setBackgroundColor(Color.parseColor("#333333"));
+				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
 			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1"));
+			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}
@@ -655,6 +673,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		 */
 		public void onDrawerClosed() {
 			mActionBar.setTitle(mTitle);
+			
 		}
 
 		/**
