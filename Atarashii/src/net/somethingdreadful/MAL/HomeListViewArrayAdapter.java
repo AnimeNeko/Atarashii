@@ -27,6 +27,7 @@ public class HomeListViewArrayAdapter extends ArrayAdapter<String>{
 	public View getView(int position,View convertView,ViewGroup parent){
 		View row = convertView;
 		Holder holder;
+		
 		if (row == null){
 			LayoutInflater inflater = ((Activity)context).getLayoutInflater();
 			row = inflater.inflate(layoutResourceId, parent,false);
@@ -37,6 +38,8 @@ public class HomeListViewArrayAdapter extends ArrayAdapter<String>{
 		else{
 			holder = (Holder)row.getTag();
 		}
+
+			
 		String text = data[position];
 		holder.txtTitle.setText(text);
 		return row;

@@ -2,6 +2,14 @@ package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import net.somethingdreadful.MAL.Home.networkThread;
+import net.somethingdreadful.MAL.ItemGridFragmentScrollViewListener.RefreshList;
+import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
 import android.annotation.SuppressLint;
@@ -54,6 +62,10 @@ public class ItemGridFragment extends SherlockFragment {
     int gridCellWidth;
     int gridCellHeight;
     String recordType;
+    
+    int mode; //0 = home, 1 = top rated, 2 = most popular, so the endless gridview only applies to the popular/top rated mode
+    ItemGridFragmentScrollViewListener scrollListener;
+    
 
     @Override
     public void onCreate(Bundle state) {
@@ -92,6 +104,7 @@ public class ItemGridFragment extends SherlockFragment {
         int orientation = layout.getContext().getResources().getConfiguration().orientation;
 
         gv = (GridView) layout.findViewById(R.id.gridview);
+        
 
 
         if ("anime".equals(recordType)) {
@@ -141,6 +154,25 @@ public class ItemGridFragment extends SherlockFragment {
         gv.setDrawSelectorOnTop(true);
 
         getRecords(currentList, recordType, false, this.c);
+        
+        scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
+        	@Override
+        	public void onRefresh(int pageNumber) {
+                System.out.println("On Refresh invoked..");
+                if (mode == 1){
+                	networkThread animethread = new networkThread(1,pageNumber);
+                    animethread.setListType(BaseMALApi.ListType.ANIME);
+                    animethread.execute();
+                }
+                else if (mode == 2){
+                	networkThread animethread = new networkThread(2,pageNumber);
+                    animethread.setListType(BaseMALApi.ListType.ANIME);
+                    animethread.execute();
+                }
+
+            }
+        });
+        gv.setOnScrollListener(scrollListener);
 
         Iready.fragmentReady();
 
@@ -352,6 +384,112 @@ public class ItemGridFragment extends SherlockFragment {
         }
 
     }
+    
+    
+    /*getting popular and top rated anime*/
+    public class networkThread extends AsyncTask<String, Void, Void> {
+        JSONArray _result;
+        int job;
+        int pagenumber;
+        public networkThread(int job, int pagenumber){
+        	this.job = job;
+        	this.pagenumber = pagenumber;
+        }
+
+        public MALApi.ListType getListType() {
+            return listType;
+        }
+
+        public void setListType(MALApi.ListType listType) {
+            this.listType = listType;
+        }
+
+        MALApi.ListType listType;
+
+        @Override
+        protected Void doInBackground(String... params) {
+           // String query = params[0];
+            MALApi api = new MALApi(c);
+            switch (job){
+            case 1:
+            	_result = api.getTopRated(getListType(),pagenumber); //if job ==  1 then get the top rated
+            	break;
+            case 2:
+            	_result = api.getMostPopular(getListType(),pagenumber); //if job == 2 then get the most popular
+            	break;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            String type = MALApi.getListTypeString(getListType());
+            
+            try {
+                switch (listType) {
+                    case ANIME: {
+                        ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
+                        
+                        if (_result.length() == 0) {
+                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+                        }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre = (JSONObject) _result.get(i);
+                                AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }
+                        }
+                        
+                        if (ca == null) {
+                            //if no coveradapter, but there should never be a time where there is no coveradapter
+                        }
+
+                        if (gv.getAdapter() == null) {
+                            gv.setAdapter(ca);
+                        } else {
+                            ca.supportAddAll(list);
+                            ca.notifyDataSetChanged();
+                        }
+
+                    
+                        break;
+                    }
+                    case MANGA: {
+                        ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
+                        
+                        if (_result.length() == 0) {
+                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+                        }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre =  (JSONObject) _result.get(i);
+                                MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }	
+                        }
+                        
+                        if (cm == null) {
+                            //if no coveradapter, but there should never be a time where there is no coveradapter
+                        }
+
+                        if (gv.getAdapter() == null) {
+                            gv.setAdapter(cm);
+                        } else {
+                            cm.supportAddAll(list);
+                            cm.notifyDataSetChanged();
+                        }
+                    }
+                }
+                
+            } catch (JSONException e) {
+                Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
+            }
+            
+            ItemGridFragment.this.scrollListener.notifyMorePages();
+
+        }
+    }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
@@ -376,5 +514,13 @@ public class ItemGridFragment extends SherlockFragment {
         Resources resources = c.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return (int) (px / (metrics.density));
+    }
+    
+    public void setMode(int mode){
+    	this.mode = mode;
+    }
+    
+    public void scrollToTop(){
+    	gv.smoothScrollToPosition(0);
     }
 }

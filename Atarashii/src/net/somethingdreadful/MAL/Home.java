@@ -90,6 +90,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 "Top Rated",
                 "Most Popular"
         };
+
     
 
     @Override
@@ -478,12 +479,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         supportInvalidateOptionsMenu();
     }
     /* thread & methods to fetch most popular anime/manga*/
-    //in order to reuse the code from the thread class, 1 signifies a getPopular job and 2 signifies a getTop job. Probably a better way to do this
+    //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
     
     public void getMostPopular(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(1);
          animethread.setListType(BaseMALApi.ListType.ANIME);
          animethread.execute(query);
+         
          
          /*networkThread mangathread = new networkThread(1);
          mangathread.setListType(BaseMALApi.ListType.MANGA);
@@ -525,10 +527,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             MALApi api = new MALApi(context);
             switch (job){
             case 1:
-            	_result = api.getMostPopular(getListType()); //if job == 1 then get the most popular
+            	_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
             	break;
             case 2:
-            	_result = api.getTopRated(getListType()); //if job == 2 then get the top rated
+            	_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
             	break;
             }
             return null;
@@ -579,6 +581,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             } catch (JSONException e) {
                 Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
             }
+            Home.this.af.scrollListener.notifyMorePages();
 
         }
     }
@@ -600,23 +603,37 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			/* do stuff when drawer item is clicked here */
+			af.scrollToTop();
+			mf.scrollToTop();
 			switch (position){
 			case 0:
 				af.getRecords(0, "anime", false, Home.this.context);
                 mf.getRecords(0, "manga", false, Home.this.context);
                 myList = true;
+                af.setMode(0);
+				mf.setMode(0);
 				break;
 			case 1:
 				getTopRated(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
+				af.setMode(1);
+				mf.setMode(1);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
 				break;
 			case 2:
 				getMostPopular(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
+				af.setMode(2);
+				mf.setMode(2);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
 				break;
 			}
+			//af.scrollToTop();
+			//mf.scrollToTop();
 			Home.this.supportInvalidateOptionsMenu();
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
 			mPreviousView = mActiveView;

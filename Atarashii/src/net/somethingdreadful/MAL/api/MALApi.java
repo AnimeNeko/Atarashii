@@ -172,12 +172,12 @@ public class MALApi extends BaseMALApi {
 	}
 	
 	@Override
-	public JSONArray getMostPopular(ListType listType){
+	public JSONArray getMostPopular(ListType listType, int page){
 		URL url;
 		RestResult<String> response = null;
 		try {
 			url = new URL(getFullPath(getListTypeString(listType)
-					+ "/popular"));
+					+ "/popular?page="+page));
 			System.out.println("The url is "+url.toString());
 			response = restHelper.get(url);
 		} catch (MalformedURLException e) {
@@ -190,12 +190,12 @@ public class MALApi extends BaseMALApi {
 	}
 	
 	@Override
-	public JSONArray getTopRated(ListType listType){
+	public JSONArray getTopRated(ListType listType, int page){
 		URL url;
 		RestResult<String> response = null;
 		try {
 			url = new URL(getFullPath(getListTypeString(listType)
-					+ "/top"));
+					+ "/top?page="+page));
 			System.out.println("The url is "+url.toString());
 			response = restHelper.get(url);
 		} catch (MalformedURLException e) {
