@@ -10,3 +10,9 @@
 	path = third-party/Crouton
 	url = https://github.com/keyboardsurfer/Crouton.git
 	ignore = dirty
+[submodule "SherlockNavDrawerer"]
+	path = SherlockNavDrawerer
+	url = https://github.com/nicolasjafelle/SherlockNavigationDrawer
+[submodule "third-party/SherlockNavDrawer"]
+	path = third-party/SherlockNavDrawer
+	url = https://github.com/nicolasjafelle/SherlockNavigationDrawer

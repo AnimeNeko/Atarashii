@@ -1,6 +1,16 @@
 package net.somethingdreadful.MAL;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import net.somethingdreadful.MAL.SearchActivity.networkThread;
 import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.record.AnimeRecord;
+import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -10,19 +20,32 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
+
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -53,12 +76,28 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     boolean networkAvailable;
     BroadcastReceiver networkReceiver;
     MenuItem searchItem;
+    
+    private DrawerLayout mDrawerLayout;
+    private ListView listView;
+    private SherlockActionBarDrawerToggle mDrawerToggle;
+    private ActionBarHelper mActionBar;
+    View mActiveView;
+    View mPreviousView;
+    boolean myList = true; //tracks if the user is on 'My List' or not
+    public static final String[] DRAWER_OPTIONS = 
+        {
+                "My List",   
+                "Top Rated",
+                "Most Popular"
+        };
+
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-
+        
         mPrefManager = new PrefManager(context);
         init = mPrefManager.getInit();
 
@@ -71,6 +110,28 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             // Creates the adapter to return the Animu and Mango fragments
             mSectionsPagerAdapter = new HomeSectionsPagerAdapter(
                     getSupportFragmentManager());
+            
+            mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
+            listView = (ListView)findViewById(R.id.left_drawer);
+            
+            mDrawerLayout.setDrawerListener(new DemoDrawerListener());
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+            
+            
+            HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
+            listView.setAdapter(adapter);
+    		listView.setOnItemClickListener(new DrawerItemClickListener());
+    		listView.setCacheColorHint(0);
+    		listView.setScrollingCacheEnabled(false);
+    		listView.setScrollContainer(false);
+    		listView.setFastScrollEnabled(true);
+    		listView.setSmoothScrollbarEnabled(true);
+            	
+    		mActionBar = createActionBarHelper();
+    		mActionBar.init();
+    		
+    		mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_light, R.string.drawer_open, R.string.drawer_close);
+    		mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
 
@@ -143,9 +204,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         String listName = getSupportActionBar().getSelectedTab().getText().toString();
         return BaseMALApi.getListTypeByString(listName);
     }
+    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
         switch (item.getItemId()) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, Settings.class));
@@ -217,10 +283,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists) {
+        /*if (instanceExists) {
             af.getRecords(af.currentList, "anime", false, this.context);
             mf.getRecords(af.currentList, "manga", false, this.context);
-        }
+        }*/
 
         checkNetworkAndDisplayCrouton();
 
@@ -288,6 +354,15 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+    	MenuItem item  = menu.findItem(R.id.menu_listType);
+    	if(!myList){//if not on my list then disable menu items like listType, etc
+    		item.setEnabled(false);
+    		item.setVisible(false);
+    	}
+    	else{
+    		item.setEnabled(true);
+    		item.setVisible(true);
+    	}
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.currentList) {
@@ -350,6 +425,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentText(getString(R.string.toast_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
+        myList = true;
+        supportInvalidateOptionsMenu();
 
     }
 
@@ -401,4 +478,235 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         supportInvalidateOptionsMenu();
     }
+    /* thread & methods to fetch most popular anime/manga*/
+    //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
+    
+    public void getMostPopular(BaseMALApi.ListType listType){
+    	networkThread animethread = new networkThread(1);
+         animethread.setListType(BaseMALApi.ListType.ANIME);
+         animethread.execute(query);
+         
+         
+         /*networkThread mangathread = new networkThread(1);
+         mangathread.setListType(BaseMALApi.ListType.MANGA);
+         mangathread.execute(query);*/
+         //API doesn't support getting popular manga :/  
+    }
+    public void getTopRated(BaseMALApi.ListType listType){
+    	networkThread animethread = new networkThread(2);
+        animethread.setListType(BaseMALApi.ListType.ANIME);
+        animethread.execute(query);
+        
+        /*networkThread mangathread = new networkThread(2);
+        mangathread.setListType(BaseMALApi.ListType.MANGA);
+        mangathread.execute(query);*/
+        //API doesn't support getting top rated manga :/  
+    }
+    
+    
+    public class networkThread extends AsyncTask<String, Void, Void> {
+        JSONArray _result;
+        int job;
+        public networkThread(int job){
+        	this.job = job;
+        }
+
+        public MALApi.ListType getListType() {
+            return listType;
+        }
+
+        public void setListType(MALApi.ListType listType) {
+            this.listType = listType;
+        }
+
+        MALApi.ListType listType;
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String query = params[0];
+            MALApi api = new MALApi(context);
+            switch (job){
+            case 1:
+            	_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
+            	break;
+            case 2:
+            	_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
+            	break;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            String type = MALApi.getListTypeString(getListType());
+            
+            try {
+                switch (listType) {
+                    case ANIME: {
+                        ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
+                        
+                        if (_result.length() == 0) {
+                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+                        }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre = (JSONObject) _result.get(i);
+                                AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }
+                        }
+                        
+                        af.setAnimeRecords(list);
+                        break;
+                    }
+                    case MANGA: {
+                        ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
+                        
+                        if (_result.length() == 0) {
+                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+                        }
+                        else {
+                        	for (int i = 0; i < _result.length(); i++) {
+                                JSONObject genre =  (JSONObject) _result.get(i);
+                                MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
+                                list.add(record);
+                            }	
+                        }
+                        
+                        mf.setMangaRecords(list);
+                        break;
+                    }
+                }
+                
+            } catch (JSONException e) {
+                Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
+            }
+            Home.this.af.scrollListener.notifyMorePages();
+
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    /*private classes for nav drawer*/
+    private ActionBarHelper createActionBarHelper() {
+		return new ActionBarHelper();
+	}
+    
+    
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			/* do stuff when drawer item is clicked here */
+			af.scrollToTop();
+			mf.scrollToTop();
+			switch (position){
+			case 0:
+				af.getRecords(0, "anime", false, Home.this.context);
+                mf.getRecords(0, "manga", false, Home.this.context);
+                myList = true;
+                af.setMode(0);
+				mf.setMode(0);
+				break;
+			case 1:
+				getTopRated(BaseMALApi.ListType.ANIME);
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				myList = false;
+				af.setMode(1);
+				mf.setMode(1);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
+				break;
+			case 2:
+				getMostPopular(BaseMALApi.ListType.ANIME);
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				myList = false;
+				af.setMode(2);
+				mf.setMode(2);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
+				break;
+			}
+			//af.scrollToTop();
+			//mf.scrollToTop();
+			Home.this.supportInvalidateOptionsMenu();
+			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
+			mPreviousView = mActiveView;
+			if (mPreviousView != null)
+				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+			mActiveView = view;
+			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			mDrawerLayout.closeDrawer(listView);
+		}
+	}
+    
+    private class DemoDrawerListener implements DrawerLayout.DrawerListener {
+    	final ActionBar actionBar = getSupportActionBar();
+		@Override
+		public void onDrawerOpened(View drawerView) {
+			mDrawerToggle.onDrawerOpened(drawerView);
+			mActionBar.onDrawerOpened();
+		}
+
+		@Override
+		public void onDrawerClosed(View drawerView) {
+			mDrawerToggle.onDrawerClosed(drawerView);
+			mActionBar.onDrawerClosed();
+		}
+
+		@Override
+		public void onDrawerSlide(View drawerView, float slideOffset) {
+			mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
+		}
+
+		@Override
+		public void onDrawerStateChanged(int newState) {
+			mDrawerToggle.onDrawerStateChanged(newState);
+		}
+	}
+    private class ActionBarHelper {
+		private final ActionBar mActionBar;
+		private CharSequence mDrawerTitle;
+		private CharSequence mTitle;
+
+		private ActionBarHelper() {
+			mActionBar = getSupportActionBar();
+		}
+
+		public void init() {
+			mActionBar.setDisplayHomeAsUpEnabled(true);
+			mActionBar.setHomeButtonEnabled(true);
+			mTitle = mDrawerTitle = getTitle();
+		}
+
+		/**
+		 * When the drawer is closed we restore the action bar state reflecting
+		 * the specific contents in view.
+		 */
+		public void onDrawerClosed() {
+			mActionBar.setTitle(mTitle);
+			
+		}
+
+		/**
+		 * When the drawer is open we set the action bar to a generic title. The
+		 * action bar should only contain data relevant at the top level of the
+		 * nav hierarchy represented by the drawer, as the rest of your content
+		 * will be dimmed down and non-interactive.
+		 */
+		public void onDrawerOpened() {
+			mActionBar.setTitle(mDrawerTitle);
+		}
+
+		public void setTitle(CharSequence title) {
+			mTitle = title;
+		}
+	}
+    
+    
 }
