@@ -363,7 +363,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         		autosynctask();
         	}
         }catch (Exception e){
-        	fragmentReady(); //first load fails always, try again
+        	autosynctask(); //first load fails always, try again
         }
     }
 
