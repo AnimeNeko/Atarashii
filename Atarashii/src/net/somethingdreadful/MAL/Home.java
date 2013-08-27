@@ -77,6 +77,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     BroadcastReceiver networkReceiver;
     MenuItem searchItem;
     
+    int AutoSync = 0; //run or not to run.
+    static final String state_sync = "AutoSync"; //to solve bugs.
+    boolean useAutosynchronisation = false; //get default.
+    
     private DrawerLayout mDrawerLayout;
     private ListView listView;
     private SherlockActionBarDrawerToggle mDrawerToggle;
@@ -104,7 +108,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-
+        if (savedInstanceState != null) {
+            AutoSync = savedInstanceState.getInt(state_sync);
+            useAutosynchronisation = savedInstanceState.getBoolean("useSecondaryAmounts");
+        }
+        
         if (init) {
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
@@ -205,7 +213,23 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         return BaseMALApi.getListTypeByString(listName);
     }
     
-
+    public void autosynctask(){
+        try {
+        	useAutosynchronisation = mPrefManager.getsynchronisationEnabled();
+        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && useAutosynchronisation == true){ 
+        		af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+        		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        		af.getRecords(af.currentList, "anime", true, this.context);
+        		mf.getRecords(af.currentList, "manga", true, this.context);
+        		syncNotify();
+        		AutoSync = 1; 
+        	}else{
+        		//will do nothing, sync is turned off
+        	}
+        }catch (Exception e){
+        	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -329,17 +353,17 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
-
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-        af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-        mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+    	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+	mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 
-        //Logic to check if we have just signed in. If yes, automatically do a sync
-        if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false)) {
-            af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(mf.currentList, "manga", true, this.context);
-            getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
-            syncNotify();
+        try { // if a error comes up it will not force close
+        	if (isNetworkAvailable() && networkAvailable == true ){
+        		getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
+        		autosynctask();
+        	}
+        }catch (Exception e){
+        	fragmentReady(); //first load fails always, try again
         }
     }
 
@@ -348,7 +372,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //This is telling out future selves that we already have some things and not to do them
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
-
+	state.putInt(state_sync, AutoSync);
         super.onSaveInstanceState(state);
     }
 
@@ -387,14 +411,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
 
         if (networkAvailable) {
-            menu.findItem(R.id.forceSync).setVisible(true);
+            	if (myList){
+        		menu.findItem(R.id.forceSync).setVisible(true);
+        	}else{
+        		menu.findItem(R.id.forceSync).setVisible(false);
+        	}
             menu.findItem(R.id.action_search).setVisible(true);
         }
         else {
             menu.findItem(R.id.forceSync).setVisible(false);
             menu.findItem(R.id.action_search).setVisible(false);
+            AutoSync = 1; 
         }
-
         return true;
     }
 
@@ -585,13 +613,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         }
     }
-    
-    
-    
-    
-    
-    
-    
     
     /*private classes for nav drawer*/
     private ActionBarHelper createActionBarHelper() {

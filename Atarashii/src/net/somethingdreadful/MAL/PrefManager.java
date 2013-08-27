@@ -103,6 +103,10 @@ public class PrefManager {
     public boolean getUseSecondaryAmountsEnabled() {
         return prefs.getBoolean("displayVolumes", false);
     }
+    
+    public boolean getsynchronisationEnabled() {
+        return prefs.getBoolean("synchronisation", false);
+    }
 
     public String getCustomShareText()
     {
