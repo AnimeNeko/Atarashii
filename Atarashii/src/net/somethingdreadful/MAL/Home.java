@@ -551,15 +551,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         @Override
         protected Void doInBackground(String... params) {
-            String query = params[0];
-            MALApi api = new MALApi(context);
-            switch (job){
-            case 1:
-            	_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
-            	break;
-            case 2:
-            	_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
-            	break;
+            try{
+            	String query = params[0];
+            	MALApi api = new MALApi(context);
+            	switch (job){
+            	case 1:
+            		_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
+            		break;
+            	case 2:
+            		_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
+            		break;
+            	}
+            }catch (Exception e){
             }
             return null;
         }
