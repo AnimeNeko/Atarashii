@@ -211,15 +211,33 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         return BaseMALApi.getListTypeByString(listName);
     }
     
+	public boolean isConnectedWifi() {
+    	ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+    	NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (Wifi.isConnected()&& mPrefManager.getonly_wifiEnabled() ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
     public void autosynctask(){
         try {
-        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled() == true){ 
-        		af.getRecords(af.currentList, "anime", true, this.context);
-        		mf.getRecords(af.currentList, "manga", true, this.context);
-        		syncNotify();
-        		AutoSync = 1; 
+        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
+        		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+        			af.getRecords(af.currentList, "anime", true, this.context);
+            		mf.getRecords(af.currentList, "manga", true, this.context);
+            		syncNotify();
+            		AutoSync = 1;
+        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
+        			af.getRecords(af.currentList, "anime", true, this.context);
+            		mf.getRecords(af.currentList, "manga", true, this.context);
+            		syncNotify();
+            		AutoSync = 1;
+        		}
         	}else{
-        		//will do nothing, sync is turned off
+        		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
         	}
         }catch (Exception e){
         	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
@@ -544,16 +562,16 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         @Override
         protected Void doInBackground(String... params) {
         	try{
-            String query = params[0];
-            MALApi api = new MALApi(context);
-            switch (job){
-            case 1:
-            	_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
-            	break;
-            case 2:
-            	_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
-            	break;
-            }
+        		String query = params[0];
+        		MALApi api = new MALApi(context);
+        		switch (job){
+        		case 1:
+        			_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
+        			break;
+        		case 2:
+        			_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
+        			break;
+        		}
         	}catch (Exception e){
         		
         	}
