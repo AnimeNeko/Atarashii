@@ -79,6 +79,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
     int AutoSync = 0; //run or not to run.
     static final String state_sync = "AutoSync"; //to solve bugs.
+    static final String state_mylist = "myList";
+    int listType = 0; //remembers the list_type.
     
     private DrawerLayout mDrawerLayout;
     private ListView listView;
@@ -94,8 +96,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 "Most Popular"
         };
 
-    
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,20 +109,19 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
         if (savedInstanceState != null) {
             AutoSync = savedInstanceState.getInt(state_sync);
+            listType = savedInstanceState.getInt(state_mylist);
         }
         
         if (init) {
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
-            mSectionsPagerAdapter = new HomeSectionsPagerAdapter(
-                    getSupportFragmentManager());
+            mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
             
             mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
             listView = (ListView)findViewById(R.id.left_drawer);
             
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            
             
             HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
             listView.setAdapter(adapter);
@@ -142,7 +141,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             mManager = new MALManager(context);
 
             if (!instanceExists) {
-
             }
 
             // Set up the action bar.
@@ -177,7 +175,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 actionBar.addTab(actionBar.newTab()
                         .setText(mSectionsPagerAdapter.getPageTitle(i))
                         .setTabListener(this));
-
             }
 
             networkReceiver = new BroadcastReceiver() {
@@ -187,8 +184,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 }
             };
 
-        } else //If the app hasn't been configured, take us to the first run screen to sign in
-        {
+        } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(firstRunInit);
@@ -204,7 +200,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         return true;
     }
 
-
     @Override
     public BaseMALApi.ListType getCurrentListType() {
         String listName = getSupportActionBar().getSelectedTab().getText().toString();
@@ -216,8 +211,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     	NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (Wifi.isConnected()&& mPrefManager.getonly_wifiEnabled() ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -266,6 +260,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(0, "anime", false, this.context);
                     mf.getRecords(0, "manga", false, this.context);
+                    listType = 0;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -273,6 +268,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(1, "anime", false, this.context);
                     mf.getRecords(1, "manga", false, this.context);
+                    listType = 1;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -280,6 +276,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(2, "anime", false, this.context);
                     mf.getRecords(2, "manga", false, this.context);
+                    listType = 2;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -287,6 +284,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(3, "anime", false, this.context);
                     mf.getRecords(3, "manga", false, this.context);
+                    listType = 3;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -294,6 +292,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(4, "anime", false, this.context);
                     mf.getRecords(4, "manga", false, this.context);
+                    listType = 4;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -301,6 +300,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(5, "anime", false, this.context);
                     mf.getRecords(5, "manga", false, this.context);
+                    listType = 5;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -311,7 +311,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     syncNotify();
                 }
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -326,7 +325,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }*/
 
         checkNetworkAndDisplayCrouton();
-
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         
         if (mSearchView != null) {
@@ -342,15 +340,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         super.onPause();
 
         instanceExists = true;
-
         unregisterReceiver(networkReceiver);
     }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
     }
-
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -366,11 +361,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
-
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
     	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-
+		listType = mPrefManager.getDefaultList(); //get chosen list :D
         try { // if a error comes up it will not force close
         	getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
         	autosynctask();
@@ -385,6 +379,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putInt(state_sync, AutoSync);
+        state.putInt(state_mylist, listType);
         super.onSaveInstanceState(state);
     }
 
@@ -435,7 +430,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             menu.findItem(R.id.action_search).setVisible(false);
             AutoSync = 1; 
         }
-
         return true;
     }
 
@@ -468,7 +462,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         nm.notify(R.id.notification_sync, syncNotification);
         myList = true;
         supportInvalidateOptionsMenu();
-
     }
 
     private void showLogoutDialog() {
@@ -494,7 +487,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         else {
             return false;
         }
-
     }
 
     public void checkNetworkAndDisplayCrouton() {
@@ -517,15 +509,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
         supportInvalidateOptionsMenu();
     }
+    
     /* thread & methods to fetch most popular anime/manga*/
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
-    
-    public void getMostPopular(BaseMALApi.ListType listType){
+        public void getMostPopular(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(1);
          animethread.setListType(BaseMALApi.ListType.ANIME);
          animethread.execute(query);
-         
-         
+                  
          /*networkThread mangathread = new networkThread(1);
          mangathread.setListType(BaseMALApi.ListType.MANGA);
          mangathread.execute(query);*/
@@ -581,7 +572,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         @Override
         protected void onPostExecute(Void result) {
             String type = MALApi.getListTypeString(getListType());
-            
             try {
                 switch (listType) {
                     case ANIME: {
@@ -640,8 +630,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			mf.scrollToTop();
 			switch (position){
 			case 0:
-				af.getRecords(0, "anime", false, Home.this.context);
-                mf.getRecords(0, "manga", false, Home.this.context);
+				af.getRecords(listType, "anime", false, Home.this.context);
+                mf.getRecords(listType, "manga", false, Home.this.context);
                 myList = true;
                 af.setMode(0);
 				mf.setMode(0);
