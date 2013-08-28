@@ -95,8 +95,7 @@ public class PrefManager {
 
     }
 
-    public boolean getTraditionalListEnabled()
-    {
+    public boolean getTraditionalListEnabled(){
         return prefs.getBoolean("traditionalList", false);
     }
 
@@ -106,6 +105,10 @@ public class PrefManager {
     
     public boolean getsynchronisationEnabled() {
         return prefs.getBoolean("synchronisation", false);
+    }
+    
+    public boolean getonly_wifiEnabled() {
+        return prefs.getBoolean("Only_wifi", false);
     }
 
     public String getCustomShareText()
