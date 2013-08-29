@@ -163,11 +163,14 @@ public class ItemGridFragment extends SherlockFragment {
                 	networkThread animethread = new networkThread(1,pageNumber);
                     animethread.setListType(BaseMALApi.ListType.ANIME);
                     animethread.execute();
-                }
-                else if (mode == 2){
+                } else if (mode == 2){
                 	networkThread animethread = new networkThread(2,pageNumber);
                     animethread.setListType(BaseMALApi.ListType.ANIME);
                     animethread.execute();
+                } else if (mode == 3){
+                	networkThread animethread = new networkThread(3,pageNumber);
+                    animethread.setListType(BaseMALApi.ListType.ANIME);
+                    animethread.execute();   
                 }
 
             }
@@ -382,7 +385,6 @@ public class ItemGridFragment extends SherlockFragment {
                 nm.cancel(R.id.notification_sync);
             }
         }
-
     }
     
     
@@ -417,6 +419,12 @@ public class ItemGridFragment extends SherlockFragment {
             case 2:
             	_result = api.getMostPopular(getListType(),pagenumber); //if job == 2 then get the most popular
             	break;
+            case 3:
+            	_result = api.getJustAdded(getListType(),pagenumber); //if job == 3 then get the Just Added
+        		break;
+            case 4:
+            	_result = api.getUpcoming(getListType(),pagenumber); //if job == 4 then get the Upcoming
+        		break;
             }
             return null;
         }
