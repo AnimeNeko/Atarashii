@@ -586,10 +586,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         			_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
         			break;
         		case 3:
-        			_result = api.getJustAdded(getListType(),1); //if job == 3 then get the upcoming
+        			_result = api.getJustAdded(getListType(),1); //if job == 3 then get the Just Added
         			break;
         		case 4:
-        			_result = api.getUpcoming(getListType(),1); //if job == 3 then get the upcoming
+        			_result = api.getUpcoming(getListType(),1); //if job == 4 then get the upcoming
         			break;
         		}
         	}catch (Exception e){
@@ -698,8 +698,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				getUpcoming(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
-				af.setMode(3);
-				mf.setMode(3);
+				af.setMode(4);
+				mf.setMode(4);
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
