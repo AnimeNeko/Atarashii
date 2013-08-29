@@ -93,7 +93,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         {
                 "My List",   
                 "Top Rated",
-                "Most Popular"
+                "Most Popular",
+                "Just Added",
+                "Upcoming"
         };
 
     @Override
@@ -183,7 +185,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     checkNetworkAndDisplayCrouton();
                 }
             };
-
+            
+    		listType = mPrefManager.getDefaultList(); //get chosen list :D
+    		autosynctask();
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -218,6 +222,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
     public void autosynctask(){
         try {
+        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
         		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
         			af.getRecords(af.currentList, "anime", true, this.context);
@@ -312,7 +318,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 }
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -364,10 +369,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
     	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-		listType = mPrefManager.getDefaultList(); //get chosen list :D
         try { // if a error comes up it will not force close
         	getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
-        	autosynctask();
         }catch (Exception e){
         	
         }
@@ -512,7 +515,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
     /* thread & methods to fetch most popular anime/manga*/
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
-        public void getMostPopular(BaseMALApi.ListType listType){
+     public void getMostPopular(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(1);
          animethread.setListType(BaseMALApi.ListType.ANIME);
          animethread.execute(query);
@@ -531,6 +534,26 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mangathread.setListType(BaseMALApi.ListType.MANGA);
         mangathread.execute(query);*/
         //API doesn't support getting top rated manga :/  
+    }
+    public void getJustAdded(BaseMALApi.ListType listType){
+	networkThread animethread = new networkThread(3);
+     animethread.setListType(BaseMALApi.ListType.ANIME);
+     animethread.execute(query);
+              
+     /*networkThread mangathread = new networkThread(1);
+     mangathread.setListType(BaseMALApi.ListType.MANGA);
+     mangathread.execute(query);*/
+     //API doesn't support getting popular manga :/  
+    }
+    public void getUpcoming(BaseMALApi.ListType listType){
+	networkThread animethread = new networkThread(4);
+     animethread.setListType(BaseMALApi.ListType.ANIME);
+     animethread.execute(query);
+              
+     /*networkThread mangathread = new networkThread(1);
+     mangathread.setListType(BaseMALApi.ListType.MANGA);
+     mangathread.execute(query);*/
+     //API doesn't support getting popular manga :/  
     }
     
     public class networkThread extends AsyncTask<String, Void, Void> {
@@ -562,9 +585,15 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         		case 2:
         			_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
         			break;
+        		case 3:
+        			_result = api.getJustAdded(getListType(),1); //if job == 3 then get the upcoming
+        			break;
+        		case 4:
+        			_result = api.getUpcoming(getListType(),1); //if job == 3 then get the upcoming
+        			break;
         		}
         	}catch (Exception e){
-        		
+        		System.out.println("ERROR: unknown");
         	}
             return null;
         }
@@ -635,6 +664,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 myList = true;
                 af.setMode(0);
 				mf.setMode(0);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
 				break;
 			case 1:
 				getTopRated(BaseMALApi.ListType.ANIME);
@@ -651,6 +682,24 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				myList = false;
 				af.setMode(2);
 				mf.setMode(2);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
+				break;
+			case 3:
+				getJustAdded(BaseMALApi.ListType.ANIME);
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				myList = false;
+				af.setMode(3);
+				mf.setMode(3);
+				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
+				break;
+			case 4:
+				getUpcoming(BaseMALApi.ListType.ANIME);
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				myList = false;
+				af.setMode(3);
+				mf.setMode(3);
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
