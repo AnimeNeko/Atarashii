@@ -171,6 +171,10 @@ public class ItemGridFragment extends SherlockFragment {
                 	networkThread animethread = new networkThread(3,pageNumber);
                     animethread.setListType(BaseMALApi.ListType.ANIME);
                     animethread.execute();   
+                } else if (mode == 4){
+                	networkThread animethread = new networkThread(4,pageNumber);
+                    animethread.setListType(BaseMALApi.ListType.ANIME);
+                    animethread.execute();  
                 }
 
             }
@@ -526,6 +530,10 @@ public class ItemGridFragment extends SherlockFragment {
     
     public void setMode(int mode){
     	this.mode = mode;
+    }
+    
+    public int getMode(){
+    	return(this.mode);
     }
     
     public void scrollToTop(){
