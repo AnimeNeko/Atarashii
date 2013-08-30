@@ -328,10 +328,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             af.getRecords(af.currentList, "anime", false, this.context);
             mf.getRecords(af.currentList, "manga", false, this.context);
         }
-
+        
         checkNetworkAndDisplayCrouton();
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        
         if (mSearchView != null) {
         	mSearchView.clearFocus();
             mSearchView.setFocusable(false);
@@ -343,7 +342,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onPause() {
         super.onPause();
-
         instanceExists = true;
         unregisterReceiver(networkReceiver);
     }
@@ -492,7 +490,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
     }
     
-    public void maketext(String string) {
+    public void maketext(String string) { //for the private class
     	Crouton.makeText(this, string, Style.INFO).show();
     }
     
@@ -501,16 +499,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
 			if (af.getMode() > 0) {
-				mActiveView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+	            af.setMode(0);
+				mf.setMode(0);
 				af.getRecords(listType, "anime", false, Home.this.context);
 	            mf.getRecords(listType, "manga", false, Home.this.context);
 	            myList = true;
-	            af.setMode(0);
-				mf.setMode(0);
 	        }
         } else if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
-            //TODO: Sync here, but first sync any records marked DIRTY
             af.getRecords(af.currentList, "anime", true, this.context);
             mf.getRecords(af.currentList, "manga", true, this.context);
             syncNotify();
@@ -518,8 +514,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         if (!isNetworkAvailable()) {
             networkAvailable = false;
-        }
-        else {
+        } else {
             networkAvailable = true;
         }
         supportInvalidateOptionsMenu();
@@ -711,7 +706,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				break;
 			case 3:
 				getJustAdded(BaseMALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(3);
 				mf.setMode(3);
@@ -720,7 +715,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				break;
 			case 4:
 				getUpcoming(BaseMALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(4);
 				mf.setMode(4);
@@ -728,19 +723,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				mf.scrollListener.resetPageNumber();
 				break;
 			}
-			//af.scrollToTop();
-			//mf.scrollToTop();
 			Home.this.supportInvalidateOptionsMenu();
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
 			mPreviousView = mActiveView;
 			if (mPreviousView != null)
 				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
 			mActiveView = view;
-			if (isNetworkAvailable()){
-				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
-			}else if (!isNetworkAvailable() && af.getMode() < 1){
-				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
-			}
+			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}
