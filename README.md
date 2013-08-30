@@ -29,4 +29,5 @@ Atarashii! makes use of several third-party components and services:
 * [ActionBarSherlock](http://actionbarsherlock.com/) by Jack Wharton
 * [Android NumberPicker Backport](https://github.com/SimonVT/android-numberpicker) by Simon Vig Therkildsen
 * [Crouton](https://github.com/keyboardsurfer/Crouton) by Benjamin Weiss
+* [SherlockNavigationDrawer](https://github.com/nicolasjafelle/SherlockNavigationDrawer) by Nicolas Jafelle
 * The [MyAnimeList Unofficial API](http://mal-api.com/) by Chu Yeow

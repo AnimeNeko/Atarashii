@@ -174,7 +174,7 @@ public class MALManager {
 
             getDBWrite().setTransactionSuccessful();
             clearDeletedItems(type, currentTime);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             getDBWrite().endTransaction();

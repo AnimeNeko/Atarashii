@@ -48,7 +48,8 @@ public abstract class BaseMALApi {
     
     public abstract JSONArray getMostPopular(ListType listType, int page);
     public abstract JSONArray getTopRated(ListType listType, int page);
-
+    public abstract JSONArray getUpcoming(ListType listType, int page);
+    public abstract JSONArray getJustAdded(ListType listType, int page);
 
     public String getUsername() {
         return username;
