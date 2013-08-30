@@ -492,19 +492,23 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
     }
     
-    public void Noconnection(int type) {
-    	if (type == 2){
-    		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
-    	}else{
-    		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
-    	}
+    public void maketext(String string) {
+    	Crouton.makeText(this, string, Style.INFO).show();
     }
+    
 
     public void checkNetworkAndDisplayCrouton() {
         if (!isNetworkAvailable() && networkAvailable == true) {
-        	Noconnection(2);
-        }
-        if (isNetworkAvailable() && networkAvailable == false) {
+    		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+			if (af.getMode() > 0) {
+				mActiveView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+				af.getRecords(listType, "anime", false, Home.this.context);
+	            mf.getRecords(listType, "manga", false, Home.this.context);
+	            myList = true;
+	            af.setMode(0);
+				mf.setMode(0);
+	        }
+        } else if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
             //TODO: Sync here, but first sync any records marked DIRTY
             af.getRecords(af.currentList, "anime", true, this.context);
@@ -523,7 +527,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
     /* thread & methods to fetch most popular anime/manga*/
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
-     public void getMostPopular(BaseMALApi.ListType listType){
+    public void getMostPopular(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(1);
          animethread.setListType(BaseMALApi.ListType.ANIME);
          animethread.execute(query);
@@ -548,7 +552,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
      animethread.setListType(BaseMALApi.ListType.ANIME);
      animethread.execute(query);
               
-     /*networkThread mangathread = new networkThread(1);
+     /*networkThread mangathread = new networkThread(3);
      mangathread.setListType(BaseMALApi.ListType.MANGA);
      mangathread.execute(query);*/
      //API doesn't support getting popular manga :/  
@@ -558,7 +562,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
      animethread.setListType(BaseMALApi.ListType.ANIME);
      animethread.execute(query);
               
-     /*networkThread mangathread = new networkThread(1);
+     /*networkThread mangathread = new networkThread(4);
      mangathread.setListType(BaseMALApi.ListType.MANGA);
      mangathread.execute(query);*/
      //API doesn't support getting popular manga :/  
@@ -668,7 +672,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		return new ActionBarHelper();
 	}
      
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+    public class DrawerItemClickListener implements ListView.OnItemClickListener {
+    	
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			/* do stuff when drawer item is clicked here */
@@ -676,7 +681,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			mf.scrollToTop();
 			if (!isNetworkAvailable() && position > 0) {
 				position = 0;
-				Noconnection(1);
+				maketext("No network connection available!");
 	        }
 			switch (position){
 			case 0:
@@ -731,7 +736,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			if (mPreviousView != null)
 				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
 			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			if (isNetworkAvailable()){
+				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			}else if (!isNetworkAvailable() && af.getMode() < 1){
+				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			}
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}
