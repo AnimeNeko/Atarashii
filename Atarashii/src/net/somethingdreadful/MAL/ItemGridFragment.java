@@ -158,25 +158,28 @@ public class ItemGridFragment extends SherlockFragment {
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
         	public void onRefresh(int pageNumber) {
+        		try{
                 System.out.println("On Refresh invoked..");
                 if (mode == 1){
-                	networkThread animethread = new networkThread(1,pageNumber);
-                    animethread.setListType(BaseMALApi.ListType.ANIME);
-                    animethread.execute();
-                } else if (mode == 2){
-                	networkThread animethread = new networkThread(2,pageNumber);
-                    animethread.setListType(BaseMALApi.ListType.ANIME);
-                    animethread.execute();
-                } else if (mode == 3){
-                	networkThread animethread = new networkThread(3,pageNumber);
-                    animethread.setListType(BaseMALApi.ListType.ANIME);
-                    animethread.execute();   
-                } else if (mode == 4){
-                	networkThread animethread = new networkThread(4,pageNumber);
-                    animethread.setListType(BaseMALApi.ListType.ANIME);
-                    animethread.execute();  
-                }
-
+                		networkThread animethread = new networkThread(1,pageNumber);
+                		animethread.setListType(BaseMALApi.ListType.ANIME);
+                    	animethread.execute();
+                	} else if (mode == 2){
+                		networkThread animethread = new networkThread(2,pageNumber);
+                		animethread.setListType(BaseMALApi.ListType.ANIME);
+                    	animethread.execute();
+                	} else if (mode == 3){
+                		networkThread animethread = new networkThread(3,pageNumber);
+                		animethread.setListType(BaseMALApi.ListType.ANIME);
+                    	animethread.execute();   
+                	} else if (mode == 4){
+                		networkThread animethread = new networkThread(4,pageNumber);
+                		animethread.setListType(BaseMALApi.ListType.ANIME);
+                    	animethread.execute();  
+                	}
+        		} catch (Exception e){
+        			
+        		}
             }
         });
         gv.setOnScrollListener(scrollListener);
@@ -184,7 +187,6 @@ public class ItemGridFragment extends SherlockFragment {
         Iready.fragmentReady();
 
         return layout;
-
     }
 
     public void getRecords(int listint, String mediaType, boolean forceSync, Context c) {
@@ -236,7 +238,6 @@ public class ItemGridFragment extends SherlockFragment {
             adapter.notifyDataSetChanged();
         }
         cm = adapter;
-
     }
     
     
@@ -414,22 +415,26 @@ public class ItemGridFragment extends SherlockFragment {
 
         @Override
         protected Void doInBackground(String... params) {
-           // String query = params[0];
-            MALApi api = new MALApi(c);
-            switch (job){
-            case 1:
-            	_result = api.getTopRated(getListType(),pagenumber); //if job ==  1 then get the top rated
-            	break;
-            case 2:
-            	_result = api.getMostPopular(getListType(),pagenumber); //if job == 2 then get the most popular
-            	break;
-            case 3:
-            	_result = api.getJustAdded(getListType(),pagenumber); //if job == 3 then get the Just Added
-        		break;
-            case 4:
-            	_result = api.getUpcoming(getListType(),pagenumber); //if job == 4 then get the Upcoming
-        		break;
-            }
+        	try{
+        		// String query = params[0];
+        		MALApi api = new MALApi(c);
+        		switch (job){
+        		case 1:
+        			_result = api.getTopRated(getListType(),pagenumber); //if job ==  1 then get the top rated
+        			break;
+        		case 2:
+        			_result = api.getMostPopular(getListType(),pagenumber); //if job == 2 then get the most popular
+        			break;
+        		case 3:
+        			_result = api.getJustAdded(getListType(),pagenumber); //if job == 3 then get the Just Added
+        			break;
+        		case 4:
+        			_result = api.getUpcoming(getListType(),pagenumber); //if job == 4 then get the Upcoming
+        			break;
+        		}
+        	}catch(Exception e){
+        		
+        	}
             return null;
         }
 
