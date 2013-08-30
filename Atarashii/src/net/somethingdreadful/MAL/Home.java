@@ -324,10 +324,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-        /*if (instanceExists) {
+        if (instanceExists && af.getMode()== 0) {
             af.getRecords(af.currentList, "anime", false, this.context);
             mf.getRecords(af.currentList, "manga", false, this.context);
-        }*/
+        }
 
         checkNetworkAndDisplayCrouton();
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
@@ -491,10 +491,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             return false;
         }
     }
+    
+    public void Noconnection(int type) {
+    	if (type == 2){
+    		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+    	}else{
+    		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
+    	}
+    }
 
     public void checkNetworkAndDisplayCrouton() {
         if (!isNetworkAvailable() && networkAvailable == true) {
-            Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+        	Noconnection(2);
         }
         if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
@@ -593,7 +601,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         			break;
         		}
         	}catch (Exception e){
-        		System.out.println("ERROR: unknown");
+        			System.out.println("ERROR: doInBackground() at home.java");
         	}
             return null;
         }
@@ -607,16 +615,26 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
                         
                         if (_result.length() == 0) {
-                        	System.out.println("No records");//TODO shouldnt return nothing, but...
-                        }
-                        else {
+                        	System.out.println("No records, retry! (Home.java)");//TODO shouldnt return nothing, but...
+                        	af.scrollToTop();
+                			mf.scrollToTop();
+                			if (af.getMode()== 1){
+                				getTopRated(BaseMALApi.ListType.ANIME);
+                			} else if (af.getMode()== 2){
+                				getMostPopular(BaseMALApi.ListType.ANIME);
+                			} else if (af.getMode()== 3){
+                				getJustAdded(BaseMALApi.ListType.ANIME);
+                			} else if (af.getMode()== 4){
+                				getUpcoming(BaseMALApi.ListType.ANIME);
+                			}
+                			af.scrollListener.resetPageNumber();
+                        } else {
                         	for (int i = 0; i < _result.length(); i++) {
                                 JSONObject genre = (JSONObject) _result.get(i);
                                 AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
                                 list.add(record);
                             }
                         }
-                        
                         af.setAnimeRecords(list);
                         break;
                     }
@@ -633,13 +651,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                                 list.add(record);
                             }	
                         }
-                        
                         mf.setMangaRecords(list);
                         break;
                     }
                 }
                 
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
             }
             Home.this.af.scrollListener.notifyMorePages();
@@ -657,6 +674,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			/* do stuff when drawer item is clicked here */
 			af.scrollToTop();
 			mf.scrollToTop();
+			if (!isNetworkAvailable() && position > 0) {
+				position = 0;
+				Noconnection(1);
+	        }
 			switch (position){
 			case 0:
 				af.getRecords(listType, "anime", false, Home.this.context);
@@ -664,8 +685,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 myList = true;
                 af.setMode(0);
 				mf.setMode(0);
-				af.scrollListener.resetPageNumber();
-				mf.scrollListener.resetPageNumber();
 				break;
 			case 1:
 				getTopRated(BaseMALApi.ListType.ANIME);
