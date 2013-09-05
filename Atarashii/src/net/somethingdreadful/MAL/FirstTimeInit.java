@@ -69,16 +69,14 @@ public class FirstTimeInit extends SherlockActivity {
                     pd.dismiss();
 
                     Toast.makeText(context, context.getString(R.string.toast_AccountOK), Toast.LENGTH_SHORT).show();
-
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
                     prefManager.setInit(true);
                     prefManager.commitChanges();
 
                     Intent goHome = new Intent(context, Home.class);
-                    goHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra("net.somethingdreadful.MAL.firstSync", true);
                     startActivity(goHome);
+                    System.exit(0);
                 }
                 super.handleMessage(msg);
             }

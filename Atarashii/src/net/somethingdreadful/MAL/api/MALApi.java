@@ -31,6 +31,7 @@ public class MALApi extends BaseMALApi {
 
 	public JSONArray responseToJSONArray(RestResult<String> response) {
 		JSONArray result = null;
+
 		try {
 			result = new JSONArray(response.result);
 		} catch (JSONException e) {
@@ -169,5 +170,66 @@ public class MALApi extends BaseMALApi {
 		}
 		return response.code == 200;
 	}
+	
+	@Override
+	public JSONArray getMostPopular(ListType listType, int page){
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType) + "/popular?page="+page));
+			System.out.println("The url is "+url.toString());
+			response = restHelper.get(url);
+		} catch (Exception e) {
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
+		}
+		return responseToJSONArray(response);
+	}
+	
+	@Override
+	public JSONArray getTopRated(ListType listType, int page){
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType) + "/top?page="+page));
+			System.out.println("The url is "+url.toString());
+			response = restHelper.get(url);
+		} catch (Exception e) {
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
+		}
+		return responseToJSONArray(response);
+	}
+	
+	@Override
+	public JSONArray getJustAdded(ListType listType, int page){
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType) + "/just_added?page="+page));
+			System.out.println("The url is "+url.toString());
+			response = restHelper.get(url);
+		} catch (Exception e) {
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
+		}
+		return responseToJSONArray(response);
+	}
+	
+	@Override
+	public JSONArray getUpcoming(ListType listType, int page){
+		URL url;
+		RestResult<String> response = null;
+		try {
+			url = new URL(getFullPath(getListTypeString(listType) + "/upcoming?page="+page));
+			System.out.println("The url is "+url.toString());
+			response = restHelper.get(url);
+		} catch (Exception e) {
+			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+			response = new RestResult<String>();
+		}
+		return responseToJSONArray(response);
+	}
+	
 
 }
