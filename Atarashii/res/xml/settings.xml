@@ -12,6 +12,13 @@
 				android:key="traditionalList"
 				android:summary="@string/preference_summary_TraditionList"
 				android:title="@string/preference_TraditionalList" />
+			<PreferenceCategory android:title="Manga">
+				<CheckBoxPreference 
+					android:title="Use Volumes on Covers" 
+					android:summary="@string/preference_summary_displayVolumes" 
+					android:key="displayVolumes" 
+					android:defaultValue="false" />
+			</PreferenceCategory>
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Profile settings" android:title="Profile settings" android:persistent="false">
 			<CheckBoxPreference 
@@ -40,26 +47,19 @@
 				android:summary="Hide the manga details on my profile." 
 				android:defaultValue="false"/>
 		</PreferenceScreen>
-    <PreferenceCategory android:title="@string/preference_category_mangaSettings">
-        <CheckBoxPreference 
-		android:title="@string/preference_displayVolumes" 
-		android:summary="@string/preference_summary_displayVolumes" 
-		android:key="displayVolumes" 
-		android:defaultValue="false" />
-    </PreferenceCategory>
-	<PreferenceCategory android:title="@string/preference_category_synchronisationSettings">
-        <CheckBoxPreference 
-		android:key="synchronisation" 
-		android:title="@string/preference_synchronisation" 
-		android:summary="@string/preference_summary_synchronisation" 
-		android:defaultValue="false"/>
-		<CheckBoxPreference 
-		android:key="Only_wifi" 
-		android:title="@string/preference_Only_wifi" 
-		android:summary="@string/preference_summary_Only_wifi" 
-		android:defaultValue="false"
-		android:dependency="synchronisation"/>
-    </PreferenceCategory>
+		<PreferenceScreen android:key="Synchronisation settings" android:title="Synchronisation settings" android:persistent="false">
+			<CheckBoxPreference 
+				android:key="synchronisation" 
+				android:title="@string/preference_synchronisation" 
+				android:summary="@string/preference_summary_synchronisation" 
+				android:defaultValue="false"/>
+			<CheckBoxPreference 
+				android:key="Only_wifi" 
+				android:title="@string/preference_Only_wifi" 
+				android:summary="@string/preference_summary_Only_wifi" 
+				android:defaultValue="false"
+				android:dependency="synchronisation"/>
+	</PreferenceScreen>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference
             android:key="customShareText"
