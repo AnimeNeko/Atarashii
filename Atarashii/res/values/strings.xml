@@ -80,6 +80,7 @@
     <string name="label_Chapters">Chapters:</string>
     <string name="label_Volumes">Volumes:</string>
     <string name="action_Share">Share</string>
+    <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
     <!-- AboutActivity Screen Text -->
     <string name="contributors_card_title">Major Contributors</string>
     <string name="acknowledgements_card_title">Acknowledgements</string>
@@ -136,21 +137,20 @@
     <string name="search_prompt">Search in MAL</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    
-     <string name="preference_category_ListSettings">List Settings</string>
+	
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
-    <string name="preference_category_mangaSettings">Manga</string>
-    <string name="preference_displayVolumes">Use Volumes on Covers</string>
-    <string name="preference_summary_displayVolumes">If checked, will display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
-	<string name="preference_category_synchronisationSettings">synchronisation</string>
+    <string name="preference_summary_displayVolumes">Display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
+    <string name="preference_category_synchronisationSettings">synchronisation</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync on startup.</string>
-	<string name="preference_category_sharing">Sharing</string>
+	<string name="preference_Only_wifi">Sync only using Wi-Fi</string>
+    <string name="preference_summary_Only_wifi">Atarashii will auto-sync only using Wi-Fi.</string>
+    <string name="preference_category_sharing">Sharing</string>
     <string name="preference_customShareText">Custom Share Text</string>
     <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
-
+	
 </resources>
