@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.http.HttpResponse;
@@ -39,7 +38,6 @@ Context context;
 String name;
 ImageView Imagdae;
 boolean forcesync = false;
-Home home;
 
 //details
 String avatar_url = "";
