@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/preference_category_ListSettings">
-        <ListPreference
-            android:summary="@string/summary_DefaultList"
-            android:dialogTitle="@string/dialog_DefaultList"
-            android:title="@string/dialog_DefaultList"
-            android:entries="@array/listTypeArray"
-            android:entryValues="@array/listTypeValuesArray"
-            android:key="defList" />
-        <CheckBoxPreference
-            android:key="traditionalList"
-            android:summary="@string/preference_summary_TraditionList"
-            android:title="@string/preference_TraditionalList" />
-    </PreferenceCategory>
+		<PreferenceScreen android:key="List settings" android:title="List settings" android:persistent="false">
+			<ListPreference
+				android:summary="@string/summary_DefaultList"
+				android:dialogTitle="@string/dialog_DefaultList"
+				android:title="@string/dialog_DefaultList"
+				android:entries="@array/listTypeArray"
+				android:entryValues="@array/listTypeValuesArray"
+				android:key="defList" />
+			<CheckBoxPreference
+				android:key="traditionalList"
+				android:summary="@string/preference_summary_TraditionList"
+				android:title="@string/preference_TraditionalList" />
+		</PreferenceScreen>
+		<PreferenceScreen android:key="Profile settings" android:title="Profile settings" android:persistent="false">
+			<CheckBoxPreference 
+				android:key="PAutosync" 
+				android:title="Auto-synchronisation" 
+				android:summary="Auto-sync when you are watching my profile (turn off when my profile is slow on start-up)." 
+				android:defaultValue="true"/>
+			<CheckBoxPreference 
+				android:key="Wifi_sync" 
+				android:title="Wi-Fi synchronisation" 
+				android:summary="Only use Wi-Fi to synchronise my profile." 
+				android:defaultValue="false"/>
+			<CheckBoxPreference 
+				android:key="text_colours" 
+				android:title="Disable text colours" 
+				android:summary="Force the profile page to use black text colour." 
+				android:defaultValue="false"/>
+			<CheckBoxPreference 
+				android:key="A_hide" 
+				android:title="Hide anime details" 
+				android:summary="Hide the anime details on my profile." 
+				android:defaultValue="false"/>
+			<CheckBoxPreference 
+				android:key="M_hide" 
+				android:title="Hide manga details" 
+				android:summary="Hide the manga details on my profile." 
+				android:defaultValue="false"/>
+		</PreferenceScreen>
     <PreferenceCategory android:title="@string/preference_category_mangaSettings">
         <CheckBoxPreference 
 		android:title="@string/preference_displayVolumes" 
@@ -20,12 +47,18 @@
 		android:key="displayVolumes" 
 		android:defaultValue="false" />
     </PreferenceCategory>
-    	<PreferenceCategory android:title="@string/preference_category_synchronisationSettings">
+	<PreferenceCategory android:title="@string/preference_category_synchronisationSettings">
         <CheckBoxPreference 
 		android:key="synchronisation" 
 		android:title="@string/preference_synchronisation" 
 		android:summary="@string/preference_summary_synchronisation" 
 		android:defaultValue="false"/>
+		<CheckBoxPreference 
+		android:key="Only_wifi" 
+		android:title="@string/preference_Only_wifi" 
+		android:summary="@string/preference_summary_Only_wifi" 
+		android:defaultValue="false"
+		android:dependency="synchronisation"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference
