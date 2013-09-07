@@ -231,7 +231,7 @@ Integer M_total_entries = 0;
 			tv24.setText(Integer.toString(M_total_entries));
 			try{
 				Imagdae = (ImageView) findViewById(R.id.Imagdae);
-				imageDownloader.download("http://cdn.myanimelist.net/images/userimages/2379629.jpg", Imagdae);
+				imageDownloader.download(avatar_url, Imagdae);
 				Imagdae.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, avatar_url)));
 			}catch (Exception e){	
 				Log.e(this.getClass().getName(), Log.getStackTraceString(e));
@@ -439,11 +439,7 @@ Integer M_total_entries = 0;
     
     public void Offline(){
     	try {
-    		if (avatar_url == null){
-    			
-    		}else{
-    			avatar_url= getSharedPreferences("Profile", MODE_PRIVATE).getString("avatar_url", avatar_url);
-    		}
+    		avatar_url= getSharedPreferences("Profile", MODE_PRIVATE).getString("avatar_url", avatar_url);
     		birthday= getSharedPreferences("Profile", MODE_PRIVATE).getString("birthday",birthday);
     		location= getSharedPreferences("Profile", MODE_PRIVATE).getString("location", location);
     		comments= getSharedPreferences("Profile", MODE_PRIVATE).getInt("comments",comments);
