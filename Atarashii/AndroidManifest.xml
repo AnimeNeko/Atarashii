@@ -52,6 +52,10 @@
                 android:name=".DetailView"
                 android:label="@string/title_activity_detail_view">
         </activity>
+		<activity
+                android:name=".ProfileActivity"
+                android:label="Profile">
+        </activity>
         <activity
                 android:name=".AboutActivity"
                 android:label="@string/title_activity_about">
