@@ -438,7 +438,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 Picasso coverImage = Picasso.with(context);
 
-                coverImage.load(mangaRecord.getImageUrl())
+                coverImage
+                .load(mangaRecord.getImageUrl())
+                .error(R.drawable.cover_error)
+                .placeholder(R.drawable.cover_loading)
+                .fit()
                 .into(CoverImageView);
 
                 VolumeProgressText = Integer.toString(mangaRecord.getVolumeProgress());
