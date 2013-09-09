@@ -31,6 +31,7 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -336,7 +337,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericMALRecord> {
         int mRecordID;
         MALManager mMalManager;
-        ImageDownloader imageDownloader = new ImageDownloader(context);
         String internalType;
 
         @Override
@@ -392,7 +392,15 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         protected void onProgressUpdate(Boolean... progress) {
             if ("anime".equals(internalType)) {
                 actionBar.setTitle(animeRecord.getName());
-                CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, animeRecord.getImageUrl())));
+
+                Picasso coverImage = Picasso.with(context);
+
+                coverImage
+                .load(animeRecord.getImageUrl())
+                .error(R.drawable.cover_error)
+                .placeholder(R.drawable.cover_loading)
+                .fit()
+                .into(CoverImageView);
 
                 ProgressText = Integer.toString(animeRecord.getPersonalProgress(false));
                 TotalProgressText = animeRecord.getTotal(false);
@@ -428,7 +436,14 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             else {
                 actionBar.setTitle(mangaRecord.getName());
 
-                CoverImageView.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, mangaRecord.getImageUrl())));
+                Picasso coverImage = Picasso.with(context);
+
+                coverImage
+                .load(mangaRecord.getImageUrl())
+                .error(R.drawable.cover_error)
+                .placeholder(R.drawable.cover_loading)
+                .fit()
+                .into(CoverImageView);
 
                 VolumeProgressText = Integer.toString(mangaRecord.getVolumeProgress());
                 VolumeTotalText = Integer.toString(mangaRecord.getVolumesTotal());
