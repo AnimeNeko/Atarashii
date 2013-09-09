@@ -159,7 +159,6 @@ public class ItemGridFragment extends SherlockFragment {
         	@Override
         	public void onRefresh(int pageNumber) {
         		try{
-                System.out.println("On Refresh invoked..");
                 if (mode == 1){
                 		networkThread animethread = new networkThread(1,pageNumber);
                 		animethread.setListType(BaseMALApi.ListType.ANIME);
@@ -448,7 +447,7 @@ public class ItemGridFragment extends SherlockFragment {
                         ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
                         
                         if (_result.length() == 0) {
-                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+							Log.w("MALX", "No anime records returned.");
                         }
                         else {
                         	for (int i = 0; i < _result.length(); i++) {
@@ -476,7 +475,7 @@ public class ItemGridFragment extends SherlockFragment {
                         ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
                         
                         if (_result.length() == 0) {
-                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+							Log.w("MALX", "No manga records returned.");
                         }
                         else {
                         	for (int i = 0; i < _result.length(); i++) {

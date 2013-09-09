@@ -599,7 +599,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         			break;
         		}
         	}catch (Exception e){
-        			System.out.println("ERROR: doInBackground() at home.java");
+				Log.e("MALX", "Exception caught in doInBackground() in Home.java");
         	}
             return null;
         }
@@ -613,7 +613,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
                         
                         if (_result.length() == 0) {
-                        	System.out.println("No records, retry! (Home.java)");//TODO shouldnt return nothing, but...
+							Log.w("MALX", "No anime records, trying to fetch again.");
                         	af.scrollToTop();
                 			mf.scrollToTop();
                 			if (af.getMode()== 1){
@@ -640,7 +640,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
                         
                         if (_result.length() == 0) {
-                        	System.out.println("No records");//TODO shouldnt return nothing, but...
+							Log.w("MALX", "No manga records.");
                         }
                         else {
                         	for (int i = 0; i < _result.length(); i++) {

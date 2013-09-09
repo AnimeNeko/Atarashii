@@ -27,13 +27,11 @@ public class ItemGridFragmentScrollViewListener implements OnScrollListener{
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		// TODO Auto-generated method stub
-		System.out.println("The page number is "+pageNumber);
 		if (gridView.getLastVisiblePosition() +1 == totalItemCount && !isLoading){
 			isLoading = true;
 			if (hasMorePages && !isRefreshing){
 				isRefreshing = true;
-				//add more stuff
-				System.out.println("Add more stuff!");
+				//TODO: add more stuff
 				list.onRefresh(pageNumber);
 				
 			}
