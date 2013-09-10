@@ -2,4 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item android:id="@+id/forceSync" android:icon="@drawable/ic_menu_refresh" android:showAsAction="ifRoom" android:title="@string/menu_sync"></item>
 	<item android:id="@+id/action_ViewMALPage" android:icon="@drawable/ic_location_web_site" android:showAsAction="ifRoom" android:title="@string/action_viewMALPage"></item>
+	<item android:id="@+id/Shareprofile" android:title="Share animelist" android:icon="@drawable/ic_action_share" android:orderInCategory="9000" android:showAsAction="never"/>
 </menu>
