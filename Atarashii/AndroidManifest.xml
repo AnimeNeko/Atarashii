@@ -48,6 +48,10 @@
                 android:name=".Settings"
                 android:label="@string/title_activity_settings">
         </activity>
+		<activity
+                android:name=".FriendsActivity"
+                android:label="Friends">
+        </activity>
         <activity
                 android:name=".DetailView"
                 android:label="@string/title_activity_detail_view">
