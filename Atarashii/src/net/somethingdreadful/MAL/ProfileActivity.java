@@ -84,7 +84,6 @@ Integer M_total_entries = 0;
         setTitle("User profile of " + name); //set title
         context = getApplicationContext();
         new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
-        setcolor();
         card();
     }
     
@@ -257,10 +256,11 @@ Integer M_total_entries = 0;
 				Log.e(this.getClass().getName(), Log.getStackTraceString(e));
 			}
 			setcolor(); 
+			autohidecard();
         }
     }
     
-    public boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() { //check if network is available
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -273,13 +273,24 @@ Integer M_total_entries = 0;
     }
     
     public void card() { //settings for hide a card
+    	LinearLayout a =(LinearLayout)findViewById(R.id.Anime_card);
+		LinearLayout m =(LinearLayout)findViewById(R.id.Manga_card);
     	if (animehide()){
-    		LinearLayout a =(LinearLayout)findViewById(R.id.Anime_card);
     		a.setVisibility(View.GONE);
     	}
     	if (mangahide()){
-    		LinearLayout m =(LinearLayout)findViewById(R.id.Manga_card);
     		m.setVisibility(View.GONE);
+    	}
+    }
+    
+    public void autohidecard(){//settings for hide auto a card
+    	LinearLayout a =(LinearLayout)findViewById(R.id.Anime_card);
+		LinearLayout m =(LinearLayout)findViewById(R.id.Manga_card);
+    	if (anime_manga_zero() && M_total_entries < 1){ //if manga (total entry) is beneath the int then hide
+    		m.setVisibility(View.GONE);
+    	}
+    	if (anime_manga_zero() && A_total_entries < 1){ //if anime (total entry) is beneath the int then hide
+    		a.setVisibility(View.GONE);
     	}
     }
     
@@ -312,6 +323,10 @@ Integer M_total_entries = 0;
     	if (name.equals("Ratan12") || name.equals("AnimaSA") || name.equals("Motokochan") || name.equals("Apkawa") || name.equals("ratan12") || name.equals("animaSA") || name.equals("motokochan") || name.equals("apkawa")) {
 			tv8.setText("Atarashii developer"); //Developer
 		}
+    }
+    
+    public boolean anime_manga_zero() {
+        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("a_mhide", false);
     }
     
     public boolean Textcolordisable() {
