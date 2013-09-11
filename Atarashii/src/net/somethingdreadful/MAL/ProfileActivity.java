@@ -112,6 +112,14 @@ Integer M_total_entries = 0;
             	Uri malurl = Uri.parse("http://myanimelist.net/profile/" + name);
             	startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
+            case R.id.viewmala:
+            	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + name);
+            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
+                break;
+            case R.id.viewmalm:
+            	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + name);
+            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
+                break;
             case R.id.Shareprofile:
 				Share();
         }
