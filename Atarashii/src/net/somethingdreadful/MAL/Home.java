@@ -78,8 +78,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     MenuItem searchItem;
     
     int AutoSync = 0; //run or not to run.
-    static final String state_sync = "AutoSync"; //to solve bugs.
-    static final String state_mylist = "myList";
     int listType = 0; //remembers the list_type.
     
     private DrawerLayout mDrawerLayout;
@@ -112,8 +110,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
         if (savedInstanceState != null) {
-            AutoSync = savedInstanceState.getInt(state_sync);
-            listType = savedInstanceState.getInt(state_mylist);
+            AutoSync = savedInstanceState.getInt("AutoSync");
+            listType = savedInstanceState.getInt("myList");
         }
         
         if (init) {
@@ -381,8 +379,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //This is telling out future selves that we already have some things and not to do them
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
-        state.putInt(state_sync, AutoSync);
-        state.putInt(state_mylist, listType);
+        state.putInt("AutoSync", AutoSync);
+        state.putInt("myList", listType);
         super.onSaveInstanceState(state);
     }
 
