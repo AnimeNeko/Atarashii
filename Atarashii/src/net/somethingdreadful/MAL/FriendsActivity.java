@@ -165,7 +165,6 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 	}
 	
     public class RetrieveMessages extends AsyncTask<String, Void, String> { //check username
-    	ImageDownloader imageDownloader = new ImageDownloader(context);
     	protected String doInBackground(String... urls) {
     				HttpClient client = new DefaultHttpClient();
     				String json = "";
