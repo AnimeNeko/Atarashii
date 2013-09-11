@@ -37,14 +37,19 @@
 				android:summary="Force the profile page to use black text colour." 
 				android:defaultValue="false"/>
 			<CheckBoxPreference 
+				android:key="a_mhide" 
+				android:title="Hide automatic anime/manga details" 
+				android:summary="Hide anime/manga details on all profiles when the Total Entries are zero." 
+				android:defaultValue="false"/>
+			<CheckBoxPreference 
 				android:key="A_hide" 
-				android:title="Hide anime details" 
-				android:summary="Hide the anime details on my profile." 
+				android:title="Hide always anime details" 
+				android:summary="Hide the anime details on all profiles." 
 				android:defaultValue="false"/>
 			<CheckBoxPreference 
 				android:key="M_hide" 
-				android:title="Hide manga details" 
-				android:summary="Hide the manga details on my profile." 
+				android:title="Hide always manga details" 
+				android:summary="Hide the manga details on all profiles." 
 				android:defaultValue="false"/>
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Synchronisation settings" android:title="Synchronisation settings" android:persistent="false">
