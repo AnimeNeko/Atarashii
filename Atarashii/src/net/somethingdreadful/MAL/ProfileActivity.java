@@ -29,6 +29,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -79,12 +80,12 @@ Integer M_total_entries = 0;
         name = getSharedPreferences("prefs", MODE_PRIVATE).getString("user", "?"); //get username
         if (name.equals(getSharedPreferences("Profile", MODE_PRIVATE).getString("Profileuser", "Error"))){ //get username from friedlist/navdrawer
         }else{
-        	name = getSharedPreferences("Profile", MODE_PRIVATE).getString("Profileuser", "?"); //get username
+        	name = getSharedPreferences("Profile", MODE_PRIVATE).getString("Profileuser", "?"); //get username (given by other activities)
         }
         setTitle("User profile of " + name); //set title
         context = getApplicationContext();
         new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
-        card();
+        card(); //check the settings
     }
     
     @Override
@@ -134,7 +135,6 @@ Integer M_total_entries = 0;
     }
     
     public class RetrieveMessages extends AsyncTask<String, Void, String> {
-    	ImageDownloader imageDownloader = new ImageDownloader(context);
     	protected String doInBackground(String... urls) {
     		if (isConnectedWifi() || Wifisyncdisable() == false || forcesync == true){ // settings check
     			if (autosync() && isNetworkAvailable() || forcesync == true){ // settings check & network check
@@ -192,7 +192,7 @@ Integer M_total_entries = 0;
         }
 
 		protected void onPostExecute(String check) {
-			if (check == ""){ //birthday check
+			if (check == ""){ //birthday check, IF MAL IS OFFLINE THIS WILL START OFFLINE.
 				Offline();
 			}else{
 				Save();
@@ -249,9 +249,8 @@ Integer M_total_entries = 0;
 			TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
 			tv24.setText(Integer.toString(M_total_entries));
 			try{
-				Imagdae = (ImageView) findViewById(R.id.Imagdae);
-				imageDownloader.download(avatar_url, Imagdae);
-				Imagdae.setImageDrawable(new BitmapDrawable(imageDownloader.returnDrawable(context, avatar_url)));
+				Picasso ProfileImage = Picasso.with(context);
+				ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
 			}catch (Exception e){	
 				Log.e(this.getClass().getName(), Log.getStackTraceString(e));
 			}
