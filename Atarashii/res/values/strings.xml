@@ -138,14 +138,11 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 	
-    <string name="preference_category_ListSettings">List Settings</string>
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
-    <string name="preference_category_mangaSettings">Manga</string>
-    <string name="preference_displayVolumes">Use Volumes on Covers</string>
-    <string name="preference_summary_displayVolumes">If checked, will display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
+    <string name="preference_summary_displayVolumes">Display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
     <string name="preference_category_synchronisationSettings">synchronisation</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync on startup.</string>

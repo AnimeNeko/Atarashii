@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -45,7 +46,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
-
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -78,8 +78,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     MenuItem searchItem;
     
     int AutoSync = 0; //run or not to run.
-    static final String state_sync = "AutoSync"; //to solve bugs.
-    static final String state_mylist = "myList";
     int listType = 0; //remembers the list_type.
     
     private DrawerLayout mDrawerLayout;
@@ -91,7 +89,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     boolean myList = true; //tracks if the user is on 'My List' or not
     public static final String[] DRAWER_OPTIONS = 
         {
-                "My List",   
+                "My Profile",   
+                "My List",
+                "My Friends",
                 "Top Rated",
                 "Most Popular",
                 "Just Added",
@@ -110,8 +110,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
         if (savedInstanceState != null) {
-            AutoSync = savedInstanceState.getInt(state_sync);
-            listType = savedInstanceState.getInt(state_mylist);
+            AutoSync = savedInstanceState.getInt("AutoSync");
+            listType = savedInstanceState.getInt("myList");
         }
         
         if (init) {
@@ -379,8 +379,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //This is telling out future selves that we already have some things and not to do them
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
-        state.putInt(state_sync, AutoSync);
-        state.putInt(state_mylist, listType);
+        state.putInt("AutoSync", AutoSync);
+        state.putInt("myList", listType);
         super.onSaveInstanceState(state);
     }
 
@@ -673,19 +673,31 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			/* do stuff when drawer item is clicked here */
 			af.scrollToTop();
 			mf.scrollToTop();
-			if (!isNetworkAvailable() && position > 0) {
-				position = 0;
-				maketext("No network connection available!");
+			if (!isNetworkAvailable()) {
+				if (position==0 || position==1 || position==2){
+				}else{
+					position = 1;
+					maketext("No network connection available!");
+				}
 	        }
 			switch (position){
 			case 0:
+				Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser",mPrefManager.getUser());editor1.commit();
+				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+				startActivity(Profile);
+				break;
+			case 1:
 				af.getRecords(listType, "anime", false, Home.this.context);
                 mf.getRecords(listType, "manga", false, Home.this.context);
                 myList = true;
                 af.setMode(0);
 				mf.setMode(0);
 				break;
-			case 1:
+			case 2:
+				Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
+				startActivity(Friends);
+				break;
+			case 3:
 				getTopRated(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
@@ -694,7 +706,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
-			case 2:
+			case 4:
 				getMostPopular(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
@@ -703,7 +715,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
-			case 3:
+			case 5:
 				getJustAdded(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
@@ -712,7 +724,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
-			case 4:
+			case 6:
 				getUpcoming(BaseMALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;

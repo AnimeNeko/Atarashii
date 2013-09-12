@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item android:id="@+id/forceSync" android:icon="@drawable/ic_menu_refresh" android:showAsAction="ifRoom" android:title="@string/menu_sync"></item>
+	<item android:id="@+id/action_ViewMALPage" android:icon="@drawable/ic_location_web_site" android:showAsAction="ifRoom" android:title="@string/action_viewMALPage"></item>
+	
+	<item android:id="@+id/viewmala" android:title="View animelist on MAL" android:icon="@drawable/ic_location_web_site" android:orderInCategory="9001" android:showAsAction="never"/>
+	<item android:id="@+id/viewmalm" android:title="View mangalist on MAL" android:icon="@drawable/ic_location_web_site" android:orderInCategory="9002" android:showAsAction="never"/>
+	<item android:id="@+id/Shareprofile" android:title="Share animelist" android:icon="@drawable/ic_action_share" android:orderInCategory="9003" android:showAsAction="never"/>
+</menu>
