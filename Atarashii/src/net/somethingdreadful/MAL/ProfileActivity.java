@@ -39,7 +39,7 @@ Context context;
 String name;
 ImageView Imagdae;
 boolean forcesync = false;
-SharedPreferences profielprefs; 
+SharedPreferences profielprefs;
 PrefManager prefs; 
 LinearLayout a;
 LinearLayout m;
@@ -95,8 +95,8 @@ Integer M_total_entries = 0;
         profielprefs = getSharedPreferences("Profile_" + name, MODE_PRIVATE);
         setTitle("User profile of " + name); //set title
         
-        new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
         card(); //check the settings
+        new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
     }
     
     @Override
@@ -191,7 +191,6 @@ Integer M_total_entries = 0;
         }
 
         protected void onProgressUpdate(Void... progress) {
-			
         }
 
 		protected void onPostExecute(String check) {
@@ -258,12 +257,10 @@ Integer M_total_entries = 0;
     			tv8.setTextColor(Color.parseColor("#850000"));
     		}else if (access_rank.contains("Moderator")) {
     			tv8.setTextColor(Color.parseColor("#003385"));
-    		}else if (access_rank.contains("Member")){
-    			if (name.equals("Ratan12") || name.equals("AnimaSA") || name.equals("Motokochan") || name.equals("Apkawa") || name.equals("ratan12") || name.equals("animaSA") || name.equals("motokochan") || name.equals("apkawa")) {
+    		}else if (name.equals("Ratan12") || name.equals("AnimaSA") || name.equals("Motokochan") || name.equals("Apkawa") || name.equals("ratan12") || name.equals("animaSA") || name.equals("motokochan") || name.equals("apkawa")) {
     				tv8.setTextColor(Color.parseColor("#008583")); //Developer
-    			}else{
+    		}else{
     				tv8.setTextColor(Color.parseColor("#0D8500")); //normal user
-    			}
     		}    		
     	}
     	if (name.equals("Ratan12") || name.equals("AnimaSA") || name.equals("Motokochan") || name.equals("Apkawa") || name.equals("ratan12") || name.equals("animaSA") || name.equals("motokochan") || name.equals("apkawa")) {
