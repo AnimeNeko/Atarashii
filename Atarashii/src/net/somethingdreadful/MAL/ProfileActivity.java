@@ -10,10 +10,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -39,6 +39,10 @@ Context context;
 String name;
 ImageView Imagdae;
 boolean forcesync = false;
+SharedPreferences profielprefs; 
+PrefManager prefs; 
+LinearLayout a;
+LinearLayout m;
 
 //details
 String avatar_url = "";
@@ -77,13 +81,20 @@ Integer M_total_entries = 0;
         setContentView(R.layout.activity_profile);
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
-        name = getSharedPreferences("prefs", MODE_PRIVATE).getString("user", "?"); //get username
-        if (name.equals(getSharedPreferences("Profile", MODE_PRIVATE).getString("Profileuser", "Error"))){ //get username from friedlist/navdrawer
-        }else{
-        	name = getSharedPreferences("Profile", MODE_PRIVATE).getString("Profileuser", "?"); //get username (given by other activities)
-        }
-        setTitle("User profile of " + name); //set title
+        
         context = getApplicationContext();
+        prefs = new PrefManager(context);
+        name = prefs.getUser();
+        a =(LinearLayout)findViewById(R.id.Anime_card);
+		m =(LinearLayout)findViewById(R.id.Manga_card);
+        String userclicked = prefs.Getclickeduser();
+
+        if (!name.equals(userclicked)){ //get username from friedlist/navdrawer
+        	name = userclicked;
+        }
+        profielprefs = getSharedPreferences("Profile_" + name, MODE_PRIVATE);
+        setTitle("User profile of " + name); //set title
+        
         new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
         card(); //check the settings
     }
@@ -126,18 +137,10 @@ Integer M_total_entries = 0;
         return true;
     }
     
-    public void Share() {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getSharedPreferences("prefs", MODE_PRIVATE).getString("user", "?") + " has shared an anime list : http://myanimelist.net/animelist/" + name + " !");
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-    }
-    
     public class RetrieveMessages extends AsyncTask<String, Void, String> {
     	protected String doInBackground(String... urls) {
-    		if (isConnectedWifi() || Wifisyncdisable() == false || forcesync == true){ // settings check
-    			if (autosync() && isNetworkAvailable() || forcesync == true){ // settings check & network check
+    		if (isConnectedWifi() || prefs.Wifisyncdisable() == false || forcesync == true){ // settings check
+    			if (prefs.autosync() && isNetworkAvailable() || forcesync == true){ // settings check & network check
     				HttpClient client = new DefaultHttpClient();
     				String json = "";
     				try {
@@ -148,7 +151,7 @@ Integer M_total_entries = 0;
     					while ((line = rd.readLine()) != null) {
     						json += line + System.getProperty("line.separator"); //save response
     						JSONObject jsonObject = new JSONObject(json);
-    						avatar_url = jsonObject.getString("avatar_url").replaceFirst("t.jpg$", ".jpg");
+    						avatar_url = jsonObject.getString("avatar_url");
     						birthday = jsonObject.getJSONObject("details").getString("birthday"); // get birthday for check
     						location = jsonObject.getJSONObject("details").getString("location");
     						comments = jsonObject.getJSONObject("details").getInt("comments");
@@ -170,7 +173,7 @@ Integer M_total_entries = 0;
     						A_total_entries = jsonObject.getJSONObject("anime_stats").getInt("total_entries");
 						
     						M_time_days = Double.toString(jsonObject.getJSONObject("manga_stats").getDouble("time_days"));
-    						M_time_daysint = jsonObject.getJSONObject("manga_stats").getInt("time_days");
+    						M_time_daysint = jsonObject.getJSONObject("manga_stats").getInt("time_days"); //get int for colors
 							M_reading = jsonObject.getJSONObject("manga_stats").getInt("reading");
 							M_completed = jsonObject.getJSONObject("manga_stats").getInt("completed");
 							M_on_hold = jsonObject.getJSONObject("manga_stats").getInt("on_hold");
@@ -197,71 +200,19 @@ Integer M_total_entries = 0;
 			}else{
 				Save();
 			}
-			//json was full of data :p
-			TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
-			tv1.setText(birthday);
-			TextView tv2 = (TextView) findViewById(R.id.locationsmall);
-			tv2.setText(location);
-			TextView tv3 = (TextView) findViewById(R.id.commentspostssmall);
-			tv3.setText(Integer.toString(comments));
-			TextView tv4 = (TextView) findViewById(R.id.forumpostssmall);
-			tv4.setText(Integer.toString(forum_posts));
-			TextView tv5 = (TextView) findViewById(R.id.lastonlinesmall);
-			tv5.setText(last_online);
-			TextView tv6 = (TextView) findViewById(R.id.gendersmall);
-			tv6.setText(gender);
-			TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
-			tv7.setText(join_date);
-			TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
-			tv8.setText(access_rank);
-			TextView tv9 = (TextView) findViewById(R.id.animelistviewssmall);
-			tv9.setText(Integer.toString(anime_list_views));
-			TextView tv10 = (TextView) findViewById(R.id.mangalistviewssmall);
-			tv10.setText(Integer.toString(manga_list_views));
-			
-			TextView tv11 = (TextView) findViewById(R.id.atimedayssmall);
-			tv11.setText(A_time_days);
-			TextView tv12 = (TextView) findViewById(R.id.awatchingsmall);
-			tv12.setText(Integer.toString(A_watching));
-			TextView tv13 = (TextView) findViewById(R.id.acompletedpostssmall);
-			tv13.setText(Integer.toString(A_completed));
-			TextView tv14 = (TextView) findViewById(R.id.aonholdsmall);
-			tv14.setText(Integer.toString(A_on_hold));
-			TextView tv15 = (TextView) findViewById(R.id.adroppedsmall);
-			tv15.setText(Integer.toString(A_dropped));
-			TextView tv16 = (TextView) findViewById(R.id.aplantowatchsmall);
-			tv16.setText(Integer.toString(A_plan_to_watch));
-			TextView tv17 = (TextView) findViewById(R.id.atotalentriessmall);
-			tv17.setText(Integer.toString(A_total_entries));
-			
-			TextView tv18 = (TextView) findViewById(R.id.mtimedayssmall);
-			tv18.setText(M_time_days);
-			TextView tv19 = (TextView) findViewById(R.id.mwatchingsmall);
-			tv19.setText(Integer.toString(M_reading));
-			TextView tv20 = (TextView) findViewById(R.id.mcompletedpostssmall);
-			tv20.setText(Integer.toString(M_completed));
-			TextView tv21 = (TextView) findViewById(R.id.monholdsmall);
-			tv21.setText(Integer.toString(M_on_hold));
-			TextView tv22 = (TextView) findViewById(R.id.mdroppedsmall);
-			tv22.setText(Integer.toString(M_dropped));
-			TextView tv23 = (TextView) findViewById(R.id.mplantowatchsmall);
-			tv23.setText(Integer.toString(M_plan_to_read));
-			TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
-			tv24.setText(Integer.toString(M_total_entries));
 			try{
 				Picasso ProfileImage = Picasso.with(context);
 				ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
 			}catch (Exception e){	
 				Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-			}
-			setcolor(); 
+			}	
 			autohidecard();
+			setcolor();
         }
     }
     
     public boolean isNetworkAvailable() { //check if network is available
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
@@ -272,23 +223,19 @@ Integer M_total_entries = 0;
     }
     
     public void card() { //settings for hide a card
-    	LinearLayout a =(LinearLayout)findViewById(R.id.Anime_card);
-		LinearLayout m =(LinearLayout)findViewById(R.id.Manga_card);
-    	if (animehide()){
+    	if (prefs.animehide()){
     		a.setVisibility(View.GONE);
     	}
-    	if (mangahide()){
+    	if (prefs.mangahide()){
     		m.setVisibility(View.GONE);
     	}
     }
     
     public void autohidecard(){//settings for hide auto a card
-    	LinearLayout a =(LinearLayout)findViewById(R.id.Anime_card);
-		LinearLayout m =(LinearLayout)findViewById(R.id.Manga_card);
-    	if (anime_manga_zero() && M_total_entries < 1){ //if manga (total entry) is beneath the int then hide
+    	if (prefs.anime_manga_zero() && M_total_entries < 1){ //if manga (total entry) is beneath the int then hide
     		m.setVisibility(View.GONE);
     	}
-    	if (anime_manga_zero() && A_total_entries < 1){ //if anime (total entry) is beneath the int then hide
+    	if (prefs.anime_manga_zero() && A_total_entries < 1){ //if anime (total entry) is beneath the int then hide
     		a.setVisibility(View.GONE);
     	}
     }
@@ -296,7 +243,7 @@ Integer M_total_entries = 0;
     public boolean isConnectedWifi() {
     	ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
     	NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (Wifi.isConnected() && Wifisyncdisable()) {
+        if (Wifi.isConnected() && prefs.Wifisyncdisable()) {
             return true;
         } else {
             return false;
@@ -305,7 +252,7 @@ Integer M_total_entries = 0;
     
     public void setcolor(){
     	TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
-    	if (Textcolordisable() == false){
+    	if (prefs.Textcolordisable() == false){
     		setcoloranime();
     		if (access_rank.contains("Administrator")){
     			tv8.setTextColor(Color.parseColor("#850000"));
@@ -324,28 +271,12 @@ Integer M_total_entries = 0;
 		}
     }
     
-    public boolean anime_manga_zero() {
-        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("a_mhide", false);
-    }
-    
-    public boolean Textcolordisable() {
-        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("text_colours", false);
-    }
-    
-    public boolean animehide() {
-        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("A_hide", false); //anime card
-    }
-    
-    public boolean mangahide() {
-        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("M_hide", false); //manga card
-    }
-    
-    public boolean autosync() {
-        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("PAutosync", true);
-    }
-    
-    public boolean Wifisyncdisable() {
-        return getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("Wifi_sync", false);
+    public void Share() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, name + " has shared an anime list using Atarashii : http://myanimelist.net/animelist/" + name + "!");
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
     
     public void setcoloranime(){
@@ -441,70 +372,135 @@ Integer M_total_entries = 0;
     }
     
     public void Save(){
-		Editor editor1 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("avatar_url", avatar_url);editor1.commit();
-		Editor editor2 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("birthday", birthday);editor2.commit();
-		Editor editor3 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("location", location);editor3.commit();
-		Editor editor4 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("comments", comments);editor4.commit();
-		Editor editor5 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("forum_posts", forum_posts);editor5.commit();
-		Editor editor6 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("last_online", last_online);editor6.commit();
-		Editor editor7 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("gender", gender);editor7.commit();
-		Editor editor8 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("join_date", join_date);editor8.commit();
-		Editor editor9 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("access_rank", access_rank);editor9.commit();
-		Editor editor10 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("anime_list_views", anime_list_views);editor10.commit();
-		Editor editor11 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("manga_list_views", manga_list_views);editor11.commit();
+    	Settext();
+    	SharedPreferences.Editor profieleditor = profielprefs.edit();
+		Editor editor1 = profieleditor.putString("avatar_url", avatar_url);editor1.commit();
+		Editor editor2 = profieleditor.putString("birthday", birthday);editor2.commit();
+		Editor editor3 = profieleditor.putString("location", location);editor3.commit();
+		Editor editor4 = profieleditor.putInt("comments", comments);editor4.commit();
+		Editor editor5 = profieleditor.putInt("forum_posts", forum_posts);editor5.commit();
+		Editor editor6 = profieleditor.putString("last_online", last_online);editor6.commit();
+		Editor editor7 = profieleditor.putString("gender", gender);editor7.commit();
+		Editor editor8 = profieleditor.putString("join_date", join_date);editor8.commit();
+		Editor editor9 = profieleditor.putString("access_rank", access_rank);editor9.commit();
+		Editor editor10 = profieleditor.putInt("anime_list_views", anime_list_views);editor10.commit();
+		Editor editor11 = profieleditor.putInt("manga_list_views", manga_list_views);editor11.commit();
 		
-		Editor editor12 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("A_time_days", A_time_days);editor12.commit();
-		Editor editor26 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_time_daysint", A_time_daysint);editor26.commit();
-		Editor editor13 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_watching", A_watching);editor13.commit();
-		Editor editor14 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_completed", A_completed);editor14.commit();
-		Editor editor15 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_on_hold", A_on_hold);editor15.commit();
-		Editor editor16 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_dropped", A_dropped);editor16.commit();
-		Editor editor17 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_plan_to_watch", A_plan_to_watch);editor17.commit();
-		Editor editor18 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("A_total_entries", A_total_entries);editor18.commit();
+		Editor editor12 = profieleditor.putString("A_time_days", A_time_days);editor12.commit();
+		Editor editor26 = profieleditor.putInt("A_time_daysint", A_time_daysint);editor26.commit();
+		Editor editor13 = profieleditor.putInt("A_watching", A_watching);editor13.commit();
+		Editor editor14 = profieleditor.putInt("A_completed", A_completed);editor14.commit();
+		Editor editor15 = profieleditor.putInt("A_on_hold", A_on_hold);editor15.commit();
+		Editor editor16 = profieleditor.putInt("A_dropped", A_dropped);editor16.commit();
+		Editor editor17 = profieleditor.putInt("A_plan_to_watch", A_plan_to_watch);editor17.commit();
+		Editor editor18 = profieleditor.putInt("A_total_entries", A_total_entries);editor18.commit();
 		
-		Editor editor19 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putString("M_time_days", M_time_days);editor19.commit();
-		Editor editor27 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_time_daysint", M_time_daysint);editor27.commit();
-		Editor editor20 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_reading", M_reading);editor20.commit();
-		Editor editor21 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_completed", M_completed);editor21.commit();
-		Editor editor22 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_on_hold", M_on_hold);editor22.commit();
-		Editor editor23 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_dropped", M_dropped);editor23.commit();
-		Editor editor24 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_plan_to_read", M_plan_to_read);editor24.commit();
-		Editor editor25 = getSharedPreferences("Profile_" + name, MODE_PRIVATE).edit().putInt("M_total_entries", M_total_entries);editor25.commit();
+		Editor editor19 = profieleditor.putString("M_time_days", M_time_days);editor19.commit();
+		Editor editor27 = profieleditor.putInt("M_time_daysint", M_time_daysint);editor27.commit();
+		Editor editor20 = profieleditor.putInt("M_reading", M_reading);editor20.commit();
+		Editor editor21 = profieleditor.putInt("M_completed", M_completed);editor21.commit();
+		Editor editor22 = profieleditor.putInt("M_on_hold", M_on_hold);editor22.commit();
+		Editor editor23 = profieleditor.putInt("M_dropped", M_dropped);editor23.commit();
+		Editor editor24 = profieleditor.putInt("M_plan_to_read", M_plan_to_read);editor24.commit();
+		Editor editor25 = profieleditor.putInt("M_total_entries", M_total_entries);editor25.commit();
     }
     
     public void Offline(){
     	try {
-    		avatar_url= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("avatar_url", avatar_url);
-    		birthday= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("birthday",birthday);
-    		location= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("location", location);
-    		comments= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("comments",comments);
-    		forum_posts= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("forum_posts",forum_posts);
-    		last_online= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("last_online",last_online);
-    		gender= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("gender",gender );
-    		join_date= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("join_date", join_date);
-    		access_rank= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("access_rank", access_rank);
-    		anime_list_views= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("anime_list_views", anime_list_views);
-    		manga_list_views= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("manga_list_views", manga_list_views);
+    		Settext();
+    		avatar_url= profielprefs.getString("avatar_url", avatar_url);
+    		birthday= profielprefs.getString("birthday",birthday);
+    		location= profielprefs.getString("location", location);
+    		comments= profielprefs.getInt("comments",comments);
+    		forum_posts= profielprefs.getInt("forum_posts",forum_posts);
+    		last_online= profielprefs.getString("last_online",last_online);
+    		gender= profielprefs.getString("gender",gender );
+    		join_date= profielprefs.getString("join_date", join_date);
+    		access_rank= profielprefs.getString("access_rank", access_rank);
+    		anime_list_views= profielprefs.getInt("anime_list_views", anime_list_views);
+    		manga_list_views= profielprefs.getInt("manga_list_views", manga_list_views);
 		
-    		A_time_days= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("A_time_days", A_time_days);
-    		A_time_daysint= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_time_daysint", A_time_daysint);
-    		A_watching= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_watching", A_watching);
-    		A_completed= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_completed", A_completed);
-    		A_on_hold= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_on_hold",A_on_hold );
-    		A_dropped= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_dropped",A_dropped );
-    		A_plan_to_watch= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_plan_to_watch", A_plan_to_watch);
-    		A_total_entries= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("A_total_entries", A_total_entries);
+    		A_time_days= profielprefs.getString("A_time_days", A_time_days);
+    		A_time_daysint= profielprefs.getInt("A_time_daysint", A_time_daysint);
+    		A_watching= profielprefs.getInt("A_watching", A_watching);
+    		A_completed= profielprefs.getInt("A_completed", A_completed);
+    		A_on_hold= profielprefs.getInt("A_on_hold",A_on_hold );
+    		A_dropped= profielprefs.getInt("A_dropped",A_dropped );
+    		A_plan_to_watch= profielprefs.getInt("A_plan_to_watch", A_plan_to_watch);
+    		A_total_entries= profielprefs.getInt("A_total_entries", A_total_entries);
 		
-    		M_time_days= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getString("M_time_days",M_time_days );
-    		M_time_daysint= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_time_daysint",M_time_daysint );
-    		M_reading= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_reading", M_reading);
-    		M_completed= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_completed", M_completed);
-    		M_on_hold= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_on_hold",M_on_hold );
-    		M_dropped= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_dropped",M_dropped );
-    		M_plan_to_read= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_plan_to_read", M_plan_to_read);
-    		M_total_entries= getSharedPreferences("Profile_" + name, MODE_PRIVATE).getInt("M_total_entries",M_total_entries );
+    		M_time_days= profielprefs.getString("M_time_days",M_time_days );
+    		M_time_daysint= profielprefs.getInt("M_time_daysint",M_time_daysint );
+    		M_reading= profielprefs.getInt("M_reading", M_reading);
+    		M_completed= profielprefs.getInt("M_completed", M_completed);
+    		M_on_hold= profielprefs.getInt("M_on_hold",M_on_hold );
+    		M_dropped= profielprefs.getInt("M_dropped",M_dropped );
+    		M_plan_to_read= profielprefs.getInt("M_plan_to_read", M_plan_to_read);
+    		M_total_entries= profielprefs.getInt("M_total_entries",M_total_entries );
     	} catch (Exception e){
-    		
+    		//returns here when the user never used the profile, but he is trying to load it.
+    		Crouton.makeText(this, "There is no offline record available!", Style.ALERT).show();
     	}
+    }
+    
+    public void Settext(){
+    	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
+    	if (birthday == "null"){
+    		tv1.setText("Not specified");
+    	}else{
+    		tv1.setText(birthday);
+    	}
+		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
+		if (location == "null"){
+    		tv2.setText("Not specified");
+    	}else{
+    		tv2.setText(location);
+    	}
+		TextView tv3 = (TextView) findViewById(R.id.commentspostssmall);
+		tv3.setText(Integer.toString(comments));
+		TextView tv4 = (TextView) findViewById(R.id.forumpostssmall);
+		tv4.setText(Integer.toString(forum_posts));
+		TextView tv5 = (TextView) findViewById(R.id.lastonlinesmall);
+		tv5.setText(last_online);
+		TextView tv6 = (TextView) findViewById(R.id.gendersmall);
+		tv6.setText(gender);
+		TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
+		tv7.setText(join_date);
+		TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
+		tv8.setText(access_rank);
+		TextView tv9 = (TextView) findViewById(R.id.animelistviewssmall);
+		tv9.setText(Integer.toString(anime_list_views));
+		TextView tv10 = (TextView) findViewById(R.id.mangalistviewssmall);
+		tv10.setText(Integer.toString(manga_list_views));
+		
+		TextView tv11 = (TextView) findViewById(R.id.atimedayssmall);
+		tv11.setText(A_time_days);
+		TextView tv12 = (TextView) findViewById(R.id.awatchingsmall);
+		tv12.setText(Integer.toString(A_watching));
+		TextView tv13 = (TextView) findViewById(R.id.acompletedpostssmall);
+		tv13.setText(Integer.toString(A_completed));
+		TextView tv14 = (TextView) findViewById(R.id.aonholdsmall);
+		tv14.setText(Integer.toString(A_on_hold));
+		TextView tv15 = (TextView) findViewById(R.id.adroppedsmall);
+		tv15.setText(Integer.toString(A_dropped));
+		TextView tv16 = (TextView) findViewById(R.id.aplantowatchsmall);
+		tv16.setText(Integer.toString(A_plan_to_watch));
+		TextView tv17 = (TextView) findViewById(R.id.atotalentriessmall);
+		tv17.setText(Integer.toString(A_total_entries));
+		
+		TextView tv18 = (TextView) findViewById(R.id.mtimedayssmall);
+		tv18.setText(M_time_days);
+		TextView tv19 = (TextView) findViewById(R.id.mwatchingsmall);
+		tv19.setText(Integer.toString(M_reading));
+		TextView tv20 = (TextView) findViewById(R.id.mcompletedpostssmall);
+		tv20.setText(Integer.toString(M_completed));
+		TextView tv21 = (TextView) findViewById(R.id.monholdsmall);
+		tv21.setText(Integer.toString(M_on_hold));
+		TextView tv22 = (TextView) findViewById(R.id.mdroppedsmall);
+		tv22.setText(Integer.toString(M_dropped));
+		TextView tv23 = (TextView) findViewById(R.id.mplantowatchsmall);
+		tv23.setText(Integer.toString(M_plan_to_read));
+		TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
+		tv24.setText(Integer.toString(M_total_entries));
     }
 }
