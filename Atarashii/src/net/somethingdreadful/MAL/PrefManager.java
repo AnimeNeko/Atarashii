@@ -53,8 +53,36 @@ public class PrefManager {
         return prefs.getBoolean("synchronisation", false);
     }
     
-    public boolean getonly_wifiEnabled() {
+    public boolean getonly_wifiEnabled() { //Home, if the setting sync only at wifi is turned on
         return prefs.getBoolean("Only_wifi", false);
+    }
+    
+    public boolean anime_manga_zero() { //profile activity, if the card is empty setting
+        return prefs.getBoolean("a_mhide", false);
+    }
+    
+    public boolean Textcolordisable() { //profile activity, if the textcolors are turned off
+        return prefs.getBoolean("text_colours", false);
+    }
+    
+    public boolean animehide() { //profile activity, if the setting force hide is turned on
+        return prefs.getBoolean("A_hide", false); //anime card
+    }
+    
+    public boolean mangahide() {//profile activity, if the setting force hide is turned on
+        return prefs.getBoolean("M_hide", false); //manga card
+    }
+    
+    public boolean autosync() {//profile activity, autosync the profile
+        return prefs.getBoolean("PAutosync", true);
+    }
+    
+    public boolean Wifisyncdisable() { //profile activity, if the setting use only wifi is turned on
+        return prefs.getBoolean("Wifi_sync", false);
+    }
+    
+    public String Getclickeduser() { //profile activity, Gets record of the clicked user
+        return context.getSharedPreferences("Profile", 0).getString("Profileuser", "Error");
     }
 
     public void setUser(String newUser) {
