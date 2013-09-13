@@ -215,8 +215,7 @@ Integer M_total_entries = 0;
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
