@@ -139,51 +139,49 @@ Integer M_total_entries = 0;
     
     public class RetrieveMessages extends AsyncTask<String, Void, String> {
     	protected String doInBackground(String... urls) {
-    		if (isConnectedWifi() || prefs.Wifisyncdisable() == false || forcesync == true){ // settings check
-    			if (prefs.autosync() && isNetworkAvailable() || forcesync == true){ // settings check & network check
-    				HttpClient client = new DefaultHttpClient();
-    				String json = "";
-    				try {
-    					String line = "";
-    					HttpGet request = new HttpGet(urls[0]);
-    					HttpResponse response = client.execute(request);//get response
-    					BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-    					while ((line = rd.readLine()) != null) {
-    						json += line + System.getProperty("line.separator"); //save response
-    						JSONObject jsonObject = new JSONObject(json);
-    						avatar_url = jsonObject.getString("avatar_url");
-    						birthday = jsonObject.getJSONObject("details").getString("birthday"); // get birthday for check
-    						location = jsonObject.getJSONObject("details").getString("location");
-    						comments = jsonObject.getJSONObject("details").getInt("comments");
-    						forum_posts = jsonObject.getJSONObject("details").getInt("forum_posts");
-    						last_online = jsonObject.getJSONObject("details").getString("last_online");
-    						gender = jsonObject.getJSONObject("details").getString("gender");
-    						join_date = jsonObject.getJSONObject("details").getString("join_date");
-    						access_rank = jsonObject.getJSONObject("details").getString("access_rank");
-    						anime_list_views = jsonObject.getJSONObject("details").getInt("anime_list_views");
-    						manga_list_views = jsonObject.getJSONObject("details").getInt("manga_list_views");
+    		if (isConnectedWifi() && prefs.autosync() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable() && prefs.autosync()){ // settings check
+    			HttpClient client = new DefaultHttpClient();
+    			String json = "";
+    			try {
+    				String line = "";
+    				HttpGet request = new HttpGet(urls[0]);
+    				HttpResponse response = client.execute(request);//get response
+    				BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+    				while ((line = rd.readLine()) != null) {
+    					json += line + System.getProperty("line.separator"); //save response
+    					JSONObject jsonObject = new JSONObject(json);
+    					avatar_url = jsonObject.getString("avatar_url");
+    					birthday = jsonObject.getJSONObject("details").getString("birthday"); // get birthday for check
+    					location = jsonObject.getJSONObject("details").getString("location");
+    					comments = jsonObject.getJSONObject("details").getInt("comments");
+    					forum_posts = jsonObject.getJSONObject("details").getInt("forum_posts");
+    					last_online = jsonObject.getJSONObject("details").getString("last_online");
+    					gender = jsonObject.getJSONObject("details").getString("gender");
+    					join_date = jsonObject.getJSONObject("details").getString("join_date");
+    					access_rank = jsonObject.getJSONObject("details").getString("access_rank");
+    					anime_list_views = jsonObject.getJSONObject("details").getInt("anime_list_views");
+    					manga_list_views = jsonObject.getJSONObject("details").getInt("manga_list_views");
 						
-    						A_time_days = Double.toString(jsonObject.getJSONObject("anime_stats").getDouble("time_days"));
-    						A_time_daysint = jsonObject.getJSONObject("anime_stats").getInt("time_days");//get int for colors
-    						A_watching = jsonObject.getJSONObject("anime_stats").getInt("watching");
-    						A_completed = jsonObject.getJSONObject("anime_stats").getInt("completed");
-    						A_on_hold = jsonObject.getJSONObject("anime_stats").getInt("on_hold");
-    						A_dropped = jsonObject.getJSONObject("anime_stats").getInt("dropped");
-    						A_plan_to_watch = jsonObject.getJSONObject("anime_stats").getInt("plan_to_watch");
-    						A_total_entries = jsonObject.getJSONObject("anime_stats").getInt("total_entries");
+    					A_time_days = Double.toString(jsonObject.getJSONObject("anime_stats").getDouble("time_days"));
+    					A_time_daysint = jsonObject.getJSONObject("anime_stats").getInt("time_days");//get int for colors
+    					A_watching = jsonObject.getJSONObject("anime_stats").getInt("watching");
+    					A_completed = jsonObject.getJSONObject("anime_stats").getInt("completed");
+    					A_on_hold = jsonObject.getJSONObject("anime_stats").getInt("on_hold");
+    					A_dropped = jsonObject.getJSONObject("anime_stats").getInt("dropped");
+    					A_plan_to_watch = jsonObject.getJSONObject("anime_stats").getInt("plan_to_watch");
+    					A_total_entries = jsonObject.getJSONObject("anime_stats").getInt("total_entries");
 						
-    						M_time_days = Double.toString(jsonObject.getJSONObject("manga_stats").getDouble("time_days"));
-    						M_time_daysint = jsonObject.getJSONObject("manga_stats").getInt("time_days"); //get int for colors
-							M_reading = jsonObject.getJSONObject("manga_stats").getInt("reading");
-							M_completed = jsonObject.getJSONObject("manga_stats").getInt("completed");
-							M_on_hold = jsonObject.getJSONObject("manga_stats").getInt("on_hold");
-							M_dropped = jsonObject.getJSONObject("manga_stats").getInt("dropped");
-							M_plan_to_read = jsonObject.getJSONObject("manga_stats").getInt("plan_to_read");
-							M_total_entries = jsonObject.getJSONObject("manga_stats").getInt("total_entries");
-    					}
-    				} catch (Exception e) {
-    					e.printStackTrace();
+    					M_time_days = Double.toString(jsonObject.getJSONObject("manga_stats").getDouble("time_days"));
+    					M_time_daysint = jsonObject.getJSONObject("manga_stats").getInt("time_days"); //get int for colors
+						M_reading = jsonObject.getJSONObject("manga_stats").getInt("reading");
+						M_completed = jsonObject.getJSONObject("manga_stats").getInt("completed");
+						M_on_hold = jsonObject.getJSONObject("manga_stats").getInt("on_hold");
+						M_dropped = jsonObject.getJSONObject("manga_stats").getInt("dropped");
+						M_plan_to_read = jsonObject.getJSONObject("manga_stats").getInt("plan_to_read");
+						M_total_entries = jsonObject.getJSONObject("manga_stats").getInt("total_entries");
     				}
+    			} catch (Exception e) {
+    				e.printStackTrace();
     			}
     		}
     		forcesync = false;
@@ -199,12 +197,8 @@ Integer M_total_entries = 0;
 			}else{
 				Save();
 			}
-			try{
-				Picasso ProfileImage = Picasso.with(context);
-				ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
-			}catch (Exception e){	
-				Log.e(this.getClass().getName(), Log.getStackTraceString(e));
-			}	
+			Picasso ProfileImage = Picasso.with(context);
+			ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
 			autohidecard();
 			setcolor();
         }
@@ -403,7 +397,6 @@ Integer M_total_entries = 0;
     
     public void Offline(){
     	try {
-    		Settext();
     		avatar_url= profielprefs.getString("avatar_url", avatar_url);
     		birthday= profielprefs.getString("birthday",birthday);
     		location= profielprefs.getString("location", location);
@@ -433,8 +426,8 @@ Integer M_total_entries = 0;
     		M_dropped= profielprefs.getInt("M_dropped",M_dropped );
     		M_plan_to_read= profielprefs.getInt("M_plan_to_read", M_plan_to_read);
     		M_total_entries= profielprefs.getInt("M_total_entries",M_total_entries );
+    		Settext();
     	} catch (Exception e){
-    		//returns here when the user never used the profile, but he is trying to load it.
     		Crouton.makeText(this, "There is no offline record available!", Style.ALERT).show();
     	}
     }
