@@ -271,92 +271,92 @@ Integer M_total_entries = 0;
     
     public void setcoloranime(){
     	TextView tv11 = (TextView) findViewById(R.id.atimedayssmall); //anime
-    	if (A_time_daysint >= 0 && A_time_daysint <= 3){
+    	if (A_time_daysint >= 0 && A_time_daysint <= 2){
     		tv11.setTextColor(Color.parseColor("#CF0404"));
-    	} else if (A_time_daysint >= 4 && A_time_daysint <= 7){
+    	} else if (A_time_daysint >= 3 && A_time_daysint <= 5){
     		tv11.setTextColor(Color.parseColor("#CF1F04"));
-    	} else if (A_time_daysint >= 8 && A_time_daysint <= 11){
+    	} else if (A_time_daysint >= 6 && A_time_daysint <= 8){
     		tv11.setTextColor(Color.parseColor("#CF3304"));
-    	} else if (A_time_daysint >= 12 && A_time_daysint <= 15){
+    	} else if (A_time_daysint >= 9 && A_time_daysint <= 11){
     		tv11.setTextColor(Color.parseColor("#CF5204"));
-    	} else if (A_time_daysint >= 16 && A_time_daysint <= 19){
+    	} else if (A_time_daysint >= 12 && A_time_daysint <= 14){
     		tv11.setTextColor(Color.parseColor("#CF7004"));
-    	} else if (A_time_daysint >= 20 && A_time_daysint <= 23){
+    	} else if (A_time_daysint >= 15 && A_time_daysint <= 17){
     		tv11.setTextColor(Color.parseColor("#CF8E04"));
-    	} else if (A_time_daysint >= 24 && A_time_daysint <= 27){
+    	} else if (A_time_daysint >= 18 && A_time_daysint <= 20){
     		tv11.setTextColor(Color.parseColor("#CFB704"));
-    	} else if (A_time_daysint >= 28 && A_time_daysint <= 31){
+    	} else if (A_time_daysint >= 21 && A_time_daysint <= 23){
     		tv11.setTextColor(Color.parseColor("#C4CF04"));
-    	} else if (A_time_daysint >= 32 && A_time_daysint <= 35){
+    	} else if (A_time_daysint >= 24 && A_time_daysint <= 26){
     		tv11.setTextColor(Color.parseColor("#B4CF04"));
-    	} else if (A_time_daysint >= 36 && A_time_daysint <= 40){
+    	} else if (A_time_daysint >= 27 && A_time_daysint <= 29){
     		tv11.setTextColor(Color.parseColor("#ADCF04"));
-    	} else if (A_time_daysint >= 41 && A_time_daysint <= 45){
+    	} else if (A_time_daysint >= 30 && A_time_daysint <= 32){
     		tv11.setTextColor(Color.parseColor("#A3CF04"));
-    	} else if (A_time_daysint >= 45 && A_time_daysint <= 49){
+    	} else if (A_time_daysint >= 33 && A_time_daysint <= 35){
     		tv11.setTextColor(Color.parseColor("#95CF04"));
-    	} else if (A_time_daysint >= 50 && A_time_daysint <= 54){
+    	} else if (A_time_daysint >= 36 && A_time_daysint <= 38){
     		tv11.setTextColor(Color.parseColor("#7ECF04"));
-    	} else if (A_time_daysint >= 55 && A_time_daysint <= 59){
+    	} else if (A_time_daysint >= 39 && A_time_daysint <= 41){
     		tv11.setTextColor(Color.parseColor("#66CF04"));
-    	} else if (A_time_daysint >= 60 && A_time_daysint <= 64){
+    	} else if (A_time_daysint >= 42 && A_time_daysint <= 44){
     		tv11.setTextColor(Color.parseColor("#55CF04"));
-    	} else if (A_time_daysint >= 65 && A_time_daysint <= 69){
+    	} else if (A_time_daysint >= 45 && A_time_daysint <= 47){
     		tv11.setTextColor(Color.parseColor("#44CF04"));
-    	} else if (A_time_daysint >= 70 && A_time_daysint <= 74){
+    	} else if (A_time_daysint >= 48 && A_time_daysint <= 50){
     		tv11.setTextColor(Color.parseColor("#2DCF04"));
-    	} else if (A_time_daysint >= 75 && A_time_daysint <= 79){
+    	} else if (A_time_daysint >= 51 && A_time_daysint <= 53){
     		tv11.setTextColor(Color.parseColor("#18CF04"));
-    	} else if (A_time_daysint >= 80 && A_time_daysint <= 84){
+    	} else if (A_time_daysint >= 54 && A_time_daysint <= 56){
     		tv11.setTextColor(Color.parseColor("#04CF04"));
-    	} else if (A_time_daysint >= 85 && A_time_daysint <= 89){
+    	} else if (A_time_daysint >= 57 && A_time_daysint <= 59){
     		tv11.setTextColor(Color.parseColor("#04CF15"));
-    	} else if (A_time_daysint >= 90){
+    	} else if (A_time_daysint >= 60){
     		tv11.setTextColor(Color.parseColor("#00AB2B"));
     	}
     	
     	TextView tv18 = (TextView) findViewById(R.id.mtimedayssmall); // manga
-    	if (M_time_daysint >= 0 && M_time_daysint <= 2){
+    	if (M_time_daysint >= 0 && M_time_daysint <= 1){
     		tv18.setTextColor(Color.parseColor("#CF0404"));
-    	} else if (M_time_daysint >= 3 && M_time_daysint <= 5){
+    	} else if (M_time_daysint >= 2 && M_time_daysint <= 3){
     		tv18.setTextColor(Color.parseColor("#CF1F04"));
-    	} else if (M_time_daysint >= 6 && M_time_daysint <= 8){
+    	} else if (M_time_daysint >= 4 && M_time_daysint <= 5){
     		tv18.setTextColor(Color.parseColor("#CF3304"));
-    	} else if (M_time_daysint >= 9 && M_time_daysint <= 11){
+    	} else if (M_time_daysint >= 6 && M_time_daysint <= 7){
     		tv18.setTextColor(Color.parseColor("#CF5204"));
-    	} else if (M_time_daysint >= 12 && M_time_daysint <= 14){
+    	} else if (M_time_daysint >= 8 && M_time_daysint <= 9){
     		tv18.setTextColor(Color.parseColor("#CF7004"));
-    	} else if (M_time_daysint >= 15 && M_time_daysint <= 17){
+    	} else if (M_time_daysint >= 10 && M_time_daysint <= 11){
     		tv18.setTextColor(Color.parseColor("#CF8E04"));
-    	} else if (M_time_daysint >= 18 && M_time_daysint <= 20){
+    	} else if (M_time_daysint >= 12 && M_time_daysint <= 13){
     		tv18.setTextColor(Color.parseColor("#CFB704"));
-    	} else if (M_time_daysint >= 21 && M_time_daysint <= 23){
+    	} else if (M_time_daysint >= 14 && M_time_daysint <= 15){
     		tv18.setTextColor(Color.parseColor("#C4CF04"));
-    	} else if (M_time_daysint >= 24 && M_time_daysint <= 26){
+    	} else if (M_time_daysint >= 16 && M_time_daysint <= 17){
     		tv18.setTextColor(Color.parseColor("#B4CF04"));
-    	} else if (M_time_daysint >= 27 && M_time_daysint <= 29){
+    	} else if (M_time_daysint >= 18 && M_time_daysint <= 19){
     		tv18.setTextColor(Color.parseColor("#ADCF04"));
-    	} else if (M_time_daysint >= 30 && M_time_daysint <= 32){
+    	} else if (M_time_daysint >= 20 && M_time_daysint <= 21){
     		tv18.setTextColor(Color.parseColor("#A3CF04"));
-    	} else if (M_time_daysint >= 33 && M_time_daysint <= 35){
+    	} else if (M_time_daysint >= 22 && M_time_daysint <= 23){
     		tv18.setTextColor(Color.parseColor("#95CF04"));
-    	} else if (M_time_daysint >= 36 && M_time_daysint <= 38){
+    	} else if (M_time_daysint >= 24 && M_time_daysint <= 25){
     		tv18.setTextColor(Color.parseColor("#7ECF04"));
-    	} else if (M_time_daysint >= 39 && M_time_daysint <= 41){
+    	} else if (M_time_daysint >= 26 && M_time_daysint <= 27){
     		tv18.setTextColor(Color.parseColor("#66CF04"));
-    	} else if (M_time_daysint >= 42 && M_time_daysint <= 44){
+    	} else if (M_time_daysint >= 28 && M_time_daysint <= 29){
     		tv18.setTextColor(Color.parseColor("#55CF04"));
-    	} else if (M_time_daysint >= 45 && M_time_daysint <= 47){
+    	} else if (M_time_daysint >= 30 && M_time_daysint <= 31){
     		tv18.setTextColor(Color.parseColor("#44CF04"));
-    	} else if (M_time_daysint >= 48 && M_time_daysint <= 50){
+    	} else if (M_time_daysint >= 32 && M_time_daysint <= 33){
     		tv18.setTextColor(Color.parseColor("#2DCF04"));
-    	} else if (M_time_daysint >= 51 && M_time_daysint <= 53){
+    	} else if (M_time_daysint >= 34 && M_time_daysint <= 35){
     		tv18.setTextColor(Color.parseColor("#18CF04"));
-    	} else if (M_time_daysint >= 54 && M_time_daysint <= 56){
+    	} else if (M_time_daysint >= 36 && M_time_daysint <= 37){
     		tv18.setTextColor(Color.parseColor("#04CF04"));
-    	} else if (M_time_daysint >= 57 && M_time_daysint <= 59){
+    	} else if (M_time_daysint >= 38 && M_time_daysint <= 39){
     		tv18.setTextColor(Color.parseColor("#04CF15"));
-    	} else if (M_time_daysint >= 60){
+    	} else if (M_time_daysint >= 40){
     		tv18.setTextColor(Color.parseColor("#00AB2B"));
     	}
     }
