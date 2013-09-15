@@ -396,6 +396,7 @@ Integer M_total_entries = 0;
     }
     
     public void Offline(){
+    	try{
     		avatar_url= profielprefs.getString("avatar_url", avatar_url);
     		birthday= profielprefs.getString("birthday",birthday);
     		location= profielprefs.getString("location", location);
@@ -426,6 +427,9 @@ Integer M_total_entries = 0;
     		M_plan_to_read= profielprefs.getInt("M_plan_to_read", M_plan_to_read);
     		M_total_entries= profielprefs.getInt("M_total_entries",M_total_entries );
     		Settext();
+    	}catch (Exception e){
+    		Crouton.makeText(this, "No offline record available!", Style.ALERT).show();
+    	}
     }
     
     public void Settext(){
