@@ -120,12 +120,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
             
             mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
-            listView = (ListView)findViewById(R.id.left_drawer);
-            
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            
             HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
+            
+            listView = (ListView)findViewById(R.id.left_drawer);
             listView.setAdapter(adapter);
     		listView.setOnItemClickListener(new DrawerItemClickListener());
     		listView.setCacheColorHint(0);
@@ -141,9 +140,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     		mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
-
-            if (!instanceExists) {
-            }
 
             // Set up the action bar.
             final ActionBar actionBar = getSupportActionBar();
