@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefeditor;
-    private static boolean init;
-    private static String user;
-    private static String pass;
     private static Context context;
 
     public PrefManager(Context mContext)
@@ -19,13 +16,11 @@ public class PrefManager {
     }
 
     public String getUser() {
-        user = prefs.getString("user", "failed");
-        return user;
+        return prefs.getString("user", "failed");
     }
     
     public String getPass() {
-        pass = prefs.getString("pass", "failed");
-        return pass;
+    	return prefs.getString("pass", "failed");
     }
 
     public String getCustomShareText() {
@@ -37,8 +32,7 @@ public class PrefManager {
     }
     
     public boolean getInit() {
-        init = prefs.getBoolean("init", false);
-        return init;
+    	return prefs.getBoolean("init", false);
     }
     
     public boolean getTraditionalListEnabled() {
