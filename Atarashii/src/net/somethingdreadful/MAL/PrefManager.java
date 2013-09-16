@@ -67,10 +67,6 @@ public class PrefManager {
         return prefs.getBoolean("M_hide", false); //manga card
     }
     
-    public boolean autosync() {//profile activity, autosync the profile
-        return prefs.getBoolean("PAutosync", true);
-    }
-    
     public boolean Wifisyncdisable() { //profile activity, if the setting use only wifi is turned on
         return prefs.getBoolean("Wifi_sync", false);
     }
