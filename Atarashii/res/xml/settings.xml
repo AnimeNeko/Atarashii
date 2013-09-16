@@ -22,11 +22,6 @@
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Profile settings" android:title="Profile settings" android:persistent="false">
 			<CheckBoxPreference 
-				android:key="PAutosync" 
-				android:title="Auto-synchronisation" 
-				android:summary="Auto-sync when you are watching my profile (turn off when my profile is slow on start-up)." 
-				android:defaultValue="true"/>
-			<CheckBoxPreference 
 				android:key="Wifi_sync" 
 				android:title="Wi-Fi synchronisation" 
 				android:summary="Only use Wi-Fi to synchronise my profile." 
