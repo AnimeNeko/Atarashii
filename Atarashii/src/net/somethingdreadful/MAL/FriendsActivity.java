@@ -42,19 +42,10 @@ import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends SherlockFragmentActivity
-implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
-     * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
-     * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+public class FriendsActivity extends SherlockFragmentActivity implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
+	
     SearchSectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
-     */
+    SharedPreferences preferences;
     ViewPager mViewPager;
     Context context;
     ArrayAdapter<String> arrayAdapter;
@@ -72,7 +63,6 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
         setTitle("My friends"); //set title
-        context = getApplicationContext();
         UserList = new ArrayList<String>();
         
         restorelist(); //restore users from preferences
@@ -90,7 +80,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
          userList.setOnItemLongClickListener(new OnItemLongClickListener(){ //longclick = remove selected friend
         	 public boolean onItemLongClick(AdapterView<?> arg0, View v, int index, long arg3){
         		 selected = UserList.get(index);
-        		 removedialog(selected);
+        		 removedialog(selected); //show confirm dialog
         		 indexp = index;
         		 return true;
         	 }
@@ -100,7 +90,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
     public void remove(){ //removes a user
     	UserList.remove(indexp);
     	refresh(true);
-    	SharedPreferences preferences = getSharedPreferences("Profile_" + selected, MODE_PRIVATE);
+    	preferences = getSharedPreferences("Profile_" + selected, MODE_PRIVATE);
     	preferences.edit().clear();
     }
     
@@ -116,8 +106,8 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
     
     public void savelist(){//save the arraylist
     	try{
-    	SharedPreferences sPrefs= PreferenceManager.getDefaultSharedPreferences(context);
-    	SharedPreferences.Editor sEdit = sPrefs.edit();
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    	SharedPreferences.Editor sEdit = preferences.edit();
     	Collections.sort(UserList);
     	for(int i=0;i <UserList.size();i++){
     	         sEdit.putString("val"+i,UserList.get(i));
@@ -132,14 +122,14 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
     
     public void restorelist(){ //restore the list(get the arrays and restore them)
     	try{
-    		SharedPreferences sPrefs=PreferenceManager.getDefaultSharedPreferences(context);
-    		int size = sPrefs.getInt("size",0);
+    		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    		int size = preferences.getInt("size",0);
     		for(int j=0;j<size;j++)
     		{
-    			UserList.add(sPrefs.getString("val"+j,"Error"));
+    			UserList.add(preferences.getString("val"+j,"Error"));
     		}
     	}catch (Exception e){
-    		
+    		maketext("Error while restoring the list!", 2);
     	}
     }
     
@@ -164,7 +154,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 		
 	}
 	
-    public class RetrieveMessages extends AsyncTask<String, Void, String> { //check username
+    public class Verify extends AsyncTask<String, Void, String> { //check username
     	protected String doInBackground(String... urls) {
     				HttpClient client = new DefaultHttpClient();
     				String json = "";
@@ -258,7 +248,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 		    public void onClick(DialogInterface dialog, int which) {
 		        String m_Text = input.getText().toString();
 		        text =m_Text;
-		        new RetrieveMessages().execute("http://mal-api.com/profile/" + m_Text); // send url to the background
+		        new Verify().execute("http://mal-api.com/profile/" + m_Text); // send url to the background
 		    }
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -273,20 +263,11 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
 	}
-
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
 	}
-
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
 	}
-
 }
