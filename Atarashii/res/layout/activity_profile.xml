@@ -30,7 +30,7 @@
 		        android:textSize="20sp" />
 
 		</LinearLayout>
-	
+			<!-- Profile picture -->
             <ImageView
                 android:id="@+id/Imagdae"
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:gravity="center_horizontal"
                 android:minHeight="80dp"
                 android:padding="8dp" />
-
+		<!-- Details card -->
         <LinearLayout
             android:id="@+id/details_card"
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:text="Details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
-            
+					<!-- Content of details -->
             		<RelativeLayout
     					android:layout_width="fill_parent"
   						android:layout_height="fill_parent" >
@@ -271,7 +271,7 @@
 
 				</RelativeLayout>
         </LinearLayout>
-
+		<!-- Anime card -->
         <LinearLayout
             android:id="@+id/Anime_card"
             android:layout_width="match_parent"
@@ -292,7 +292,7 @@
                 android:text="Anime details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
-
+			<!-- content anime -->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent" >
@@ -436,7 +436,7 @@
 
 				</RelativeLayout>
         </LinearLayout>
-        
+        <!-- Manga card -->
         <LinearLayout
             android:id="@+id/Manga_card"
             android:layout_width="match_parent"
@@ -457,6 +457,7 @@
                 android:text="Manga details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
+			<!-- Content manga -->
             <RelativeLayout
     					android:layout_width="fill_parent"
   						android:layout_height="fill_parent" >
