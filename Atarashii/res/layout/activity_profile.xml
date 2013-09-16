@@ -2,19 +2,46 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
+    
     <RelativeLayout
         android:id="@+id/profile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp" >
 
+		<LinearLayout
+		    android:id="@+id/name_card"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginLeft="8dp"
+		    android:layout_marginRight="8dp"
+		    android:layout_marginTop="8dp"
+		    android:background="#FFFFFF"
+		    android:orientation="vertical">
+            
+		    <TextView
+		        android:id="@+id/name_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:text="Loading..."
+		        android:textColor="#0099CC"
+		        android:textSize="20sp" />
+
+		</LinearLayout>
+	
             <ImageView
                 android:id="@+id/Imagdae"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/name_card"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:contentDescription="Application Icon"
                 android:gravity="center_horizontal"
+                android:minHeight="80dp"
                 android:padding="8dp" />
 
         <LinearLayout
@@ -574,6 +601,4 @@
 				</RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-    
-
 </ScrollView>
