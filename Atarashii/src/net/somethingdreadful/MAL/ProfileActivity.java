@@ -116,6 +116,7 @@ Integer M_total_entries = 0;
             		forcesync = true;
             	}else{
             		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
+            		Settext();
             	}
                 break;
             case R.id.action_ViewMALPage:
@@ -138,7 +139,7 @@ Integer M_total_entries = 0;
     
     public class Startparse extends AsyncTask<String, Void, String> {
     	protected String doInBackground(String... urls) {
-    		if (isConnectedWifi() && prefs.autosync() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable() && prefs.autosync()){ // settings check
+    		if (isConnectedWifi() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable()){ // settings check
     			HttpClient client = new DefaultHttpClient();
     			String json = "";
     			try {
@@ -191,15 +192,18 @@ Integer M_total_entries = 0;
         }
 
 		protected void onPostExecute(String check) {
-			Picasso ProfileImage = Picasso.with(context);
-			ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
 			if (check == ""){ //birthday check, IF MAL IS OFFLINE THIS WILL START OFFLINE.
 				Offline();
 			}else{
 				Save();
 			}
-			autohidecard();
-			setcolor();
+			try{
+				Picasso ProfileImage = Picasso.with(context);
+				ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
+				autohidecard();
+				setcolor();
+			}catch(Exception e){
+			}
         }
     }
     
@@ -397,51 +401,51 @@ Integer M_total_entries = 0;
     }
     
     public void Offline(){
-    	try{
-    		avatar_url= profielprefs.getString("avatar_url", avatar_url);
-    		birthday= profielprefs.getString("birthday",birthday);
-    		location= profielprefs.getString("location", location);
-    		comments= profielprefs.getInt("comments",comments);
-    		forum_posts= profielprefs.getInt("forum_posts",forum_posts);
-    		last_online= profielprefs.getString("last_online",last_online);
-    		gender= profielprefs.getString("gender",gender );
-    		join_date= profielprefs.getString("join_date", join_date);
-    		access_rank= profielprefs.getString("access_rank", access_rank);
-    		anime_list_views= profielprefs.getInt("anime_list_views", anime_list_views);
-    		manga_list_views= profielprefs.getInt("manga_list_views", manga_list_views);
+    	avatar_url= profielprefs.getString("avatar_url", avatar_url);
+    	birthday= profielprefs.getString("birthday",birthday);
+    	location= profielprefs.getString("location", location);
+    	comments= profielprefs.getInt("comments",comments);
+    	forum_posts= profielprefs.getInt("forum_posts",forum_posts);
+    	last_online= profielprefs.getString("last_online",last_online);
+    	gender= profielprefs.getString("gender",gender );
+    	join_date= profielprefs.getString("join_date", join_date);
+    	access_rank= profielprefs.getString("access_rank", access_rank);
+    	anime_list_views= profielprefs.getInt("anime_list_views", anime_list_views);
+    	manga_list_views= profielprefs.getInt("manga_list_views", manga_list_views);
 		
-    		A_time_days= profielprefs.getString("A_time_days", A_time_days);
-    		A_time_daysint= profielprefs.getInt("A_time_daysint", A_time_daysint);
-    		A_watching= profielprefs.getInt("A_watching", A_watching);
-    		A_completed= profielprefs.getInt("A_completed", A_completed);
-    		A_on_hold= profielprefs.getInt("A_on_hold",A_on_hold );
-    		A_dropped= profielprefs.getInt("A_dropped",A_dropped );
-    		A_plan_to_watch= profielprefs.getInt("A_plan_to_watch", A_plan_to_watch);
-    		A_total_entries= profielprefs.getInt("A_total_entries", A_total_entries);
+    	A_time_days= profielprefs.getString("A_time_days", A_time_days);
+    	A_time_daysint= profielprefs.getInt("A_time_daysint", A_time_daysint);
+    	A_watching= profielprefs.getInt("A_watching", A_watching);
+    	A_completed= profielprefs.getInt("A_completed", A_completed);
+    	A_on_hold= profielprefs.getInt("A_on_hold",A_on_hold );
+    	A_dropped= profielprefs.getInt("A_dropped",A_dropped );
+    	A_plan_to_watch= profielprefs.getInt("A_plan_to_watch", A_plan_to_watch);
+    	A_total_entries= profielprefs.getInt("A_total_entries", A_total_entries);
 		
-    		M_time_days= profielprefs.getString("M_time_days",M_time_days );
-    		M_time_daysint= profielprefs.getInt("M_time_daysint",M_time_daysint );
-    		M_reading= profielprefs.getInt("M_reading", M_reading);
-    		M_completed= profielprefs.getInt("M_completed", M_completed);
-    		M_on_hold= profielprefs.getInt("M_on_hold",M_on_hold );
-    		M_dropped= profielprefs.getInt("M_dropped",M_dropped );
-    		M_plan_to_read= profielprefs.getInt("M_plan_to_read", M_plan_to_read);
-    		M_total_entries= profielprefs.getInt("M_total_entries",M_total_entries );
-    		Settext();
-    	}catch (Exception e){
+    	M_time_days= profielprefs.getString("M_time_days",M_time_days );
+    	M_time_daysint= profielprefs.getInt("M_time_daysint",M_time_daysint );
+    	M_reading= profielprefs.getInt("M_reading", M_reading);
+    	M_completed= profielprefs.getInt("M_completed", M_completed);
+    	M_on_hold= profielprefs.getInt("M_on_hold",M_on_hold );
+    	M_dropped= profielprefs.getInt("M_dropped",M_dropped );
+    	M_plan_to_read= profielprefs.getInt("M_plan_to_read", M_plan_to_read);
+    	M_total_entries= profielprefs.getInt("M_total_entries",M_total_entries );
+    	if (avatar_url==""){
     		Crouton.makeText(this, "No offline record available!", Style.ALERT).show();
+    	}else{
+    		Settext();
     	}
     }
     
     public void Settext(){
     	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
-    	if (birthday == "null"){
+    	if (birthday.equals("null")){
     		tv1.setText("Not specified");
     	}else{
     		tv1.setText(birthday);
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
-		if (location == "null"){
+		if (location.equals("null")){
     		tv2.setText("Not specified");
     	}else{
     		tv2.setText(location);
