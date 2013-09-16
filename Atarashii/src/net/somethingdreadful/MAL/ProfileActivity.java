@@ -9,26 +9,25 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -93,10 +92,10 @@ Integer M_total_entries = 0;
         	name = userclicked;
         }
         profielprefs = getSharedPreferences("Profile_" + name, MODE_PRIVATE);
-        setTitle("User profile of " + name); //set title
+        setTitle("User profile"); //set title
         
         card(); //check the settings
-        new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
+        new Startparse().execute("http://mal-api.com/profile/" + name); // send url to the background
     }
     
     @Override
@@ -113,7 +112,7 @@ Integer M_total_entries = 0;
                 break;
             case R.id.forceSync:
             	if (isNetworkAvailable()){
-            		new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
+            		new Startparse().execute("http://mal-api.com/profile/" + name); // send url to the background
             		forcesync = true;
             	}else{
             		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
@@ -137,7 +136,7 @@ Integer M_total_entries = 0;
         return true;
     }
     
-    public class RetrieveMessages extends AsyncTask<String, Void, String> {
+    public class Startparse extends AsyncTask<String, Void, String> {
     	protected String doInBackground(String... urls) {
     		if (isConnectedWifi() && prefs.autosync() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable() && prefs.autosync()){ // settings check
     			HttpClient client = new DefaultHttpClient();
@@ -192,13 +191,13 @@ Integer M_total_entries = 0;
         }
 
 		protected void onPostExecute(String check) {
+			Picasso ProfileImage = Picasso.with(context);
+			ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
 			if (check == ""){ //birthday check, IF MAL IS OFFLINE THIS WILL START OFFLINE.
 				Offline();
 			}else{
 				Save();
 			}
-			Picasso ProfileImage = Picasso.with(context);
-			ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
 			autohidecard();
 			setcolor();
         }
@@ -214,13 +213,15 @@ Integer M_total_entries = 0;
         }
     }
     
-    public void card() { //settings for hide a card
+    public void card() { //settings for hide a card and text userprofile
     	if (prefs.animehide()){
     		a.setVisibility(View.GONE);
     	}
     	if (prefs.mangahide()){
     		m.setVisibility(View.GONE);
     	}
+    	TextView namecard = (TextView) findViewById(R.id.name_text);
+    	namecard.setText(name);
     }
     
     public void autohidecard(){//settings for hide auto a card
