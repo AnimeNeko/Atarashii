@@ -106,12 +106,11 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
     
     public void savelist(){//save the arraylist
     	try{
-    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    	SharedPreferences.Editor sEdit = preferences.edit();
-    	Collections.sort(UserList);
-    	for(int i=0;i <UserList.size();i++){
-    	         sEdit.putString("val"+i,UserList.get(i));
-    	}
+    		SharedPreferences.Editor sEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    		Collections.sort(UserList);
+    		for(int i=0;i <UserList.size();i++){
+    			sEdit.putString("val"+i,UserList.get(i));
+    		}
     	 	sEdit.putInt("size",UserList.size());
     	 	sEdit.commit();
     	 	maketext("Userprofile saved!", 3);
