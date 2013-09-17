@@ -139,7 +139,7 @@ Integer M_total_entries = 0;
     
     public class Startparse extends AsyncTask<String, Void, String> {
     	protected String doInBackground(String... urls) {
-    		if (isConnectedWifi() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable()){ // settings check
+    		if (isConnectedWifi() && prefs.Wifisyncdisable() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable()){ // settings check
     			HttpClient client = new DefaultHttpClient();
     			String json = "";
     			try {
@@ -192,18 +192,18 @@ Integer M_total_entries = 0;
         }
 
 		protected void onPostExecute(String check) {
-			if (check == ""){ //birthday check, IF MAL IS OFFLINE THIS WILL START OFFLINE.
+			if (check == "" || !isNetworkAvailable()){ //birthday check, IF MAL IS OFFLINE THIS WILL START OFFLINE.
 				Offline();
 			}else{
 				Save();
 			}
 			try{
-				Picasso ProfileImage = Picasso.with(context);
-				ProfileImage.load(avatar_url).error(R.drawable.cover_error).into((ImageView) findViewById(R.id.Imagdae));
+				Picasso.with(context).load(avatar_url).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).into((ImageView) findViewById(R.id.Imagdae));
 				autohidecard();
 				setcolor();
-			}catch(Exception e){
-			}
+			 }catch(Exception e){
+				 e.printStackTrace();
+			 }
         }
     }
     
