@@ -99,24 +99,20 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
     	Collections.sort(UserList);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.list_friends_with_text_item, R.id.userName  ,UserList);
         userList.setAdapter(arrayAdapter); 
-        if (save == true){
-        	savelist();
+        if (save == true){ // save the list
+        	try{
+        		SharedPreferences.Editor sEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        		Collections.sort(UserList);
+        		for(int i=0;i <UserList.size();i++){
+        			sEdit.putString("val"+i,UserList.get(i));
+        		}
+        	 	sEdit.putInt("size",UserList.size());
+        	 	sEdit.commit();
+        	 	maketext("Userprofile saved!", 3);
+        	}catch (Exception e){
+        		maketext("Error while saving the list!", 2);
+        	}
         }
-    }
-    
-    public void savelist(){//save the arraylist
-    	try{
-    		SharedPreferences.Editor sEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
-    		Collections.sort(UserList);
-    		for(int i=0;i <UserList.size();i++){
-    			sEdit.putString("val"+i,UserList.get(i));
-    		}
-    	 	sEdit.putInt("size",UserList.size());
-    	 	sEdit.commit();
-    	 	maketext("Userprofile saved!", 3);
-    	}catch (Exception e){
-    		maketext("Error while saving the list!", 2);
-    	}
     }
     
     public void restorelist(){ //restore the list(get the arrays and restore them)
