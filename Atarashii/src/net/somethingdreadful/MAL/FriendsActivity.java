@@ -22,7 +22,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,13 +41,9 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class FriendsActivity extends SherlockFragmentActivity {
 	
-    SearchSectionsPagerAdapter mSectionsPagerAdapter;
-    SharedPreferences preferences;
-    ViewPager mViewPager;
     Context context;
     ArrayAdapter<String> arrayAdapter;
     ArrayList<String> UserList;
-    boolean remove = false;
     int indexp; //position
     String selected; //get selected username clicked
     String text; //get selected username long
@@ -103,8 +98,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         		for(int i=0;i <UserList.size();i++){
         			sEdit.putString("val"+i,UserList.get(i));
         		}
-        	 	sEdit.putInt("size",UserList.size());
-        	 	sEdit.commit();
+        	 	sEdit.putInt("size",UserList.size()).commit();
         	 	maketext("Userprofile saved!", 3);
         	}catch (Exception e){
         		maketext("Error while saving the list!", 2);
@@ -114,10 +108,9 @@ public class FriendsActivity extends SherlockFragmentActivity {
     
     public void restorelist(){ //restore the list(get the arrays and restore them)
     	try{
-    		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    		int size = preferences.getInt("size",0);
+    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
     		for(int j=0;j<size;j++){
-    			UserList.add(preferences.getString("val"+j,"Error"));
+    			UserList.add(PreferenceManager.getDefaultSharedPreferences(context).getString("val"+j,"Error"));
     		}
     	}catch (Exception e){
     		maketext("Error while restoring the list!", 2);
@@ -187,13 +180,11 @@ public class FriendsActivity extends SherlockFragmentActivity {
     }
 	
     public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
