@@ -798,9 +798,5 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		public void onDrawerOpened() {
 			mActionBar.setTitle(mDrawerTitle);
 		}
-
-		public void setTitle(CharSequence title) {
-			mTitle = title;
-		}
 	}
 }
