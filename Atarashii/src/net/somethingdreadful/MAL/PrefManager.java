@@ -112,7 +112,6 @@ public class PrefManager {
     }
 
     public int getDefaultList() {
-        int defList = Integer.parseInt(prefs.getString("defList", "1"));
-        return defList;
+        return Integer.parseInt(prefs.getString("defList", "1"));
     }
 }
