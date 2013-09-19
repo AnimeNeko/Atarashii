@@ -22,7 +22,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.view.View;
@@ -34,7 +33,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -42,7 +40,7 @@ import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends SherlockFragmentActivity implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
+public class FriendsActivity extends SherlockFragmentActivity {
 	
     SearchSectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences preferences;
@@ -90,8 +88,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
     public void remove(){ //removes a user
     	UserList.remove(indexp);
     	refresh(true);
-    	preferences = getSharedPreferences("Profile_" + selected, MODE_PRIVATE);
-    	preferences.edit().clear();
+    	getSharedPreferences("Profile_" + selected, MODE_PRIVATE).edit().clear();
     }
     
     public void refresh(boolean save){ //refresh list , if boolean is true than also save
@@ -119,8 +116,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
     	try{
     		preferences = PreferenceManager.getDefaultSharedPreferences(context);
     		int size = preferences.getInt("size",0);
-    		for(int j=0;j<size;j++)
-    		{
+    		for(int j=0;j<size;j++){
     			UserList.add(preferences.getString("val"+j,"Error"));
     		}
     	}catch (Exception e){
@@ -143,11 +139,6 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
 		}
         return super.onOptionsItemSelected(item);
     }
-
-	@Override
-	public void fragmentReady() {
-		
-	}
 	
     public class Verify extends AsyncTask<String, Void, String> { //check username
     	protected String doInBackground(String... urls) {
@@ -171,7 +162,6 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
         }
 
         protected void onProgressUpdate(Void... progress) {
-			
         }
 
 		protected void onPostExecute(String check) { //check = avatar
@@ -254,15 +244,5 @@ public class FriendsActivity extends SherlockFragmentActivity implements BaseIte
 		    }
 		});
 		builder.show();
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	}
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-	}
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 	}
 }
