@@ -56,13 +56,11 @@ public class BaseItemGridFragment extends SherlockFragment {
             useTraditionalList = state.getBoolean("traditionalList");
             useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
         }
-
     }
 
     @SuppressLint("NewApi")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle args = getArguments();
         View layout = inflater.inflate(R.layout.fragment_animelist, null);
@@ -81,7 +79,6 @@ public class BaseItemGridFragment extends SherlockFragment {
         int orientation = layout.getContext().getResources().getConfiguration().orientation;
 
         gridView = (GridView) layout.findViewById(R.id.gridview);
-
 
         if ("anime".equals(recordType)) {
             gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -121,13 +118,11 @@ public class BaseItemGridFragment extends SherlockFragment {
         }
 
         gridView.setNumColumns(listColumns);
-
         gridView.setDrawSelectorOnTop(true);
 
         Iready.fragmentReady();
 
         return layout;
-
     }
 
     public void setAnimeRecords(ArrayList<AnimeRecord> objects) {
@@ -147,7 +142,6 @@ public class BaseItemGridFragment extends SherlockFragment {
             adapter.notifyDataSetChanged();
         }
         animeRecordCoverAdapter = adapter;
-
     }
 
     public void setMangaRecords(ArrayList<MangaRecord> objects) {
@@ -167,7 +161,6 @@ public class BaseItemGridFragment extends SherlockFragment {
             adapter.notifyDataSetChanged();
         }
         mangaRecordCoverAdapter = adapter;
-
     }
 
     @Override
@@ -182,7 +175,6 @@ public class BaseItemGridFragment extends SherlockFragment {
     public void onAttach(Activity a) {
         super.onAttach(a);
         Iready = (IBaseItemGridFragment) a;
-
     }
 
     public interface IBaseItemGridFragment {
