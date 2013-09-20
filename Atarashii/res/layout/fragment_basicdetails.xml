@@ -1,4 +1,3 @@
-
 <RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +5,6 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -82,5 +80,4 @@
                 tools:layout="@layout/card_layout_base" />
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>
