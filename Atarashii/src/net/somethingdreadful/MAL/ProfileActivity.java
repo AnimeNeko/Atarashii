@@ -47,6 +47,7 @@ LinearLayout m;
 String avatar_url = "";
 String birthday = ""; 
 String location = "";
+String website ="";
 Integer comments = 0;
 Integer forum_posts = 0;
 String last_online = "";
@@ -96,6 +97,7 @@ Integer M_total_entries = 0;
         
         card(); //check the settings
         new Startparse().execute("http://mal-api.com/profile/" + name); // send url to the background
+        clicklistener();
     }
     
     @Override
@@ -103,7 +105,7 @@ Integer M_total_entries = 0;
             getSupportMenuInflater().inflate(R.menu.activity_profile_view, menu);
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,6 +155,7 @@ Integer M_total_entries = 0;
     					avatar_url = jsonObject.getString("avatar_url");
     					birthday = jsonObject.getJSONObject("details").getString("birthday"); // get birthday for check
     					location = jsonObject.getJSONObject("details").getString("location");
+    					website = jsonObject.getJSONObject("details").getString("website");
     					comments = jsonObject.getJSONObject("details").getInt("comments");
     					forum_posts = jsonObject.getJSONObject("details").getInt("forum_posts");
     					last_online = jsonObject.getJSONObject("details").getString("last_online");
@@ -201,9 +204,9 @@ Integer M_total_entries = 0;
 				Picasso.with(context).load(avatar_url).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).into((ImageView) findViewById(R.id.Imagdae));
 				autohidecard();
 				setcolor();
-			 }catch(Exception e){
-				 e.printStackTrace();
-			 }
+			}catch(Exception e){
+				e.printStackTrace();
+			}
         }
     }
     
@@ -259,7 +262,9 @@ Integer M_total_entries = 0;
     				tv8.setTextColor(Color.parseColor("#008583")); //Developer
     		}else{
     				tv8.setTextColor(Color.parseColor("#0D8500")); //normal user
-    		}    		
+    		}    
+    		TextView tv11 = (TextView) findViewById(R.id.websitesmall);
+    		tv11.setTextColor(Color.parseColor("#002EAB"));
     	}
     	if (name.equals("Ratan12") || name.equals("AnimaSA") || name.equals("Motokochan") || name.equals("Apkawa") || name.equals("ratan12") || name.equals("animaSA") || name.equals("motokochan") || name.equals("apkawa")) {
 			tv8.setText("Atarashii developer"); //Developer
@@ -372,6 +377,7 @@ Integer M_total_entries = 0;
 		Editor editor1 = profieleditor.putString("avatar_url", avatar_url);editor1.commit();
 		Editor editor2 = profieleditor.putString("birthday", birthday);editor2.commit();
 		Editor editor3 = profieleditor.putString("location", location);editor3.commit();
+		Editor editor28 = profieleditor.putString("website", website);editor28.commit();
 		Editor editor4 = profieleditor.putInt("comments", comments);editor4.commit();
 		Editor editor5 = profieleditor.putInt("forum_posts", forum_posts);editor5.commit();
 		Editor editor6 = profieleditor.putString("last_online", last_online);editor6.commit();
@@ -404,6 +410,7 @@ Integer M_total_entries = 0;
     	avatar_url= profielprefs.getString("avatar_url", avatar_url);
     	birthday= profielprefs.getString("birthday",birthday);
     	location= profielprefs.getString("location", location);
+    	website = profielprefs.getString("website", website);
     	comments= profielprefs.getInt("comments",comments);
     	forum_posts= profielprefs.getInt("forum_posts",forum_posts);
     	last_online= profielprefs.getString("last_online",last_online);
@@ -449,6 +456,14 @@ Integer M_total_entries = 0;
     		tv2.setText("Not specified");
     	}else{
     		tv2.setText(location);
+    	}
+		TextView tv25 = (TextView) findViewById(R.id.websitesmall);
+		if (website.equals("null")){
+			TextView tv26 = (TextView) findViewById(R.id.websitefront);
+    		tv25.setVisibility(View.GONE);
+    		tv26.setVisibility(View.GONE);
+    	}else{
+    		tv25.setText(website);
     	}
 		TextView tv3 = (TextView) findViewById(R.id.commentspostssmall);
 		tv3.setText(Integer.toString(comments));
@@ -496,5 +511,16 @@ Integer M_total_entries = 0;
 		tv23.setText(Integer.toString(M_plan_to_read));
 		TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
 		tv24.setText(Integer.toString(M_total_entries));
+    }
+    
+    void clicklistener(){
+    	TextView tv25 = (TextView) findViewById(R.id.websitesmall);
+    	tv25.setOnClickListener(new View.OnClickListener() {
+    	    @Override
+    	    public void onClick(View v) {
+    	    	Uri webstiteclick = Uri.parse(website);
+            	startActivity(new Intent(Intent.ACTION_VIEW, webstiteclick));
+    	    }
+    	});
     }
 }
