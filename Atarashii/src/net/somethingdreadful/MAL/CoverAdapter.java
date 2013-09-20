@@ -86,7 +86,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress(useSecondaryAmounts)));
         try{ //sometime it doesn't goes well 
         	Picasso coverImage = Picasso.with(c);
-        	coverImage.load(a.getImageUrl()).error(R.drawable.cover_error).into(viewHolder.cover);
+        	coverImage.load(a.getImageUrl()).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).into(viewHolder.cover);
         }catch (Exception e){
         	e.printStackTrace();
         }
