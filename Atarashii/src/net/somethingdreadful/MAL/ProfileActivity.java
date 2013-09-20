@@ -458,12 +458,12 @@ Integer M_total_entries = 0;
     		tv2.setText(location);
     	}
 		TextView tv25 = (TextView) findViewById(R.id.websitesmall);
-		if (website.equals("null")){
-			TextView tv26 = (TextView) findViewById(R.id.websitefront);
+		if (website.contains("http://") && website.contains(".")){ // filter fake websites
+    		tv25.setText(website);
+    	}else{
+    		TextView tv26 = (TextView) findViewById(R.id.websitefront);
     		tv25.setVisibility(View.GONE);
     		tv26.setVisibility(View.GONE);
-    	}else{
-    		tv25.setText(website);
     	}
 		TextView tv3 = (TextView) findViewById(R.id.commentspostssmall);
 		tv3.setText(Integer.toString(comments));
