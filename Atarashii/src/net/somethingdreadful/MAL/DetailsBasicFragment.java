@@ -16,37 +16,30 @@ public class DetailsBasicFragment extends Fragment {
     public IDetailsBasicAnimeFragment fragmentInterface;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
     	layout = inflater.inflate(R.layout.fragment_basicdetails, null);
-    	
     	return layout;
     }
     
     @Override
-    public void onCreate(Bundle state)
-    {
+    public void onCreate(Bundle state){
        super.onCreate(state);
     }
     
     @Override
-    public void onResume()
-    {
+    public void onResume(){
     	super.onResume();
     	
     	fragmentInterface.basicFragmentReady();
     }
     
     @Override
-    public void onAttach(Activity a)
-    {
+    public void onAttach(Activity a){
     	super.onAttach(a);
     	fragmentInterface = (IDetailsBasicAnimeFragment) a;
-    	
     }
     
-    public interface IDetailsBasicAnimeFragment
-    {
+    public interface IDetailsBasicAnimeFragment{
     	public void basicFragmentReady();
     }
 }
