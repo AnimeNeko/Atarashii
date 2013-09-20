@@ -37,7 +37,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     private int imageCoverHeight = 0;
     private boolean useSecondaryAmounts;
 
-
     public CoverAdapter(Context context, int resource, ArrayList<T> objects, MALManager m, String type, int coverheight, boolean useSecondaryAmounts) {
         super(context, resource, objects);
         this.objects = objects;
@@ -47,7 +46,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         this.resource = resource;
         this.imageCoverHeight = coverheight;
         this.useSecondaryAmounts = useSecondaryAmounts;
-
     }
 
     @Override
@@ -80,7 +78,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
-
         viewHolder.label.setText(a.getName());
 
         viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress(useSecondaryAmounts)));
@@ -94,8 +91,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         if (Build.VERSION.SDK_INT >= 11) {
             if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))) {
                 viewHolder.actionButton.setVisibility(View.VISIBLE);
-                viewHolder.actionButton.setOnClickListener(
-                        new OnClickListener() {
+                viewHolder.actionButton.setOnClickListener(new OnClickListener() {
 
                             @Override
                             public void onClick(View v) {
@@ -121,20 +117,15 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                                                     case R.id.action_PlusOneWatched:
                                                         setProgressPlusOne(a);
                                                         break;
-
                                                     case R.id.action_MarkAsComplete:
                                                         setMarkAsComplete(a);
                                                         break;
                                                 }
-
                                                 return true;
                                             }
                                         });
-
                                 pm.show();
-
                             }
-
                         });
             } else {
                 viewHolder.actionButton.setVisibility(View.INVISIBLE);
@@ -146,7 +137,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             ImageView overlayPanel = (ImageView) v.findViewById(R.id.textOverlayPanel);
             overlayPanel.setAlpha(175);
         }
-
 
         TextView flavourText = (TextView) v.findViewById(R.id.stringWatched);
 
@@ -181,9 +171,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             flavourText.setText("");
             viewHolder.progressCount.setVisibility(View.GONE);
         }
-
-
-
         return v;
     }
 
@@ -245,11 +232,9 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                 } else {
                     result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
                 }
-            }
-            else {
+            } else {
                 result = false;
             }
-
 
             if (result) {
                 gr[0].setDirty(GenericMALRecord.CLEAN);
@@ -262,7 +247,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             }
             return result;
         }
-
     }
 
     public int dpToPx(float dp) {
@@ -278,8 +262,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -292,5 +275,4 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         ImageView cover;
         ImageView actionButton;
     }
-
 }
