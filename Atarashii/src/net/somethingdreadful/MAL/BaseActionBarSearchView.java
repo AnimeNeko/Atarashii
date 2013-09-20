@@ -24,7 +24,6 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         this.query = query;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
