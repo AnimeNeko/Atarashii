@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class GenericCardFragment extends SherlockFragment {
-
     public static final int CONTENT_TYPE_SYNOPSIS = 0;
     public static final int CONTENT_TYPE_PROGRESS = 1;
     public static final int CONTENT_TYPE_INFO = 2;
@@ -39,35 +38,25 @@ public class GenericCardFragment extends SherlockFragment {
         cardTitle = (TextView) base.findViewById(R.id.CardTitle);
         actionableIcon = (ImageView) base.findViewById(R.id.actionableIcon);
 
-        if (state != null)
-        {
+        if (state != null) {
             this.title = state.getString("title");
             this.layoutResID = state.getInt("layoutResID");
             this.actionable = state.getBoolean("actionable");
             this.contentType = state.getInt("contentType");
 
-
             cardTitle.setText(title);
 
-            if (actionable)
-            {
+            if (actionable){
                 actionableIcon.setVisibility(actionableIcon.VISIBLE);
-            }
-            else
-            {
+            } else {
                 actionableIcon.setVisibility(actionableIcon.INVISIBLE);
             }
         }
-
-
         return base;
-
         //      return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
     public void setArgsSensibly(String title, int layoutResID, int contentType, boolean actionable) {
-
         this.title = title;
         this.layoutResID = layoutResID;
         this.actionable = actionable;
@@ -75,25 +64,19 @@ public class GenericCardFragment extends SherlockFragment {
 
         cardTitle.setText(title);
 
-        if (actionable)
-        {
+        if (actionable) {
             actionableIcon.setVisibility(actionableIcon.VISIBLE);
-        }
-        else
-        {
+        } else {
             actionableIcon.setVisibility(actionableIcon.INVISIBLE);
         }
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
         outState.putString("title", title);
         outState.putInt("layoutResID", layoutResID);
         outState.putBoolean("actionable", actionable);
         outState.putInt("contentType", contentType);
-
 
         super.onSaveInstanceState(outState);
     }
@@ -107,13 +90,7 @@ public class GenericCardFragment extends SherlockFragment {
 
     @Override
     public void onAttach(Activity a) {
-
         parent = a;
-
         super.onAttach(a);
     }
-
-
-
-
 }
