@@ -459,10 +459,11 @@ Integer M_total_entries = 0;
     		tv2.setText(location);
     	}
 		TextView tv25 = (TextView) findViewById(R.id.websitesmall);
+		TextView tv26 = (TextView) findViewById(R.id.websitefront);
+		LinearLayout tv36 = (LinearLayout) findViewById(R.id.details_card);
 		if (website.contains("http://") && website.contains(".")){ // filter fake websites
     		tv25.setText(website);
     	}else{
-    		TextView tv26 = (TextView) findViewById(R.id.websitefront);
     		tv25.setVisibility(View.GONE);
     		tv26.setVisibility(View.GONE);
     	}
@@ -512,6 +513,16 @@ Integer M_total_entries = 0;
 		tv23.setText(Integer.toString(M_plan_to_read));
 		TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
 		tv24.setText(Integer.toString(M_total_entries));
+		
+		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265){
+			tv25.setTextSize(14);
+		}
+		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 14){
+			tv25.setTextSize(13);
+		}
+		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 13){
+			tv25.setTextSize(12);
+		}
     }
     
     void clicklistener(){
