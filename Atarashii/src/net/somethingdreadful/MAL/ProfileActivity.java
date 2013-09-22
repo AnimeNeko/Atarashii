@@ -9,7 +9,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -89,7 +91,7 @@ Integer M_total_entries = 0;
 		m =(LinearLayout)findViewById(R.id.Manga_card);
         String userclicked = prefs.Getclickeduser();
 
-        if (!name.equals(userclicked)){ //get username from friedlist/navdrawer
+        if (!name.equals(userclicked)){ //get username from friendlist/navdrawer
         	name = userclicked;
         }
         profielprefs = getSharedPreferences("Profile_" + name, MODE_PRIVATE);
@@ -125,16 +127,11 @@ Integer M_total_entries = 0;
             	Uri malurl = Uri.parse("http://myanimelist.net/profile/" + name);
             	startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
-            case R.id.viewmala:
-            	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + name);
-            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
+            case R.id.View:
+            	choosedialog(true);
                 break;
-            case R.id.viewmalm:
-            	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + name);
-            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
-                break;
-            case R.id.Shareprofile:
-				Share();
+            case R.id.Share:
+            	choosedialog(false);
         }
         return true;
     }
@@ -271,11 +268,15 @@ Integer M_total_entries = 0;
 		}
     }
     
-    public void Share() {
+    public void Share(boolean anime) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, name + " has shared an anime list using Atarashii : http://myanimelist.net/animelist/" + name + "!");
+        if (anime == true){
+        	sharingIntent.putExtra(Intent.EXTRA_TEXT, name + " has shared an anime list using Atarashii : http://myanimelist.net/animelist/" + name + "!");
+        }else{
+        	sharingIntent.putExtra(Intent.EXTRA_TEXT, name + " has shared an manga list using Atarashii : http://myanimelist.net/mangalist/" + name + "!");
+        }
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
     
@@ -523,4 +524,45 @@ Integer M_total_entries = 0;
     	    }
     	});
     }
+    
+	void choosedialog(final boolean share){ //as the name says
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		if (share == true){
+			builder.setTitle("Share");
+			builder.setMessage("Which list do you want to share?");
+		}else{
+			builder.setTitle("View");
+			builder.setMessage("Which list do you want to view?");
+		}
+
+		builder.setPositiveButton("My animelist", new DialogInterface.OnClickListener() { 
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		        if (share == true){
+		        	Share(true);
+		        }else{
+		        	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + name);
+	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
+		        }
+		    }
+		});
+		builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		    	
+		    }
+		});
+		builder.setNegativeButton("My mangalist", new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		    	if (share == true){
+		        	Share(false);
+		        }else{
+		        	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + name);
+	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
+		        }
+		    }
+		});
+		builder.show();
+	}
 }
