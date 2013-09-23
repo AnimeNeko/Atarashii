@@ -523,6 +523,12 @@ Integer M_total_entries = 0;
 		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 13){
 			tv25.setTextSize(12);
 		}
+		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 12){
+			tv25.setTextSize(11);
+		}
+		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 11){
+			tv25.setTextSize(10);
+		}
     }
     
     void clicklistener(){
