@@ -43,10 +43,11 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	
     Context context;
     ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> UserList;
+    ArrayList<String> UserListAdapter;
     int indexp; //position
     String selected; //get selected username clicked
     String text; //get selected username long
+    ListView userList;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,49 +57,32 @@ public class FriendsActivity extends SherlockFragmentActivity {
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
         setTitle("My friends"); //set title
-        UserList = new ArrayList<String>();
+        UserListAdapter = new ArrayList<String>();
+        userList = (ListView)findViewById(R.id.listview);
         
         restorelist(); //restore users from preferences
-        ListView userList=(ListView)findViewById(R.id.listview);
         refresh(false); // set listview
-
-         userList.setOnItemClickListener(new OnItemClickListener(){ //start the profile with your friend
-        	 public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3){      
-					String selected = UserList.get(position);
-	        		Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser", selected);editor1.commit();
-	        		Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-	 				startActivity(profile);
-             }
-         });
-         userList.setOnItemLongClickListener(new OnItemLongClickListener(){ //longclick = remove selected friend
-        	 public boolean onItemLongClick(AdapterView<?> arg0, View v, int index, long arg3){
-        		 selected = UserList.get(index);
-        		 removedialog(selected); //show confirm dialog
-        		 indexp = index;
-        		 return true;
-        	 }
-         });
+        clicklistener();
     }
 	
     public void remove(){ //removes a user
-    	UserList.remove(indexp);
+    	UserListAdapter.remove(indexp);
     	refresh(true);
     	getSharedPreferences("Profile_" + selected, MODE_PRIVATE).edit().clear();
     }
     
     public void refresh(boolean save){ //refresh list , if boolean is true than also save
-    	ListView userList=(ListView)findViewById(R.id.listview);
-    	Collections.sort(UserList);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.list_friends_with_text_item, R.id.userName  ,UserList);
+    	Collections.sort(UserListAdapter);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.list_friends_with_text_item, R.id.userName  ,UserListAdapter);
         userList.setAdapter(arrayAdapter); 
         if (save == true){ // save the list
         	try{
         		SharedPreferences.Editor sEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        		Collections.sort(UserList);
-        		for(int i=0;i <UserList.size();i++){
-        			sEdit.putString("val"+i,UserList.get(i));
+        		Collections.sort(UserListAdapter);
+        		for(int i=0;i <UserListAdapter.size();i++){
+        			sEdit.putString("val"+i,UserListAdapter.get(i));
         		}
-        	 	sEdit.putInt("size",UserList.size()).commit();
+        	 	sEdit.putInt("size",UserListAdapter.size()).commit();
         	 	maketext("Userprofile saved!", 3);
         	}catch (Exception e){
         		maketext("Error while saving the list!", 2);
@@ -110,10 +94,11 @@ public class FriendsActivity extends SherlockFragmentActivity {
     	try{
     		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
     		for(int j=0;j<size;j++){
-    			UserList.add(PreferenceManager.getDefaultSharedPreferences(context).getString("val"+j,"Error"));
+    			UserListAdapter.add(PreferenceManager.getDefaultSharedPreferences(context).getString("val"+j,"Error"));
     		}
     	}catch (Exception e){
     		maketext("Error while restoring the list!", 2);
+    		e.printStackTrace();
     	}
     }
     
@@ -163,7 +148,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 			}else if (check =="" && !isNetworkAvailable()){
 				maketext("No network connection available!",2);
 			}else{
-				UserList.add(text); //user exist, add the user
+				UserListAdapter.add(text); //user exist, add the user
 				refresh(true); //refresh the list
 			}
         }
@@ -235,5 +220,23 @@ public class FriendsActivity extends SherlockFragmentActivity {
 		    }
 		});
 		builder.show();
+	}
+	void clicklistener(){
+		userList.setOnItemClickListener(new OnItemClickListener(){ //start the profile with your friend
+       	 public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3){      
+					String selected = UserListAdapter.get(position);
+	        		Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser", selected);editor1.commit();
+	        		Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+	 				startActivity(profile);
+            }
+        });
+        userList.setOnItemLongClickListener(new OnItemLongClickListener(){ //longclick = remove selected friend
+       	 public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long arg3){
+       		 selected = UserListAdapter.get(position);
+       		 removedialog(selected); //show confirm dialog
+       		 indexp = position;
+       		 return true;
+       	 }
+        });
 	}
 }
