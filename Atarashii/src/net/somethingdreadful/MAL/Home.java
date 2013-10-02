@@ -6,6 +6,7 @@ import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.record.ProfileMALRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import org.json.JSONArray;
@@ -674,7 +675,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 	        }
 			switch (position){
 			case 0:
-				Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser",mPrefManager.getUser());editor1.commit();
+				ProfileMALRecord.username = mPrefManager.getUser();
 				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 				startActivity(Profile);
 				break;
