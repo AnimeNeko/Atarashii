@@ -71,8 +71,12 @@ public class PrefManager {
         return prefs.getBoolean("Wifi_sync", false);
     }
     
-    public String Getclickeduser() { //profile activity, Gets record of the clicked user
-        return context.getSharedPreferences("Profile", 0).getString("Profileuser", "Error");
+    public boolean friendlistsync() { //profile activity, Gets record of the clicked user
+        return prefs.getBoolean("friendlistsync", false);
+    }
+    
+    public boolean friendlistonlywifi() { //profile activity, Gets record of the clicked user
+        return prefs.getBoolean("friendlistonlywifi", false);
     }
 
     public void setUser(String newUser) {
