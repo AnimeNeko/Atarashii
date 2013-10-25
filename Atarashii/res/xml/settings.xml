@@ -1,37 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 		<PreferenceScreen android:key="List settings" android:title="List settings" android:persistent="false">
-			<PreferenceCategory android:title="Anime/Manga list">
-				<ListPreference
-					android:summary="@string/summary_DefaultList"
-					android:dialogTitle="@string/dialog_DefaultList"
-					android:title="@string/dialog_DefaultList"
-					android:entries="@array/listTypeArray"
-					android:entryValues="@array/listTypeValuesArray"
-					android:key="defList" />
-				<CheckBoxPreference
-					android:key="traditionalList"
-					android:summary="@string/preference_summary_TraditionList"
-					android:title="@string/preference_TraditionalList" />
-				<CheckBoxPreference 
-					android:title="Use Volumes on Covers" 
-					android:summary="@string/preference_summary_displayVolumes" 
-					android:key="displayVolumes" 
-					android:defaultValue="false" />
-			</PreferenceCategory>
-			<PreferenceCategory android:title="Friendlist">
-				<CheckBoxPreference 
-					android:key="friendlistsync" 
-					android:title="Auto-sync on startup" 
-					android:summary="Enable auto-sync on startup" 
-					android:defaultValue="false"/>
-				<CheckBoxPreference 
-					android:title="Sync using wifi" 
-					android:summary="Only use Wi-Fi to synchronise my friend list" 
-					android:key="friendlistonlywifi" 
-					android:dependency="friendlistsync"
-					android:defaultValue="false" />
-			</PreferenceCategory>
+			<ListPreference
+				android:summary="@string/summary_DefaultList"
+				android:dialogTitle="@string/dialog_DefaultList"
+				android:title="@string/dialog_DefaultList"
+				android:entries="@array/listTypeArray"
+				android:entryValues="@array/listTypeValuesArray"
+				android:key="defList" />
+			<CheckBoxPreference
+				android:key="traditionalList"
+				android:summary="@string/preference_summary_TraditionList"
+				android:title="@string/preference_TraditionalList" />
+			<CheckBoxPreference 
+				android:title="Use Volumes on Covers" 
+				android:summary="@string/preference_summary_displayVolumes" 
+				android:key="displayVolumes" 
+				android:defaultValue="false" />
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Profile settings" android:title="Profile settings" android:persistent="false">
 			<CheckBoxPreference 
