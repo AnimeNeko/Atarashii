@@ -65,7 +65,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         UsernameList = new ArrayList<String>();
         userList = (ListView)findViewById(R.id.listview);
         listadapter = new ListViewAdapter();
-        restorelist(true); //restore users from preferences
+        restorelist(false); //restore users from preferences
         refresh(false);
     }
 	
@@ -99,10 +99,8 @@ public class FriendsActivity extends SherlockFragmentActivity {
         }
     }
     
-    public void restorelist(boolean R){ //restore the list(get the arrays and restore them), boolean true will parse
+    public void restorelist(boolean Refresh){ //restore the list(get the arrays and restore them), boolean true will parse
     	network = isNetworkAvailable();
-		ProfileMALRecord.parse = prefs.friendlistsync();
-		Boolean onlywifi = prefs.friendlistonlywifi();
 		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
 		UsernameList.clear();
     	try{
@@ -113,7 +111,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
     		maketext("Error while restoring the list!", 2);
     		e.printStackTrace();
     	}
-    	if (ProfileMALRecord.parse && onlywifi && isConnectedWifi() && R || network && ProfileMALRecord.parse && !onlywifi || network && forcesync && R){
+    	if (Refresh){
     		new Startparse().execute(prefs.getUser());
     	}
     }
@@ -233,7 +231,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	  
 	  public class Startparse extends AsyncTask<String, Void, String> {
 		  protected String doInBackground(String... urls) {
-			  if (isNetworkAvailable() && forcesync || isNetworkAvailable() && ProfileMALRecord.parse){ // settings check
+			  if (isNetworkAvailable() && forcesync || isNetworkAvailable()){ // settings check
 				  HttpClient client = new DefaultHttpClient();
 				  String json = "";
 				  try {
