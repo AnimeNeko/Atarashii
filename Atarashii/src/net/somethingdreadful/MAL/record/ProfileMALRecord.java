@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 public abstract class ProfileMALRecord {
 	public static Context context;
 	public static String username = "";
-	public static boolean parse = true; //if the boolean is false then it will stop the refresh at FriendsActivity
 	public static String avatar_url_short = "";
 	public static String since = "";
 	FriendsActivity friends;
