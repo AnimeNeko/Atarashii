@@ -70,14 +70,6 @@ public class PrefManager {
     public boolean Wifisyncdisable() { //profile activity, if the setting use only wifi is turned on
         return prefs.getBoolean("Wifi_sync", false);
     }
-    
-    public boolean friendlistsync() { //profile activity, Gets record of the clicked user
-        return prefs.getBoolean("friendlistsync", false);
-    }
-    
-    public boolean friendlistonlywifi() { //profile activity, Gets record of the clicked user
-        return prefs.getBoolean("friendlistonlywifi", false);
-    }
 
     public void setUser(String newUser) {
         prefeditor.putString("user", newUser);
