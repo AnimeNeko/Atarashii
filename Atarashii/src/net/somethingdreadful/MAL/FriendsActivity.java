@@ -268,11 +268,9 @@ public class FriendsActivity extends SherlockFragmentActivity {
 							  Edit.putString("avatar_url_short" + user ,jsonObject.getString("image_url_short")).commit();
 							  Edit.putString("avatar_url" + user ,jsonObject.getString("image_url")).commit();
 							  UsernameList.add(user);
-							  Log.e(user, Integer.toString(jsonArray.length()));
 						  }
 					  }
 				  } catch (Exception e) {
-					  Log.e("FriendsActivity", "Error while parsing/receiving the list!");
 				  }
 			  }
 			  return "";
