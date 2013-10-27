@@ -76,7 +76,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     RatingBar MALScoreBar;
     RatingBar MyScoreBar;
 
-
     Spanned SynopsisText;
     String VolumeProgressText;
     String VolumeTotalText;
@@ -108,7 +107,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         networkAvailable = isNetworkAvailable();
 
-
         fm = getSupportFragmentManager();
 
         bfrag = (DetailsBasicFragment) fm.findFragmentById(R.id.DetailsFragment);
@@ -116,7 +114,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         SynopsisFragment = (GenericCardFragment) fm.findFragmentById(R.id.SynopsisFragment);
         SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
         SynopsisFragment.inflateContentStub();
-
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
         int card_layout_progress = R.layout.card_layout_progress;
@@ -149,10 +146,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             @Override
             public void onClick(View v) {
                 showRatingDialog();
-
             }
-
-
         });
 
         WatchStatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.WatchStatusFragment);
@@ -181,11 +175,9 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (isAdded) {
             getSupportMenuInflater().inflate(R.menu.activity_detail_view, menu);
-        }
-        else {
+        } else {
             getSupportMenuInflater().inflate(R.menu.activity_detail_view_unrecorded, menu);
         }
-
         return true;
     }
 
@@ -194,14 +186,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     	if (isAdded) {
     		if (networkAvailable) {
         		menu.findItem(R.id.action_Remove).setVisible(true);
-        	}
-        	else {
+        	} else {
         		menu.findItem(R.id.action_Remove).setVisible(false);
         	}
     	}
-    	
         return true;
-
     }
 
     @Override
@@ -224,7 +213,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
         }
-
         return true;
     }
 
@@ -237,13 +225,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             rcdf.setStyle(SherlockDialogFragment.STYLE_NORMAL, 0);
         }
         rcdf.show(fm, "fragment_RemoveConfirmationDialog");
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -261,16 +247,13 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 }
             }
         } catch (NullPointerException ignored) {
-
         }
     }
 
     //Called after the basic fragment is finished it's setup, populate data into it
     @Override
     public void basicFragmentReady() {
-
         CoverImageView = (ImageView) bfrag.getView().findViewById(R.id.detailCoverImage);
-
         getDetails();
     }
 
@@ -278,8 +261,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         new getDetailsTask().execute();
     }
 
-    public void showProgressDialog() // Just a function to keep logic out of the switch statement
-    {
+    public void showProgressDialog(){ // Just a function to keep logic out of the switch statement
         if ("anime".equals(recordType)) {
             showEpisodesWatchedDialog();
         } else {
@@ -362,12 +344,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                         animeRecord = mMalManager.updateWithDetails(mRecordID, animeRecord);
                     }
                 }
-                else {
-
-                }
-
-
-
                 return animeRecord;
             } else {
                 mangaRecord = mMalManager.getMangaRecord(mRecordID);
@@ -382,10 +358,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                         mangaRecord = mMalManager.updateWithDetails(mRecordID, mangaRecord);
                     }
                 }
-
                 return mangaRecord;
             }
-
         }
 
         @Override
@@ -394,7 +368,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 actionBar.setTitle(animeRecord.getName());
 
                 Picasso coverImage = Picasso.with(context);
-
                 coverImage
                 .load(animeRecord.getImageUrl())
                 .error(R.drawable.cover_error)
@@ -412,7 +385,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 if (ProgressTotalView != null) {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
-
                 }
 
                 RecordStatusText = WordUtils.capitalize(animeRecord.getRecordStatus());
@@ -432,25 +404,18 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
                     setAddToListUI(true);
                 }
-            }
-            else {
+            } else {
                 actionBar.setTitle(mangaRecord.getName());
 
                 Picasso coverImage = Picasso.with(context);
 
-                coverImage
-                .load(mangaRecord.getImageUrl())
-                .error(R.drawable.cover_error)
-                .placeholder(R.drawable.cover_loading)
-                .fit()
-                .into(CoverImageView);
+                coverImage.load(mangaRecord.getImageUrl()).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).fit().into(CoverImageView);
 
                 VolumeProgressText = Integer.toString(mangaRecord.getVolumeProgress());
                 VolumeTotalText = Integer.toString(mangaRecord.getVolumesTotal());
                 ProgressText = Integer.toString(mangaRecord.getPersonalProgress(false));
                 TotalProgressText = mangaRecord.getTotal(false);
                 MyStatusText = WordUtils.capitalize(mangaRecord.getMyStatus());
-
 
                 ProgressCurrentVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountCurrent);
                 ProgressTotalVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountTotal);
@@ -471,7 +436,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     MyStatusView.setText(MyStatusText);
                 }
 
-
                 RecordStatusText = WordUtils.capitalize(mangaRecord.getRecordStatus());
                 RecordTypeText = WordUtils.capitalize(mangaRecord.getRecordType());
 
@@ -486,7 +450,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
                     setAddToListUI(true);
                 }
-
             }
         }
 
@@ -510,9 +473,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 if (MyStatusView != null) {
                     MyStatusView.setText(MyStatusText);
                 }
-
             } else {
-
                 MemberScore = mangaRecord.getMemberScore();
                 MyScore = mangaRecord.getMyScore();
 
@@ -528,8 +489,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             if (gr.getSpannedSynopsis() != null) {
                 SynopsisText = gr.getSpannedSynopsis();
                 MemberScore = gr.getMemberScore();
-            }
-            else {
+            } else {
                 SynopsisText = Html.fromHtml("<em>No data loaded.</em>");
                 MemberScore = 0.0f;
             }
@@ -539,7 +499,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 if (SynopsisView != null) {
                     SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
-
                 }
             }
 
@@ -560,15 +519,13 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             internalManager = mManager;
             internalType = recordType;
             internalNetworkAvailable = networkAvailable;
-
         }
-
 
         @Override
         protected Boolean doInBackground(GenericMALRecord... gr) {
 
             boolean result;
-
+            
             if ("anime".equals(internalType)) {
                 internalManager.saveItem((AnimeRecord) gr[0], false);
             } else {
@@ -578,31 +535,24 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             if (gr[0].hasDelete()) {
                 internalManager.deleteItemFromDatabase(internalType, gr[0].getID());
                 result = internalManager.writeDetailsToMAL(gr[0], internalType);
-            }
-            else {
+            } else {
                 if (internalNetworkAvailable){
                     if ("anime".equals(internalType)) {
                         if (gr[0].hasCreate()) {
                             result = internalManager.addItemToMAL(gr[0], internalType);
-                        }
-                        else {
+                        } else {
                             result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
                         }
-
                     } else {
                         if (gr[0].hasCreate()) {
                             result = internalManager.addItemToMAL(gr[0], internalType);
-                        }
-                        else {
+                        } else {
                             result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
                         }
-
                     }
-                }
-                else {
+                } else {
                     result = false;
                 }
-
 
                 if (result) {
                     gr[0].setDirty(GenericMALRecord.CLEAN);
@@ -612,15 +562,10 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     } else {
                         internalManager.saveItem((MangaRecord) gr[0], false);
                     }
-
                 }
             }
-
-
             return result;
-
         }
-
     }
 
     //Dialog returns new value, do something with it
@@ -639,18 +584,14 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                         animeRecord.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
                         MyStatusView.setText(WordUtils.capitalize(AnimeRecord.STATUS_PLANTOWATCH));
                     }
-
                 }
 
                 animeRecord.setEpisodesWatched(newValue);
                 animeRecord.setDirty(GenericMALRecord.DIRTY);
 
-
                 ProgressCurrentView.setText(Integer.toString(newValue));
-
             }
         }
-
     }
 
     public void setAddToListUI(boolean enabled) {
@@ -675,7 +616,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             ft.show(WatchStatusFragment);
             ft.commit();
         }
-
     }
 
     //Create new write task and run it
@@ -704,7 +644,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus))) {
                 animeRecord.setMyStatus(AnimeRecord.STATUS_PLANTOWATCH);
             }
-
+            
             if (!prevStatus.equals(currentStatus)) {
                 animeRecord.setDirty(GenericMALRecord.DIRTY);
                 MyStatusView.setText(WordUtils.capitalize(currentStatus));
@@ -758,8 +698,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             if (newChapterValue == mangaRecord.getPersonalProgress(false)) {
 
-            }
-            else {
+            } else {
                 if (Integer.parseInt(mangaRecord.getTotal(false)) != 0) {
 
                     if (newChapterValue == Integer.parseInt(mangaRecord.getTotal(false))) {
@@ -768,21 +707,17 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     if (newChapterValue == 0) {
                         mangaRecord.setMyStatus(MangaRecord.STATUS_PLANTOWATCH);
                     }
-
                 }
 
                 mangaRecord.setPersonalProgress(false, newChapterValue);
                 mangaRecord.setDirty(GenericMALRecord.DIRTY);
 
                 ProgressCurrentView.setText(Integer.toString(newChapterValue));
-
-
             }
 
             if (newVolumeValue == mangaRecord.getVolumeProgress()) {
 
-            }
-            else {
+            } else {
                 mangaRecord.setVolumesRead(newVolumeValue);
                 mangaRecord.setDirty(GenericMALRecord.DIRTY);
 
@@ -793,8 +728,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 Crouton.makeText(this, "It's over 9000!!", Style.INFO).show();
             }
         }
-
-
     }
 
     public void contentInflated(int contentType) {
@@ -812,7 +745,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 if (ProgressText != null) {
                     ProgressCurrentView.setText(ProgressText);
                     ProgressTotalView.setText("/" + TotalProgressText);
-
                 }
                 break;
             case GenericCardFragment.CONTENT_TYPE_INFO:
@@ -822,9 +754,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     RecordTypeView.setText(RecordTypeText);
                     RecordStatusView.setText(RecordStatusText);
                 }
-
                 break;
-
             case GenericCardFragment.CONTENT_TYPE_SCORE:
                 MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                 MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
@@ -832,9 +762,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
-
                 break;
-
             case GenericCardFragment.CONTENT_TYPE_WATCHSTATUS:
                 MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
                 if (MyStatusText != null) {
@@ -843,7 +771,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 }
                 break;
         }
-
     }
 
     public void Share() {
@@ -851,7 +778,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         sharingIntent.setType("text/plain");
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-
         sharingIntent.putExtra(Intent.EXTRA_TEXT, makeShareText());
 
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
@@ -862,7 +788,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         shareText = shareText.replace("$title;", actionBar.getTitle());
         shareText = shareText.replace("$link;", "http://myanimelist.net/" + recordType + "/" + Integer.toString(recordID));
-
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
 
         return shareText;
@@ -877,7 +802,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public void onRatingDialogDismissed(int rating) {
         setRating(rating);
         Log.v("MALX", "Listener recieved rating: " + rating);
-
     }
 
     @Override
@@ -890,7 +814,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             mangaRecord.markForDeletion(true);
             mangaRecord.setDirty(GenericMALRecord.DIRTY);
         }
-
         finish();
     }
 
@@ -909,7 +832,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             mangaRecord.setDirty(1);
         }
-
         setAddToListUI(false);
     }
 
@@ -919,10 +841,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
-
     }
 }

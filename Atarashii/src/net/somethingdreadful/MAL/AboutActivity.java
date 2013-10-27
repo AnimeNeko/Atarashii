@@ -27,7 +27,6 @@ public class AboutActivity extends SherlockActivity {
         motokochanMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         apkawaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         acknowledgementsContent.setMovementMethod(LinkMovementMethod.getInstance());
-
     }
 
     @Override
@@ -36,8 +35,6 @@ public class AboutActivity extends SherlockActivity {
             case android.R.id.home:
                 finish();
         }
-
         return true;
     }
-
 }

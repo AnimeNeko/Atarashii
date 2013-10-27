@@ -12,20 +12,13 @@
 				android:key="traditionalList"
 				android:summary="@string/preference_summary_TraditionList"
 				android:title="@string/preference_TraditionalList" />
-			<PreferenceCategory android:title="Manga">
-				<CheckBoxPreference 
-					android:title="Use Volumes on Covers" 
-					android:summary="@string/preference_summary_displayVolumes" 
-					android:key="displayVolumes" 
-					android:defaultValue="false" />
-			</PreferenceCategory>
+			<CheckBoxPreference 
+				android:title="Use Volumes on Covers" 
+				android:summary="@string/preference_summary_displayVolumes" 
+				android:key="displayVolumes" 
+				android:defaultValue="false" />
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Profile settings" android:title="Profile settings" android:persistent="false">
-			<CheckBoxPreference 
-				android:key="PAutosync" 
-				android:title="Auto-synchronisation" 
-				android:summary="Auto-sync when you are watching my profile (turn off when my profile is slow on start-up)." 
-				android:defaultValue="true"/>
 			<CheckBoxPreference 
 				android:key="Wifi_sync" 
 				android:title="Wi-Fi synchronisation" 

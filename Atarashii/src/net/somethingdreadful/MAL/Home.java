@@ -2,16 +2,16 @@ package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import net.somethingdreadful.MAL.SearchActivity.networkThread;
 import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.record.ProfileMALRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,7 +20,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -36,13 +35,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
@@ -120,12 +116,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
             
             mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
-            listView = (ListView)findViewById(R.id.left_drawer);
-            
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            
             HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
+            
+            listView = (ListView)findViewById(R.id.left_drawer);
             listView.setAdapter(adapter);
     		listView.setOnItemClickListener(new DrawerItemClickListener());
     		listView.setCacheColorHint(0);
@@ -141,9 +136,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     		mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
-
-            if (!instanceExists) {
-            }
 
             // Set up the action bar.
             final ActionBar actionBar = getSupportActionBar();
@@ -682,7 +674,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 	        }
 			switch (position){
 			case 0:
-				Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser",mPrefManager.getUser());editor1.commit();
+				ProfileMALRecord.username = mPrefManager.getUser();
 				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 				startActivity(Profile);
 				break;
@@ -801,10 +793,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		 */
 		public void onDrawerOpened() {
 			mActionBar.setTitle(mDrawerTitle);
-		}
-
-		public void setTitle(CharSequence title) {
-			mTitle = title;
 		}
 	}
 }

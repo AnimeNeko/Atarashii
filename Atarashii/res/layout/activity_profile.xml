@@ -2,21 +2,50 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
+    
     <RelativeLayout
         android:id="@+id/profile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp" >
+
+		<LinearLayout
+		    android:id="@+id/name_card"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginLeft="8dp"
+		    android:layout_marginRight="8dp"
+		    android:layout_marginTop="8dp"
+		    android:background="#FFFFFF"
+		    android:orientation="vertical">
+            
+		    <TextView
+		        android:id="@+id/name_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:text="Loading..."
+		        android:textColor="#0099CC"
+		        android:textSize="20sp" />
+
+		</LinearLayout>
+			<!-- Profile picture -->
 
             <ImageView
                 android:id="@+id/Imagdae"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@id/name_card"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:contentDescription="Application Icon"
                 android:gravity="center_horizontal"
+                android:minHeight="80dp"
                 android:padding="8dp" />
 
+		<!-- Details card -->
         <LinearLayout
             android:id="@+id/details_card"
             android:layout_width="match_parent"
@@ -38,7 +67,7 @@
                 android:text="Details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
-            
+					<!-- Content of details -->
             		<RelativeLayout
     					android:layout_width="fill_parent"
   						android:layout_height="fill_parent" >
@@ -81,11 +110,31 @@
     						    android:textSize="16sp" />
     						
     						<TextView
-    						    android:id="@+id/commentsfront"
+    						    android:id="@+id/websitefront"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/locationfront"
+    						    android:layout_marginTop="8dp"
+    						    android:text="Website"
+    						    android:textSize="18sp"
+    						    android:textStyle="bold" />
+
+    						<TextView
+    						    android:id="@+id/websitesmall"
+    						    android:layout_width="wrap_content"
+    						    android:layout_height="wrap_content"
+    						    android:layout_alignBaseline="@id/websitefront"
+    						    android:layout_alignParentRight="true"
+    						    android:text="Loading"
+    						    android:textSize="16sp" />
+    						
+    						<TextView
+    						    android:id="@+id/commentsfront"
+    						    android:layout_width="wrap_content"
+    						    android:layout_height="wrap_content"
+    						    android:layout_alignParentLeft="true"
+    						    android:layout_below="@+id/websitefront"
     						    android:layout_marginTop="8dp"
     						    android:text="Comments"
     						    android:textSize="18sp"
@@ -244,7 +293,7 @@
 
 				</RelativeLayout>
         </LinearLayout>
-
+		<!-- Anime card -->
         <LinearLayout
             android:id="@+id/Anime_card"
             android:layout_width="match_parent"
@@ -265,7 +314,7 @@
                 android:text="Anime details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
-
+			<!-- content anime -->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent" >
@@ -409,7 +458,7 @@
 
 				</RelativeLayout>
         </LinearLayout>
-        
+        <!-- Manga card -->
         <LinearLayout
             android:id="@+id/Manga_card"
             android:layout_width="match_parent"
@@ -430,6 +479,7 @@
                 android:text="Manga details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
+			<!-- Content manga -->
             <RelativeLayout
     					android:layout_width="fill_parent"
   						android:layout_height="fill_parent" >
@@ -574,6 +624,4 @@
 				</RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-    
-
 </ScrollView>

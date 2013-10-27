@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefeditor;
-    private static boolean init;
-    private static String user;
-    private static String pass;
     private static Context context;
 
     public PrefManager(Context mContext)
@@ -19,13 +16,11 @@ public class PrefManager {
     }
 
     public String getUser() {
-        user = prefs.getString("user", "failed");
-        return user;
+        return prefs.getString("user", "failed");
     }
     
     public String getPass() {
-        pass = prefs.getString("pass", "failed");
-        return pass;
+    	return prefs.getString("pass", "failed");
     }
 
     public String getCustomShareText() {
@@ -37,8 +32,7 @@ public class PrefManager {
     }
     
     public boolean getInit() {
-        init = prefs.getBoolean("init", false);
-        return init;
+    	return prefs.getBoolean("init", false);
     }
     
     public boolean getTraditionalListEnabled() {
@@ -53,8 +47,28 @@ public class PrefManager {
         return prefs.getBoolean("synchronisation", false);
     }
     
-    public boolean getonly_wifiEnabled() {
+    public boolean getonly_wifiEnabled() { //Home, if the setting sync only at wifi is turned on
         return prefs.getBoolean("Only_wifi", false);
+    }
+    
+    public boolean anime_manga_zero() { //profile activity, if the card is empty setting
+        return prefs.getBoolean("a_mhide", false);
+    }
+    
+    public boolean Textcolordisable() { //profile activity, if the textcolors are turned off
+        return prefs.getBoolean("text_colours", false);
+    }
+    
+    public boolean animehide() { //profile activity, if the setting force hide is turned on
+        return prefs.getBoolean("A_hide", false); //anime card
+    }
+    
+    public boolean mangahide() {//profile activity, if the setting force hide is turned on
+        return prefs.getBoolean("M_hide", false); //manga card
+    }
+    
+    public boolean Wifisyncdisable() { //profile activity, if the setting use only wifi is turned on
+        return prefs.getBoolean("Wifi_sync", false);
     }
 
     public void setUser(String newUser) {
@@ -94,7 +108,6 @@ public class PrefManager {
     }
 
     public int getDefaultList() {
-        int defList = Integer.parseInt(prefs.getString("defList", "1"));
-        return defList;
+        return Integer.parseInt(prefs.getString("defList", "1"));
     }
 }
