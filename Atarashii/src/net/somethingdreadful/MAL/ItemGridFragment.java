@@ -244,7 +244,6 @@ public class ItemGridFragment extends SherlockFragment {
 
         boolean mForceSync = forceSyncBool;
         boolean mTraditionalList = useTraditionalList;
-        boolean mSyncError = false;
         String type = recordType;
         MALManager internalManager = mManager;
         int gridCellHeight;
@@ -279,7 +278,7 @@ public class ItemGridFragment extends SherlockFragment {
                 }
 
                 if (mManager.cleanDirtyAnimeRecords()) {
-                    mSyncError = mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
+                    mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
                 }
             }
             al = mManager.getAnimeRecordsFromDB(listint);
