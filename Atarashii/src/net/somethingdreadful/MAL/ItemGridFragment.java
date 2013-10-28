@@ -385,7 +385,6 @@ public class ItemGridFragment extends SherlockFragment {
             }
 
             if (mForceSync) {
-            	Log.d("ItemGridFragment", String.valueOf(mSyncSuccessful));
             	if ( mSyncSuccessful )
             		Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
             	else
