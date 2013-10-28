@@ -244,6 +244,7 @@ public class ItemGridFragment extends SherlockFragment {
 
         boolean mForceSync = forceSyncBool;
         boolean mTraditionalList = useTraditionalList;
+        boolean mSyncError = false;
         String type = recordType;
         MALManager internalManager = mManager;
         int gridCellHeight;
@@ -278,7 +279,7 @@ public class ItemGridFragment extends SherlockFragment {
                 }
 
                 if (mManager.cleanDirtyAnimeRecords()) {
-                    mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
+                    mSyncError = mManager.downloadAndStoreList(MALManager.TYPE_ANIME);
                 }
             }
             al = mManager.getAnimeRecordsFromDB(listint);
@@ -321,6 +322,7 @@ public class ItemGridFragment extends SherlockFragment {
     public class getMangaRecordsTask extends AsyncTask<Integer, Void, ArrayList<MangaRecord>> {
         boolean mForceSync = forceSyncBool;
         boolean mTraditionalList = useTraditionalList;
+        boolean mSyncSuccessful = false;
         String type = recordType;
         MALManager internalManager = mManager;
         int gridCellHeight;
@@ -351,7 +353,7 @@ public class ItemGridFragment extends SherlockFragment {
                     }
                 }
                 if (mManager.cleanDirtyMangaRecords()) {
-                    mManager.downloadAndStoreList(MALManager.TYPE_MANGA);
+                	mSyncSuccessful = mManager.downloadAndStoreList(MALManager.TYPE_MANGA);
                 }
 
             }
@@ -384,7 +386,11 @@ public class ItemGridFragment extends SherlockFragment {
             }
 
             if (mForceSync) {
-                Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
+            	Log.d("ItemGridFragment", String.valueOf(mSyncSuccessful));
+            	if ( mSyncSuccessful )
+            		Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
+            	else
+            		Crouton.makeText((Activity)c, R.string.toast_SyncError, Style.ALERT).show();
                 NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
             }
