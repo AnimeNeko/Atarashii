@@ -84,7 +84,7 @@ Integer M_total_entries = 0;
         }
         setTitle("User profile of " + name); //set title
         context = getApplicationContext();
-        new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
+        new RetrieveMessages().execute("http://api.atarashiiapp.com/profile/" + name); // send url to the background
         card(); //check the settings
     }
     
@@ -102,7 +102,7 @@ Integer M_total_entries = 0;
                 break;
             case R.id.forceSync:
             	if (isNetworkAvailable()){
-            		new RetrieveMessages().execute("http://mal-api.com/profile/" + name); // send url to the background
+            		new RetrieveMessages().execute("http://api.atarashiiapp.com/profile/" + name); // send url to the background
             		forcesync = true;
             	}else{
             		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
