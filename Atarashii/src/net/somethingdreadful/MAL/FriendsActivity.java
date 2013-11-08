@@ -258,7 +258,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
 		    public void onClick(DialogInterface dialog, int which) {
 		        String m_Text = input.getText().toString();
 		        text =m_Text;
-		        new RetrieveMessages().execute("http://mal-api.com/profile/" + m_Text); // send url to the background
+		        new RetrieveMessages().execute("http://api.atarashiiapp.com/profile/" + m_Text); // send url to the background
 		    }
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
