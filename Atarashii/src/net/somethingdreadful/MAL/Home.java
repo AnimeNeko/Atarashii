@@ -325,7 +325,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
-
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -334,16 +333,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-    	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 		try {
-        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
+			if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
         		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
         			synctask();
         		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
         			synctask();
         		}
-        	}else if (mPrefManager.getInitsync() && AutoSync == 0){ //option 2 force refresh used by first time login
+        	}else if (mPrefManager.getInitsync() && AutoSync == 0 && isNetworkAvailable()){
         		mPrefManager.setInitsync(false);
         		mPrefManager.commitChanges();
         		synctask();
@@ -483,6 +480,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
 
     public void checkNetworkAndDisplayCrouton() {
+    	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
 			if (af.getMode() > 0) {
