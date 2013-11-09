@@ -179,7 +179,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             };
             
     		listType = mPrefManager.getDefaultList(); //get chosen list :D
-    		autosynctask();
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -212,29 +211,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
     }
     
-    public void autosynctask(){
-        try {
-        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
-        		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
-        			af.getRecords(af.currentList, "anime", true, this.context);
-            		mf.getRecords(af.currentList, "manga", true, this.context);
-            		syncNotify();
-            		AutoSync = 1;
-        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
-        			af.getRecords(af.currentList, "anime", true, this.context);
-            		mf.getRecords(af.currentList, "manga", true, this.context);
-            		syncNotify();
-            		AutoSync = 1;
-        		}
-        	}else{
-        		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
-        	}
-        }catch (Exception e){
-        	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
-        }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -359,11 +336,29 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
     	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        try { // if a error comes up it will not force close
-        	getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
+		try {
+        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
+        		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+        			synctask();
+        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
+        			synctask();
+        		}
+        	}else if (mPrefManager.getInitsync() && AutoSync == 0){ //option 2 force refresh used by first time login
+        		mPrefManager.setInitsync(false);
+        		synctask();
+        	}else{
+        		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
+        	}
         }catch (Exception e){
-        	
+        	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
         }
+    }
+    
+    public void synctask(){
+        af.getRecords(af.currentList, "anime", true, this.context);
+        mf.getRecords(af.currentList, "manga", true, this.context);
+        syncNotify();
+        AutoSync = 1;
     }
 
     @Override
