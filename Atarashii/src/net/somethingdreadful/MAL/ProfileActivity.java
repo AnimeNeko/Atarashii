@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.ProfileMALRecord;
 
 import org.apache.http.HttpResponse;
@@ -62,7 +63,7 @@ LinearLayout m;
         setTitle("User profile"); //set title
         
         card(); //check the settings
-        new Startparse().execute("http://mal-api.com/profile/" + ProfileMALRecord.username); // send url to the background
+        new Startparse().execute(MALApi.api_host + "/profile/" + ProfileMALRecord.username); // send url to the background
         clicklistener();
     }
     
@@ -80,7 +81,7 @@ LinearLayout m;
                 break;
             case R.id.forceSync:
             	if (isNetworkAvailable()){
-            		new Startparse().execute("http://mal-api.com/profile/" + ProfileMALRecord.username); // send url to the background
+            		new Startparse().execute(MALApi.api_host + "/user/profile/" + ProfileMALRecord.username); // send url to the background
             		forcesync = true;
             	}else{
             		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
@@ -116,7 +117,8 @@ LinearLayout m;
     					ProfileMALRecord.Grabrecord(jsonObject); //send the object to ProfileMALRecord
     				}
     			} catch (Exception e) {
-    				Log.i("ProfileActivity", "Check if the api is online!");
+    				Log.e("ProfileActivity", "Check if the api is online!");
+    				ProfileMALRecord.Loadrecord();
     			}
     		}
     		forcesync = false;
