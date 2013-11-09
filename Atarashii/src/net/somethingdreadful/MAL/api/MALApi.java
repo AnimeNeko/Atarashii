@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class MALApi extends BaseMALApi {
 	private static final String TAG = MALApi.class.getSimpleName();
-	private static String api_host = "http://mal-api.com";
+	public static String api_host = "http://api.atarashiiapp.com";
 
 	public MALApi(String username, String password) {
 		super(username, password);
