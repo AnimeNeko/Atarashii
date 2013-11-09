@@ -23,7 +23,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,7 +183,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         }
     }
 	
-	  class ListViewAdapter extends BaseAdapter {
+	 class ListViewAdapter extends BaseAdapter {
 		  
 	        public int getCount() {
 	            return PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
@@ -248,7 +247,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 				  String json = "";
 				  try {
 					  String line = "";
-					  HttpGet request = new HttpGet("http://atarashii.yzi.me/profile/friends/" + urls[0]);
+					  HttpGet request = new HttpGet("http://api.atarashiiapp.com/user/friends/" + urls[0]);
 					  HttpResponse response = client.execute(request);//get response
 					  BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 					  
