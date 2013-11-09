@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.ProfileMALRecord;
 
 import org.apache.http.HttpResponse;
@@ -247,7 +248,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 				  String json = "";
 				  try {
 					  String line = "";
-					  HttpGet request = new HttpGet("http://api.atarashiiapp.com/user/friends/" + urls[0]);
+					  HttpGet request = new HttpGet(MALApi.api_host + "/user/friends/" + urls[0]);
 					  HttpResponse response = client.execute(request);//get response
 					  BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 					  
