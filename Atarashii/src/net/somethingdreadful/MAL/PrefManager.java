@@ -35,6 +35,10 @@ public class PrefManager {
     	return prefs.getBoolean("init", false);
     }
     
+    public boolean getInitsync() {
+    	return prefs.getBoolean("initsync", false);
+    }
+    
     public boolean getTraditionalListEnabled() {
         return prefs.getBoolean("traditionalList", false);
     }
@@ -81,6 +85,10 @@ public class PrefManager {
 
     public void setInit(boolean newInit) {
         prefeditor.putBoolean("init", newInit);
+    }
+    
+    public void setInitsync(boolean newInit) {
+        prefeditor.putBoolean("initsync", newInit);
     }
 
     public void setUpgradeInit(boolean newUpgradeInit) {
