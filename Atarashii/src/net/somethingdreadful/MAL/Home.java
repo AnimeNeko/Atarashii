@@ -345,6 +345,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         		}
         	}else if (mPrefManager.getInitsync() && AutoSync == 0){ //option 2 force refresh used by first time login
         		mPrefManager.setInitsync(false);
+        		mPrefManager.commitChanges();
         		synctask();
         	}else{
         		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
