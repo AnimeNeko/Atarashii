@@ -1,17 +1,23 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import net.somethingdreadful.MAL.SearchActivity.networkThread;
-import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -52,7 +58,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class Home extends BaseActionBarSearchView
 implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
-LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
+LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener,
+AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -205,9 +212,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     @Override
-    public BaseMALApi.ListType getCurrentListType() {
+    public MALApi.ListType getCurrentListType() {
         String listName = getSupportActionBar().getSelectedTab().getText().toString();
-        return BaseMALApi.getListTypeByString(listName);
+        return MALApi.getListTypeByString(listName);
     }
     
 	public boolean isConnectedWifi() {
@@ -521,144 +528,33 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
     /* thread & methods to fetch most popular anime/manga*/
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
-    public void getMostPopular(BaseMALApi.ListType listType){
-    	networkThread animethread = new networkThread(1);
-         animethread.setListType(BaseMALApi.ListType.ANIME);
-         animethread.execute(query);
-                  
-         /*networkThread mangathread = new networkThread(1);
-         mangathread.setListType(BaseMALApi.ListType.MANGA);
-         mangathread.execute(query);*/
-         //API doesn't support getting popular manga :/  
+    private void getList(MALApi.ListType listType, int job) {
+    	switch (listType) {
+		case ANIME:
+			AnimeNetworkTask atask = new AnimeNetworkTask(job, context, this);
+			atask.execute(query);
+			break;
+		case MANGA:
+			MangaNetworkTask mtask = new MangaNetworkTask(job, context, this);
+			mtask.execute(query);
+			break;
+		default:
+			Log.e("MALX", "invalid list type: " + listType.name());
+			break;
+	} 
     }
-    public void getTopRated(BaseMALApi.ListType listType){
-    	networkThread animethread = new networkThread(2);
-        animethread.setListType(BaseMALApi.ListType.ANIME);
-        animethread.execute(query);
-        
-        /*networkThread mangathread = new networkThread(2);
-        mangathread.setListType(BaseMALApi.ListType.MANGA);
-        mangathread.execute(query);*/
-        //API doesn't support getting top rated manga :/  
+    public void getMostPopular(MALApi.ListType listType){
+    	getList(listType, 1);
     }
-    public void getJustAdded(BaseMALApi.ListType listType){
-	networkThread animethread = new networkThread(3);
-     animethread.setListType(BaseMALApi.ListType.ANIME);
-     animethread.execute(query);
-              
-     /*networkThread mangathread = new networkThread(3);
-     mangathread.setListType(BaseMALApi.ListType.MANGA);
-     mangathread.execute(query);*/
-     //API doesn't support getting popular manga :/  
+
+    public void getTopRated(MALApi.ListType listType){
+    	getList(listType, 2);
     }
-    public void getUpcoming(BaseMALApi.ListType listType){
-	networkThread animethread = new networkThread(4);
-     animethread.setListType(BaseMALApi.ListType.ANIME);
-     animethread.execute(query);
-              
-     /*networkThread mangathread = new networkThread(4);
-     mangathread.setListType(BaseMALApi.ListType.MANGA);
-     mangathread.execute(query);*/
-     //API doesn't support getting popular manga :/  
+    public void getJustAdded(MALApi.ListType listType){
+    	getList(listType, 3);
     }
-    
-    public class networkThread extends AsyncTask<String, Void, Void> {
-        JSONArray _result;
-        int job;
-        public networkThread(int job){
-        	this.job = job;
-        }
-
-        public MALApi.ListType getListType() {
-            return listType;
-        }
-
-        public void setListType(MALApi.ListType listType) {
-            this.listType = listType;
-        }
-
-        MALApi.ListType listType;
-
-        @Override
-        protected Void doInBackground(String... params) {
-        	try{
-        		String query = params[0];
-        		MALApi api = new MALApi(context);
-        		switch (job){
-        		case 1:
-        			_result = api.getMostPopular(getListType(),1); //if job == 1 then get the most popular
-        			break;
-        		case 2:
-        			_result = api.getTopRated(getListType(),1); //if job == 2 then get the top rated
-        			break;
-        		case 3:
-        			_result = api.getJustAdded(getListType(),1); //if job == 3 then get the Just Added
-        			break;
-        		case 4:
-        			_result = api.getUpcoming(getListType(),1); //if job == 4 then get the upcoming
-        			break;
-        		}
-        	}catch (Exception e){
-				Log.e("MALX", "Exception caught in doInBackground() in Home.java");
-        	}
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            String type = MALApi.getListTypeString(getListType());
-            try {
-                switch (listType) {
-                    case ANIME: {
-                        ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
-                        
-                        if (_result.length() == 0) {
-							Log.w("MALX", "No anime records, trying to fetch again.");
-                        	af.scrollToTop();
-                			mf.scrollToTop();
-                			if (af.getMode()== 1){
-                				getTopRated(BaseMALApi.ListType.ANIME);
-                			} else if (af.getMode()== 2){
-                				getMostPopular(BaseMALApi.ListType.ANIME);
-                			} else if (af.getMode()== 3){
-                				getJustAdded(BaseMALApi.ListType.ANIME);
-                			} else if (af.getMode()== 4){
-                				getUpcoming(BaseMALApi.ListType.ANIME);
-                			}
-                			af.scrollListener.resetPageNumber();
-                        } else {
-                        	for (int i = 0; i < _result.length(); i++) {
-                                JSONObject genre = (JSONObject) _result.get(i);
-                                AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
-                                list.add(record);
-                            }
-                        }
-                        af.setAnimeRecords(list);
-                        break;
-                    }
-                    case MANGA: {
-                        ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
-                        
-                        if (_result.length() == 0) {
-							Log.w("MALX", "No manga records.");
-                        }
-                        else {
-                        	for (int i = 0; i < _result.length(); i++) {
-                                JSONObject genre =  (JSONObject) _result.get(i);
-                                MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
-                                list.add(record);
-                            }	
-                        }
-                        mf.setMangaRecords(list);
-                        break;
-                    }
-                }
-                
-            } catch (Exception e) {
-                Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
-            }
-            Home.this.af.scrollListener.notifyMorePages();
-        }
+    public void getUpcoming(MALApi.ListType listType){
+    	getList(listType, 4);
     }
     
     /*private classes for nav drawer*/
@@ -698,7 +594,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				startActivity(Friends);
 				break;
 			case 3:
-				getTopRated(BaseMALApi.ListType.ANIME);
+				getTopRated(MALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(1);
@@ -707,7 +603,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				mf.scrollListener.resetPageNumber();
 				break;
 			case 4:
-				getMostPopular(BaseMALApi.ListType.ANIME);
+				getMostPopular(MALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(2);
@@ -716,7 +612,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				mf.scrollListener.resetPageNumber();
 				break;
 			case 5:
-				getJustAdded(BaseMALApi.ListType.ANIME);
+				getJustAdded(MALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(3);
@@ -725,7 +621,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				mf.scrollListener.resetPageNumber();
 				break;
 			case 6:
-				getUpcoming(BaseMALApi.ListType.ANIME);
+				getUpcoming(MALApi.ListType.ANIME);
 				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(4);
@@ -806,5 +702,51 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		public void setTitle(CharSequence title) {
 			mTitle = title;
 		}
+	}
+
+	@Override
+	public void onAnimeNetworkTaskFinished(List<Anime> result) {
+		if (result.size() > 0) {
+			af.setAnimeList(result);
+		} else {
+			Log.w("MALX", "No anime records, trying to fetch again.");
+			af.scrollToTop();
+			mf.scrollToTop();
+			if (af.getMode()== 1){
+				getTopRated(MALApi.ListType.ANIME);
+			} else if (af.getMode()== 2){
+				getMostPopular(MALApi.ListType.ANIME);
+			} else if (af.getMode()== 3){
+				getJustAdded(MALApi.ListType.ANIME);
+			} else if (af.getMode()== 4){
+				getUpcoming(MALApi.ListType.ANIME);
+			}
+			af.scrollListener.resetPageNumber();
+		}
+		
+		Home.this.af.scrollListener.notifyMorePages();
+	}
+
+	@Override
+	public void onMangaNetworkTaskFinished(List<Manga> result) {
+		if (result.size() > 0) {
+			af.setMangaList(result);
+		} else {
+			Log.w("MALX", "No manga records, trying to fetch again.");
+			af.scrollToTop();
+			mf.scrollToTop();
+			if (af.getMode()== 1){
+				getTopRated(MALApi.ListType.MANGA);
+			} else if (af.getMode()== 2){
+				getMostPopular(MALApi.ListType.MANGA);
+			} else if (af.getMode()== 3){
+				getJustAdded(MALApi.ListType.MANGA);
+			} else if (af.getMode()== 4){
+				getUpcoming(MALApi.ListType.MANGA);
+			}
+			af.scrollListener.resetPageNumber();
+		}
+		
+		Home.this.af.scrollListener.notifyMorePages();
 	}
 }
