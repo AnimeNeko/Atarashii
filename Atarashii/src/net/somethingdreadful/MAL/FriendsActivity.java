@@ -30,8 +30,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -50,7 +50,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
     ListViewAdapter listadapter;
     int indexp; //position
     String text; //get selected username long
-    ListView userList;
+    GridView userList;
     boolean network;
     boolean forcesync = false;
     PrefManager prefs;
@@ -66,7 +66,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
         setTitle("My friends"); //set title
         UsernameList = new ArrayList<String>();
-        userList = (ListView)findViewById(R.id.listview);
+        userList = (GridView)findViewById(R.id.listview);
         listadapter = new ListViewAdapter();
         restorelist(false); //restore users from preferences
         refresh(false);
