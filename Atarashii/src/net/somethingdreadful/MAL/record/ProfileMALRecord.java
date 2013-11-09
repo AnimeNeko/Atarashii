@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 public abstract class ProfileMALRecord {
 	public static Context context;
 	public static String username = "";
-	public static String avatar_url_short = "";
 	public static String since = "";
 	FriendsActivity friends;
 	
@@ -154,7 +153,7 @@ public abstract class ProfileMALRecord {
     }
     
     public static void Clearrecord(boolean load){ //clear the record(saved items will not be lost)
-    	ProfileMALRecord.avatar_url_short = "";
+    	ProfileMALRecord.username = "";
     	ProfileMALRecord.since = "";
     	
     	ProfileMALRecord.avatar_url = "";
@@ -192,10 +191,10 @@ public abstract class ProfileMALRecord {
     	}
     }
     public static boolean Developerrecord(String name){ 
-    	if (ProfileMALRecord.username.equals("Ratan12") || ProfileMALRecord.username.equals("ratan12") || 
-    			ProfileMALRecord.username.equals("AnimaSA") || ProfileMALRecord.username.equals("animaSA") || 
-    			ProfileMALRecord.username.equals("Motokochan") || ProfileMALRecord.username.equals("motokochan") ||
-    			ProfileMALRecord.username.equals("Apkawa") ||  ProfileMALRecord.username.equals("apkawa")) {
+    	if (name.equals("Ratan12") || name.equals("ratan12") || 
+    			name.equals("AnimaSA") || name.equals("animaSA") || 
+    			name.equals("Motokochan") || name.equals("motokochan") ||
+    			name.equals("Apkawa") ||  name.equals("apkawa")) {
     		return true;
 		}else{
 			return false;
