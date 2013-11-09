@@ -118,7 +118,6 @@ LinearLayout m;
     				}
     			} catch (Exception e) {
     				Log.e("ProfileActivity", "Check if the api is online!");
-    				ProfileMALRecord.Loadrecord();
     			}
     		}
     		forcesync = false;
