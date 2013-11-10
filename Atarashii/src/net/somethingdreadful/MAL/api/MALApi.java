@@ -1,6 +1,6 @@
 package net.somethingdreadful.MAL.api;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -57,11 +57,11 @@ public class MALApi {
 		return type.name().toLowerCase();
 	}
 
-	public List<Anime> searchAnime(String query) {
+	public ArrayList<Anime> searchAnime(String query) {
 		return service.searchAnime(query);
 	}
 	
-	public List<Manga> searchManga(String query) {
+	public ArrayList<Manga> searchManga(String query) {
 		return service.searchManga(query);
 	}
 
@@ -96,35 +96,35 @@ public class MALApi {
 		return false;
 	}
 	
-	public List<Anime> getMostPopularAnime(int page) {
+	public ArrayList<Anime> getMostPopularAnime(int page) {
 		return service.getPopularAnime(page);
 	}
 	
-	public List<Manga> getMostPopularManga(int page) {
+	public ArrayList<Manga> getMostPopularManga(int page) {
 		return service.getPopularManga(page);
 	}
 	
-	public List<Anime> getTopRatedAnime(int page) {
+	public ArrayList<Anime> getTopRatedAnime(int page) {
 		return service.getTopRatedAnime(page);
 	}
 	
-	public List<Manga> getTopRatedManga(int page) {
+	public ArrayList<Manga> getTopRatedManga(int page) {
 		return service.getTopRatedManga(page);
 	}
 	
-	public List<Anime> getJustAddedAnime(int page) {
+	public ArrayList<Anime> getJustAddedAnime(int page) {
 		return service.getJustAddedAnime(page);
 	}
 	
-	public List<Manga> getJustAddedManga(int page) {
+	public ArrayList<Manga> getJustAddedManga(int page) {
 		return service.getJustAddedManga(page);
 	}
 	
-	public List<Anime> getUpcomingAnime(int page) {
+	public ArrayList<Anime> getUpcomingAnime(int page) {
 		return service.getUpcomingAnime(page);
 	}
 	
-	public List<Manga> getUpcomingManga(int page) {
+	public ArrayList<Manga> getUpcomingManga(int page) {
 		return service.getUpcomingManga(page);
 	}
 }

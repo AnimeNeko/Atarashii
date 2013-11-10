@@ -1,29 +1,15 @@
 package net.somethingdreadful.MAL.api.response;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class Manga {
-	int id;
-	String title;
-	OtherTitles other_titles;
-	int rank;
-	int popularity_rank;
-	String image_url;
-	String type;
+public class Manga extends GenericRecord {
 	int chapters;
 	int volumes;
 	String status;
-	float members_score;
-	int members_count;
-	int favorited_count;
-	String synopsis;
-	List<String> genres;
-	List<String> tags;
-	List<RelatedAnime> anime_adaptions;
-	List<RelatedManga> related_manga;
-	List<RelatedManga> alternative_versions;
+	ArrayList<RelatedAnime> anime_adaptions;
+	ArrayList<RelatedManga> related_manga;
+	ArrayList<RelatedManga> alternative_versions;
 	String read_status;
 	int chapters_read;
 	int volumes_read;
-	int score;
 }

@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class OtherTitles {
-	List<String> synonyms;
-	List<String> english;
-	List<String> japanese;
+	ArrayList<String> synonyms;
+	ArrayList<String> english;
+	ArrayList<String> japanese;
 }

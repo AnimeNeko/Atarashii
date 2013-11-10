@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.tasks;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.api.response.Manga;
 
 public interface MangaNetworkTaskFinishedListener {
-	public void onMangaNetworkTaskFinished(List<Manga> result);
+	public void onMangaNetworkTaskFinished(ArrayList<Manga> result);
 }

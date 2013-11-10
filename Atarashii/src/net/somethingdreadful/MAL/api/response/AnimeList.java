@@ -1,8 +1,8 @@
 package net.somethingdreadful.MAL.api.response;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AnimeList {
-	List<Anime> anime;
+	ArrayList<Anime> anime;
 	Statistics statistics;
 }
