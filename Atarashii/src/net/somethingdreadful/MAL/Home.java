@@ -293,9 +293,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists && af.getMode()== 0) {
-            af.getRecords(af.currentList, "anime", false, this.context);
-            mf.getRecords(af.currentList, "manga", false, this.context);
+        if (instanceExists) {
+        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         }
         
         checkNetworkAndDisplayCrouton();
