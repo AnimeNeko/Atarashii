@@ -55,6 +55,6 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 	@Override
 	protected void onPostExecute(ArrayList<Manga> result) {
 		if (callback != null)
-			callback.onMangaNetworkTaskFinished(result);
+			callback.onMangaNetworkTaskFinished(result, job);
 	}
 }

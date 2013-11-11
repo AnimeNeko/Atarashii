@@ -55,6 +55,6 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 	@Override
 	protected void onPostExecute(ArrayList<Anime> result) {
 		if (callback != null)
-			callback.onAnimeNetworkTaskFinished(result);
+			callback.onAnimeNetworkTaskFinished(result, job);
 	}
 }
