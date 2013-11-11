@@ -5,4 +5,8 @@ import java.util.ArrayList;
 public class AnimeList {
 	ArrayList<Anime> anime;
 	Statistics statistics;
+	
+	public ArrayList<Anime> getAnimes() {
+		return anime;
+	}
 }

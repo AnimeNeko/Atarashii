@@ -19,4 +19,56 @@ public class Anime extends GenericRecord {
 	ArrayList<RelatedAnime> alternative_versions;
 	String watched_status;
 	int watched_episodes;
+
+	public int getEpisodes() {
+		return episodes;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public Date getStartDate() {
+		return start_date;
+	}
+	public Date getEndDate() {
+		return end_date;
+	}
+	public String getClassification() {
+		return classification;
+	}
+	public ArrayList<RelatedManga> getMangaAdaptions() {
+		return manga_adaptions;
+	}
+	public ArrayList<RelatedAnime> getPrequels() {
+		return prequels;
+	}
+	public ArrayList<RelatedAnime> getSequels() {
+		return sequels;
+	}
+	public ArrayList<RelatedAnime> getSideStories() {
+		return side_stories;
+	}
+	public ArrayList<RelatedAnime> getParentStory() {
+		return parent_story;
+	}
+	public ArrayList<RelatedAnime> getCharacterAnime() {
+		return character_anime;
+	}
+	public ArrayList<RelatedAnime> getSpinOffs() {
+		return spin_offs;
+	}
+	public ArrayList<RelatedAnime> getAlternativeVersions() {
+		return alternative_versions;
+	}
+	public String getWatchedStatus() {
+		return watched_status;
+	}
+	public void setWatchedStatus(String watched_status) {
+		this.watched_status = watched_status;
+	}
+	public int getWatchedEpisodes() {
+		return watched_episodes;
+	}
+	public void setWatchedEpisodes(int watched_episodes) {
+		this.watched_episodes = watched_episodes;
+	}
 }
