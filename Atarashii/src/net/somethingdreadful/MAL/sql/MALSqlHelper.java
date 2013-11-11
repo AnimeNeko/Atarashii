@@ -8,7 +8,7 @@ import android.util.Log;
 public class MALSqlHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private static MALSqlHelper instance;
 
@@ -19,7 +19,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     private static final String CREATE_ANIME_TABLE = "create table "
             + TABLE_ANIME + "("
             + COLUMN_ID + " integer primary key autoincrement, "
-            + "recordID integer, "
+            + "recordID integer UNIQUE, "
             + "recordName varchar, "
             + "recordType varchar, "
             + "imageUrl varchar, "
@@ -37,7 +37,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     private static final String CREATE_MANGA_TABLE = "create table "
             + TABLE_MANGA + "("
             + COLUMN_ID + " integer primary key autoincrement, "
-            + "recordID integer, "
+            + "recordID integer UNIQUE, "
             + "recordName varchar, "
             + "recordType varchar, "
             + "imageUrl varchar, "
@@ -64,6 +64,18 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     private static final String ADD_MANGA_SYNC_TIME = "ALTER TABLE "
             + TABLE_MANGA
             + " ADD COLUMN lastUpdate integer NOT NULL DEFAULT 407570400";
+    
+    /*
+     * Update for unique declaration of recordID (as this is the anime/manga id it should be unique anyway) 
+     * this gives us the ability to update easier because we can call SQLiteDatabase.replace() which inserts 
+     * new records and updates existing records automatically
+     */
+    private static final String ADD_ANIME_UNIQUE_RECORDID = "ALTER TABLE "
+    		+ TABLE_ANIME
+    		+ " ADD UNIQUE(recordID)";
+    private static final String ADD_MANGA_UNIQUE_RECORDID = "ALTER TABLE "
+    		+ TABLE_MANGA
+    		+ " ADD UNIQUE(recordID)";
 
 
     public MALSqlHelper(Context context) {
@@ -115,6 +127,11 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_MANGA_TABLE);
             db.execSQL("insert into " + TABLE_MANGA + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
+        }
+        
+        if (oldVersion < 6) {
+        	db.execSQL(ADD_ANIME_UNIQUE_RECORDID);
+        	db.execSQL(ADD_MANGA_UNIQUE_RECORDID);
         }
     }
 }
