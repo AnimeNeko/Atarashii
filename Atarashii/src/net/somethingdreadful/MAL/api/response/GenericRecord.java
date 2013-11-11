@@ -20,6 +20,8 @@ public class GenericRecord {
 	List<String> tags;
 	boolean dirty;
 	Date lastUpdate;
+	boolean flag_create;
+	boolean flag_delete;
 	
 	public int getId() {
 		return id;
@@ -74,5 +76,17 @@ public class GenericRecord {
 	}
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+	public boolean getCreateFlag() {
+		return flag_create;
+	}
+	public void setCreateFlag(boolean flag_create) {
+		this.flag_create = flag_create;
+	}
+	public boolean getDeleteFlag() {
+		return flag_delete;
+	}
+	public void setDeleteFlag(boolean flag_delete) {
+		this.flag_delete = flag_delete;
 	}
 }
