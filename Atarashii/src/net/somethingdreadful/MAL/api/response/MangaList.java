@@ -4,4 +4,8 @@ import java.util.ArrayList;
 
 public class MangaList {
 	ArrayList<Manga> manga;
+
+	public ArrayList<Manga> getManga() {
+		return manga;
+	}
 }

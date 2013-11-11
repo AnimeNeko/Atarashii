@@ -9,4 +9,7 @@ public class AnimeList {
 	public ArrayList<Anime> getAnimes() {
 		return anime;
 	}
+	public Statistics getStatistics() {
+		return statistics;
+	}
 }

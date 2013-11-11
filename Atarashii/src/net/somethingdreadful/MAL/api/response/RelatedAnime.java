@@ -5,4 +5,14 @@ public class RelatedAnime {
 	int anime_id;
 	String title;
 	String url;
+
+	public int getAnimeId() {
+		return anime_id;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public String getUrl() {
+		return url;
+	}
 }
