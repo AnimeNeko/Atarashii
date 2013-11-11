@@ -7,21 +7,22 @@ import net.somethingdreadful.MAL.api.response.Anime;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> {
-	int job;
+	TaskJob job;
 	int page = 1;
 	Context context;
 	AnimeNetworkTaskFinishedListener callback;
 	
-	public AnimeNetworkTask(int job, int page, Context context, AnimeNetworkTaskFinishedListener callback) {
+	public AnimeNetworkTask(TaskJob job, int page, Context context, AnimeNetworkTaskFinishedListener callback) {
 		this.job = job;
 		this.page = page;
 		this.context = context;
 		this.callback = callback;
 	}
 
-	public AnimeNetworkTask(int job, Context context, AnimeNetworkTaskFinishedListener callback) {
+	public AnimeNetworkTask(TaskJob job, Context context, AnimeNetworkTaskFinishedListener callback) {
 		this.job = job;
 		this.context = context;
 		this.callback = callback;
@@ -32,17 +33,21 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 		ArrayList<Anime> result = null;
 		MALApi api = new MALApi(context);
 		switch (job) {
-			case 1:
+			case GETMOSTPOPULAR:
 				result = api.getMostPopularAnime(1);
 				break;
-			case 2:
+			case GETTOPRATED:
 				result = api.getTopRatedAnime(1);
 				break;
-			case 3:
+			case GETJUSTADDED:
 				result = api.getJustAddedAnime(1);
 				break;
-			case 4:
+			case GETUPCOMING:
 				result = api.getUpcomingAnime(1);
+				break;
+			default:
+				Log.e("MALX", "invalid job identifier " + job.name());
+				result = null;
 		}
 		return result;
 	}
