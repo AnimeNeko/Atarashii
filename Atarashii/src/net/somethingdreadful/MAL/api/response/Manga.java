@@ -1,14 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
-import java.util.ArrayList;
-
 public class Manga extends GenericRecord {
 	int chapters;
 	int volumes;
 	String status;
-	ArrayList<RelatedAnime> anime_adaptions;
-	ArrayList<RelatedManga> related_manga;
-	ArrayList<RelatedManga> alternative_versions;
 	String read_status;
 	int chapters_read;
 	int volumes_read;
@@ -39,14 +34,5 @@ public class Manga extends GenericRecord {
 	}
 	public String getStatus() {
 		return status;
-	}
-	public ArrayList<RelatedAnime> getAnimeAdaptions() {
-		return anime_adaptions;
-	}
-	public ArrayList<RelatedManga> getRelatedManga() {
-		return related_manga;
-	}
-	public ArrayList<RelatedManga> getAlternativeVersions() {
-		return alternative_versions;
 	}
 }
