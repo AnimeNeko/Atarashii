@@ -45,6 +45,10 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 			case GETUPCOMING:
 				result = api.getUpcomingManga(1);
 				break;
+			case SEARCH:
+				if ( params != null )
+					result = api.searchManga(params[0]);
+				break;
 			default:
 				Log.e("MALX", "invalid job identifier " + job.name());
 				result = null;
