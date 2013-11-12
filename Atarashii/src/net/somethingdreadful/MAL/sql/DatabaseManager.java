@@ -1,18 +1,32 @@
 package net.somethingdreadful.MAL.sql;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class DatabaseManager {
+	
+	public final String[] ANIMECOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
+            "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
+	
+	private final String[] MANGACOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
+            "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
+            "imageUrl", "dirty", "lastUpdate"};
 
 	static MALSqlHelper malSqlHelper;
+	static SQLiteDatabase dbRead;
 
 	public DatabaseManager(Context context) {
 		if (malSqlHelper == null) {
@@ -22,6 +36,24 @@ public class DatabaseManager {
 
 	public synchronized static SQLiteDatabase getDBWrite() {
 		return malSqlHelper.getWritableDatabase();
+	}
+	
+	public static SQLiteDatabase getDBRead() {
+        if (dbRead == null) {
+            dbRead = malSqlHelper.getReadableDatabase();
+        }
+        return dbRead;
+    }
+	
+	public static Date parseSQLDateString(String date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+		try {
+			Date result = sdf.parse(date);
+			return result;
+		} catch (ParseException e) {
+			Log.e("MALX", "Parsing datetime failed", e);
+			return null;
+		}
 	}
 
 	public void saveAnimeList(ArrayList<Anime> list) {
@@ -60,6 +92,32 @@ public class DatabaseManager {
 		}
 
 		getDBWrite().replace(MALSqlHelper.TABLE_ANIME, null, cv);
+	}
+	
+	public ArrayList<Anime> getAnimeList() {
+		return getAnimeList("watching");
+	}
+	
+	public ArrayList<Anime> getAnimeList(String listType) {
+		ArrayList<Anime> result = null;
+		Cursor cursor;
+		try {
+			if ( listType == "" )
+				cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, null, null, null, null, "recordName ASC");
+			else
+				cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, "myStatus = ?", new String[]{listType}, null, null, "recordName ASC");
+			if (cursor.moveToFirst())
+			{
+				result = new ArrayList<Anime>();
+				do {
+					result.add(Anime.fromCursor(cursor));
+				} while (cursor.moveToNext());
+			}
+		} catch (SQLException e) {
+			Log.e("MALX", "DatabaseManager.getAnimeList exception: " + e.getMessage());
+		}
+		
+		return result;
 	}
 
 	public void saveMangaList(ArrayList<Manga> list) {
@@ -100,5 +158,31 @@ public class DatabaseManager {
 		}
 
 		getDBWrite().replace(MALSqlHelper.TABLE_MANGA, null, cv);
+	}
+	
+	public ArrayList<Manga> getMangaList() {
+		return getMangaList("reading");
+	}
+	
+	public ArrayList<Manga> getMangaList(String listType) {
+		ArrayList<Manga> result = null;
+		Cursor cursor;
+		try {
+			if ( listType == "" )
+				cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, null, null, null, null, "recordName ASC");
+			else
+				cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, "myStatus = ?", new String[]{listType}, null, null, "recordName ASC");
+			if (cursor.moveToFirst())
+			{
+				result = new ArrayList<Manga>();
+				do {
+					result.add(Manga.fromCursor(cursor));
+				} while (cursor.moveToNext());
+			}
+		} catch (SQLException e) {
+			Log.e("MALX", "DatabaseManager.getMangaList exception: " + e.getMessage());
+		}
+		
+		return result;
 	}
 }

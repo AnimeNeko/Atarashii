@@ -5,14 +5,11 @@ import java.util.Date;
 public class GenericRecord {
 	int id;
 	String title;
-	int rank;
-	int popularity_rank;
 	String image_url;
 	String type;
+	String status;
 	int score;
 	float members_score;
-	int members_count;
-	int favorited_count;
 	String synopsis;
 	boolean dirty;
 	Date lastUpdate;
@@ -22,35 +19,50 @@ public class GenericRecord {
 	public int getId() {
 		return id;
 	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getTitle() {
 		return title;
 	}
-	public int getRank() {
-		return rank;
-	}
-	public int getPopularityRank() {
-		return popularity_rank;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getImageUrl() {
 		return image_url;
 	}
+	public void setImageUrl(String image_url) {
+		this.image_url = image_url;
+	}
 	public String getType() {
 		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public int getScore() {
 		return score;
 	}
+	public void setScore(int score) {
+		this.score = score;
+	}
 	public float getMembersScore() {
 		return members_score;
 	}
-	public int getMembersCount() {
-		return members_count;
-	}
-	public int getFavoritedCount() {
-		return favorited_count;
+	public void setMembersScore(float members_score) {
+		this.members_score = members_score;
 	}
 	public String getSynopsis() {
 		return synopsis;
+	}
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}
 	public boolean getDirty() {
 		return dirty;
