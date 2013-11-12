@@ -1,8 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import java.util.ArrayList;
-
-import net.somethingdreadful.MAL.record.GenericMALRecord;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.GridView;

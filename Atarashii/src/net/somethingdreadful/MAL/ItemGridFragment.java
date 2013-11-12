@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import net.somethingdreadful.MAL.ItemGridFragmentScrollViewListener.RefreshList;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
@@ -43,8 +41,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     public ItemGridFragment() {
     }
 
-    ArrayList<AnimeRecord> al = new ArrayList<AnimeRecord>();
-    ArrayList<MangaRecord> ml = new ArrayList<MangaRecord>();
     GridView gv;
     MALManager mManager;
     PrefManager mPrefManager;
