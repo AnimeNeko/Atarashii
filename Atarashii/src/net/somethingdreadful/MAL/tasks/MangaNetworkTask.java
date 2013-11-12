@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.api.response.MangaList;
+import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -33,6 +35,16 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 		ArrayList<Manga> result = null;
 		MALApi api = new MALApi(context);
 		switch (job) {
+			case DOWNLOADANDSTORELIST:
+				MangaList mangaList = api.getMangaList();
+				if (mangaList != null) {
+					result = mangaList.getManga();
+					DatabaseManager dbMan = new DatabaseManager(context);
+					dbMan.saveMangaList(result);
+					if ( params != null ) // we got a listtype to return instead of complete list
+						result = dbMan.getMangaList(params[0]);
+				}
+				break;
 			case GETMOSTPOPULAR:
 				result = api.getMostPopularManga(1);
 				break;
