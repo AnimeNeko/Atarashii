@@ -94,6 +94,15 @@ public class DatabaseManager {
 		getDBWrite().replace(MALSqlHelper.TABLE_ANIME, null, cv);
 	}
 	
+	public Anime getAnime(int id) {
+		Anime result = null;
+		Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        if (cursor.moveToFirst())
+        	result = Anime.fromCursor(cursor);
+        cursor.close();
+		return result;
+	}
+	
 	public ArrayList<Anime> getAnimeList() {
 		return getAnimeList("watching");
 	}
@@ -158,6 +167,15 @@ public class DatabaseManager {
 		}
 
 		getDBWrite().replace(MALSqlHelper.TABLE_MANGA, null, cv);
+	}
+	
+	public Manga getManga(int id) {
+		Manga result = null;
+		Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, ANIMECOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        if (cursor.moveToFirst())
+        	result = Manga.fromCursor(cursor);
+        cursor.close();
+		return result;
 	}
 	
 	public ArrayList<Manga> getMangaList() {
