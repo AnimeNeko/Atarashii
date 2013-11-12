@@ -122,6 +122,7 @@ public class DatabaseManager {
 					result.add(Anime.fromCursor(cursor));
 				} while (cursor.moveToNext());
 			}
+			cursor.close();
 		} catch (SQLException e) {
 			Log.e("MALX", "DatabaseManager.getAnimeList exception: " + e.getMessage());
 		}
@@ -197,6 +198,7 @@ public class DatabaseManager {
 					result.add(Manga.fromCursor(cursor));
 				} while (cursor.moveToNext());
 			}
+			cursor.close();
 		} catch (SQLException e) {
 			Log.e("MALX", "DatabaseManager.getMangaList exception: " + e.getMessage());
 		}
