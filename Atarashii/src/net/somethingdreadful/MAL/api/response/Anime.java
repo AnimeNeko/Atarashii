@@ -1,13 +1,8 @@
 package net.somethingdreadful.MAL.api.response;
 
-import java.util.Date;
-
 public class Anime extends GenericRecord {
 	int episodes;
 	String status;
-	Date start_date;
-	Date end_date;
-	String classification;
 	String watched_status;
 	int watched_episodes;
 
@@ -16,15 +11,6 @@ public class Anime extends GenericRecord {
 	}
 	public String getStatus() {
 		return status;
-	}
-	public Date getStartDate() {
-		return start_date;
-	}
-	public Date getEndDate() {
-		return end_date;
-	}
-	public String getClassification() {
-		return classification;
 	}
 	public String getWatchedStatus() {
 		return watched_status;

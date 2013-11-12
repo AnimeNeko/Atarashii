@@ -5,7 +5,6 @@ import java.util.Date;
 public class GenericRecord {
 	int id;
 	String title;
-	OtherTitles other_titles;
 	int rank;
 	int popularity_rank;
 	String image_url;
@@ -25,9 +24,6 @@ public class GenericRecord {
 	}
 	public String getTitle() {
 		return title;
-	}
-	public OtherTitles getOtherTitles() {
-		return other_titles;
 	}
 	public int getRank() {
 		return rank;
