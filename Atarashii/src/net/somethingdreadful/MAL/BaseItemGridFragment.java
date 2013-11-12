@@ -2,8 +2,8 @@ package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
 
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.Manga;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -35,8 +35,8 @@ public class BaseItemGridFragment extends SherlockFragment {
     MALManager mManager;
     PrefManager mPrefManager;
     Context context;
-    CoverAdapter<AnimeRecord> animeRecordCoverAdapter;
-    CoverAdapter<MangaRecord> mangaRecordCoverAdapter;
+    CoverAdapter<Anime> animeRecordCoverAdapter;
+    CoverAdapter<Manga> mangaRecordCoverAdapter;
     IBaseItemGridFragment Iready;
     boolean useTraditionalList = false;
     boolean useSecondaryAmounts = false;
@@ -88,7 +88,7 @@ public class BaseItemGridFragment extends SherlockFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", animeRecordCoverAdapter.getItem(position).getID());
+                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", animeRecordCoverAdapter.getItem(position).getId());
                     startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
                     startActivity(startDetails);
                 }
@@ -98,7 +98,7 @@ public class BaseItemGridFragment extends SherlockFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", mangaRecordCoverAdapter.getItem(position).getID());
+                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", mangaRecordCoverAdapter.getItem(position).getId());
                     startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
                     startActivity(startDetails);
                 }
@@ -130,14 +130,14 @@ public class BaseItemGridFragment extends SherlockFragment {
 
     }
 
-    public void setAnimeRecords(ArrayList<AnimeRecord> objects) {
-        CoverAdapter<AnimeRecord> adapter = animeRecordCoverAdapter;
+    public void setAnimeRecords(ArrayList<Anime> objects) {
+        CoverAdapter<Anime> adapter = animeRecordCoverAdapter;
         if (adapter == null) {
             int list_cover_item = R.layout.grid_cover_with_text_item;
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<AnimeRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+            adapter = new CoverAdapter<Anime>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
         }
         if (gridView.getAdapter() == null) {
             gridView.setAdapter(adapter);
@@ -150,14 +150,14 @@ public class BaseItemGridFragment extends SherlockFragment {
 
     }
 
-    public void setMangaRecords(ArrayList<MangaRecord> objects) {
-        CoverAdapter<MangaRecord> adapter = mangaRecordCoverAdapter;
+    public void setMangaRecords(ArrayList<Manga> objects) {
+        CoverAdapter<Manga> adapter = mangaRecordCoverAdapter;
         if (adapter == null) {
             int list_cover_item = R.layout.grid_cover_with_text_item;
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<MangaRecord>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+            adapter = new CoverAdapter<Manga>(context, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
         }
         if (gridView.getAdapter() == null) {
             gridView.setAdapter(adapter);
