@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.api.response;
 
 import java.util.Date;
-import java.util.List;
 
 public class GenericRecord {
 	int id;
@@ -16,8 +15,6 @@ public class GenericRecord {
 	int members_count;
 	int favorited_count;
 	String synopsis;
-	List<String> genres;
-	List<String> tags;
 	boolean dirty;
 	Date lastUpdate;
 	boolean flag_create;
@@ -58,12 +55,6 @@ public class GenericRecord {
 	}
 	public String getSynopsis() {
 		return synopsis;
-	}
-	public List<String> getGenres() {
-		return genres;
-	}
-	public List<String> getTags() {
-		return tags;
 	}
 	public boolean getDirty() {
 		return dirty;
