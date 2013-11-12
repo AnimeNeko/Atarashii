@@ -1,23 +1,16 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import net.somethingdreadful.MAL.SearchActivity.networkThread;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.TaskJob;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -30,7 +23,6 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -331,7 +323,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists && af.getMode()== 0) {
+        if (instanceExists && af.getMode()== null) {
             af.getRecords(af.currentList, "anime", false, this.context);
             mf.getRecords(af.currentList, "manga", false, this.context);
         }
@@ -504,9 +496,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     public void checkNetworkAndDisplayCrouton() {
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
-			if (af.getMode() > 0) {
-	            af.setMode(0);
-				mf.setMode(0);
+			if (af.getMode() != null) {
+	            af.setMode(null);
+				mf.setMode(null);
 				af.getRecords(listType, "anime", false, Home.this.context);
 	            mf.getRecords(listType, "manga", false, Home.this.context);
 	            myList = true;
@@ -528,7 +520,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     
     /* thread & methods to fetch most popular anime/manga*/
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
-    private void getList(MALApi.ListType listType, int job) {
+    private void getList(MALApi.ListType listType, TaskJob job) {
     	switch (listType) {
 		case ANIME:
 			AnimeNetworkTask atask = new AnimeNetworkTask(job, context, this);
@@ -544,17 +536,17 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	} 
     }
     public void getMostPopular(MALApi.ListType listType){
-    	getList(listType, 1);
+    	getList(listType, TaskJob.GETMOSTPOPULAR);
     }
 
     public void getTopRated(MALApi.ListType listType){
-    	getList(listType, 2);
+    	getList(listType, TaskJob.GETTOPRATED);
     }
     public void getJustAdded(MALApi.ListType listType){
-    	getList(listType, 3);
+    	getList(listType, TaskJob.GETJUSTADDED);
     }
     public void getUpcoming(MALApi.ListType listType){
-    	getList(listType, 4);
+    	getList(listType, TaskJob.GETUPCOMING);
     }
     
     /*private classes for nav drawer*/
@@ -586,8 +578,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				af.getRecords(listType, "anime", false, Home.this.context);
                 mf.getRecords(listType, "manga", false, Home.this.context);
                 myList = true;
-                af.setMode(0);
-				mf.setMode(0);
+                af.setMode(null);
+				mf.setMode(null);
 				break;
 			case 2:
 				Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
@@ -595,37 +587,37 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				break;
 			case 3:
 				getTopRated(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				mf.setMangaRecords(new ArrayList<Manga>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
-				af.setMode(1);
-				mf.setMode(1);
+				af.setMode(TaskJob.GETTOPRATED);
+				mf.setMode(TaskJob.GETTOPRATED);
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
 			case 4:
 				getMostPopular(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
-				af.setMode(2);
-				mf.setMode(2);
+				af.setMode(TaskJob.GETMOSTPOPULAR);
+				mf.setMode(TaskJob.GETMOSTPOPULAR);
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
 			case 5:
 				getJustAdded(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
-				af.setMode(3);
-				mf.setMode(3);
+				af.setMode(TaskJob.GETJUSTADDED);
+				mf.setMode(TaskJob.GETJUSTADDED);
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
 			case 6:
 				getUpcoming(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+				mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
-				af.setMode(4);
-				mf.setMode(4);
+				af.setMode(TaskJob.GETUPCOMING);
+				mf.setMode(TaskJob.GETUPCOMING);
 				af.scrollListener.resetPageNumber();
 				mf.scrollListener.resetPageNumber();
 				break;
@@ -704,22 +696,28 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		}
 	}
 
-	@Override
-	public void onAnimeNetworkTaskFinished(List<Anime> result) {
+	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job) {
 		if (result.size() > 0) {
-			af.setAnimeList(result);
+			af.setAnimeRecords(result);
 		} else {
 			Log.w("MALX", "No anime records, trying to fetch again.");
 			af.scrollToTop();
 			mf.scrollToTop();
-			if (af.getMode()== 1){
-				getTopRated(MALApi.ListType.ANIME);
-			} else if (af.getMode()== 2){
-				getMostPopular(MALApi.ListType.ANIME);
-			} else if (af.getMode()== 3){
-				getJustAdded(MALApi.ListType.ANIME);
-			} else if (af.getMode()== 4){
-				getUpcoming(MALApi.ListType.ANIME);
+			switch ( job )	{
+				case GETTOPRATED:
+					getTopRated(MALApi.ListType.ANIME);
+					break;
+				case GETMOSTPOPULAR:
+					getMostPopular(MALApi.ListType.ANIME);
+					break;
+				case GETJUSTADDED:
+					getJustAdded(MALApi.ListType.ANIME);
+					break;
+				case GETUPCOMING:
+					getUpcoming(MALApi.ListType.ANIME);
+					break;
+				default:
+					Log.i("MALX", "invalid job: " + job.name());
 			}
 			af.scrollListener.resetPageNumber();
 		}
@@ -727,23 +725,29 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		Home.this.af.scrollListener.notifyMorePages();
 	}
 
-	@Override
-	public void onMangaNetworkTaskFinished(List<Manga> result) {
+	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
 		if (result.size() > 0) {
-			af.setMangaList(result);
+			af.setMangaRecords(result);
 		} else {
 			Log.w("MALX", "No manga records, trying to fetch again.");
 			af.scrollToTop();
 			mf.scrollToTop();
-			if (af.getMode()== 1){
+			switch ( job )	{
+			case GETTOPRATED:
 				getTopRated(MALApi.ListType.MANGA);
-			} else if (af.getMode()== 2){
+				break;
+			case GETMOSTPOPULAR:
 				getMostPopular(MALApi.ListType.MANGA);
-			} else if (af.getMode()== 3){
+				break;
+			case GETJUSTADDED:
 				getJustAdded(MALApi.ListType.MANGA);
-			} else if (af.getMode()== 4){
+				break;
+			case GETUPCOMING:
 				getUpcoming(MALApi.ListType.MANGA);
-			}
+				break;
+			default:
+				Log.i("MALX", "invalid job: " + job.name());
+		}
 			af.scrollListener.resetPageNumber();
 		}
 		
