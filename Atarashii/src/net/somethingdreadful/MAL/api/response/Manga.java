@@ -68,4 +68,15 @@ public class Manga extends GenericRecord {
 		result.setLastUpdate(DatabaseManager.parseSQLDateString(c.getString(columnNames.indexOf("lastUpdate"))));
 		return result;
 	}
+	
+	public int getProgress(boolean useSecondaryAmount) {
+		return useSecondaryAmount ? getVolumesRead() : getChaptersRead();
+	}
+	
+	public void setProgress(boolean useSecondaryAmount, int progress) {
+		if ( useSecondaryAmount )
+			setVolumesRead(progress);
+		else
+			setChaptersRead(progress);
+	}
 }
