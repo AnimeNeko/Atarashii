@@ -3,9 +3,10 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.GenericMALRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.Manga;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -54,11 +55,19 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         ViewHolder viewHolder;
-        final GenericMALRecord a;
+        final GenericRecord a;
+        final String myStatus;
+        int progress;
 
-        a = ((GenericMALRecord) objects.get(position));
+        a = ((GenericRecord) objects.get(position));
 
-        String myStatus = a.getMyStatus();
+        if (type.equals("anime")) {
+        	myStatus = ((Anime) a).getWatchedStatus();
+        	progress = ((Anime) a).getWatchedEpisodes();
+        } else {
+        	myStatus = ((Manga) a).getReadStatus();
+        	progress = ((Manga) a).getProgress(useSecondaryAmounts);
+        }
 
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,9 +90,9 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         }
 
 
-        viewHolder.label.setText(a.getName());
+        viewHolder.label.setText(a.getTitle());
 
-        viewHolder.progressCount.setText(Integer.toString(a.getPersonalProgress(useSecondaryAmounts)));
+        viewHolder.progressCount.setText(Integer.toString(progress));
 
         Picasso coverImage = Picasso.with(c);
 
@@ -95,7 +104,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         .into(viewHolder.cover);
 
         if (Build.VERSION.SDK_INT >= 11) {
-            if ((a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) || (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING))) {
+            if ((myStatus.equals(Anime.STATUS_WATCHING)) || (myStatus.equals(Manga.STATUS_READING))) {
                 viewHolder.actionButton.setVisibility(View.VISIBLE);
                 viewHolder.actionButton.setOnClickListener(
                         new OnClickListener() {
@@ -109,10 +118,10 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                             private void showPopupMenu(View v) {
                                 PopupMenu pm = new PopupMenu(c, v);
 
-                                if (a.getMyStatus().equals(AnimeRecord.STATUS_WATCHING)) {
+                                if (myStatus.equals(Anime.STATUS_WATCHING)) {
                                     pm.getMenuInflater().inflate(R.menu.cover_action_menu, pm.getMenu());
                                 }
-                                if (a.getMyStatus().equals(MangaRecord.STATUS_WATCHING)) {
+                                if (myStatus.equals(Manga.STATUS_READING)) {
                                     pm.getMenuInflater().inflate(R.menu.cover_action_menu_manga, pm.getMenu());
                                 }
 
@@ -190,22 +199,29 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         return v;
     }
 
-    public void setProgressPlusOne(GenericMALRecord gr) {
-        gr.setPersonalProgress(useSecondaryAmounts, gr.getPersonalProgress(useSecondaryAmounts) + 1);
-        gr.setDirty(GenericMALRecord.DIRTY);
-
-        if (gr.getPersonalProgress(useSecondaryAmounts) == Integer.parseInt(gr.getTotal(useSecondaryAmounts))) {
-            gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
-        }
+    public void setProgressPlusOne(GenericRecord gr) {
+    	if (type.equals("anime")) {
+    		((Anime) gr).setWatchedEpisodes(((Anime) gr).getWatchedEpisodes() + 1);
+    		if (((Anime) gr).getWatchedEpisodes() == ((Anime) gr).getEpisodes())
+    			((Anime) gr).setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+    	} else {
+    		((Manga) gr).setProgress(useSecondaryAmounts, ((Manga) gr).getProgress(useSecondaryAmounts) + 1);
+    		if (((Manga) gr).getProgress(useSecondaryAmounts) == ((Manga) gr).getTotal(useSecondaryAmounts))
+    			((Manga) gr).setReadStatus(GenericRecord.STATUS_COMPLETED);
+    	}
+        gr.setDirty(true);
 
         notifyDataSetChanged();
 
         new writeDetailsTask().execute(gr);
     }
 
-    public void setMarkAsComplete(GenericMALRecord gr) {
-        gr.setMyStatus(GenericMALRecord.STATUS_COMPLETED);
-        gr.setDirty(GenericMALRecord.DIRTY);
+    public void setMarkAsComplete(GenericRecord gr) {
+    	if (type.equals("anime"))
+    		((Anime) gr).setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+    	else
+    		((Manga) gr).setReadStatus(GenericRecord.STATUS_COMPLETED);
+        gr.setDirty(true);
 
         new writeDetailsTask().execute(gr);
 
@@ -220,7 +236,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         }
     }
 
-    public class writeDetailsTask extends AsyncTask<GenericMALRecord, Void, Boolean> {
+    public class writeDetailsTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
         MALManager internalManager;
         String internalType;
@@ -232,21 +248,21 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         }
 
         @Override
-        protected Boolean doInBackground(GenericMALRecord... gr) {
+        protected Boolean doInBackground(GenericRecord... gr) {
 
             boolean result;
 
             if ("anime".equals(internalType)) {
-                internalManager.saveItem((AnimeRecord) gr[0], false);
+                internalManager.saveAnimeToDatabase((Anime) gr[0], false);
             } else {
-                internalManager.saveItem((MangaRecord) gr[0], false);
+                internalManager.saveMangaToDatabase((Manga) gr[0], false);
             }
 
             if (isNetworkAvailable()) {
                 if ("anime".equals(internalType)) {
-                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_ANIME);
+                    result = internalManager.writeAnimeDetailsToMAL((Anime) gr[0]);
                 } else {
-                    result = internalManager.writeDetailsToMAL(gr[0], MALManager.TYPE_MANGA);
+                    result = internalManager.writeMangaDetailsToMAL((Manga) gr[0]);
                 }
             }
             else {
@@ -255,12 +271,12 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
 
             if (result) {
-                gr[0].setDirty(GenericMALRecord.CLEAN);
+                gr[0].setDirty(false);
 
                 if ("anime".equals(internalType)) {
-                    internalManager.saveItem((AnimeRecord) gr[0], false);
+                    internalManager.saveAnimeToDatabase((Anime) gr[0], false);
                 } else {
-                    internalManager.saveItem((MangaRecord) gr[0], false);
+                    internalManager.saveMangaToDatabase((Manga) gr[0], false);
                 }
             }
             return result;

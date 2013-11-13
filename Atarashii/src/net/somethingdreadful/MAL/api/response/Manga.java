@@ -79,4 +79,8 @@ public class Manga extends GenericRecord {
 		else
 			setChaptersRead(progress);
 	}
+	
+	public int getTotal(boolean useSecondaryAmount) {
+		return useSecondaryAmount ? getVolumes() : getChapters();
+	}
 }
