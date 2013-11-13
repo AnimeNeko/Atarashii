@@ -103,18 +103,30 @@ public class DatabaseManager {
 		return result;
 	}
 	
+	public boolean deleteAnime(int id) {
+		return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
+	}
+	
 	public ArrayList<Anime> getAnimeList() {
 		return getAnimeList("watching");
 	}
 	
 	public ArrayList<Anime> getAnimeList(String listType) {
+		if ( listType == "" )
+			return getAnimeList(null, null);
+		else
+			return getAnimeList("myStatus = ?", new String[]{listType});
+	}
+	
+	public ArrayList<Anime> getDirtyAnimeList() {
+		return getAnimeList("dirty = ?", new String[]{"1"});
+	}
+	
+	private ArrayList<Anime> getAnimeList(String selection, String[] selectionArgs) {
 		ArrayList<Anime> result = null;
 		Cursor cursor;
 		try {
-			if ( listType == "" )
-				cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, null, null, null, null, "recordName ASC");
-			else
-				cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, "myStatus = ?", new String[]{listType}, null, null, "recordName ASC");
+			cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, selection, selectionArgs, null, null, "recordName ASC");
 			if (cursor.moveToFirst())
 			{
 				result = new ArrayList<Anime>();
@@ -128,6 +140,11 @@ public class DatabaseManager {
 		}
 		
 		return result;
+	}
+	
+	// replacement for clearDeletedItems, with imo better describing name
+	public int clearOldAnimeRecords(Date time) {
+		return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "lastUpdate < ?", new String[]{time.toString()});
 	}
 
 	public void saveMangaList(ArrayList<Manga> list) {
@@ -179,18 +196,30 @@ public class DatabaseManager {
 		return result;
 	}
 	
+	public boolean deleteManga(int id) {
+		return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
+	}
+	
 	public ArrayList<Manga> getMangaList() {
 		return getMangaList("reading");
 	}
 	
 	public ArrayList<Manga> getMangaList(String listType) {
+		if ( listType == "" )
+			return getMangaList(null, null);
+		else
+			return getMangaList("myStatus = ?", new String[]{listType});
+	}
+	
+	public ArrayList<Manga> getDirtyMangaList() {
+		return getMangaList("dirty = ?", new String[]{"1"});
+	}
+
+	private ArrayList<Manga> getMangaList(String selection, String[] selectionArgs) {
 		ArrayList<Manga> result = null;
 		Cursor cursor;
 		try {
-			if ( listType == "" )
-				cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, null, null, null, null, "recordName ASC");
-			else
-				cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, "myStatus = ?", new String[]{listType}, null, null, "recordName ASC");
+			cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, selection, selectionArgs, null, null, "recordName ASC");
 			if (cursor.moveToFirst())
 			{
 				result = new ArrayList<Manga>();
@@ -204,5 +233,10 @@ public class DatabaseManager {
 		}
 		
 		return result;
+	}
+	
+	// replacement for clearDeletedItems, with imo better describing name
+	public int clearOldMangaRecords(Date time) {
+		return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "lastUpdate < ?", new String[]{time.toString()});
 	}
 }
