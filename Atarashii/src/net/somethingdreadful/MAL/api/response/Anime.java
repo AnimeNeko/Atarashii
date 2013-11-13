@@ -8,6 +8,10 @@ import net.somethingdreadful.MAL.sql.DatabaseManager;
 import android.database.Cursor;
 
 public class Anime extends GenericRecord {
+	
+	public static final String STATUS_WATCHING = "watching";
+	public static final String STATUS_PLANTOWATCH = "plan to watch";
+	
 	int episodes;
 	String watched_status;
 	int watched_episodes;

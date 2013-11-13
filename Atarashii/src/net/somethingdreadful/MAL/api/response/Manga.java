@@ -7,6 +7,10 @@ import net.somethingdreadful.MAL.sql.DatabaseManager;
 import android.database.Cursor;
 
 public class Manga extends GenericRecord {
+
+	public static final String STATUS_READING = "reading";
+	public static final String STATUS_PLANTOREAD = "plan to read";
+
 	int chapters;
 	int volumes;
 	String read_status;

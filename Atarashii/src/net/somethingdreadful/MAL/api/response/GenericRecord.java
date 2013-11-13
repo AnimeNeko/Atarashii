@@ -2,7 +2,16 @@ package net.somethingdreadful.MAL.api.response;
 
 import java.util.Date;
 
+import android.text.Html;
+import android.text.Spanned;
+
 public class GenericRecord {
+	
+	// these are the same for both, so put them in here
+	public static final String STATUS_COMPLETED = "completed";
+	public static final String STATUS_ONHOLD = "on-hold";
+	public static final String STATUS_DROPPED = "dropped";
+	
 	int id;
 	String title;
 	String image_url;
@@ -88,4 +97,15 @@ public class GenericRecord {
 	public void setDeleteFlag(boolean flag_delete) {
 		this.flag_delete = flag_delete;
 	}
+	
+	// Use this to get a formatted version of the text suited for display in the application
+    public Spanned getSpannedSynopsis() {
+
+        try {
+            return Html.fromHtml(getSynopsis());
+        }
+        catch (NullPointerException npe) {
+            return null;
+        }
+    }
 }
