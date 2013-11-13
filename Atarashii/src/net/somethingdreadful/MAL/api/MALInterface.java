@@ -2,12 +2,18 @@ package net.somethingdreadful.MAL.api;
 
 import java.util.ArrayList;
 
+import net.somethingdreadful.MAL.api.request.AnimeRequest;
+import net.somethingdreadful.MAL.api.request.MangaRequest;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import retrofit.client.Response;
+import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface MALInterface {
@@ -28,6 +34,12 @@ public interface MALInterface {
 	ArrayList<Anime> getJustAddedAnime(@Path("page") int page);
 	@GET("/animelist/{username}")
 	AnimeList getAnimeList(@Path("username") String username);
+	@DELETE("/animelist/anime/{anime_id}")
+	Response deleteAnime(@Path("anime_id") int anime_id);
+	@POST("/animelist/anime")
+	Response addAnime(@Body AnimeRequest body);
+	@PUT("/animelist/anime/{anime_id}")
+	Response updateAnime(@Body AnimeRequest body, @Path("anime_id") int id);
 	
 	@GET("/manga/{manga_id}")
 	Manga getManga(@Path("manga_id") int manga_id);
@@ -43,4 +55,10 @@ public interface MALInterface {
 	ArrayList<Manga> getJustAddedManga(@Path("page") int page);
 	@GET("/mangalist/{username}")
 	MangaList getMangaList(@Path("username") String username);
+	@DELETE("/mangalist/manga/{manga_id}")
+	Response deleteManga(@Path("manga_id") int manga_id);
+	@POST("/mangalist/manga")
+	Response addManga(@Body MangaRequest body);
+	@PUT("/mangalist/manga/{manga_id}")
+	Response updateManga(@Body MangaRequest body, @Path("manga_id") int id);
 }

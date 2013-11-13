@@ -1,8 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.api.request.AnimeRequest;
+import net.somethingdreadful.MAL.api.request.MangaRequest;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -81,19 +84,41 @@ public class MALApi {
 		return service.getManga(id);
 	}
 
-	public boolean addOrUpdateAnime(boolean hasCreate, String id, Anime data) {
-		// TODO
-		return false;
+	public boolean addOrUpdateAnime(Anime anime) {
+		boolean result = false;
+		AnimeRequest request = new AnimeRequest();
+		request.anime_id = anime.getId();
+		request.episodes = anime.getWatchedEpisodes();
+		request.score = anime.getScore();
+		request.status = anime.getWatchedStatus();
+		if ( anime.getCreateFlag() )
+			result = service.addAnime(request).getStatus() == 200;
+		else
+			result = service.updateAnime(request, anime.getId()).getStatus() == 200;
+		return result;
 	}
 	
-	public boolean addOrUpdateManga(boolean hasCreate, String id, Manga data) {
-		// TODO
-		return false;
+	public boolean addOrUpdateManga(Manga manga) {
+		boolean result = false;
+		MangaRequest request = new MangaRequest();
+		request.manga_id = manga.getId();
+		request.chapters = manga.getChaptersRead();
+		request.volumes = manga.getVolumesRead();
+		request.score = manga.getScore();
+		request.status = manga.getReadStatus();
+		if ( manga.getCreateFlag() )
+			result = service.addManga(request).getStatus() == 200;
+		else
+			result = service.updateManga(request, manga.getId()).getStatus() == 200;
+		return result;
 	}
-
-	public boolean deleteGenreFromList(ListType listType, String genre_id) {
-		// TODO
-		return false;
+	
+	public boolean deleteAnimeFromList(int id) {
+		return service.deleteAnime(id).getStatus() == 200;
+	}
+	
+	public boolean deleteMangaFromList(int id) {
+		return service.deleteManga(id).getStatus() == 200;
 	}
 	
 	public ArrayList<Anime> getMostPopularAnime(int page) {
