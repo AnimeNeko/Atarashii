@@ -697,60 +697,64 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	}
 
 	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job) {
-		if (result.size() > 0) {
-			af.setAnimeRecords(result);
-		} else {
-			Log.w("MALX", "No anime records, trying to fetch again.");
-			af.scrollToTop();
-			mf.scrollToTop();
-			switch ( job )	{
-				case GETTOPRATED:
-					getTopRated(MALApi.ListType.ANIME);
-					break;
-				case GETMOSTPOPULAR:
-					getMostPopular(MALApi.ListType.ANIME);
-					break;
-				case GETJUSTADDED:
-					getJustAdded(MALApi.ListType.ANIME);
-					break;
-				case GETUPCOMING:
-					getUpcoming(MALApi.ListType.ANIME);
-					break;
-				default:
-					Log.i("MALX", "invalid job: " + job.name());
+		if (result != null) {
+			if (result.size() > 0) {
+				af.setAnimeRecords(result);
+			} else {
+				Log.w("MALX", "No anime records, trying to fetch again.");
+				af.scrollToTop();
+				mf.scrollToTop();
+				switch ( job )	{
+					case GETTOPRATED:
+						getTopRated(MALApi.ListType.ANIME);
+						break;
+					case GETMOSTPOPULAR:
+						getMostPopular(MALApi.ListType.ANIME);
+						break;
+					case GETJUSTADDED:
+						getJustAdded(MALApi.ListType.ANIME);
+						break;
+					case GETUPCOMING:
+						getUpcoming(MALApi.ListType.ANIME);
+						break;
+					default:
+						Log.i("MALX", "invalid job: " + job.name());
+				}
+				af.scrollListener.resetPageNumber();
 			}
-			af.scrollListener.resetPageNumber();
 		}
 		
 		Home.this.af.scrollListener.notifyMorePages();
 	}
 
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
-		if (result.size() > 0) {
-			af.setMangaRecords(result);
-		} else {
-			Log.w("MALX", "No manga records, trying to fetch again.");
-			af.scrollToTop();
-			mf.scrollToTop();
-			switch ( job )	{
-			case GETTOPRATED:
-				getTopRated(MALApi.ListType.MANGA);
-				break;
-			case GETMOSTPOPULAR:
-				getMostPopular(MALApi.ListType.MANGA);
-				break;
-			case GETJUSTADDED:
-				getJustAdded(MALApi.ListType.MANGA);
-				break;
-			case GETUPCOMING:
-				getUpcoming(MALApi.ListType.MANGA);
-				break;
-			default:
-				Log.i("MALX", "invalid job: " + job.name());
+		if (result != null) {
+			if (result.size() > 0) {
+				af.setMangaRecords(result);
+			} else {
+				Log.w("MALX", "No manga records, trying to fetch again.");
+				af.scrollToTop();
+				mf.scrollToTop();
+				switch ( job )	{
+				case GETTOPRATED:
+					getTopRated(MALApi.ListType.MANGA);
+					break;
+				case GETMOSTPOPULAR:
+					getMostPopular(MALApi.ListType.MANGA);
+					break;
+				case GETJUSTADDED:
+					getJustAdded(MALApi.ListType.MANGA);
+					break;
+				case GETUPCOMING:
+					getUpcoming(MALApi.ListType.MANGA);
+					break;
+				default:
+					Log.i("MALX", "invalid job: " + job.name());
+			}
+				af.scrollListener.resetPageNumber();
+			}
 		}
-			af.scrollListener.resetPageNumber();
-		}
-		
+
 		Home.this.af.scrollListener.notifyMorePages();
 	}
 }

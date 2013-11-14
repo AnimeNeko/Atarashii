@@ -258,56 +258,60 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
 	@Override
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
-		if (result.size() == 0) {
-			Log.w("MALX", "No manga records returned.");
-        }
-        
-		if (cm == null) {
-            if (useTraditionalList) {
-                cm = new CoverAdapter<Manga>(c, R.layout.list_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
-            } else {
-                cm = new CoverAdapter<Manga>(c, R.layout.grid_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
-            }
-        }
-
-        if (gv.getAdapter() == null) {
-            gv.setAdapter(cm);
-        } else {
-            cm.supportAddAll(result);
-            cm.notifyDataSetChanged();
-        }
-        
-        if (forceSyncBool) {
-            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
-            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.cancel(R.id.notification_sync);
-        }
+		if (result != null) {
+			if (result.size() == 0) {
+				Log.w("MALX", "No manga records returned.");
+	        }
+	        
+			if (cm == null) {
+	            if (useTraditionalList) {
+	                cm = new CoverAdapter<Manga>(c, R.layout.list_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	            } else {
+	                cm = new CoverAdapter<Manga>(c, R.layout.grid_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	            }
+	        }
+	
+	        if (gv.getAdapter() == null) {
+	            gv.setAdapter(cm);
+	        } else {
+	            cm.supportAddAll(result);
+	            cm.notifyDataSetChanged();
+	        }
+	        
+	        if (forceSyncBool) {
+	            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
+	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+	            nm.cancel(R.id.notification_sync);
+	        }
+		}
 	}
 
 	@Override
 	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job) {
-		if (result.size() == 0) {
-			Log.w("MALX", "No anime records returned.");
-        }
-		if (ca == null) {
-            if (useTraditionalList) {
-                ca = new CoverAdapter<Anime>(c, R.layout.list_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
-            } else {
-                ca = new CoverAdapter<Anime>(c, R.layout.grid_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
-            }
-        }
-
-        if (gv.getAdapter() == null) {
-            gv.setAdapter(ca);
-        } else {
-            ca.clear();
-            ca.supportAddAll(result);
-            ca.notifyDataSetChanged();
-        }
-
-        if (forceSyncBool) {
-            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.cancel(R.id.notification_sync);
-        }
+		if (result != null) {
+			if (result.size() == 0) {
+				Log.w("MALX", "No anime records returned.");
+	        }
+			if (ca == null) {
+	            if (useTraditionalList) {
+	                ca = new CoverAdapter<Anime>(c, R.layout.list_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	            } else {
+	                ca = new CoverAdapter<Anime>(c, R.layout.grid_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	            }
+	        }
+	
+	        if (gv.getAdapter() == null) {
+	            gv.setAdapter(ca);
+	        } else {
+	            ca.clear();
+	            ca.supportAddAll(result);
+	            ca.notifyDataSetChanged();
+	        }
+	
+	        if (forceSyncBool) {
+	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+	            nm.cancel(R.id.notification_sync);
+	        }
+		}
 	}
 }
