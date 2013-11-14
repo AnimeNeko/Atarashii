@@ -1,7 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpProtocolParams;
 
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.request.AnimeRequest;
@@ -12,10 +16,14 @@ import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 
 import retrofit.RestAdapter;
+import retrofit.RestAdapter.LogLevel;
+import retrofit.RetrofitError;
+import retrofit.client.ApacheClient;
 import retrofit.client.Response;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 public class MALApi {
 	private static final String API_HOST = "http://api.atarashiiapp.com";
@@ -40,16 +48,26 @@ public class MALApi {
 	}
 	
 	private void setupRESTService(String username, String password) {
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
+		client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
+				new UsernamePasswordCredentials(username,password));
+		
 		RestAdapter restAdapter = new RestAdapter.Builder()
+			.setClient(new ApacheClient(client))
 			.setServer(API_HOST)
-			.setRequestInterceptor(new MALRequestInterceptor(username, password))
 			.build();
 		service = restAdapter.create(MALInterface.class);
 	}
 
 	public boolean isAuth() {
-		Response response = service.verifyAuthentication();
-		return response.getStatus() == 200;
+		try {
+			Response response = service.verifyAuthentication();
+			return response.getStatus() == 200;
+		} catch (RetrofitError e) {
+			Log.e("MALX", "caught retrofit error: " + e.getResponse().getStatus());
+			return false;
+		}
 	}
 	
 	public static ListType getListTypeByString(String name) {
