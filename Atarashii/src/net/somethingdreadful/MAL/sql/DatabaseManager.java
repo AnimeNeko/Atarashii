@@ -17,13 +17,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class DatabaseManager {
-	
+
 	public final String[] ANIMECOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
-            "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
-	
+			"episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
+
 	private final String[] MANGACOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
-            "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
-            "imageUrl", "dirty", "lastUpdate"};
+			"volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
+			"imageUrl", "dirty", "lastUpdate"};
 
 	static MALSqlHelper malSqlHelper;
 	static SQLiteDatabase dbRead;
@@ -37,14 +37,14 @@ public class DatabaseManager {
 	public synchronized static SQLiteDatabase getDBWrite() {
 		return malSqlHelper.getWritableDatabase();
 	}
-	
+
 	public static SQLiteDatabase getDBRead() {
-        if (dbRead == null) {
-            dbRead = malSqlHelper.getReadableDatabase();
-        }
-        return dbRead;
-    }
-	
+		if (dbRead == null) {
+			dbRead = malSqlHelper.getReadableDatabase();
+		}
+		return dbRead;
+	}
+
 	public static Date parseSQLDateString(String date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 		try {
@@ -64,7 +64,7 @@ public class DatabaseManager {
 					saveAnime(anime, true);
 				getDBWrite().setTransactionSuccessful();
 			} catch (Exception e) {
-				Log.e("MALX", "error saving animelist to db: " + e.getMessage());
+				Log.e("MALX", "error saving animelist to db");
 			} finally {
 				getDBWrite().endTransaction();
 			}
@@ -85,43 +85,43 @@ public class DatabaseManager {
 		cv.put("episodesWatched", anime.getWatchedEpisodes());
 		cv.put("episodesTotal", anime.getEpisodes());
 		cv.put("dirty", anime.getDirty());
-		cv.put("lastUpdate", anime.getLastUpdate().toString());
+		if ( anime.getLastUpdate() != null )
+			cv.put("lastUpdate", anime.getLastUpdate().getTime());
 
 		if (!ignoreSynopsis) {
 			cv.put("synopsis", anime.getSynopsis());
 		}
-
 		getDBWrite().replace(MALSqlHelper.TABLE_ANIME, null, cv);
 	}
-	
+
 	public Anime getAnime(int id) {
 		Anime result = null;
 		Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
-        if (cursor.moveToFirst())
-        	result = Anime.fromCursor(cursor);
-        cursor.close();
+		if (cursor.moveToFirst())
+			result = Anime.fromCursor(cursor);
+		cursor.close();
 		return result;
 	}
-	
+
 	public boolean deleteAnime(int id) {
 		return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
 	}
-	
+
 	public ArrayList<Anime> getAnimeList() {
 		return getAnimeList("watching");
 	}
-	
+
 	public ArrayList<Anime> getAnimeList(String listType) {
 		if ( listType == "" )
 			return getAnimeList(null, null);
 		else
 			return getAnimeList("myStatus = ?", new String[]{listType});
 	}
-	
+
 	public ArrayList<Anime> getDirtyAnimeList() {
 		return getAnimeList("dirty = ?", new String[]{"1"});
 	}
-	
+
 	private ArrayList<Anime> getAnimeList(String selection, String[] selectionArgs) {
 		ArrayList<Anime> result = null;
 		Cursor cursor;
@@ -138,10 +138,10 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			Log.e("MALX", "DatabaseManager.getAnimeList exception: " + e.getMessage());
 		}
-		
+
 		return result;
 	}
-	
+
 	// replacement for clearDeletedItems, with imo better describing name
 	public int clearOldAnimeRecords(Date time) {
 		return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "lastUpdate < ?", new String[]{time.toString()});
@@ -178,7 +178,8 @@ public class DatabaseManager {
 		cv.put("volumesTotal", manga.getVolumes());
 		cv.put("chaptersTotal", manga.getChapters());
 		cv.put("dirty", manga.getDirty());
-		cv.put("lastUpdate", manga.getLastUpdate().toString());
+		if (manga.getLastUpdate() != null);
+			cv.put("lastUpdate", manga.getLastUpdate().getTime());
 
 		if (!ignoreSynopsis) {
 			cv.put("synopsis", manga.getSynopsis());
@@ -186,31 +187,31 @@ public class DatabaseManager {
 
 		getDBWrite().replace(MALSqlHelper.TABLE_MANGA, null, cv);
 	}
-	
+
 	public Manga getManga(int id) {
 		Manga result = null;
 		Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, ANIMECOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
-        if (cursor.moveToFirst())
-        	result = Manga.fromCursor(cursor);
-        cursor.close();
+		if (cursor.moveToFirst())
+			result = Manga.fromCursor(cursor);
+		cursor.close();
 		return result;
 	}
-	
+
 	public boolean deleteManga(int id) {
 		return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
 	}
-	
+
 	public ArrayList<Manga> getMangaList() {
 		return getMangaList("reading");
 	}
-	
+
 	public ArrayList<Manga> getMangaList(String listType) {
 		if ( listType == "" )
 			return getMangaList(null, null);
 		else
 			return getMangaList("myStatus = ?", new String[]{listType});
 	}
-	
+
 	public ArrayList<Manga> getDirtyMangaList() {
 		return getMangaList("dirty = ?", new String[]{"1"});
 	}
@@ -231,10 +232,10 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			Log.e("MALX", "DatabaseManager.getMangaList exception: " + e.getMessage());
 		}
-		
+
 		return result;
 	}
-	
+
 	// replacement for clearDeletedItems, with imo better describing name
 	public int clearOldMangaRecords(Date time) {
 		return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "lastUpdate < ?", new String[]{time.toString()});

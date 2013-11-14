@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import net.somethingdreadful.MAL.sql.DatabaseManager;
 import android.database.Cursor;
 
 public class Manga extends GenericRecord {
@@ -65,7 +65,14 @@ public class Manga extends GenericRecord {
 		result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
 		result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
 		result.setDirty(c.getInt(columnNames.indexOf("dirty"))>0);
-		result.setLastUpdate(DatabaseManager.parseSQLDateString(c.getString(columnNames.indexOf("lastUpdate"))));
+		Date lastUpdateDate;
+		try {
+			long lastUpdate = c.getLong(columnNames.indexOf("lastUpdate"));
+			lastUpdateDate = new Date(lastUpdate);
+		} catch (Exception e) { // database entry was null
+			lastUpdateDate = null;
+		}
+		result.setLastUpdate(lastUpdateDate);
 		return result;
 	}
 	
