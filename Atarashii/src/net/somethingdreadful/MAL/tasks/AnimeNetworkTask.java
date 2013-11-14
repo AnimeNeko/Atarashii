@@ -34,6 +34,10 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 	protected ArrayList<Anime> doInBackground(String... params) {
 		ArrayList<Anime> result = null;
 		MALApi api = new MALApi(context);
+		if ( job == null ) {
+			Log.e("MALX", "no job identifier, don't know what to do");
+			return null;
+		}
 		switch (job) {
 			case DOWNLOADANDSTORELIST:
 				AnimeList animeList = api.getAnimeList();
