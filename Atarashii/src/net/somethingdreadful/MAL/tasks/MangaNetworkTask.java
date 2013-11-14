@@ -32,6 +32,10 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 
 	@Override
 	protected ArrayList<Manga> doInBackground(String... params) {
+		if ( job == null ) {
+			Log.e("MALX", "no job identifier, don't know what to do");
+			return null;
+		}
 		ArrayList<Manga> result = null;
 		MALApi api = new MALApi(context);
 		switch (job) {
