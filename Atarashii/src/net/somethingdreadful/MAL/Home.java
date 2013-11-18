@@ -294,6 +294,10 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
+        if (instanceExists) {
+        	af.getRecords(listType, "anime", false, Home.this.context);
+            mf.getRecords(listType, "manga", false, Home.this.context);
+        }
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (mSearchView != null) {
         	mSearchView.clearFocus();
