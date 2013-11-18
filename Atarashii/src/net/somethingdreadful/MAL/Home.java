@@ -170,7 +170,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         .setText(mSectionsPagerAdapter.getPageTitle(i))
                         .setTabListener(this));
             }
-
+            
             networkReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -293,11 +293,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists) {
-        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        }
-        
         checkNetworkAndDisplayCrouton();
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (mSearchView != null) {
@@ -333,6 +328,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
+    	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 		try {
 			if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
         		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
@@ -510,13 +507,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
     public void getMostPopular(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(1);
-         animethread.setListType(BaseMALApi.ListType.ANIME);
-         animethread.execute(query);
+        animethread.setListType(BaseMALApi.ListType.ANIME);
+        animethread.execute(query);
                   
-         /*networkThread mangathread = new networkThread(1);
-         mangathread.setListType(BaseMALApi.ListType.MANGA);
-         mangathread.execute(query);*/
-         //API doesn't support getting popular manga :/  
+        /*networkThread mangathread = new networkThread(1);
+        mangathread.setListType(BaseMALApi.ListType.MANGA);
+        mangathread.execute(query);*/
+        //API doesn't support getting popular manga :/  
     }
     public void getTopRated(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(2);
@@ -529,24 +526,24 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //API doesn't support getting top rated manga :/  
     }
     public void getJustAdded(BaseMALApi.ListType listType){
-	networkThread animethread = new networkThread(3);
-     animethread.setListType(BaseMALApi.ListType.ANIME);
-     animethread.execute(query);
+    	networkThread animethread = new networkThread(3);
+    	animethread.setListType(BaseMALApi.ListType.ANIME);
+    	animethread.execute(query);
               
-     /*networkThread mangathread = new networkThread(3);
-     mangathread.setListType(BaseMALApi.ListType.MANGA);
-     mangathread.execute(query);*/
-     //API doesn't support getting popular manga :/  
+    	/*networkThread mangathread = new networkThread(3);
+     	mangathread.setListType(BaseMALApi.ListType.MANGA);
+     	mangathread.execute(query);*/
+    	//API doesn't support getting popular manga :/  
     }
     public void getUpcoming(BaseMALApi.ListType listType){
-	networkThread animethread = new networkThread(4);
-     animethread.setListType(BaseMALApi.ListType.ANIME);
-     animethread.execute(query);
+    	networkThread animethread = new networkThread(4);
+    	animethread.setListType(BaseMALApi.ListType.ANIME);
+    	animethread.execute(query);
               
-     /*networkThread mangathread = new networkThread(4);
-     mangathread.setListType(BaseMALApi.ListType.MANGA);
-     mangathread.execute(query);*/
-     //API doesn't support getting popular manga :/  
+    	/*networkThread mangathread = new networkThread(4);
+     	mangathread.setListType(BaseMALApi.ListType.MANGA);
+     	mangathread.execute(query);*/
+    	//API doesn't support getting popular manga :/  
     }
     
     public class networkThread extends AsyncTask<String, Void, Void> {
