@@ -74,7 +74,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     MenuItem searchItem;
     
     int AutoSync = 0; //run or not to run.
-    int listType = 0; //remembers the list_type.
     
     private DrawerLayout mDrawerLayout;
     private ListView listView;
@@ -105,10 +104,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-        if (savedInstanceState != null) {
-            AutoSync = savedInstanceState.getInt("AutoSync");
-            listType = savedInstanceState.getInt("myList");
-        }
         
         if (init) {
             setContentView(R.layout.activity_home);
@@ -178,7 +173,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 }
             };
             
-    		listType = mPrefManager.getDefaultList(); //get chosen list :D
+            if (savedInstanceState != null) {
+                AutoSync = savedInstanceState.getInt("AutoSync");
+            }
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -235,7 +232,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(0, "anime", false, this.context);
                     mf.getRecords(0, "manga", false, this.context);
-                    listType = 0;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -243,7 +239,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(1, "anime", false, this.context);
                     mf.getRecords(1, "manga", false, this.context);
-                    listType = 1;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -251,7 +246,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(2, "anime", false, this.context);
                     mf.getRecords(2, "manga", false, this.context);
-                    listType = 2;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -259,7 +253,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(3, "anime", false, this.context);
                     mf.getRecords(3, "manga", false, this.context);
-                    listType = 3;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -267,7 +260,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(4, "anime", false, this.context);
                     mf.getRecords(4, "manga", false, this.context);
-                    listType = 4;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -275,14 +267,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(5, "anime", false, this.context);
                     mf.getRecords(5, "manga", false, this.context);
-                    listType = 5;
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
                 if (af != null && mf != null) {
                     af.getRecords(af.currentList, "anime", true, this.context);
-                    mf.getRecords(af.currentList, "manga", true, this.context);
+                    mf.getRecords(mf.currentList, "manga", true, this.context);
                     syncNotify();
                 }
                 break;
@@ -295,8 +286,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         super.onResume();
         checkNetworkAndDisplayCrouton();
         if (instanceExists) {
-        	af.getRecords(listType, "anime", false, Home.this.context);
-            mf.getRecords(listType, "manga", false, Home.this.context);
+        	af.getRecords(af.currentList, "anime", false, Home.this.context);
+            mf.getRecords(mf.currentList, "manga", false, Home.this.context);
         }
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (mSearchView != null) {
@@ -355,7 +346,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
     public void synctask(){
         af.getRecords(af.currentList, "anime", true, this.context);
-        mf.getRecords(af.currentList, "manga", true, this.context);
+        mf.getRecords(mf.currentList, "manga", true, this.context);
         syncNotify();
         AutoSync = 1;
     }
@@ -366,7 +357,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putInt("AutoSync", AutoSync);
-        state.putInt("myList", listType);
+        state.putInt("myList", af.currentList);
         super.onSaveInstanceState(state);
     }
 
@@ -488,14 +479,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			if (af.getMode() > 0) {
 	            af.setMode(0);
 				mf.setMode(0);
-				af.getRecords(listType, "anime", false, Home.this.context);
-	            mf.getRecords(listType, "manga", false, Home.this.context);
+				af.getRecords(af.currentList, "anime", false, Home.this.context);
+	            mf.getRecords(mf.currentList, "manga", false, Home.this.context);
 	            myList = true;
 	        }
         } else if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
             af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(af.currentList, "manga", true, this.context);
+            mf.getRecords(mf.currentList, "manga", true, this.context);
             syncNotify();
         }
 
@@ -675,8 +666,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				startActivity(Profile);
 				break;
 			case 1:
-				af.getRecords(listType, "anime", false, Home.this.context);
-                mf.getRecords(listType, "manga", false, Home.this.context);
+				af.getRecords(af.currentList, "anime", false, Home.this.context);
+                mf.getRecords(mf.currentList, "manga", false, Home.this.context);
                 myList = true;
                 af.setMode(0);
 				mf.setMode(0);
