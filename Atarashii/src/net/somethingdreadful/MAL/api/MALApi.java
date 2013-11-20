@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class MALApi extends BaseMALApi {
 	private static final String TAG = MALApi.class.getSimpleName();
-	public static String api_host = "http://api.atarashiiapp.com";
+	private static String api_host = "http://api.atarashiiapp.com";
 
 	public MALApi(String username, String password) {
 		super(username, password);
@@ -227,5 +227,22 @@ public class MALApi extends BaseMALApi {
 		return responseToJSONArray(response);
 	}
 	
+	public JSONObject getProfile(String User) {
+		JSONObject jsonObject = null;
+		RestResult<String> response = null;
+		try {
+			URL url = new URL(getFullPath("/profile/" + User));
+			response = restHelper.get(url);
 
+			if (response != null) {
+				jsonObject = new JSONObject(response.result);
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return jsonObject;
+	}
 }
