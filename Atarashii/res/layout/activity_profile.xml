@@ -33,7 +33,7 @@
 			<!-- Profile picture -->
 
             <ImageView
-                android:id="@+id/Imagdae"
+                android:id="@+id/Image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/name_card"
@@ -50,7 +50,7 @@
             android:id="@+id/details_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/Imagdae"
+            android:layout_below="@id/Image"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
