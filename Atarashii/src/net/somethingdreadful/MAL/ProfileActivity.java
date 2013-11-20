@@ -1,16 +1,7 @@
 package net.somethingdreadful.MAL;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.ProfileMALRecord;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,7 +13,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,12 +30,12 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class ProfileActivity extends SherlockFragmentActivity   {
 Context context;
 
-ImageView Imagdae;
+ImageView Image;
 boolean forcesync = false;
 
 PrefManager prefs; 
-LinearLayout a;
-LinearLayout m;
+LinearLayout animecard;
+LinearLayout mangacard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +48,12 @@ LinearLayout m;
         ProfileMALRecord.context = getApplicationContext(); //ProfileMALRecord has a static record!
         
         prefs = new PrefManager(context);
-        a =(LinearLayout)findViewById(R.id.Anime_card);
-		m =(LinearLayout)findViewById(R.id.Manga_card);
+        animecard =(LinearLayout)findViewById(R.id.Anime_card);
+        mangacard =(LinearLayout)findViewById(R.id.Manga_card);
         setTitle("User profile"); //set title
-        
+
         card(); //check the settings
-        new Startparse().execute(MALApi.api_host + "/profile/" + ProfileMALRecord.username); // send url to the background
+        new Startparse().execute(); // send url to the background
         clicklistener();
     }
     
@@ -81,11 +71,10 @@ LinearLayout m;
                 break;
             case R.id.forceSync:
             	if (isNetworkAvailable()){
-            		new Startparse().execute(MALApi.api_host + "/user/profile/" + ProfileMALRecord.username); // send url to the background
             		forcesync = true;
+            		new Startparse().execute();
             	}else{
             		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
-            		Settext();
             	}
                 break;
             case R.id.action_ViewMALPage:
@@ -99,54 +88,6 @@ LinearLayout m;
             	choosedialog(true);
         }
         return true;
-    }
-    
-    public class Startparse extends AsyncTask<String, Void, String> {
-    	protected String doInBackground(String... urls) {
-    		if (isConnectedWifi() && prefs.Wifisyncdisable() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable()){ // settings check
-    			HttpClient client = new DefaultHttpClient();
-    			String json = "";
-    			try {
-    				String line = "";
-    				HttpGet request = new HttpGet(urls[0]);
-    				HttpResponse response = client.execute(request);//get response
-    				BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-    				while ((line = rd.readLine()) != null) {
-    					json += line + System.getProperty("line.separator"); //save response
-    					JSONObject jsonObject = new JSONObject(json);
-    					ProfileMALRecord.Grabrecord(jsonObject); //send the object to ProfileMALRecord
-    				}
-    			} catch (Exception e) {
-    				Log.e("ProfileActivity", "Check if the api is online!");
-    			}
-    		}
-    		forcesync = false;
-            return "";
-        }
-
-        protected void onProgressUpdate(Void... progress) {
-        }
-
-		protected void onPostExecute(String check) {
-			if (!isNetworkAvailable() || ProfileMALRecord.avatar_url == ""){ //IF MAL IS OFFLINE THIS WILL START OFFLINE.
-				ProfileMALRecord.Loadrecord();
-		    	if (ProfileMALRecord.avatar_url==""){
-		    		maketext("No offline record available!",2 );
-		    	}else{
-		    		Settext();
-		    	}
-			}else{
-				Settext();
-				ProfileMALRecord.Saverecord();
-			}
-			try{
-				Picasso.with(context).load(ProfileMALRecord.avatar_url).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).into((ImageView) findViewById(R.id.Imagdae));
-				autohidecard();
-				setcolor();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-        }
     }
     
     public void maketext(String string ,int type) { //for the private class, to make still text on errors...
@@ -171,10 +112,10 @@ LinearLayout m;
     
     public void card() { //settings for hide a card and text userprofile
     	if (prefs.animehide()){
-    		a.setVisibility(View.GONE);
+    		animecard.setVisibility(View.GONE);
     	}
     	if (prefs.mangahide()){
-    		m.setVisibility(View.GONE);
+    		mangacard.setVisibility(View.GONE);
     	}
     	TextView namecard = (TextView) findViewById(R.id.name_text);
     	namecard.setText(ProfileMALRecord.username);
@@ -182,10 +123,10 @@ LinearLayout m;
     
     public void autohidecard(){//settings for hide auto a card
     	if (prefs.anime_manga_zero() && ProfileMALRecord.M_total_entries < 1){ //if manga (total entry) is beneath the int then hide
-    		m.setVisibility(View.GONE);
+    		mangacard.setVisibility(View.GONE);
     	}
     	if (prefs.anime_manga_zero() && ProfileMALRecord.A_total_entries < 1){ //if anime (total entry) is beneath the int then hide
-    		a.setVisibility(View.GONE);
+    		animecard.setVisibility(View.GONE);
     	}
     }
     
@@ -409,6 +350,41 @@ LinearLayout m;
 		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 11){
 			tv25.setTextSize(10);
 		}
+    }
+    
+    public class Startparse extends AsyncTask<String, Void, String> {
+    	protected String doInBackground(String... urls) {
+    		if (isConnectedWifi() && prefs.Wifisyncdisable() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable()){ // settings check
+        		MALApi api = new MALApi(context);
+        		ProfileMALRecord.Grabrecord(api.getProfile(ProfileMALRecord.username));
+    		}
+    		forcesync = false;
+            return "";
+        }
+
+        protected void onProgressUpdate(Void... progress) {
+        }
+
+		protected void onPostExecute(String check) {
+			if (!isNetworkAvailable() || ProfileMALRecord.avatar_url == ""){ //IF MAL IS OFFLINE THIS WILL START OFFLINE.
+				ProfileMALRecord.Loadrecord();
+		    	if (ProfileMALRecord.avatar_url==""){
+		    		maketext("No offline record available!",2 );
+		    	}else{
+		    		Settext();
+		    	}
+			}else{
+				Settext();
+				ProfileMALRecord.Saverecord();
+			}
+			try{
+				Picasso.with(context).load(ProfileMALRecord.avatar_url).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).into((ImageView) findViewById(R.id.Image));
+				autohidecard();
+				setcolor();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+        }
     }
     
     void clicklistener(){
