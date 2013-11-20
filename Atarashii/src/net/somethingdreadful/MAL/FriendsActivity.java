@@ -1,17 +1,11 @@
 package net.somethingdreadful.MAL;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.ProfileMALRecord;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -124,7 +118,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
     		e.printStackTrace();
     	}
     	if (Refresh){
-    		new Startparse().execute(prefs.getUser());
+    		new Startparse().execute();
     	}
     }
     
@@ -244,34 +238,24 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	  public class Startparse extends AsyncTask<String, Void, String> {
 		  protected String doInBackground(String... urls) {
 			  if (isNetworkAvailable() && forcesync || isNetworkAvailable()){ // settings check
-				  HttpClient client = new DefaultHttpClient();
-				  String json = "";
-				  try {
-					  String line = "";
-					  HttpGet request = new HttpGet(MALApi.api_host + "/user/friends/" + urls[0]);
-					  HttpResponse response = client.execute(request);//get response
-					  BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-					  
-					  while ((line = rd.readLine()) != null) {
-						  json += line + System.getProperty("line.separator"); //save response
-						  json = json.substring(0,json.length()-32);
-						  JSONArray jsonArray = new JSONArray(json);
+				 try{
+					MALApi api = new MALApi(context);
+					JSONArray jsonArray = api.getFriends(prefs.getUser());
 						  
-						  int length = jsonArray.length() - 1;
-						  UsernameList.clear();
-						  for(int lengtarray=0;lengtarray<=length;lengtarray++){
-							  JSONObject jsonObject = jsonArray.getJSONObject(lengtarray);
-							  SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
-							  String user = jsonObject.getString("name");
-							  Edit.putString("last_online" + user ,jsonObject.getString("last_online")).commit();
-							  Edit.putString("since" + user ,jsonObject.getString("since")).commit();
-							  Edit.putString("avatar_url_short" + user ,jsonObject.getString("image_url_short")).commit();
-							  Edit.putString("avatar_url" + user ,jsonObject.getString("image_url")).commit();
-							  UsernameList.add(user);
-						  }
-					  }
-				  } catch (Exception e) {
-				  }
+					int length = jsonArray.length() - 1;
+					UsernameList.clear();
+					for(int lengtarray=0;lengtarray<=length;lengtarray++){
+						JSONObject jsonObject = jsonArray.getJSONObject(lengtarray);
+						SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+						String user = jsonObject.getString("name");
+						Edit.putString("last_online" + user ,jsonObject.getString("last_online")).commit();
+						Edit.putString("since" + user ,jsonObject.getString("since")).commit();
+						Edit.putString("avatar_url_short" + user ,jsonObject.getString("image_url_short")).commit();
+						Edit.putString("avatar_url" + user ,jsonObject.getString("image_url")).commit();
+						UsernameList.add(user);
+					}
+				} catch (Exception e) {
+				}
 			  }
 			  return "";
 		  }
