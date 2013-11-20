@@ -116,8 +116,7 @@ public class MALApi extends BaseMALApi {
 	public JSONObject getDetail(Integer id, ListType listType) {
 		JSONObject jsonObject = null;
 		try {
-			URL url = new URL(getFullPath(getListTypeString(listType) + "/"
-					+ id));
+			URL url = new URL(getFullPath(getListTypeString(listType) + "/" + id));
 			RestResult<String> response = restHelper.get(url);
 
 			if (response != null) {
@@ -227,7 +226,7 @@ public class MALApi extends BaseMALApi {
 		return responseToJSONArray(response);
 	}
 	
-	public JSONObject getProfile(String User) {
+	public JSONObject getProfile(String User) { //get the profile details
 		JSONObject jsonObject = null;
 		RestResult<String> response = null;
 		try {
@@ -244,5 +243,24 @@ public class MALApi extends BaseMALApi {
 			Log.e(TAG, "", e);
 		}
 		return jsonObject;
+	}
+	
+	public JSONArray getFriends(String User) { //get the friends
+		JSONArray jsonArray = null;
+		RestResult<String> response = null;
+		try {
+			URL url = new URL(getFullPath("/profile/"+ User +"/friends/"));
+			response = restHelper.get(url);
+
+			if (response != null) {
+				jsonArray = new JSONArray(response.result);
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return jsonArray;
 	}
 }
