@@ -2,10 +2,8 @@ package net.somethingdreadful.MAL.tasks;
 
 import java.util.ArrayList;
 
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeList;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -37,33 +35,35 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 			return null;
 		}
 		ArrayList<Anime> result = null;
-		MALApi api = new MALApi(context);
+		MALManager mManager = new MALManager(context);
 		switch (job) {
-			case DOWNLOADANDSTORELIST:
-				AnimeList animeList = api.getAnimeList();
-				if (animeList != null) {
-					result = animeList.getAnimes();
-					DatabaseManager dbMan = new DatabaseManager(context);
-					dbMan.saveAnimeList(result);
-					if ( params != null ) // we got a listtype to return instead of complete list
-						result = dbMan.getAnimeList(params[0]);
-				}
+			case GETLIST:
+				if ( params != null )
+					result = mManager.getAnimeListFromDB(params[0]);
+				else
+					result = mManager.getAnimeListFromDB();
+				break;
+			case FORCESYNC:
+				mManager.cleanDirtyAnimeRecords();
+				result = mManager.downloadAndStoreAnimeList();
+				if ( result != null && params != null )
+					result = mManager.getAnimeListFromDB(params[0]);
 				break;
 			case GETMOSTPOPULAR:
-				result = api.getMostPopularAnime(1);
+				result = mManager.getAPIObject().getMostPopularAnime(1);
 				break;
 			case GETTOPRATED:
-				result = api.getTopRatedAnime(1);
+				result = mManager.getAPIObject().getTopRatedAnime(1);
 				break;
 			case GETJUSTADDED:
-				result = api.getJustAddedAnime(1);
+				result = mManager.getAPIObject().getJustAddedAnime(1);
 				break;
 			case GETUPCOMING:
-				result = api.getUpcomingAnime(1);
+				result = mManager.getAPIObject().getUpcomingAnime(1);
 				break;
 			case SEARCH:
 				if ( params != null )
-					result = api.searchAnime(params[0]);
+					result = mManager.getAPIObject().searchAnime(params[0]);
 				break;
 			default:
 				Log.e("MALX", "invalid job identifier " + job.name());

@@ -5,7 +5,9 @@ import java.util.Date;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import android.content.Context;
@@ -79,6 +81,10 @@ public class MALManager {
 
         return r;
     }
+    
+    public MALApi getAPIObject() {
+    	return malApi;
+    }
 
     public Anime getAnimeRecordFromMAL(int id) {
         Anime anime = malApi.getAnime(id);
@@ -98,6 +104,42 @@ public class MALManager {
 	        }
         }
         return manga;
+    }
+    
+    public ArrayList<Anime> downloadAndStoreAnimeList() {
+    	ArrayList<Anime> result = null;
+    	AnimeList animeList = malApi.getAnimeList();
+    	if (animeList != null) {
+    		result = animeList.getAnimes();
+			dbMan.saveAnimeList(result);
+    	}
+    	return result;
+    }
+    
+    public ArrayList<Manga> downloadAndStoreMangaList() {
+    	ArrayList<Manga> result = null;
+    	MangaList mangaList = malApi.getMangaList();
+		if (mangaList != null) {
+			result = mangaList.getManga();
+			dbMan.saveMangaList(result);
+		}
+		return result;
+    }
+    
+    public ArrayList<Anime> getAnimeListFromDB() {
+    	return dbMan.getAnimeList();
+    }
+    
+    public ArrayList<Anime> getAnimeListFromDB(String ListType) {
+    	return dbMan.getAnimeList(ListType);
+    }
+    
+    public ArrayList<Manga> getMangaListFromDB() {
+    	return dbMan.getMangaList();
+    }
+    
+    public ArrayList<Manga> getMangaListFromDB(String ListType) {
+    	return dbMan.getMangaList(ListType);
     }
 
     public Anime updateWithDetails(int id, Anime anime) {

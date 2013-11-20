@@ -2,10 +2,8 @@ package net.somethingdreadful.MAL.tasks;
 
 import java.util.ArrayList;
 
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.api.response.MangaList;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -37,33 +35,35 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 			return null;
 		}
 		ArrayList<Manga> result = null;
-		MALApi api = new MALApi(context);
+		MALManager mManager = new MALManager(context);
 		switch (job) {
-			case DOWNLOADANDSTORELIST:
-				MangaList mangaList = api.getMangaList();
-				if (mangaList != null) {
-					result = mangaList.getManga();
-					DatabaseManager dbMan = new DatabaseManager(context);
-					dbMan.saveMangaList(result);
-					if ( params != null ) // we got a listtype to return instead of complete list
-						result = dbMan.getMangaList(params[0]);
-				}
+			case GETLIST:
+				if ( params != null )
+					result = mManager.getMangaListFromDB(params[0]);
+				else
+					result = mManager.getMangaListFromDB();
+				break;
+			case FORCESYNC:
+				mManager.cleanDirtyMangaRecords();
+				result = mManager.downloadAndStoreMangaList();
+				if ( result != null && params != null )
+					result = mManager.getMangaListFromDB(params[0]);
 				break;
 			case GETMOSTPOPULAR:
-				result = api.getMostPopularManga(1);
+				result = mManager.getAPIObject().getMostPopularManga(1);
 				break;
 			case GETTOPRATED:
-				result = api.getTopRatedManga(1);
+				result = mManager.getAPIObject().getTopRatedManga(1);
 				break;
 			case GETJUSTADDED:
-				result = api.getJustAddedManga(1);
+				result = mManager.getAPIObject().getJustAddedManga(1);
 				break;
 			case GETUPCOMING:
-				result = api.getUpcomingManga(1);
+				result = mManager.getAPIObject().getUpcomingManga(1);
 				break;
 			case SEARCH:
 				if ( params != null )
-					result = api.searchManga(params[0]);
+					result = mManager.getAPIObject().searchManga(params[0]);
 				break;
 			default:
 				Log.e("MALX", "invalid job identifier " + job.name());

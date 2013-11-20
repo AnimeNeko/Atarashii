@@ -174,9 +174,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         recordType = mediaType;
 
         if (recordType.equals("anime")) {
-        	new AnimeNetworkTask(TaskJob.DOWNLOADANDSTORELIST, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
+        	new AnimeNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
         } else if (recordType.equals("manga")) {
-        	new MangaNetworkTask(TaskJob.DOWNLOADANDSTORELIST, c, this).execute(MALManager.listSortFromInt(listint, "manga"));
+        	new MangaNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "manga"));
         }
     }
 

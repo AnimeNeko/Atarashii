@@ -1,7 +1,8 @@
 package net.somethingdreadful.MAL.tasks;
 
 public enum TaskJob {
-	DOWNLOADANDSTORELIST,
+	GETLIST,
+	FORCESYNC,
 	GETMOSTPOPULAR,
 	GETTOPRATED,
 	GETJUSTADDED,
