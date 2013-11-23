@@ -63,7 +63,7 @@ public class ItemGridFragment extends SherlockFragment {
     int gridCellHeight;
     String recordType;
     
-    int mode; //0 = home, 1 = top rated, 2 = most popular, so the endless gridview only applies to the popular/top rated mode
+    int mode = 0; //0 = home, 1 = top rated, 2 = most popular, so the endless gridview only applies to the popular/top rated mode
     ItemGridFragmentScrollViewListener scrollListener;
     
 
