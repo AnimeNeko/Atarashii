@@ -285,7 +285,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
-        if (instanceExists) {
+        if (instanceExists && af.getMode()==0) {
         	af.getRecords(af.currentList, "anime", false, Home.this.context);
             mf.getRecords(mf.currentList, "manga", false, Home.this.context);
         }
