@@ -390,7 +390,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         @Override
         protected void onProgressUpdate(Boolean... progress) {
-            if ("anime".equals(internalType)) {
+            if (MALManager.TYPE_ANIME.equals(internalType)) {
                 actionBar.setTitle(animeRecord.getTitle());
 
                 Picasso coverImage = Picasso.with(context);
@@ -428,7 +428,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     RecordStatusView.setText(RecordStatusText);
                 }
 
-                if ("".equals(animeRecord.getWatchedStatus())) {
+                if (animeRecord.getWatchedStatus() == null) {
                     Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
                     setAddToListUI(true);
                 }
@@ -482,7 +482,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     RecordStatusView.setText(RecordStatusText);
                 }
 
-                if ("".equals(mangaRecord.getReadStatus())) {
+                if (mangaRecord.getReadStatus() == null) {
                     Log.v("MALX", "No status found; Record must have been searched for, therefore not added to list");
                     setAddToListUI(true);
                 }
