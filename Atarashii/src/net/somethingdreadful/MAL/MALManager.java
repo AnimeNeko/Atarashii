@@ -89,7 +89,7 @@ public class MALManager {
     public Anime getAnimeRecordFromMAL(int id) {
         Anime anime = malApi.getAnime(id);
         if ( anime != null ) {
-	        if (anime.getWatchedStatus().equals("")) {
+	        if (anime.getWatchedStatus() == null) {
 	        	anime.setCreateFlag(true);
 	        }
         }
@@ -99,7 +99,7 @@ public class MALManager {
     public Manga getMangaRecordFromMAL(int id) {
     	Manga manga = malApi.getManga(id);
         if ( manga != null ) {
-	        if (manga.getReadStatus().equals("")) {
+	        if (manga.getReadStatus() == null) {
 	        	manga.setCreateFlag(true);
 	        }
         }

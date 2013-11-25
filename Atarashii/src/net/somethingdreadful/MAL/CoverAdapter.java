@@ -103,7 +103,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         .into(viewHolder.cover);
 
         if (Build.VERSION.SDK_INT >= 11) {
-            if ((myStatus.equals(Anime.STATUS_WATCHING)) || (myStatus.equals(Manga.STATUS_READING))) {
+            if (myStatus != null && (myStatus.equals(Anime.STATUS_WATCHING) || myStatus.equals(Manga.STATUS_READING))) {
                 viewHolder.actionButton.setVisibility(View.VISIBLE);
                 viewHolder.actionButton.setOnClickListener(
                         new OnClickListener() {
@@ -160,40 +160,44 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
 
         TextView flavourText = (TextView) v.findViewById(R.id.stringWatched);
-
-        if (myStatus.equals("watching")) {
-            flavourText.setText(R.string.cover_Watching);
-            viewHolder.progressCount.setVisibility(View.VISIBLE);
-        }
-        else if (myStatus.equals("reading")) {
-            flavourText.setText(R.string.cover_Reading);
-        }
-        else if (myStatus.equals("completed")) {
-            flavourText.setText(R.string.cover_Completed);
-            viewHolder.progressCount.setVisibility(View.GONE);
-        }
-        else if (myStatus.equals("on-hold")) {
-            flavourText.setText(R.string.cover_OnHold);
-            viewHolder.progressCount.setVisibility(View.VISIBLE);
-        }
-        else if (myStatus.equals("dropped")) {
-            flavourText.setText(R.string.cover_Dropped);
-            viewHolder.progressCount.setVisibility(View.GONE);
-        }
-        else if (myStatus.equals("plan to watch")) {
-            flavourText.setText(R.string.cover_PlanningToWatch);
-            viewHolder.progressCount.setVisibility(View.GONE);
-        }
-        else if (myStatus.equals("plan to read")) {
-            flavourText.setText(R.string.cover_PlanningToRead);
-            viewHolder.progressCount.setVisibility(View.GONE);
+        
+        if (myStatus != null) {
+	        if (myStatus.equals("watching")) {
+	            flavourText.setText(R.string.cover_Watching);
+	            viewHolder.progressCount.setVisibility(View.VISIBLE);
+	        }
+	        else if (myStatus.equals("reading")) {
+	            flavourText.setText(R.string.cover_Reading);
+	        }
+	        else if (myStatus.equals("completed")) {
+	            flavourText.setText(R.string.cover_Completed);
+	            viewHolder.progressCount.setVisibility(View.GONE);
+	        }
+	        else if (myStatus.equals("on-hold")) {
+	            flavourText.setText(R.string.cover_OnHold);
+	            viewHolder.progressCount.setVisibility(View.VISIBLE);
+	        }
+	        else if (myStatus.equals("dropped")) {
+	            flavourText.setText(R.string.cover_Dropped);
+	            viewHolder.progressCount.setVisibility(View.GONE);
+	        }
+	        else if (myStatus.equals("plan to watch")) {
+	            flavourText.setText(R.string.cover_PlanningToWatch);
+	            viewHolder.progressCount.setVisibility(View.GONE);
+	        }
+	        else if (myStatus.equals("plan to read")) {
+	            flavourText.setText(R.string.cover_PlanningToRead);
+	            viewHolder.progressCount.setVisibility(View.GONE);
+	        }
+	        else {
+	            flavourText.setText("");
+	            viewHolder.progressCount.setVisibility(View.GONE);
+	        }
         }
         else {
             flavourText.setText("");
             viewHolder.progressCount.setVisibility(View.GONE);
         }
-
-
 
         return v;
     }
