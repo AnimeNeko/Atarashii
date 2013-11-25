@@ -14,6 +14,7 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 public interface MALInterface {
 	@GET("/account/verify_credentials")
@@ -21,16 +22,16 @@ public interface MALInterface {
 
 	@GET("/anime/{anime_id}")
 	Anime getAnime(@Path("anime_id") int anime_id);
-	@GET("/anime/search?q={query}")
-	ArrayList<Anime> searchAnime(@Path("query") String query);
-	@GET("/anime/popular?page={page}")
-	ArrayList<Anime> getPopularAnime(@Path("page") int page);
-	@GET("/anime/top?page={page}")
-	ArrayList<Anime> getTopRatedAnime(@Path("page") int page);
-	@GET("/anime/upcoming?page={page}")
-	ArrayList<Anime> getUpcomingAnime(@Path("page") int page);
-	@GET("/anime/just_added?page={page}")
-	ArrayList<Anime> getJustAddedAnime(@Path("page") int page);
+	@GET("/anime/search")
+	ArrayList<Anime> searchAnime(@Query("q") String query);
+	@GET("/anime/popular")
+	ArrayList<Anime> getPopularAnime(@Query("page") int page);
+	@GET("/anime/top")
+	ArrayList<Anime> getTopRatedAnime(@Query("page") int page);
+	@GET("/anime/upcoming")
+	ArrayList<Anime> getUpcomingAnime(@Query("page") int page);
+	@GET("/anime/just_added")
+	ArrayList<Anime> getJustAddedAnime(@Query("page") int page);
 	@GET("/animelist/{username}")
 	AnimeList getAnimeList(@Path("username") String username);
 	@DELETE("/animelist/anime/{anime_id}")
@@ -46,16 +47,16 @@ public interface MALInterface {
 	
 	@GET("/manga/{manga_id}")
 	Manga getManga(@Path("manga_id") int manga_id);
-	@GET("/manga/search?q={query}")
-	ArrayList<Manga> searchManga(@Path("query") String query);
-	@GET("/manga/popular?page={page}")
-	ArrayList<Manga> getPopularManga(@Path("page") int page);
-	@GET("/manga/top?page={page}")
-	ArrayList<Manga> getTopRatedManga(@Path("page") int page);
-	@GET("/manga/upcoming?page={page}")
-	ArrayList<Manga> getUpcomingManga(@Path("page") int page);
-	@GET("/manga/just_added?page={page}")
-	ArrayList<Manga> getJustAddedManga(@Path("page") int page);
+	@GET("/manga/search")
+	ArrayList<Manga> searchManga(@Query("q") String query);
+	@GET("/manga/popular")
+	ArrayList<Manga> getPopularManga(@Query("page") int page);
+	@GET("/manga/top")
+	ArrayList<Manga> getTopRatedManga(@Query("page") int page);
+	@GET("/manga/upcoming")
+	ArrayList<Manga> getUpcomingManga(@Query("page") int page);
+	@GET("/manga/just_added")
+	ArrayList<Manga> getJustAddedManga(@Query("page") int page);
 	@GET("/mangalist/{username}")
 	MangaList getMangaList(@Path("username") String username);
 	@DELETE("/mangalist/manga/{manga_id}")
