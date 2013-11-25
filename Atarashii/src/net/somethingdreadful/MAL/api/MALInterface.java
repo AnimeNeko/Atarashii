@@ -65,6 +65,7 @@ public interface MALInterface {
 	@POST("/mangalist/manga")
 	Response addManga(@Part("manga_id") int id, @Part("status") String status, @Part("chapters") int chapters, 
 			@Part("volumes") int volumes, @Part("score") int score);
+	@Multipart
 	@PUT("/mangalist/manga/{manga_id}")
 	Response updateManga(@Path("manga_id") int id, @Part("status") String status, @Part("chapters") int chapters, 
 			@Part("volumes") int volumes, @Part("score") int score);
