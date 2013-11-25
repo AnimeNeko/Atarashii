@@ -2,18 +2,17 @@ package net.somethingdreadful.MAL.api;
 
 import java.util.ArrayList;
 
-import net.somethingdreadful.MAL.api.request.AnimeRequest;
-import net.somethingdreadful.MAL.api.request.MangaRequest;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import retrofit.client.Response;
-import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
 
 public interface MALInterface {
@@ -36,10 +35,14 @@ public interface MALInterface {
 	AnimeList getAnimeList(@Path("username") String username);
 	@DELETE("/animelist/anime/{anime_id}")
 	Response deleteAnime(@Path("anime_id") int anime_id);
+	@Multipart
 	@POST("/animelist/anime")
-	Response addAnime(@Body AnimeRequest body);
+	Response addAnime(@Part("anime_id") int id, @Part("status") String status, @Part("episodes") int episodes, 
+			@Part("score") int score);
+	@Multipart
 	@PUT("/animelist/anime/{anime_id}")
-	Response updateAnime(@Body AnimeRequest body, @Path("anime_id") int id);
+	Response updateAnime(@Path("anime_id") int id, @Part("status") String status, @Part("episodes") int episodes, 
+			@Part("score") int score);
 	
 	@GET("/manga/{manga_id}")
 	Manga getManga(@Path("manga_id") int manga_id);
@@ -57,8 +60,11 @@ public interface MALInterface {
 	MangaList getMangaList(@Path("username") String username);
 	@DELETE("/mangalist/manga/{manga_id}")
 	Response deleteManga(@Path("manga_id") int manga_id);
+	@Multipart
 	@POST("/mangalist/manga")
-	Response addManga(@Body MangaRequest body);
+	Response addManga(@Part("manga_id") int id, @Part("status") String status, @Part("chapters") int chapters, 
+			@Part("volumes") int volumes, @Part("score") int score);
 	@PUT("/mangalist/manga/{manga_id}")
-	Response updateManga(@Body MangaRequest body, @Path("manga_id") int id);
+	Response updateManga(@Path("manga_id") int id, @Part("status") String status, @Part("chapters") int chapters, 
+			@Part("volumes") int volumes, @Part("score") int score);
 }

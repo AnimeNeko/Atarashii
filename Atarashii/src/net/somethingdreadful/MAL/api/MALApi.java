@@ -8,15 +8,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpProtocolParams;
 
 import net.somethingdreadful.MAL.PrefManager;
-import net.somethingdreadful.MAL.api.request.AnimeRequest;
-import net.somethingdreadful.MAL.api.request.MangaRequest;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 
 import retrofit.RestAdapter;
-import retrofit.RestAdapter.LogLevel;
 import retrofit.RetrofitError;
 import retrofit.client.ApacheClient;
 import retrofit.client.Response;
@@ -104,30 +101,19 @@ public class MALApi {
 
 	public boolean addOrUpdateAnime(Anime anime) {
 		boolean result = false;
-		AnimeRequest request = new AnimeRequest();
-		request.anime_id = anime.getId();
-		request.episodes = anime.getWatchedEpisodes();
-		request.score = anime.getScore();
-		request.status = anime.getWatchedStatus();
 		if ( anime.getCreateFlag() )
-			result = service.addAnime(request).getStatus() == 200;
+			result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
 		else
-			result = service.updateAnime(request, anime.getId()).getStatus() == 200;
+			result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
 		return result;
 	}
 	
 	public boolean addOrUpdateManga(Manga manga) {
 		boolean result = false;
-		MangaRequest request = new MangaRequest();
-		request.manga_id = manga.getId();
-		request.chapters = manga.getChaptersRead();
-		request.volumes = manga.getVolumesRead();
-		request.score = manga.getScore();
-		request.status = manga.getReadStatus();
 		if ( manga.getCreateFlag() )
-			result = service.addManga(request).getStatus() == 200;
+			result = service.addManga(manga.getId(), manga.getStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
 		else
-			result = service.updateManga(request, manga.getId()).getStatus() == 200;
+			result = service.updateManga(manga.getId(), manga.getStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
 		return result;
 	}
 	
