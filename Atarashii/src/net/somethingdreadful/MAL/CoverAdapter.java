@@ -60,8 +60,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         int progress;
 
         a = ((GenericRecord) objects.get(position));
-
-        if (type.equals("anime")) {
+        if (type.equals(MALManager.TYPE_ANIME)) {
         	myStatus = ((Anime) a).getWatchedStatus();
         	progress = ((Anime) a).getWatchedEpisodes();
         } else {
@@ -200,7 +199,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void setProgressPlusOne(GenericRecord gr) {
-    	if (type.equals("anime")) {
+    	if (type.equals(MALManager.TYPE_ANIME)) {
     		((Anime) gr).setWatchedEpisodes(((Anime) gr).getWatchedEpisodes() + 1);
     		if (((Anime) gr).getWatchedEpisodes() == ((Anime) gr).getEpisodes())
     			((Anime) gr).setWatchedStatus(GenericRecord.STATUS_COMPLETED);
@@ -217,7 +216,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void setMarkAsComplete(GenericRecord gr) {
-    	if (type.equals("anime"))
+    	if (type.equals(MALManager.TYPE_ANIME))
     		((Anime) gr).setWatchedStatus(GenericRecord.STATUS_COMPLETED);
     	else
     		((Manga) gr).setReadStatus(GenericRecord.STATUS_COMPLETED);
@@ -252,14 +251,14 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
 
             boolean result;
 
-            if ("anime".equals(internalType)) {
+            if (MALManager.TYPE_ANIME.equals(internalType)) {
                 internalManager.saveAnimeToDatabase((Anime) gr[0], false);
             } else {
                 internalManager.saveMangaToDatabase((Manga) gr[0], false);
             }
 
             if (isNetworkAvailable()) {
-                if ("anime".equals(internalType)) {
+                if (MALManager.TYPE_ANIME.equals(internalType)) {
                     result = internalManager.writeAnimeDetailsToMAL((Anime) gr[0]);
                 } else {
                     result = internalManager.writeMangaDetailsToMAL((Manga) gr[0]);
@@ -273,7 +272,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
             if (result) {
                 gr[0].setDirty(false);
 
-                if ("anime".equals(internalType)) {
+                if (MALManager.TYPE_ANIME.equals(internalType)) {
                     internalManager.saveAnimeToDatabase((Anime) gr[0], false);
                 } else {
                     internalManager.saveMangaToDatabase((Manga) gr[0], false);

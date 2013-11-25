@@ -187,7 +187,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     		if (useTraditionalList){
     			list_cover_item = R.layout.list_cover_with_text_item;
     		}
-    		adapter = new CoverAdapter<Anime>(c,list_cover_item,objects,mManager,recordType,this.gridCellHeight,useSecondaryAmounts);
+    		adapter = new CoverAdapter<Anime>(c,list_cover_item,objects,mManager, MALManager.TYPE_ANIME,this.gridCellHeight,useSecondaryAmounts);
     		
     	}
     	if (gv.getAdapter() == null){
@@ -207,7 +207,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             if (useTraditionalList) {
                 list_cover_item = R.layout.list_cover_with_text_item;
             }
-            adapter = new CoverAdapter<Manga>(c, list_cover_item, objects, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+            adapter = new CoverAdapter<Manga>(c, list_cover_item, objects, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
         }
         if (gv.getAdapter() == null) {
             gv.setAdapter(adapter);
@@ -265,9 +265,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        
 			if (cm == null) {
 	            if (useTraditionalList) {
-	                cm = new CoverAdapter<Manga>(c, R.layout.list_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	                cm = new CoverAdapter<Manga>(c, R.layout.list_cover_with_text_item, result, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
 	            } else {
-	                cm = new CoverAdapter<Manga>(c, R.layout.grid_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	                cm = new CoverAdapter<Manga>(c, R.layout.grid_cover_with_text_item, result, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
 	            }
 	        }
 	
@@ -294,9 +294,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        }
 			if (ca == null) {
 	            if (useTraditionalList) {
-	                ca = new CoverAdapter<Anime>(c, R.layout.list_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	                ca = new CoverAdapter<Anime>(c, R.layout.list_cover_with_text_item, result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
 	            } else {
-	                ca = new CoverAdapter<Anime>(c, R.layout.grid_cover_with_text_item, result, mManager, recordType, this.gridCellHeight, useSecondaryAmounts);
+	                ca = new CoverAdapter<Anime>(c, R.layout.grid_cover_with_text_item, result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
 	            }
 	        }
 	
@@ -309,6 +309,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        }
 	
 	        if (forceSyncBool) {
+	        	Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
 	        }
