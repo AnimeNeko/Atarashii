@@ -190,7 +190,7 @@ public class DatabaseManager {
 
 	public Manga getManga(int id) {
 		Manga result = null;
-		Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, ANIMECOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+		Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
 		if (cursor.moveToFirst())
 			result = Manga.fromCursor(cursor);
 		cursor.close();
