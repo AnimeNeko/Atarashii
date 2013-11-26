@@ -178,7 +178,7 @@ public class DatabaseManager {
 		cv.put("volumesTotal", manga.getVolumes());
 		cv.put("chaptersTotal", manga.getChapters());
 		cv.put("dirty", manga.getDirty());
-		if (manga.getLastUpdate() != null);
+		if (manga.getLastUpdate() != null)
 			cv.put("lastUpdate", manga.getLastUpdate().getTime());
 
 		if (!ignoreSynopsis) {
