@@ -83,8 +83,8 @@
     <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
     <!-- AboutActivity Screen Text -->
     <string name="contributors_card_title">Major Contributors</string>
-    <string name="acknowledgements_card_title">Acknowledgements</string>
-    <string name="acknowledgements">Atarashii! uses the <a href="http://mal-api.com/">Unofficial MAL API</a> by Chu Yeow Cheah. \n\nAtarashii also implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
+    <string name="acknowledgements_card_title">Open source libraries</string>
+    <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
     <string name="app_description">Atarashii! is a mobile client for the popular MyAnimeList.net website. It focuses primarily on ease-of-use while still being visually pleasing.</string>
     <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
     <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
@@ -92,6 +92,9 @@
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
+	<string name="community_card_title">Atarashii community</string>
+	<string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Atarashii community</a> is a social community at google+.\n\nThis community allows you to request features/give feedback/ask questions to the contributors and users.</string>
+	
     <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
     <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access your MyAnimeList account</string>
     <string name="permission_updateMedia">Update Records</string>
