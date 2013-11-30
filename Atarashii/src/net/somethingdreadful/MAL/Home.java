@@ -104,6 +104,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
+        if (savedInstanceState != null) {
+            AutoSync = savedInstanceState.getInt("AutoSync");
+        }
         
         if (init) {
             setContentView(R.layout.activity_home);
@@ -172,10 +175,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     checkNetworkAndDisplayCrouton();
                 }
             };
-            
-            if (savedInstanceState != null) {
-                AutoSync = savedInstanceState.getInt("AutoSync");
-            }
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -207,8 +206,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             return false;
         }
     }
-    
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -326,13 +323,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 		try {
-			if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
-        		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+			if (AutoSync == 0 && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
+        		if (mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
         			synctask();
-        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
+        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected and sync always.
         			synctask();
         		}
-        	}else if (mPrefManager.getInitsync() && AutoSync == 0 && isNetworkAvailable()){
+        	}else if (mPrefManager.getInitsync() && AutoSync == 0 && networkAvailable == true){
         		mPrefManager.setInitsync(false);
         		mPrefManager.commitChanges();
         		synctask();
@@ -357,7 +354,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putInt("AutoSync", AutoSync);
-        state.putInt("myList", af.currentList);
         super.onSaveInstanceState(state);
     }
 
@@ -472,10 +468,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
 
     public void checkNetworkAndDisplayCrouton() {
-    	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+    	
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+    		af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 			if (af.getMode() > 0) {
 	            af.setMode(0);
 				mf.setMode(0);
@@ -485,9 +482,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 	        }
         } else if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
-            af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(mf.currentList, "manga", true, this.context);
-            syncNotify();
+            synctask();
         }
 
         if (!isNetworkAvailable()) {
