@@ -55,6 +55,14 @@ public class PrefManager {
         return prefs.getBoolean("Only_wifi", false);
     }
     
+    public Integer getsync_time() { //Home, get the auto-sync interval
+        return Integer.parseInt(prefs.getString("synchronisation_time", "5"));
+    }
+    
+    public Integer getsync_time_last() { //Home, get the last auto-sync interval
+        return prefs.getInt("synchronisation_time_last", 1);
+    }
+    
     public boolean anime_manga_zero() { //profile activity, if the card is empty setting
         return prefs.getBoolean("a_mhide", false);
     }
@@ -97,6 +105,10 @@ public class PrefManager {
 
     public void setLastSyncTime(long lastsync) {
         prefeditor.putLong("lastSync", lastsync);
+    }
+    
+    public void setsync_time_last(int time) { //Home, set the last auto-sync interval
+    	prefeditor.putInt("synchronisation_time_last", time);
     }
     
     public void commitChanges() {
