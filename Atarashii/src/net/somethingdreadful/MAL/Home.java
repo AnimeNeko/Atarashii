@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -322,23 +323,31 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
     	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-		try {
-			if (AutoSync == 0 && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
-        		if (mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
-        			synctask();
-        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected and sync always.
-        			synctask();
-        		}
-        	}else if (mPrefManager.getInitsync() && AutoSync == 0 && networkAvailable == true){
-        		mPrefManager.setInitsync(false);
-        		mPrefManager.commitChanges();
-        		synctask();
-        	}else{
-        		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
-        	}
-        }catch (Exception e){
-        	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
-        }
+		
+		//auto-sync stuff
+		if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
+			Calendar localCalendar = Calendar.getInstance();
+			int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
+				Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY)*60;
+				Time_now = Time_now + localCalendar.get(Calendar.MINUTE);
+			int last_sync = mPrefManager.getsync_time_last();
+			if (last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time())){
+				//no sync needed (This is inside the time range)
+			}else{
+				if (mPrefManager.getonly_wifiEnabled() == false){
+					synctask();
+					mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+				}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+					synctask();
+					mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+				}
+			}
+			mPrefManager.commitChanges();
+		}else if (mPrefManager.getInitsync() && AutoSync == 0 && networkAvailable == true){
+			mPrefManager.setInitsync(false);
+			mPrefManager.commitChanges();
+			synctask();
+		}
     }
     
     public void synctask(){
