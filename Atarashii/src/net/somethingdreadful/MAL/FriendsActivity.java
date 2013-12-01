@@ -245,14 +245,25 @@ public class FriendsActivity extends SherlockFragmentActivity {
 					int length = jsonArray.length() - 1;
 					UsernameList.clear();
 					for(int lengtarray=0;lengtarray<=length;lengtarray++){
+						
 						JSONObject jsonObject = jsonArray.getJSONObject(lengtarray);
 						SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
-						String user = jsonObject.getString("name");
-						Edit.putString("last_online" + user ,jsonObject.getString("last_online")).commit();
-						Edit.putString("since" + user ,jsonObject.getString("since")).commit();
-						Edit.putString("avatar_url_short" + user ,jsonObject.getString("image_url_short")).commit();
-						Edit.putString("avatar_url" + user ,jsonObject.getString("image_url")).commit();
-						UsernameList.add(user);
+						
+						String name = jsonObject.getString("name");
+						String friend_since = jsonObject.getString("friend_since");
+							String profile_string = jsonObject.getString("profile");
+							JSONObject profile = new JSONObject(profile_string);
+						String avatar_url = profile.getString("avatar_url");
+							String details_string = profile.getString("details");
+							JSONObject details = new JSONObject(details_string);
+						String last_online = details.getString("last_online");
+						
+						if (friend_since == "null"){friend_since="Unknown";}
+						
+						Edit.putString("last_online" + name ,last_online).commit();
+						Edit.putString("since" + name , friend_since).commit();
+						Edit.putString("avatar_url" + name , avatar_url).commit();
+						UsernameList.add(name);
 					}
 				} catch (Exception e) {
 				}
