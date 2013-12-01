@@ -509,40 +509,36 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         animethread.setListType(BaseMALApi.ListType.ANIME);
         animethread.execute(query);
                   
-        /*networkThread mangathread = new networkThread(1);
+        networkThread mangathread = new networkThread(1);
         mangathread.setListType(BaseMALApi.ListType.MANGA);
-        mangathread.execute(query);*/
-        //API doesn't support getting popular manga :/  
+        mangathread.execute(query);
     }
     public void getTopRated(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(2);
         animethread.setListType(BaseMALApi.ListType.ANIME);
         animethread.execute(query);
         
-        /*networkThread mangathread = new networkThread(2);
+        networkThread mangathread = new networkThread(2);
         mangathread.setListType(BaseMALApi.ListType.MANGA);
-        mangathread.execute(query);*/
-        //API doesn't support getting top rated manga :/  
+        mangathread.execute(query);
     }
     public void getJustAdded(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(3);
     	animethread.setListType(BaseMALApi.ListType.ANIME);
     	animethread.execute(query);
               
-    	/*networkThread mangathread = new networkThread(3);
+    	networkThread mangathread = new networkThread(3);
      	mangathread.setListType(BaseMALApi.ListType.MANGA);
-     	mangathread.execute(query);*/
-    	//API doesn't support getting popular manga :/  
+     	mangathread.execute(query);
     }
     public void getUpcoming(BaseMALApi.ListType listType){
     	networkThread animethread = new networkThread(4);
     	animethread.setListType(BaseMALApi.ListType.ANIME);
     	animethread.execute(query);
               
-    	/*networkThread mangathread = new networkThread(4);
+    	networkThread mangathread = new networkThread(4);
      	mangathread.setListType(BaseMALApi.ListType.MANGA);
-     	mangathread.execute(query);*/
-    	//API doesn't support getting popular manga :/  
+     	mangathread.execute(query);
     }
     
     public class networkThread extends AsyncTask<String, Void, Void> {
