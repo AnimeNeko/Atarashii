@@ -613,6 +613,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                             }
                         }
                         af.setAnimeRecords(list);
+                        Home.this.af.scrollListener.notifyMorePages(listType);
                         break;
                     }
                     case MANGA: {
@@ -620,6 +621,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         
                         if (_result.length() == 0) {
 							Log.w("MALX", "No manga records.");
+							af.scrollToTop();
+                			mf.scrollToTop();
+                			if (mf.getMode()== 1){
+                				getTopRated(BaseMALApi.ListType.MANGA);
+                			} else if (mf.getMode()== 2){
+                				getMostPopular(BaseMALApi.ListType.MANGA);
+                			} else if (mf.getMode()== 3){
+                				getJustAdded(BaseMALApi.ListType.MANGA);
+                			} else if (mf.getMode()== 4){
+                				getUpcoming(BaseMALApi.ListType.MANGA);
+                			}
+                			mf.scrollListener.resetPageNumber();
                         }
                         else {
                         	for (int i = 0; i < _result.length(); i++) {
@@ -629,14 +642,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                             }	
                         }
                         mf.setMangaRecords(list);
+                        Home.this.mf.scrollListener.notifyMorePages(listType);
                         break;
                     }
                 }
-                
             } catch (Exception e) {
                 Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
             }
-            Home.this.af.scrollListener.notifyMorePages();
+            
         }
     }
     
