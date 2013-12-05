@@ -325,7 +325,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 		
 		//auto-sync stuff
-		if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
+		if (mPrefManager.getInitsync() && AutoSync == 0 && networkAvailable == true){
+			mPrefManager.setInitsync(false);
+			mPrefManager.commitChanges();
+			synctask();
+		} else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
 			Calendar localCalendar = Calendar.getInstance();
 			int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
 				Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY)*60;
@@ -343,10 +347,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				}
 			}
 			mPrefManager.commitChanges();
-		}else if (mPrefManager.getInitsync() && AutoSync == 0 && networkAvailable == true){
-			mPrefManager.setInitsync(false);
-			mPrefManager.commitChanges();
-			synctask();
 		}
     }
     
