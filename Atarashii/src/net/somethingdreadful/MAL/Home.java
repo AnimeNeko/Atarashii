@@ -691,7 +691,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				break;
 			case 3:
 				getTopRated(BaseMALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(1);
 				mf.setMode(1);
@@ -700,7 +699,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				break;
 			case 4:
 				getMostPopular(BaseMALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(2);
 				mf.setMode(2);
@@ -709,7 +707,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				break;
 			case 5:
 				getJustAdded(BaseMALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(3);
 				mf.setMode(3);
@@ -718,7 +715,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				break;
 			case 6:
 				getUpcoming(BaseMALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<MangaRecord>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
 				myList = false;
 				af.setMode(4);
 				mf.setMode(4);
