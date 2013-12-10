@@ -62,6 +62,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         UsernameList = new ArrayList<String>();
         userList = (GridView)findViewById(R.id.listview);
         listadapter = new ListViewAdapter();
+        
         restorelist(false); //restore users from preferences
         refresh(false);
         
@@ -97,11 +98,11 @@ public class FriendsActivity extends SherlockFragmentActivity {
         		maketext("Error while saving the list!", 2);
         	}
         }
-        try{
-			userList.setAdapter(listadapter);	
+        if (UsernameList.size() == 0){
+        	maketext("You have no friends!", 2);
+        }else{
+        	userList.setAdapter(listadapter);	
 			listadapter.notifyDataSetChanged();
-        }catch(Exception e){
-        	maketext("You have no friends at your list or refresh the list!", 3);
         }
     }
     
@@ -226,7 +227,11 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	            		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
 	            		lastonline.setText(Read.getString("last_online" + username, "Unknown"));
 	            		Picasso picasso =  Picasso.with(context);
-		            	picasso.load(Read.getString("avatar_url" + username, "http://cdn.myanimelist.net/images/na.gif")).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).fit().into((ImageView) view.findViewById(R.id.profileImg));
+		            	picasso.load(Read.getString("avatar_url" + username, "http://cdn.myanimelist.net/images/na.gif"))
+		            		.error(R.drawable.cover_error)
+		            		.placeholder(R.drawable.cover_loading)
+		            		.fit()
+		            		.into((ImageView) view.findViewById(R.id.profileImg));
 	            	}
 	            }catch (Exception e){
 	            	e.printStackTrace();
@@ -251,15 +256,12 @@ public class FriendsActivity extends SherlockFragmentActivity {
 						
 						String name = jsonObject.getString("name");
 						String friend_since = jsonObject.getString("friend_since");
-							String profile_string = jsonObject.getString("profile");
-							JSONObject profile = new JSONObject(profile_string);
+							JSONObject profile = new JSONObject(jsonObject.getString("profile"));
 						String avatar_url = profile.getString("avatar_url");
-							String details_string = profile.getString("details");
-							JSONObject details = new JSONObject(details_string);
+							JSONObject details = new JSONObject(profile.getString("details"));
 						String last_online = details.getString("last_online");
 						
 						if (friend_since == "null"){friend_since="Unknown";}
-						
 						Edit.putString("last_online" + name ,last_online).commit();
 						Edit.putString("since" + name , friend_since).commit();
 						Edit.putString("avatar_url" + name , avatar_url).commit();
