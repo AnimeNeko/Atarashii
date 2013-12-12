@@ -55,7 +55,7 @@ boolean forcesync = false;
     	tv25.setOnClickListener(new View.OnClickListener() {
     	    @Override
     	    public void onClick(View v) {
-    	    	Uri webstiteclick = Uri.parse(ProfileMALRecord.website);
+    	    	Uri webstiteclick = Uri.parse(ProfileMALRecord.record.get(3));
             	startActivity(new Intent(Intent.ACTION_VIEW, webstiteclick));
     	    }
     	});
@@ -115,10 +115,10 @@ boolean forcesync = false;
     	if (prefs.mangahide()){
     		mangacard.setVisibility(View.GONE);
     	}
-    	if (prefs.anime_manga_zero() && ProfileMALRecord.M_total_entries < 1){ //if manga (total entry) is beneath the int then hide
+    	if (prefs.anime_manga_zero() && Integer.parseInt(ProfileMALRecord.record.get(27)) < 1){ //if manga (total entry) is beneath the int then hide
     		mangacard.setVisibility(View.GONE);
     	}
-    	if (prefs.anime_manga_zero() && ProfileMALRecord.A_total_entries < 1){ //if anime (total entry) is beneath the int then hide
+    	if (prefs.anime_manga_zero() && Integer.parseInt(ProfileMALRecord.record.get(19)) < 1){ //if anime (total entry) is beneath the int then hide
     		animecard.setVisibility(View.GONE);
     	}
     	TextView namecard = (TextView) findViewById(R.id.name_text);
@@ -141,9 +141,9 @@ boolean forcesync = false;
     	if (prefs.Textcolordisable() == false){
     		setcolor(true);
     		setcolor(false);
-    		if (ProfileMALRecord.access_rank.contains("Administrator")){
+    		if (ProfileMALRecord.record.get(9).contains("Administrator")){
     			tv8.setTextColor(Color.parseColor("#850000"));
-    		}else if (ProfileMALRecord.access_rank.contains("Moderator")) {
+    		}else if (ProfileMALRecord.record.get(9).contains("Moderator")) {
     			tv8.setTextColor(Color.parseColor("#003385"));
     		}else if (ProfileMALRecord.Developerrecord(name)) {
     				tv8.setTextColor(Color.parseColor("#008583")); //Developer
@@ -175,10 +175,10 @@ boolean forcesync = false;
     	TextView textview = null;
     	if (type){ // true = anime, else = manga
     		textview = (TextView) findViewById(R.id.atimedayssmall); //anime
-    		time= ProfileMALRecord.A_time_daysint / 3;
+    		time= Integer.parseInt(ProfileMALRecord.record.get(13)) / 3;
     	}else{
     		textview = (TextView) findViewById(R.id.mtimedayssmall); // manga
-    		time= ProfileMALRecord.M_time_daysint / 2;
+    		time= Integer.parseInt(ProfileMALRecord.record.get(21)) / 2;
     	}
     	if (time <= 0){
     		textview.setTextColor(Color.parseColor("#CF0404"));
@@ -227,72 +227,72 @@ boolean forcesync = false;
     
     public void Settext(){
     	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
-    	if (ProfileMALRecord.birthday.equals("null")){
+    	if (ProfileMALRecord.record.get(1).equals("null")){
     		tv1.setText("Not specified");
     	}else{
-    		tv1.setText(ProfileMALRecord.birthday);
+    		tv1.setText(ProfileMALRecord.record.get(1));
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
-		if (ProfileMALRecord.location.equals("null")){
+		if (ProfileMALRecord.record.get(2).equals("null")){
     		tv2.setText("Not specified");
     	}else{
-    		tv2.setText(ProfileMALRecord.location);
+    		tv2.setText(ProfileMALRecord.record.get(2));
     	}
 		TextView tv25 = (TextView) findViewById(R.id.websitesmall);
 		TextView tv26 = (TextView) findViewById(R.id.websitefront);
 		LinearLayout tv36 = (LinearLayout) findViewById(R.id.details_card);
-		if (ProfileMALRecord.website.contains("http://") && ProfileMALRecord.website.contains(".")){ // filter fake websites
-    		tv25.setText(ProfileMALRecord.website);
+		if (ProfileMALRecord.record.get(4).contains("http://") && ProfileMALRecord.record.get(3).contains(".")){ // filter fake websites
+    		tv25.setText(ProfileMALRecord.record.get(3));
     	}else{
     		tv25.setVisibility(View.GONE);
     		tv26.setVisibility(View.GONE);
     	}
 		TextView tv3 = (TextView) findViewById(R.id.commentspostssmall);
-		tv3.setText(Integer.toString(ProfileMALRecord.comments));
+		tv3.setText(ProfileMALRecord.record.get(4));
 		TextView tv4 = (TextView) findViewById(R.id.forumpostssmall);
-		tv4.setText(Integer.toString(ProfileMALRecord.forum_posts));
+		tv4.setText(ProfileMALRecord.record.get(5));
 		TextView tv5 = (TextView) findViewById(R.id.lastonlinesmall);
-		tv5.setText(ProfileMALRecord.last_online);
+		tv5.setText(ProfileMALRecord.record.get(6));
 		TextView tv6 = (TextView) findViewById(R.id.gendersmall);
-		tv6.setText(ProfileMALRecord.gender);
+		tv6.setText(ProfileMALRecord.record.get(7));
 		TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
-		tv7.setText(ProfileMALRecord.join_date);
+		tv7.setText(ProfileMALRecord.record.get(8));
 		TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
-		tv8.setText(ProfileMALRecord.access_rank);
+		tv8.setText(ProfileMALRecord.record.get(9));
 		TextView tv9 = (TextView) findViewById(R.id.animelistviewssmall);
-		tv9.setText(Integer.toString(ProfileMALRecord.anime_list_views));
+		tv9.setText(ProfileMALRecord.record.get(10));
 		TextView tv10 = (TextView) findViewById(R.id.mangalistviewssmall);
-		tv10.setText(Integer.toString(ProfileMALRecord.manga_list_views));
+		tv10.setText(ProfileMALRecord.record.get(11));
 		
 		TextView tv11 = (TextView) findViewById(R.id.atimedayssmall);
-		tv11.setText(ProfileMALRecord.A_time_days);
+		tv11.setText(ProfileMALRecord.record.get(12));
 		TextView tv12 = (TextView) findViewById(R.id.awatchingsmall);
-		tv12.setText(Integer.toString(ProfileMALRecord.A_watching));
+		tv12.setText(ProfileMALRecord.record.get(14));
 		TextView tv13 = (TextView) findViewById(R.id.acompletedpostssmall);
-		tv13.setText(Integer.toString(ProfileMALRecord.A_completed));
+		tv13.setText(ProfileMALRecord.record.get(15));
 		TextView tv14 = (TextView) findViewById(R.id.aonholdsmall);
-		tv14.setText(Integer.toString(ProfileMALRecord.A_on_hold));
+		tv14.setText(ProfileMALRecord.record.get(16));
 		TextView tv15 = (TextView) findViewById(R.id.adroppedsmall);
-		tv15.setText(Integer.toString(ProfileMALRecord.A_dropped));
+		tv15.setText(ProfileMALRecord.record.get(17));
 		TextView tv16 = (TextView) findViewById(R.id.aplantowatchsmall);
-		tv16.setText(Integer.toString(ProfileMALRecord.A_plan_to_watch));
+		tv16.setText(ProfileMALRecord.record.get(18));
 		TextView tv17 = (TextView) findViewById(R.id.atotalentriessmall);
-		tv17.setText(Integer.toString(ProfileMALRecord.A_total_entries));
+		tv17.setText(ProfileMALRecord.record.get(19));
 		
 		TextView tv18 = (TextView) findViewById(R.id.mtimedayssmall);
-		tv18.setText(ProfileMALRecord.M_time_days);
+		tv18.setText(ProfileMALRecord.record.get(20));
 		TextView tv19 = (TextView) findViewById(R.id.mwatchingsmall);
-		tv19.setText(Integer.toString(ProfileMALRecord.M_reading));
+		tv19.setText(ProfileMALRecord.record.get(22));
 		TextView tv20 = (TextView) findViewById(R.id.mcompletedpostssmall);
-		tv20.setText(Integer.toString(ProfileMALRecord.M_completed));
+		tv20.setText(ProfileMALRecord.record.get(23));
 		TextView tv21 = (TextView) findViewById(R.id.monholdsmall);
-		tv21.setText(Integer.toString(ProfileMALRecord.M_on_hold));
+		tv21.setText(ProfileMALRecord.record.get(24));
 		TextView tv22 = (TextView) findViewById(R.id.mdroppedsmall);
-		tv22.setText(Integer.toString(ProfileMALRecord.M_dropped));
+		tv22.setText(ProfileMALRecord.record.get(25));
 		TextView tv23 = (TextView) findViewById(R.id.mplantowatchsmall);
-		tv23.setText(Integer.toString(ProfileMALRecord.M_plan_to_read));
+		tv23.setText(ProfileMALRecord.record.get(26));
 		TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
-		tv24.setText(Integer.toString(ProfileMALRecord.M_total_entries));
+		tv24.setText(ProfileMALRecord.record.get(27));
 		
 		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265){
 			tv25.setTextSize(14);
@@ -322,19 +322,17 @@ boolean forcesync = false;
         }
 
 		protected void onPostExecute(String check) {
-			if (ProfileMALRecord.avatar_url == ""){ //IF MAL IS OFFLINE THIS WILL START OFFLINE.
-				ProfileMALRecord.Loadrecord();
-		    	if (ProfileMALRecord.avatar_url==""){
+			if (ProfileMALRecord.Loadrecord()){ //IF MAL IS OFFLINE THIS WILL START OFFLINE.
+		    	if (ProfileMALRecord.record.size() == 0){
 		    		maketext("No offline record available!",2 );
 		    	}else{
 		    		Settext();
 		    	}
 			}else{
 				Settext();
-				ProfileMALRecord.Saverecord();
 			}
 			try{
-				Picasso.with(context).load(ProfileMALRecord.avatar_url)
+				Picasso.with(context).load(ProfileMALRecord.record.get(0))
 					.error(R.drawable.cover_error)
 					.placeholder(R.drawable.cover_loading)
 					.into((ImageView) findViewById(R.id.Image));
