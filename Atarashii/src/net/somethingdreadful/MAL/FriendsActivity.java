@@ -1,14 +1,11 @@
 package net.somethingdreadful.MAL;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.ProfileMALRecord;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,12 +37,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class FriendsActivity extends SherlockFragmentActivity {
 	
     Context context;
-    public static ArrayList<String> UsernameList;
     ListViewAdapter listadapter;
-    int indexp; //position
-    String text; //get selected username long
     GridView userList;
-    boolean network;
     boolean forcesync = false;
     PrefManager prefs;
     
@@ -59,7 +52,6 @@ public class FriendsActivity extends SherlockFragmentActivity {
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
         setTitle("My friends"); //set title
-        UsernameList = new ArrayList<String>();
         userList = (GridView)findViewById(R.id.listview);
         listadapter = new ListViewAdapter();
         
@@ -69,38 +61,22 @@ public class FriendsActivity extends SherlockFragmentActivity {
         userList.setOnItemClickListener(new OnItemClickListener(){ //start the profile with your friend
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-    		ProfileMALRecord.username = UsernameList.get(arg2);
+    		ProfileMALRecord.username = ProfileMALRecord.Friendrecord.get(arg2);
     		ProfileMALRecord.Clearrecord(false);
     		Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 			startActivity(profile);
 		}
         });
     }
-	
-    public void remove(){ //removes a user
-    	UsernameList.remove(indexp);
-    	refresh(true);
-    	listadapter.notifyDataSetChanged();
-        restorelist(false);
-    }
     
     public void refresh(boolean save){ //refresh list , if boolean is true than also save
-    	Collections.sort(UsernameList);
+    	Collections.sort(ProfileMALRecord.Friendrecord);
         if (save == true){ // save the list
-        	try{
-        		SharedPreferences.Editor sEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        		Collections.sort(UsernameList);
-        		for(int i=0;i <UsernameList.size();i++){
-        			sEdit.putString("val"+i,UsernameList.get(i));
-        		}
-        	 	sEdit.putInt("size",UsernameList.size()).commit();
-        	 	maketext("Userprofile saved!", 3);
-        	}catch (Exception e){
-        		maketext("Error while saving the list!", 2);
-        	}
+        	ProfileMALRecord.SaveFriendrecord();
+        	maketext("Userprofile saved!", 3);
         }
-        if (UsernameList.size() == 0){
-        	maketext("You have no friends!", 2);
+        if (ProfileMALRecord.Friendrecord.size() == 0){
+        	new Startparse().execute();
         }else{
         	userList.setAdapter(listadapter);	
 			listadapter.notifyDataSetChanged();
@@ -108,17 +84,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
     }
     
     public void restorelist(boolean Refresh){ //restore the list(get the arrays and restore them), boolean true will parse
-    	network = isNetworkAvailable();
-		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
-		UsernameList.clear();
-    	try{
-    		for(int position=0;position<size;position++){
-    			UsernameList.add(PreferenceManager.getDefaultSharedPreferences(context).getString("val"+position,"Error"));
-    		}
-    	}catch (Exception e){
-    		maketext("Error while restoring the list!", 2);
-    		e.printStackTrace();
-    	}
+    	ProfileMALRecord.LoadFriendrecord();
     	if (Refresh){
     		new Startparse().execute();
     	}
@@ -183,7 +149,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	 class ListViewAdapter extends BaseAdapter {
 		  
 	        public int getCount() {
-	            return PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
+	            return ProfileMALRecord.Friendrecord.size();
 	        }
 	        public String getItem(int position) {
 	            return null;
@@ -195,7 +161,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	            return position;
 	        }
 	        public int getViewTypeCount() {
-	            return PreferenceManager.getDefaultSharedPreferences(context).getInt("size",0);
+	            return ProfileMALRecord.Friendrecord.size();
 	        }
 	        
 	        public View getView(int position, View convertView, ViewGroup parent) {
@@ -206,7 +172,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	            		view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
 	                
 	            		//Set username
-	            		String username =  UsernameList.get(position).toString();
+	            		String username =  ProfileMALRecord.Friendrecord.get(position).toString();
 	            		TextView Username = (TextView) view.findViewById(R.id.userName);
 	            		Username.setText(username);
 	            		if (ProfileMALRecord.Developerrecord(username)) {
@@ -249,29 +215,14 @@ public class FriendsActivity extends SherlockFragmentActivity {
 					JSONArray jsonArray = api.getFriends(prefs.getUser());
 						  
 					int length = jsonArray.length() - 1;
-					UsernameList.clear();
-					for(int lengtarray=0;lengtarray<=length;lengtarray++){
-						
-						JSONObject jsonObject = jsonArray.getJSONObject(lengtarray);
-						SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
-						
-						String name = jsonObject.getString("name");
-						String friend_since = jsonObject.getString("friend_since");
-							JSONObject profile = new JSONObject(jsonObject.getString("profile"));
-						String avatar_url = profile.getString("avatar_url");
-							JSONObject details = new JSONObject(profile.getString("details"));
-						String last_online = details.getString("last_online");
-						
-						if (friend_since == "null"){friend_since="Unknown";}
-						Edit.putString("last_online" + name ,last_online).commit();
-						Edit.putString("since" + name , friend_since).commit();
-						Edit.putString("avatar_url" + name , avatar_url).commit();
-						UsernameList.add(name);
+					ProfileMALRecord.Friendrecord.clear();
+					for(int i=0;i<=length;i++){
+						ProfileMALRecord.GrabFriendrecord(jsonArray.getJSONObject(i));
 					}
 				} catch (Exception e) {
 				}
 			  }
-			  return "";
+			  return null;
 		  }
 
 		  protected void onProgressUpdate(Void... progress) {
