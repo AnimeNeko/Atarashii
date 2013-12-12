@@ -70,6 +70,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
     		ProfileMALRecord.username = UsernameList.get(arg2);
+    		ProfileMALRecord.Clearrecord(false);
     		Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 			startActivity(profile);
 		}
