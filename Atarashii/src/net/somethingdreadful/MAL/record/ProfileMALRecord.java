@@ -1,16 +1,12 @@
 package net.somethingdreadful.MAL.record;
 
 import java.util.ArrayList;
-
 import net.somethingdreadful.MAL.FriendsActivity;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public abstract class ProfileMALRecord {
 	public static Context context;
@@ -18,11 +14,11 @@ public abstract class ProfileMALRecord {
 	FriendsActivity friends;
 	
 	public static ArrayList<String> record = new ArrayList<String>();
+	public static ArrayList<String> Friendrecord = new ArrayList<String>();
     
 	public static boolean Loadrecord() { //Load the data of an user
 		SharedPreferences Read = PreferenceManager.getDefaultSharedPreferences(context);
 		for(int i=0;i < 28;i++){
-			Log.e(Integer.toString(i), Read.getString(Integer.toString(i) + ProfileMALRecord.username, "") + "a");
 			record.add(i,Read.getString(Integer.toString(i) + ProfileMALRecord.username, "No data"));
 		}
 		if (record.size()==0){
@@ -37,7 +33,6 @@ public abstract class ProfileMALRecord {
     public static void Saverecord(){ //Save the data of an user
     	SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
     	for(int i=0;i < 28;i++){
-    		Log.e(Integer.toString(i), ProfileMALRecord.record.get(i) + "a");
 			Edit.putString(Integer.toString(i) + ProfileMALRecord.username ,ProfileMALRecord.record.get(i)).commit();
 		}
     }
@@ -78,8 +73,7 @@ public abstract class ProfileMALRecord {
 			record.add(26,Integer.toString(jsonObject.getJSONObject("manga_stats").getInt("plan_to_read")));
 			record.add(27,Integer.toString(jsonObject.getJSONObject("manga_stats").getInt("total_entries")));
 			Saverecord();
-			Log.e("a", record.get(26));
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
@@ -92,6 +86,50 @@ public abstract class ProfileMALRecord {
     		ProfileMALRecord.Loadrecord();
     	}
     }
+    
+    public static void LoadFriendrecord() { //Load the data of an user
+    	try{
+    		SharedPreferences Read = PreferenceManager.getDefaultSharedPreferences(context);
+			int size = Read.getInt("Friendcount",0);
+			Friendrecord.clear();
+    		for(int i=0;i<size;i++){
+    			Friendrecord.add(Read.getString(Integer.toString(i),"Error"));
+    		}
+    	}catch (Exception e){
+    		e.printStackTrace();
+    	}
+	}
+    
+    public static void GrabFriendrecord(JSONObject jsonObject){ //Grab the data of an user
+    	try {
+    		SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    			String name = jsonObject.getString("name");
+    			String friend_since = jsonObject.getString("friend_since");
+    				JSONObject profile = new JSONObject(jsonObject.getString("profile"));
+    				if (friend_since == "null"){friend_since="Unknown";}
+    			Edit.putString("avatar_url" + name , profile.getString("avatar_url")).commit();
+    				JSONObject details = new JSONObject(profile.getString("details"));
+    			Edit.putString("last_online" + name ,details.getString("last_online")).commit();
+    			Edit.putString("since" + name , friend_since).commit();
+    			Friendrecord.add(name);
+			SaveFriendrecord();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public static void SaveFriendrecord(){ //Save the data of an user
+    	try{
+    		SharedPreferences.Editor Edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    		Edit.putInt("Friendcount", Friendrecord.size());
+    		for(int i=0;i < Friendrecord.size();i++){
+    			Edit.putString(Integer.toString(i) ,ProfileMALRecord.Friendrecord.get(i)).commit();
+			}
+    	}catch (Exception e){
+    		e.printStackTrace();
+    	}
+    }
+    
     public static boolean Developerrecord(String name){ 
     	if (name.equals("Ratan12") || name.equals("ratan12") || 
     			name.equals("AnimaSA") || name.equals("animaSA") || 
