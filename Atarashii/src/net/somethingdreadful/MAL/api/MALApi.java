@@ -24,7 +24,7 @@ import android.util.Log;
 
 public class MALApi {
 	private static final String API_HOST = "http://api.atarashiiapp.com";
-	public final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
+	private final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
     
     private MALInterface service;
     private String username;
