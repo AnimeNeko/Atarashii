@@ -95,9 +95,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             useTraditionalList = mPrefManager.getTraditionalListEnabled();
         }
 
-
-        int orientation = layout.getContext().getResources().getConfiguration().orientation;
-
         gv = (GridView) layout.findViewById(R.id.gridview);
         
 

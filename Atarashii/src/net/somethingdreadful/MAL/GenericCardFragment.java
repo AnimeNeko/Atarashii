@@ -51,11 +51,11 @@ public class GenericCardFragment extends SherlockFragment {
 
             if (actionable)
             {
-                actionableIcon.setVisibility(actionableIcon.VISIBLE);
+                actionableIcon.setVisibility(View.VISIBLE);
             }
             else
             {
-                actionableIcon.setVisibility(actionableIcon.INVISIBLE);
+                actionableIcon.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -77,11 +77,11 @@ public class GenericCardFragment extends SherlockFragment {
 
         if (actionable)
         {
-            actionableIcon.setVisibility(actionableIcon.VISIBLE);
+            actionableIcon.setVisibility(View.VISIBLE);
         }
         else
         {
-            actionableIcon.setVisibility(actionableIcon.INVISIBLE);
+            actionableIcon.setVisibility(View.INVISIBLE);
         }
 
     }

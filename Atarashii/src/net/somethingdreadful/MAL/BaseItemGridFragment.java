@@ -78,8 +78,6 @@ public class BaseItemGridFragment extends SherlockFragment {
 
         final String recordType = args.getString("type");
 
-        int orientation = layout.getContext().getResources().getConfiguration().orientation;
-
         gridView = (GridView) layout.findViewById(R.id.gridview);
 
 

@@ -631,7 +631,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	}
     
     private class DemoDrawerListener implements DrawerLayout.DrawerListener {
-    	final ActionBar actionBar = getSupportActionBar();
 		@Override
 		public void onDrawerOpened(View drawerView) {
 			mDrawerToggle.onDrawerOpened(drawerView);
@@ -686,10 +685,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		 */
 		public void onDrawerOpened() {
 			mActionBar.setTitle(mDrawerTitle);
-		}
-
-		public void setTitle(CharSequence title) {
-			mTitle = title;
 		}
 	}
 
