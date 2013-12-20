@@ -429,7 +429,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     private void syncNotify() {
-        Crouton.makeText(this, R.string.toast_SyncMessage, Style.INFO).show();
+        Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -439,7 +439,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_SyncMessage))
+                .setContentText(getString(R.string.crouton_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
         myList = true;
