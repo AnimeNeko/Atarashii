@@ -312,10 +312,8 @@ boolean forcesync = false;
 			Crouton.makeText(this, "UserProfile updated!", Style.CONFIRM).show();
     	}
     	if (record == null){
-    		if (isNetworkAvailable()){
+    		if (!isNetworkAvailable()){
     			Crouton.makeText(this, "This user doesn't has an offline record!", Style.ALERT).show();
-    		}else{
-    			Crouton.makeText(this, "No network connection!", Style.ALERT).show();
     		}
     	}else{
 			Picasso.with(context).load(record.getAvatar())

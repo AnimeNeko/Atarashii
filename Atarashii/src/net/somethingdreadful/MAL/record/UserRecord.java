@@ -118,8 +118,8 @@ public class UserRecord extends GenericMALRecord {
 		return (Integer) recordData.get("manga_list_views");
 	}
 
-	public Float getAnimeTimeDaysD() {
-		return (Float) recordData.get("anime_time_days_d");
+	public String getAnimeTimeDaysD() {
+		return (String) recordData.get("anime_time_days_d").toString();
 	}
 	public Integer getAnimeTimedays() {
 		return (Integer) recordData.get("anime_time_days");
@@ -143,8 +143,8 @@ public class UserRecord extends GenericMALRecord {
 		return (Integer) recordData.get("anime_total_entries");
 	}
 
-	public Float getMangatimedaysD() {
-		return (Float) recordData.get("manga_time_days_d");
+	public String getMangatimedaysD() {
+		return (String) recordData.get("manga_time_days_d").toString();
 	}
 	public Integer getMangaTimedays() {
 		return (Integer) recordData.get("manga_time_days");
