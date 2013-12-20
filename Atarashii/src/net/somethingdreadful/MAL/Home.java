@@ -7,7 +7,7 @@ import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
-import net.somethingdreadful.MAL.record.ProfileMALRecord;
+import net.somethingdreadful.MAL.record.UserRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import org.json.JSONArray;
@@ -158,7 +158,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 }
             });
 
-            // Add tabs for the animu and mango lists
+            // Add tabs for the anime and manga lists
             for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
                 // Create a tab with text corresponding to the page title
                 // defined by the adapter.
@@ -325,8 +325,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 		
 		//auto-sync stuff
-		if (mPrefManager.getInitsync() && AutoSync == 0 && networkAvailable == true){
-			mPrefManager.setInitsync(false);
+		if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable == true){
+			mPrefManager.setsync_time_last(1);
 			mPrefManager.commitChanges();
 			synctask();
 		} else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
@@ -561,7 +561,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         @Override
         protected Void doInBackground(String... params) {
         	try{
-        		String query = params[0];
         		MALApi api = new MALApi(context);
         		switch (job){
         		case 1:
@@ -674,7 +673,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 	        }
 			switch (position){
 			case 0:
-				ProfileMALRecord.username = mPrefManager.getUser();
+				UserRecord.username = mPrefManager.getUser();
 				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 				startActivity(Profile);
 				break;
@@ -724,17 +723,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			}
 			Home.this.supportInvalidateOptionsMenu();
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
-			mPreviousView = mActiveView;
-			if (mPreviousView != null)
-				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
-			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
-			mDrawerLayout.closeDrawer(listView);
+			if (position != 0 && position != 2){
+				mPreviousView = mActiveView;
+				if (mPreviousView != null)
+					mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+				mActiveView = view;
+				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			}
+				mDrawerLayout.closeDrawer(listView);
 		}
 	}
     
     private class DemoDrawerListener implements DrawerLayout.DrawerListener {
-    	final ActionBar actionBar = getSupportActionBar();
 		@Override
 		public void onDrawerOpened(View drawerView) {
 			mDrawerToggle.onDrawerOpened(drawerView);

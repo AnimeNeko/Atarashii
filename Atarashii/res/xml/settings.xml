@@ -63,13 +63,6 @@
 					android:defaultValue="@string/preference_autosync_time_default"
 					android:dependency="synchronisation"/>
 			</PreferenceCategory>
-			<PreferenceCategory android:title="@string/preference_category_profile">
-				<CheckBoxPreference 
-					android:key="Wifi_sync" 
-					android:title="Wi-Fi synchronisation" 
-					android:summary="Only use Wi-Fi to synchronise my profile." 
-					android:defaultValue="false"/>
-			</PreferenceCategory>
 	</PreferenceScreen>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference

@@ -69,7 +69,7 @@ public class FirstTimeInit extends SherlockActivity {
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
                     prefManager.setInit(true);
-                    prefManager.setInitsync(true);
+                    prefManager.setsync_time_last(0);
                     prefManager.commitChanges();
 
                     Intent goHome = new Intent(context, Home.class);

@@ -1,7 +1,8 @@
 package net.somethingdreadful.MAL;
 
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.record.ProfileMALRecord;
+import java.util.ArrayList;
+
+import net.somethingdreadful.MAL.record.UserRecord;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.squareup.picasso.Picasso;
 
@@ -26,11 +28,13 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ProfileActivity extends SherlockFragmentActivity   {
+MALManager mManager;
 Context context;
 ImageView Image;
 PrefManager prefs; 
 LinearLayout animecard;
 LinearLayout mangacard;
+UserRecord record;
 
 boolean forcesync = false;
 
@@ -42,23 +46,27 @@ boolean forcesync = false;
         bar.setDisplayHomeAsUpEnabled(true);
         
         context = getApplicationContext();
-        ProfileMALRecord.context = getApplicationContext(); //ProfileMALRecord has a static record!
+        mManager = new MALManager(this.context);
         prefs = new PrefManager(context);
         animecard =(LinearLayout)findViewById(R.id.Anime_card);
         mangacard =(LinearLayout)findViewById(R.id.Manga_card);
         setTitle("User profile"); //set title
 
-        card(); //check the settings
-        new Startparse().execute(); // send url to the background
+        new getProfileRecordsTask().execute(); // send url to the background
         
         TextView tv25 = (TextView) findViewById(R.id.websitesmall);
     	tv25.setOnClickListener(new View.OnClickListener() {
     	    @Override
     	    public void onClick(View v) {
-    	    	Uri webstiteclick = Uri.parse(ProfileMALRecord.record.get(3));
+    	    	Uri webstiteclick = Uri.parse(record.getWebsite());
             	startActivity(new Intent(Intent.ACTION_VIEW, webstiteclick));
     	    }
     	});
+    }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.activity_profile_view, menu);
+        return true;
     }
     
     @Override
@@ -69,14 +77,15 @@ boolean forcesync = false;
                 break;
             case R.id.forceSync:
             	if (isNetworkAvailable()){
+            		Crouton.makeText(this, "Sync started!", Style.INFO).show();
             		forcesync = true;
-            		new Startparse().execute();
+            		new getProfileRecordsTask().execute();
             	}else{
             		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
             	}
                 break;
             case R.id.action_ViewMALPage:
-            	Uri malurl = Uri.parse("http://myanimelist.net/profile/" + ProfileMALRecord.username);
+            	Uri malurl = Uri.parse("http://myanimelist.net/profile/" + UserRecord.username);
             	startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
             case R.id.View:
@@ -115,37 +124,27 @@ boolean forcesync = false;
     	if (prefs.mangahide()){
     		mangacard.setVisibility(View.GONE);
     	}
-    	if (prefs.anime_manga_zero() && Integer.parseInt(ProfileMALRecord.record.get(27)) < 1){ //if manga (total entry) is beneath the int then hide
+    	if (prefs.anime_manga_zero() && record.getMangaTotalEntries() < 1){ //if manga (total entry) is beneath the int then hide
     		mangacard.setVisibility(View.GONE);
     	}
-    	if (prefs.anime_manga_zero() && Integer.parseInt(ProfileMALRecord.record.get(19)) < 1){ //if anime (total entry) is beneath the int then hide
+    	if (prefs.anime_manga_zero() && record.getAnimeTotalEntries() < 1){ //if anime (total entry) is beneath the int then hide
     		animecard.setVisibility(View.GONE);
     	}
     	TextView namecard = (TextView) findViewById(R.id.name_text);
-    	namecard.setText(ProfileMALRecord.username);
-    }
-    
-    public boolean isConnectedWifi() {
-    	ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-    	NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (Wifi.isConnected() && prefs.Wifisyncdisable()) {
-            return true;
-        } else {
-            return false;
-        }
+    	namecard.setText(UserRecord.username);
     }
     
     public void setcolor(){
     	TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
-    	String name = ProfileMALRecord.username;
+    	String name = UserRecord.username;
     	if (prefs.Textcolordisable() == false){
     		setcolor(true);
     		setcolor(false);
-    		if (ProfileMALRecord.record.get(9).contains("Administrator")){
+    		if (record.getAccessRank().contains("Administrator")){
     			tv8.setTextColor(Color.parseColor("#850000"));
-    		}else if (ProfileMALRecord.record.get(9).contains("Moderator")) {
+    		}else if (record.getAccessRank().contains("Moderator")) {
     			tv8.setTextColor(Color.parseColor("#003385"));
-    		}else if (ProfileMALRecord.Developerrecord(name)) {
+    		}else if (UserRecord.developerRecord(name)) {
     				tv8.setTextColor(Color.parseColor("#008583")); //Developer
     		}else{
     				tv8.setTextColor(Color.parseColor("#0D8500")); //normal user
@@ -153,7 +152,7 @@ boolean forcesync = false;
     		TextView tv11 = (TextView) findViewById(R.id.websitesmall);
     		tv11.setTextColor(Color.parseColor("#002EAB"));
     	}
-    	if (ProfileMALRecord.Developerrecord(name)) {
+    	if (UserRecord.developerRecord(name)) {
 			tv8.setText("Atarashii developer"); //Developer
 		}
     }
@@ -163,9 +162,9 @@ boolean forcesync = false;
         sharingIntent.setType("text/plain");
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         if (anime == true){
-        	sharingIntent.putExtra(Intent.EXTRA_TEXT, ProfileMALRecord.username + " shared an anime list using Atarashii : http://myanimelist.net/animelist/" + ProfileMALRecord.username + "!");
+        	sharingIntent.putExtra(Intent.EXTRA_TEXT, UserRecord.username + " shared an anime list using Atarashii : http://myanimelist.net/animelist/" + UserRecord.username + "!");
         }else{
-        	sharingIntent.putExtra(Intent.EXTRA_TEXT, ProfileMALRecord.username + " shared a manga list using Atarashii : http://myanimelist.net/mangalist/" + ProfileMALRecord.username + "!");
+        	sharingIntent.putExtra(Intent.EXTRA_TEXT, UserRecord.username + " shared a manga list using Atarashii : http://myanimelist.net/mangalist/" + UserRecord.username + "!");
         }
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
@@ -175,10 +174,10 @@ boolean forcesync = false;
     	TextView textview = null;
     	if (type){ // true = anime, else = manga
     		textview = (TextView) findViewById(R.id.atimedayssmall); //anime
-    		time= Integer.parseInt(ProfileMALRecord.record.get(13)) / 3;
+    		time= record.getAnimeTimedays() / 3;
     	}else{
     		textview = (TextView) findViewById(R.id.mtimedayssmall); // manga
-    		time= Integer.parseInt(ProfileMALRecord.record.get(21)) / 2;
+    		time= record.getMangaTimedays() / 2;
     	}
     	if (time <= 0){
     		textview.setTextColor(Color.parseColor("#CF0404"));
@@ -227,72 +226,72 @@ boolean forcesync = false;
     
     public void Settext(){
     	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
-    	if (ProfileMALRecord.record.get(1).equals("null")){
+    	if (record.getBirthday().equals("null")){
     		tv1.setText("Not specified");
     	}else{
-    		tv1.setText(ProfileMALRecord.record.get(1));
+    		tv1.setText(record.getBirthday());
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
-		if (ProfileMALRecord.record.get(2).equals("null")){
+		if (record.getLocation().equals("null")){
     		tv2.setText("Not specified");
     	}else{
-    		tv2.setText(ProfileMALRecord.record.get(2));
+    		tv2.setText(record.getLocation());
     	}
 		TextView tv25 = (TextView) findViewById(R.id.websitesmall);
 		TextView tv26 = (TextView) findViewById(R.id.websitefront);
 		LinearLayout tv36 = (LinearLayout) findViewById(R.id.details_card);
-		if (ProfileMALRecord.record.get(4).contains("http://") && ProfileMALRecord.record.get(3).contains(".")){ // filter fake websites
-    		tv25.setText(ProfileMALRecord.record.get(3));
+		if (record.getWebsite().contains("http://") && record.getWebsite().contains(".")){ // filter fake websites
+    		tv25.setText(record.getWebsite());
     	}else{
     		tv25.setVisibility(View.GONE);
     		tv26.setVisibility(View.GONE);
     	}
 		TextView tv3 = (TextView) findViewById(R.id.commentspostssmall);
-		tv3.setText(ProfileMALRecord.record.get(4));
+		tv3.setText(record.getComments().toString());
 		TextView tv4 = (TextView) findViewById(R.id.forumpostssmall);
-		tv4.setText(ProfileMALRecord.record.get(5));
+		tv4.setText(record.getForumposts().toString());
 		TextView tv5 = (TextView) findViewById(R.id.lastonlinesmall);
-		tv5.setText(ProfileMALRecord.record.get(6));
+		tv5.setText(record.getLast());
 		TextView tv6 = (TextView) findViewById(R.id.gendersmall);
-		tv6.setText(ProfileMALRecord.record.get(7));
+		tv6.setText(record.getGender());
 		TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
-		tv7.setText(ProfileMALRecord.record.get(8));
+		tv7.setText(record.getJoinDate());
 		TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
-		tv8.setText(ProfileMALRecord.record.get(9));
+		tv8.setText(record.getAccessRank());
 		TextView tv9 = (TextView) findViewById(R.id.animelistviewssmall);
-		tv9.setText(ProfileMALRecord.record.get(10));
+		tv9.setText(record.getAnimeListviews().toString());
 		TextView tv10 = (TextView) findViewById(R.id.mangalistviewssmall);
-		tv10.setText(ProfileMALRecord.record.get(11));
+		tv10.setText(record.getMangaListviews().toString());
 		
 		TextView tv11 = (TextView) findViewById(R.id.atimedayssmall);
-		tv11.setText(ProfileMALRecord.record.get(12));
+		tv11.setText(record.getAnimeTimeDaysD().toString());
 		TextView tv12 = (TextView) findViewById(R.id.awatchingsmall);
-		tv12.setText(ProfileMALRecord.record.get(14));
+		tv12.setText(record.getAnimeWatching().toString());
 		TextView tv13 = (TextView) findViewById(R.id.acompletedpostssmall);
-		tv13.setText(ProfileMALRecord.record.get(15));
+		tv13.setText(record.getAnimeCompleted().toString());
 		TextView tv14 = (TextView) findViewById(R.id.aonholdsmall);
-		tv14.setText(ProfileMALRecord.record.get(16));
+		tv14.setText(record.getAnimeOnHold().toString());
 		TextView tv15 = (TextView) findViewById(R.id.adroppedsmall);
-		tv15.setText(ProfileMALRecord.record.get(17));
+		tv15.setText(record.getAnimeDropped().toString());
 		TextView tv16 = (TextView) findViewById(R.id.aplantowatchsmall);
-		tv16.setText(ProfileMALRecord.record.get(18));
+		tv16.setText(record.getAnimePlanToWatch().toString());
 		TextView tv17 = (TextView) findViewById(R.id.atotalentriessmall);
-		tv17.setText(ProfileMALRecord.record.get(19));
+		tv17.setText(record.getAnimeTotalEntries().toString());
 		
 		TextView tv18 = (TextView) findViewById(R.id.mtimedayssmall);
-		tv18.setText(ProfileMALRecord.record.get(20));
+		tv18.setText(record.getMangatimedaysD().toString());
 		TextView tv19 = (TextView) findViewById(R.id.mwatchingsmall);
-		tv19.setText(ProfileMALRecord.record.get(22));
+		tv19.setText(record.getMangaReading().toString());
 		TextView tv20 = (TextView) findViewById(R.id.mcompletedpostssmall);
-		tv20.setText(ProfileMALRecord.record.get(23));
+		tv20.setText(record.getMangaCompleted().toString());
 		TextView tv21 = (TextView) findViewById(R.id.monholdsmall);
-		tv21.setText(ProfileMALRecord.record.get(24));
+		tv21.setText(record.getMangaOnHold().toString());
 		TextView tv22 = (TextView) findViewById(R.id.mdroppedsmall);
-		tv22.setText(ProfileMALRecord.record.get(25));
+		tv22.setText(record.getMangaDropped().toString());
 		TextView tv23 = (TextView) findViewById(R.id.mplantowatchsmall);
-		tv23.setText(ProfileMALRecord.record.get(26));
+		tv23.setText(record.getMangaPlanToRead().toString());
 		TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
-		tv24.setText(ProfileMALRecord.record.get(27));
+		tv24.setText(record.getMangaTotalEntries().toString());
 		
 		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265){
 			tv25.setTextSize(14);
@@ -308,41 +307,55 @@ boolean forcesync = false;
 		}
     }
     
-    public class Startparse extends AsyncTask<String, Void, String> {
-    	protected String doInBackground(String... urls) {
-    		if (isConnectedWifi() && prefs.Wifisyncdisable() || forcesync == true || !prefs.Wifisyncdisable() && isNetworkAvailable()){ // settings check
-        		MALApi api = new MALApi(context);
-        		ProfileMALRecord.Grabrecord(api.getProfile(ProfileMALRecord.username));
+    public void refresh(Boolean crouton){
+    	if (crouton == true){
+			Crouton.makeText(this, "UserProfile updated!", Style.CONFIRM).show();
+    	}
+    	if (record == null){
+    		if (isNetworkAvailable()){
+    			Crouton.makeText(this, "This user doesn't has an offline record!", Style.ALERT).show();
+    		}else{
+    			Crouton.makeText(this, "No network connection!", Style.ALERT).show();
     		}
-    		forcesync = false;
-            return "";
-        }
-
-        protected void onProgressUpdate(Void... progress) {
-        }
-
-		protected void onPostExecute(String check) {
-			if (ProfileMALRecord.Loadrecord()){ //IF MAL IS OFFLINE THIS WILL START OFFLINE.
-		    	if (ProfileMALRecord.record.size() == 0){
-		    		maketext("No offline record available!",2 );
-		    	}else{
-		    		Settext();
-		    	}
-			}else{
-				Settext();
-			}
-			try{
-				Picasso.with(context).load(ProfileMALRecord.record.get(0))
-					.error(R.drawable.cover_error)
-					.placeholder(R.drawable.cover_loading)
-					.into((ImageView) findViewById(R.id.Image));
-				card();
-				setcolor();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-        }
+    	}else{
+			Picasso.with(context).load(record.getAvatar())
+				.error(R.drawable.cover_error)
+				.placeholder(R.drawable.cover_loading)
+				.into((ImageView) findViewById(R.id.Image));
+			card();
+			Settext();
+			setcolor();
+    	}
     }
+    
+	  public class getProfileRecordsTask extends AsyncTask<String, Void, ArrayList<UserRecord>> {
+		  Boolean download = false;
+		  
+		  @Override
+		  protected ArrayList<UserRecord> doInBackground(String... user) {
+			 
+			  if (forcesync == true){
+				  mManager.downloadAndStoreProfile(UserRecord.username);
+				  forcesync = false;
+				  download = true;
+			  }
+			  record = mManager.getProfileRecordsFromDB();
+			  if (record == null && isNetworkAvailable()){
+	        	  mManager.downloadAndStoreProfile(UserRecord.username);
+	        	  record = mManager.getProfileRecordsFromDB();
+	          }
+	          return null;
+	      }
+
+	      @Override
+	      protected void onPostExecute(ArrayList<UserRecord> result) {
+	    	  if (download == true){
+	    		  refresh(true);
+	    	  }else{
+	    		  refresh(false);
+	    	  }
+	      }
+	  }
     
 	void choosedialog(final boolean share){ //as the name says
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -360,7 +373,7 @@ boolean forcesync = false;
 		        if (share == true){
 		        	Share(true);
 		        }else{
-		        	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + ProfileMALRecord.username);
+		        	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + UserRecord.username);
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
 		        }
 		    }
@@ -377,7 +390,7 @@ boolean forcesync = false;
 		    	if (share == true){
 		        	Share(false);
 		        }else{
-		        	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + ProfileMALRecord.username);
+		        	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + UserRecord.username);
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
 		        }
 		    }

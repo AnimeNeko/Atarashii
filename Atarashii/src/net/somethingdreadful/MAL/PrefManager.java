@@ -35,10 +35,6 @@ public class PrefManager {
     	return prefs.getBoolean("init", false);
     }
     
-    public boolean getInitsync() {
-    	return prefs.getBoolean("initsync", false);
-    }
-    
     public boolean getTraditionalListEnabled() {
         return prefs.getBoolean("traditionalList", false);
     }
@@ -78,10 +74,6 @@ public class PrefManager {
     public boolean mangahide() {//profile activity, if the setting force hide is turned on
         return prefs.getBoolean("M_hide", false); //manga card
     }
-    
-    public boolean Wifisyncdisable() { //profile activity, if the setting use only wifi is turned on
-        return prefs.getBoolean("Wifi_sync", false);
-    }
 
     public void setUser(String newUser) {
         prefeditor.putString("user", newUser);
@@ -93,10 +85,6 @@ public class PrefManager {
 
     public void setInit(boolean newInit) {
         prefeditor.putBoolean("init", newInit);
-    }
-    
-    public void setInitsync(boolean newInit) {
-        prefeditor.putBoolean("initsync", newInit);
     }
 
     public void setUpgradeInit(boolean newUpgradeInit) {
