@@ -50,7 +50,7 @@ boolean forcesync = false;
         prefs = new PrefManager(context);
         animecard =(LinearLayout)findViewById(R.id.Anime_card);
         mangacard =(LinearLayout)findViewById(R.id.Manga_card);
-        setTitle("User profile"); //set title
+        setTitle(R.string.title_activity_profile); //set title
 
         new getProfileRecordsTask().execute(); // send url to the background
         
@@ -77,11 +77,11 @@ boolean forcesync = false;
                 break;
             case R.id.forceSync:
             	if (isNetworkAvailable()){
-            		Crouton.makeText(this, "Sync started!", Style.INFO).show();
+            		Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
             		forcesync = true;
             		new getProfileRecordsTask().execute();
             	}else{
-            		Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
+            		Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
             	}
                 break;
             case R.id.action_ViewMALPage:
@@ -162,9 +162,9 @@ boolean forcesync = false;
         sharingIntent.setType("text/plain");
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         if (anime == true){
-        	sharingIntent.putExtra(Intent.EXTRA_TEXT, UserRecord.username + " shared an anime list using Atarashii : http://myanimelist.net/animelist/" + UserRecord.username + "!");
+        	sharingIntent.putExtra(Intent.EXTRA_TEXT, UserRecord.username + " " + R.string.share_animelist + UserRecord.username + "!");
         }else{
-        	sharingIntent.putExtra(Intent.EXTRA_TEXT, UserRecord.username + " shared a manga list using Atarashii : http://myanimelist.net/mangalist/" + UserRecord.username + "!");
+        	sharingIntent.putExtra(Intent.EXTRA_TEXT, UserRecord.username + " " + R.string.share_mangalist + UserRecord.username + "!");
         }
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
@@ -309,11 +309,11 @@ boolean forcesync = false;
     
     public void refresh(Boolean crouton){
     	if (crouton == true){
-			Crouton.makeText(this, "UserProfile updated!", Style.CONFIRM).show();
+			Crouton.makeText(this, R.string.crouton_UserRecord_updated, Style.CONFIRM).show();
     	}
     	if (record == null){
     		if (!isNetworkAvailable()){
-    			Crouton.makeText(this, "This user doesn't has an offline record!", Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_noUserRecord , Style.ALERT).show();
     		}
     	}else{
 			Picasso.with(context).load(record.getAvatar())
@@ -358,14 +358,14 @@ boolean forcesync = false;
 	void choosedialog(final boolean share){ //as the name says
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		if (share == true){
-			builder.setTitle("Share");
-			builder.setMessage("Which list do you want to share?");
+			builder.setTitle(R.string.share_title);
+			builder.setMessage(R.string.share_message);
 		}else{
-			builder.setTitle("View");
-			builder.setMessage("Which list do you want to view?");
+			builder.setTitle(R.string.view_title);
+			builder.setMessage(R.string.view_message);
 		}
 
-		builder.setPositiveButton("My animelist", new DialogInterface.OnClickListener() { 
+		builder.setPositiveButton(R.string.dialog_label_manga, new DialogInterface.OnClickListener() { 
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {
 		        if (share == true){
@@ -376,13 +376,13 @@ boolean forcesync = false;
 		        }
 		    }
 		});
-		builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+		builder.setNeutralButton(R.string.dialog_label_cancel, new DialogInterface.OnClickListener() {
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {
 		    	
 		    }
 		});
-		builder.setNegativeButton("My mangalist", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.dialog_label_manga, new DialogInterface.OnClickListener() {
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {
 		    	if (share == true){

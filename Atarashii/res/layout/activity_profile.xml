@@ -25,7 +25,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center"
-		        android:text="Loading..."
+		        android:text="@string/layout_card_loading"
 		        android:textColor="#0099CC"
 		        android:textSize="20sp" />
 
@@ -40,7 +40,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="Application Icon"
+                android:contentDescription="@string/layout_discription"
                 android:gravity="center_horizontal"
                 android:minHeight="80dp"
                 android:padding="8dp" />
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Details"
+                android:text="@string/layout_card_title_details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
 					<!-- Content of details -->
@@ -78,7 +78,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Birthday"
+    						    android:text="@string/layout_card_birthday"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -87,7 +87,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@+id/birthdayfront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
 
     						<TextView
@@ -97,7 +97,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/birthdayfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Location"
+    						    android:text="@string/layout_card_location"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -106,7 +106,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/locationfront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -116,7 +116,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/locationfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Website"
+    						    android:text="@string/layout_card_website"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
 
@@ -126,7 +126,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/websitefront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -136,7 +136,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/websitefront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Comments"
+    						    android:text="@string/layout_card_comments"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -146,7 +146,7 @@
     						    android:layout_alignBaseline="@id/commentsfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -156,7 +156,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/commentsfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Forum posts"
+    						    android:text="@string/layout_card_forum"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -166,7 +166,7 @@
     						    android:layout_alignBaseline="@id/forumpostsfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -176,7 +176,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/forumpostsfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="last online"
+    						    android:text="@string/layout_card_last"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -186,7 +186,7 @@
     						    android:layout_alignBaseline="@id/lastonlinefront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -196,7 +196,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/lastonlinefront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Gender"
+    						    android:text="@string/layout_card_gender"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -206,7 +206,7 @@
     						    android:layout_alignBaseline="@id/genderfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -216,7 +216,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/genderfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Join date"
+    						    android:text="@string/layout_card_join"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -226,7 +226,7 @@
     						    android:layout_alignBaseline="@id/joindatefront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -236,7 +236,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/joindatefront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Access rank"
+    						    android:text="@string/layout_card_acces"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
 
@@ -247,8 +247,7 @@
     						    android:layout_alignBaseline="@id/accessrankfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:editable="false"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -258,7 +257,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/accessrankfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Animelist views"
+    						    android:text="@string/layout_card_anime_views"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -268,7 +267,7 @@
     						    android:layout_alignBaseline="@id/animelistviewsfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -278,7 +277,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/animelistviewsfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Mangalist views"
+    						    android:text="@string/layout_card_manga_views"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
 
@@ -288,7 +287,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentBottom="true"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
 
 				</RelativeLayout>
@@ -311,7 +310,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Anime details"
+                android:text="@string/layout_card_anime_details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
 			<!-- content anime -->
@@ -325,7 +324,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Time days"
+    						    android:text="@string/layout_card_anime_time"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -334,7 +333,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@+id/atimedaysfront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
 
     						<TextView
@@ -344,7 +343,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/atimedaysfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Watching"
+    						    android:text="@string/layout_card_anime_watching"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -353,7 +352,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/awatchingfront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -363,7 +362,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/awatchingfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Completed"
+    						    android:text="@string/layout_card_anime_completed"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -373,7 +372,7 @@
     						    android:layout_alignBaseline="@id/acompletedfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -383,7 +382,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/acompletedfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="On hold"
+    						    android:text="@string/layout_card_anime_on"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -393,7 +392,7 @@
     						    android:layout_alignBaseline="@id/aonholdfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -403,7 +402,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/aonholdfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Dropped"
+    						    android:text="@string/layout_card_anime_dropped"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -413,7 +412,7 @@
     						    android:layout_alignBaseline="@id/adroppedfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -423,7 +422,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/adroppedfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Plan to watch"
+    						    android:text="@string/layout_card_anime_plan"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -433,7 +432,7 @@
     						    android:layout_alignBaseline="@id/aplantowatchfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -443,7 +442,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/aplantowatchfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Total entries"
+    						    android:text="@string/layout_card_anime_total"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -453,7 +452,7 @@
     						    android:layout_alignBaseline="@id/atotalentriesfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
 
 				</RelativeLayout>
@@ -476,7 +475,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Manga details"
+                android:text="@string/layout_card_manga_details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
 			<!-- Content manga -->
@@ -490,7 +489,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Time days"
+    						    android:text="@string/layout_card_anime_time"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -499,7 +498,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@+id/mtimedaysfront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
 
     						<TextView
@@ -509,7 +508,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/mtimedaysfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Reading"
+    						    android:text="@string/layout_card_manga_reading"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -518,7 +517,7 @@
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/mwatchingfront"
     						    android:layout_alignParentRight="true"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -528,7 +527,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/mwatchingfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Completed"
+    						    android:text="@string/layout_card_anime_completed"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -538,7 +537,7 @@
     						    android:layout_alignBaseline="@id/mcompletedfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -548,7 +547,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/mcompletedfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="On hold"
+    						    android:text="@string/layout_card_anime_on"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -558,7 +557,7 @@
     						    android:layout_alignBaseline="@id/monholdfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -568,7 +567,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/monholdfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Dropped"
+    						    android:text="@string/layout_card_anime_dropped"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -578,7 +577,7 @@
     						    android:layout_alignBaseline="@id/mdroppedfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -588,7 +587,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/mdroppedfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Plan to read"
+    						    android:text="@string/layout_card_manga_plan"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -598,7 +597,7 @@
     						    android:layout_alignBaseline="@id/mplantowatchfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
     						
     						<TextView
@@ -608,7 +607,7 @@
     						    android:layout_alignParentLeft="true"
     						    android:layout_below="@+id/mplantowatchfront"
     						    android:layout_marginTop="8dp"
-    						    android:text="Total entries"
+    						    android:text="@string/layout_card_anime_total"
     						    android:textSize="18sp"
     						    android:textStyle="bold" />
     						<TextView
@@ -618,7 +617,7 @@
     						    android:layout_alignBaseline="@id/mtotalentriesfront"
     						    android:layout_alignParentRight="true"
     						    android:layout_marginTop="8dp"
-    						    android:text="Loading"
+    						    android:text="@string/layout_card_loading"
     						    android:textSize="16sp" />
 
 				</RelativeLayout>

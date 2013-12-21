@@ -8,6 +8,7 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_detail_view">DetailView</string>
     <string name="title_activity_logout">Logout</string>
+    <string name="title_activity_profile">User profile</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
@@ -17,21 +18,59 @@
 
     <!-- All (Crouton) Strings -->
     <string name="crouton_noConnectivityOnRun">No connection detected. Changes will be stored for later sync.</string>
+    <string name="crouton_noConnectivity">No network connection detected.</string>
     <string name="crouton_connectionRestored">Connection restored. Syncing pending changes.</string>
     <string name="crouton_noAnimeFound">No anime results found. Maybe refine your query?</string>
     <string name="crouton_noMangaFound">No manga results found. Maybe refine your query?</string>
     <string name="crouton_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
     <string name="crouton_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
+    <string name="crouton_noUserRecord">This user doesn\'t has an offline record!</string>
+    <string name="crouton_UserRecord_updated">UserProfile updated!</string>
+    <string name="toast_SyncDone">Sync Complete!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_label_cancel">Cancel</string>
+    <string name="dialog_label_anime">My animelist</string>
+    <string name="dialog_label_manga">My mangalist</string>
     <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_title_rating">Rating</string>
     <string name="dialog_logout_title">Confirm Logout</string>
     <string name="dialog_logout_label_confirm">Logout</string>
     <string name="dialog_logout_message">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
-    <string name="toast_SyncDone">Sync Complete!</string>
+    <string name="view_title">View</string>
+    <string name="view_message">Which list do you want to view?</string>
+    <string name="share_title">Share</string>
+    <string name="share_message">Which list do you want to share?</string>
+
+    <!-- ProfileActivity (Contents) Strings -->
+    <string name="share_animelist">shared an anime list using Atarashii: http://myanimelist.net/animelist/</string>
+    <string name="share_mangalist">shared a manga list using Atarashii: http://myanimelist.net/mangalist/</string>
+    <string name="layout_card_title_details">Details</string>
+    <string name="layout_discription">Application Icon</string>
+    <string name="layout_card_loading">Loading</string>
+    <string name="layout_card_birthday">Birthday</string>
+    <string name="layout_card_location">Location</string>
+    <string name="layout_card_website">Website</string>
+    <string name="layout_card_comments">Comments</string>
+    <string name="layout_card_forum">Forum posts</string>
+    <string name="layout_card_last">last online</string>
+    <string name="layout_card_gender">Gender</string>
+    <string name="layout_card_join">Join date</string>
+    <string name="layout_card_acces">Access rank</string>
+    <string name="layout_card_anime_views">Animelist views</string>
+    <string name="layout_card_manga_views">Mangalist views</string>
+    <string name="layout_card_anime_details">Anime details</string>
+    <string name="layout_card_manga_details">manga details</string>
+    <string name="layout_card_anime_time">Time days</string>
+    <string name="layout_card_anime_watching">Watching</string>
+    <string name="layout_card_anime_completed">Completed</string>
+    <string name="layout_card_anime_on">On hold</string>
+    <string name="layout_card_anime_dropped">Dropped</string>
+    <string name="layout_card_anime_plan">Plan to watch</string>
+    <string name="layout_card_anime_total">Total entries</string>
+    <string name="layout_card_manga_reading">Reading</string>
+    <string name="layout_card_manga_plan">Plan to read</string>
 
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="fr_hint_user">MAL Username</string>
@@ -81,7 +120,7 @@
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">Search in MAL</string>
 
-    <!-- AboutActivity Screen Text -->
+    <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Major Contributors</string>
     <string name="acknowledgements_card_title">Open source libraries</string>
     <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
