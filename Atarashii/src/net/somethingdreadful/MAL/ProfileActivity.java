@@ -46,7 +46,7 @@ boolean forcesync = false;
         bar.setDisplayHomeAsUpEnabled(true);
         
         context = getApplicationContext();
-        mManager = new MALManager(this.context);
+        mManager = new MALManager(context);
         prefs = new PrefManager(context);
         animecard =(LinearLayout)findViewById(R.id.Anime_card);
         mangacard =(LinearLayout)findViewById(R.id.Manga_card);
@@ -314,6 +314,8 @@ boolean forcesync = false;
     	if (record == null){
     		if (!isNetworkAvailable()){
     			Crouton.makeText(this, R.string.crouton_noUserRecord , Style.ALERT).show();
+    		}else{
+    			Crouton.makeText(this, R.string.crouton_UserRecord_error , Style.ALERT).show();
     		}
     	}else{
 			Picasso.with(context).load(record.getAvatar())

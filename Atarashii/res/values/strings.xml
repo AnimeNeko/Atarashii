@@ -26,6 +26,7 @@
     <string name="crouton_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="crouton_noUserRecord">This user doesn\'t has an offline record!</string>
     <string name="crouton_UserRecord_updated">UserProfile updated!</string>
+    <string name="crouton_UserRecord_error">Userprofile is empty!</string>
     <string name="crouton_UserRecord_noFriends">You have no friends on MAL!</string>
     <string name="toast_SyncDone">Sync Complete!</string>
 

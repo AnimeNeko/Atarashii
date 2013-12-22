@@ -54,7 +54,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         int recource = R.layout.list_friends_with_text_item;
         
         listadapter = new ListViewAdapter<UserRecord>(context, recource);
-        mManager = new MALManager(this.context);
+        mManager = new MALManager(context);
         prefs = new PrefManager(context);
         
         new getFriendsRecordsTask().execute();
