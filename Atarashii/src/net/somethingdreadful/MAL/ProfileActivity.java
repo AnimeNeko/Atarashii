@@ -365,7 +365,7 @@ boolean forcesync = false;
 			builder.setMessage(R.string.view_message);
 		}
 
-		builder.setPositiveButton(R.string.dialog_label_manga, new DialogInterface.OnClickListener() { 
+		builder.setPositiveButton(R.string.dialog_label_anime, new DialogInterface.OnClickListener() { 
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {
 		        if (share == true){
