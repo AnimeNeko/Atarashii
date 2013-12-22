@@ -72,7 +72,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
     
     public void refresh(Boolean crouton){
     	if (crouton == true){
-			Crouton.makeText(this, "FriendList updated!", Style.CONFIRM).show();
+			Crouton.makeText(this, R.string.toast_SyncDone, Style.CONFIRM).show();
     	}
         Gridview.setAdapter(listadapter);	
         listadapter.clear();
@@ -80,9 +80,9 @@ public class FriendsActivity extends SherlockFragmentActivity {
         	listadapter.supportAddAll(listarray);
         }catch (Exception e){
         	if (isNetworkAvailable()){
-    			Crouton.makeText(this, "You have no friends on MAL!", Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_UserRecord_noFriends, Style.ALERT).show();
     		}else{
-    			Crouton.makeText(this, "No network connection!", Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
     		}
         }
         listadapter.notifyDataSetChanged();
@@ -102,11 +102,11 @@ public class FriendsActivity extends SherlockFragmentActivity {
 			break;
 		case R.id.forceSync:
 			if (isNetworkAvailable()){
-				Crouton.makeText(this, "Sync started!", Style.INFO).show();
+				Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 				forcesync = true;
 	    		new getFriendsRecordsTask().execute();
 			}else{
-				Crouton.makeText(this, "No network connection available!", Style.ALERT).show();
+				Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
 			}
 			break;
 		}

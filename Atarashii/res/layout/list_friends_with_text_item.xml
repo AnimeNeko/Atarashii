@@ -7,9 +7,8 @@
         android:id="@+id/profileImg"
         android:layout_width="60dp"
         android:layout_height="fill_parent"
-        android:layout_below="@id/name_card"
         android:layout_gravity="left"
-        android:contentDescription="Profile Icon"
+        android:contentDescription="@string/layout_card_loading"
         android:gravity="center_horizontal" />
 
     <TextView
@@ -23,7 +22,7 @@
         android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="User Name"
+        android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -36,7 +35,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:text="Offline"
+        android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
@@ -50,7 +49,7 @@
         android:layout_marginTop="32dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="Since"
+        android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
@@ -62,7 +61,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
         android:layout_marginTop="32dp"
-        android:text="Last online"
+        android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />

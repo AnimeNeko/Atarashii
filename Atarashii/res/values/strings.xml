@@ -26,6 +26,7 @@
     <string name="crouton_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="crouton_noUserRecord">This user doesn\'t has an offline record!</string>
     <string name="crouton_UserRecord_updated">UserProfile updated!</string>
+    <string name="crouton_UserRecord_noFriends">You have no friends on MAL!</string>
     <string name="toast_SyncDone">Sync Complete!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
@@ -61,7 +62,7 @@
     <string name="layout_card_anime_views">Animelist views</string>
     <string name="layout_card_manga_views">Mangalist views</string>
     <string name="layout_card_anime_details">Anime details</string>
-    <string name="layout_card_manga_details">manga details</string>
+    <string name="layout_card_manga_details">Manga details</string>
     <string name="layout_card_anime_time">Time days</string>
     <string name="layout_card_anime_watching">Watching</string>
     <string name="layout_card_anime_completed">Completed</string>
