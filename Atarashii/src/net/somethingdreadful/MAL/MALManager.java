@@ -1,9 +1,12 @@
 package net.somethingdreadful.MAL;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
@@ -188,7 +191,23 @@ public class MALManager {
     			recordData.put("manga_total_entries", manga.getInt("total_entries"));
         	}else if (type.equals(TYPE_FRIENDS)){
         		String friend_since = jsonObject.getString("friend_since");
-    			if (friend_since == "null"){friend_since="Unknown";}
+    			if (friend_since == "null"){
+    				friend_since="Unknown";
+    			}else{
+    				try {
+    			        Date frienddate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH).parse(friend_since);
+
+    			        Calendar calendar = Calendar.getInstance();
+    			        calendar.setTime(frienddate);
+    			        String ME = "";
+    			        if (calendar.get(Calendar.AM_PM) == 1){	ME = "PM"; }else{ ME = "AM"; }
+    			        String time = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + ME;
+    			        String date = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+    			        friend_since = date + ", " + time;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+    			}
     			JSONObject profile = new JSONObject(jsonObject.getString("profile"));
     			JSONObject details = new JSONObject(profile.getString("details"));
     			
