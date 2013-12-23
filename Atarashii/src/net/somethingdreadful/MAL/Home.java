@@ -1,17 +1,17 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import net.somethingdreadful.MAL.SearchActivity.networkThread;
 import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -36,13 +36,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
@@ -78,7 +75,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     MenuItem searchItem;
     
     int AutoSync = 0; //run or not to run.
-    int listType = 0; //remembers the list_type.
     
     private DrawerLayout mDrawerLayout;
     private ListView listView;
@@ -111,7 +107,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
         if (savedInstanceState != null) {
             AutoSync = savedInstanceState.getInt("AutoSync");
-            listType = savedInstanceState.getInt("myList");
         }
         
         if (init) {
@@ -120,12 +115,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
             
             mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
-            listView = (ListView)findViewById(R.id.left_drawer);
-            
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            
             HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
+            
+            listView = (ListView)findViewById(R.id.left_drawer);
             listView.setAdapter(adapter);
     		listView.setOnItemClickListener(new DrawerItemClickListener());
     		listView.setCacheColorHint(0);
@@ -141,9 +135,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     		mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
-
-            if (!instanceExists) {
-            }
 
             // Set up the action bar.
             final ActionBar actionBar = getSupportActionBar();
@@ -167,7 +158,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 }
             });
 
-            // Add tabs for the animu and mango lists
+            // Add tabs for the anime and manga lists
             for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
                 // Create a tab with text corresponding to the page title
                 // defined by the adapter.
@@ -178,16 +169,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                         .setText(mSectionsPagerAdapter.getPageTitle(i))
                         .setTabListener(this));
             }
-
+            
             networkReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     checkNetworkAndDisplayCrouton();
                 }
             };
-            
-    		listType = mPrefManager.getDefaultList(); //get chosen list :D
-    		autosynctask();
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -219,30 +207,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             return false;
         }
     }
-    
-    public void autosynctask(){
-        try {
-        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
-        		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
-        			af.getRecords(af.currentList, "anime", true, this.context);
-            		mf.getRecords(af.currentList, "manga", true, this.context);
-            		syncNotify();
-            		AutoSync = 1;
-        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
-        			af.getRecords(af.currentList, "anime", true, this.context);
-            		mf.getRecords(af.currentList, "manga", true, this.context);
-            		syncNotify();
-            		AutoSync = 1;
-        		}
-        	}else{
-        		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
-        	}
-        }catch (Exception e){
-        	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -266,7 +230,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(0, "anime", false, this.context);
                     mf.getRecords(0, "manga", false, this.context);
-                    listType = 0;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -274,7 +237,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(1, "anime", false, this.context);
                     mf.getRecords(1, "manga", false, this.context);
-                    listType = 1;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -282,7 +244,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(2, "anime", false, this.context);
                     mf.getRecords(2, "manga", false, this.context);
-                    listType = 2;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -290,7 +251,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(3, "anime", false, this.context);
                     mf.getRecords(3, "manga", false, this.context);
-                    listType = 3;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -298,7 +258,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(4, "anime", false, this.context);
                     mf.getRecords(4, "manga", false, this.context);
-                    listType = 4;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -306,14 +265,13 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 if (af != null && mf != null) {
                     af.getRecords(5, "anime", false, this.context);
                     mf.getRecords(5, "manga", false, this.context);
-                    listType = 5;
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
                 if (af != null && mf != null) {
                     af.getRecords(af.currentList, "anime", true, this.context);
-                    mf.getRecords(af.currentList, "manga", true, this.context);
+                    mf.getRecords(mf.currentList, "manga", true, this.context);
                     syncNotify();
                 }
                 break;
@@ -356,7 +314,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
-
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -367,11 +324,38 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
     	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
 		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        try { // if a error comes up it will not force close
-        	getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
-        }catch (Exception e){
-        	
-        }
+		
+		//auto-sync stuff
+		if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable == true){
+			mPrefManager.setsync_time_last(1);
+			mPrefManager.commitChanges();
+			synctask();
+		} else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
+			Calendar localCalendar = Calendar.getInstance();
+			int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
+				Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY)*60;
+				Time_now = Time_now + localCalendar.get(Calendar.MINUTE);
+			int last_sync = mPrefManager.getsync_time_last();
+			if (last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time())){
+				//no sync needed (This is inside the time range)
+			}else{
+				if (mPrefManager.getonly_wifiEnabled() == false){
+					synctask();
+					mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+				}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+					synctask();
+					mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+				}
+			}
+			mPrefManager.commitChanges();
+		}
+    }
+    
+    public void synctask(){
+        af.getRecords(af.currentList, "anime", true, this.context);
+        mf.getRecords(mf.currentList, "manga", true, this.context);
+        syncNotify();
+        AutoSync = 1;
     }
 
     @Override
@@ -380,7 +364,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putInt("AutoSync", AutoSync);
-        state.putInt("myList", listType);
         super.onSaveInstanceState(state);
     }
 
@@ -447,7 +430,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     private void syncNotify() {
-        Crouton.makeText(this, R.string.toast_SyncMessage, Style.INFO).show();
+        Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -457,7 +440,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_SyncMessage))
+                .setContentText(getString(R.string.crouton_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
         myList = true;
@@ -495,20 +478,21 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     
 
     public void checkNetworkAndDisplayCrouton() {
+    	
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+    		af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 			if (af.getMode() > 0) {
 	            af.setMode(0);
 				mf.setMode(0);
-				af.getRecords(listType, "anime", false, Home.this.context);
-	            mf.getRecords(listType, "manga", false, Home.this.context);
+				af.getRecords(af.currentList, "anime", false, Home.this.context);
+	            mf.getRecords(mf.currentList, "manga", false, Home.this.context);
 	            myList = true;
 	        }
         } else if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
-            af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(af.currentList, "manga", true, this.context);
-            syncNotify();
+            synctask();
         }
 
         if (!isNetworkAvailable()) {
@@ -582,7 +566,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         @Override
         protected Void doInBackground(String... params) {
         	try{
-        		String query = params[0];
         		MALApi api = new MALApi(context);
         		switch (job){
         		case 1:
@@ -687,8 +670,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				startActivity(Profile);
 				break;
 			case 1:
-				af.getRecords(listType, "anime", false, Home.this.context);
-                mf.getRecords(listType, "manga", false, Home.this.context);
+				af.getRecords(af.currentList, "anime", false, Home.this.context);
+                mf.getRecords(mf.currentList, "manga", false, Home.this.context);
                 myList = true;
                 af.setMode(0);
 				mf.setMode(0);
@@ -736,17 +719,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			}
 			Home.this.supportInvalidateOptionsMenu();
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
-			mPreviousView = mActiveView;
-			if (mPreviousView != null)
-				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
-			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
-			mDrawerLayout.closeDrawer(listView);
+			if (position != 0 && position != 2){
+				mPreviousView = mActiveView;
+				if (mPreviousView != null)
+					mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+				mActiveView = view;
+				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			}
+				mDrawerLayout.closeDrawer(listView);
 		}
 	}
     
     private class DemoDrawerListener implements DrawerLayout.DrawerListener {
-    	final ActionBar actionBar = getSupportActionBar();
 		@Override
 		public void onDrawerOpened(View drawerView) {
 			mDrawerToggle.onDrawerOpened(drawerView);
@@ -801,10 +785,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 		 */
 		public void onDrawerOpened() {
 			mActionBar.setTitle(mDrawerTitle);
-		}
-
-		public void setTitle(CharSequence title) {
-			mTitle = title;
 		}
 	}
 }
