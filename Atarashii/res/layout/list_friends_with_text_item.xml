@@ -1,30 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp" >
+    android:layout_height="60dp" >
 
+    <View
+        android:layout_gravity="left"
+        android:layout_marginTop="37dp"
+        android:layout_marginLeft="63dp"
+        android:layout_marginRight="5dp"
+   		android:layout_width="fill_parent"
+    	android:layout_height="1dp"
+    	android:background="#5E5E5E"/>
+    
     <ImageView
-        android:id="@+id/coverImage"
-        android:layout_width="match_parent"
+        android:id="@+id/profileImg"
+        android:layout_width="60dp"
         android:layout_height="fill_parent"
-        android:layout_marginRight="48dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/transpanel" />
+        android:layout_gravity="left"
+        android:contentDescription="@string/layout_card_loading"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="260dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="User Name"
+        android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/since"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="40dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/layout_card_loading"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/lastonline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/layout_card_loading"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
+    
 </FrameLayout>
