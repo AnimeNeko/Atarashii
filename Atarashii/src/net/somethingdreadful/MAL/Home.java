@@ -1,17 +1,18 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import net.somethingdreadful.MAL.SearchActivity.networkThread;
 import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.record.UserRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,7 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -36,13 +36,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
@@ -356,7 +353,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
-
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -447,7 +443,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     private void syncNotify() {
-        Crouton.makeText(this, R.string.toast_SyncMessage, Style.INFO).show();
+        Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -457,7 +453,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_SyncMessage))
+                .setContentText(getString(R.string.crouton_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
         myList = true;
@@ -682,7 +678,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 	        }
 			switch (position){
 			case 0:
-				Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser",mPrefManager.getUser());editor1.commit();
+				UserRecord.username = mPrefManager.getUser();
 				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 				startActivity(Profile);
 				break;
@@ -736,12 +732,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			}
 			Home.this.supportInvalidateOptionsMenu();
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
-			mPreviousView = mActiveView;
-			if (mPreviousView != null)
-				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
-			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
-			mDrawerLayout.closeDrawer(listView);
+			if (position != 0 && position != 2){
+				mPreviousView = mActiveView;
+				if (mPreviousView != null)
+					mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+				mActiveView = view;
+				mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			}
+				mDrawerLayout.closeDrawer(listView);
 		}
 	}
     

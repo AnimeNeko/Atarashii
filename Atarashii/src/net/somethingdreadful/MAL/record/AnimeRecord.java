@@ -32,9 +32,6 @@ public class AnimeRecord extends GenericMALRecord {
     }
 
     public static HashMap<String, Class<?>> getTypeMap() {
-        /* if (typeMap != null) {
-            return typeMap;
-        } */
         typeMap = GenericMALRecord.getTypeMap();
         typeMap.put("episodesTotal", Integer.class);
         typeMap.put("episodesWatched", Integer.class);

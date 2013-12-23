@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class MALApi extends BaseMALApi {
 	private static final String TAG = MALApi.class.getSimpleName();
-	private static String api_host = "http://api.atarashiiapp.com";
+	private static String api_host = "http://newapi.atarashiiapp.com";
 
 	public MALApi(String username, String password) {
 		super(username, password);
@@ -116,8 +116,7 @@ public class MALApi extends BaseMALApi {
 	public JSONObject getDetail(Integer id, ListType listType) {
 		JSONObject jsonObject = null;
 		try {
-			URL url = new URL(getFullPath(getListTypeString(listType) + "/"
-					+ id));
+			URL url = new URL(getFullPath(getListTypeString(listType) + "/" + id));
 			RestResult<String> response = restHelper.get(url);
 
 			if (response != null) {
@@ -227,5 +226,41 @@ public class MALApi extends BaseMALApi {
 		return responseToJSONArray(response);
 	}
 	
+	public JSONObject getProfile(String User) { //get the profile details
+		JSONObject jsonObject = null;
+		RestResult<String> response = null;
+		try {
+			URL url = new URL(getFullPath("/profile/" + User));
+			response = restHelper.get(url);
 
+			if (response != null) {
+				jsonObject = new JSONObject(response.result);
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return jsonObject;
+	}
+	
+	public JSONArray getFriends(String User) { //get the friends
+		JSONArray jsonArray = null;
+		RestResult<String> response = null;
+		try {
+			URL url = new URL(getFullPath("/friends/"+ User));
+			response = restHelper.get(url);
+			
+			if (response != null) {
+				jsonArray = new JSONArray(response.result);
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "", e);
+		}
+		return jsonArray;
+	}
 }
