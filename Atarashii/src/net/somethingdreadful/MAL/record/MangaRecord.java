@@ -71,9 +71,6 @@ public class MangaRecord extends GenericMALRecord {
     }
 
     public static HashMap<String, Class<?>> getTypeMap() {
-        /* if (typeMap != null) {
-            return typeMap;
-        } */
         typeMap = GenericMALRecord.getTypeMap();
         typeMap.put("volumesTotal", Integer.class);
         typeMap.put("chaptersTotal", Integer.class);
