@@ -37,8 +37,7 @@ public class PrefManager {
     }
     
     public boolean getInit() {
-        init = prefs.getBoolean("init", false);
-        return init;
+    	return prefs.getBoolean("init", false);
     }
     
     public boolean getTraditionalListEnabled() {
@@ -53,8 +52,16 @@ public class PrefManager {
         return prefs.getBoolean("synchronisation", false);
     }
     
-    public boolean getonly_wifiEnabled() {
+    public boolean getonly_wifiEnabled() { //Home, if the setting sync only at wifi is turned on
         return prefs.getBoolean("Only_wifi", false);
+    }
+    
+    public Integer getsync_time() { //Home, get the auto-sync interval
+        return Integer.parseInt(prefs.getString("synchronisation_time", "5"));
+    }
+
+    public Integer getsync_time_last() { //Home, get the last auto-sync interval
+        return prefs.getInt("synchronisation_time_last", 1);
     }
 
     public void setUser(String newUser) {
@@ -77,6 +84,10 @@ public class PrefManager {
         prefeditor.putLong("lastSync", lastsync);
     }
     
+    public void setsync_time_last(int time) { //Home, set the last auto-sync interval
+    	prefeditor.putInt("synchronisation_time_last", time);
+    }
+    
     public void commitChanges() {
         prefeditor.commit();
     }
@@ -94,7 +105,6 @@ public class PrefManager {
     }
 
     public int getDefaultList() {
-        int defList = Integer.parseInt(prefs.getString("defList", "1"));
-        return defList;
+        return Integer.parseInt(prefs.getString("defList", "1"));
     }
 }

@@ -12,58 +12,57 @@
 				android:key="traditionalList"
 				android:summary="@string/preference_summary_TraditionList"
 				android:title="@string/preference_TraditionalList" />
-			<PreferenceCategory android:title="Manga">
-				<CheckBoxPreference 
-					android:title="Use Volumes on Covers" 
-					android:summary="@string/preference_summary_displayVolumes" 
-					android:key="displayVolumes" 
-					android:defaultValue="false" />
-			</PreferenceCategory>
+			<CheckBoxPreference
+				android:title="Use Volumes on Covers"
+				android:summary="@string/preference_summary_displayVolumes"
+				android:key="displayVolumes"
+				android:defaultValue="false" />
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Profile settings" android:title="Profile settings" android:persistent="false">
-			<CheckBoxPreference 
-				android:key="PAutosync" 
-				android:title="Auto-synchronisation" 
-				android:summary="Auto-sync when you are watching my profile (turn off when my profile is slow on start-up)." 
-				android:defaultValue="true"/>
-			<CheckBoxPreference 
-				android:key="Wifi_sync" 
-				android:title="Wi-Fi synchronisation" 
-				android:summary="Only use Wi-Fi to synchronise my profile." 
+			<CheckBoxPreference
+				android:key="text_colours"
+				android:title="Disable text colours"
+				android:summary="Force the profile page to use black text colour."
 				android:defaultValue="false"/>
-			<CheckBoxPreference 
-				android:key="text_colours" 
-				android:title="Disable text colours" 
-				android:summary="Force the profile page to use black text colour." 
+			<CheckBoxPreference
+				android:key="a_mhide"
+				android:title="Hide automatic anime/manga details"
+				android:summary="Hide anime/manga details on all profiles when the Total Entries are zero."
 				android:defaultValue="false"/>
-			<CheckBoxPreference 
-				android:key="a_mhide" 
-				android:title="Hide automatic anime/manga details" 
-				android:summary="Hide anime/manga details on all profiles when the Total Entries are zero." 
+			<CheckBoxPreference
+				android:key="A_hide"
+				android:title="Hide always anime details"
+				android:summary="Hide the anime details on all profiles."
 				android:defaultValue="false"/>
-			<CheckBoxPreference 
-				android:key="A_hide" 
-				android:title="Hide always anime details" 
-				android:summary="Hide the anime details on all profiles." 
-				android:defaultValue="false"/>
-			<CheckBoxPreference 
-				android:key="M_hide" 
-				android:title="Hide always manga details" 
-				android:summary="Hide the manga details on all profiles." 
+			<CheckBoxPreference
+				android:key="M_hide"
+				android:title="Hide always manga details"
+				android:summary="Hide the manga details on all profiles."
 				android:defaultValue="false"/>
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Synchronisation settings" android:title="Synchronisation settings" android:persistent="false">
-			<CheckBoxPreference 
-				android:key="synchronisation" 
-				android:title="@string/preference_synchronisation" 
-				android:summary="@string/preference_summary_synchronisation" 
-				android:defaultValue="false"/>
-			<CheckBoxPreference 
-				android:key="Only_wifi" 
-				android:title="@string/preference_Only_wifi" 
-				android:summary="@string/preference_summary_Only_wifi" 
-				android:defaultValue="false"
-				android:dependency="synchronisation"/>
+			<PreferenceCategory android:title="@string/preference_category_list">
+				<CheckBoxPreference
+					android:key="synchronisation"
+					android:title="@string/preference_synchronisation"
+					android:summary="@string/preference_summary_synchronisation"
+					android:defaultValue="false"/>
+				<CheckBoxPreference
+					android:key="Only_wifi"
+					android:title="@string/preference_Only_wifi"
+					android:summary="@string/preference_summary_Only_wifi"
+					android:defaultValue="false"
+					android:dependency="synchronisation"/>
+				<ListPreference
+					android:summary="@string/preference_autosync_time_summary"
+					android:dialogTitle="@string/preference_autosync_time_title"
+					android:title="@string/preference_autosync_time_title"
+					android:entries="@array/syncArray"
+					android:entryValues="@array/syncValuesArray"
+					android:key="synchronisation_time"
+					android:defaultValue="@string/preference_autosync_time_default"
+					android:dependency="synchronisation"/>
+			</PreferenceCategory>
 	</PreferenceScreen>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference
