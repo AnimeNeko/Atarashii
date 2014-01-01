@@ -1,8 +1,6 @@
 package net.somethingdreadful.MAL;
 
-import java.util.ArrayList;
-
-import net.somethingdreadful.MAL.record.GenericMALRecord;
+import net.somethingdreadful.MAL.api.BaseMALApi.ListType;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.GridView;
@@ -16,6 +14,7 @@ public class ItemGridFragmentScrollViewListener implements OnScrollListener{
     private boolean isRefreshing;
     //private ArrayList<GenericMALRecord> list;
     private RefreshList list;
+    ListType listType;
     
     public ItemGridFragmentScrollViewListener(GridView gridview, RefreshList list){
     	this.gridView = gridview;
@@ -32,7 +31,7 @@ public class ItemGridFragmentScrollViewListener implements OnScrollListener{
 			if (hasMorePages && !isRefreshing){
 				isRefreshing = true;
 				//TODO: add more stuff
-				list.onRefresh(pageNumber);
+				list.onRefresh(pageNumber,listType);
 				
 			}
 		}else{
@@ -50,12 +49,13 @@ public class ItemGridFragmentScrollViewListener implements OnScrollListener{
         this.hasMorePages = false;
     }
 
-    public void notifyMorePages(){
+    public void notifyMorePages(ListType listType){
         isRefreshing=false;
         pageNumber=pageNumber+1;
+        this.listType = listType;
     }
     public interface RefreshList {
-        public void onRefresh(int pageNumber);
+		public void onRefresh(int pageNumber, ListType listType);
     }
     public void resetPageNumber(){
     	pageNumber = 1;

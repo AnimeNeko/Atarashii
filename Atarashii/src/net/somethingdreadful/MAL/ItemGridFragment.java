@@ -6,9 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import net.somethingdreadful.MAL.Home.networkThread;
 import net.somethingdreadful.MAL.ItemGridFragmentScrollViewListener.RefreshList;
 import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.api.BaseMALApi.ListType;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
@@ -63,7 +63,7 @@ public class ItemGridFragment extends SherlockFragment {
     int gridCellHeight;
     String recordType;
     
-    int mode; //0 = home, 1 = top rated, 2 = most popular, so the endless gridview only applies to the popular/top rated mode
+    int mode = 0; //0 = home, 1 = top rated, 2 = most popular, so the endless gridview only applies to the popular/top rated mode
     ItemGridFragmentScrollViewListener scrollListener;
     
 
@@ -157,25 +157,50 @@ public class ItemGridFragment extends SherlockFragment {
         
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
-        	public void onRefresh(int pageNumber) {
+        	public void onRefresh(int pageNumber, ListType listType) {
         		try{
-                if (mode == 1){
-                		networkThread animethread = new networkThread(1,pageNumber);
-                		animethread.setListType(BaseMALApi.ListType.ANIME);
-                    	animethread.execute();
-                	} else if (mode == 2){
-                		networkThread animethread = new networkThread(2,pageNumber);
-                		animethread.setListType(BaseMALApi.ListType.ANIME);
-                    	animethread.execute();
-                	} else if (mode == 3){
-                		networkThread animethread = new networkThread(3,pageNumber);
-                		animethread.setListType(BaseMALApi.ListType.ANIME);
-                    	animethread.execute();   
-                	} else if (mode == 4){
-                		networkThread animethread = new networkThread(4,pageNumber);
-                		animethread.setListType(BaseMALApi.ListType.ANIME);
-                    	animethread.execute();  
-                	}
+        			switch (listType) {
+        				case ANIME: {
+        					if (mode == 1){
+        						networkThread animethread = new networkThread(1,pageNumber);
+        						animethread.setListType(BaseMALApi.ListType.ANIME);
+        						animethread.execute();
+        					} else if (mode == 2){
+        						networkThread animethread = new networkThread(2,pageNumber);
+        						animethread.setListType(BaseMALApi.ListType.ANIME);
+                    			animethread.execute();
+        					} else if (mode == 3){
+        						networkThread animethread = new networkThread(3,pageNumber);
+        						animethread.setListType(BaseMALApi.ListType.ANIME);
+        						animethread.execute();   
+        					} else if (mode == 4){
+        						networkThread animethread = new networkThread(4,pageNumber);
+        						animethread.setListType(BaseMALApi.ListType.ANIME);
+        						animethread.execute();  
+        					}
+        					break;
+        				}
+        				case MANGA: {
+        					if (mode == 1){
+        						networkThread mangathread = new networkThread(1,pageNumber);
+        						mangathread.setListType(BaseMALApi.ListType.MANGA);
+        						mangathread.execute();
+        					} else if (mode == 2){
+        						networkThread mangathread = new networkThread(2,pageNumber);
+        						mangathread.setListType(BaseMALApi.ListType.MANGA);
+        						mangathread.execute();
+        					} else if (mode == 3){
+        						networkThread mangathread = new networkThread(3,pageNumber);
+        						mangathread.setListType(BaseMALApi.ListType.MANGA);
+        						mangathread.execute();   
+        					} else if (mode == 4){
+        						networkThread mangathread = new networkThread(4,pageNumber);
+        						mangathread.setListType(BaseMALApi.ListType.MANGA);
+        						mangathread.execute();  
+        					}
+        					break;
+        				}
+                    }
         		} catch (Exception e){
         			
         		}
@@ -471,8 +496,6 @@ public class ItemGridFragment extends SherlockFragment {
                             ca.supportAddAll(list);
                             ca.notifyDataSetChanged();
                         }
-
-                    
                         break;
                     }
                     case MANGA: {
@@ -506,7 +529,7 @@ public class ItemGridFragment extends SherlockFragment {
                 Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
             }
             
-            ItemGridFragment.this.scrollListener.notifyMorePages();
+            ItemGridFragment.this.scrollListener.notifyMorePages(listType);
 
         }
     }
