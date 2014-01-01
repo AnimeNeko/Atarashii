@@ -293,28 +293,31 @@ public class MALManager {
         Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
         ArrayList<AnimeRecord> animeRecordArrayList = new ArrayList<AnimeRecord>();
-        Cursor cursor;
+        Cursor cursor = null;
+        
+        try{
+        	if (list == 0) {
+        		cursor = getDBRead().query("anime", this.animeColumns, "myStatus = 'watching' OR myStatus = 'completed' OR myStatus = 'plan to watch' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
+        	} else {
+        		cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
+        	}
 
-        if (list == 0) {
-            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = 'watching' OR myStatus = 'completed' OR myStatus = 'plan to watch' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
-        } else {
-            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
-        }
+        	Log.v("MALX", "Got " + cursor.getCount() + " records.");
+        	cursor.moveToFirst();
 
-
-        Log.v("MALX", "Got " + cursor.getCount() + " records.");
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor, AnimeRecord.getTypeMap())));
-            cursor.moveToNext();
+        	while (!cursor.isAfterLast()) {
+        		animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor, AnimeRecord.getTypeMap())));
+        		cursor.moveToNext();
+        	}
+        } finally {
+        	if (cursor != null) {
+        		cursor.close();
+        	}
         }
 
         if (animeRecordArrayList.isEmpty()) {
             return null;
         }
-
-        cursor.close();
 
         return animeRecordArrayList;
     }
@@ -323,27 +326,29 @@ public class MALManager {
         Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
 
         ArrayList<MangaRecord> mangaRecordArrayList = new ArrayList<MangaRecord>();
-        Cursor cursor;
+        Cursor cursor = null;
+        try{
+        	if (list == 0) {
+        		cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = 'reading' OR myStatus = 'completed' OR myStatus = 'plan to read' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
+        	} else {
+        		cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+        	}
 
-        if (list == 0) {
-            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = 'reading' OR myStatus = 'completed' OR myStatus = 'plan to read' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
-        } else {
-            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+        	Log.v("MALX", "Got " + cursor.getCount() + " records.");
+        	cursor.moveToFirst();
+
+        	while (!cursor.isAfterLast()) {
+        		mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor, MangaRecord.getTypeMap())));
+        		cursor.moveToNext();
+        	}
+        } finally {
+        	if (cursor != null) {
+        		cursor.close();
+        	}
         }
-
-        Log.v("MALX", "Got " + cursor.getCount() + " records.");
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor, MangaRecord.getTypeMap())));
-            cursor.moveToNext();
-        }
-
         if (mangaRecordArrayList.isEmpty()) {
             return null;
         }
-
-        cursor.close();
 
         return mangaRecordArrayList;
     }
