@@ -135,22 +135,22 @@
     <string name="permission_description_updateMedia">Allow this app to update records on your MyAnimeList account</string>
 
     <!-- BaseActionBarSearchView (Unknown) Strings -->
-    <string name="search_prompt">Search in MAL</string>
+    <string name="search_prompt">Search on MAL</string>
 
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Major Contributors</string>
-    <string name="acknowledgements_card_title">Open source libraries</string>
-    <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
-    <string name="app_description">Atarashii! is a mobile client for the popular MyAnimeList.net website. It focuses primarily on ease-of-use while still being visually pleasing.</string>
+    <string name="acknowledgements_card_title">Open Source Libraries</string>
+    <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
+    <string name="app_description">Atarashii! is the best way to access MyAnimeList from your phone. It sports a modern, beatifully crafted Android interface coupled with all the functionality you could ask for.</string>
     <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
     <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
     <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
-    <string name="community_card_title">Atarashii community</string>
+    <string name="community_card_title">Atarashii Community</string>
     <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
-    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Atarashii community</a> is a social community at google+.\n\nThis community allows you to request features/give feedback/ask questions to the contributors and users.</string>
+    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Join our Community!</a> The Atarashii! community group on Google+ is a great place to interact with the developers and let us know what you think. Issues, feature requests, status updates, it\'s all there. We don\'t bite, promise.</string>
 
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Default List</string>
