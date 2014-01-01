@@ -15,252 +15,260 @@ import android.content.Context;
 import android.util.Log;
 
 public class MALApi extends BaseMALApi {
-	private static final String TAG = MALApi.class.getSimpleName();
-	private static String api_host = "http://newapi.atarashiiapp.com";
+    private static final String TAG = MALApi.class.getSimpleName();
+    private static String api_host = "http://api.atarashiiapp.com";
+    private static String friends_host = "http://newapi.atarashiiapp.com"; //TEMPORARY UNTIL NEW
 
-	public MALApi(String username, String password) {
-		super(username, password);
-	}
+    public MALApi(String username, String password) {
+        super(username, password);
+    }
 
-	public MALApi(Context context) {
-		super(null, null);
-		PrefManager prefManager = new PrefManager(context);
-		setUsername(prefManager.getUser());
-		setPassword(prefManager.getPass());
-	}
+    public MALApi(Context context) {
+        super(null, null);
+        PrefManager prefManager = new PrefManager(context);
+        setUsername(prefManager.getUser());
+        setPassword(prefManager.getPass());
+    }
 
-	public JSONArray responseToJSONArray(RestResult<String> response) {
-		JSONArray result = null;
+    public JSONArray responseToJSONArray(RestResult<String> response) {
+        JSONArray result = null;
 
-		try {
-			result = new JSONArray(response.result);
-		} catch (JSONException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
-		return result;
+        try {
+            result = new JSONArray(response.result);
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+        return result;
 
-	}
+    }
 
-	private static String getFullPath(String path) {
-		if (!path.startsWith("/")) {
-			path = "/" + path;
-		}
-		return MALApi.api_host + path;
-	}
+    private static String getFullPath(String path) {
+        if (!path.startsWith("/")) {
+            path = "/" + path;
+        }
+        return MALApi.api_host + path;
+    }
 
-	private String encodeAsFormPost(HashMap<String, String> data) {
-		StringBuffer encodedData = new StringBuffer();
-		if (data != null) {
+    private static String getFullPath(String path, boolean friendsAPI) { //TEMPORARY METHOD
+        if (!path.startsWith("/")) {
+            path = "/" + path;
+        }
+        return MALApi.friends_host + path;
+    }
 
-			for (Entry<String, String> entry : data.entrySet()) {
-				encodedData.append(String.format("%s=%s&", entry.getKey(),
-						entry.getValue()));
-			}
+    private String encodeAsFormPost(HashMap<String, String> data) {
+        StringBuffer encodedData = new StringBuffer();
+        if (data != null) {
 
-		}
-		encodedData.deleteCharAt(encodedData.length() - 1);
-		return encodedData.toString();
-	}
+            for (Entry<String, String> entry : data.entrySet()) {
+                encodedData.append(String.format("%s=%s&", entry.getKey(),
+                        entry.getValue()));
+            }
 
-	@Override
-	public boolean isAuth() {
-		URL url;
-		try {
-			url = new URL(getFullPath("account/verify_credentials"));
+        }
+        encodedData.deleteCharAt(encodedData.length() - 1);
+        return encodedData.toString();
+    }
 
-			RestResult<String> response = restHelper.get(url);
-			return response != null && response.code == 200;
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-			return false;
-		}
-	}
+    @Override
+    public boolean isAuth() {
+        URL url;
+        try {
+            url = new URL(getFullPath("account/verify_credentials"));
 
-	@Override
-	public JSONArray search(ListType listType, String query) {
-		URL url;
-		RestResult<String> response = null;
-		try {
-			url = new URL(getFullPath(getListTypeString(listType)
-					+ String.format("/search?q=%s", query)));
-			response = restHelper.get(url);
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
-			response = new RestResult<String>();
-		}
-		return responseToJSONArray(response);
-	}
+            RestResult<String> response = restHelper.get(url);
+            return response != null && response.code == 200;
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+            return false;
+        }
+    }
 
-	@Override
-	public JSONArray getList(ListType listType) {
-		JSONArray jsonArray = null;
-		try {
-			URL url = new URL(getFullPath(getListTypeString(listType) + "list/"
-					+ getUsername()));
-			RestResult<String> response = restHelper.get(url);
+    @Override
+    public JSONArray search(ListType listType, String query) {
+        URL url;
+        RestResult<String> response = null;
+        try {
+            url = new URL(getFullPath(getListTypeString(listType)
+                    + String.format("/search?q=%s", query)));
+            response = restHelper.get(url);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+            response = new RestResult<String>();
+        }
+        return responseToJSONArray(response);
+    }
 
-			if (response != null) {
-				jsonArray = new JSONObject(response.result)
-						.getJSONArray(getListTypeString(listType));
-			}
-		} catch (JSONException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
+    @Override
+    public JSONArray getList(ListType listType) {
+        JSONArray jsonArray = null;
+        try {
+            URL url = new URL(getFullPath(getListTypeString(listType) + "list/"
+                    + getUsername()));
+            RestResult<String> response = restHelper.get(url);
 
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-		}
-		return jsonArray;
-	}
+            if (response != null) {
+                jsonArray = new JSONObject(response.result)
+                .getJSONArray(getListTypeString(listType));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
 
-	@Override
-	public JSONObject getDetail(Integer id, ListType listType) {
-		JSONObject jsonObject = null;
-		try {
-			URL url = new URL(getFullPath(getListTypeString(listType) + "/" + id));
-			RestResult<String> response = restHelper.get(url);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+        }
+        return jsonArray;
+    }
 
-			if (response != null) {
-				jsonObject = new JSONObject(response.result);
-			}
-		} catch (JSONException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
+    @Override
+    public JSONObject getDetail(Integer id, ListType listType) {
+        JSONObject jsonObject = null;
+        try {
+            URL url = new URL(getFullPath(getListTypeString(listType) + "/" + id));
+            RestResult<String> response = restHelper.get(url);
 
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-		}
-		return jsonObject;
-	}
+            if (response != null) {
+                jsonObject = new JSONObject(response.result);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
 
-	@Override
-	public boolean addOrUpdateGenreInList(boolean hasCreate, ListType listType,
-			String genre_id, HashMap<String, String> data) {
-		String listPrefix = getListTypeString(listType);
-		String uri = getFullPath(listPrefix + "list" + "/" + listPrefix);
-		RestResult<String> response = null;
-		try {
-			if (!hasCreate) {
-				uri += "/" + genre_id;
-				response = restHelper.put(new URL(uri), encodeAsFormPost(data));
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+        }
+        return jsonObject;
+    }
 
-			} else {
-				data = new HashMap<String, String>(data);
-				data.put(listPrefix + "_id", genre_id);
-				response = restHelper.post(new URL(uri), encodeAsFormPost(data));
-			}
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-		}
+    @Override
+    public boolean addOrUpdateGenreInList(boolean hasCreate, ListType listType,
+            String genre_id, HashMap<String, String> data) {
+        String listPrefix = getListTypeString(listType);
+        String uri = getFullPath(listPrefix + "list" + "/" + listPrefix);
+        RestResult<String> response = null;
+        try {
+            if (!hasCreate) {
+                uri += "/" + genre_id;
+                response = restHelper.put(new URL(uri), encodeAsFormPost(data));
 
-		return response.code == 200;
-	}
+            } else {
+                data = new HashMap<String, String>(data);
+                data.put(listPrefix + "_id", genre_id);
+                response = restHelper.post(new URL(uri), encodeAsFormPost(data));
+            }
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+        }
 
-	@Override
-	public boolean deleteGenreFromList(ListType listType, String genre_id) {
-		String listPrefix = getListTypeString(listType);
-		URL url;
-		RestResult<String> response = null;
-		try {
-			url = new URL(getFullPath(listPrefix + "list" + "/" + listPrefix
-					+ "/" + genre_id));
-			response = restHelper.delete(url);
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-			return false;
-		}
-		return response.code == 200;
-	}
-	
-	@Override
-	public JSONArray getMostPopular(ListType listType, int page){
-		URL url;
-		RestResult<String> response = null;
-		try {
-			url = new URL(getFullPath(getListTypeString(listType) + "/popular?page="+page));
-			response = restHelper.get(url);
-		} catch (Exception e) {
-			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
-			response = new RestResult<String>();
-		}
-		return responseToJSONArray(response);
-	}
-	
-	@Override
-	public JSONArray getTopRated(ListType listType, int page){
-		URL url;
-		RestResult<String> response = null;
-		try {
-			url = new URL(getFullPath(getListTypeString(listType) + "/top?page="+page));
-			response = restHelper.get(url);
-		} catch (Exception e) {
-			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
-			response = new RestResult<String>();
-		}
-		return responseToJSONArray(response);
-	}
-	
-	@Override
-	public JSONArray getJustAdded(ListType listType, int page){
-		URL url;
-		RestResult<String> response = null;
-		try {
-			url = new URL(getFullPath(getListTypeString(listType) + "/just_added?page="+page));
-			response = restHelper.get(url);
-		} catch (Exception e) {
-			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
-			response = new RestResult<String>();
-		}
-		return responseToJSONArray(response);
-	}
-	
-	@Override
-	public JSONArray getUpcoming(ListType listType, int page){
-		URL url;
-		RestResult<String> response = null;
-		try {
-			url = new URL(getFullPath(getListTypeString(listType) + "/upcoming?page="+page));
-			response = restHelper.get(url);
-		} catch (Exception e) {
-			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
-			response = new RestResult<String>();
-		}
-		return responseToJSONArray(response);
-	}
-	
-	public JSONObject getProfile(String User) { //get the profile details
-		JSONObject jsonObject = null;
-		RestResult<String> response = null;
-		try {
-			URL url = new URL(getFullPath("/profile/" + User));
-			response = restHelper.get(url);
+        return response.code == 200;
+    }
 
-			if (response != null) {
-				jsonObject = new JSONObject(response.result);
-			}
-		} catch (JSONException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
+    @Override
+    public boolean deleteGenreFromList(ListType listType, String genre_id) {
+        String listPrefix = getListTypeString(listType);
+        URL url;
+        RestResult<String> response = null;
+        try {
+            url = new URL(getFullPath(listPrefix + "list" + "/" + listPrefix
+                    + "/" + genre_id));
+            response = restHelper.delete(url);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+            return false;
+        }
+        return response.code == 200;
+    }
 
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-		}
-		return jsonObject;
-	}
-	
-	public JSONArray getFriends(String User) { //get the friends
-		JSONArray jsonArray = null;
-		RestResult<String> response = null;
-		try {
-			URL url = new URL(getFullPath("/friends/"+ User));
-			response = restHelper.get(url);
-			
-			if (response != null) {
-				jsonArray = new JSONArray(response.result);
-			}
-		} catch (JSONException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
+    @Override
+    public JSONArray getMostPopular(ListType listType, int page){
+        URL url;
+        RestResult<String> response = null;
+        try {
+            url = new URL(getFullPath(getListTypeString(listType) + "/popular?page="+page));
+            response = restHelper.get(url);
+        } catch (Exception e) {
+            Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+            response = new RestResult<String>();
+        }
+        return responseToJSONArray(response);
+    }
 
-		} catch (MalformedURLException e) {
-			Log.e(TAG, "", e);
-		}
-		return jsonArray;
-	}
+    @Override
+    public JSONArray getTopRated(ListType listType, int page){
+        URL url;
+        RestResult<String> response = null;
+        try {
+            url = new URL(getFullPath(getListTypeString(listType) + "/top?page="+page));
+            response = restHelper.get(url);
+        } catch (Exception e) {
+            Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+            response = new RestResult<String>();
+        }
+        return responseToJSONArray(response);
+    }
+
+    @Override
+    public JSONArray getJustAdded(ListType listType, int page){
+        URL url;
+        RestResult<String> response = null;
+        try {
+            url = new URL(getFullPath(getListTypeString(listType) + "/just_added?page="+page));
+            response = restHelper.get(url);
+        } catch (Exception e) {
+            Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+            response = new RestResult<String>();
+        }
+        return responseToJSONArray(response);
+    }
+
+    @Override
+    public JSONArray getUpcoming(ListType listType, int page){
+        URL url;
+        RestResult<String> response = null;
+        try {
+            url = new URL(getFullPath(getListTypeString(listType) + "/upcoming?page="+page));
+            response = restHelper.get(url);
+        } catch (Exception e) {
+            Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
+            response = new RestResult<String>();
+        }
+        return responseToJSONArray(response);
+    }
+
+    public JSONObject getProfile(String User) { //get the profile details
+        JSONObject jsonObject = null;
+        RestResult<String> response = null;
+        try {
+            URL url = new URL(getFullPath("/profile/" + User, true));
+            response = restHelper.get(url);
+
+            if (response != null) {
+                jsonObject = new JSONObject(response.result);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+        }
+        return jsonObject;
+    }
+
+    public JSONArray getFriends(String User) { //get the friends
+        JSONArray jsonArray = null;
+        RestResult<String> response = null;
+        try {
+            URL url = new URL(getFullPath("/friends/"+ User, true));
+            response = restHelper.get(url);
+
+            if (response != null) {
+                jsonArray = new JSONArray(response.result);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "", e);
+        }
+        return jsonArray;
+    }
 }
