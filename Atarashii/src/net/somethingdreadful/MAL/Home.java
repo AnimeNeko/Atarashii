@@ -7,6 +7,7 @@ import net.somethingdreadful.MAL.api.BaseMALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.record.UserRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import org.json.JSONArray;
@@ -20,7 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -665,7 +665,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 	        }
 			switch (position){
 			case 0:
-				Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser",mPrefManager.getUser());editor1.commit();
+				UserRecord.username = mPrefManager.getUser();
 				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
 				startActivity(Profile);
 				break;

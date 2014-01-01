@@ -162,9 +162,6 @@ public abstract class GenericMALRecord {
     }
 
     public static HashMap<String, Class<?>> getTypeMap() {
-        if (typeMap != null) {
-            return typeMap;
-        }
         typeMap = new HashMap<String, Class<?>>();
 
         typeMap.put("recordID", Integer.class);
