@@ -143,42 +143,47 @@ public class MALManager {
         return recordData;
     }
 
-    public void downloadAndStoreList(String type) {
-
+    public boolean downloadAndStoreList(String type) {
+    	boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put("lastUpdate", 0);
         getDBWrite().update(type, contentValues, null, null);
 
         int currentTime = (int) new Date().getTime() / 1000;
         JSONArray jArray = malApi.getList(getListTypeFromString(type));
-        try {
-            getDBWrite().beginTransaction();
-            if(type.equals(TYPE_ANIME)) {
-
-                for (int i = 0; i < jArray.length(); i++) {
-                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
-                    AnimeRecord ar = new AnimeRecord(recordData);
-                    ar.setLastUpdate(currentTime);
-                    saveItem(ar, true);
-                }
-
-            }
-            else {
-                for (int i = 0; i < jArray.length(); i++) {
-                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
-                    MangaRecord mr = new MangaRecord(recordData);
-                    mr.setLastUpdate(currentTime);
-                    saveItem(mr, true);
-                }
-            }
-
-            getDBWrite().setTransactionSuccessful();
-            clearDeletedItems(type, currentTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            getDBWrite().endTransaction();
+        if ( jArray != null ) {
+        	// we successfully downloaded the list
+        	result = true;
+	        try {
+	            getDBWrite().beginTransaction();
+	            if(type.equals(TYPE_ANIME)) {
+	
+	                for (int i = 0; i < jArray.length(); i++) {
+	                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+	                    AnimeRecord ar = new AnimeRecord(recordData);
+	                    ar.setLastUpdate(currentTime);
+	                    saveItem(ar, true);
+	                }
+	
+	            }
+	            else {
+	                for (int i = 0; i < jArray.length(); i++) {
+	                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+	                    MangaRecord mr = new MangaRecord(recordData);
+	                    mr.setLastUpdate(currentTime);
+	                    saveItem(mr, true);
+	                }
+	            }
+	
+	            getDBWrite().setTransactionSuccessful();
+	            clearDeletedItems(type, currentTime);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            getDBWrite().endTransaction();
+	        }
         }
+        return result;
     }
 
     public AnimeRecord getAnimeRecordFromMAL(int id) {

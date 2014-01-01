@@ -41,6 +41,7 @@
     <string name="cover_PlanningToRead">Planning to read</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_SyncDone">Sync Complete!</string>
+    <string name="toast_SyncError">Sync Error! The API is currently unavailable.</string>
     <string name="placeholder_Loading">Loading, just a sec.</string>
     <string name="action_SetWatched">Update Progress</string>
     <string name="action_SetScore">Set Score</string>
