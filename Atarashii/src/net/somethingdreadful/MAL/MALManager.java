@@ -1,14 +1,18 @@
 package net.somethingdreadful.MAL;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.record.AnimeRecord;
 import net.somethingdreadful.MAL.record.GenericMALRecord;
 import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.record.UserRecord;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -28,6 +32,8 @@ public class MALManager {
 
     final static String TYPE_ANIME = "anime";
     final static String TYPE_MANGA = "manga";
+    final static String TYPE_FRIENDS = "friends";
+    final static String TYPE_PROFILE = "profile";
 
     private String[] animeColumns = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
             "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
@@ -35,6 +41,15 @@ public class MALManager {
     private String[] mangaColumns = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
             "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
             "imageUrl", "dirty", "lastUpdate"};
+
+    private String[] friendsColumns = {"username", "avatar_url", "last_online", "friend_since"};
+
+    private String[] profileColumns = {"username", "avatar_url", "birthday", "location", "website", "comments", "forum_posts",
+            "last_online", "gender", "join_date", "access_rank", "anime_list_views", "manga_list_views",
+            "anime_time_days_d", "anime_time_days", "anime_watching", "anime_completed", "anime_on_hold", "anime_dropped",	//anime
+            "anime_plan_to_watch", "anime_total_entries",
+            "manga_time_days_d", "manga_time_days", "manga_reading", "manga_completed", "manga_on_hold", "manga_dropped", 	//manga
+            "manga_plan_to_read",	"manga_total_entries"};
 
     static MALSqlHelper malSqlHelper;
 
@@ -119,23 +134,86 @@ public class MALManager {
         HashMap<String, Object> recordData = new HashMap<String, Object>();
 
         try {
-            recordData.put("recordID", jsonObject.getInt("id"));
-            recordData.put("recordName", StringEscapeUtils.unescapeHtml4(jsonObject.getString("title")));
-            recordData.put("recordType", jsonObject.getString("type"));
-            recordData.put("recordStatus", jsonObject.getString("status"));
-            recordData.put("myScore", jsonObject.optInt("score"));
-            recordData.put("memberScore", (float) jsonObject.optDouble("members_score", 0.0));
-            recordData.put("imageUrl", jsonObject.getString("image_url").replaceFirst("t.jpg$", ".jpg"));
-            if (type.equals(TYPE_ANIME)) {
-                recordData.put("episodesTotal", jsonObject.optInt("episodes"));
-                recordData.put("episodesWatched", jsonObject.optInt("watched_episodes"));
-                recordData.put("myStatus", jsonObject.getString("watched_status"));
-            } else if (type.equals(TYPE_MANGA)) {
-                recordData.put("myStatus", jsonObject.getString("read_status"));
-                recordData.put("volumesTotal", jsonObject.optInt("volumes"));
-                recordData.put("chaptersTotal", jsonObject.optInt("chapters"));
-                recordData.put("volumesRead", jsonObject.optInt("volumes_read"));
-                recordData.put("chaptersRead", jsonObject.optInt("chapters_read"));
+            if (type.equals(TYPE_ANIME)|| type.equals(TYPE_MANGA)) {
+                recordData.put("recordID", jsonObject.getInt("id"));
+                recordData.put("recordName", StringEscapeUtils.unescapeHtml4(jsonObject.getString("title")));
+                recordData.put("recordType", jsonObject.getString("type"));
+                recordData.put("recordStatus", jsonObject.getString("status"));
+                recordData.put("myScore", jsonObject.optInt("score"));
+                recordData.put("memberScore", (float) jsonObject.optDouble("members_score", 0.0));
+                recordData.put("imageUrl", jsonObject.getString("image_url").replaceFirst("t.jpg$", ".jpg"));
+                if (type.equals(TYPE_ANIME)) {
+                    recordData.put("episodesTotal", jsonObject.optInt("episodes"));
+                    recordData.put("episodesWatched", jsonObject.optInt("watched_episodes"));
+                    recordData.put("myStatus", jsonObject.getString("watched_status"));
+                } else if (type.equals(TYPE_MANGA)) {
+                    recordData.put("myStatus", jsonObject.getString("read_status"));
+                    recordData.put("volumesTotal", jsonObject.optInt("volumes"));
+                    recordData.put("chaptersTotal", jsonObject.optInt("chapters"));
+                    recordData.put("volumesRead", jsonObject.optInt("volumes_read"));
+                    recordData.put("chaptersRead", jsonObject.optInt("chapters_read"));
+                }
+            }else if (type.equals(TYPE_PROFILE)){
+                JSONObject details = jsonObject.getJSONObject("details");
+                JSONObject anime = jsonObject.getJSONObject("anime_stats");
+                JSONObject manga = jsonObject.getJSONObject("manga_stats");
+
+                recordData.put("username", UserRecord.username);
+                recordData.put("avatar_url", jsonObject.getString("avatar_url"));
+                recordData.put("birthday", details.getString("birthday"));
+                recordData.put("location", details.getString("location"));
+                recordData.put("website", details.getString("website"));
+                recordData.put("comments", details.getInt("comments"));
+                recordData.put("forum_posts", details.getInt("forum_posts"));
+                recordData.put("last_online", details.getString("last_online"));
+                recordData.put("gender", details.getString("gender"));
+                recordData.put("join_date", details.getString("join_date"));
+                recordData.put("access_rank", details.getString("access_rank"));
+                recordData.put("anime_list_views", details.getInt("anime_list_views"));
+                recordData.put("manga_list_views", details.getInt("manga_list_views"));
+
+                recordData.put("anime_time_days_d", Double.toString(anime.getDouble("time_days")));
+                recordData.put("anime_time_days", anime.getInt("time_days"));
+                recordData.put("anime_watching", anime.getInt("watching"));
+                recordData.put("anime_completed", anime.getInt("completed"));
+                recordData.put("anime_on_hold", anime.getInt("on_hold"));
+                recordData.put("anime_dropped", anime.getInt("dropped"));
+                recordData.put("anime_plan_to_watch", anime.getInt("plan_to_watch"));
+                recordData.put("anime_total_entries", anime.getInt("total_entries"));
+
+                recordData.put("manga_time_days_d", Double.toString(manga.getDouble("time_days")));
+                recordData.put("manga_time_days", manga.getInt("time_days"));
+                recordData.put("manga_reading", manga.getInt("reading"));
+                recordData.put("manga_completed", manga.getInt("completed"));
+                recordData.put("manga_on_hold", manga.getInt("on_hold"));
+                recordData.put("manga_dropped", manga.getInt("dropped"));
+                recordData.put("manga_plan_to_read", manga.getInt("plan_to_read"));
+                recordData.put("manga_total_entries", manga.getInt("total_entries"));
+            }else if (type.equals(TYPE_FRIENDS)){
+                String friend_since = jsonObject.getString("friend_since");
+                if (friend_since == "null"){
+                    friend_since="Unknown";
+                }else{
+                    try {
+                        Date frienddate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH).parse(friend_since);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(frienddate);
+                        String am_pm = "";
+                        if(calendar.get(Calendar.AM_PM) == 0){ am_pm = "AM"; }else{ am_pm = "PM";}
+                        String time = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " " + am_pm;
+                        String date = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+                        friend_since = date + ", " + time;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                JSONObject profile = new JSONObject(jsonObject.getString("profile"));
+                JSONObject details = new JSONObject(profile.getString("details"));
+
+                recordData.put("username", jsonObject.getString("name"));
+                recordData.put("avatar_url", profile.getString("avatar_url"));
+                recordData.put("last_online", details.getString("last_online"));
+                recordData.put("friend_since", friend_since);
             }
         } catch (JSONException e) {
             Log.e(this.getClass().getName(), Log.getStackTraceString(e));
@@ -143,8 +221,48 @@ public class MALManager {
         return recordData;
     }
 
+    public void downloadAndStoreProfile(String user) {
+
+        JSONObject jsonObject = malApi.getProfile(user);
+        UserRecord.username = user;
+        try {
+            getDBWrite().beginTransaction();
+
+            HashMap<String, Object> recordData = getRecordDataFromJSONObject(jsonObject, TYPE_PROFILE);
+
+            UserRecord pr = new UserRecord(recordData);
+            saveItem(pr, TYPE_PROFILE);
+
+            getDBWrite().setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            getDBWrite().endTransaction();
+        }
+    }
+
+    public void downloadAndStoreFriends(String user) {
+
+        JSONArray jArray = malApi.getFriends(user);
+        try {
+            getDBWrite().beginTransaction();
+
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), TYPE_FRIENDS);
+                UserRecord fr = new UserRecord(recordData);
+                saveItem(fr,TYPE_FRIENDS);
+            }
+
+            getDBWrite().setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            getDBWrite().endTransaction();
+        }
+    }
+
     public boolean downloadAndStoreList(String type) {
-    	boolean result = false;
+        boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put("lastUpdate", 0);
         getDBWrite().update(type, contentValues, null, null);
@@ -152,36 +270,36 @@ public class MALManager {
         int currentTime = (int) new Date().getTime() / 1000;
         JSONArray jArray = malApi.getList(getListTypeFromString(type));
         if ( jArray != null ) {
-        	// we successfully downloaded the list
-        	result = true;
-	        try {
-	            getDBWrite().beginTransaction();
-	            if(type.equals(TYPE_ANIME)) {
-	
-	                for (int i = 0; i < jArray.length(); i++) {
-	                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
-	                    AnimeRecord ar = new AnimeRecord(recordData);
-	                    ar.setLastUpdate(currentTime);
-	                    saveItem(ar, true);
-	                }
-	
-	            }
-	            else {
-	                for (int i = 0; i < jArray.length(); i++) {
-	                    HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
-	                    MangaRecord mr = new MangaRecord(recordData);
-	                    mr.setLastUpdate(currentTime);
-	                    saveItem(mr, true);
-	                }
-	            }
-	
-	            getDBWrite().setTransactionSuccessful();
-	            clearDeletedItems(type, currentTime);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        } finally {
-	            getDBWrite().endTransaction();
-	        }
+            // we successfully downloaded the list
+            result = true;
+            try {
+                getDBWrite().beginTransaction();
+                if(type.equals(TYPE_ANIME)) {
+
+                    for (int i = 0; i < jArray.length(); i++) {
+                        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+                        AnimeRecord ar = new AnimeRecord(recordData);
+                        ar.setLastUpdate(currentTime);
+                        saveItem(ar, true);
+                    }
+
+                }
+                else {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        HashMap<String, Object> recordData = getRecordDataFromJSONObject(jArray.getJSONObject(i), type);
+                        MangaRecord mr = new MangaRecord(recordData);
+                        mr.setLastUpdate(currentTime);
+                        saveItem(mr, true);
+                    }
+                }
+
+                getDBWrite().setTransactionSuccessful();
+                clearDeletedItems(type, currentTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                getDBWrite().endTransaction();
+            }
         }
         return result;
     }
@@ -256,11 +374,9 @@ public class MALManager {
             int object_type = cursor.getType(index);
             if (object_type == Cursor.FIELD_TYPE_STRING) {
                 return cursor.getString(index);
-            }
-            if (object_type == Cursor.FIELD_TYPE_FLOAT) {
+            }else if (object_type == Cursor.FIELD_TYPE_FLOAT) {
                 return cursor.getFloat(index);
-            }
-            if (object_type == Cursor.FIELD_TYPE_INTEGER) {
+            }else if (object_type == Cursor.FIELD_TYPE_INTEGER) {
                 return cursor.getInt(index);
             }
         }
@@ -289,32 +405,100 @@ public class MALManager {
         return record_data;
     }
 
+    public UserRecord getProfileRecordsFromDB() {
+        Integer index = null;
+        Log.v("MALX", "getProfileRecordsFromDB() has been invoked for list " + "profile");
+
+        ArrayList<UserRecord> profileRecordArrayList = new ArrayList<UserRecord>();
+        Cursor cursor = null;
+        try {
+            cursor = getDBRead().query("profile", this.profileColumns, null, null, null, null, "username ASC");
+            Log.v("MALX", "Got " + cursor.getCount() + " records.");
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+                profileRecordArrayList.add(new UserRecord(this.getRecordDataFromCursor(cursor, UserRecord.getTypeMapProfile())));
+                cursor.moveToNext();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        for(int x = 0; x <  (profileRecordArrayList.size()); x++) {
+            if (profileRecordArrayList.get(x).getUsername() == null){
+            }else if (profileRecordArrayList.get(x).getUsername().equals(UserRecord.username)){
+                index = x;
+            }
+        }
+
+        if (profileRecordArrayList.isEmpty()) {
+            return null;
+        }
+
+        try{
+            return profileRecordArrayList.get(index);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public ArrayList<UserRecord> getFriendsRecordsFromDB() {
+        Log.v("MALX", "getFriendsRecordsFromDB() has been invoked for list " + "friends");
+
+        ArrayList<UserRecord> friendsRecordArrayList = new ArrayList<UserRecord>();
+        Cursor cursor = null;
+        try{
+            cursor = getDBRead().query("friends", this.friendsColumns, null, null, null, null, "username ASC");
+            Log.v("MALX", "Got " + cursor.getCount() + " records.");
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+                friendsRecordArrayList.add(new UserRecord(this.getRecordDataFromCursor(cursor, UserRecord.getTypeMapFriends())));
+                cursor.moveToNext();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        if (friendsRecordArrayList.isEmpty()) {
+            return null;
+        }
+
+        return friendsRecordArrayList;
+    }
+
     public ArrayList<AnimeRecord> getAnimeRecordsFromDB(int list) {
         Log.v("MALX", "getAnimeRecordsFromDB() has been invoked for list " + listSortFromInt(list, "anime"));
 
         ArrayList<AnimeRecord> animeRecordArrayList = new ArrayList<AnimeRecord>();
-        Cursor cursor;
+        Cursor cursor = null;
 
-        if (list == 0) {
-            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = 'watching' OR myStatus = 'completed' OR myStatus = 'plan to watch' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
-        } else {
-            cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
-        }
+        try{
+            if (list == 0) {
+                cursor = getDBRead().query("anime", this.animeColumns, "myStatus = 'watching' OR myStatus = 'completed' OR myStatus = 'plan to watch' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
+            } else {
+                cursor = getDBRead().query("anime", this.animeColumns, "myStatus = ?", new String[]{listSortFromInt(list, "anime")}, null, null, "recordName ASC");
+            }
 
+            Log.v("MALX", "Got " + cursor.getCount() + " records.");
+            cursor.moveToFirst();
 
-        Log.v("MALX", "Got " + cursor.getCount() + " records.");
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor, AnimeRecord.getTypeMap())));
-            cursor.moveToNext();
+            while (!cursor.isAfterLast()) {
+                animeRecordArrayList.add(new AnimeRecord(this.getRecordDataFromCursor(cursor, AnimeRecord.getTypeMap())));
+                cursor.moveToNext();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         if (animeRecordArrayList.isEmpty()) {
             return null;
         }
-
-        cursor.close();
 
         return animeRecordArrayList;
     }
@@ -323,29 +507,86 @@ public class MALManager {
         Log.v("MALX", "getMangaRecordsFromDB() has been invoked for list " + listSortFromInt(list, "manga"));
 
         ArrayList<MangaRecord> mangaRecordArrayList = new ArrayList<MangaRecord>();
-        Cursor cursor;
+        Cursor cursor = null;
+        try{
+            if (list == 0) {
+                cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = 'reading' OR myStatus = 'completed' OR myStatus = 'plan to read' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
+            } else {
+                cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+            }
 
-        if (list == 0) {
-            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = 'reading' OR myStatus = 'completed' OR myStatus = 'plan to read' OR myStatus = 'dropped' OR myStatus = 'on-hold'", null, null, null, "recordName ASC");
-        } else {
-            cursor = getDBRead().query("manga", this.mangaColumns, "myStatus = ?", new String[]{listSortFromInt(list, "manga")}, null, null, "recordName ASC");
+            Log.v("MALX", "Got " + cursor.getCount() + " records.");
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+                mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor, MangaRecord.getTypeMap())));
+                cursor.moveToNext();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-
-        Log.v("MALX", "Got " + cursor.getCount() + " records.");
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            mangaRecordArrayList.add(new MangaRecord(this.getRecordDataFromCursor(cursor, MangaRecord.getTypeMap())));
-            cursor.moveToNext();
-        }
-
         if (mangaRecordArrayList.isEmpty()) {
             return null;
         }
 
-        cursor.close();
-
         return mangaRecordArrayList;
+    }
+
+    public void saveItem(UserRecord ur, String type) {
+        ContentValues cv = new ContentValues();
+
+        if (type.equals(TYPE_FRIENDS)){
+            cv.put("username", ur.getUsername());
+            cv.put("avatar_url", ur.getAvatar());
+            cv.put("last_online", ur.getLast());
+            cv.put("friend_since", ur.getSince());
+
+            if (itemExists(ur.getUsername(), "friends")) {
+                getDBWrite().update(MALSqlHelper.TABLE_FRIENDS, cv, "username=?", new String[]{ur.getUsername()});
+            } else {
+                getDBWrite().insert(MALSqlHelper.TABLE_FRIENDS, null, cv);
+            }
+        }else{
+            cv.put("username", ur.getUsername());
+            cv.put("avatar_url", ur.getAvatar());
+            cv.put("birthday", ur.getBirthday());
+            cv.put("location", ur.getLocation());
+            cv.put("website", ur.getWebsite());
+            cv.put("comments", ur.getComments());
+            cv.put("forum_posts", ur.getForumposts());
+            cv.put("last_online", ur.getLast());
+            cv.put("gender", ur.getGender());
+            cv.put("join_date", ur.getJoinDate());
+            cv.put("access_rank", ur.getAccessRank());
+            cv.put("anime_list_views", ur.getAnimeListviews());
+            cv.put("manga_list_views", ur.getMangaListviews());
+
+            cv.put("anime_time_days_d", ur.getAnimeTimeDaysD());
+            cv.put("anime_time_days", ur.getAnimeTimedays());
+            cv.put("anime_watching", ur.getAnimeWatching());
+            cv.put("anime_completed", ur.getAnimeCompleted());
+            cv.put("anime_on_hold", ur.getAnimeOnHold());
+            cv.put("anime_dropped", ur.getAnimeDropped());
+            cv.put("anime_plan_to_watch", ur.getAnimePlanToWatch());
+            cv.put("anime_total_entries", ur.getAnimeTotalEntries());
+
+            cv.put("manga_time_days_d", ur.getMangatimedaysD());
+            cv.put("manga_time_days", ur.getMangaTimedays());
+            cv.put("manga_reading", ur.getMangaReading());
+            cv.put("manga_completed", ur.getMangaCompleted());
+            cv.put("manga_on_hold", ur.getMangaOnHold());
+            cv.put("manga_dropped", ur.getMangaDropped());
+            cv.put("manga_plan_to_read", ur.getMangaPlanToRead());
+            cv.put("manga_total_entries", ur.getMangaTotalEntries());
+
+            if (itemExists(ur.getUsername(), "profile")) {
+                getDBWrite().update(MALSqlHelper.TABLE_PROFILE, cv, "username=?", new String[]{ur.getUsername()});
+            } else {
+                getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
+            }
+        }
     }
 
     public void saveItem(MangaRecord mr, boolean ignoreSynopsis) {
@@ -454,6 +695,12 @@ public class MALManager {
             boolean exists = (cursor.getCount() > 0);
             cursor.close();
             return exists;
+        }else if (type.equals("friends") || type.equals("profile")){
+            Cursor cursor = getDBRead().rawQuery("select 1 from " + type + " WHERE username=? LIMIT 1",
+                    new String[]{id});
+            boolean exists = (cursor.getCount() > 0);
+            cursor.close();
+            return exists;
         } else {
             throw new RuntimeException("itemExists called with unknown type.");
         }
@@ -543,7 +790,6 @@ public class MALManager {
 
     public boolean cleanDirtyAnimeRecords() {
         Cursor animeCursor;
-        Cursor mangaCursor;
         boolean totalSuccess = true;
 
         animeCursor = getDBRead().query("anime", this.animeColumns, "dirty = 1", null, null, null, "recordName ASC");

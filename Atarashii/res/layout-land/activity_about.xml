@@ -108,6 +108,34 @@
             </LinearLayout>
         </ScrollView>
 
+        <LinearLayout
+            android:id="@+id/community_card"
+            android:layout_toRightOf="@id/contributors_card"
+            android:layout_width="300dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:padding="12dp" >
+
+            <TextView
+                android:id="@+id/community_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/community_card_title"
+                android:textColor="#0099CC"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/community_card_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/community"/>
+        </LinearLayout>
+        
         <ScrollView
             android:id="@+id/acknowledgements_card"
             android:layout_width="300dp"
@@ -115,7 +143,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:layout_toRightOf="@id/contributors_card"
+            android:layout_toRightOf="@id/community_card"
             android:background="#FFFFFF"
             android:padding="12dp">
 
