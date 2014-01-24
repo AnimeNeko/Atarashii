@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 public class MALApi extends BaseMALApi {
@@ -81,8 +82,8 @@ public class MALApi extends BaseMALApi {
 		URL url;
 		RestResult<String> response = null;
 		try {
-			url = new URL(getFullPath(getListTypeString(listType)
-					+ String.format("/search?q=%s", query)));
+			url = new URL(getFullPath(getListTypeString(listType) + "/search?q=" 
+					+ Uri.encode(query)));
 			response = restHelper.get(url);
 		} catch (MalformedURLException e) {
 			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
