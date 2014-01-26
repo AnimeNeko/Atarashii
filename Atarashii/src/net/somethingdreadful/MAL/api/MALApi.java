@@ -10,8 +10,10 @@ import org.apache.http.params.HttpProtocolParams;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
+import net.somethingdreadful.MAL.api.response.Profile;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -23,10 +25,12 @@ import android.os.Build;
 import android.util.Log;
 
 public class MALApi {
-	private static final String API_HOST = "http://api.atarashiiapp.com";
-	private final static String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
+    private static final String API_HOST = "http://api.atarashiiapp.com";
+    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
+    private static final String FRIENDS_HOST = "http://newapi.atarashiiapp.com"; //TEMPORARY UNTIL NEW
     
     private MALInterface service;
+    private FriendsInterface friends_service; //TEMPORARY UNTIL NEW
     private String username;
     
     public enum ListType {
@@ -37,12 +41,14 @@ public class MALApi {
 		PrefManager prefManager = new PrefManager(context);
 		username = prefManager.getUser();
 		setupRESTService(prefManager.getUser(), prefManager.getPass());
+		setupFriendRESTService();
 	}
 	
 	public MALApi(String username, String password) {
 		this.username = username;
 		setupRESTService(username, password);
-	}
+		setupFriendRESTService();
+    }
 	
 	private void setupRESTService(String username, String password) {
 		DefaultHttpClient client = new DefaultHttpClient();
@@ -55,6 +61,17 @@ public class MALApi {
 			.setServer(API_HOST)
 			.build();
 		service = restAdapter.create(MALInterface.class);
+	}
+	
+	private void setupFriendRESTService() {
+	    DefaultHttpClient client = new DefaultHttpClient();
+        HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
+        
+        RestAdapter restAdapter = new RestAdapter.Builder()
+            .setClient(new ApacheClient(client))
+            .setServer(FRIENDS_HOST)
+            .build();
+        friends_service = restAdapter.create(FriendsInterface.class);
 	}
 
 	public boolean isAuth() {
@@ -156,4 +173,12 @@ public class MALApi {
 	public ArrayList<Manga> getUpcomingManga(int page) {
 		return service.getUpcomingManga(page);
 	}
+	
+	public Profile getProfile(String user) {
+	    return friends_service.getProfile(user);
+	}
+
+    public ArrayList<User> getFriends(String user) {
+        return friends_service.getFriends(user);
+    }
 }

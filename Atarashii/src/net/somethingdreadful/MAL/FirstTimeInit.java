@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import net.somethingdreadful.MAL.api.MALApi;
 
-
 public class FirstTimeInit extends SherlockActivity {
     static EditText malUser;
     static EditText malPass;
@@ -46,7 +45,6 @@ public class FirstTimeInit extends SherlockActivity {
                 testMalPass = malPass.getText().toString().trim();
                 tryConnection();
             }
-
         });
 
         registerButton.setOnClickListener(new OnClickListener() {
@@ -62,7 +60,6 @@ public class FirstTimeInit extends SherlockActivity {
             public void handleMessage(Message msg) {
                 if (msg.what == 2) {
                     pd.dismiss();
-
                     Toast.makeText(context, context.getString(R.string.toast_VerifyProblem), Toast.LENGTH_SHORT).show();
                 }
                 if (msg.what == 3) {
@@ -72,6 +69,7 @@ public class FirstTimeInit extends SherlockActivity {
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
                     prefManager.setInit(true);
+                    prefManager.setsync_time_last(0);
                     prefManager.commitChanges();
 
                     Intent goHome = new Intent(context, Home.class);
@@ -83,12 +81,10 @@ public class FirstTimeInit extends SherlockActivity {
         };
     }
 
-
     private void tryConnection() {
         pd = ProgressDialog.show(this, context.getString(R.string.dialog_Verifying), context.getString(R.string.dialog_VerifyingBlurb));
         netThread = new networkThread();
         netThread.start();
-
     }
 
     public class networkThread extends Thread {
@@ -105,6 +101,4 @@ public class FirstTimeInit extends SherlockActivity {
             }
         }
     }
-
-
 }

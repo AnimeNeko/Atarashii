@@ -8,6 +8,8 @@ import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
+import net.somethingdreadful.MAL.api.response.Profile;
+import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import android.content.Context;
@@ -17,6 +19,8 @@ public class MALManager {
 
     final static String TYPE_ANIME = "anime";
     final static String TYPE_MANGA = "manga";
+    final static String TYPE_FRIENDS = "friends";
+    final static String TYPE_PROFILE = "profile";
 
     MALApi malApi;
     DatabaseManager dbMan;
@@ -151,6 +155,44 @@ public class MALManager {
     	}
         
         return anime;
+    }
+    
+    public ArrayList<User> downloadAndStoreFriendList(String user) {
+        ArrayList<User> result = null;
+        try {
+            result = malApi.getFriends(user);
+            if ( result.size() > 0 ) {
+                dbMan.saveFriendList(result);
+            }
+        } catch (Exception e) {
+            result = null;
+        }
+        return result;
+    }
+    
+    public ArrayList<User> getFriendListFromDB() {
+        return dbMan.getFriendList();
+    }
+    
+    public User downloadAndStoreProfile(String name) {
+        User result = null;
+        try {
+            Profile profile = malApi.getProfile(name);
+            if ( profile != null ) {
+                result = new User();
+                result.setName(name);
+                result.setProfile(profile);
+                dbMan.saveUser(result);
+            }
+        } catch (Exception e) {
+            Log.e("MALX", e.getMessage());
+            result = null;
+        }
+        return result;
+    }
+    
+    public User getProfileFromDB(String name) {
+        return dbMan.getProfile(name);
     }
 
     public Manga updateWithDetails(int id, Manga manga) {
@@ -299,5 +341,4 @@ public class MALManager {
         }
         return totalSuccess;
     }
-
 }

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.ItemGridFragmentScrollViewListener.RefreshList;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
@@ -149,13 +150,23 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
-        	public void onRefresh(int pageNumber) {
-        		try{
-        			AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
-        			animetask.execute();
-        		} catch (Exception e){
-        			
-        		}
+            public void onRefresh(int pageNumber, ListType listType) {
+                try{
+                    switch (listType) {
+                        case ANIME:
+                            AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
+                            animetask.execute();
+                            break;
+                        case MANGA:
+                            MangaNetworkTask mangatask = new MangaNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
+                            mangatask.execute();
+                            break;
+                        default:
+                            Log.e("MALX", "invalid list type: " + listType.name());
+                    }
+                } catch (Exception e){
+                    Log.e("MALX", "onRefresh() error: " + e.getMessage());
+                }
             }
         });
         gv.setOnScrollListener(scrollListener);

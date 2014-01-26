@@ -1,8 +1,10 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
@@ -19,7 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -72,10 +73,11 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     boolean networkAvailable;
     BroadcastReceiver networkReceiver;
     MenuItem searchItem;
-    
+
     int AutoSync = 0; //run or not to run.
     int listType = 0; //remembers the list_type.
-    
+
+
     private DrawerLayout mDrawerLayout;
     private ListView listView;
     private SherlockActionBarDrawerToggle mDrawerToggle;
@@ -83,22 +85,22 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     View mActiveView;
     View mPreviousView;
     boolean myList = true; //tracks if the user is on 'My List' or not
-    public static final String[] DRAWER_OPTIONS = 
+    public static final String[] DRAWER_OPTIONS =
         {
-                "My Profile",   
-                "My List",
-                "My Friends",
-                "Top Rated",
-                "Most Popular",
-                "Just Added",
-                "Upcoming"
+        "My Profile",
+        "My List",
+        "My Friends",
+        "Top Rated",
+        "Most Popular",
+        "Just Added",
+        "Upcoming"
         };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        
+
         mPrefManager = new PrefManager(context);
         init = mPrefManager.getInit();
 
@@ -107,39 +109,34 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
         if (savedInstanceState != null) {
             AutoSync = savedInstanceState.getInt("AutoSync");
-            listType = savedInstanceState.getInt("myList");
         }
-        
+
         if (init) {
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
             mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
-            
+
             mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
-            listView = (ListView)findViewById(R.id.left_drawer);
-            
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            
             HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
+
+            listView = (ListView)findViewById(R.id.left_drawer);
             listView.setAdapter(adapter);
-    		listView.setOnItemClickListener(new DrawerItemClickListener());
-    		listView.setCacheColorHint(0);
-    		listView.setScrollingCacheEnabled(false);
-    		listView.setScrollContainer(false);
-    		listView.setFastScrollEnabled(true);
-    		listView.setSmoothScrollbarEnabled(true);
-            	
-    		mActionBar = createActionBarHelper();
-    		mActionBar.init();
-    		
-    		mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_light, R.string.drawer_open, R.string.drawer_close);
-    		mDrawerToggle.syncState();
+            listView.setOnItemClickListener(new DrawerItemClickListener());
+            listView.setCacheColorHint(0);
+            listView.setScrollingCacheEnabled(false);
+            listView.setScrollContainer(false);
+            listView.setFastScrollEnabled(true);
+            listView.setSmoothScrollbarEnabled(true);
+
+            mActionBar = createActionBarHelper();
+            mActionBar.init();
+
+            mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_light, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
-
-            if (!instanceExists) {
-            }
 
             // Set up the action bar.
             final ActionBar actionBar = getSupportActionBar();
@@ -163,7 +160,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 }
             });
 
-            // Add tabs for the animu and mango lists
+            // Add tabs for the anime and manga lists
             for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
                 // Create a tab with text corresponding to the page title
                 // defined by the adapter.
@@ -181,9 +178,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     checkNetworkAndDisplayCrouton();
                 }
             };
-            
-    		listType = mPrefManager.getDefaultList(); //get chosen list :D
-    		autosynctask();
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -205,46 +199,22 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         String listName = getSupportActionBar().getSelectedTab().getText().toString();
         return MALApi.getListTypeByString(listName);
     }
-    
-	public boolean isConnectedWifi() {
-    	ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-    	NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+    public boolean isConnectedWifi() {
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (Wifi.isConnected()&& mPrefManager.getonly_wifiEnabled() ) {
             return true;
         } else {
             return false;
         }
     }
-    
-    public void autosynctask(){
-        try {
-        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-    		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        	if (AutoSync == 0 && isNetworkAvailable() && networkAvailable == true && mPrefManager.getsynchronisationEnabled()){ 
-        		if (mPrefManager.getsynchronisationEnabled() && mPrefManager.getonly_wifiEnabled() == false){ //connected to Wi-Fi and sync only on Wi-Fi checked.
-        			af.getRecords(af.currentList, "anime", true, this.context);
-            		mf.getRecords(af.currentList, "manga", true, this.context);
-            		syncNotify();
-            		AutoSync = 1;
-        		}else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi() && mPrefManager.getsynchronisationEnabled()){ //connected and sync always.
-        			af.getRecords(af.currentList, "anime", true, this.context);
-            		mf.getRecords(af.currentList, "manga", true, this.context);
-            		syncNotify();
-            		AutoSync = 1;
-        		}
-        	}else{
-        		//will do nothing, sync is turned off or (sync only on Wi-Fi checked) and there is no Wi-Fi.
-        	}
-        }catch (Exception e){
-        	Crouton.makeText(this, "Error: autosynctask faild!", Style.ALERT).show();
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, Settings.class));
@@ -262,7 +232,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 if (af != null && mf != null) {
                     af.getRecords(0, "anime", false, this.context);
                     mf.getRecords(0, "manga", false, this.context);
-                    listType = 0;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -270,7 +239,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 if (af != null && mf != null) {
                     af.getRecords(1, "anime", false, this.context);
                     mf.getRecords(1, "manga", false, this.context);
-                    listType = 1;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -278,7 +246,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 if (af != null && mf != null) {
                     af.getRecords(2, "anime", false, this.context);
                     mf.getRecords(2, "manga", false, this.context);
-                    listType = 2;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -286,7 +253,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 if (af != null && mf != null) {
                     af.getRecords(3, "anime", false, this.context);
                     mf.getRecords(3, "manga", false, this.context);
-                    listType = 3;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -294,7 +260,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 if (af != null && mf != null) {
                     af.getRecords(4, "anime", false, this.context);
                     mf.getRecords(4, "manga", false, this.context);
-                    listType = 4;
                     supportInvalidateOptionsMenu();
                 }
                 break;
@@ -302,14 +267,13 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 if (af != null && mf != null) {
                     af.getRecords(5, "anime", false, this.context);
                     mf.getRecords(5, "manga", false, this.context);
-                    listType = 5;
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
                 if (af != null && mf != null) {
                     af.getRecords(af.currentList, "anime", true, this.context);
-                    mf.getRecords(af.currentList, "manga", true, this.context);
+                    mf.getRecords(mf.currentList, "manga", true, this.context);
                     syncNotify();
                 }
                 break;
@@ -320,18 +284,17 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists && af.getMode()== null) {
-            af.getRecords(af.currentList, "anime", false, this.context);
-            mf.getRecords(af.currentList, "manga", false, this.context);
-        }
-        
         checkNetworkAndDisplayCrouton();
+        if (instanceExists && af.getMode()==null) {
+            af.getRecords(af.currentList, "anime", false, Home.this.context);
+            mf.getRecords(mf.currentList, "manga", false, Home.this.context);
+        }
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (mSearchView != null) {
-        	mSearchView.clearFocus();
+            mSearchView.clearFocus();
             mSearchView.setFocusable(false);
             mSearchView.setQuery("", false);
-            searchItem.collapseActionView();      
+            searchItem.collapseActionView();
         }
     }
 
@@ -352,7 +315,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
-
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -361,13 +323,40 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-    	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-		mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        try { // if a error comes up it will not force close
-        	getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
-        }catch (Exception e){
-        	
+        af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+        mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+
+        //auto-sync stuff
+        if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable == true){
+            mPrefManager.setsync_time_last(1);
+            mPrefManager.commitChanges();
+            synctask();
+        } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
+            Calendar localCalendar = Calendar.getInstance();
+            int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
+            Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY)*60;
+            Time_now = Time_now + localCalendar.get(Calendar.MINUTE);
+            int last_sync = mPrefManager.getsync_time_last();
+            if (last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time())){
+                //no sync needed (This is inside the time range)
+            }else{
+                if (mPrefManager.getonly_wifiEnabled() == false){
+                    synctask();
+                    mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+                }else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+                    synctask();
+                    mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+                }
+            }
+            mPrefManager.commitChanges();
         }
+    }
+
+    public void synctask(){
+        af.getRecords(af.currentList, "anime", true, this.context);
+        mf.getRecords(mf.currentList, "manga", true, this.context);
+        syncNotify();
+        AutoSync = 1;
     }
 
     @Override
@@ -376,21 +365,20 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putInt("AutoSync", AutoSync);
-        state.putInt("myList", listType);
         super.onSaveInstanceState(state);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-    	MenuItem item  = menu.findItem(R.id.menu_listType);
-    	if(!myList){//if not on my list then disable menu items like listType, etc
-    		item.setEnabled(false);
-    		item.setVisible(false);
-    	}
-    	else{
-    		item.setEnabled(true);
-    		item.setVisible(true);
-    	}
+        MenuItem item  = menu.findItem(R.id.menu_listType);
+        if(!myList){//if not on my list then disable menu items like listType, etc
+            item.setEnabled(false);
+            item.setVisible(false);
+        }
+        else{
+            item.setEnabled(true);
+            item.setVisible(true);
+        }
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.currentList) {
@@ -415,17 +403,17 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         }
 
         if (networkAvailable) {
-        	if (myList){
-        		menu.findItem(R.id.forceSync).setVisible(true);
-        	}else{
-        		menu.findItem(R.id.forceSync).setVisible(false);
-        	}
+            if (myList){
+                menu.findItem(R.id.forceSync).setVisible(true);
+            }else{
+                menu.findItem(R.id.forceSync).setVisible(false);
+            }
             menu.findItem(R.id.action_search).setVisible(true);
         }
         else {
             menu.findItem(R.id.forceSync).setVisible(false);
             menu.findItem(R.id.action_search).setVisible(false);
-            AutoSync = 1; 
+            AutoSync = 1;
         }
         return true;
     }
@@ -443,7 +431,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     }
 
     private void syncNotify() {
-        Crouton.makeText(this, R.string.toast_SyncMessage, Style.INFO).show();
+        Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -453,7 +441,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_SyncMessage))
+                .setContentText(getString(R.string.crouton_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
         myList = true;
@@ -484,13 +472,14 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             return false;
         }
     }
-    
+
     public void maketext(String string) { //for the private class
-    	Crouton.makeText(this, string, Style.INFO).show();
+        Crouton.makeText(this, string, Style.INFO).show();
     }
-    
+
 
     public void checkNetworkAndDisplayCrouton() {
+
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
 			if (af.getMode() != null) {
@@ -502,9 +491,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	        }
         } else if (isNetworkAvailable() && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
-            af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(af.currentList, "manga", true, this.context);
-            syncNotify();
+
+            synctask();
+
         }
 
         if (!isNetworkAvailable()) {
@@ -514,7 +503,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         }
         supportInvalidateOptionsMenu();
     }
-    
+
     /* thread & methods to fetch most popular anime/manga*/
     //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
     private void getList(MALApi.ListType listType, TaskJob job) {
@@ -530,8 +519,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		default:
 			Log.e("MALX", "invalid list type: " + listType.name());
 			break;
+    	}
 	} 
-    }
+
     public void getMostPopular(MALApi.ListType listType){
     	getList(listType, TaskJob.GETMOSTPOPULAR);
     }
@@ -545,79 +535,79 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     public void getUpcoming(MALApi.ListType listType){
     	getList(listType, TaskJob.GETUPCOMING);
     }
-    
+
     /*private classes for nav drawer*/
     private ActionBarHelper createActionBarHelper() {
-		return new ActionBarHelper();
-	}
-     
+        return new ActionBarHelper();
+    }
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
-    	
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			/* do stuff when drawer item is clicked here */
-			af.scrollToTop();
-			mf.scrollToTop();
-			if (!isNetworkAvailable()) {
-				if (position==0 || position==1 || position==2){
-				}else{
-					position = 1;
-					maketext("No network connection available!");
-				}
-	        }
-			switch (position){
-			case 0:
-				Editor editor1 = getSharedPreferences("Profile", MODE_PRIVATE).edit().putString("Profileuser",mPrefManager.getUser());editor1.commit();
-				Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-				startActivity(Profile);
-				break;
-			case 1:
-				af.getRecords(listType, "anime", false, Home.this.context);
-                mf.getRecords(listType, "manga", false, Home.this.context);
-                myList = true;
-                af.setMode(null);
-				mf.setMode(null);
-				break;
-			case 2:
-				Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
-				startActivity(Friends);
-				break;
-			case 3:
-				getTopRated(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<Manga>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
-				myList = false;
-				af.setMode(TaskJob.GETTOPRATED);
-				mf.setMode(TaskJob.GETTOPRATED);
-				af.scrollListener.resetPageNumber();
-				mf.scrollListener.resetPageNumber();
-				break;
-			case 4:
-				getMostPopular(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
-				myList = false;
-				af.setMode(TaskJob.GETMOSTPOPULAR);
-				mf.setMode(TaskJob.GETMOSTPOPULAR);
-				af.scrollListener.resetPageNumber();
-				mf.scrollListener.resetPageNumber();
-				break;
-			case 5:
-				getJustAdded(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
-				myList = false;
-				af.setMode(TaskJob.GETJUSTADDED);
-				mf.setMode(TaskJob.GETJUSTADDED);
-				af.scrollListener.resetPageNumber();
-				mf.scrollListener.resetPageNumber();
-				break;
-			case 6:
-				getUpcoming(MALApi.ListType.ANIME);
-				mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
-				myList = false;
-				af.setMode(TaskJob.GETUPCOMING);
-				mf.setMode(TaskJob.GETUPCOMING);
-				af.scrollListener.resetPageNumber();
-				mf.scrollListener.resetPageNumber();
-				break;
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /* do stuff when drawer item is clicked here */
+            af.scrollToTop();
+            mf.scrollToTop();
+            if (!isNetworkAvailable()) {
+                if (position==0 || position==1 || position==2){
+                }else{
+                    position = 1;
+                    maketext("No network connection available!");
+                }
+            }
+            switch (position){
+                case 0:
+                    Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+                    Profile.putExtra("username", mPrefManager.getUser());
+                    startActivity(Profile);
+                    break;
+                case 1:
+                    af.getRecords(listType, "anime", false, Home.this.context);
+                    mf.getRecords(listType, "manga", false, Home.this.context);
+                    myList = true;
+                    af.setMode(null);
+                    mf.setMode(null);
+                break;
+                case 2:
+                    Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
+                    startActivity(Friends);
+                    break;
+                case 3:
+                    getTopRated(MALApi.ListType.ANIME);
+                    mf.setMangaRecords(new ArrayList<Manga>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    myList = false;
+                    af.setMode(TaskJob.GETTOPRATED);
+                    mf.setMode(TaskJob.GETTOPRATED);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+                case 4:
+                    getMostPopular(MALApi.ListType.ANIME);
+                    mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    myList = false;
+                    af.setMode(TaskJob.GETMOSTPOPULAR);
+                    mf.setMode(TaskJob.GETMOSTPOPULAR);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+                case 5:
+                    getJustAdded(MALApi.ListType.ANIME);
+                    mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    myList = false;
+                    af.setMode(TaskJob.GETJUSTADDED);
+                    mf.setMode(TaskJob.GETJUSTADDED);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+                case 6:
+                    getUpcoming(MALApi.ListType.ANIME);
+                    mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    myList = false;
+                    af.setMode(TaskJob.GETUPCOMING);
+                    mf.setMode(TaskJob.GETUPCOMING);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
 			}
 			Home.this.supportInvalidateOptionsMenu();
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
@@ -631,51 +621,51 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	}
     
     private class DemoDrawerListener implements DrawerLayout.DrawerListener {
-		@Override
-		public void onDrawerOpened(View drawerView) {
-			mDrawerToggle.onDrawerOpened(drawerView);
-			mActionBar.onDrawerOpened();
-		}
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            mDrawerToggle.onDrawerOpened(drawerView);
+            mActionBar.onDrawerOpened();
+        }
 
-		@Override
-		public void onDrawerClosed(View drawerView) {
-			mDrawerToggle.onDrawerClosed(drawerView);
-			mActionBar.onDrawerClosed();
-		}
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            mDrawerToggle.onDrawerClosed(drawerView);
+            mActionBar.onDrawerClosed();
+        }
 
-		@Override
-		public void onDrawerSlide(View drawerView, float slideOffset) {
-			mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
-		}
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
+        }
 
-		@Override
-		public void onDrawerStateChanged(int newState) {
-			mDrawerToggle.onDrawerStateChanged(newState);
-		}
-	}
-    
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            mDrawerToggle.onDrawerStateChanged(newState);
+        }
+    }
+
     private class ActionBarHelper {
-		private final ActionBar mActionBar;
-		private CharSequence mDrawerTitle;
-		private CharSequence mTitle;
+        private final ActionBar mActionBar;
+        private CharSequence mDrawerTitle;
+        private CharSequence mTitle;
 
-		private ActionBarHelper() {
-			mActionBar = getSupportActionBar();
-		}
+        private ActionBarHelper() {
+            mActionBar = getSupportActionBar();
+        }
 
-		public void init() {
-			mActionBar.setDisplayHomeAsUpEnabled(true);
-			mActionBar.setHomeButtonEnabled(true);
-			mTitle = mDrawerTitle = getTitle();
-		}
+        public void init() {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setHomeButtonEnabled(true);
+            mTitle = mDrawerTitle = getTitle();
+        }
 
-		/**
-		 * When the drawer is closed we restore the action bar state reflecting
-		 * the specific contents in view.
-		 */
-		public void onDrawerClosed() {
-			mActionBar.setTitle(mTitle);	
-		}
+        /**
+         * When the drawer is closed we restore the action bar state reflecting
+         * the specific contents in view.
+         */
+        public void onDrawerClosed() {
+            mActionBar.setTitle(mTitle);
+        }
 
 		/**
 		 * When the drawer is open we set the action bar to a generic title. The
@@ -716,7 +706,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 			}
 		}
 		
-		Home.this.af.scrollListener.notifyMorePages();
+		Home.this.af.scrollListener.notifyMorePages(ListType.ANIME);
 	}
 
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
@@ -747,6 +737,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 			}
 		}
 
-		Home.this.af.scrollListener.notifyMorePages();
+		Home.this.af.scrollListener.notifyMorePages(ListType.MANGA);
 	}
 }
