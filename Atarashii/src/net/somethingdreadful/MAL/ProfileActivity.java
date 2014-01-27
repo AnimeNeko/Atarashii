@@ -143,12 +143,13 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     public void setcolor(){
     	TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
     	String name = record.getName();
+    	String rank = record.getProfile().getDetails().getAccessRank() != null ? record.getProfile().getDetails().getAccessRank() : "";
     	if (prefs.Textcolordisable() == false){
     		setcolor(true);
     		setcolor(false);
-    		if (record.getProfile().getDetails().getAccessRank().contains("Administrator")){
+    		if (rank.contains("Administrator")){
     			tv8.setTextColor(Color.parseColor("#850000"));
-    		}else if (record.getProfile().getDetails().getAccessRank().contains("Moderator")) {
+    		}else if (rank.contains("Moderator")) {
     			tv8.setTextColor(Color.parseColor("#003385"));
     		}else if (User.isDeveloperRecord(name)) {
     				tv8.setTextColor(Color.parseColor("#008583")); //Developer
