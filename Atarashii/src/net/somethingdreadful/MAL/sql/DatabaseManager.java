@@ -356,7 +356,7 @@ public class DatabaseManager {
                 result = User.fromCursor(cursor);
             cursor.close();
         } catch (SQLException e) {
-            Log.e("MALX", "DatabaseManager.getFriendList exception: " + e.getMessage());
+            Log.e("MALX", "DatabaseManager.getProfile exception: " + e.getMessage());
         }
         return result;
     }
