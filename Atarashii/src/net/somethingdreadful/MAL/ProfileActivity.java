@@ -13,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -384,12 +383,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 
     @Override
     public void onUserNetworkTaskFinished(User result) {
-        if ( result != null ) {
-            record = result;
-            refresh(forcesync);
-        } else {
-            Log.d("MALX", "result is null");
-            // TODO: show error message crouton
-        }
+        record = result;
+        refresh(forcesync);
     }
 }
