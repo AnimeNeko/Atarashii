@@ -19,20 +19,27 @@ public class ProfileDetails {
     String website;
     
     public static ProfileDetails fromCursor(Cursor c) {
+        return fromCursor(c, false);
+    }
+    
+    public static ProfileDetails fromCursor(Cursor c, boolean friendDetails) {
         ProfileDetails result = new ProfileDetails();
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
-        result.setBirthday(c.getString(columnNames.indexOf("birthday")));
-        result.setLocation(c.getString(columnNames.indexOf("location")));
-        result.setWebsite(c.getString(columnNames.indexOf("website")));
-        result.setComments(c.getInt(columnNames.indexOf("comments")));
-        result.setForumPosts(c.getInt(columnNames.indexOf("forum_posts")));
+        
         result.setLastOnline(c.getString(columnNames.indexOf("last_online")));
-        result.setGender(c.getString(columnNames.indexOf("gender")));
-        result.setJoinDate(c.getString(columnNames.indexOf("join_date")));
-        result.setAccessRank(c.getString(columnNames.indexOf("access_rank")));
-        result.setAnimeListViews(c.getInt(columnNames.indexOf("anime_list_views")));
-        result.setMangaListViews(c.getInt(columnNames.indexOf("manga_list_views")));
+        if ( !friendDetails ) {
+            result.setBirthday(c.getString(columnNames.indexOf("birthday")));
+            result.setLocation(c.getString(columnNames.indexOf("location")));
+            result.setWebsite(c.getString(columnNames.indexOf("website")));
+            result.setComments(c.getInt(columnNames.indexOf("comments")));
+            result.setForumPosts(c.getInt(columnNames.indexOf("forum_posts")));
+            result.setGender(c.getString(columnNames.indexOf("gender")));
+            result.setJoinDate(c.getString(columnNames.indexOf("join_date")));
+            result.setAccessRank(c.getString(columnNames.indexOf("access_rank")));
+            result.setAnimeListViews(c.getInt(columnNames.indexOf("anime_list_views")));
+            result.setMangaListViews(c.getInt(columnNames.indexOf("manga_list_views")));
+        }
         return result;
     }
 

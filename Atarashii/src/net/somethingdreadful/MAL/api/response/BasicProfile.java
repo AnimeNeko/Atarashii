@@ -19,7 +19,7 @@ public class BasicProfile {
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
         result.setAvatarUrl(c.getString(columnNames.indexOf("avatar_url")));
-        result.setDetails(ProfileDetails.fromCursor(c));
+        result.setDetails(ProfileDetails.fromCursor(c, true));
         return result;
     }
 
