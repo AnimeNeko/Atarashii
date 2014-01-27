@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.Friend;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.User;
 
@@ -251,11 +252,11 @@ public class DatabaseManager {
 		return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "lastUpdate < ?", new String[]{time.toString()});
 	}
 
-    public void saveFriendList(ArrayList<User> list) {
+    public void saveFriendList(ArrayList<Friend> list) {
         if ( list != null && list.size() > 0 ) {
             try {
                 getDBWrite().beginTransaction();
-                for(User friend: list)
+                for(Friend friend: list)
                     saveFriend(friend);
                 getDBWrite().setTransactionSuccessful();
             } catch (Exception e) {
@@ -266,7 +267,7 @@ public class DatabaseManager {
         }
     }
  
-    public void saveFriend(User friend) {
+    public void saveFriend(Friend friend) {
         ContentValues cv = new ContentValues();
         
         cv.put("username", friend.getName());
@@ -278,20 +279,20 @@ public class DatabaseManager {
         if ( friend.getFriendSince() != null )
             cv.put("friend_since", friend.getFriendSince());
         else
-            cv.putNull("friends_since");
+            cv.putNull("friend_since");
         getDBWrite().replace(MALSqlHelper.TABLE_FRIENDS, null, cv);
     }
     
-    public ArrayList<User> getFriendList() {
-        ArrayList<User> result = null;
+    public ArrayList<Friend> getFriendList() {
+        ArrayList<Friend> result = null;
         Cursor cursor;
         try {
             cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, FRIENDSCOLUMNS, null, null, null, null, "username ASC");
             if (cursor.moveToFirst())
             {
-                result = new ArrayList<User>();
+                result = new ArrayList<Friend>();
                 do {
-                    result.add(User.fromCursor(cursor, true));
+                    result.add(Friend.fromCursor(cursor));
                 } while (cursor.moveToNext());
             }
             cursor.close();

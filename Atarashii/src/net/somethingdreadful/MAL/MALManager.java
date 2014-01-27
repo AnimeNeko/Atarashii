@@ -6,6 +6,7 @@ import java.util.Date;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.Friend;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -157,8 +158,8 @@ public class MALManager {
         return anime;
     }
     
-    public ArrayList<User> downloadAndStoreFriendList(String user) {
-        ArrayList<User> result = null;
+    public ArrayList<Friend> downloadAndStoreFriendList(String user) {
+        ArrayList<Friend> result = null;
         try {
             result = malApi.getFriends(user);
             if ( result.size() > 0 ) {
@@ -166,11 +167,12 @@ public class MALManager {
             }
         } catch (Exception e) {
             result = null;
+            Log.e("MALX", "error downloading friendlist: " + e.getMessage());
         }
         return result;
     }
     
-    public ArrayList<User> getFriendListFromDB() {
+    public ArrayList<Friend> getFriendListFromDB() {
         return dbMan.getFriendList();
     }
     
