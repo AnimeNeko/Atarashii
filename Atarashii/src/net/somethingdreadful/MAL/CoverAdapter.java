@@ -91,7 +91,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         .load(a.getImageUrl())
         .error(R.drawable.cover_error)
         .placeholder(R.drawable.cover_loading)
-        .fit()
         .into(viewHolder.cover);
 
         if (Build.VERSION.SDK_INT >= 11) {
