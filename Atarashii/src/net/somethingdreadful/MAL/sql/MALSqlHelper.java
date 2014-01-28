@@ -159,19 +159,10 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("insert into " + TABLE_MANGA + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
         }
-        
-        if (oldVersion < 6) {            
-        	db.execSQL("create table temp_table as select * from " + TABLE_FRIENDS);
-            db.execSQL("drop table " + TABLE_FRIENDS);
+
+        if (oldVersion < 6) {
             db.execSQL(CREATE_FRIENDS_TABLE);
-            db.execSQL("insert into " + TABLE_FRIENDS + " select * from temp_table;");
-            db.execSQL("drop table temp_table;");
-            
-            db.execSQL("create table temp_table as select * from " + TABLE_PROFILE);
-            db.execSQL("drop table " + TABLE_PROFILE);
             db.execSQL(CREATE_PROFILE_TABLE);
-            db.execSQL("insert into " + TABLE_PROFILE + " select * from temp_table;");
-            db.execSQL("drop table temp_table;");
         }
         
         if (oldVersion < 7) {
