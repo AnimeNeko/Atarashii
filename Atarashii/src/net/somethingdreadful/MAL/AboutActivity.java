@@ -22,10 +22,12 @@ public class AboutActivity extends SherlockActivity {
         TextView motokochanMalContent = (TextView) findViewById(R.id.contributor_motokochan_name);
         TextView apkawaMalContent = (TextView) findViewById(R.id.contributor_apkawa_name);
         TextView acknowledgementsContent = (TextView) findViewById(R.id.acknowledgements_card_content);
+        TextView communityContent = (TextView) findViewById(R.id.community_card_content);
 
         animaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         motokochanMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         apkawaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
+        communityContent.setMovementMethod(LinkMovementMethod.getInstance());
         acknowledgementsContent.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
