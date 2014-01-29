@@ -55,6 +55,6 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Friend
     @Override
     protected void onPostExecute(ArrayList<Friend> result) {
         if ( callback != null )
-            callback.FriendsNetworkTaskFinished(result);
+            callback.onFriendsNetworkTaskFinished(result);
     }
 }
