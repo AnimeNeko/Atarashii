@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.response.Friend;
-import net.somethingdreadful.MAL.api.response.User;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
