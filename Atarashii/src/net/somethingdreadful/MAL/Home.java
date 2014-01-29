@@ -718,21 +718,21 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				af.scrollToTop();
 				mf.scrollToTop();
 				switch ( job )	{
-				case GETTOPRATED:
-					getTopRated(MALApi.ListType.MANGA);
-					break;
-				case GETMOSTPOPULAR:
-					getMostPopular(MALApi.ListType.MANGA);
-					break;
-				case GETJUSTADDED:
-					getJustAdded(MALApi.ListType.MANGA);
-					break;
-				case GETUPCOMING:
-					getUpcoming(MALApi.ListType.MANGA);
-					break;
-				default:
-					Log.i("MALX", "invalid job: " + job.name());
-			}
+    				case GETTOPRATED:
+    					getTopRated(MALApi.ListType.MANGA);
+    					break;
+    				case GETMOSTPOPULAR:
+    					getMostPopular(MALApi.ListType.MANGA);
+    					break;
+    				case GETJUSTADDED:
+    					getJustAdded(MALApi.ListType.MANGA);
+    					break;
+    				case GETUPCOMING:
+    					getUpcoming(MALApi.ListType.MANGA);
+    					break;
+    				default:
+    				    Log.i("MALX", "invalid job: " + job.name());
+				}
 				af.scrollListener.resetPageNumber();
 			}
 		}
