@@ -35,14 +35,13 @@ public class MALApi extends BaseMALApi {
         JSONArray result = new JSONArray();
 
         try {
-        	if (!response.result.contains("error")) {
+        	if ((response.code >= 400) == false ) {
         		result = new JSONArray(response.result);
             }
         } catch (JSONException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
         return result;
-
     }
 
     private static String getFullPath(String path) {
