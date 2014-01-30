@@ -6,17 +6,17 @@ import java.util.List;
 import android.database.Cursor;
 
 public class ProfileDetails {
-    String access_rank;
-    int anime_list_views;
-    String birthday;
-    int comments;
-    int forum_posts;
-    String gender;
-    String join_date;
-    String last_online;
-    String location;
-    int manga_list_views;
-    String website;
+    private String access_rank;
+    private int anime_list_views;
+    private String birthday;
+    private int comments;
+    private int forum_posts;
+    private String gender;
+    private String join_date;
+    private String last_online;
+    private String location;
+    private int manga_list_views;
+    private String website;
     
     public static ProfileDetails fromCursor(Cursor c) {
         return fromCursor(c, false);

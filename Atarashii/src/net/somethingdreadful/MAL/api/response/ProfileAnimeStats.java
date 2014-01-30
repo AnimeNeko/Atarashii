@@ -6,13 +6,13 @@ import java.util.List;
 import android.database.Cursor;
 
 public class ProfileAnimeStats {
-    int completed;
-    int dropped;
-    int on_hold;
-    int plan_to_watch;
-    Double time_days;
-    int total_entries;
-    int watching;
+    private int completed;
+    private int dropped;
+    private int on_hold;
+    private int plan_to_watch;
+    private Double time_days;
+    private int total_entries;
+    private int watching;
     
     public static ProfileAnimeStats fromCursor(Cursor c) {
         ProfileAnimeStats result = new ProfileAnimeStats();

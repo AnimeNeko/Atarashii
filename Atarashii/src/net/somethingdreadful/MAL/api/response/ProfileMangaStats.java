@@ -6,13 +6,13 @@ import java.util.List;
 import android.database.Cursor;
 
 public class ProfileMangaStats {
-    int completed;
-    int dropped;
-    int on_hold;
-    int plan_to_read;
-    int reading;
-    Double time_days;
-    int total_entries;
+    private int completed;
+    private int dropped;
+    private int on_hold;
+    private int plan_to_read;
+    private int reading;
+    private Double time_days;
+    private int total_entries;
     
     public static ProfileMangaStats fromCursor(Cursor c) {
         ProfileMangaStats result = new ProfileMangaStats();

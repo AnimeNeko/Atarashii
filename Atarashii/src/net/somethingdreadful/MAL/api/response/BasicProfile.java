@@ -10,9 +10,9 @@ import android.database.Cursor;
  * so we need to handle this separately :(
  */
 public class BasicProfile {
-    int id;
-    String avatar_url;
-    ProfileDetails details;
+    private int id;
+    private String avatar_url;
+    private ProfileDetails details;
     
     public static BasicProfile fromCursor(Cursor c) {
         BasicProfile result = new BasicProfile();

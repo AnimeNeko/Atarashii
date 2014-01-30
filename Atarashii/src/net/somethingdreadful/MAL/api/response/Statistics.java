@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL.api.response;
 
 public class Statistics {
-	float days;
+    private float days;
 
 	public float getDays() {
 		return days;

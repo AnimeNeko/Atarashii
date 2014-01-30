@@ -13,9 +13,9 @@ import android.database.Cursor;
  * so we need to handle this separately :(
  */
 public class Friend {
-    String name;
-    String friend_since;
-    BasicProfile profile;
+    private String name;
+    private String friend_since;
+    private BasicProfile profile;
     
     public static Friend fromCursor(Cursor c) {
         Friend result = new Friend();

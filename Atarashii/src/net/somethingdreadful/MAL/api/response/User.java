@@ -6,8 +6,8 @@ import java.util.List;
 import android.database.Cursor;
 
 public class User {
-    String name;
-    Profile profile;
+    private String name;
+    private Profile profile;
     
     public static User fromCursor(Cursor c) {
         return fromCursor(c, false);

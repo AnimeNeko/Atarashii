@@ -6,8 +6,8 @@ import java.util.List;
 import android.database.Cursor;
 
 public class Profile extends BasicProfile {
-    ProfileAnimeStats anime_stats;
-    ProfileMangaStats manga_stats;
+    private ProfileAnimeStats anime_stats;
+    private ProfileMangaStats manga_stats;
 
     public static Profile fromCursor(Cursor c) {
         Profile result = new Profile();

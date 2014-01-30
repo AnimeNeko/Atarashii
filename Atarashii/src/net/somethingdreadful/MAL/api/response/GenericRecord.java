@@ -12,18 +12,18 @@ public class GenericRecord {
 	public static final String STATUS_ONHOLD = "on-hold";
 	public static final String STATUS_DROPPED = "dropped";
 	
-	int id;
-	String title;
-	String image_url;
-	String type;
-	String status;
-	int score;
-	float members_score;
-	String synopsis;
-	boolean dirty;
-	Date lastUpdate;
-	boolean flag_create;
-	boolean flag_delete;
+	private int id;
+	private String title;
+	private String image_url;
+	private String type;
+	private String status;
+	private int score;
+	private float members_score;
+	private String synopsis;
+	private boolean dirty;
+	private Date lastUpdate;
+	private boolean flag_create;
+	private boolean flag_delete;
 	
 	public int getId() {
 		return id;

@@ -11,11 +11,11 @@ public class Manga extends GenericRecord {
 	public static final String STATUS_READING = "reading";
 	public static final String STATUS_PLANTOREAD = "plan to read";
 
-	int chapters;
-	int volumes;
-	String read_status;
-	int chapters_read;
-	int volumes_read;
+	private int chapters;
+	private int volumes;
+	private String read_status;
+	private int chapters_read;
+	private int volumes_read;
 
 	public int getChapters() {
 		return chapters;

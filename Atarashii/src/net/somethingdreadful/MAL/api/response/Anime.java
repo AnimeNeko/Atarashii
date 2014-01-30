@@ -11,9 +11,9 @@ public class Anime extends GenericRecord {
 	public static final String STATUS_WATCHING = "watching";
 	public static final String STATUS_PLANTOWATCH = "plan to watch";
 	
-	int episodes;
-	String watched_status;
-	int watched_episodes;
+	private int episodes;
+	private String watched_status;
+	private int watched_episodes;
 
 	public int getEpisodes() {
 		return episodes;
