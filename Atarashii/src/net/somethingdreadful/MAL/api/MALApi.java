@@ -32,10 +32,12 @@ public class MALApi extends BaseMALApi {
     }
 
     public JSONArray responseToJSONArray(RestResult<String> response) {
-        JSONArray result = null;
+        JSONArray result = new JSONArray();
 
         try {
-            result = new JSONArray(response.result);
+        	if (!response.result.contains("error")) {
+        		result = new JSONArray(response.result);
+            }
         } catch (JSONException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
