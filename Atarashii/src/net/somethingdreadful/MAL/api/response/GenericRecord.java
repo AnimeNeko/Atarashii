@@ -25,6 +25,8 @@ public class GenericRecord {
 	private boolean flag_create;
 	private boolean flag_delete;
 	
+	private transient boolean from_cursor = false;
+	
 	public int getId() {
 		return id;
 	}
@@ -38,7 +40,11 @@ public class GenericRecord {
 		this.title = title;
 	}
 	public String getImageUrl() {
-		return image_url;
+	    // if not loaded from cursor the image might point to an thumbnail
+	    if ( from_cursor )
+	        return image_url;
+	    else
+	        return image_url.replaceFirst("t.jpg$", ".jpg");
 	}
 	public void setImageUrl(String image_url) {
 		this.image_url = image_url;
@@ -107,5 +113,13 @@ public class GenericRecord {
         catch (NullPointerException npe) {
             return null;
         }
+    }
+    
+    public boolean getCreatedFromCursor() {
+        return from_cursor;
+    }
+    
+    public void setCreatedFromCursor(boolean from_cursor) {
+        this.from_cursor = from_cursor;
     }
 }

@@ -50,6 +50,7 @@ public class Manga extends GenericRecord {
 	
 	public static Manga fromCursor(Cursor c) {
 		Manga result = new Manga();
+		result.setCreatedFromCursor(true);
 		List<String> columnNames = Arrays.asList(c.getColumnNames());
 		result.setId(c.getInt(columnNames.indexOf("recordID")));
 		result.setTitle(c.getString(columnNames.indexOf("recordName")));

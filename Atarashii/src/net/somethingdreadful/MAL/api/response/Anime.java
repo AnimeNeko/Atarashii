@@ -36,6 +36,7 @@ public class Anime extends GenericRecord {
 	
 	public static Anime fromCursor(Cursor c) {
 		Anime result = new Anime();
+		result.setCreatedFromCursor(true);
 		List<String> columnNames = Arrays.asList(c.getColumnNames());
 		result.setId(c.getInt(columnNames.indexOf("recordID")));
 		result.setTitle(c.getString(columnNames.indexOf("recordName")));
