@@ -47,7 +47,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
         
         setContentView(R.layout.activity_friends);
         ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
+        bar.setDisplayHomeAsUpEnabled(true);
         setTitle("My friends"); //set title
         
         Gridview = (GridView)findViewById(R.id.listview);
@@ -125,86 +125,87 @@ public class FriendsActivity extends SherlockFragmentActivity {
 	
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
 
-
 		public ListViewAdapter(Context context, int resource) {
             super(context, resource);
         }
 	    
-	        public View getView(int position, View convertView, ViewGroup parent) {
-	            View view = convertView;
-	            final UserRecord record;
-	            record = ((UserRecord) listarray.get(position));
+		public View getView(int position, View convertView, ViewGroup parent) {
+	    	View view = convertView;
+	    	final UserRecord record;
+	    	record = ((UserRecord) listarray.get(position));
 	            
-	            try{
-	            	if (view == null) {
-	            		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            		view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
+	    	try{
+	    		if (view == null) {
+	    			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    			view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
 	                
-	            		String username =  record.getUsername();
-	            		TextView Username = (TextView) view.findViewById(R.id.userName);
-	            		Username.setText(username);
-	            		if (UserRecord.developerRecord(username)) {
-	            			Username.setTextColor(Color.parseColor("#8CD4D3")); //Developer
-	            		}
-	            		String last_online = record.getLast();
-	            		//Set online or offline status
-	            		TextView Status = (TextView) view.findViewById(R.id.status);
-	            		if (last_online.equals("Now")){
-	            			Status.setText("Online");
-	            			Status.setTextColor(Color.parseColor("#0D8500"));
-	            		}else{
-	            			Status.setText("Offline");
-	            			Status.setTextColor(Color.parseColor("#D10000"));
-	            		}
-	            		TextView since = (TextView) view.findViewById(R.id.since);
-	            		since.setText(record.getSince());
-	            		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
-	            		lastonline.setText(last_online);
-	            		Picasso picasso =  Picasso.with(context);
-		            	picasso.load(record.getAvatar())
-		            		.error(R.drawable.cover_error)
-		            		.placeholder(R.drawable.cover_loading)
-		            		.fit()
-		            		.into((ImageView) view.findViewById(R.id.profileImg));
-	            	}
-	            }catch (Exception e){
-	            	e.printStackTrace();
-	            }
-	            return view;
-	        }
-
-	        public void supportAddAll(Collection<? extends T> collection) {
-				for (T record : collection) {
-		            this.add(record);
-		        }
+	    			String username =  record.getUsername();
+	    			TextView Username = (TextView) view.findViewById(R.id.userName);
+	    			Username.setText(username);
+	    			if (UserRecord.developerRecord(username)) {
+	    				Username.setTextColor(Color.parseColor("#8CD4D3")); //Developer
+	    			}
+	    			String last_online = record.getLast();
+	    			
+	    			//Set online or offline status
+	    			TextView Status = (TextView) view.findViewById(R.id.status);
+	    			if (last_online.equals("Now")){
+	    				Status.setText("Online");
+	    				Status.setTextColor(Color.parseColor("#0D8500"));
+	    			}else{
+	    				Status.setText("Offline");
+	    				Status.setTextColor(Color.parseColor("#D10000"));
+	    			}
+	    			
+	    			TextView since = (TextView) view.findViewById(R.id.since);
+	    			since.setText(record.getSince());
+	    			TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
+	    			lastonline.setText(last_online);
+	    			Picasso picasso =  Picasso.with(context);
+					picasso.load(record.getAvatar())
+	    				.error(R.drawable.cover_error)
+	    				.placeholder(R.drawable.cover_loading)
+	    				.fit()
+	    				.into((ImageView) view.findViewById(R.id.profileImg));
+				}
+			}catch (Exception e){
+				e.printStackTrace();
 			}
-	  }
-	  
-	  public class getFriendsRecordsTask extends AsyncTask<String, Void, ArrayList<UserRecord>> {
-		  Boolean download = false;
-		  
-		  @Override
-		  protected ArrayList<UserRecord> doInBackground(String... user) {
-			  if (forcesync == true){
-				  mManager.downloadAndStoreFriends(prefs.getUser());
-				  forcesync = false;
-				  download = true;
-			  }
-	          listarray = mManager.getFriendsRecordsFromDB();
-	          if (listarray == null && isNetworkAvailable()){
-	        	  mManager.downloadAndStoreFriends(prefs.getUser());
-	        	  listarray = mManager.getFriendsRecordsFromDB();
-	          }
-	          return null;
-	      }
+			return view;
+		}
 
-	      @Override
-	      protected void onPostExecute(ArrayList<UserRecord> result) {
-	    	  if (download == true){
-	    		  refresh(true);
-	    	  }else{
-	    		  refresh(false);
-	    	  }
-	      }
-	  }
+		public void supportAddAll(Collection<? extends T> collection) {
+			for (T record : collection) {
+				this.add(record);
+		    }
+		}
+	}
+	  
+	public class getFriendsRecordsTask extends AsyncTask<String, Void, ArrayList<UserRecord>> {
+		Boolean download = false;
+		  
+		@Override
+		protected ArrayList<UserRecord> doInBackground(String... user) {
+			if (forcesync == true){
+				mManager.downloadAndStoreFriends(prefs.getUser());
+				forcesync = false;
+				download = true;
+			}
+			listarray = mManager.getFriendsRecordsFromDB();
+			if (listarray == null && isNetworkAvailable()){
+				mManager.downloadAndStoreFriends(prefs.getUser());
+				listarray = mManager.getFriendsRecordsFromDB();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<UserRecord> result) {
+			if (download == true){
+				refresh(true);
+			}else{
+				refresh(false);
+			}
+		}
+	}
 }
