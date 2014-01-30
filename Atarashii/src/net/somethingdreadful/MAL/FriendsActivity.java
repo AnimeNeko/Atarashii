@@ -1,7 +1,11 @@
 package net.somethingdreadful.MAL;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.response.Friend;
 import net.somethingdreadful.MAL.api.response.User;
@@ -14,6 +18,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,6 +137,19 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 		public ListViewAdapter(Context context, int resource) {
             super(context, resource);
         }
+		
+		private String formatDate(String date) {
+		    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US); 
+		    try {
+                Date dateobj = dt.parse(date);
+                SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd, h:m a", Locale.US);
+                return dt1.format(dateobj);
+            } catch (ParseException e) {
+                Log.e("MALX", "error parsing date: " + e.getMessage());
+                // return date without changing
+                return date;
+            }
+		}
 	    
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
@@ -160,7 +178,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             			Status.setTextColor(Color.parseColor("#D10000"));
             		}
             		TextView since = (TextView) view.findViewById(R.id.since);
-            		since.setText(record.getFriendSince());
+            		since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : "unknown");
             		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
             		lastonline.setText(last_online);
             		Picasso picasso =  Picasso.with(context);
