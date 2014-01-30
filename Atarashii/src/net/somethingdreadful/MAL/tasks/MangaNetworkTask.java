@@ -36,38 +36,49 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 		}
 		ArrayList<Manga> result = null;
 		MALManager mManager = new MALManager(context);
-		switch (job) {
-			case GETLIST:
-				if ( params != null )
-					result = mManager.getMangaListFromDB(params[0]);
-				else
-					result = mManager.getMangaListFromDB();
-				break;
-			case FORCESYNC:
-				mManager.cleanDirtyMangaRecords();
-				result = mManager.downloadAndStoreMangaList();
-				if ( result != null && params != null )
-					result = mManager.getMangaListFromDB(params[0]);
-				break;
-			case GETMOSTPOPULAR:
-				result = mManager.getAPIObject().getMostPopularManga(1);
-				break;
-			case GETTOPRATED:
-				result = mManager.getAPIObject().getTopRatedManga(1);
-				break;
-			case GETJUSTADDED:
-				result = mManager.getAPIObject().getJustAddedManga(1);
-				break;
-			case GETUPCOMING:
-				result = mManager.getAPIObject().getUpcomingManga(1);
-				break;
-			case SEARCH:
-				if ( params != null )
-					result = mManager.getAPIObject().searchManga(params[0]);
-				break;
-			default:
-				Log.e("MALX", "invalid job identifier " + job.name());
-				result = null;
+		try {
+    		switch (job) {
+    			case GETLIST:
+    				if ( params != null )
+    					result = mManager.getMangaListFromDB(params[0]);
+    				else
+    					result = mManager.getMangaListFromDB();
+    				break;
+    			case FORCESYNC:
+    				mManager.cleanDirtyMangaRecords();
+    				result = mManager.downloadAndStoreMangaList();
+    				if ( result != null && params != null )
+    					result = mManager.getMangaListFromDB(params[0]);
+    				break;
+    			case GETMOSTPOPULAR:
+    				result = mManager.getAPIObject().getMostPopularManga(1);
+    				break;
+    			case GETTOPRATED:
+    				result = mManager.getAPIObject().getTopRatedManga(1);
+    				break;
+    			case GETJUSTADDED:
+    				result = mManager.getAPIObject().getJustAddedManga(1);
+    				break;
+    			case GETUPCOMING:
+    				result = mManager.getAPIObject().getUpcomingManga(1);
+    				break;
+    			case SEARCH:
+    				if ( params != null )
+    					result = mManager.getAPIObject().searchManga(params[0]);
+    				break;
+    			default:
+    				Log.e("MALX", "invalid job identifier " + job.name());
+    				result = null;
+    		}
+    		
+    		/* returning null means there was an error, so return an empty ArrayList if there was no error
+    		 * but an empty result
+    		 */
+    		if ( result == null )
+    		    result = new ArrayList<Manga>();
+		} catch (Exception e) {
+		    Log.e("MALX", "error getting mangalist: " + e.getMessage());
+		    result = null;
 		}
 		return result;
 	}

@@ -36,37 +36,48 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 		}
 		ArrayList<Anime> result = null;
 		MALManager mManager = new MALManager(context);
-		switch (job) {
-			case GETLIST:
-				if ( params != null )
-					result = mManager.getAnimeListFromDB(params[0]);
-				else
-					result = mManager.getAnimeListFromDB();
-				break;
-			case FORCESYNC:
-				mManager.cleanDirtyAnimeRecords();
-				result = mManager.downloadAndStoreAnimeList();
-				if ( result != null && params != null )
-					result = mManager.getAnimeListFromDB(params[0]);
-				break;
-			case GETMOSTPOPULAR:
-				result = mManager.getAPIObject().getMostPopularAnime(1);
-				break;
-			case GETTOPRATED:
-				result = mManager.getAPIObject().getTopRatedAnime(1);
-				break;
-			case GETJUSTADDED:
-				result = mManager.getAPIObject().getJustAddedAnime(1);
-				break;
-			case GETUPCOMING:
-				result = mManager.getAPIObject().getUpcomingAnime(1);
-				break;
-			case SEARCH:
-				if ( params != null )
-					result = mManager.getAPIObject().searchAnime(params[0]);
-				break;
-			default:
-				Log.e("MALX", "invalid job identifier " + job.name());
+		try {
+    		switch (job) {
+    			case GETLIST:
+    				if ( params != null )
+    					result = mManager.getAnimeListFromDB(params[0]);
+    				else
+    					result = mManager.getAnimeListFromDB();
+    				break;
+    			case FORCESYNC:
+    				mManager.cleanDirtyAnimeRecords();
+    				result = mManager.downloadAndStoreAnimeList();
+    				if ( result != null && params != null )
+    					result = mManager.getAnimeListFromDB(params[0]);
+    				break;
+    			case GETMOSTPOPULAR:
+    				result = mManager.getAPIObject().getMostPopularAnime(1);
+    				break;
+    			case GETTOPRATED:
+    				result = mManager.getAPIObject().getTopRatedAnime(1);
+    				break;
+    			case GETJUSTADDED:
+    				result = mManager.getAPIObject().getJustAddedAnime(1);
+    				break;
+    			case GETUPCOMING:
+    				result = mManager.getAPIObject().getUpcomingAnime(1);
+    				break;
+    			case SEARCH:
+    				if ( params != null )
+    					result = mManager.getAPIObject().searchAnime(params[0]);
+    				break;
+    			default:
+    				Log.e("MALX", "invalid job identifier " + job.name());
+    		}
+
+    		/* returning null means there was an error, so return an empty ArrayList if there was no error
+             * but an empty result
+             */
+            if ( result == null )
+                result = new ArrayList<Anime>();
+		} catch (Exception e) {
+		    Log.e("MALX", "error getting animelist: " + e.getMessage());
+		    result = null;
 		}
 		return result;
 	}

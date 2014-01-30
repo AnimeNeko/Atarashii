@@ -291,7 +291,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
 	        }
-		}
+		} else {
+		    Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+        }
 	}
 
 	@Override
@@ -321,6 +323,8 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
 	        }
-		}
+    	} else {
+    	    Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+        }
 	}
 }

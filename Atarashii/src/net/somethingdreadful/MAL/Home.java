@@ -704,7 +704,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				}
 				af.scrollListener.resetPageNumber();
 			}
-		}
+		} else {
+		    Crouton.makeText(this, R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+        }
 		
 		Home.this.af.scrollListener.notifyMorePages(ListType.ANIME);
 	}
@@ -735,6 +737,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				}
 				af.scrollListener.resetPageNumber();
 			}
+		} else {
+		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
 		}
 
 		Home.this.af.scrollListener.notifyMorePages(ListType.MANGA);
