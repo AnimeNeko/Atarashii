@@ -184,13 +184,12 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 	}
 
     @Override
-    public void FriendsNetworkTaskFinished(ArrayList<Friend> result) {
+    public void onFriendsNetworkTaskFinished(ArrayList<Friend> result) {
         if ( result != null ) {
             listarray = result;
             refresh(forcesync); // show crouton only if sync was forced
         } else {
             Crouton.makeText(this, R.string.crouton_UserRecord_Friends_error, Style.ALERT).show();
         }
-        
     }
 }
