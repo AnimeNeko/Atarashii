@@ -152,17 +152,20 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         	@Override
             public void onRefresh(int pageNumber, ListType listType) {
                 try{
-                    switch (listType) {
-                        case ANIME:
-                            AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
-                            animetask.execute();
-                            break;
-                        case MANGA:
-                            MangaNetworkTask mangatask = new MangaNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
-                            mangatask.execute();
-                            break;
-                        default:
-                            Log.e("MALX", "invalid list type: " + listType.name());
+                    // not all jobs return paged results
+                    if ( mode != null && mode != TaskJob.GETLIST ) {
+                        switch (listType) {
+                            case ANIME:
+                                AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
+                                animetask.execute();
+                                break;
+                            case MANGA:
+                                MangaNetworkTask mangatask = new MangaNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
+                                mangatask.execute();
+                                break;
+                            default:
+                                Log.e("MALX", "invalid list type: " + listType.name());
+                        }
                     }
                 } catch (Exception e){
                     Log.e("MALX", "onRefresh() error: " + e.getMessage());
