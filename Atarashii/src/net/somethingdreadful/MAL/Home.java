@@ -482,6 +482,10 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 
         if (!isNetworkAvailable() && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+
+            af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+            mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+
 			if (af.getMode() != null) {
 	            af.setMode(null);
 				mf.setMode(null);
