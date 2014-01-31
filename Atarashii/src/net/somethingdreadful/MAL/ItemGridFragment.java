@@ -49,7 +49,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     CoverAdapter<Anime> ca;
     CoverAdapter<Manga> cm;
     IItemGridFragment Iready;
-    boolean forceSyncBool = false;
+    static boolean forceSyncBool = false;
     boolean useTraditionalList = false;
     boolean useSecondaryAmounts = false;
     int currentList;
@@ -274,6 +274,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
 	@Override
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
+	    boolean showCrouton = forceSyncBool && job == TaskJob.FORCESYNC;
+
+	    if (job != null && job == TaskJob.FORCESYNC)
+	        forceSyncBool = false;
+
 	    if (result != null) {
 			if (result.size() == 0) {
 				Log.w("MALX", "No manga records returned.");
@@ -299,12 +304,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            cm.supportAddAll(result);
 	            cm.notifyDataSetChanged();
 	        }
-	        
-	        if (forceSyncBool && job == TaskJob.FORCESYNC) {
+
+	        if (showCrouton) {
 	            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
-	            forceSyncBool = false;
 	        }
 		} else {
 		    Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
@@ -313,6 +317,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
 	@Override
 	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
+	    boolean showCrouton = forceSyncBool && job == TaskJob.FORCESYNC;
+
+        if (job != null && job == TaskJob.FORCESYNC)
+            forceSyncBool = false;
+
 		if (result != null) {
 			if (result.size() == 0) {
 				Log.w("MALX", "No anime records returned.");
@@ -338,12 +347,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            ca.supportAddAll(result);
 	            ca.notifyDataSetChanged();
 	        }
-	
-	        if (forceSyncBool && job == TaskJob.FORCESYNC) {
+
+	        if (showCrouton) {
 	        	Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
-	            forceSyncBool = false;
 	        }
     	} else {
     	    Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
