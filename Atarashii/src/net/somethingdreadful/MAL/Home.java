@@ -569,8 +569,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     af.getRecords(listType, "anime", false, Home.this.context);
                     mf.getRecords(listType, "manga", false, Home.this.context);
                     myList = true;
-                    af.setMode(null);
-                    mf.setMode(null);
+                    af.setMode(TaskJob.GETLIST);
+                    mf.setMode(TaskJob.GETLIST);
                 break;
                 case 2:
                     Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
