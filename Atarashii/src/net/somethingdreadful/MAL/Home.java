@@ -682,13 +682,14 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		}
 	}
 
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job) {
+	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
 		if (result != null) {
 			if (result.size() > 0) {
 				af.setAnimeRecords(result);
+				Home.this.af.scrollListener.notifyMorePages(ListType.ANIME);
 			} else {
 				Log.w("MALX", "No anime records, trying to fetch again.");
-				af.scrollToTop();
+                af.scrollToTop();
 				switch ( job )	{
 					case GETTOPRATED:
 						getTopRated(MALApi.ListType.ANIME);
@@ -705,22 +706,20 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 					default:
 						Log.i("MALX", "invalid job: " + job.name());
 				}
-				af.scrollListener.resetPageNumber();
 			}
 		} else {
 		    Crouton.makeText(this, R.string.crouton_Anime_Sync_error, Style.ALERT).show();
         }
-		
-		Home.this.af.scrollListener.notifyMorePages(ListType.ANIME);
 	}
 
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
+	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
 		if (result != null) {
 			if (result.size() > 0) {
 				mf.setMangaRecords(result);
+				Home.this.mf.scrollListener.notifyMorePages(ListType.MANGA);
 			} else {
 				Log.w("MALX", "No manga records, trying to fetch again.");
-				mf.scrollToTop();
+                mf.scrollToTop();
 				switch ( job )	{
     				case GETTOPRATED:
     					getTopRated(MALApi.ListType.MANGA);
@@ -737,12 +736,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     				default:
     				    Log.i("MALX", "invalid job: " + job.name());
 				}
-				mf.scrollListener.resetPageNumber();
 			}
 		} else {
 		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
 		}
-
-		Home.this.mf.scrollListener.notifyMorePages(ListType.MANGA);
 	}
 }

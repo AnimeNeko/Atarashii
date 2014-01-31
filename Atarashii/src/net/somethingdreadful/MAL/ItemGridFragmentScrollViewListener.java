@@ -50,7 +50,7 @@ public class ItemGridFragmentScrollViewListener implements OnScrollListener{
 
     public void notifyMorePages(ListType listType){
         isRefreshing=false;
-        pageNumber=pageNumber+1;
+        pageNumber++;
         this.listType = listType;
     }
     public interface RefreshList {

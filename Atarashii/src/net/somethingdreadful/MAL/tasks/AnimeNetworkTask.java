@@ -51,16 +51,16 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
     					result = mManager.getAnimeListFromDB(params[0]);
     				break;
     			case GETMOSTPOPULAR:
-    				result = mManager.getAPIObject().getMostPopularAnime(1);
+    				result = mManager.getAPIObject().getMostPopularAnime(page);
     				break;
     			case GETTOPRATED:
-    				result = mManager.getAPIObject().getTopRatedAnime(1);
+    				result = mManager.getAPIObject().getTopRatedAnime(page);
     				break;
     			case GETJUSTADDED:
-    				result = mManager.getAPIObject().getJustAddedAnime(1);
+    				result = mManager.getAPIObject().getJustAddedAnime(page);
     				break;
     			case GETUPCOMING:
-    				result = mManager.getAPIObject().getUpcomingAnime(1);
+    				result = mManager.getAPIObject().getUpcomingAnime(page);
     				break;
     			case SEARCH:
     				if ( params != null )
@@ -85,6 +85,6 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 	@Override
 	protected void onPostExecute(ArrayList<Anime> result) {
 		if (callback != null)
-			callback.onAnimeNetworkTaskFinished(result, job);
+			callback.onAnimeNetworkTaskFinished(result, job, page);
 	}
 }

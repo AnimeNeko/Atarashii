@@ -201,9 +201,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     	if (gv.getAdapter() == null){
     		gv.setAdapter(adapter);
     	}else{
-    		adapter.clear();
+    	    scrollToTop();
+    	    adapter.clear();
     		adapter.supportAddAll(objects);
     		adapter.notifyDataSetChanged();
+    		scrollListener.resetPageNumber();
     	}
     	ca = adapter;
     }
@@ -220,9 +222,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         if (gv.getAdapter() == null) {
             gv.setAdapter(adapter);
         } else {
+            scrollToTop();
             adapter.clear();
             adapter.supportAddAll(objects);
             adapter.notifyDataSetChanged();
+            scrollListener.resetPageNumber();
         }
         cm = adapter;
     }
@@ -261,15 +265,20 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     }
     
     public void scrollToTop(){
-    	gv.smoothScrollToPosition(0);
+        // smoothScrollToPosition and scrollBy() are not working very well with lazy loading
+    	gv.setSelection(0);
     }
 
 	@Override
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
-		if (result != null) {
+	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
+	    if (result != null) {
 			if (result.size() == 0) {
 				Log.w("MALX", "No manga records returned.");
-	        }
+			} else {
+			    // not all jobs return paged results
+                if ( job != null && job != TaskJob.GETLIST && job != TaskJob.FORCESYNC )
+                    scrollListener.notifyMorePages(ListType.MANGA);
+            }
 	        
 			if (cm == null) {
 	            if (useTraditionalList) {
@@ -282,6 +291,8 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        if (gv.getAdapter() == null) {
 	            gv.setAdapter(cm);
 	        } else {
+	            if ( page == 1 )
+	                cm.clear();
 	            cm.supportAddAll(result);
 	            cm.notifyDataSetChanged();
 	        }
@@ -297,11 +308,16 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	}
 
 	@Override
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job) {
+	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
 		if (result != null) {
 			if (result.size() == 0) {
 				Log.w("MALX", "No anime records returned.");
+	        } else {
+	            // not all jobs return paged results
+	            if ( job != null && job != TaskJob.GETLIST && job != TaskJob.FORCESYNC )
+	                scrollListener.notifyMorePages(ListType.ANIME);
 	        }
+
 			if (ca == null) {
 	            if (useTraditionalList) {
 	                ca = new CoverAdapter<Anime>(c, R.layout.list_cover_with_text_item, result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
@@ -313,7 +329,8 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        if (gv.getAdapter() == null) {
 	            gv.setAdapter(ca);
 	        } else {
-	            ca.clear();
+	            if ( page == 1 )
+	                ca.clear();
 	            ca.supportAddAll(result);
 	            ca.notifyDataSetChanged();
 	        }

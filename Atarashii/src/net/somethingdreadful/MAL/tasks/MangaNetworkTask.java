@@ -51,16 +51,16 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
     					result = mManager.getMangaListFromDB(params[0]);
     				break;
     			case GETMOSTPOPULAR:
-    				result = mManager.getAPIObject().getMostPopularManga(1);
+    				result = mManager.getAPIObject().getMostPopularManga(page);
     				break;
     			case GETTOPRATED:
-    				result = mManager.getAPIObject().getTopRatedManga(1);
+    				result = mManager.getAPIObject().getTopRatedManga(page);
     				break;
     			case GETJUSTADDED:
-    				result = mManager.getAPIObject().getJustAddedManga(1);
+    				result = mManager.getAPIObject().getJustAddedManga(page);
     				break;
     			case GETUPCOMING:
-    				result = mManager.getAPIObject().getUpcomingManga(1);
+    				result = mManager.getAPIObject().getUpcomingManga(page);
     				break;
     			case SEARCH:
     				if ( params != null )
@@ -86,6 +86,6 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 	@Override
 	protected void onPostExecute(ArrayList<Manga> result) {
 		if (callback != null)
-			callback.onMangaNetworkTaskFinished(result, job);
+			callback.onMangaNetworkTaskFinished(result, job, page);
 	}
 }

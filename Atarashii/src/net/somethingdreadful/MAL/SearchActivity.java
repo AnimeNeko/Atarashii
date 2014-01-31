@@ -198,7 +198,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
     }
 
 	@Override
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
+	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
 		if ( result != null ) {
 			if (result.size() == 0)
 				noMangaRecordsFound = true;
@@ -208,7 +208,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
 	}
 
 	@Override
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job) {
+	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
 		if ( result != null ) {
 			if (result.size() == 0)
 				noAnimeRecordsFound = true;
