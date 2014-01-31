@@ -128,9 +128,9 @@ public class MALApi {
 	public boolean addOrUpdateManga(Manga manga) {
 		boolean result = false;
 		if ( manga.getCreateFlag() )
-			result = service.addManga(manga.getId(), manga.getStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
+			result = service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
 		else
-			result = service.updateManga(manga.getId(), manga.getStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
+			result = service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
 		return result;
 	}
 	
