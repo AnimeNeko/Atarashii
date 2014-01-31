@@ -578,7 +578,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     break;
                 case 3:
                     getTopRated(MALApi.ListType.ANIME);
-                    mf.setMangaRecords(new ArrayList<Manga>()); ////basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    getTopRated(MALApi.ListType.MANGA);
                     myList = false;
                     af.setMode(TaskJob.GETTOPRATED);
                     mf.setMode(TaskJob.GETTOPRATED);
@@ -587,7 +587,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     break;
                 case 4:
                     getMostPopular(MALApi.ListType.ANIME);
-                    mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get popular manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    getMostPopular(MALApi.ListType.MANGA);
                     myList = false;
                     af.setMode(TaskJob.GETMOSTPOPULAR);
                     mf.setMode(TaskJob.GETMOSTPOPULAR);
@@ -596,7 +596,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     break;
                 case 5:
                     getJustAdded(MALApi.ListType.ANIME);
-                    mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Just Added manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    getJustAdded(MALApi.ListType.MANGA);
                     myList = false;
                     af.setMode(TaskJob.GETJUSTADDED);
                     mf.setMode(TaskJob.GETJUSTADDED);
@@ -605,7 +605,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     break;
                 case 6:
                     getUpcoming(MALApi.ListType.ANIME);
-                    mf.setMangaRecords(new ArrayList<Manga>()); //basically, since you can't get Upcoming manga this is just a temporary measure to make the manga set empty, otherwise it would continue to display YOUR manga list 
+                    getUpcoming(MALApi.ListType.MANGA);
                     myList = false;
                     af.setMode(TaskJob.GETUPCOMING);
                     mf.setMode(TaskJob.GETUPCOMING);
@@ -689,7 +689,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 			} else {
 				Log.w("MALX", "No anime records, trying to fetch again.");
 				af.scrollToTop();
-				mf.scrollToTop();
 				switch ( job )	{
 					case GETTOPRATED:
 						getTopRated(MALApi.ListType.ANIME);
@@ -718,10 +717,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job) {
 		if (result != null) {
 			if (result.size() > 0) {
-				af.setMangaRecords(result);
+				mf.setMangaRecords(result);
 			} else {
 				Log.w("MALX", "No manga records, trying to fetch again.");
-				af.scrollToTop();
 				mf.scrollToTop();
 				switch ( job )	{
     				case GETTOPRATED:
@@ -739,12 +737,12 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     				default:
     				    Log.i("MALX", "invalid job: " + job.name());
 				}
-				af.scrollListener.resetPageNumber();
+				mf.scrollListener.resetPageNumber();
 			}
 		} else {
 		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
 		}
 
-		Home.this.af.scrollListener.notifyMorePages(ListType.MANGA);
+		Home.this.mf.scrollListener.notifyMorePages(ListType.MANGA);
 	}
 }
