@@ -8,11 +8,11 @@ import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import retrofit.client.Response;
 import retrofit.http.DELETE;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
-import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
-import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -36,14 +36,14 @@ public interface MALInterface {
 	AnimeList getAnimeList(@Path("username") String username);
 	@DELETE("/animelist/anime/{anime_id}")
 	Response deleteAnime(@Path("anime_id") int anime_id);
-	@Multipart
+	@FormUrlEncoded
 	@POST("/animelist/anime")
-	Response addAnime(@Part("anime_id") int id, @Part("status") String status, @Part("episodes") int episodes, 
-			@Part("score") int score);
-	@Multipart
+	Response addAnime(@Field("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes, 
+	        @Field("score") int score);
+	@FormUrlEncoded
 	@PUT("/animelist/anime/{anime_id}")
-	Response updateAnime(@Path("anime_id") int id, @Part("status") String status, @Part("episodes") int episodes, 
-			@Part("score") int score);
+	Response updateAnime(@Path("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes, 
+			@Field("score") int score);
 	
 	@GET("/manga/{manga_id}")
 	Manga getManga(@Path("manga_id") int manga_id);
@@ -61,12 +61,12 @@ public interface MALInterface {
 	MangaList getMangaList(@Path("username") String username);
 	@DELETE("/mangalist/manga/{manga_id}")
 	Response deleteManga(@Path("manga_id") int manga_id);
-	@Multipart
+	@FormUrlEncoded
 	@POST("/mangalist/manga")
-	Response addManga(@Part("manga_id") int id, @Part("status") String status, @Part("chapters") int chapters, 
-			@Part("volumes") int volumes, @Part("score") int score);
-	@Multipart
+	Response addManga(@Field("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters, 
+	        @Field("volumes") int volumes, @Field("score") int score);
+	@FormUrlEncoded
 	@PUT("/mangalist/manga/{manga_id}")
-	Response updateManga(@Path("manga_id") int id, @Part("status") String status, @Part("chapters") int chapters, 
-			@Part("volumes") int volumes, @Part("score") int score);
+	Response updateManga(@Path("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters, 
+	        @Field("volumes") int volumes, @Field("score") int score);
 }
