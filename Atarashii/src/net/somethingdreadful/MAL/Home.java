@@ -566,8 +566,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     startActivity(Profile);
                     break;
                 case 1:
-                    af.getRecords(listType, "anime", false, Home.this.context);
-                    mf.getRecords(listType, "manga", false, Home.this.context);
+                    af.getRecords(af.currentList, "anime", false, Home.this.context);
+                    mf.getRecords(mf.currentList, "manga", false, Home.this.context);
                     myList = true;
                     af.setMode(TaskJob.GETLIST);
                     mf.setMode(TaskJob.GETLIST);
