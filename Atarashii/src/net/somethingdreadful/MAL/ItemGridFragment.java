@@ -297,10 +297,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            cm.notifyDataSetChanged();
 	        }
 	        
-	        if (forceSyncBool) {
+	        if (forceSyncBool && job == TaskJob.FORCESYNC) {
 	            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
+	            forceSyncBool = false;
 	        }
 		} else {
 		    Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
@@ -335,10 +336,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            ca.notifyDataSetChanged();
 	        }
 	
-	        if (forceSyncBool) {
+	        if (forceSyncBool && job == TaskJob.FORCESYNC) {
 	        	Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
 	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 	            nm.cancel(R.id.notification_sync);
+	            forceSyncBool = false;
 	        }
     	} else {
     	    Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
