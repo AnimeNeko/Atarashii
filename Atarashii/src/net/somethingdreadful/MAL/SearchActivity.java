@@ -50,7 +50,9 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
     Activity activity;
     
     boolean noAnimeRecordsFound = false;
+    boolean errorSearchingAnime = false;
     boolean noMangaRecordsFound = false;
+    boolean errorSearchingManga = false;
     
     boolean searchedOnce;
 
@@ -179,7 +181,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
     		searchedOnce = true;
     	}
     	else {
-    		if (noAnimeRecordsFound && noMangaRecordsFound) {
+    		if (noAnimeRecordsFound && noMangaRecordsFound && (!errorSearchingAnime || !errorSearchingManga)) {
             	Crouton.makeText(activity, R.string.crouton_nothingFound, Style.ALERT).show();
             }
             else if (noAnimeRecordsFound) {          	
@@ -190,6 +192,23 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
             	mViewPager.setCurrentItem(0);
             	actionBar.setSelectedNavigationItem(0);
             }
+    		
+    		// error handling
+    		if (errorSearchingAnime && errorSearchingManga) {
+    		    errorSearchingManga = false;
+    		    errorSearchingAnime = false;
+    		    Crouton.makeText(activity, R.string.crouton_Search_error, Style.ALERT).show();
+    		} else {
+        		if (errorSearchingManga) {
+                    errorSearchingManga = false;
+                    Crouton.makeText(activity, R.string.crouton_Search_Manga_error, Style.ALERT).show();
+                }
+        		
+        		if (errorSearchingAnime) {
+                    errorSearchingAnime = false;
+                    Crouton.makeText(activity, R.string.crouton_Search_Anime_error, Style.ALERT).show();
+                }
+    		}
     		
     		searchedOnce = false;
     		noAnimeRecordsFound = false;
@@ -203,6 +222,9 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
 			if (result.size() == 0)
 				noMangaRecordsFound = true;
 			mangaItemGridFragment.setMangaRecords(result);
+		} else {
+		    noMangaRecordsFound = true;
+		    errorSearchingManga = true;
 		}
 		displayCrouton();
 	}
@@ -213,7 +235,10 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
 			if (result.size() == 0)
 				noAnimeRecordsFound = true;
 			animeItemGridFragment.setAnimeRecords(result);
-		}
+		} else {
+            noAnimeRecordsFound = true;
+            errorSearchingAnime = true;
+        }
 		displayCrouton();
 	}
 

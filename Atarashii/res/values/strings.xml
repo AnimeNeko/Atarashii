@@ -23,6 +23,9 @@
     <string name="crouton_noAnimeFound">No anime results found. Maybe refine your query?</string>
     <string name="crouton_noMangaFound">No manga results found. Maybe refine your query?</string>
     <string name="crouton_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
+    <string name="crouton_Search_Anime_error">Error while searching for anime records.</string>
+    <string name="crouton_Search_Manga_error">Error while searching for manga records.</string>
+    <string name="crouton_Search_error">Error while searching! Please try again later.</string>
     <string name="crouton_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="crouton_noUserRecord">This user doesn\'t has an offline record!</string>
     <string name="crouton_UserRecord_updated">UserProfile updated!</string>
