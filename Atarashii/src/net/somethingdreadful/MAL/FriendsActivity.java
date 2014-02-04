@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
-import net.somethingdreadful.MAL.api.response.Friend;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
@@ -41,8 +40,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class FriendsActivity extends SherlockFragmentActivity implements FriendsNetworkTaskFinishedListener {
 	
     Context context;
-    ArrayList<Friend> listarray = new ArrayList<Friend>();
-    ListViewAdapter<Friend> listadapter;
+    ArrayList<User> listarray = new ArrayList<User>();
+    ListViewAdapter<User> listadapter;
     GridView Gridview;
     boolean forcesync = false;
     PrefManager prefs;
@@ -61,7 +60,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
         Gridview = (GridView)findViewById(R.id.listview);
         int recource = R.layout.list_friends_with_text_item;
         
-        listadapter = new ListViewAdapter<Friend>(context, recource);
+        listadapter = new ListViewAdapter<User>(context, recource);
         mManager = new MALManager(context);
         prefs = new PrefManager(context);
         
@@ -153,8 +152,8 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 	    
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
-            final Friend record;
-            record = ((Friend) listarray.get(position));
+            final User record;
+            record = ((User) listarray.get(position));
             
             try{
             	if (view == null) {
@@ -202,7 +201,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 	}
 
     @Override
-    public void onFriendsNetworkTaskFinished(ArrayList<Friend> result) {
+    public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if ( result != null ) {
             listarray = result;
             refresh(forcesync); // show crouton only if sync was forced

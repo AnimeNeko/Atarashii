@@ -3,7 +3,7 @@ package net.somethingdreadful.MAL.tasks;
 import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.MALManager;
-import net.somethingdreadful.MAL.api.response.Friend;
+import net.somethingdreadful.MAL.api.response.User;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -11,7 +11,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Friend>> {
+public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>> {
     private Context context;
     private boolean forcesync;
     FriendsNetworkTaskFinishedListener callback;
@@ -33,8 +33,8 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Friend
     }
 
     @Override
-    protected ArrayList<Friend> doInBackground(String... params) {
-        ArrayList<Friend> result = null;
+    protected ArrayList<User> doInBackground(String... params) {
+        ArrayList<User> result = null;
         if ( params == null ) {
             Log.e("MALX", "FriendsNetworkTask: no username to fetch friendlist");
             return null;
@@ -53,7 +53,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Friend
     }
     
     @Override
-    protected void onPostExecute(ArrayList<Friend> result) {
+    protected void onPostExecute(ArrayList<User> result) {
         if ( callback != null )
             callback.onFriendsNetworkTaskFinished(result);
     }

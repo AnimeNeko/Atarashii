@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.Friend;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.User;
 
@@ -252,11 +251,11 @@ public class DatabaseManager {
 		return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "lastUpdate < ?", new String[]{time.toString()});
 	}
 
-    public void saveFriendList(ArrayList<Friend> list) {
+    public void saveFriendList(ArrayList<User> list) {
         if ( list != null && list.size() > 0 ) {
             try {
                 getDBWrite().beginTransaction();
-                for(Friend friend: list)
+                for(User friend: list)
                     saveFriend(friend);
                 getDBWrite().setTransactionSuccessful();
             } catch (Exception e) {
@@ -267,7 +266,7 @@ public class DatabaseManager {
         }
     }
  
-    public void saveFriend(Friend friend) {
+    public void saveFriend(User friend) {
         ContentValues cv = new ContentValues();
         
         cv.put("username", friend.getName());
@@ -283,16 +282,16 @@ public class DatabaseManager {
         getDBWrite().replace(MALSqlHelper.TABLE_FRIENDS, null, cv);
     }
     
-    public ArrayList<Friend> getFriendList() {
-        ArrayList<Friend> result = null;
+    public ArrayList<User> getFriendList() {
+        ArrayList<User> result = null;
         Cursor cursor;
         try {
             cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, FRIENDSCOLUMNS, null, null, null, null, "username ASC");
             if (cursor.moveToFirst())
             {
-                result = new ArrayList<Friend>();
+                result = new ArrayList<User>();
                 do {
-                    result.add(Friend.fromCursor(cursor));
+                    result.add(User.fromCursor(cursor, true));
                 } while (cursor.moveToNext());
             }
             cursor.close();

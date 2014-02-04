@@ -10,10 +10,10 @@ import org.apache.http.params.HttpProtocolParams;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
-import net.somethingdreadful.MAL.api.response.Friend;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
+import net.somethingdreadful.MAL.api.response.User;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -178,7 +178,7 @@ public class MALApi {
 	    return friends_service.getProfile(user);
 	}
 
-    public ArrayList<Friend> getFriends(String user) {
+    public ArrayList<User> getFriends(String user) {
         return friends_service.getFriends(user);
     }
 }
