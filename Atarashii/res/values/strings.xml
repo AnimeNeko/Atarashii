@@ -89,7 +89,7 @@
     <string name="fr_textblurb">Enter your MyAnimeList credentials below:</string>
     <string name="dialog_Verifying">Verifying</string>
     <string name="dialog_VerifyingBlurb">Making sure your account is OK. Hold tight a sec.</string>
-    <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and try again.</string>
+    <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and network connection and try again.</string>
     <string name="toast_AccountOK">Account OK!</string>
     <string name="fr_noaccount_button">Create an Account</string>
 

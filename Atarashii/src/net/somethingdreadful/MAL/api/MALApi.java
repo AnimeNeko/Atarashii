@@ -79,7 +79,10 @@ public class MALApi {
 			Response response = service.verifyAuthentication();
 			return response.getStatus() == 200;
 		} catch (RetrofitError e) {
-			Log.e("MALX", "caught retrofit error: " + e.getResponse().getStatus());
+		    if ( e.getResponse() != null )
+		        Log.e("MALX", "caught retrofit error: " + e.getResponse().getStatus());
+		    else
+		        Log.e("MALX", "caught retrofit error: " + e.getMessage());
 			return false;
 		}
 	}
