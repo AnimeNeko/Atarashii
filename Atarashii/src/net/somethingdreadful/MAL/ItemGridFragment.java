@@ -180,9 +180,12 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     }
 
     public void getRecords(int listint, String mediaType, boolean forceSync, Context c) {
-        forceSyncBool = forceSync;
         currentList = listint;
         recordType = mediaType;
+
+        // Don't use forceSyncBool = forceSync! We don't wan't to set this to false here!
+        if  (forceSync)
+            forceSyncBool = true;
 
         if (recordType.equals("anime")) {
         	new AnimeNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
@@ -305,13 +308,15 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            cm.notifyDataSetChanged();
 	        }
 
-	        if (showCrouton) {
+	        if (showCrouton)
 	            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
-	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-	            nm.cancel(R.id.notification_sync);
-	        }
 		} else {
 		    Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+        }
+
+	    if (job != null && job == TaskJob.FORCESYNC) {
+            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.cancel(R.id.notification_sync);
         }
 	}
 
@@ -348,13 +353,15 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            ca.notifyDataSetChanged();
 	        }
 
-	        if (showCrouton) {
+	        if (showCrouton)
 	        	Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
-	            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-	            nm.cancel(R.id.notification_sync);
-	        }
     	} else {
     	    Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
         }
+
+		if (job != null && job == TaskJob.FORCESYNC) {
+    		NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.cancel(R.id.notification_sync);
+		}
 	}
 }
