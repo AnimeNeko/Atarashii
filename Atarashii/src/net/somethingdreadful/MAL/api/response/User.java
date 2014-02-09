@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.api.response;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import android.database.Cursor;
 
@@ -50,14 +51,14 @@ public class User {
         this.profile = profile;
     }
     
-    public static boolean isDeveloperRecord(String name){ 
-    if (name.equals("Ratan12") || name.equals("ratan12") || 
-                name.equals("AnimaSA") || name.equals("animaSA") || 
-                name.equals("Motokochan") || name.equals("motokochan") ||
-                name.equals("Apkawa") ||  name.equals("apkawa")) {
-            return true;
-        }else{
-            return false;
-        }
+    public static boolean isDeveloperRecord(String name){
+        String[] developers = {
+                "ratan12",
+                "animasa",
+                "motokochan",
+                "apkawa",
+                "d-sko"
+        };
+        return Arrays.asList(developers).contains(name.toLowerCase(Locale.US));
     }
 }
