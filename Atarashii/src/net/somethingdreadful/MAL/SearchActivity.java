@@ -105,6 +105,8 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener,
                 actionBar.setSelectedNavigationItem(1);
             }
         }
+        
+        NfcHelper.disableBeam(this);
     }
 
     @Override

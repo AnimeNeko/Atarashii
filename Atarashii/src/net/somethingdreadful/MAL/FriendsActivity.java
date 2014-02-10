@@ -75,6 +75,8 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 			startActivity(profile);
 		}
         });
+
+        NfcHelper.disableBeam(this);
     }
     
     public void refresh(Boolean crouton){

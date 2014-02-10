@@ -184,6 +184,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             startActivity(firstRunInit);
             finish();
         }
+
+        NfcHelper.disableBeam(this);
     }
 
     @Override
