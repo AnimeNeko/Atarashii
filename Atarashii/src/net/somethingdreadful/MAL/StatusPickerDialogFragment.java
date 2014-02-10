@@ -1,5 +1,8 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.Manga;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -11,9 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.GenericMALRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
 
 public class StatusPickerDialogFragment extends SherlockDialogFragment {
 
@@ -66,9 +66,9 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
             type = ((DetailView) getActivity()).recordType;
 
             if ("anime".equals(type)) {
-                currentStatus = ((DetailView) getActivity()).animeRecord.getMyStatus();
+                currentStatus = ((DetailView) getActivity()).animeRecord.getWatchedStatus();
             } else {
-                currentStatus = ((DetailView) getActivity()).mangaRecord.getMyStatus();
+                currentStatus = ((DetailView) getActivity()).mangaRecord.getReadStatus();
             }
         } else {
             type = state.getString("type");
@@ -85,48 +85,48 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
                         switch (checkedId) {
                             case R.id.statusRadio_InProgress:
                                 if ("anime".equals(type)) {
-                                    currentStatus = AnimeRecord.STATUS_WATCHING;
+                                    currentStatus = Anime.STATUS_WATCHING;
                                 } else {
-                                    currentStatus = MangaRecord.STATUS_WATCHING;
+                                    currentStatus = Manga.STATUS_READING;
                                 }
                                 break;
 
                             case R.id.statusRadio_Completed:
-                                currentStatus = GenericMALRecord.STATUS_COMPLETED;
+                                currentStatus = GenericRecord.STATUS_COMPLETED;
                                 break;
 
                             case R.id.statusRadio_OnHold:
-                                currentStatus = GenericMALRecord.STATUS_ONHOLD;
+                                currentStatus = GenericRecord.STATUS_ONHOLD;
                                 break;
 
                             case R.id.statusRadio_Dropped:
-                                currentStatus = GenericMALRecord.STATUS_DROPPED;
+                                currentStatus = GenericRecord.STATUS_DROPPED;
                                 break;
 
                             case R.id.statusRadio_Planned:
                                 if ("anime".equals(type)) {
-                                    currentStatus = AnimeRecord.STATUS_PLANTOWATCH;
+                                    currentStatus = Anime.STATUS_PLANTOWATCH;
                                 } else {
-                                    currentStatus = MangaRecord.STATUS_PLANTOWATCH;
+                                    currentStatus = Manga.STATUS_PLANTOREAD;
                                 }
                                 break;
                         }
                     }
                 });
 
-        if ((AnimeRecord.STATUS_WATCHING.equals(currentStatus)) || (MangaRecord.STATUS_WATCHING.equals(currentStatus))) {
+        if ((Anime.STATUS_WATCHING.equals(currentStatus)) || (Manga.STATUS_READING.equals(currentStatus))) {
             statusGroup.check(R.id.statusRadio_InProgress);
         }
-        if (GenericMALRecord.STATUS_COMPLETED.equals(currentStatus)) {
+        if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
             statusGroup.check(R.id.statusRadio_Completed);
         }
-        if (GenericMALRecord.STATUS_ONHOLD.equals(currentStatus)) {
+        if (GenericRecord.STATUS_ONHOLD.equals(currentStatus)) {
             statusGroup.check(R.id.statusRadio_OnHold);
         }
-        if (GenericMALRecord.STATUS_DROPPED.equals(currentStatus)) {
+        if (GenericRecord.STATUS_DROPPED.equals(currentStatus)) {
             statusGroup.check(R.id.statusRadio_Dropped);
         }
-        if ((AnimeRecord.STATUS_PLANTOWATCH.equals(currentStatus)) || (MangaRecord.STATUS_PLANTOWATCH.equals(currentStatus))) {
+        if ((Anime.STATUS_PLANTOWATCH.equals(currentStatus)) || (Manga.STATUS_PLANTOREAD.equals(currentStatus))) {
             statusGroup.check(R.id.statusRadio_Planned);
         }
         return null;

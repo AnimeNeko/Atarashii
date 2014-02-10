@@ -1,16 +1,23 @@
 package net.somethingdreadful.MAL;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 
-import net.somethingdreadful.MAL.record.UserRecord;
+import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
+import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +37,11 @@ import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends SherlockFragmentActivity {
+public class FriendsActivity extends SherlockFragmentActivity implements FriendsNetworkTaskFinishedListener {
 	
     Context context;
-    ArrayList<UserRecord> listarray = new ArrayList<UserRecord>();
-    ListViewAdapter<UserRecord> listadapter;
+    ArrayList<User> listarray = new ArrayList<User>();
+    ListViewAdapter<User> listadapter;
     GridView Gridview;
     boolean forcesync = false;
     PrefManager prefs;
@@ -53,18 +60,18 @@ public class FriendsActivity extends SherlockFragmentActivity {
         Gridview = (GridView)findViewById(R.id.listview);
         int recource = R.layout.list_friends_with_text_item;
         
-        listadapter = new ListViewAdapter<UserRecord>(context, recource);
+        listadapter = new ListViewAdapter<User>(context, recource);
         mManager = new MALManager(context);
         prefs = new PrefManager(context);
         
-        new getFriendsRecordsTask().execute();
+        new FriendsNetworkTask(context, forcesync, this).execute(prefs.getUser());
         refresh(false);
         
         Gridview.setOnItemClickListener(new OnItemClickListener(){ //start the profile with your friend
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position,long arg3) {
-    		UserRecord.username = listarray.get(position).getUsername();
     		Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+    		profile.putExtra("username", listarray.get(position).getName());
 			startActivity(profile);
 		}
         });
@@ -104,7 +111,7 @@ public class FriendsActivity extends SherlockFragmentActivity {
 			if (isNetworkAvailable()){
 				Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 				forcesync = true;
-	    		new getFriendsRecordsTask().execute();
+				new FriendsNetworkTask(context, forcesync, this).execute(prefs.getUser());
 			}else{
 				Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
 			}
@@ -129,82 +136,77 @@ public class FriendsActivity extends SherlockFragmentActivity {
 		public ListViewAdapter(Context context, int resource) {
             super(context, resource);
         }
+		
+		private String formatDate(String date) {
+		    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US); 
+		    try {
+                Date dateobj = dt.parse(date);
+                SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd, h:m a", Locale.US);
+                return dt1.format(dateobj);
+            } catch (ParseException e) {
+                Log.e("MALX", "error parsing date: " + e.getMessage());
+                // return date without changing
+                return date;
+            }
+		}
 	    
-	        public View getView(int position, View convertView, ViewGroup parent) {
-	            View view = convertView;
-	            final UserRecord record;
-	            record = ((UserRecord) listarray.get(position));
-	            
-	            try{
-	            	if (view == null) {
-	            		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            		view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
-	                
-	            		String username =  record.getUsername();
-	            		TextView Username = (TextView) view.findViewById(R.id.userName);
-	            		Username.setText(username);
-	            		if (UserRecord.developerRecord(username)) {
-	            			Username.setTextColor(Color.parseColor("#8CD4D3")); //Developer
-	            		}
-	            		String last_online = record.getLast();
-	            		//Set online or offline status
-	            		TextView Status = (TextView) view.findViewById(R.id.status);
-	            		if (last_online.equals("Now")){
-	            			Status.setText("Online");
-	            			Status.setTextColor(Color.parseColor("#0D8500"));
-	            		}else{
-	            			Status.setText("Offline");
-	            			Status.setTextColor(Color.parseColor("#D10000"));
-	            		}
-	            		TextView since = (TextView) view.findViewById(R.id.since);
-	            		since.setText(record.getSince());
-	            		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
-	            		lastonline.setText(last_online);
-	            		Picasso picasso =  Picasso.with(context);
-		            	picasso.load(record.getAvatar())
-		            		.error(R.drawable.cover_error)
-		            		.placeholder(R.drawable.cover_loading)
-		            		.fit()
-		            		.into((ImageView) view.findViewById(R.id.profileImg));
-	            	}
-	            }catch (Exception e){
-	            	e.printStackTrace();
-	            }
-	            return view;
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            final User record;
+            record = ((User) listarray.get(position));
+            
+            try{
+            	if (view == null) {
+            		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            		view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
+                
+            		String username =  record.getName();
+            		TextView Username = (TextView) view.findViewById(R.id.userName);
+            		Username.setText(username);
+            		if (User.isDeveloperRecord(username)) {
+            			Username.setTextColor(Color.parseColor("#8CD4D3")); //Developer
+            		}
+            		String last_online = record.getProfile().getDetails().getLastOnline();
+            		//Set online or offline status
+            		TextView Status = (TextView) view.findViewById(R.id.status);
+            		if (last_online.equals("Now")){
+            			Status.setText("Online");
+            			Status.setTextColor(Color.parseColor("#0D8500"));
+            		}else{
+            			Status.setText("Offline");
+            			Status.setTextColor(Color.parseColor("#D10000"));
+            		}
+            		TextView since = (TextView) view.findViewById(R.id.since);
+            		since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : "unknown");
+            		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
+            		lastonline.setText(last_online);
+            		Picasso picasso =  Picasso.with(context);
+	            	picasso.load(record.getProfile().getAvatarUrl())
+	            		.error(R.drawable.cover_error)
+	            		.placeholder(R.drawable.cover_loading)
+	            		.fit()
+	            		.into((ImageView) view.findViewById(R.id.profileImg));
+            	}
+            }catch (Exception e){
+            	e.printStackTrace();
+            }
+            return view;
+        }
+
+        public void supportAddAll(Collection<? extends T> collection) {
+			for (T record : collection) {
+	            this.add(record);
 	        }
+		}
+	}
 
-	        public void supportAddAll(Collection<? extends T> collection) {
-				for (T record : collection) {
-		            this.add(record);
-		        }
-			}
-	  }
-	  
-	  public class getFriendsRecordsTask extends AsyncTask<String, Void, ArrayList<UserRecord>> {
-		  Boolean download = false;
-		  
-		  @Override
-		  protected ArrayList<UserRecord> doInBackground(String... user) {
-			  if (forcesync == true){
-				  mManager.downloadAndStoreFriends(prefs.getUser());
-				  forcesync = false;
-				  download = true;
-			  }
-	          listarray = mManager.getFriendsRecordsFromDB();
-	          if (listarray == null && isNetworkAvailable()){
-	        	  mManager.downloadAndStoreFriends(prefs.getUser());
-	        	  listarray = mManager.getFriendsRecordsFromDB();
-	          }
-	          return null;
-	      }
-
-	      @Override
-	      protected void onPostExecute(ArrayList<UserRecord> result) {
-	    	  if (download == true){
-	    		  refresh(true);
-	    	  }else{
-	    		  refresh(false);
-	    	  }
-	      }
-	  }
+    @Override
+    public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
+        if ( result != null ) {
+            listarray = result;
+            refresh(forcesync); // show crouton only if sync was forced
+        } else {
+            Crouton.makeText(this, R.string.crouton_UserRecord_Friends_error, Style.ALERT).show();
+        }
+    }
 }

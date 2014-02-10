@@ -103,8 +103,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:paddingLeft="8dp"
                     android:text="@string/contributor_apkawa_summary" />
+                
+                <TextView
+                    android:id="@+id/contributor_dsko_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contributor_dsko_name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="@string/contributor_dsko_summary" />
             </LinearLayout>
         </ScrollView>
 
