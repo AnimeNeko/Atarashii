@@ -31,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -409,7 +410,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if(networkAvailable) {
+                if(networkAvailable && animeRecord != null) {
                     if ((animeRecord.getSynopsis() == null) || (animeRecord.getMembersScore() <= 0)) {
                         animeRecord = mMalManager.updateWithDetails(mRecordID, animeRecord);
                     }
@@ -429,7 +430,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 //the synopsis loads if it hasn't previously been downloaded.
                 publishProgress(true);
 
-                if(networkAvailable) {
+                if(networkAvailable && mangaRecord != null) {
                     if ((mangaRecord.getSynopsis() == null) || (mangaRecord.getMembersScore() <= 0)) {
                         mangaRecord = mMalManager.updateWithDetails(mRecordID, mangaRecord);
                     }
@@ -442,7 +443,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         @Override
         protected void onProgressUpdate(Boolean... progress) {
-            if (MALManager.TYPE_ANIME.equals(internalType)) {
+            if (animeRecord != null && MALManager.TYPE_ANIME.equals(internalType)) {
                 actionBar.setTitle(animeRecord.getTitle());
 
                 Picasso coverImage = Picasso.with(context);
@@ -485,7 +486,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     setAddToListUI(true);
                 }
             }
-            else {
+            else if (mangaRecord != null ){
                 actionBar.setTitle(mangaRecord.getTitle());
 
                 Picasso coverImage = Picasso.with(context);
@@ -544,60 +545,66 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         @Override
         protected void onPostExecute(GenericRecord gr) {
-            if (ProgressFragment.getView() == null) {
-                // Parent activity is destroy, skipping
-                return;
-            }
-            if ("anime".equals(internalType)) {
-                MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
-                MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
-
+            if (gr != null) {
+                if (ProgressFragment.getView() == null) {
+                    // Parent activity is destroy, skipping
+                    return;
+                }
+                if ("anime".equals(internalType)) {
+                    MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
+                    MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
+    
+                    if (MALScoreBar != null) {
+                        MALScoreBar.setRating(MemberScore / 2);
+                        MyScoreBar.setRating(MyScore / 2);
+                    }
+    
+                    MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
+    
+                    if (MyStatusView != null) {
+                        MyStatusView.setText(MyStatusText);
+                    }
+    
+                } else {
+    
+                    MemberScore = mangaRecord.getMembersScore();
+                    MyScore = mangaRecord.getScore();
+    
+                    MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
+                    MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
+    
+                    if (MALScoreBar != null) {
+                        MALScoreBar.setRating(MemberScore / 2);
+                        MyScoreBar.setRating(MyScore / 2);
+                    }
+                }
+    
+                if (gr.getSpannedSynopsis() != null) {
+                    SynopsisText = gr.getSpannedSynopsis();
+                    MemberScore = gr.getMembersScore();
+                }
+                else {
+                    SynopsisText = Html.fromHtml("<em>No data loaded.</em>");
+                    MemberScore = 0.0f;
+                }
+    
+                if (SynopsisFragment.getView() != null) {
+                    SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
+    
+                    if (SynopsisView != null) {
+                        SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
+    
+                    }
+                }
+    
                 if (MALScoreBar != null) {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
-
-                MyStatusView = (TextView) WatchStatusFragment.getView().findViewById(R.id.cardStatusLabel);
-
-                if (MyStatusView != null) {
-                    MyStatusView.setText(MyStatusText);
-                }
-
             } else {
-
-                MemberScore = mangaRecord.getMembersScore();
-                MyScore = mangaRecord.getScore();
-
-                MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
-                MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
-
-                if (MALScoreBar != null) {
-                    MALScoreBar.setRating(MemberScore / 2);
-                    MyScoreBar.setRating(MyScore / 2);
-                }
-            }
-
-            if (gr.getSpannedSynopsis() != null) {
-                SynopsisText = gr.getSpannedSynopsis();
-                MemberScore = gr.getMembersScore();
-            }
-            else {
-                SynopsisText = Html.fromHtml("<em>No data loaded.</em>");
-                MemberScore = 0.0f;
-            }
-
-            if (SynopsisFragment.getView() != null) {
-                SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
-
-                if (SynopsisView != null) {
-                    SynopsisView.setText(SynopsisText, TextView.BufferType.SPANNABLE);
-
-                }
-            }
-
-            if (MALScoreBar != null) {
-                MALScoreBar.setRating(MemberScore / 2);
-                MyScoreBar.setRating(MyScore / 2);
+                // if gr is null then the anime/manga is not stored in the database and could not be loaded from the API (e. g. no network connection)
+                Toast.makeText(context, R.string.toast_DetailsError, Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
