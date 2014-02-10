@@ -5,7 +5,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
-import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
 
 public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         implements SearchView.OnQueryTextListener {
@@ -41,8 +41,8 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         return true;
     }
 
-    public BaseMALApi.ListType getCurrentListType() {
-        return BaseMALApi.ListType.ANIME;
+    public ListType getCurrentListType() {
+        return ListType.ANIME;
     }
 
     @Override
@@ -60,7 +60,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         return false;
     }
 
-    public void doSearch(String query, BaseMALApi.ListType listType) {
+    public void doSearch(String query, ListType listType) {
     }
 
     @Override

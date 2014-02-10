@@ -69,9 +69,9 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
             type = ((DetailView) getActivity()).recordType;
 
             if ("anime".equals(type)) {
-                rating = ((DetailView) getActivity()).animeRecord.getMyScore();
+                rating = ((DetailView) getActivity()).animeRecord.getScore();
             } else {
-                rating = ((DetailView) getActivity()).mangaRecord.getMyScore();
+                rating = ((DetailView) getActivity()).mangaRecord.getScore();
             }
         } else {
             type = state.getString("type");
