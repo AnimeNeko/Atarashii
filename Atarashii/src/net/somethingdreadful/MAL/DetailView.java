@@ -1,19 +1,26 @@
 package net.somethingdreadful.MAL;
 
+import java.nio.charset.Charset;
+
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -173,7 +180,31 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         // Set up the action bar.
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        
+        setupBeam();
+    }
+    
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setupBeam() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            // setup beam functionality (if NFC is available)
+            NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            if (mNfcAdapter == null) {
+                Log.i("MALX", "NFC not available");
+            } else {
+                // Register NFC callback
+                String message_str = recordType + ":" + String.valueOf(recordID);
+                NdefMessage message = new NdefMessage(new NdefRecord[] { 
+                    new NdefRecord(
+                        NdefRecord.TNF_MIME_MEDIA ,
+                        "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
+                        new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))
+                    ),
+                    NdefRecord.createApplicationRecord("net.somethingdreadful.MAL")
+                });
+                mNfcAdapter.setNdefPushMessage(message, this);
+            }
+        }
     }
 
     @Override
@@ -242,7 +273,29 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-
+        // received Android Beam?
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction()))
+            processIntent(getIntent());
+    }
+    
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void processIntent(Intent intent) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH ) {
+            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            // only one message sent during the beam
+            NdefMessage msg = (NdefMessage) rawMsgs[0];
+            String message = new String(msg.getRecords()[0].getPayload());
+            String[] splitmessage = message.split(":", 2);
+            if ( splitmessage.length == 2 ) {
+                try {
+                    recordType = splitmessage[0];
+                    recordID = Integer.parseInt(splitmessage[1]);
+                    getDetails();
+                } catch (NumberFormatException e) {
+                    finish();
+                }
+            }
+        }
     }
 
     @Override
