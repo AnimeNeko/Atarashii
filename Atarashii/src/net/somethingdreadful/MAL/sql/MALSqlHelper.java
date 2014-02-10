@@ -8,7 +8,7 @@ import android.util.Log;
 public class MALSqlHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 6;
 
     private static MALSqlHelper instance;
 
@@ -117,7 +117,6 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             instance = new MALSqlHelper(context);
         }
         return instance;
-
     }
 
     @Override
@@ -145,54 +144,23 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(ADD_ANIME_SYNC_TIME);
             db.execSQL(ADD_MANGA_SYNC_TIME);
         }
-
-        if (oldVersion < 5) {
-            db.execSQL("create table temp_table as select * from " + TABLE_ANIME);
-            db.execSQL("drop table " + TABLE_ANIME);
-            db.execSQL(CREATE_ANIME_TABLE);
-            db.execSQL("insert into " + TABLE_ANIME + " select * from temp_table;");
-            db.execSQL("drop table temp_table;");
-
-            db.execSQL("create table temp_table as select * from " + TABLE_MANGA);
-            db.execSQL("drop table " + TABLE_MANGA);
-            db.execSQL(CREATE_MANGA_TABLE);
-            db.execSQL("insert into " + TABLE_MANGA + " select * from temp_table;");
-            db.execSQL("drop table temp_table;");
-        }
+        
+        /*
+         * Database upgrade 5 has been removed because version 6 also does recreate the anime/manga table.
+         * This will reduce the code and unnecessary upgrades
+         */
 
         if (oldVersion < 6) {
-            db.execSQL(CREATE_FRIENDS_TABLE);
-            db.execSQL(CREATE_PROFILE_TABLE);
-        }
-        
-        if (oldVersion < 7) {
+            
             /*
              * sadly SQLite does not have good alter table support, so the profile table needs to be
              * recreated :(
-             *
-             * profile table changes:
-             *
-             * fix unnecessary anime_time_days(_d) and manga_time_days(_d) definitions: storing the same value
-             * with different field types is bad practice, better convert them when needed
              * 
              * Update for unique declaration of recordID (as this is the anime/manga id returned by the API it should be unique anyway)
-             * and unique declaration of username in friends/profile table
              * this gives us the ability to update easier because we can call SQLiteDatabase.replace() which inserts 
              * new records and updates existing records automatically
              */
             
-            // Delete anime_time_days_d and manga_time_days_d... so don't use * as column selector!
-            db.execSQL("create table temp_table as select " + 
-                    "_id, username, avatar_url, birthday, location, website, comments, forum_posts, last_online, gender, " + 
-                    "join_date, access_rank, anime_list_views, manga_list_views, anime_time_days, anime_watching, anime_completed," + 
-                    "anime_on_hold, anime_dropped, anime_plan_to_watch, anime_total_entries, manga_time_days, manga_reading, " +
-                    "manga_completed, manga_on_hold, manga_dropped, manga_plan_to_read, manga_total_entries " +
-                    "from " + TABLE_PROFILE);
-            db.execSQL("drop table " + TABLE_PROFILE);
-            db.execSQL(CREATE_PROFILE_TABLE);
-            db.execSQL("insert into " + TABLE_PROFILE + " select * from temp_table;");
-            db.execSQL("drop table temp_table;");
-            
             db.execSQL("create table temp_table as select * from " + TABLE_ANIME);
             db.execSQL("drop table " + TABLE_ANIME);
             db.execSQL(CREATE_ANIME_TABLE);
@@ -204,6 +172,9 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_MANGA_TABLE);
             db.execSQL("insert into " + TABLE_MANGA + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
+            
+            db.execSQL(CREATE_FRIENDS_TABLE);
+            db.execSQL(CREATE_PROFILE_TABLE);
         }
     }
 }
