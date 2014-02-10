@@ -31,3 +31,5 @@ Atarashii! makes use of several third-party components and services:
 * [Crouton](https://github.com/keyboardsurfer/Crouton) by Benjamin Weiss
 * [SherlockNavigationDrawer](https://github.com/nicolasjafelle/SherlockNavigationDrawer) by Nicolas Jafelle
 * The [MyAnimeList Unofficial API](http://mal-api.com/) by Chu Yeow
+* [Retrofit](http://square.github.io/retrofit/) by Square Inc.
+* [Gson](https://code.google.com/p/google-gson/) by Google Inc.

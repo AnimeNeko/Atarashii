@@ -69,12 +69,12 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
         if (state == null) {
 
-            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mangaRecord.getTotal(false));
-            chaptersRead = ((DetailView) getActivity()).mangaRecord.getPersonalProgress(false);
+            chaptersTotal = ((DetailView) getActivity()).mangaRecord.getChapters();
+            chaptersRead = ((DetailView) getActivity()).mangaRecord.getChaptersRead();
             chapterPickerValue = chaptersRead;
 
-            volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumesTotal();
-            volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumeProgress();
+            volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumes();
+            volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumesRead();
             volumePickerValue = volumesRead;
 
         } else {

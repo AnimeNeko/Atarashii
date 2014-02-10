@@ -64,8 +64,8 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
         //        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
 
         if (state == null) {
-            totalEpisodes = Integer.parseInt(((DetailView) getActivity()).animeRecord.getTotal(false));
-            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getPersonalProgress(false);
+            totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
+            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getWatchedEpisodes();
             pickerValue = watchedEpisodes;
 
         } else {

@@ -23,11 +23,17 @@
     <string name="crouton_noAnimeFound">No anime results found. Maybe refine your query?</string>
     <string name="crouton_noMangaFound">No manga results found. Maybe refine your query?</string>
     <string name="crouton_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
+    <string name="crouton_Search_Anime_error">Error while searching for anime records.</string>
+    <string name="crouton_Search_Manga_error">Error while searching for manga records.</string>
+    <string name="crouton_Search_error">Error while searching! Please try again later.</string>
     <string name="crouton_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="crouton_noUserRecord">This user doesn\'t has an offline record!</string>
     <string name="crouton_UserRecord_updated">UserProfile updated!</string>
     <string name="crouton_UserRecord_error">Userprofile is empty!</string>
     <string name="crouton_UserRecord_noFriends">You have no friends on MAL!</string>
+    <string name="crouton_UserRecord_Friends_error">Sync error while getting friendlist!</string>
+    <string name="crouton_Anime_Sync_error">Sync error while getting animelist!</string>
+    <string name="crouton_Manga_Sync_error">Sync error while getting mangalist!</string>
     <string name="toast_SyncDone">Sync Complete!</string>
     <string name="toast_SyncError">Sync Error! The API is currently unavailable.</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
@@ -83,7 +89,7 @@
     <string name="fr_textblurb">Enter your MyAnimeList credentials below:</string>
     <string name="dialog_Verifying">Verifying</string>
     <string name="dialog_VerifyingBlurb">Making sure your account is OK. Hold tight a sec.</string>
-    <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and try again.</string>
+    <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and network connection and try again.</string>
     <string name="toast_AccountOK">Account OK!</string>
     <string name="fr_noaccount_button">Create an Account</string>
 
@@ -140,7 +146,7 @@
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Major Contributors</string>
     <string name="acknowledgements_card_title">Open Source Libraries</string>
-    <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a> and Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
+    <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> by Square Inc. and <a href="https://code.google.com/p/google-gson/">google-gson</a> by Google Inc. which is used by Retrofit, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
     <string name="app_description">Atarashii! is the best way to access MyAnimeList from your phone. It sports a modern, beatifully crafted Android interface coupled with all the functionality you could ask for.</string>
     <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
     <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
@@ -148,6 +154,8 @@
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
+    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
+    <string name="contributor_dsko_summary">Implemented retrofit for API handling.</string>
     <string name="community_card_title">Atarashii Community</string>
     <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Join our Community!</a> The Atarashii! community group on Google+ is a great place to interact with the developers and let us know what you think. Issues, feature requests, status updates, it\'s all there. We don\'t bite, promise.</string>
