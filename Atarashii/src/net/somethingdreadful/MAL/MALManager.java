@@ -3,6 +3,8 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.Date;
 
+import retrofit.RetrofitError;
+
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
@@ -91,23 +93,33 @@ public class MALManager {
     }
 
     public Anime getAnimeRecordFromMAL(int id) {
-        Anime anime = malApi.getAnime(id);
-        if ( anime != null ) {
-	        if (anime.getWatchedStatus() == null) {
-	        	anime.setCreateFlag(true);
-	        }
+        try {
+            Anime anime = malApi.getAnime(id);
+            if ( anime != null ) {
+    	        if (anime.getWatchedStatus() == null) {
+    	        	anime.setCreateFlag(true);
+    	        }
+            }
+            return anime;
+        } catch (RetrofitError e) {
+            Log.e("MALX", "error downloading anime details: " + e.getMessage());
         }
-        return anime;
+        return null;
     }
 
     public Manga getMangaRecordFromMAL(int id) {
-    	Manga manga = malApi.getManga(id);
-        if ( manga != null ) {
-	        if (manga.getReadStatus() == null) {
-	        	manga.setCreateFlag(true);
-	        }
+        try {
+        	Manga manga = malApi.getManga(id);
+            if ( manga != null ) {
+    	        if (manga.getReadStatus() == null) {
+    	        	manga.setCreateFlag(true);
+    	        }
+            }
+            return manga;
+        } catch (RetrofitError e) {
+            Log.e("MALX", "error downloading manga details: " + e.getMessage());
         }
-        return manga;
+        return null;
     }
     
     public ArrayList<Anime> downloadAndStoreAnimeList() {

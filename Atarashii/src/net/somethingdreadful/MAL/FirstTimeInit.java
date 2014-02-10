@@ -79,6 +79,8 @@ public class FirstTimeInit extends SherlockActivity {
                 super.handleMessage(msg);
             }
         };
+
+        NfcHelper.disableBeam(this);
     }
 
     private void tryConnection() {
