@@ -23,6 +23,8 @@ public class Settings extends SherlockPreferenceActivity {
         prefMgr.setSharedPreferencesName("prefs");
         
         addPreferencesFromResource(R.xml.settings);
+
+        NfcHelper.disableBeam(this);
     }
 
     @Override

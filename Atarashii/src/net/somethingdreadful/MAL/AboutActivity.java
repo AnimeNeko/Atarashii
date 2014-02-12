@@ -31,7 +31,8 @@ public class AboutActivity extends SherlockActivity {
         dskoMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         communityContent.setMovementMethod(LinkMovementMethod.getInstance());
         acknowledgementsContent.setMovementMethod(LinkMovementMethod.getInstance());
-
+        
+        NfcHelper.disableBeam(this);
     }
 
     @Override

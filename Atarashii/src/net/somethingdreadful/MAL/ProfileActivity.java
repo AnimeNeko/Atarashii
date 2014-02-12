@@ -62,6 +62,8 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
             	startActivity(new Intent(Intent.ACTION_VIEW, webstiteclick));
     	    }
     	});
+
+    	NfcHelper.disableBeam(this);
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -21,6 +21,7 @@
                 android:description="@string/permission_description_updateMedia" android:protectionLevel="normal"
                 android:label="@string/permission_updateMedia"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.NFC"/>
 
     <application
             android:icon="@drawable/icon"
@@ -55,6 +56,11 @@
         <activity
                 android:name=".DetailView"
                 android:label="@string/title_activity_detail_view">
+                <intent-filter>
+	                    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+	                    <category android:name="android.intent.category.DEFAULT"/>
+	                    <data android:mimeType="application/net.somethingdreadful.mal"/>
+	            </intent-filter>
         </activity>
 		<activity
                 android:name=".ProfileActivity"
