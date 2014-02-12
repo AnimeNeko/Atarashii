@@ -104,16 +104,6 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
         return true;
     }
     
-    public void maketext(String string ,int type) { //for the private class, to make still text on errors...
-		if (type==1){
-			Crouton.makeText(this, string, Style.INFO).show();
-		}else if (type==2){
-			Crouton.makeText(this, string, Style.ALERT).show();
-		}else{
-			Crouton.makeText(this, string, Style.CONFIRM).show();
-		}
-    }
-    
     public boolean isNetworkAvailable() { //check if network is available
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -178,58 +168,19 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     }
     
     public void setcolor(boolean type){
-    	int time = 0;
+    	int Hue = 0;
     	TextView textview = null;
-    	if (type){ // true = anime, else = manga
+    	if (type){
     		textview = (TextView) findViewById(R.id.atimedayssmall); //anime
-    		time= record.getProfile().getAnimeStats().getTimeDays().intValue() / 3;
+    		Hue= (int) (record.getProfile().getAnimeStats().getTimeDays() * 2.5);
     	}else{
     		textview = (TextView) findViewById(R.id.mtimedayssmall); // manga
-    		time= record.getProfile().getMangaStats().getTimeDays().intValue() / 2;
+    		Hue= (int) (record.getProfile().getMangaStats().getTimeDays() * 5);
     	}
-    	if (time <= 0){
-    		textview.setTextColor(Color.parseColor("#CF0404"));
-    	} else if (time <=2){
-    		textview.setTextColor(Color.parseColor("#CF1F04"));
-    	} else if (time <= 3){
-    		textview.setTextColor(Color.parseColor("#CF3304"));
-    	} else if (time <= 4){
-    		textview.setTextColor(Color.parseColor("#CF5204"));
-    	} else if (time <= 5){
-    		textview.setTextColor(Color.parseColor("#CF7004"));
-    	} else if (time <= 6){
-    		textview.setTextColor(Color.parseColor("#CF8E04"));
-    	} else if (time <= 7){
-    		textview.setTextColor(Color.parseColor("#CFB704"));
-    	} else if (time <= 8){
-    		textview.setTextColor(Color.parseColor("#C4CF04"));
-    	} else if (time <= 9){
-    		textview.setTextColor(Color.parseColor("#B4CF04"));
-    	} else if (time <= 10){
-    		textview.setTextColor(Color.parseColor("#ADCF04"));
-    	} else if (time <= 11){
-    		textview.setTextColor(Color.parseColor("#A3CF04"));
-    	} else if (time <= 12){
-    		textview.setTextColor(Color.parseColor("#95CF04"));
-    	} else if (time <= 13){
-    		textview.setTextColor(Color.parseColor("#7ECF04"));
-    	} else if (time <= 14){
-    		textview.setTextColor(Color.parseColor("#66CF04"));
-    	} else if (time <= 15){
-    		textview.setTextColor(Color.parseColor("#55CF04"));
-    	} else if (time <= 16){
-    		textview.setTextColor(Color.parseColor("#44CF04"));
-    	} else if (time <= 17){
-    		textview.setTextColor(Color.parseColor("#2DCF04"));
-    	} else if (time <= 18){
-    		textview.setTextColor(Color.parseColor("#18CF04"));
-    	} else if (time <= 19){
-    		textview.setTextColor(Color.parseColor("#04CF04"));
-    	} else if (time <= 20){
-    		textview.setTextColor(Color.parseColor("#04CF15"));
-    	} else if (time <= 21){
-    		textview.setTextColor(Color.parseColor("#00AB2B"));
-    	}
+    	if (Hue > 359) {
+			Hue = 359;
+		}
+    	textview.setTextColor(Color.HSVToColor(new float[]{ Hue , 1, (float) 0.7 }));
     }
     
     public void Settext(){
