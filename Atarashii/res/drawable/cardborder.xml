@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners
+              android:radius="2dp" />
+            <solid
+              android:color="@color/cardborder_shadow2" />
+        </shape>
+    </item>
+    <item android:bottom="1px">
+        <shape>
+            <corners
+              android:radius="2dp" />
+            <solid
+              android:color="@color/cardborder_shadow" />
+        </shape>
+    </item>
+    <item android:bottom="2px">
+		<shape android:shape="rectangle">
+		  <corners
+		      android:radius="2dp" />
+		  <stroke
+		      android:width="1px"
+		      android:color="@color/cardborder" />
+		  <solid
+		      android:color="@android:color/white" />
+		</shape>
+	</item>
+</layer-list>

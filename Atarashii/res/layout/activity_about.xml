@@ -46,9 +46,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/cardborder"
             android:orientation="vertical"
-            android:padding="12dp" >
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/contributors_card_title"
@@ -123,7 +123,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/cardborder"
             android:orientation="vertical"
             android:padding="12dp" >
 
@@ -151,7 +151,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/cardborder"
             android:orientation="vertical"
             android:padding="12dp" >
 

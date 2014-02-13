@@ -4,6 +4,10 @@
     <color name="bg_dark">#333333</color>
     <color name="bg_light">#EEEEEE</color>
     
+    <color name="cardborder">#D2D2D2</color>
+    <color name="cardborder_shadow">#DADADA</color>
+    <color name="cardborder_shadow2">#e3e3e3</color>
+    
     <style name="AtarashiiLightBg" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
         <item name="android:windowBackground">@color/bg_light</item>
