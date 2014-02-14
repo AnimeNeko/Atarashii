@@ -11,8 +11,10 @@ public class NfcHelper {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static void disableBeam(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            NfcAdapter adapter = NfcAdapter.getDefaultAdapter(activity); 
-            adapter.setNdefPushMessage(null, activity);
+            NfcAdapter adapter = NfcAdapter.getDefaultAdapter(activity);
+            if (adapter != null) {
+            	adapter.setNdefPushMessage(null, activity);
+            }
         }
     }
 }
