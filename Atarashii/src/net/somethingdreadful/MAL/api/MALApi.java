@@ -21,6 +21,8 @@ import retrofit.client.ApacheClient;
 import retrofit.client.Response;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
@@ -73,6 +75,16 @@ public class MALApi {
             .build();
         friends_service = restAdapter.create(FriendsInterface.class);
 	}
+	
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	public boolean isAuth() {
 		try {

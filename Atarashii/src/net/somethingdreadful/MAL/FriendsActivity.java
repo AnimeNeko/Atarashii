@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
@@ -14,8 +15,6 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,7 +87,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
         try{
         	listadapter.supportAddAll(listarray);
         }catch (Exception e){
-        	if (isNetworkAvailable()){
+        	if (MALApi.isNetworkAvailable(context)){
     			Crouton.makeText(this, R.string.crouton_UserRecord_noFriends, Style.ALERT).show();
     		}else{
     			Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
@@ -110,7 +109,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 			finish();
 			break;
 		case R.id.forceSync:
-			if (isNetworkAvailable()){
+			if (MALApi.isNetworkAvailable(context)){
 				Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
 				forcesync = true;
 				new FriendsNetworkTask(context, forcesync, this).execute(prefs.getUser());
@@ -120,16 +119,6 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 			break;
 		}
         return super.onOptionsItemSelected(item);
-    }
-	
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 	
     public class ListViewAdapter<T> extends ArrayAdapter<T> {

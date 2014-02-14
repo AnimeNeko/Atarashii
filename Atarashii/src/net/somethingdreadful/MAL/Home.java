@@ -463,18 +463,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         lcdf.show(fm, "fragment_LogoutConfirmationDialog");
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public void maketext(String string) { //for the private class
         Crouton.makeText(this, string, Style.INFO).show();
     }
@@ -482,7 +470,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 
     public void checkNetworkAndDisplayCrouton() {
 
-        if (!isNetworkAvailable() && networkAvailable == true) {
+        if (!MALApi.isNetworkAvailable(context) && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
 
             af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
@@ -495,14 +483,14 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	            mf.getRecords(listType, "manga", false, Home.this.context);
 	            myList = true;
 	        }
-        } else if (isNetworkAvailable() && networkAvailable == false) {
+        } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
 
             synctask();
 
         }
 
-        if (!isNetworkAvailable()) {
+        if (!MALApi.isNetworkAvailable(context)) {
             networkAvailable = false;
         } else {
             networkAvailable = true;
@@ -554,7 +542,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             /* do stuff when drawer item is clicked here */
             af.scrollToTop();
             mf.scrollToTop();
-            if (!isNetworkAvailable()) {
+            if (!MALApi.isNetworkAvailable(context)) {
                 if (position==0 || position==1 || position==2){
                 }else{
                     position = 1;

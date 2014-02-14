@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
@@ -9,8 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -78,7 +77,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
                 finish();
                 break;
             case R.id.forceSync:
-            	if (isNetworkAvailable()){
+            	if (MALApi.isNetworkAvailable(context)){
             		Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
             		forcesync = true;
             		String username;
@@ -102,16 +101,6 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
             	choosedialog(true);
         }
         return true;
-    }
-    
-    public boolean isNetworkAvailable() { //check if network is available
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
     }
     
     public void card() { //settings for hide a card and text userprofile
@@ -277,7 +266,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 			Crouton.makeText(this, R.string.crouton_UserRecord_updated, Style.CONFIRM).show();
     	}
     	if (record == null){
-    		if (!isNetworkAvailable()){
+    		if (!MALApi.isNetworkAvailable(context)){
     			Crouton.makeText(this, R.string.crouton_noUserRecord , Style.ALERT).show();
     		}else{
     			Crouton.makeText(this, R.string.crouton_UserRecord_error , Style.ALERT).show();

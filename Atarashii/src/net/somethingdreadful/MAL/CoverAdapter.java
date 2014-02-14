@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -10,8 +11,6 @@ import net.somethingdreadful.MAL.api.response.Manga;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
@@ -260,7 +259,7 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
                 internalManager.saveMangaToDatabase((Manga) gr[0], false);
             }
 
-            if (isNetworkAvailable()) {
+            if (MALApi.isNetworkAvailable(c)) {
                 if (MALManager.TYPE_ANIME.equals(internalType)) {
                     result = internalManager.writeAnimeDetailsToMAL((Anime) gr[0]);
                 } else {
@@ -291,19 +290,6 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return (int) px;
-    }
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) c
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-
     }
 
     static class ViewHolder {
