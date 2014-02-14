@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import java.nio.charset.Charset;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -11,8 +12,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -113,7 +112,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         mManager = new MALManager(context);
         pManager = new PrefManager(context);
 
-        networkAvailable = isNetworkAvailable();
+        networkAvailable = MALApi.isNetworkAvailable(context);
 
 
         fm = getSupportFragmentManager();
@@ -971,18 +970,5 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         }
 
         setAddToListUI(false);
-    }
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-
     }
 }
