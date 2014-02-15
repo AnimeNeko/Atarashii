@@ -29,13 +29,23 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
             return null;
         }
         MALManager mManager = new MALManager(context);
-        
-        if ( forcesync && MALApi.isNetworkAvailable(context) ) {
-            result = mManager.downloadAndStoreFriendList(params[0]);
-        } else {
-            result = mManager.getFriendListFromDB();
-            if ( ( result == null || result.isEmpty() ) && MALApi.isNetworkAvailable(context) )
+        try {
+            if ( forcesync && MALApi.isNetworkAvailable(context) ) {
                 result = mManager.downloadAndStoreFriendList(params[0]);
+            } else {
+                result = mManager.getFriendListFromDB();
+                if ( ( result == null || result.isEmpty() ) && MALApi.isNetworkAvailable(context) )
+                    result = mManager.downloadAndStoreFriendList(params[0]);
+            }
+
+            /* returning null means there was an error, so return an empty ArrayList if there was no error
+             * but an empty result
+             */
+            if ( result == null )
+                result = new ArrayList<User>();
+        } catch (Exception e) {
+            Log.e("MALX", "error getting friendlist: " + e.getMessage());
+            result = null;
         }
         
         return result;
