@@ -57,7 +57,19 @@ right-click a project. From the context menu, select "Android Tools", then
 projects that require it.
 
 
+
+Importing the Project to Android Studio
+---------------------------------------
+You can also use Android Studio for Atarashii! development.
+Make sure you have Android Studio installed. If you do not, follow the
+instructions at http://developer.android.com/sdk/installing/studio.html
+
+Import the project with "File > Import Project..." or selecting "Import
+Project..." on the welcome screen. Select the root directory of the source
+you have cloned. Gradle should load all required dependencies.
+
+
 You should now be able to successfully build and develop Atarashii!
 
 
-Revision 20130603
+Revision 20140220
