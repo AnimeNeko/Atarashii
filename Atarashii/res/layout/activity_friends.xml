@@ -4,17 +4,20 @@
     android:orientation="horizontal" 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#333333"
     android:padding="0dp">
 
     <GridView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-    	android:columnWidth="300dp" 
-    	android:verticalSpacing="1dp"
-    	android:numColumns="auto_fit"
-    	android:stretchMode="columnWidth"
-    	android:gravity="center">
+        android:columnWidth="300dp"
+        android:gravity="center"
+        android:horizontalSpacing="2dp"
+        android:numColumns="auto_fit"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="1dp" >
+
     </GridView>
 </LinearLayout>
