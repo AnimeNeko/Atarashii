@@ -6,6 +6,8 @@ import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
+import net.somethingdreadful.MAL.api.response.Profile;
+import net.somethingdreadful.MAL.api.response.User;
 import retrofit.client.Response;
 import retrofit.http.DELETE;
 import retrofit.http.Field;
@@ -69,4 +71,8 @@ public interface MALInterface {
 	@PUT("/mangalist/manga/{manga_id}")
 	Response updateManga(@Path("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters, 
 	        @Field("volumes") int volumes, @Field("score") int score);
+    @GET("/profile/{username}")
+    Profile getProfile(@Path("username") String username);
+    @GET("/friends/{username}")
+    ArrayList<User> getFriends(@Path("username") String username);
 }
