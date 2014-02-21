@@ -47,12 +47,15 @@ android {
 }
 
 repositories {
+    maven {
+        url 'https://github.com/toxbee/mvn-repo/raw/master/maven-deploy'
+    }
     mavenCentral()
 }
 
 dependencies {
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.3'
-    compile 'net.simonvt:android-numberpicker:1.0.0'
+    compile 'net.simonvt.numberpicker:android-numberpicker:1.0.0'
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:+'
     compile 'com.google.code.gson:gson:2.2.4'
