@@ -38,7 +38,7 @@
     <string name="toast_SyncError">Sync Error! The API is currently unavailable.</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_DetailsError">Could not load details, please check your Internet connection.</string>
-    
+
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_anime">My animelist</string>
@@ -55,8 +55,8 @@
     <string name="share_message">Which list do you want to share?</string>
 
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">shared an anime list using Atarashii: http://myanimelist.net/animelist/</string>
-    <string name="share_mangalist">shared a manga list using Atarashii: http://myanimelist.net/mangalist/</string>
+    <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; shared a manga list using Atarashii: http://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_discription">Application Icon</string>
     <string name="layout_card_loading">Loading</string>
