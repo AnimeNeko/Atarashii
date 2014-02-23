@@ -38,7 +38,7 @@
     <string name="toast_SyncError">Sync Error! The API is currently unavailable.</string>
     <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_DetailsError">Could not load details, please check your Internet connection.</string>
-    
+
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_anime">My animelist</string>
@@ -103,18 +103,16 @@
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="cover_PlanningToRead">Planning to read</string>
 
-    <!--  Various String I don't know where to categorize -->
+    <!-- Various String I don't know where to categorize -->
     <string name="placeholder_Loading">Loading, just a sec.</string>
     <string name="action_SetWatched">Update Progress</string>
     <string name="action_SetScore">Set Score</string>
     <string name="action_SetStatus">Set Status</string>
     <string name="action_RefreshEntry">Reload Data</string>
     <string name="description_CoverImage">Cover Image</string>
-
     <string name="preference_category_credits">Credits</string>
     <string name="summary_appcredits">Atarashii! is an open source project. \nTap to view contributors.</string>
     <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
-
     <string name="action_PlusOneWatched">+1 Watched</string>
     <string name="action_PlusOneRead">+1 Read</string>
     <string name="action_MarkAsComplete">Mark Completed</string>
@@ -128,6 +126,15 @@
     <!-- Home (Contents) Strings -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- Navigation bar item Strings -->
+    <string name="nav_item_my_profile">My Profile</string>
+    <string name="nav_item_my_list">My List</string>
+    <string name="nav_item_my_friends">My Friends</string>
+    <string name="nav_item_top_rated">Top Rated</string>
+    <string name="nav_item_most_popular">Most Popular</string>
+    <string name="nav_item_just_added">Just Added</string>
+    <string name="nav_item_upcoming">Upcoming</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
@@ -231,13 +238,13 @@
         <item>30 minutes</item>
         <item>60 minutes</item>
         <item>2 Hours</item>
-	<item>4 Hours</item>
-	<item>6 Hours</item>
-	<item>8 Hours</item>
-	<item>10 Hours</item>
-	<item>12 Hours</item>
-	<item>24 Hours</item>
-	<item>48 Hours</item>
+        <item>4 Hours</item>
+        <item>6 Hours</item>
+        <item>8 Hours</item>
+        <item>10 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+        <item>48 Hours</item>
     </string-array>
     <string-array name="syncValuesArray">
         <item>5</item>
@@ -246,12 +253,13 @@
         <item>30</item>
         <item>60</item>
         <item>120</item>
-	<item>240</item>
-	<item>360</item>
-	<item>480</item>
-	<item>600</item>
-	<item>720</item>
-	<item>1440</item>
-	<item>2880</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+        <item>600</item>
+        <item>720</item>
+        <item>1440</item>
+        <item>2880</item>
     </string-array>
+
 </resources>
