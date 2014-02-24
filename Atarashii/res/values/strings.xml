@@ -102,6 +102,15 @@
     <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="cover_PlanningToRead">Planning to read</string>
+    
+    <!-- Navigation drawer item Strings -->
+    <string name="nav_item_my_profile">My Profile</string>
+    <string name="nav_item_my_list">My List</string>
+    <string name="nav_item_my_friends">My Friends</string>
+    <string name="nav_item_top_rated">Top Rated</string>
+    <string name="nav_item_most_popular">Most Popular</string>
+    <string name="nav_item_just_added">Just Added</string>
+    <string name="nav_item_upcoming">Upcoming</string>
 
     <!--  Various String I don't know where to categorize -->
     <string name="placeholder_Loading">Loading, just a sec.</string>

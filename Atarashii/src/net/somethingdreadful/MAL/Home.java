@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import net.somethingdreadful.MAL.NavigationItems.NavItem;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -33,9 +34,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -85,16 +91,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     View mActiveView;
     View mPreviousView;
     boolean myList = true; //tracks if the user is on 'My List' or not
-    public static final String[] DRAWER_OPTIONS =
-        {
-        "My Profile",
-        "My List",
-        "My Friends",
-        "Top Rated",
-        "Most Popular",
-        "Just Added",
-        "Upcoming"
-        };
+
+	private NavigationItemAdapter mNavigationItemAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,10 +117,13 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
             mDrawerLayout.setDrawerListener(new DemoDrawerListener());
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            HomeListViewArrayAdapter adapter = new HomeListViewArrayAdapter(this,R.layout.list_item,DRAWER_OPTIONS);
 
             listView = (ListView)findViewById(R.id.left_drawer);
-            listView.setAdapter(adapter);
+
+			NavigationItems mNavigationContent = new NavigationItems();
+			mNavigationItemAdapter = new NavigationItemAdapter(this,
+					R.layout.item_navigation, mNavigationContent.ITEMS);
+			listView.setAdapter(mNavigationItemAdapter);
             listView.setOnItemClickListener(new DrawerItemClickListener());
             listView.setCacheColorHint(0);
             listView.setScrollingCacheEnabled(false);
@@ -729,6 +730,46 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 			}
 		} else {
 		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+		}
+	}
+
+	private class NavigationItemAdapter extends ArrayAdapter<NavItem> {
+		private ArrayList<NavItem> items;
+
+		public NavigationItemAdapter(Context context, int textViewResourceId,
+				ArrayList<NavItem> objects) {
+			super(context, textViewResourceId, objects);
+			this.items = objects;
+		}
+
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+
+			if (v == null) {
+				LayoutInflater vi = getLayoutInflater();
+				v = vi.inflate(R.layout.item_navigation, null);
+			}
+
+			NavItem item = items.get(position);
+
+			if (item != null) {
+				ImageView mIcon = (ImageView) v
+						.findViewById(R.id.nav_item_icon);
+				TextView mTitle = (TextView) v.findViewById(R.id.nav_item_text);
+
+				if (mIcon != null) {
+					mIcon.setImageResource(item.icon);
+				} else {
+					Log.d("LISTITEM", "Null");
+				}
+				if (mTitle != null) {
+					mTitle.setText(item.title);
+				} else {
+					Log.d("LISTITEM", "Null");
+				}
+			}
+
+			return v;
 		}
 	}
 }
