@@ -91,16 +91,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     View mActiveView;
     View mPreviousView;
     boolean myList = true; //tracks if the user is on 'My List' or not
-	// public static final String[] DRAWER_OPTIONS =
-	// {
-	// "My Profile",
-	// "My List",
-	// "My Friends",
-	// "Top Rated",
-	// "Most Popular",
-	// "Just Added",
-	// "Upcoming"
-	// };
 
 	private NavigationItemAdapter mNavigationItemAdapter;
 
