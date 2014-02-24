@@ -36,3 +36,4 @@ proguard-project.txt
 #Other
 .DS_Store
 tmp
+Thumbs.db
