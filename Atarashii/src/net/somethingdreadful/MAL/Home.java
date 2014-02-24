@@ -537,12 +537,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             /* do stuff when drawer item is clicked here */
             af.scrollToTop();
             mf.scrollToTop();
-            if (!MALApi.isNetworkAvailable(context)) {
-                if (position==0 || position==1 || position==2){
-                }else{
-                    position = 1;
-                    Crouton.makeText(Home.this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
-                }
+            if (!networkAvailable && position > 2) {
+            	position = 1;
+            	Crouton.makeText(Home.this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
             }
             switch (position){
                 case 0:
