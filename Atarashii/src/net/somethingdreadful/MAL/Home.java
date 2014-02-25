@@ -82,6 +82,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 
     int AutoSync = 0; //run or not to run.
     int listType = 0; //remembers the list_type.
+    
+    int selectedDrawerItem;
+    String previousAbTitle;
 
 
     private DrawerLayout mDrawerLayout;
@@ -605,6 +608,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     break;
 			}
 			Home.this.supportInvalidateOptionsMenu();
+			selectedDrawerItem = position;
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
 			mPreviousView = mActiveView;
 			if (mPreviousView != null)
@@ -652,6 +656,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             mActionBar.setDisplayHomeAsUpEnabled(true);
             mActionBar.setHomeButtonEnabled(true);
             mTitle = mDrawerTitle = getTitle();
+            mActionBar.setTitle(R.string.nav_item_my_list);
         }
 
         /**
@@ -659,7 +664,29 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
          * the specific contents in view.
          */
         public void onDrawerClosed() {
-            mActionBar.setTitle(mTitle);
+        	switch (selectedDrawerItem) {
+        	case 0:
+        		mActionBar.setTitle(previousAbTitle);
+        		break;
+        	case 1:
+        		mActionBar.setTitle(R.string.nav_item_my_list);
+        		break;
+        	case 2:
+        		mActionBar.setTitle(previousAbTitle);
+        		break;
+        	case 3:
+        		mActionBar.setTitle(R.string.nav_item_top_rated);
+        		break;
+        	case 4:
+        		mActionBar.setTitle(R.string.nav_item_most_popular);
+        		break;
+        	case 5:
+        		mActionBar.setTitle(R.string.nav_item_just_added);
+        		break;
+        	case 6:
+        		mActionBar.setTitle(R.string.nav_item_upcoming);
+        		break;
+        	}
         }
 
 		/**
@@ -669,6 +696,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		 * will be dimmed down and non-interactive.
 		 */
 		public void onDrawerOpened() {
+			previousAbTitle = mActionBar.getTitle().toString();
 			mActionBar.setTitle(mDrawerTitle);
 		}
 	}
