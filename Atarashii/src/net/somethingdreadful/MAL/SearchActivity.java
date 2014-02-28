@@ -48,6 +48,8 @@ implements IItemGridFragment, ActionBar.TabListener,
     ItemGridFragment mf;
     BaseActionBarSearchView b;
     
+    public boolean animeError = false;
+    public boolean mangaError = false;
     public boolean instanceExists;
 
     @Override
@@ -197,8 +199,9 @@ implements IItemGridFragment, ActionBar.TabListener,
 			} else {
 				Crouton.makeText(this, R.string.crouton_nothingFound, Style.ALERT).show();
 			}
-		} else {
+		} else if (!animeError) {
 		    Crouton.makeText(this, R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+		    animeError = true;
         }
 	}
 
@@ -208,8 +211,9 @@ implements IItemGridFragment, ActionBar.TabListener,
 				mf.setMangaRecords(result);
 				SearchActivity.this.mf.scrollListener.notifyMorePages(ListType.MANGA);	
 			}
-		} else {
+		} else if (!mangaError) {
 		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+		    mangaError = true;
 		}
 	}
 }
