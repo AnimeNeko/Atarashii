@@ -63,8 +63,7 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
     				result = mManager.getAPIObject().getUpcomingAnime(page);
     				break;
     			case SEARCH:
-    				if ( params != null )
-    					result = mManager.getAPIObject().searchAnime(params[0]);
+    				result = mManager.getAPIObject().searchAnime(params[0], page);
     				break;
     			default:
     				Log.e("MALX", "invalid job identifier " + job.name());
@@ -76,8 +75,12 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
             if ( result == null )
                 result = new ArrayList<Anime>();
 		} catch (Exception e) {
-		    Log.e("MALX", "error getting animelist: " + e.getMessage());
-		    result = null;
+			if (e.getMessage() == null){
+				result = new ArrayList<Anime>();
+			}else{
+				Log.e("MALX", "error getting animelist: " + e.getMessage());
+				result = null;
+			}
 		}
 		return result;
 	}

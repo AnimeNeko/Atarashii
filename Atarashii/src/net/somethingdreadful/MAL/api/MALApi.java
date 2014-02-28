@@ -107,12 +107,12 @@ public class MALApi {
 		return type.name().toLowerCase();
 	}
 
-	public ArrayList<Anime> searchAnime(String query) {
-		return service.searchAnime(query);
+	public ArrayList<Anime> searchAnime(String query, int page) {
+		return service.searchAnime(query, page);
 	}
 	
-	public ArrayList<Manga> searchManga(String query) {
-		return service.searchManga(query);
+	public ArrayList<Manga> searchManga(String query, int page) {
+		return service.searchManga(query, page);
 	}
 
 	public AnimeList getAnimeList() {
