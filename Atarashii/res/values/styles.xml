@@ -5,7 +5,7 @@
     <color name="bg_light">#EEEEEE</color>    
 
     <color name="card_shadow">#dbdbdb</color>
-    <color name="card_shadow2">#eaeaea</color>
+    <color name="card_shadow2">#e1e1e1</color>
     <color name="card_content">#ffffff</color>
     <color name="card_content_pressed">#f8f8f8</color>
     
