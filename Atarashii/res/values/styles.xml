@@ -2,11 +2,12 @@
 <resources>
 
     <color name="bg_dark">#333333</color>
-    <color name="bg_light">#EEEEEE</color>
-    
-    <color name="cardborder">#D2D2D2</color>
-    <color name="cardborder_shadow">#DADADA</color>
-    <color name="cardborder_shadow2">#e3e3e3</color>
+    <color name="bg_light">#EEEEEE</color>    
+
+    <color name="card_shadow">#dbdbdb</color>
+    <color name="card_shadow2">#eaeaea</color>
+    <color name="card_content">#ffffff</color>
+    <color name="card_content_pressed">#f8f8f8</color>
     
     <style name="AtarashiiLightBg" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>

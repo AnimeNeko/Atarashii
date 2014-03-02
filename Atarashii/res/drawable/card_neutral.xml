@@ -5,7 +5,7 @@
             <corners
               android:radius="2dp" />
             <solid
-              android:color="@color/cardborder_shadow2" />
+              android:color="@color/card_shadow2" />
         </shape>
     </item>
     <item android:bottom="1px">
@@ -13,18 +13,15 @@
             <corners
               android:radius="2dp" />
             <solid
-              android:color="@color/cardborder_shadow" />
+              android:color="@color/card_shadow" />
         </shape>
     </item>
-    <item android:bottom="2px">
+    <item android:bottom="2dp">
 		<shape android:shape="rectangle">
 		  <corners
 		      android:radius="2dp" />
-		  <stroke
-		      android:width="1px"
-		      android:color="@color/cardborder" />
 		  <solid
-		      android:color="@android:color/white" />
+		      android:color="@color/card_content" />
 		</shape>
 	</item>
 </layer-list>
