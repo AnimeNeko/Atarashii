@@ -63,12 +63,10 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
     				result = mManager.getAPIObject().getUpcomingManga(page);
     				break;
     			case SEARCH:
-    				if ( params != null )
-    					result = mManager.getAPIObject().searchManga(params[0]);
+    				result = mManager.getAPIObject().searchManga(params[0], page);
     				break;
     			default:
     				Log.e("MALX", "invalid job identifier " + job.name());
-    				result = null;
     		}
     		
     		/* returning null means there was an error, so return an empty ArrayList if there was no error
@@ -77,8 +75,12 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
     		if ( result == null )
     		    result = new ArrayList<Manga>();
 		} catch (Exception e) {
-		    Log.e("MALX", "error getting mangalist: " + e.getMessage());
-		    result = null;
+			if (e.getMessage() == null){
+				result = new ArrayList<Manga>();
+			}else{
+				Log.e("MALX", "error getting mangalist: " + e.getMessage());
+				result = null;
+			}
 		}
 		return result;
 	}

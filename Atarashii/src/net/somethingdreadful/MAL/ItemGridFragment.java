@@ -39,9 +39,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     private static final double MAL_IMAGE_WIDTH = 225;
     private static final double MAL_IMAGE_HEIGHT = 320;
 
-    public ItemGridFragment() {
-    }
-
     GridView gv;
     MALManager mManager;
     PrefManager mPrefManager;
@@ -49,7 +46,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     CoverAdapter<Anime> ca;
     CoverAdapter<Manga> cm;
     IItemGridFragment Iready;
+
     static boolean forceSyncBool = false;
+    static boolean home = true;
     boolean useTraditionalList = false;
     boolean useSecondaryAmounts = false;
     int currentList;
@@ -62,7 +61,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     TaskJob mode;
     ItemGridFragmentScrollViewListener scrollListener;
     
-
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -72,7 +70,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             useTraditionalList = state.getBoolean("traditionalList");
             useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
         }
-
     }
 
     @SuppressLint("NewApi")
@@ -83,23 +80,26 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         Bundle args = getArguments();
         View layout = inflater.inflate(R.layout.fragment_animelist, null);
         c = layout.getContext();
-
-        mManager = ((Home) getActivity()).mManager;
-        mPrefManager = ((Home) getActivity()).mPrefManager;
-
-        useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
-
-        final String recordType = args.getString("type");
-
-        if (!((Home) getActivity()).instanceExists) {
-            currentList = mPrefManager.getDefaultList();
-            useTraditionalList = mPrefManager.getTraditionalListEnabled();
+        
+        if (home){
+        	mManager = ((Home) getActivity()).mManager;
+        	mPrefManager = ((Home) getActivity()).mPrefManager;
+        	if (!((Home) getActivity()).instanceExists) {
+        		currentList = mPrefManager.getDefaultList();
+        		useTraditionalList = mPrefManager.getTraditionalListEnabled();
+        	}
+        }else{
+        	mPrefManager = ((SearchActivity) getActivity()).mPrefManager;
+        	if (!((SearchActivity) getActivity()).instanceExists) {
+        		currentList = mPrefManager.getDefaultList();
+        		useTraditionalList = mPrefManager.getTraditionalListEnabled();
+        	}
         }
 
+        useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
+        final String recordType = args.getString("type");
         gv = (GridView) layout.findViewById(R.id.gridview);
         
-
-
         if ("anime".equals(recordType)) {
             gv.setOnItemClickListener(new OnItemClickListener() {
                 @Override
@@ -109,8 +109,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
                     startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
 
                     startActivity(startDetails);
-
-                    //				Toast.makeText(context, animeRecordCoverAdapter.getItem(position).getID(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else if ("manga".equals(recordType)) {
@@ -122,7 +120,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
                     startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
 
                     startActivity(startDetails);
-                    //				Toast.makeText(context, animeRecordCoverAdapter.getItem(position).getID(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -157,11 +154,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
                         switch (listType) {
                             case ANIME:
                                 AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
-                                animetask.execute();
+                                animetask.execute(BaseActionBarSearchView.query);
                                 break;
                             case MANGA:
                                 MangaNetworkTask mangatask = new MangaNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
-                                mangatask.execute();
+                                mangatask.execute(BaseActionBarSearchView.query);
                                 break;
                             default:
                                 Log.e("MALX", "invalid list type: " + listType.name());
@@ -277,18 +274,13 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
 	@Override
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
-	    boolean showCrouton = forceSyncBool && job == TaskJob.FORCESYNC;
-
-	    if (job != null && job == TaskJob.FORCESYNC)
-	        forceSyncBool = false;
 
 	    if (result != null) {
 			if (result.size() == 0) {
 				Log.w("MALX", "No manga records returned.");
-			} else {
+			} else if ( job != null && job != TaskJob.GETLIST && job != TaskJob.FORCESYNC ){
 			    // not all jobs return paged results
-                if ( job != null && job != TaskJob.GETLIST && job != TaskJob.FORCESYNC )
-                    scrollListener.notifyMorePages(ListType.MANGA);
+                scrollListener.notifyMorePages(ListType.MANGA);
             }
 	        
 			if (cm == null) {
@@ -308,32 +300,29 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            cm.notifyDataSetChanged();
 	        }
 
-	        if (showCrouton)
+	        if (forceSyncBool)
 	            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
 		} else {
-		    Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+			if (forceSyncBool)
+				Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
         }
 
 	    if (job != null && job == TaskJob.FORCESYNC) {
             NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.cancel(R.id.notification_sync);
+	        forceSyncBool = false;
         }
 	}
 
 	@Override
 	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
-	    boolean showCrouton = forceSyncBool && job == TaskJob.FORCESYNC;
-
-        if (job != null && job == TaskJob.FORCESYNC)
-            forceSyncBool = false;
 
 		if (result != null) {
 			if (result.size() == 0) {
 				Log.w("MALX", "No anime records returned.");
-	        } else {
+	        } else if ( job != null && job != TaskJob.GETLIST && job != TaskJob.FORCESYNC ) {
 	            // not all jobs return paged results
-	            if ( job != null && job != TaskJob.GETLIST && job != TaskJob.FORCESYNC )
-	                scrollListener.notifyMorePages(ListType.ANIME);
+	            scrollListener.notifyMorePages(ListType.ANIME);
 	        }
 
 			if (ca == null) {
@@ -353,15 +342,17 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            ca.notifyDataSetChanged();
 	        }
 
-	        if (showCrouton)
+	        if (forceSyncBool)
 	        	Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
     	} else {
-    	    Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+    		if (forceSyncBool)
+    			Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
         }
 
 		if (job != null && job == TaskJob.FORCESYNC) {
     		NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.cancel(R.id.notification_sync);
+            forceSyncBool = false;
 		}
 	}
 }

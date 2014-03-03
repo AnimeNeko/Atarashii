@@ -287,6 +287,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     @Override
     public void onResume() {
         super.onResume();
+        ItemGridFragment.home = true;
         checkNetworkAndDisplayCrouton();
         if (instanceExists && af.getMode()==null) {
             af.getRecords(af.currentList, "anime", false, Home.this.context);

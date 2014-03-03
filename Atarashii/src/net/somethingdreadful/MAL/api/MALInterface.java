@@ -25,7 +25,7 @@ public interface MALInterface {
 	@GET("/anime/{anime_id}")
 	Anime getAnime(@Path("anime_id") int anime_id);
 	@GET("/anime/search")
-	ArrayList<Anime> searchAnime(@Query("q") String query);
+	ArrayList<Anime> searchAnime(@Query("q") String query, @Query("page") int page);
 	@GET("/anime/popular")
 	ArrayList<Anime> getPopularAnime(@Query("page") int page);
 	@GET("/anime/top")
@@ -50,7 +50,7 @@ public interface MALInterface {
 	@GET("/manga/{manga_id}")
 	Manga getManga(@Path("manga_id") int manga_id);
 	@GET("/manga/search")
-	ArrayList<Manga> searchManga(@Query("q") String query);
+	ArrayList<Manga> searchManga(@Query("q") String query, @Query("page") int page);
 	@GET("/manga/popular")
 	ArrayList<Manga> getPopularManga(@Query("page") int page);
 	@GET("/manga/top")

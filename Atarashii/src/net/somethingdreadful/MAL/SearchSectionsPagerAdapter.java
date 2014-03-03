@@ -15,7 +15,7 @@ public class SearchSectionsPagerAdapter extends HomeSectionsPagerAdapter {
         Fragment fragment;
         Bundle args = new Bundle();
 
-        fragment = new BaseItemGridFragment();
+        fragment = new ItemGridFragment();
         switch (i) {
             case 0:
                 args.putString("type", MALManager.TYPE_ANIME);
