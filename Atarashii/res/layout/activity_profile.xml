@@ -17,7 +17,7 @@
 		    android:layout_marginLeft="8dp"
 		    android:layout_marginRight="8dp"
 		    android:layout_marginTop="8dp"
-		    android:background="@drawable/cardborder"
+		    android:background="@drawable/card"
 		    android:orientation="vertical">
             
 		    <TextView
@@ -56,7 +56,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/cardborder"
+            android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
 
@@ -302,7 +302,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/cardborder"
+            android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
 
@@ -467,7 +467,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/cardborder"
+            android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
 
