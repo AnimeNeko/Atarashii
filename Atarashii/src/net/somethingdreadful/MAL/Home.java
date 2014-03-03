@@ -464,11 +464,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         lcdf.show(fm, "fragment_LogoutConfirmationDialog");
     }
 
-    public void maketext(String string) { //for the private class
-        Crouton.makeText(this, string, Style.INFO).show();
-    }
-
-
     public void checkNetworkAndDisplayCrouton() {
 
         if (!MALApi.isNetworkAvailable(context) && networkAvailable == true) {
@@ -543,12 +538,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             /* do stuff when drawer item is clicked here */
             af.scrollToTop();
             mf.scrollToTop();
-            if (!MALApi.isNetworkAvailable(context)) {
-                if (position==0 || position==1 || position==2){
-                }else{
-                    position = 1;
-                    maketext("No network connection available!");
-                }
+            if (!networkAvailable && position > 2) {
+            	position = 1;
+            	Crouton.makeText(Home.this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
             }
             switch (position){
                 case 0:
