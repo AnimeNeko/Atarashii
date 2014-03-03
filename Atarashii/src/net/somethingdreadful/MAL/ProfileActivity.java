@@ -144,18 +144,6 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		}
     }
     
-    public void Share(boolean anime) {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        if (anime == true){
-        	sharingIntent.putExtra(Intent.EXTRA_TEXT, record.getName() + " " + R.string.share_animelist + record.getName() + "!");
-        }else{
-        	sharingIntent.putExtra(Intent.EXTRA_TEXT, record.getName() + " " + R.string.share_mangalist + record.getName() + "!");
-        }
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-    }
-    
     public void setcolor(boolean type){
     	int Hue = 0;
     	TextView textview = null;
@@ -284,9 +272,12 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     
 	void choosedialog(final boolean share){ //as the name says
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 		if (share == true){
 			builder.setTitle(R.string.share_title);
 			builder.setMessage(R.string.share_message);
+	        sharingIntent.setType("text/plain");
+	        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		}else{
 			builder.setTitle(R.string.view_title);
 			builder.setMessage(R.string.view_message);
@@ -296,7 +287,10 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {
 		        if (share == true){
-		        	Share(true);
+		        	sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_animelist)
+		        			.replace("$name;", record.getName())
+		        			.replace("$username;", prefs.getUser()));
+		        	startActivity(Intent.createChooser(sharingIntent, "Share via"));
 		        }else{
 		        	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + record.getName());
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
@@ -313,7 +307,10 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {
 		    	if (share == true){
-		        	Share(false);
+		    		sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_mangalist)
+		        			.replace("$name;", record.getName())
+		        			.replace("$username;", prefs.getUser()));
+		    		startActivity(Intent.createChooser(sharingIntent, "Share via"));
 		        }else{
 		        	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + record.getName());
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
