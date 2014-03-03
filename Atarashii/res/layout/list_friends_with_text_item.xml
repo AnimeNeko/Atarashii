@@ -2,23 +2,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp" >
-
-    <View
-        android:layout_gravity="left"
-        android:layout_marginTop="37dp"
-        android:layout_marginLeft="63dp"
-        android:layout_marginRight="5dp"
-   		android:layout_width="fill_parent"
-    	android:layout_height="1dp"
-    	android:background="#5E5E5E"/>
     
-    <ImageView
-        android:id="@+id/profileImg"
-        android:layout_width="60dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="left"
-        android:contentDescription="@string/layout_card_loading"
-        android:gravity="center_horizontal" />
+    <LinearLayout
+        android:id="@+id/details_card"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/cardborder"
+        android:orientation="vertical"
+        android:padding="12dp" />
 
     <TextView
         android:id="@+id/userName"
@@ -26,15 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="65dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textColor="#000000"
+        android:textSize="14sp"
         android:textStyle="bold" />
     
     <TextView
@@ -43,24 +38,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp" />
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/since"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginLeft="65dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="35dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="12sp" />
 
     <TextView
@@ -69,10 +64,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:text="@string/layout_card_loading"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="12sp" />
-    
+
+    <ImageView
+        android:id="@+id/profileImg"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_gravity="top|left"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/layout_card_loading"
+        android:gravity="center_horizontal" />
+
 </FrameLayout>
