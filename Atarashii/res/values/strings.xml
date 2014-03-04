@@ -171,20 +171,30 @@
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
-    <string name="preference_category_synchronisation">synchronisation</string>
+    <string name="preference_category_list">List</string>
+    <string name="preference_category_synchronisation">Sync</string>
     <string name="preference_category_sharing">Sharing</string>
-    <string name="preference_category_profile">Profile synchronisation</string>
+    <string name="preference_category_profile">Profile</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_Only_wifi">Sync only using Wi-Fi</string>
     <string name="preference_customShareText">Custom Share Text</string>
+    <string name="preference_displayVolumes">Use Volumes on Covers</string>
     <string name="preference_autosync">Auto-sync interval</string>
+    <string name="preference_profileTextColors">Disable text colours</string>
+    <string name="preference_profileAnimeHide">Hide always anime details</string>
+    <string name="preference_profileMangaHide">Hide always manga details</string>
+    <string name="preference_profileBothHide">Hide automatic anime/manga details</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync on startup.</string>
     <string name="preference_summary_Only_wifi">Atarashii will auto-sync only using Wi-Fi.</string>
     <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
     <string name="preference_summary_autosync">Time until auto-sync will run at a startup.</string>
     <string name="preference_summary_displayVolumes">Display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
+    <string name="preference_summary_profileTextColors">Force the profile page to use black text colour.</string>
+    <string name="preference_summary_profileAnimeHide">Hide the anime details on all profiles.</string>
+    <string name="preference_summary_profileMangaHide">Hide the manga details on all profiles.</string>
+    <string name="preference_summary_profileBothHide">Hide anime/manga details on all profiles when the Total Entries are zero.</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
 
     <!-- Dialog_Status_picker (ListType) Strings -->
