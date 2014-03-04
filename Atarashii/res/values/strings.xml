@@ -36,7 +36,6 @@
     <string name="crouton_info_UserRecord_updated">UserProfile updated!</string>
     <string name="crouton_info_SyncDone">Sync Complete!</string>
     <string name="crouton_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
-    <string name="crouton_info_AccountOK">Account OK!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>

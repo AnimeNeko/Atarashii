@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import net.somethingdreadful.MAL.api.MALApi;
 
 public class FirstTimeInit extends SherlockActivity {
@@ -60,12 +63,11 @@ public class FirstTimeInit extends SherlockActivity {
             public void handleMessage(Message msg) {
                 if (msg.what == 2) {
                     pd.dismiss();
-                    Toast.makeText(context, context.getString(R.string.crouton_error_VerifyProblem), Toast.LENGTH_SHORT).show();
+                    Crouton.makeText(FirstTimeInit.this, R.string.crouton_error_VerifyProblem , Style.ALERT).show();
                 }
                 if (msg.what == 3) {
                     pd.dismiss();
 
-                    Toast.makeText(context, context.getString(R.string.crouton_info_AccountOK), Toast.LENGTH_SHORT).show();
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
                     prefManager.setInit(true);
