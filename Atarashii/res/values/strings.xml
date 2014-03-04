@@ -9,6 +9,7 @@
     <string name="title_activity_detail_view">DetailView</string>
     <string name="title_activity_profile">User profile</string>
     <string name="title_activity_friends">My friends</string>
+    <string name="title_activity_logout">Logout</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
