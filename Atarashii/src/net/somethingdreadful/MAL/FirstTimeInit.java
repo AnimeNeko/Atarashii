@@ -60,12 +60,12 @@ public class FirstTimeInit extends SherlockActivity {
             public void handleMessage(Message msg) {
                 if (msg.what == 2) {
                     pd.dismiss();
-                    Toast.makeText(context, context.getString(R.string.toast_VerifyProblem), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.crouton_error_VerifyProblem), Toast.LENGTH_SHORT).show();
                 }
                 if (msg.what == 3) {
                     pd.dismiss();
 
-                    Toast.makeText(context, context.getString(R.string.toast_AccountOK), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.crouton_info_AccountOK), Toast.LENGTH_SHORT).show();
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
                     prefManager.setInit(true);
@@ -84,7 +84,7 @@ public class FirstTimeInit extends SherlockActivity {
     }
 
     private void tryConnection() {
-        pd = ProgressDialog.show(this, context.getString(R.string.dialog_Verifying), context.getString(R.string.dialog_VerifyingBlurb));
+        pd = ProgressDialog.show(this, context.getString(R.string.dialog_title_Verifying), context.getString(R.string.dialog_message_Verifying));
         netThread = new networkThread();
         netThread.start();
     }

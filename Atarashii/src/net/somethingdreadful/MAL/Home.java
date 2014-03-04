@@ -435,7 +435,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     }
 
     private void syncNotify() {
-        Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
+        Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -445,7 +445,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.crouton_SyncMessage))
+                .setContentText(getString(R.string.crouton_info_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
         myList = true;
@@ -468,7 +468,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     public void checkNetworkAndDisplayCrouton() {
 
         if (!MALApi.isNetworkAvailable(context) && networkAvailable == true) {
-    		Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+    		Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
 
             af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
             mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
@@ -481,7 +481,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 	            myList = true;
 	        }
         } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
-            Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
+            Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
 
             synctask();
 
@@ -541,7 +541,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             mf.scrollToTop();
             if (!networkAvailable && position > 2) {
             	position = 1;
-            	Crouton.makeText(Home.this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+            	Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
             switch (position){
                 case 0:
@@ -692,7 +692,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				}
 			}
 		} else {
-		    Crouton.makeText(this, R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
         }
 	}
 
@@ -722,7 +722,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 				}
 			}
 		} else {
-		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
 		}
 	}
 

@@ -8,7 +8,7 @@
         android:id="@+id/MALScoreLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MAL Score"
+        android:text="@string/card_content_mal_score"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <RatingBar
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/MALScoreBar"
-        android:text="My Score"
+        android:text="@string/card_content_my_score"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <RatingBar

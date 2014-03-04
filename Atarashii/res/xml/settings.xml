@@ -41,28 +41,26 @@
 				android:defaultValue="false"/>
 		</PreferenceScreen>
 		<PreferenceScreen android:key="Synchronisation settings" android:title="Synchronisation settings" android:persistent="false">
-			<PreferenceCategory android:title="@string/preference_category_list">
-				<CheckBoxPreference
-					android:key="synchronisation"
-					android:title="@string/preference_synchronisation"
-					android:summary="@string/preference_summary_synchronisation"
-					android:defaultValue="false"/>
-				<CheckBoxPreference
-					android:key="Only_wifi"
-					android:title="@string/preference_Only_wifi"
-					android:summary="@string/preference_summary_Only_wifi"
-					android:defaultValue="false"
-					android:dependency="synchronisation"/>
-				<ListPreference
-					android:summary="@string/preference_autosync_time_summary"
-					android:dialogTitle="@string/preference_autosync_time_title"
-					android:title="@string/preference_autosync_time_title"
-					android:entries="@array/syncArray"
-					android:entryValues="@array/syncValuesArray"
-					android:key="synchronisation_time"
-					android:defaultValue="@string/preference_autosync_time_default"
-					android:dependency="synchronisation"/>
-			</PreferenceCategory>
+			<CheckBoxPreference
+				android:key="synchronisation"
+				android:title="@string/preference_synchronisation"
+				android:summary="@string/preference_summary_synchronisation"
+				android:defaultValue="false"/>
+			<CheckBoxPreference
+				android:key="Only_wifi"
+				android:title="@string/preference_Only_wifi"
+				android:summary="@string/preference_summary_Only_wifi"
+				android:defaultValue="false"
+				android:dependency="synchronisation"/>
+			<ListPreference
+				android:summary="@string/preference_summary_autosync"
+				android:dialogTitle="@string/preference_autosync"
+				android:title="@string/preference_autosync"
+				android:entries="@array/syncArray"
+				android:entryValues="@array/syncValuesArray"
+				android:key="synchronisation_time"
+				android:defaultValue="10"
+				android:dependency="synchronisation"/>
 	</PreferenceScreen>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference

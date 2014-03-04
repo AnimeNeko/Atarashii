@@ -54,7 +54,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
         setContentView(R.layout.activity_friends);
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
-        setTitle("My friends"); //set title
+        setTitle(R.string.title_activity_friends); //set title
         
         Gridview = (GridView)findViewById(R.id.listview);
         int recource = R.layout.list_friends_with_text_item;
@@ -80,7 +80,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
     
     public void refresh(Boolean crouton){
     	if (crouton == true){
-			Crouton.makeText(this, R.string.toast_SyncDone, Style.CONFIRM).show();
+			Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
     	}
         Gridview.setAdapter(listadapter);	
         listadapter.clear();
@@ -88,9 +88,9 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
         	listadapter.supportAddAll(listarray);
         }catch (Exception e){
         	if (MALApi.isNetworkAvailable(context)){
-    			Crouton.makeText(this, R.string.crouton_UserRecord_noFriends, Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_error_noFriends, Style.ALERT).show();
     		}else{
-    			Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
     		}
         }
         listadapter.notifyDataSetChanged();
@@ -110,11 +110,11 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 			break;
 		case R.id.forceSync:
 			if (MALApi.isNetworkAvailable(context)){
-				Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
+				Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
 				forcesync = true;
 				new FriendsNetworkTask(context, forcesync, this).execute(prefs.getUser());
 			}else{
-				Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
+				Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
 			}
 			break;
 		}
@@ -197,7 +197,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             listarray = result;
             refresh(forcesync); // show crouton only if sync was forced
         } else {
-            Crouton.makeText(this, R.string.crouton_UserRecord_Friends_error, Style.ALERT).show();
+            Crouton.makeText(this, R.string.crouton_error_Friends, Style.ALERT).show();
         }
     }
 }

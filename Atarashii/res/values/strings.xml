@@ -7,8 +7,8 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_detail_view">DetailView</string>
-    <string name="title_activity_logout">Logout</string>
     <string name="title_activity_profile">User profile</string>
+    <string name="title_activity_friends">My friends</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
@@ -17,42 +17,43 @@
     <string name="menu_sortType">Sort</string>
 
     <!-- All (Crouton) Strings -->
-    <string name="crouton_noConnectivityOnRun">No connection detected. Changes will be stored for later sync.</string>
-    <string name="crouton_noConnectivity">No network connection detected.</string>
-    <string name="crouton_connectionRestored">Connection restored. Syncing pending changes.</string>
-    <string name="crouton_noAnimeFound">No anime results found. Maybe refine your query?</string>
-    <string name="crouton_noMangaFound">No manga results found. Maybe refine your query?</string>
-    <string name="crouton_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
-    <string name="crouton_Search_Anime_error">Error while searching for anime records.</string>
-    <string name="crouton_Search_Manga_error">Error while searching for manga records.</string>
-    <string name="crouton_Search_error">Error while searching! Please try again later.</string>
-    <string name="crouton_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
-    <string name="crouton_noUserRecord">This user doesn\'t has an offline record!</string>
-    <string name="crouton_UserRecord_updated">UserProfile updated!</string>
-    <string name="crouton_UserRecord_error">Userprofile is empty!</string>
-    <string name="crouton_UserRecord_noFriends">You have no friends on MAL!</string>
-    <string name="crouton_UserRecord_Friends_error">Sync error while getting friendlist!</string>
-    <string name="crouton_Anime_Sync_error">Sync error while getting animelist!</string>
-    <string name="crouton_Manga_Sync_error">Sync error while getting mangalist!</string>
-    <string name="toast_SyncDone">Sync Complete!</string>
-    <string name="toast_SyncError">Sync Error! The API is currently unavailable.</string>
-    <string name="toast_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
-    <string name="toast_DetailsError">Could not load details, please check your Internet connection.</string>
+    <string name="crouton_error_noConnectivityOnRun">No connection detected. Changes will be stored for later sync.</string>
+    <string name="crouton_error_noConnectivity">No network connection detected.</string>
+    <string name="crouton_error_UserRecord">Userprofile is empty!</string>
+    <string name="crouton_error_Search_Anime">Error while searching for anime records.</string>
+    <string name="crouton_error_Search_Manga">Error while searching for manga records.</string>
+    <string name="crouton_error_Search">Error while searching! Please try again later.</string>
+    <string name="crouton_error_noUserRecord">This user doesn\'t has an offline record!</string>
+    <string name="crouton_error_Anime_Sync">Sync error while getting animelist!</string>
+    <string name="crouton_error_Manga_Sync">Sync error while getting mangalist!</string>
+    <string name="crouton_error_noFriends">You have no friends on MAL!</string>
+    <string name="crouton_error_DetailsError">Could not load details, please check your Internet connection.</string>
+    <string name="crouton_error_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and network connection and try again.</string>
+    <string name="crouton_error_Friends">Sync error while getting friendlist!</string>
+    <string name="crouton_error_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
+    <string name="crouton_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
+    <string name="crouton_info_connectionRestored">Connection restored. Syncing pending changes.</string>
+    <string name="crouton_info_UserRecord_updated">UserProfile updated!</string>
+    <string name="crouton_info_SyncDone">Sync Complete!</string>
+    <string name="crouton_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
+    <string name="crouton_info_AccountOK">Account OK!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_view">View</string>
+    <string name="dialog_title_share">Share</string>
+    <string name="dialog_title_Verifying">Verifying</string>
+    <string name="dialog_title_rating">Rating</string>
+    <string name="dialog_title_logout">Confirm Logout</string>
+    <string name="dialog_message_view">Which list do you want to view?</string>
+    <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
+    <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
+    <string name="dialog_message_share">Which list do you want to share?</string>
+    <string name="dialog_message_Verifying">Making sure your account is OK. Hold tight a sec.</string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_anime">My animelist</string>
     <string name="dialog_label_manga">My mangalist</string>
     <string name="dialog_title_remove">Remove from list</string>
-    <string name="dialog_title_rating">Rating</string>
-    <string name="dialog_logout_title">Confirm Logout</string>
-    <string name="dialog_logout_label_confirm">Logout</string>
-    <string name="dialog_logout_message">Are you sure you wish to logout? This will erase all stored data and images.</string>
-    <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
-    <string name="view_title">View</string>
-    <string name="view_message">Which list do you want to view?</string>
-    <string name="share_title">Share</string>
-    <string name="share_message">Which list do you want to share?</string>
+    <string name="dialog_label_logout">Logout</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -84,15 +85,11 @@
     <string name="layout_card_manga_plan">Plan to read</string>
 
     <!-- FirstTimeInit (Contents) Strings -->
-    <string name="fr_hint_user">MAL Username</string>
-    <string name="fr_hint_pass">MAL Password</string>
-    <string name="fr_action_connect">Connect to MAL</string>
-    <string name="fr_textblurb">Enter your MyAnimeList credentials below:</string>
-    <string name="dialog_Verifying">Verifying</string>
-    <string name="dialog_VerifyingBlurb">Making sure your account is OK. Hold tight a sec.</string>
-    <string name="toast_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and network connection and try again.</string>
-    <string name="toast_AccountOK">Account OK!</string>
-    <string name="fr_noaccount_button">Create an Account</string>
+    <string name="form_hint_user">MAL Username</string>
+    <string name="form_hint_pass">MAL Password</string>
+    <string name="form_hint_info">Enter your MyAnimeList credentials below:</string>
+    <string name="form_action_create">Create an Account</string>
+    <string name="form_action_connect">Connect to MAL</string>
 
     <!-- CoverAdapter (MyList Cover) Strings -->
     <string name="cover_Watching">I\'ve watched:</string>
@@ -102,8 +99,13 @@
     <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="cover_PlanningToRead">Planning to read</string>
-    
-    <!-- Navigation drawer item Strings -->
+    <string name="action_PlusOneWatched">+1 Watched</string>
+    <string name="action_PlusOneRead">+1 Read</string>
+    <string name="action_MarkAsComplete">Mark Completed</string>
+    <string name="label_Chapters">Chapters:</string>
+    <string name="label_Volumes">Volumes:</string>
+
+    <!-- Navigation drawer (item & action) Strings -->
     <string name="nav_item_my_profile">My Profile</string>
     <string name="nav_item_my_list">My List</string>
     <string name="nav_item_my_friends">My Friends</string>
@@ -111,32 +113,28 @@
     <string name="nav_item_most_popular">Most Popular</string>
     <string name="nav_item_just_added">Just Added</string>
     <string name="nav_item_upcoming">Upcoming</string>
-
-    <!--  Various String I don't know where to categorize -->
-    <string name="placeholder_Loading">Loading, just a sec.</string>
-    <string name="action_SetWatched">Update Progress</string>
-    <string name="action_SetScore">Set Score</string>
-    <string name="action_SetStatus">Set Status</string>
-    <string name="action_RefreshEntry">Reload Data</string>
-    <string name="description_CoverImage">Cover Image</string>
-
-    <string name="preference_category_credits">Credits</string>
-    <string name="summary_appcredits">Atarashii! is an open source project. \nTap to view contributors.</string>
-    <string name="summary_MALAPI">Created and provided by Chu Yeow Cheah.</string>
-
-    <string name="action_PlusOneWatched">+1 Watched</string>
-    <string name="action_PlusOneRead">+1 Read</string>
-    <string name="action_MarkAsComplete">Mark Completed</string>
-    <string name="label_Chapters">Chapters:</string>
-    <string name="label_Volumes">Volumes:</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
     <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
     <string name="title_Stats">Stats</string>
     <string name="title_BasicStuff">Cover</string>
 
-    <!-- Home (Contents) Strings -->
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <!-- DetailView (Card names) Strings -->
+    <string name="card_name_synopsis">SYNOPSIS</string>
+    <string name="card_name_progress">PROGRESS</string>
+    <string name="card_name_stats">MAL STATS</string>
+    <string name="card_name_rating">RATING</string>
+    <string name="card_name_status">STATUS</string>
+
+    <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_volumes">Volumes</string>
+    <string name="card_content_chapters">Chapters</string>
+    <string name="card_content_episodes">Episodes</string>
+    <string name="card_content_mal_score">MAL Score</string>
+    <string name="card_content_my_score">My Score</string>
+    <string name="card_content_media_type">Media Type</string>
+    <string name="card_content_media_status">Media Status</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
@@ -173,25 +171,23 @@
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Default List</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
-    <string name="preference_TraditionalList">Use Traditional List</string>
-    <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
-    <string name="preference_summary_displayVolumes">Display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
-    <string name="preference_category_synchronisationSettings">synchronisation</string>
-    <string name="preference_synchronisation">Auto-synchronisation</string>
-    <string name="preference_summary_synchronisation">If checked, Atarashii will sync on startup.</string>
-    <string name="preference_Only_wifi">Sync only using Wi-Fi</string>
-    <string name="preference_summary_Only_wifi">Atarashii will auto-sync only using Wi-Fi.</string>
+    <string name="preference_category_synchronisation">synchronisation</string>
     <string name="preference_category_sharing">Sharing</string>
-    <string name="preference_customShareText">Custom Share Text</string>
-    <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
-    <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
-    <string name="preference_autosync_time_title">Auto-sync interval</string>
-    <string name="preference_autosync_time_summary">Time until auto-sync will run at a startup.</string>
-    <string name="preference_autosync_time_default">10</string>
-    <string name="preference_category_list">List synchronisation</string>
     <string name="preference_category_profile">Profile synchronisation</string>
+    <string name="preference_synchronisation">Auto-synchronisation</string>
+    <string name="preference_TraditionalList">Use Traditional List</string>
+    <string name="preference_Only_wifi">Sync only using Wi-Fi</string>
+    <string name="preference_customShareText">Custom Share Text</string>
+    <string name="preference_autosync">Auto-sync interval</string>
+    <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
+    <string name="preference_summary_synchronisation">If checked, Atarashii will sync on startup.</string>
+    <string name="preference_summary_Only_wifi">Atarashii will auto-sync only using Wi-Fi.</string>
+    <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
+    <string name="preference_summary_autosync">Time until auto-sync will run at a startup.</string>
+    <string name="preference_summary_displayVolumes">Display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
+    <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
 
-    <!-- Settings (ListType) Strings -->
+    <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">Everything</string>
     <string name="listType_onhold">On Hold</string>
     <string name="listType_dropped">Dropped</string>

@@ -301,10 +301,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        }
 
 	        if (forceSyncBool)
-	            Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
+	            Crouton.makeText((Activity)c, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
 		} else {
 			if (forceSyncBool)
-				Crouton.makeText(this.getActivity(), R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+				Crouton.makeText(this.getActivity(), R.string.crouton_error_Manga_Sync, Style.ALERT).show();
         }
 
 	    if (job != null && job == TaskJob.FORCESYNC) {
@@ -343,10 +343,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        }
 
 	        if (forceSyncBool)
-	        	Crouton.makeText((Activity)c, R.string.toast_SyncDone, Style.CONFIRM).show();
+	        	Crouton.makeText((Activity)c, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
     	} else {
     		if (forceSyncBool)
-    			Crouton.makeText(this.getActivity(), R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+    			Crouton.makeText(this.getActivity(), R.string.crouton_error_Anime_Sync, Style.ALERT).show();
         }
 
 		if (job != null && job == TaskJob.FORCESYNC) {
