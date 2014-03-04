@@ -28,7 +28,7 @@
         android:layout_alignBaseline="@+id/progressVolumesCountCurrent"
         android:layout_alignBottom="@+id/progressCountCurrent"
         android:layout_alignParentLeft="true"
-        android:text="Volumes"
+        android:text="@string/card_content_volumes"
         android:textSize="28sp" />
 
     <TextView
@@ -57,7 +57,7 @@
         android:layout_alignBaseline="@+id/progressCountCurrent"
         android:layout_alignBottom="@+id/progressCountCurrent"
         android:layout_alignParentLeft="true"
-        android:text="Chapters"
+        android:text="@string/card_content_chapters"
         android:textSize="28sp" />
 
 </RelativeLayout>

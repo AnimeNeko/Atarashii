@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="8dp"
-        android:text="Media Type"
+        android:text="@string/card_content_media_type"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/mediaTypeLabel"
         android:layout_marginTop="8dp"
-        android:text="Media Status"
+        android:text="@string/card_content_media_status"
         android:textSize="18sp"
         android:textStyle="bold" />
 

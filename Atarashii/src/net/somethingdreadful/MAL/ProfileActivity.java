@@ -78,7 +78,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
                 break;
             case R.id.forceSync:
             	if (MALApi.isNetworkAvailable(context)){
-            		Crouton.makeText(this, R.string.crouton_SyncMessage, Style.INFO).show();
+            		Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
             		forcesync = true;
             		String username;
             		if (record != null)
@@ -87,7 +87,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
             		    username = getIntent().getStringExtra("username");
             		new UserNetworkTask(context, forcesync, this).execute(username);
             	}else{
-            		Crouton.makeText(this, R.string.crouton_noConnectivity, Style.ALERT).show();
+            		Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             	}
                 break;
             case R.id.action_ViewMALPage:
@@ -251,13 +251,13 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     
     public void refresh(Boolean crouton){
     	if (crouton == true){
-			Crouton.makeText(this, R.string.crouton_UserRecord_updated, Style.CONFIRM).show();
+			Crouton.makeText(this, R.string.crouton_info_UserRecord_updated, Style.CONFIRM).show();
     	}
     	if (record == null){
     		if (!MALApi.isNetworkAvailable(context)){
-    			Crouton.makeText(this, R.string.crouton_noUserRecord , Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_error_noUserRecord , Style.ALERT).show();
     		}else{
-    			Crouton.makeText(this, R.string.crouton_UserRecord_error , Style.ALERT).show();
+    			Crouton.makeText(this, R.string.crouton_error_UserRecord , Style.ALERT).show();
     		}
     	}else{
 			Picasso.with(context).load(record.getProfile().getAvatarUrl())
@@ -274,13 +274,13 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		final Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 		if (share == true){
-			builder.setTitle(R.string.share_title);
-			builder.setMessage(R.string.share_message);
+			builder.setTitle(R.string.dialog_title_share);
+			builder.setMessage(R.string.dialog_message_share);
 	        sharingIntent.setType("text/plain");
 	        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		}else{
-			builder.setTitle(R.string.view_title);
-			builder.setMessage(R.string.view_message);
+			builder.setTitle(R.string.dialog_title_view);
+			builder.setMessage(R.string.dialog_message_view);
 		}
 
 		builder.setPositiveButton(R.string.dialog_label_anime, new DialogInterface.OnClickListener() { 

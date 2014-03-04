@@ -120,7 +120,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         bfrag = (DetailsBasicFragment) fm.findFragmentById(R.id.DetailsFragment);
 
         SynopsisFragment = (GenericCardFragment) fm.findFragmentById(R.id.SynopsisFragment);
-        SynopsisFragment.setArgsSensibly("SYNOPSIS", R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
+        SynopsisFragment.setArgsSensibly(getString(R.string.card_name_synopsis), R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
         SynopsisFragment.inflateContentStub();
 
 
@@ -129,7 +129,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         if ("manga".equals(recordType)) {
             card_layout_progress = R.layout.card_layout_progress_manga;
         }
-        ProgressFragment.setArgsSensibly("PROGRESS", card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
+        ProgressFragment.setArgsSensibly(getString(R.string.card_name_progress), card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
         ProgressFragment.inflateContentStub();
 
         ProgressFragment.getView().setOnClickListener(new OnClickListener() {
@@ -143,11 +143,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         });
 
         StatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.StatusFragment);
-        StatusFragment.setArgsSensibly("MAL STATS", R.layout.card_layout_status, GenericCardFragment.CONTENT_TYPE_INFO, false);
+        StatusFragment.setArgsSensibly(getString(R.string.card_name_stats), R.layout.card_layout_status, GenericCardFragment.CONTENT_TYPE_INFO, false);
         StatusFragment.inflateContentStub();
 
         ScoreFragment = (GenericCardFragment) fm.findFragmentById(R.id.ScoreFragment);
-        ScoreFragment.setArgsSensibly("RATING", R.layout.card_layout_score, GenericCardFragment.CONTENT_TYPE_SCORE, true);
+        ScoreFragment.setArgsSensibly(getString(R.string.card_name_rating), R.layout.card_layout_score, GenericCardFragment.CONTENT_TYPE_SCORE, true);
         ScoreFragment.inflateContentStub();
 
         ScoreFragment.getView().setOnClickListener(new OnClickListener() {
@@ -162,7 +162,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         });
 
         WatchStatusFragment = (GenericCardFragment) fm.findFragmentById(R.id.WatchStatusFragment);
-        WatchStatusFragment.setArgsSensibly("STATUS", R.layout.card_layout_watchstatus, GenericCardFragment.CONTENT_TYPE_WATCHSTATUS, true);
+        WatchStatusFragment.setArgsSensibly(getString(R.string.card_name_status), R.layout.card_layout_watchstatus, GenericCardFragment.CONTENT_TYPE_WATCHSTATUS, true);
         WatchStatusFragment.inflateContentStub();
 
         WatchStatusFragment.getView().setOnClickListener(new OnClickListener() {
@@ -602,7 +602,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 }
             } else {
                 // if gr is null then the anime/manga is not stored in the database and could not be loaded from the API (e. g. no network connection)
-                Toast.makeText(context, R.string.toast_DetailsError, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.crouton_error_DetailsError, Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

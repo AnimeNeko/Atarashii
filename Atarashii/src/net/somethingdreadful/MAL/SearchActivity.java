@@ -197,10 +197,10 @@ implements IItemGridFragment, ActionBar.TabListener,
 				af.setAnimeRecords(result);
 				SearchActivity.this.af.scrollListener.notifyMorePages(ListType.ANIME);
 			} else {
-				Crouton.makeText(this, R.string.crouton_nothingFound, Style.ALERT).show();
+				Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
 			}
 		} else if (!animeError) {
-		    Crouton.makeText(this, R.string.crouton_Anime_Sync_error, Style.ALERT).show();
+		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
 		    animeError = true;
         }
 	}
@@ -212,7 +212,7 @@ implements IItemGridFragment, ActionBar.TabListener,
 				SearchActivity.this.mf.scrollListener.notifyMorePages(ListType.MANGA);	
 			}
 		} else if (!mangaError) {
-		    Crouton.makeText(this, R.string.crouton_Manga_Sync_error, Style.ALERT).show();
+		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
 		    mangaError = true;
 		}
 	}

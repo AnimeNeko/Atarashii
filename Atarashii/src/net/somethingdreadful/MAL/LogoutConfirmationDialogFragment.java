@@ -21,7 +21,7 @@ public class LogoutConfirmationDialogFragment extends SherlockDialogFragment {
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton(R.string.dialog_logout_label_confirm, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.dialog_label_logout, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 ((Home) getActivity()).onLogoutConfirmed();
@@ -34,7 +34,7 @@ public class LogoutConfirmationDialogFragment extends SherlockDialogFragment {
                 dismiss();
             }
         })
-        .setTitle(R.string.dialog_logout_title).setMessage(R.string.dialog_logout_message);
+        .setTitle(R.string.dialog_title_logout).setMessage(R.string.dialog_message_logout);
 
         return builder.create();
     }
