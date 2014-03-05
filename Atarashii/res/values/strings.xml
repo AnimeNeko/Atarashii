@@ -160,7 +160,7 @@
     <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">Implemented search functionality. </string>
+    <string name="contributor_apkawa_summary">Implemented search functionality.</string>
     <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
     <string name="contributor_dsko_summary">Implemented retrofit for API handling.</string>
     <string name="community_card_title">Atarashii Community</string>
@@ -245,13 +245,13 @@
         <item>30 minutes</item>
         <item>60 minutes</item>
         <item>2 Hours</item>
-	<item>4 Hours</item>
-	<item>6 Hours</item>
-	<item>8 Hours</item>
-	<item>10 Hours</item>
-	<item>12 Hours</item>
-	<item>24 Hours</item>
-	<item>48 Hours</item>
+        <item>4 Hours</item>
+        <item>6 Hours</item>
+        <item>8 Hours</item>
+        <item>10 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+        <item>48 Hours</item>
     </string-array>
     <string-array name="syncValuesArray">
         <item>5</item>
@@ -260,12 +260,13 @@
         <item>30</item>
         <item>60</item>
         <item>120</item>
-	<item>240</item>
-	<item>360</item>
-	<item>480</item>
-	<item>600</item>
-	<item>720</item>
-	<item>1440</item>
-	<item>2880</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+        <item>600</item>
+        <item>720</item>
+        <item>1440</item>
+        <item>2880</item>
     </string-array>
+
 </resources>

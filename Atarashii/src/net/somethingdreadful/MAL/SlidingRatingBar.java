@@ -7,54 +7,52 @@ import android.widget.RatingBar;
 
 public class SlidingRatingBar extends RatingBar {
 
-    float prevX;
-    Context c;
+	float prevX;
+	Context c;
 
-    IUpdateRatingText passer;
+	IUpdateRatingText passer;
 
-    public SlidingRatingBar(Context context) {
-        super(context);
+	public SlidingRatingBar(Context context) {
+		super(context);
 
-        c = context;
-    }
+		c = context;
+	}
 
-    public SlidingRatingBar(Context context, AttributeSet aSet) {
-        super(context, aSet);
+	public SlidingRatingBar(Context context, AttributeSet aSet) {
+		super(context, aSet);
 
-        c = context;
-    }
+		c = context;
+	}
 
-    public void setPasser(RatingPickerDialogFragment ratingPickerDialogFragment) {
-        passer = ratingPickerDialogFragment;
-    }
+	public void setPasser(RatingPickerDialogFragment ratingPickerDialogFragment) {
+		passer = ratingPickerDialogFragment;
+	}
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		super.onTouchEvent(event);
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                if (isPressed()) {
-                    final float x = event.getX();
-                    final float THRESHOLD = (float)0.5;
-                    if (Math.abs(x - prevX) > THRESHOLD) {
-                        passer.updateRatingText(getProgress());
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_MOVE:
+			if (isPressed()) {
+				final float x = event.getX();
+				final float THRESHOLD = (float) 0.5;
+				if (Math.abs(x - prevX) > THRESHOLD) {
+					passer.updateRatingText(getProgress());
 
-                    }
-                    prevX = x;
-                }
-                break;
-             case MotionEvent.ACTION_DOWN:
-            	passer.updateRatingText(getProgress());
-            	break;
-        }
-        return true;
-    }
+				}
+				prevX = x;
+			}
+			break;
+		case MotionEvent.ACTION_DOWN:
+			passer.updateRatingText(getProgress());
+			break;
+		}
+		return true;
+	}
 
-    public interface IUpdateRatingText {
-        void updateRatingText(int rating);
-    }
-
-
+	public interface IUpdateRatingText {
+		void updateRatingText(int rating);
+	}
 
 }
