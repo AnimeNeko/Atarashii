@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class DetailsStatsFragment extends Fragment {
-    public DetailsStatsFragment() {
-    }
+	public DetailsStatsFragment() {
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setGravity(Gravity.CENTER);
-        textView.setText("STATS HERE");
-        return textView;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		TextView textView = new TextView(getActivity());
+		textView.setGravity(Gravity.CENTER);
+		textView.setText("STATS HERE");
+		return textView;
+	}
 }

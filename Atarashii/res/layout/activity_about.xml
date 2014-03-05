@@ -48,7 +48,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/card"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="12dp" >
 
             <TextView
                 android:id="@+id/contributors_card_title"
@@ -104,7 +104,7 @@
                 android:layout_marginBottom="16dp"
                 android:paddingLeft="8dp"
                 android:text="@string/contributor_apkawa_summary" />
-            
+
             <TextView
                 android:id="@+id/contributor_dsko_name"
                 android:layout_width="wrap_content"
@@ -143,13 +143,13 @@
                 android:textSize="18sp" />
 
             <TextView
-                style="@style/TextViewLightFont"
                 android:id="@+id/community_card_content"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/community"/>
+                android:text="@string/community" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:id="@+id/acknowledgements_card"
             android:layout_width="match_parent"

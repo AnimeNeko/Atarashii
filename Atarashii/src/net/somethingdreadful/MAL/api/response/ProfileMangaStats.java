@@ -6,82 +6,83 @@ import java.util.List;
 import android.database.Cursor;
 
 public class ProfileMangaStats {
-    private int completed;
-    private int dropped;
-    private int on_hold;
-    private int plan_to_read;
-    private int reading;
-    private Double time_days;
-    private int total_entries;
-    
-    public static ProfileMangaStats fromCursor(Cursor c) {
-        ProfileMangaStats result = new ProfileMangaStats();
+	private int completed;
+	private int dropped;
+	private int on_hold;
+	private int plan_to_read;
+	private int reading;
+	private Double time_days;
+	private int total_entries;
 
-        List<String> columnNames = Arrays.asList(c.getColumnNames());
-        result.setCompleted(c.getInt(columnNames.indexOf("manga_completed")));
-        result.setDropped(c.getInt(columnNames.indexOf("manga_dropped")));
-        result.setOnHold(c.getInt(columnNames.indexOf("manga_on_hold")));
-        result.setPlanToRead(c.getInt(columnNames.indexOf("manga_plan_to_read")));
-        result.setTimeDays(c.getDouble(columnNames.indexOf("manga_time_days")));
-        result.setTotalEntries(c.getInt(columnNames.indexOf("manga_total_entries")));
-        result.setReading(c.getInt(columnNames.indexOf("manga_reading")));
+	public static ProfileMangaStats fromCursor(Cursor c) {
+		ProfileMangaStats result = new ProfileMangaStats();
 
-        return result;
-    }
+		List<String> columnNames = Arrays.asList(c.getColumnNames());
+		result.setCompleted(c.getInt(columnNames.indexOf("manga_completed")));
+		result.setDropped(c.getInt(columnNames.indexOf("manga_dropped")));
+		result.setOnHold(c.getInt(columnNames.indexOf("manga_on_hold")));
+		result.setPlanToRead(c.getInt(columnNames.indexOf("manga_plan_to_read")));
+		result.setTimeDays(c.getDouble(columnNames.indexOf("manga_time_days")));
+		result.setTotalEntries(c.getInt(columnNames
+				.indexOf("manga_total_entries")));
+		result.setReading(c.getInt(columnNames.indexOf("manga_reading")));
 
-    public int getCompleted() {
-        return completed;
-    }
+		return result;
+	}
 
-    public void setCompleted(int completed) {
-        this.completed = completed;
-    }
+	public int getCompleted() {
+		return completed;
+	}
 
-    public int getDropped() {
-        return dropped;
-    }
+	public void setCompleted(int completed) {
+		this.completed = completed;
+	}
 
-    public void setDropped(int dropped) {
-        this.dropped = dropped;
-    }
+	public int getDropped() {
+		return dropped;
+	}
 
-    public int getOnHold() {
-        return on_hold;
-    }
+	public void setDropped(int dropped) {
+		this.dropped = dropped;
+	}
 
-    public void setOnHold(int on_hold) {
-        this.on_hold = on_hold;
-    }
+	public int getOnHold() {
+		return on_hold;
+	}
 
-    public int getPlanToRead() {
-        return plan_to_read;
-    }
+	public void setOnHold(int on_hold) {
+		this.on_hold = on_hold;
+	}
 
-    public void setPlanToRead(int plan_to_read) {
-        this.plan_to_read = plan_to_read;
-    }
+	public int getPlanToRead() {
+		return plan_to_read;
+	}
 
-    public int getReading() {
-        return reading;
-    }
+	public void setPlanToRead(int plan_to_read) {
+		this.plan_to_read = plan_to_read;
+	}
 
-    public void setReading(int reading) {
-        this.reading = reading;
-    }
+	public int getReading() {
+		return reading;
+	}
 
-    public Double getTimeDays() {
-        return time_days;
-    }
+	public void setReading(int reading) {
+		this.reading = reading;
+	}
 
-    public void setTimeDays(Double time_days) {
-        this.time_days = time_days;
-    }
+	public Double getTimeDays() {
+		return time_days;
+	}
 
-    public int getTotalEntries() {
-        return total_entries;
-    }
+	public void setTimeDays(Double time_days) {
+		this.time_days = time_days;
+	}
 
-    public void setTotalEntries(int total_entries) {
-        this.total_entries = total_entries;
-    }
+	public int getTotalEntries() {
+		return total_entries;
+	}
+
+	public void setTotalEntries(int total_entries) {
+		this.total_entries = total_entries;
+	}
 }

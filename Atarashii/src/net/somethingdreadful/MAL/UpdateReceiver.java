@@ -7,10 +7,11 @@ import android.widget.Toast;
 
 public class UpdateReceiver extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(Context context, Intent receivedIntent) {
-        Toast.makeText(context, "Created by UpdateReceiver!", Toast.LENGTH_SHORT).show();
+	@Override
+	public void onReceive(Context context, Intent receivedIntent) {
+		Toast.makeText(context, "Created by UpdateReceiver!",
+				Toast.LENGTH_SHORT).show();
 
-    }
+	}
 
 }

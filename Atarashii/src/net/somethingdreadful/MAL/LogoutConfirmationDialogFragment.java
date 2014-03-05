@@ -10,41 +10,47 @@ import android.view.ContextThemeWrapper;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class LogoutConfirmationDialogFragment extends SherlockDialogFragment {
-    public LogoutConfirmationDialogFragment() {}
+	public LogoutConfirmationDialogFragment() {
+	}
 
-    public interface LogoutConfirmationDialogListener {
-        void onLogoutConfirmed();
-    }
+	public interface LogoutConfirmationDialogListener {
+		void onLogoutConfirmed();
+	}
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
+		Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
+				getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton(R.string.dialog_label_logout, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                ((Home) getActivity()).onLogoutConfirmed();
-                dismiss();
-            }
-        })
-        .setNegativeButton(R.string.dialog_label_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dismiss();
-            }
-        })
-        .setTitle(R.string.dialog_title_logout).setMessage(R.string.dialog_message_logout);
+		builder.setPositiveButton(R.string.dialog_label_logout,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int whichButton) {
+						((Home) getActivity()).onLogoutConfirmed();
+						dismiss();
+					}
+				})
+				.setNegativeButton(R.string.dialog_label_cancel,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								dismiss();
+							}
+						}).setTitle(R.string.dialog_title_logout)
+				.setMessage(R.string.dialog_message_logout);
 
-        return builder.create();
-    }
+		return builder.create();
+	}
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {}
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+	}
 
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        this.dismiss();
-    }
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		this.dismiss();
+	}
 
 }

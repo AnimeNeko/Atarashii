@@ -52,6 +52,6 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
-    }
+		return false;
+	}
 }
