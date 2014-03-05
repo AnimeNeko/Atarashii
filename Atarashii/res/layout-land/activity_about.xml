@@ -31,11 +31,11 @@
 
             <TextView
                 android:id="@+id/app_description"
+                style="@style/TextViewLightFont"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="@string/app_description"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -58,6 +58,7 @@
 
                 <TextView
                     android:id="@+id/contributors_card_title"
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -73,6 +74,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -87,6 +89,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -101,6 +104,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -115,6 +119,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
@@ -136,6 +141,7 @@
 
             <TextView
                 android:id="@+id/community_card_title"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -145,6 +151,7 @@
 
             <TextView
                 android:id="@+id/community_card_content"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/community"/>
@@ -168,6 +175,7 @@
 
                 <TextView
                     android:id="@+id/acknowledgements_card_title"
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -177,6 +185,7 @@
 
                 <TextView
                     android:id="@+id/acknowledgements_card_content"
+                    style="@style/TextViewLightFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/acknowledgements" />

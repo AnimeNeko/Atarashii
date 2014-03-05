@@ -22,6 +22,7 @@
             
 		    <TextView
 		        android:id="@+id/name_text"
+		        style="@style/TextViewLightFont"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center"
@@ -62,6 +63,7 @@
 
             <TextView
                 android:id="@+id/details_title"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -75,6 +77,7 @@
 
     						<TextView
     						    android:id="@+id/birthdayfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -84,6 +87,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/birthdaysmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@+id/birthdayfront"
@@ -93,6 +97,7 @@
 
     						<TextView
     						    android:id="@+id/locationfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -103,6 +108,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/locationsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/locationfront"
@@ -112,6 +118,7 @@
     						
     						<TextView
     						    android:id="@+id/websitefront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -123,6 +130,7 @@
 
     						<TextView
     						    android:id="@+id/websitesmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/websitefront"
@@ -132,6 +140,7 @@
     						
     						<TextView
     						    android:id="@+id/commentsfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -142,6 +151,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/commentspostssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/commentsfront"
@@ -152,6 +162,7 @@
     						
     						<TextView
     						    android:id="@+id/forumpostsfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -162,6 +173,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/forumpostssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/forumpostsfront"
@@ -172,6 +184,7 @@
     						
     						<TextView
     						    android:id="@+id/lastonlinefront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -182,6 +195,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/lastonlinesmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/lastonlinefront"
@@ -192,6 +206,7 @@
     						
     						<TextView
     						    android:id="@+id/genderfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -202,6 +217,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/gendersmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/genderfront"
@@ -212,6 +228,7 @@
     						
     						<TextView
     						    android:id="@+id/joindatefront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -222,6 +239,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/joindatesmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/joindatefront"
@@ -232,6 +250,7 @@
     						
     						<TextView
     						    android:id="@+id/accessrankfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -243,6 +262,7 @@
 
     						<TextView
     						    android:id="@+id/accessranksmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/accessrankfront"
@@ -253,6 +273,7 @@
     						
     						<TextView
     						    android:id="@+id/animelistviewsfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -263,6 +284,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/animelistviewssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/animelistviewsfront"
@@ -273,6 +295,7 @@
     						
     						<TextView
     						    android:id="@+id/mangalistviewsfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -284,6 +307,7 @@
 
     						<TextView
     						    android:id="@+id/mangalistviewssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentBottom="true"
@@ -308,6 +332,7 @@
 
             <TextView
                 android:id="@+id/Anime_card_title"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -321,6 +346,7 @@
 
     						<TextView
     						    android:id="@+id/atimedaysfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -330,6 +356,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/atimedayssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@+id/atimedaysfront"
@@ -339,6 +366,7 @@
 
     						<TextView
     						    android:id="@+id/awatchingfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -349,6 +377,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/awatchingsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/awatchingfront"
@@ -358,6 +387,7 @@
     						
     						<TextView
     						    android:id="@+id/acompletedfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -368,6 +398,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/acompletedpostssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/acompletedfront"
@@ -378,6 +409,7 @@
     						
     						<TextView
     						    android:id="@+id/aonholdfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -388,6 +420,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/aonholdsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/aonholdfront"
@@ -398,6 +431,7 @@
     						
     						<TextView
     						    android:id="@+id/adroppedfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -408,6 +442,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/adroppedsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/adroppedfront"
@@ -418,6 +453,7 @@
     						
     						<TextView
     						    android:id="@+id/aplantowatchfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -428,6 +464,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/aplantowatchsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/aplantowatchfront"
@@ -438,6 +475,7 @@
     						
     						<TextView
     						    android:id="@+id/atotalentriesfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -448,6 +486,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/atotalentriessmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/atotalentriesfront"
@@ -473,6 +512,7 @@
 
             <TextView
                 android:id="@+id/Manga_card_title"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -486,6 +526,7 @@
 
     						<TextView
     						    android:id="@+id/mtimedaysfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -495,6 +536,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/mtimedayssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@+id/mtimedaysfront"
@@ -504,6 +546,7 @@
 
     						<TextView
     						    android:id="@+id/mwatchingfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -514,6 +557,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/mwatchingsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/mwatchingfront"
@@ -523,6 +567,7 @@
     						
     						<TextView
     						    android:id="@+id/mcompletedfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -533,6 +578,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/mcompletedpostssmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/mcompletedfront"
@@ -543,6 +589,7 @@
     						
     						<TextView
     						    android:id="@+id/monholdfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -553,6 +600,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/monholdsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/monholdfront"
@@ -563,6 +611,7 @@
     						
     						<TextView
     						    android:id="@+id/mdroppedfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -573,6 +622,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/mdroppedsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/mdroppedfront"
@@ -583,6 +633,7 @@
     						
     						<TextView
     						    android:id="@+id/mplantowatchfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -593,6 +644,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/mplantowatchsmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/mplantowatchfront"
@@ -603,6 +655,7 @@
     						
     						<TextView
     						    android:id="@+id/mtotalentriesfront"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignParentLeft="true"
@@ -613,6 +666,7 @@
     						    android:textStyle="bold" />
     						<TextView
     						    android:id="@+id/mtotalentriessmall"
+    						    style="@style/TextViewLightFont"
     						    android:layout_width="wrap_content"
     						    android:layout_height="wrap_content"
     						    android:layout_alignBaseline="@id/mtotalentriesfront"

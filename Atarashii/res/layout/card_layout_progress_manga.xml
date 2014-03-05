@@ -5,6 +5,7 @@
 
     <TextView
         android:id="@+id/progressVolumesCountTotal"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/progressVolumesCountCurrent"
@@ -14,6 +15,7 @@
 
     <TextView
         android:id="@+id/progressVolumesCountCurrent"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,6 +25,7 @@
 
     <TextView
         android:id="@+id/cardVolumesLabel"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/progressVolumesCountCurrent"
@@ -33,6 +36,7 @@
 
     <TextView
         android:id="@+id/progressCountTotal"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/progressCountCurrent"
@@ -42,6 +46,7 @@
 
     <TextView
         android:id="@+id/progressCountCurrent"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="false"
@@ -52,6 +57,7 @@
 
     <TextView
         android:id="@+id/cardEpisodesLabel"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/progressCountCurrent"
