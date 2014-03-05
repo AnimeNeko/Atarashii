@@ -1,5 +1,21 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_Share" android:title="@string/action_Share" android:showAsAction="always|withText" android:icon="@drawable/ic_action_share"></item>
-    <item android:id="@+id/action_ViewMALPage" android:icon="@drawable/ic_location_web_site" android:showAsAction="ifRoom" android:title="@string/action_viewMALPage"></item>
-    <item android:id="@+id/action_Remove" android:showAsAction="never" android:title="@string/action_Remove"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_Share"
+        android:icon="@drawable/ic_action_share"
+        android:showAsAction="always|withText"
+        android:title="@string/action_Share">
+    </item>
+    <item
+        android:id="@+id/action_ViewMALPage"
+        android:icon="@drawable/ic_location_web_site"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_viewMALPage">
+    </item>
+    <item
+        android:id="@+id/action_Remove"
+        android:showAsAction="never"
+        android:title="@string/action_Remove">
+    </item>
+
 </menu>

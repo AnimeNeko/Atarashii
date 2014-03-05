@@ -16,105 +16,111 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
-    View view;
+	View view;
 
-    NumberPicker picker;
+	NumberPicker picker;
 
-    int totalEpisodes;
-    int watchedEpisodes;
-    int pickerValue;
+	int totalEpisodes;
+	int watchedEpisodes;
+	int pickerValue;
 
-    public EpisodesPickerDialogFragment() {
+	public EpisodesPickerDialogFragment() {
 
-    }
+	}
 
-    public interface DialogDismissedListener {
-        void onDialogDismissed(int newValue);
-    }
+	public interface DialogDismissedListener {
+		void onDialogDismissed(int newValue);
+	}
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.v("MALX", "onCreateDialog Fired");
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		Log.v("MALX", "onCreateDialog Fired");
 
-        view = View.inflate(new ContextThemeWrapper(getActivity(), R.style.AlertDialog), R.layout.dialog_episode_picker, null);
+		view = View.inflate(new ContextThemeWrapper(getActivity(),
+				R.style.AlertDialog), R.layout.dialog_episode_picker, null);
 
-        Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
+		Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
+				getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                ((DetailView) getActivity()).onDialogDismissed(picker.getValue());
-                dismiss();
-            }
-        }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle("I've watched:");
+		builder.setPositiveButton("Update",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int whichButton) {
+						((DetailView) getActivity()).onDialogDismissed(picker
+								.getValue());
+						dismiss();
+					}
+				})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								dismiss();
+							}
+						}).setView(view).setTitle("I've watched:");
 
-        return builder.create();
+		return builder.create();
 
-    }
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        //        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle state) {
+		// View view = inflater.inflate(R.layout.dialog_episode_picker,
+		// container);
 
-        if (state == null) {
-            totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
-            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getWatchedEpisodes();
-            pickerValue = watchedEpisodes;
+		if (state == null) {
+			totalEpisodes = ((DetailView) getActivity()).animeRecord
+					.getEpisodes();
+			watchedEpisodes = ((DetailView) getActivity()).animeRecord
+					.getWatchedEpisodes();
+			pickerValue = watchedEpisodes;
 
-        } else {
-            totalEpisodes = state.getInt("totalEpisodes");
-            watchedEpisodes = state.getInt("watchedEpisodes");
-            pickerValue = state.getInt("pickerValue");
-        }
+		} else {
+			totalEpisodes = state.getInt("totalEpisodes");
+			watchedEpisodes = state.getInt("watchedEpisodes");
+			pickerValue = state.getInt("pickerValue");
+		}
 
+		picker = (NumberPicker) view.findViewById(R.id.episodesWatchedPicker);
 
-        picker = (NumberPicker) view.findViewById(R.id.episodesWatchedPicker);
+		// getDialog().setTitle("I've watched:");
 
-        //     getDialog().setTitle("I've watched:");
+		picker.setMinValue(0);
 
-        picker.setMinValue(0);
+		if (totalEpisodes != 0) {
+			picker.setMaxValue(totalEpisodes);
+		} else {
+			picker.setMaxValue(999);
+		}
 
-        if (totalEpisodes != 0) {
-            picker.setMaxValue(totalEpisodes);
-        } else {
-            picker.setMaxValue(999);
-        }
+		picker.setWrapSelectorWheel(false);
 
-        picker.setWrapSelectorWheel(false);
+		picker.setValue(pickerValue);
+		Log.v("MALX", "onCreateView Finished");
+		return null;
+	}
 
-        picker.setValue(pickerValue);
-        Log.v("MALX", "onCreateView Finished");
-        return null;
-    }
+	@Override
+	public void onDismiss(DialogInterface dialog) {
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
+	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
 
-    }
+		this.dismiss();
+	}
 
-    @Override
-    public void onCancel(DialogInterface dialog) {
+	@Override
+	public void onSaveInstanceState(Bundle state) {
 
-        this.dismiss();
-    }
+		state.putInt("totalEpisodes", totalEpisodes);
+		state.putInt("watchedEpisodes", watchedEpisodes);
+		state.putInt("pickerValue", picker.getValue());
 
-    @Override
-    public void onSaveInstanceState(Bundle state) {
-
-        state.putInt("totalEpisodes", totalEpisodes);
-        state.putInt("watchedEpisodes", watchedEpisodes);
-        state.putInt("pickerValue", picker.getValue());
-
-        super.onSaveInstanceState(state);
-    }
-
+		super.onSaveInstanceState(state);
+	}
 
 }

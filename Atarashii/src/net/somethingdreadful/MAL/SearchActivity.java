@@ -12,7 +12,6 @@ import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 

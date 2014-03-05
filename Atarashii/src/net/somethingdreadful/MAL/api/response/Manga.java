@@ -20,34 +20,43 @@ public class Manga extends GenericRecord {
 	public int getChapters() {
 		return chapters;
 	}
+
 	public void setChapters(int chapters) {
 		this.chapters = chapters;
 	}
+
 	public int getVolumes() {
 		return volumes;
 	}
+
 	public void setVolumes(int volumes) {
 		this.volumes = volumes;
 	}
+
 	public String getReadStatus() {
 		return read_status;
 	}
+
 	public void setReadStatus(String read_status) {
 		this.read_status = read_status;
 	}
+
 	public int getChaptersRead() {
 		return chapters_read;
 	}
+
 	public void setChaptersRead(int chapters_read) {
 		this.chapters_read = chapters_read;
 	}
+
 	public int getVolumesRead() {
 		return volumes_read;
 	}
+
 	public void setVolumesRead(int volumes_read) {
 		this.volumes_read = volumes_read;
 	}
-	
+
 	public static Manga fromCursor(Cursor c) {
 		Manga result = new Manga();
 		result.setCreatedFromCursor(true);
@@ -65,7 +74,7 @@ public class Manga extends GenericRecord {
 		result.setScore(c.getInt(columnNames.indexOf("myScore")));
 		result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
 		result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
-		result.setDirty(c.getInt(columnNames.indexOf("dirty"))>0);
+		result.setDirty(c.getInt(columnNames.indexOf("dirty")) > 0);
 		Date lastUpdateDate;
 		try {
 			long lastUpdate = c.getLong(columnNames.indexOf("lastUpdate"));
@@ -76,18 +85,18 @@ public class Manga extends GenericRecord {
 		result.setLastUpdate(lastUpdateDate);
 		return result;
 	}
-	
+
 	public int getProgress(boolean useSecondaryAmount) {
 		return useSecondaryAmount ? getVolumesRead() : getChaptersRead();
 	}
-	
+
 	public void setProgress(boolean useSecondaryAmount, int progress) {
-		if ( useSecondaryAmount )
+		if (useSecondaryAmount)
 			setVolumesRead(progress);
 		else
 			setChaptersRead(progress);
 	}
-	
+
 	public int getTotal(boolean useSecondaryAmount) {
 		return useSecondaryAmount ? getVolumes() : getChapters();
 	}
