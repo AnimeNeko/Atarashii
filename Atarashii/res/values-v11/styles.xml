@@ -5,7 +5,7 @@
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
         <item name="android:windowBackground">@color/bg_light</item>
     </style>
-    
+
     <style name="AtarashiiDarkBg" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
         <item name="android:windowBackground">@color/bg_dark</item>

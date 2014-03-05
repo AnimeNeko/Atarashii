@@ -6,68 +6,68 @@ import java.util.List;
 import android.database.Cursor;
 
 public class Profile {
-    private int id;
-    private String avatar_url;
-    private ProfileDetails details;
+	private int id;
+	private String avatar_url;
+	private ProfileDetails details;
 
-    private ProfileAnimeStats anime_stats;
-    private ProfileMangaStats manga_stats;
-    
-    public static Profile fromCursor(Cursor c) {
-        return fromCursor(c, false);
-    }
+	private ProfileAnimeStats anime_stats;
+	private ProfileMangaStats manga_stats;
 
-    public static Profile fromCursor(Cursor c, boolean friendDetails) {
-        Profile result = new Profile();
+	public static Profile fromCursor(Cursor c) {
+		return fromCursor(c, false);
+	}
 
-        List<String> columnNames = Arrays.asList(c.getColumnNames());
-        result.setAvatarUrl(c.getString(columnNames.indexOf("avatar_url")));
-        // friends profile is less detailed
-        result.setDetails(ProfileDetails.fromCursor(c, friendDetails));
-        if ( !friendDetails ) {
-            result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
-            result.setMangaStats(ProfileMangaStats.fromCursor(c));
-        }
-        return result;
-    }
-    
-    public int getId() {
-        return id;
-    }
+	public static Profile fromCursor(Cursor c, boolean friendDetails) {
+		Profile result = new Profile();
 
-    public void setId(int id) {
-        this.id = id;
-    }
+		List<String> columnNames = Arrays.asList(c.getColumnNames());
+		result.setAvatarUrl(c.getString(columnNames.indexOf("avatar_url")));
+		// friends profile is less detailed
+		result.setDetails(ProfileDetails.fromCursor(c, friendDetails));
+		if (!friendDetails) {
+			result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
+			result.setMangaStats(ProfileMangaStats.fromCursor(c));
+		}
+		return result;
+	}
 
-    public String getAvatarUrl() {
-        return avatar_url;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setAvatarUrl(String avatarurl) {
-        this.avatar_url = avatarurl;
-    }
-    
-    public ProfileDetails getDetails() {
-        return details;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setDetails(ProfileDetails details) {
-        this.details = details;
-    }
+	public String getAvatarUrl() {
+		return avatar_url;
+	}
 
-    public ProfileAnimeStats getAnimeStats() {
-        return anime_stats;
-    }
+	public void setAvatarUrl(String avatarurl) {
+		this.avatar_url = avatarurl;
+	}
 
-    public void setAnimeStats(ProfileAnimeStats animestats) {
-        this.anime_stats = animestats;
-    }
+	public ProfileDetails getDetails() {
+		return details;
+	}
 
-    public ProfileMangaStats getMangaStats() {
-        return manga_stats;
-    }
+	public void setDetails(ProfileDetails details) {
+		this.details = details;
+	}
 
-    public void setMangaStats(ProfileMangaStats mangastats) {
-        this.manga_stats = mangastats;
-    }
+	public ProfileAnimeStats getAnimeStats() {
+		return anime_stats;
+	}
+
+	public void setAnimeStats(ProfileAnimeStats animestats) {
+		this.anime_stats = animestats;
+	}
+
+	public ProfileMangaStats getMangaStats() {
+		return manga_stats;
+	}
+
+	public void setMangaStats(ProfileMangaStats mangastats) {
+		this.manga_stats = mangastats;
+	}
 }
