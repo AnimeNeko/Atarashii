@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="bg_dark">#333333</color>
-    <color name="bg_light">#EEEEEE</color>    
-
-    <color name="card_shadow">#dbdbdb</color>
-    <color name="card_shadow2">#e1e1e1</color>
-    <color name="card_content">#ffffff</color>
-    <color name="card_content_pressed">#f8f8f8</color>
-    
     <style name="AtarashiiLightBg" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
         <item name="android:windowBackground">@color/bg_light</item>
     </style>
-    
+
     <style name="AtarashiiDarkBg" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
         <item name="android:windowBackground">@color/bg_dark</item>
