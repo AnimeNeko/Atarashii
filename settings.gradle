@@ -1,0 +1,4 @@
+include ':Atarashii'
+include ':sherlocknavdrawer'
+
+project(':sherlocknavdrawer').projectDir = new File(rootDir, '/third-party/SherlockNavDrawer/SherlockNavigationDrawer')
