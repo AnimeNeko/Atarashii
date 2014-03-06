@@ -166,7 +166,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             			Status.setBackgroundColor(Color.parseColor("#D10000"));
             		}
             		TextView since = (TextView) view.findViewById(R.id.since);
-            		since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : "unknown");
+            		since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : getString(R.string.unknown));
             		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
             		lastonline.setText(last_online);
             		Picasso picasso =  Picasso.with(context);
