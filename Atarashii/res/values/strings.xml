@@ -144,6 +144,35 @@
     <string name="action_Share">Share</string>
     <string name="action_Remove">Remove from list</string>
     <string name="action_AddToList">Add to list</string>
+    
+    <!-- DetailView (Media info) Strings -->
+    <string-array name="mediaType_Anime">
+        <item>TV</item>
+        <item>Movie</item>
+        <item>OVA</item>
+        <item>ONA</item>
+        <item>Special</item>
+        <item>Music</item>
+    </string-array>
+    <string-array name="mediaType_Manga">
+        <item>Manga</item>
+        <item>Novel</item>
+        <item>One Shot</item>
+        <item>Doujin</item>
+        <item>Manwha</item>
+        <item>Manhua</item>
+        <item>OEL</item>
+    </string-array>
+    <string-array name="mediaStatus_Anime">
+        <item>finished airing</item>
+        <item>currently airing</item>
+        <item>not yet aired</item>
+    </string-array>
+    <string-array name="mediaStatus_Manga">
+        <item>finished</item>
+        <item>publishing</item>
+        <item>not yet published</item>
+    </string-array>
 
     <!-- AndroidManifest (Unknown) Strings -->
     <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
