@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="0dp">
+    android:layout_height="fill_parent">
 
     <GridView
         android:id="@+id/listview"
@@ -14,9 +13,10 @@
         android:gravity="center"
         android:horizontalSpacing="2dp"
         android:numColumns="auto_fit"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
+        android:clipToPadding="false"
         android:stretchMode="columnWidth"
+        android:padding="16dp"
+        android:scrollbarStyle="outsideOverlay"
         android:verticalSpacing="1dp" >
 
     </GridView>

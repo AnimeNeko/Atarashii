@@ -159,13 +159,11 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             		}
             		String last_online = record.getProfile().getDetails().getLastOnline();
             		//Set online or offline status
-            		TextView Status = (TextView) view.findViewById(R.id.status);
+            		View Status = (View) view.findViewById(R.id.status);
             		if (last_online.equals("Now")){
-            			Status.setText("Online");
-            			Status.setTextColor(Color.parseColor("#0D8500"));
+            			Status.setBackgroundColor(Color.parseColor("#0D8500"));
             		}else{
-            			Status.setText("Offline");
-            			Status.setTextColor(Color.parseColor("#D10000"));
+            			Status.setBackgroundColor(Color.parseColor("#D10000"));
             		}
             		TextView since = (TextView) view.findViewById(R.id.since);
             		since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : "unknown");
