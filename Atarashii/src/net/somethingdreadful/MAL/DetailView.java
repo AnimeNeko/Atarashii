@@ -407,9 +407,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     private String getAnimeStatusString(int statusInt) {
         return getStringFromResourceArray(R.array.mediaStatus_Anime, R.string.unknown, statusInt);
     }
-    
-    
-    
+
     private String getMangaTypeString(int typeInt) {
         return getStringFromResourceArray(R.array.mediaType_Manga, R.string.unknown, typeInt);
     }
