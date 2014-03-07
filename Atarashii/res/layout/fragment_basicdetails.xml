@@ -18,6 +18,7 @@
 
             <ImageView
                 android:id="@+id/detailCoverImage"
+                android:background="@drawable/card"
                 android:layout_width="225dp"
                 android:layout_height="320dp"
                 android:layout_centerHorizontal="true"
@@ -25,8 +26,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:contentDescription="@string/layout_card_loading"
-                android:paddingBottom="8dp"
-                android:paddingRight="8dp"
+                android:paddingBottom="5dp"
                 android:scaleType="centerCrop" />
 
             <fragment
