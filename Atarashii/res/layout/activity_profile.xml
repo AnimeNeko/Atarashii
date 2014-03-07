@@ -7,37 +7,26 @@
         android:id="@+id/profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="left"
         android:padding="8dp" >
 
+        <!-- Profile picture -->
 		<LinearLayout
 		    android:id="@+id/name_card"
-		    android:layout_width="match_parent"
+		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_centerHorizontal="true"
 		    android:layout_marginLeft="8dp"
 		    android:layout_marginRight="8dp"
 		    android:layout_marginTop="8dp"
+		    android:layout_marginBottom="4dp"
 		    android:background="@drawable/card"
 		    android:orientation="vertical">
-            
-		    <TextView
-		        android:id="@+id/name_text"
-		        style="@style/TextViewLightFont"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:paddingBottom="5dp"
-		        android:text="@string/layout_card_loading"
-		        android:textColor="#0099CC"
-		        android:textSize="20sp" />
-
-		</LinearLayout>
-			<!-- Profile picture -->
-
+		    
             <ImageView
                 android:id="@+id/Image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/name_card"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -46,17 +35,31 @@
                 android:gravity="center_horizontal"
                 android:minHeight="80dp"
                 android:padding="8dp" />
+            
+		    <TextView
+		        android:id="@+id/name_text"
+		        style="@style/TextViewLightFont"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:paddingBottom="8dp"
+		        android:text="@string/layout_card_loading"
+		        android:textColor="#0099CC"
+		        android:textSize="20sp" />
+
+		</LinearLayout>
 
 		<!-- Details card -->
         <LinearLayout
             android:id="@+id/details_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/Image"
+            android:layout_below="@id/name_card"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+		    android:layout_marginBottom="4dp"
             android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
@@ -326,6 +329,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+		    android:layout_marginBottom="4dp"
             android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
@@ -506,6 +510,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+		    android:layout_marginBottom="4dp"
             android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
