@@ -43,12 +43,16 @@
     <string name="dialog_title_Verifying">Verifying</string>
     <string name="dialog_title_rating">Rating</string>
     <string name="dialog_title_logout">Confirm Logout</string>
+    <string name="dialog_title_watched_update">I\'ve watched</string>
+    <string name="dialog_title_read_update">I\'ve read</string>
+    <string name="dialog_title_status">Status</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
     <string name="dialog_message_share">Which list do you want to share?</string>
     <string name="dialog_message_Verifying">Making sure your account is OK. Hold tight a sec.</string>
     <string name="dialog_label_cancel">Cancel</string>
+    <string name="dialog_label_update">Update</string>
     <string name="dialog_label_anime">My animelist</string>
     <string name="dialog_label_manga">My mangalist</string>
     <string name="dialog_title_remove">Remove from list</string>

@@ -42,14 +42,14 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onRatingDialogDismissed(rating);
                 dismiss();
             }
         }
-        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        ).setNegativeButton(R.string.dialog_label_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 dismiss();
