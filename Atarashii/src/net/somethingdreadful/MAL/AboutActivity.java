@@ -34,6 +34,16 @@ public class AboutActivity extends SherlockActivity {
         
         NfcHelper.disableBeam(this);
     }
+    
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
