@@ -11,13 +11,13 @@
         android:layout_height="fill_parent"
         android:columnWidth="300dp"
         android:gravity="center"
-        android:horizontalSpacing="2dp"
         android:numColumns="auto_fit"
         android:clipToPadding="false"
         android:stretchMode="columnWidth"
         android:padding="16dp"
         android:scrollbarStyle="outsideOverlay"
-        android:verticalSpacing="1dp" >
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp" >
 
     </GridView>
 </LinearLayout>
