@@ -178,6 +178,17 @@
         <item>not yet published</item>
     </string-array>
 
+    <!-- Anime/Manga progress status strings -->
+    <string-array name="mediaStatus_User">
+        <item>Completed</item>
+        <item>On-hold</item>
+        <item>Dropped</item>
+        <item>Watching</item>
+        <item>Plan to watch</item>
+        <item>Reading</item>
+        <item>Plan to read</item>
+    </string-array>
+
     <!-- AndroidManifest (Unknown) Strings -->
     <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
     <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access your MyAnimeList account</string>

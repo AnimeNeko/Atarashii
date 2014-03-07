@@ -54,6 +54,10 @@ public class Anime extends GenericRecord {
 	    };
 	    return Arrays.asList(status).indexOf(getStatus());
 	}
+
+    public int getWatchedStatusInt() {
+       return getUserStatusInt(getWatchedStatus());
+    }
 	
 	public static Anime fromCursor(Cursor c) {
 		Anime result = new Anime();

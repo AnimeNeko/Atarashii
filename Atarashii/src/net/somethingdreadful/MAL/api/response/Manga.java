@@ -69,6 +69,10 @@ public class Manga extends GenericRecord {
         };
         return Arrays.asList(status).indexOf(getStatus());
     }
+
+    public int getReadStatusInt() {
+        return getUserStatusInt(getReadStatus());
+    }
 	
 	public static Manga fromCursor(Cursor c) {
 		Manga result = new Manga();

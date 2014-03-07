@@ -418,6 +418,10 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         return getStringFromResourceArray(R.array.mediaStatus_Manga, R.string.unknown, statusInt);
     }
 
+    private String getUserStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_User, R.string.unknown, statusInt);
+    }
+
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericRecord> {
         int mRecordID;
         MALManager mMalManager;
@@ -488,7 +492,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 ProgressText = Integer.toString(animeRecord.getWatchedEpisodes());
                 TotalProgressText = Integer.toString(animeRecord.getEpisodes());
-                MyStatusText = WordUtils.capitalize(animeRecord.getWatchedStatus());
+                MyStatusText = getUserStatusString(animeRecord.getWatchedStatusInt());
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
@@ -533,7 +537,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 VolumeTotalText = Integer.toString(mangaRecord.getVolumes());
                 ProgressText = Integer.toString(mangaRecord.getChaptersRead());
                 TotalProgressText = Integer.toString(mangaRecord.getChapters());
-                MyStatusText = WordUtils.capitalize(mangaRecord.getReadStatus());
+                MyStatusText = getUserStatusString(mangaRecord.getReadStatusInt());
 
 
                 ProgressCurrentVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountCurrent);
