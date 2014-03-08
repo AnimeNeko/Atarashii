@@ -87,7 +87,14 @@ public class MALApi extends BaseMALApi {
 		} catch (MalformedURLException e) {
 			Log.e(TAG, "Something went wrong, returning an empty list instead of null", e);
 			response = new RestResult<String>();
+			response.result = "[]";
 		}
+
+		//Did we get an error? If so, just return a blank list.
+		if(response.result.indexOf("error") >= 0) {
+			response.result = "[]";
+		}
+
 		return responseToJSONArray(response);
 	}
 
