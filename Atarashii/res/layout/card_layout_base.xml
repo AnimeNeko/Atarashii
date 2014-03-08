@@ -26,8 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/CardTitle"
         android:layout_below="@+id/CardTitle"
-        android:layout_marginTop="8dp"
-        android:inflatedId="@+id/inflatedStub" />
+        android:layout_marginTop="8dp"/>
 
     <ImageView
         android:id="@+id/actionableIcon"
