@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -159,6 +160,19 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		}
     	textview.setTextColor(Color.HSVToColor(new float[]{ Hue , 1, (float) 0.7 }));
     }
+
+    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+        Resources res = getResources();
+        try {
+            String[] types = res.getStringArray(resArrayId);
+            if (index < 0 || index >= types.length ) // make sure to have a valid array index
+                return res.getString(notFoundStringId);
+            else
+                return types[index];
+        } catch (Resources.NotFoundException e){
+            return res.getString(notFoundStringId);
+        }
+    }
     
     public void Settext(){
     	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
@@ -192,7 +206,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		else
 		    tv5.setText("-");
 		TextView tv6 = (TextView) findViewById(R.id.gendersmall);
-		tv6.setText(record.getProfile().getDetails().getGender());
+		tv6.setText(getStringFromResourceArray(R.array.gender,R.string.not_specified,record.getProfile().getDetails().getGenderInt()));
 		TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
 		if (record.getProfile().getDetails().getJoinDate() != null ) 
             tv7.setText(record.getProfile().getDetails().getJoinDate());

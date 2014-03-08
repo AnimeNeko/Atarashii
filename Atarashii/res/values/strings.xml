@@ -90,6 +90,10 @@
     <string name="layout_card_manga_plan">Plan to read</string>
     <string name="action_viewListOnMAL">View list on MAL</string>
     <string name="not_specified">not specified</string>
+    <string-array name="gender">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
     
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Friends since</string>
