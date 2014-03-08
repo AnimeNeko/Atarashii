@@ -18,9 +18,9 @@
               android:layout_width="240dp"
               android:layout_height="match_parent"
               android:layout_gravity="left"
-              android:listSelector="@android:color/white"
+              android:listSelector="@color/apptheme_dark"
               android:choiceMode="singleChoice"
-              android:background="#333333"
+              android:background="@color/apptheme_stacked"
               />
     
     

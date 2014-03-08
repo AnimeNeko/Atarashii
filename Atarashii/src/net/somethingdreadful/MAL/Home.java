@@ -134,7 +134,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             mActionBar = createActionBarHelper();
             mActionBar.init();
 
-            mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_light, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
@@ -601,9 +601,9 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
 			mPreviousView = mActiveView;
 			if (mPreviousView != null)
-				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+				mPreviousView.setBackgroundColor(getResources().getColor(R.color.apptheme_stacked)); //dark color
 			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+			mActiveView.setBackgroundColor(getResources().getColor(R.color.apptheme_accent)); //blue color
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}

@@ -26,12 +26,11 @@
     <application
             android:icon="@drawable/icon"
             android:label="@string/app_name"
-            android:theme="@style/AtarashiiLightBg"
+            android:theme="@style/Theme.Atarashii"
             >
         <activity
                 android:name=".Home"
-                android:label="@string/app_name"
-                android:theme="@style/AtarashiiDarkBg">
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

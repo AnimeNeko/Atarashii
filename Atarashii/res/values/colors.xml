@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="apptheme_main">#008ab8</color>
+    <color name="apptheme_accent">#0099cc</color>
+    <color name="apptheme_stacked">#474747</color>
+   	<color name="apptheme_dark">#333333</color>
     <color name="bg_dark">#333333</color>
     <color name="bg_light">#EEEEEE</color>
     <color name="card_shadow">#dbdbdb</color>
     <color name="card_shadow2">#e1e1e1</color>
     <color name="card_content">#ffffff</color>
     <color name="card_content_pressed">#f8f8f8</color>
+    <color name="searchview_text">#FFFFFF</color>
+    <color name="searchview_hint">#EEEEEE</color>
 
 </resources>
