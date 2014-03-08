@@ -9,9 +9,18 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class AboutActivity extends SherlockActivity {
 
+    PrefManager mPrefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPrefManager = new PrefManager(getApplicationContext());
+        
+        if(mPrefManager.getTheme() != 0) {
+    		this.setTheme(mPrefManager.getTheme());
+    	}
+        
         setContentView(R.layout.activity_about);
 
         setTitle(R.string.title_activity_about);

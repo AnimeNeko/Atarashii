@@ -1,11 +1,12 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.api.MALApi.ListType;
 import android.content.Intent;
+import android.widget.AutoCompleteTextView;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.widget.SearchView;
-
-import net.somethingdreadful.MAL.api.MALApi.ListType;
 
 public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         implements SearchView.OnQueryTextListener {
@@ -18,6 +19,11 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         mSearchView.setQueryHint(getString(R.string.search_prompt));
         mSearchView.setOnQueryTextListener(this);
+        
+        AutoCompleteTextView mSearchTextView = (AutoCompleteTextView) mSearchView.findViewById(R.id.abs__search_src_text);
+        mSearchTextView.setTextColor(getResources().getColor(R.color.searchview_text));
+        mSearchTextView.setHintTextColor(getResources().getColor(R.color.searchview_hint));
+        
         if (SearchActivity.class.isInstance(this)) {
             mSearchView.setIconifiedByDefault(false);
         }

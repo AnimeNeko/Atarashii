@@ -35,17 +35,26 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     LinearLayout animecard;
     LinearLayout mangacard;
     User record;
+    PrefManager mPrefManager;
     
     boolean forcesync = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
+        
+        mPrefManager = new PrefManager(context);
+        
+        if(mPrefManager.getTheme() != 0) {
+    		this.setTheme(mPrefManager.getTheme());
+    	}
+        
         setContentView(R.layout.activity_profile);
+        
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
         
-        context = getApplicationContext();
         mManager = new MALManager(context);
         prefs = new PrefManager(context);
         animecard =(LinearLayout)findViewById(R.id.Anime_card);

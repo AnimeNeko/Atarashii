@@ -78,7 +78,8 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             Bundle savedInstanceState) {
 
         Bundle args = getArguments();
-        View layout = inflater.inflate(R.layout.fragment_animelist, null);
+        mPrefManager = new PrefManager(getActivity());
+        View layout = inflater.inflate(mPrefManager.getListStyle(), null);
         c = layout.getContext();
         
         if (home){
@@ -194,9 +195,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     public void setAnimeRecords(ArrayList<Anime> objects){
     	CoverAdapter<Anime> adapter = ca;
     	if (adapter == null){
-    		int list_cover_item = R.layout.grid_cover_with_text_item;
+    		int list_cover_item = mPrefManager.getListItemStyle("grid");
     		if (useTraditionalList){
-    			list_cover_item = R.layout.list_cover_with_text_item;
+    			list_cover_item = mPrefManager.getListItemStyle("list");
     		}
     		adapter = new CoverAdapter<Anime>(c,list_cover_item,objects,mManager, MALManager.TYPE_ANIME,this.gridCellHeight,useSecondaryAmounts);
     		
@@ -216,9 +217,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     public void setMangaRecords(ArrayList<Manga> objects) {
         CoverAdapter<Manga> adapter = cm;
         if (adapter == null) {
-            int list_cover_item = R.layout.grid_cover_with_text_item;
+            int list_cover_item = mPrefManager.getListItemStyle("grid");
             if (useTraditionalList) {
-                list_cover_item = R.layout.list_cover_with_text_item;
+                list_cover_item = mPrefManager.getListItemStyle("list");
             }
             adapter = new CoverAdapter<Manga>(c, list_cover_item, objects, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
         }
@@ -285,9 +286,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	        
 			if (cm == null) {
 	            if (useTraditionalList) {
-	                cm = new CoverAdapter<Manga>(c, R.layout.list_cover_with_text_item, result, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
+	                cm = new CoverAdapter<Manga>(c, mPrefManager.getListItemStyle("list"), result, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
 	            } else {
-	                cm = new CoverAdapter<Manga>(c, R.layout.grid_cover_with_text_item, result, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
+	                cm = new CoverAdapter<Manga>(c, mPrefManager.getListItemStyle("grid"), result, mManager, MALManager.TYPE_MANGA, this.gridCellHeight, useSecondaryAmounts);
 	            }
 	        }
 	
@@ -327,9 +328,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
 			if (ca == null) {
 	            if (useTraditionalList) {
-	                ca = new CoverAdapter<Anime>(c, R.layout.list_cover_with_text_item, result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
+	                ca = new CoverAdapter<Anime>(c, mPrefManager.getListItemStyle("list"), result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
 	            } else {
-	                ca = new CoverAdapter<Anime>(c, R.layout.grid_cover_with_text_item, result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
+	                ca = new CoverAdapter<Anime>(c, mPrefManager.getListItemStyle("grid"), result, mManager, MALManager.TYPE_ANIME, this.gridCellHeight, useSecondaryAmounts);
 	            }
 	        }
 	

@@ -32,15 +32,20 @@ public class FirstTimeInit extends SherlockActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
+
+        prefManager = new PrefManager(context);
+        
+        if(prefManager.getTheme() != 0) {
+    		this.setTheme(prefManager.getTheme());
+    	}
+        
         setContentView(R.layout.firstrun);
 
         malUser = (EditText) findViewById(R.id.edittext_malUser);
         malPass = (EditText) findViewById(R.id.edittext_malPass);
         Button connectButton = (Button) findViewById(R.id.button_connectToMal);
         Button registerButton = (Button) findViewById(R.id.registerButton);
-        context = getApplicationContext();
-
-        prefManager = new PrefManager(context);
 
         connectButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {

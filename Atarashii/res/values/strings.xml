@@ -230,6 +230,7 @@
     <string name="preference_category_synchronisation">Sync</string>
     <string name="preference_category_sharing">Sharing</string>
     <string name="preference_category_profile">Profile</string>
+    <string name="preference_category_ui">User Interface</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_Only_wifi">Sync only using Wi-Fi</string>
@@ -239,6 +240,7 @@
     <string name="preference_profileTextColors">Disable text colours</string>
     <string name="preference_profileAnimeHide">Hide always anime details</string>
     <string name="preference_profileMangaHide">Hide always manga details</string>
+    <string name="preference_theme">Theme</string>
     <string name="preference_profileBothHide">Hide automatic anime/manga details</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync on startup.</string>
@@ -251,7 +253,8 @@
     <string name="preference_summary_profileMangaHide">Hide the manga details on all profiles.</string>
     <string name="preference_summary_profileBothHide">Hide anime/manga details on all profiles when the Total Entries are zero.</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
-
+    <string name="preference_summary_theme">Application color scheme. Requires restart to take effect.</string>
+    
     <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">Everything</string>
     <string name="listType_onhold">On Hold</string>
@@ -323,5 +326,15 @@
 	<item>720</item>
 	<item>1440</item>
 	<item>2880</item>
+    </string-array>
+    
+    <!-- Settings (ThemePreference Entries) Items -->
+    <string-array name="themesArray">
+        <item>Light/Blue</item>
+        <item>Dark/Blue</item>
+    </string-array>
+    <string-array name="themesValuesArray">
+        <item>light-blue</item>
+        <item>dark-blue</item>
     </string-array>
 </resources>
