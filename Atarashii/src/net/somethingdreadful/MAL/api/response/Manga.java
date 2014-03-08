@@ -48,6 +48,32 @@ public class Manga extends GenericRecord {
 		this.volumes_read = volumes_read;
 	}
 	
+	public int getTypeInt() {
+        String[] types = {
+            "Manga",
+            "Novel",
+            "One Shot",
+            "Doujin",
+            "Manwha",
+            "Manhua",
+            "OEL"
+        };
+        return Arrays.asList(types).indexOf(getType());
+    }
+    
+    public int getStatusInt() {
+        String[] status = {
+            "finished",
+            "publishing",
+            "not yet published"
+        };
+        return Arrays.asList(status).indexOf(getStatus());
+    }
+
+    public int getReadStatusInt() {
+        return getUserStatusInt(getReadStatus());
+    }
+	
 	public static Manga fromCursor(Cursor c) {
 		Manga result = new Manga();
 		result.setCreatedFromCursor(true);

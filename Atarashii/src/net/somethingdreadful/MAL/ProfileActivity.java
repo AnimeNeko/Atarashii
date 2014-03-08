@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -140,7 +141,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     		tv11.setTextColor(Color.parseColor("#002EAB"));
     	}
     	if (User.isDeveloperRecord(name)) {
-			tv8.setText("Atarashii developer"); //Developer
+			tv8.setText(R.string.access_rank_atarashii_developer); //Developer
 		}
     }
     
@@ -159,17 +160,30 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		}
     	textview.setTextColor(Color.HSVToColor(new float[]{ Hue , 1, (float) 0.7 }));
     }
+
+    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+        Resources res = getResources();
+        try {
+            String[] types = res.getStringArray(resArrayId);
+            if (index < 0 || index >= types.length ) // make sure to have a valid array index
+                return res.getString(notFoundStringId);
+            else
+                return types[index];
+        } catch (Resources.NotFoundException e){
+            return res.getString(notFoundStringId);
+        }
+    }
     
     public void Settext(){
     	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
     	if (record.getProfile().getDetails().getBirthday() == null){
-    		tv1.setText("Not specified");
+    		tv1.setText(R.string.not_specified);
     	}else{
     		tv1.setText(record.getProfile().getDetails().getBirthday());
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
 		if (record.getProfile().getDetails().getLocation() == null){
-    		tv2.setText("Not specified");
+    		tv2.setText(R.string.not_specified);
     	}else{
     		tv2.setText(record.getProfile().getDetails().getLocation());
     	}
@@ -192,7 +206,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		else
 		    tv5.setText("-");
 		TextView tv6 = (TextView) findViewById(R.id.gendersmall);
-		tv6.setText(record.getProfile().getDetails().getGender());
+		tv6.setText(getStringFromResourceArray(R.array.gender,R.string.not_specified,record.getProfile().getDetails().getGenderInt()));
 		TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
 		if (record.getProfile().getDetails().getJoinDate() != null ) 
             tv7.setText(record.getProfile().getDetails().getJoinDate());
@@ -290,7 +304,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		        	sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_animelist)
 		        			.replace("$name;", record.getName())
 		        			.replace("$username;", prefs.getUser()));
-		        	startActivity(Intent.createChooser(sharingIntent, "Share via"));
+		        	startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
 		        }else{
 		        	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + record.getName());
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
@@ -310,7 +324,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		    		sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_mangalist)
 		        			.replace("$name;", record.getName())
 		        			.replace("$username;", prefs.getUser()));
-		    		startActivity(Intent.createChooser(sharingIntent, "Share via"));
+		    		startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
 		        }else{
 		        	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + record.getName());
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));

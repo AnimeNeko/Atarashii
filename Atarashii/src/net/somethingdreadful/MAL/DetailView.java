@@ -12,6 +12,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -385,6 +386,39 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         }
         mpdf.show(fm, "fragment_EditMangaProgressDialog");
     }
+    
+    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+        Resources res = getResources();
+        try {
+            String[] types = res.getStringArray(resArrayId);
+            if (index < 0 || index >= types.length ) // make sure to have a valid array index
+                return res.getString(notFoundStringId);
+            else
+                return types[index];
+        } catch (Resources.NotFoundException e){
+            return res.getString(notFoundStringId);
+        }
+    }
+    
+    private String getAnimeTypeString(int typeInt) {
+        return getStringFromResourceArray(R.array.mediaType_Anime, R.string.unknown, typeInt);
+    }
+    
+    private String getAnimeStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_Anime, R.string.unknown, statusInt);
+    }
+
+    private String getMangaTypeString(int typeInt) {
+        return getStringFromResourceArray(R.array.mediaType_Manga, R.string.unknown, typeInt);
+    }
+    
+    private String getMangaStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_Manga, R.string.unknown, statusInt);
+    }
+
+    private String getUserStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_User, R.string.unknown, statusInt);
+    }
 
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericRecord> {
         int mRecordID;
@@ -456,7 +490,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 ProgressText = Integer.toString(animeRecord.getWatchedEpisodes());
                 TotalProgressText = Integer.toString(animeRecord.getEpisodes());
-                MyStatusText = WordUtils.capitalize(animeRecord.getWatchedStatus());
+                MyStatusText = getUserStatusString(animeRecord.getWatchedStatusInt());
 
                 ProgressCurrentView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountCurrent);
                 ProgressTotalView = (TextView) ProgressFragment.getView().findViewById(R.id.progressCountTotal);
@@ -467,8 +501,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
                 }
 
-                RecordStatusText = WordUtils.capitalize(animeRecord.getStatus());
-                RecordTypeText = WordUtils.capitalize(animeRecord.getType());
+                RecordStatusText = getAnimeStatusString(animeRecord.getStatusInt());
+                RecordTypeText = getAnimeTypeString(animeRecord.getTypeInt());
                 MemberScore = animeRecord.getMembersScore();
                 MyScore = animeRecord.getScore();
 
@@ -501,7 +535,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 VolumeTotalText = Integer.toString(mangaRecord.getVolumes());
                 ProgressText = Integer.toString(mangaRecord.getChaptersRead());
                 TotalProgressText = Integer.toString(mangaRecord.getChapters());
-                MyStatusText = WordUtils.capitalize(mangaRecord.getReadStatus());
+                MyStatusText = getUserStatusString(mangaRecord.getReadStatusInt());
 
 
                 ProgressCurrentVolumeView = (TextView) ProgressFragment.getView().findViewById(R.id.progressVolumesCountCurrent);
@@ -524,8 +558,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 }
 
 
-                RecordStatusText = WordUtils.capitalize(mangaRecord.getStatus());
-                RecordTypeText = WordUtils.capitalize(mangaRecord.getType());
+                RecordStatusText = getMangaStatusString(mangaRecord.getStatusInt());
+                RecordTypeText = getMangaTypeString(mangaRecord.getTypeInt());
 
                 RecordTypeView = (TextView) StatusFragment.getView().findViewById(R.id.mediaType);
                 RecordStatusView = (TextView) StatusFragment.getView().findViewById(R.id.mediaStatus);

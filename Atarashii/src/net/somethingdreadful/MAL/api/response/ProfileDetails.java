@@ -131,4 +131,11 @@ public class ProfileDetails {
         this.website = website;
     }
 
+    public int getGenderInt() {
+        String[] gender = {
+                "Female",
+                "Male"
+        };
+        return Arrays.asList(gender).indexOf(getGender());
+    }
 }

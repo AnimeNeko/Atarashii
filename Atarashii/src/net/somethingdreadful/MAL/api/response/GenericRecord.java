@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.api.response;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import android.text.Html;
@@ -113,6 +114,19 @@ public class GenericRecord {
         catch (NullPointerException npe) {
             return null;
         }
+    }
+
+    public int getUserStatusInt(String statusString) {
+        String[] status = {
+                "completed",
+                "on-hold",
+                "dropped",
+                "watching",
+                "plan to watch",
+                "reading",
+                "plan to read"
+        };
+        return Arrays.asList(status).indexOf(statusString);
     }
     
     public boolean getCreatedFromCursor() {

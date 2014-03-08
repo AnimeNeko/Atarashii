@@ -34,6 +34,31 @@ public class Anime extends GenericRecord {
 		this.watched_episodes = watched_episodes;
 	}
 	
+	public int getTypeInt() {
+	    String[] types = {
+	        "TV",
+	        "Movie",
+	        "OVA",
+	        "ONA",
+	        "Special",
+	        "Music"
+	    };
+	    return Arrays.asList(types).indexOf(getType());
+	}
+	
+	public int getStatusInt() {
+	    String[] status = {
+	        "finished airing",
+	        "currently airing",
+	        "not yet aired"
+	    };
+	    return Arrays.asList(status).indexOf(getStatus());
+	}
+
+    public int getWatchedStatusInt() {
+       return getUserStatusInt(getWatchedStatus());
+    }
+	
 	public static Anime fromCursor(Cursor c) {
 		Anime result = new Anime();
 		result.setCreatedFromCursor(true);
