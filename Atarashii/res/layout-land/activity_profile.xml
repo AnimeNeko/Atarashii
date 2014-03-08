@@ -11,6 +11,7 @@
         android:padding="16dp" >
 
         <!-- Profile picture -->
+
         <LinearLayout
             android:id="@+id/name_card"
             android:layout_width="match_parent"
@@ -19,6 +20,19 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/card"
             android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/Image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/layout_discription"
+                android:gravity="center_horizontal"
+                android:minHeight="80dp"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/name_text"
@@ -29,24 +43,13 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp"
                 android:text="@string/layout_card_loading"
                 android:textColor="#0099CC"
                 android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/Image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:contentDescription="@string/layout_discription"
-                android:gravity="center_horizontal"
-                android:minHeight="80dp"
-                android:padding="8dp" />
         </LinearLayout>
 
         <!-- Details card -->
+
         <LinearLayout
             android:id="@+id/details_card"
             android:layout_width="320dp"
@@ -330,8 +333,9 @@
                 </RelativeLayout>
             </ScrollView>
         </LinearLayout>
-        
+
         <!-- Anime card -->
+
         <LinearLayout
             android:id="@+id/Anime_card"
             android:layout_width="320dp"
@@ -355,6 +359,7 @@
                 android:textSize="18sp" />
 
             <!-- content anime -->
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -524,8 +529,9 @@
                 </RelativeLayout>
             </ScrollView>
         </LinearLayout>
-        
+
         <!-- Manga card -->
+
         <LinearLayout
             android:id="@+id/Manga_card"
             android:layout_width="320dp"
@@ -547,8 +553,9 @@
                 android:text="@string/layout_card_manga_details"
                 android:textColor="#0099CC"
                 android:textSize="18sp" />
-            
+
             <!-- Content manga -->
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
