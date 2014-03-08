@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="66dp" >
+    android:layout_height="66dp" 
+    android:background="@drawable/card"
+    android:paddingBottom="2dp" >
 
     <ImageView
         android:id="@+id/coverImage"
@@ -10,14 +12,13 @@
         android:scaleType="centerCrop"
         android:src="@drawable/transpanel" />
 
-    <ImageView
+    <View
         android:id="@+id/textOverlayPanel"
+        android:background="@android:color/white"
         android:layout_width="fill_parent"
         android:layout_height="66dp"
         android:layout_gravity="bottom"
-        android:alpha="0.7"
-        android:scaleType="fitXY"
-        android:src="@drawable/panel" />
+        android:alpha="0.95" />
 
     <TextView
         android:id="@+id/animeName"
@@ -33,7 +34,7 @@
         android:singleLine="true"
         android:text="Anime Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/apptheme_stacked"
         android:textSize="16sp" />
 
     <RelativeLayout
@@ -52,7 +53,7 @@
             android:gravity="center"
             android:text="111"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/apptheme_stacked"
             android:textSize="32sp" />
 
         <TextView
@@ -66,7 +67,7 @@
             android:layout_toLeftOf="@id/watchedCount"
             android:text="I&apos;ve watched:"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/apptheme_stacked"
             android:textSize="12sp" />
     </RelativeLayout>
 

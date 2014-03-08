@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="300dp" 
     android:foreground="?android:selectableItemBackground"
+    android:background="@drawable/card"
+    android:paddingBottom="2dp"
     android:drawSelectorOnTop="true">
 
     <ImageView
@@ -12,14 +14,13 @@
         android:scaleType="centerCrop"
         android:src="@drawable/transpanel" />
 
-    <ImageView
+    <View
         android:id="@+id/textOverlayPanel"
+        android:background="@android:color/white"
         android:layout_width="fill_parent"
         android:layout_height="66dp"
         android:layout_gravity="bottom"
-        android:alpha="0.7"
-        android:scaleType="fitXY"
-        android:src="@drawable/panel" />
+        android:alpha="0.95" />
 
     <TextView
         android:id="@+id/animeName"
@@ -35,7 +36,7 @@
         android:singleLine="true"
         android:text="Anime Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/apptheme_stacked"
         android:textSize="16sp" />
 
     <RelativeLayout
@@ -54,7 +55,7 @@
             android:gravity="center"
             android:text="111"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/apptheme_stacked"
             android:textSize="32sp" />
 
         <TextView
@@ -69,7 +70,7 @@
             android:paddingBottom="5dp"
             android:text="I&apos;ve watched:"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/apptheme_stacked"
             android:textSize="12sp" />
     </RelativeLayout>
 
