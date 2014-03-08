@@ -91,7 +91,7 @@ public class MALApi extends BaseMALApi {
 		}
 
 		//Did we get an error? If so, just return a blank list.
-		if(response.result.indexOf("error") >= 0) {
+		if(response.code == 404) {
 			response.result = "[]";
 		}
 
