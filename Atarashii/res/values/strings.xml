@@ -40,6 +40,7 @@
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
     <string name="dialog_title_share">Share</string>
+    <string name="dialog_title_share_via">Share via</string>
     <string name="dialog_title_Verifying">Verifying</string>
     <string name="dialog_title_rating">Rating</string>
     <string name="dialog_title_logout">Confirm Logout</string>
@@ -73,6 +74,7 @@
     <string name="layout_card_gender">Gender</string>
     <string name="layout_card_join">Join date</string>
     <string name="layout_card_acces">Access rank</string>
+    <string name="access_rank_atarashii_developer">Atarashii developer</string>
     <string name="layout_card_anime_views">Animelist views</string>
     <string name="layout_card_manga_views">Mangalist views</string>
     <string name="layout_card_anime_details">Anime details</string>
@@ -86,6 +88,8 @@
     <string name="layout_card_anime_total">Total entries</string>
     <string name="layout_card_manga_reading">Reading</string>
     <string name="layout_card_manga_plan">Plan to read</string>
+    <string name="action_viewListOnMAL">View list on MAL</string>
+    <string name="not_specified">not specified</string>
     
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Friends since</string>

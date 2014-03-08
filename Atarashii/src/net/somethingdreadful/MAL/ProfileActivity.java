@@ -140,7 +140,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     		tv11.setTextColor(Color.parseColor("#002EAB"));
     	}
     	if (User.isDeveloperRecord(name)) {
-			tv8.setText("Atarashii developer"); //Developer
+			tv8.setText(R.string.access_rank_atarashii_developer); //Developer
 		}
     }
     
@@ -163,13 +163,13 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     public void Settext(){
     	TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
     	if (record.getProfile().getDetails().getBirthday() == null){
-    		tv1.setText("Not specified");
+    		tv1.setText(R.string.not_specified);
     	}else{
     		tv1.setText(record.getProfile().getDetails().getBirthday());
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
 		if (record.getProfile().getDetails().getLocation() == null){
-    		tv2.setText("Not specified");
+    		tv2.setText(R.string.not_specified);
     	}else{
     		tv2.setText(record.getProfile().getDetails().getLocation());
     	}
@@ -290,7 +290,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		        	sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_animelist)
 		        			.replace("$name;", record.getName())
 		        			.replace("$username;", prefs.getUser()));
-		        	startActivity(Intent.createChooser(sharingIntent, "Share via"));
+		        	startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
 		        }else{
 		        	Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + record.getName());
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
@@ -310,7 +310,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		    		sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_mangalist)
 		        			.replace("$name;", record.getName())
 		        			.replace("$username;", prefs.getUser()));
-		    		startActivity(Intent.createChooser(sharingIntent, "Share via"));
+		    		startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
 		        }else{
 		        	Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + record.getName());
 	            	startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
