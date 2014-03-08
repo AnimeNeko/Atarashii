@@ -25,6 +25,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -123,6 +125,9 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         SynopsisFragment = (GenericCardFragment) fm.findFragmentById(R.id.SynopsisFragment);
         SynopsisFragment.setArgsSensibly(getString(R.string.card_name_synopsis), R.layout.card_layout_content_synopsis, GenericCardFragment.CONTENT_TYPE_SYNOPSIS, false);
         SynopsisFragment.inflateContentStub();
+        
+        SynopsisView = (TextView) SynopsisFragment.getView().findViewById(R.id.SynopsisContent);
+        SynopsisView.setMovementMethod(LinkMovementMethod.getInstance());
 
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
