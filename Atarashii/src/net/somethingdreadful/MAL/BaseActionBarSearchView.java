@@ -36,7 +36,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         if (!query.equals("")) {
             if (SearchActivity.class.isInstance(this)) {
             	BaseActionBarSearchView.query = query;
-                this.doSearch(getCurrentListType());
+                this.doSearch();
             } else {
                 Intent startSearch = new Intent(this, SearchActivity.class);
                 startSearch.putExtra("net.somethingdreadful.MAL.search_query", query);
@@ -47,7 +47,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         return false;
     }
 
-    public void doSearch(ListType listType) {
+    public void doSearch() {
     }
 
     @Override
