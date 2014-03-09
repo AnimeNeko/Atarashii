@@ -102,8 +102,18 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        context = getApplicationContext();
+        mManager = new MALManager(context);
+        pManager = new PrefManager(context);
+
+        if(pManager.getTheme() != 0) {
+    		this.setTheme(pManager.getTheme());
+    	}
+        
         setContentView(R.layout.activity_detail_view);
 
+        
         //Get the recordID, passed in from the calling activity
         recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
 
@@ -111,9 +121,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         //Record type will determine how the detail view lays out itself
         recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
 
-        context = getApplicationContext();
-        mManager = new MALManager(context);
-        pManager = new PrefManager(context);
+        
 
         networkAvailable = MALApi.isNetworkAvailable(context);
 

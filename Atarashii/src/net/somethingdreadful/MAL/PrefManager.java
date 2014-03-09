@@ -2,11 +2,15 @@ package net.somethingdreadful.MAL;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefeditor;
     private static Context context;
+    
+    String THEME_DARK_BLUE = "dark-blue";
+	String THEME_LIGHT_BLUE = "light-blue";
 
     public PrefManager(Context mContext)
     {
@@ -116,5 +120,70 @@ public class PrefManager {
 
     public int getDefaultList() {
         return Integer.parseInt(prefs.getString("defList", "1"));
+    }
+    
+    public int getTheme() {
+    	int selectedTheme = 0;
+    	String theme = prefs.getString("theme", "dark-blue");
+
+    	if (theme.equals(THEME_DARK_BLUE)) {
+    		selectedTheme = 0;
+    	}
+    	if (theme.equals(THEME_LIGHT_BLUE)) {
+    		selectedTheme = R.style.Theme_Light_blue;
+    	}
+    	
+		return selectedTheme;
+    }
+    
+    public int getListStyle() {
+    	int listStyle = R.layout.fragment_animelist_dark_blue;
+    	String theme = prefs.getString("theme", "dark-blue");
+    	
+    	if (theme.equals(THEME_DARK_BLUE)) {
+    		listStyle = R.layout.fragment_animelist_dark_blue;
+    	}
+    	if (theme.equals(THEME_LIGHT_BLUE)) {
+    		listStyle = R.layout.fragment_animelist_light_blue;
+    	}
+    	
+    	return listStyle;
+    }
+    
+    public int getListItemStyle(String style) {
+    	int itemStyle = R.layout.fragment_animelist_dark_blue;
+    	String theme = prefs.getString("theme", "dark-blue");
+    	
+    	if(style.equals("grid")) {
+    		if (theme.equals(THEME_DARK_BLUE)) {
+    			itemStyle = R.layout.grid_cover_with_text_item_dark;
+    		}
+    		if (theme.equals(THEME_LIGHT_BLUE)) {
+    			itemStyle = R.layout.grid_cover_with_text_item_light;
+    		}
+    	} else if (style.equals("list")) {
+    		if (theme.equals(THEME_DARK_BLUE)) {
+    			itemStyle = R.layout.list_cover_with_text_item_dark;
+    		}
+    		if (theme.equals(THEME_LIGHT_BLUE)) {
+    			itemStyle = R.layout.list_cover_with_text_item_light;
+    		}
+    	}
+    	
+    	return itemStyle;
+    }
+    
+    public int getDrawerIndicator() {
+    	int indicatorStyle = R.drawable.ic_navigation_drawer_dark;
+    	String theme = prefs.getString("theme", "dark-blue");
+
+    	if (theme.equals(THEME_DARK_BLUE)) {
+    		indicatorStyle = R.drawable.ic_navigation_drawer_dark;
+		}
+		if (theme.equals(THEME_LIGHT_BLUE)) {
+			indicatorStyle = R.drawable.ic_navigation_drawer_light;
+		}
+		
+		return indicatorStyle;
     }
 }

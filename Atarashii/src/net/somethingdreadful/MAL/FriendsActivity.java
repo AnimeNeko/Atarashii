@@ -45,13 +45,21 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
     boolean forcesync = false;
     PrefManager prefs;
     MALManager mManager;
+    PrefManager mPrefManager;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();   
         
+        mPrefManager = new PrefManager(context);
+        
+        if(mPrefManager.getTheme() != 0) {
+    		this.setTheme(mPrefManager.getTheme());
+    	}
+        
         setContentView(R.layout.activity_friends);
+        
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
         setTitle(R.string.title_activity_friends); //set title

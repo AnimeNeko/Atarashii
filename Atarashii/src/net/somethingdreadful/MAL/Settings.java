@@ -10,10 +10,11 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 public class Settings extends SherlockPreferenceActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         setTitle(R.string.title_activity_settings);
 
         ActionBar bar = getSupportActionBar();

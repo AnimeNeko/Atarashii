@@ -59,6 +59,10 @@ implements IItemGridFragment, ActionBar.TabListener,
         mPrefManager = new PrefManager(context);
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
 
+        if(mPrefManager.getTheme() != 0) {
+    		this.setTheme(mPrefManager.getTheme());
+    	}
+        
         setContentView(R.layout.activity_search);
 
         // Set up the action bar.
