@@ -731,11 +731,11 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 if (animeRecord.getEpisodes() != 0) {
                     if (newValue == animeRecord.getEpisodes()) {
                         animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-                        MyStatusView.setText(WordUtils.capitalize(GenericRecord.STATUS_COMPLETED));
+                        MyStatusView.setText(getUserStatusString(animeRecord.getWatchedStatusInt()));
                     }
                     if (newValue == 0) {
                         animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
-                        MyStatusView.setText(WordUtils.capitalize(Anime.STATUS_PLANTOWATCH));
+                        MyStatusView.setText(getUserStatusString(animeRecord.getWatchedStatusInt()));
                     }
 
                 }
@@ -805,7 +805,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             if (!prevStatus.equals(currentStatus)) {
                 animeRecord.setDirty(true);
-                MyStatusView.setText(WordUtils.capitalize(currentStatus));
+                MyStatusView.setText(getUserStatusString(animeRecord.getWatchedStatusInt()));
             }
         } else {
             prevStatus = mangaRecord.getReadStatus();
@@ -828,7 +828,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             if (!prevStatus.equals(currentStatus)) {
                 mangaRecord.setDirty(true);
-                MyStatusView.setText(WordUtils.capitalize(currentStatus));
+                MyStatusView.setText(getUserStatusString(mangaRecord.getReadStatusInt()));
             }
         }
     }
@@ -996,14 +996,14 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         if (recordType.equals("anime")) {
             animeRecord.setCreateFlag(true);
             animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-            MyStatusView.setText(WordUtils.capitalize(Anime.STATUS_WATCHING));
+            MyStatusView.setText(getUserStatusString(animeRecord.getWatchedStatusInt()));
 
             animeRecord.setDirty(true);
         }
         else {
             mangaRecord.setCreateFlag(true);
             mangaRecord.setReadStatus(Manga.STATUS_READING);
-            MyStatusView.setText(WordUtils.capitalize(Manga.STATUS_READING));
+            MyStatusView.setText(getUserStatusString(mangaRecord.getReadStatusInt()));
 
             mangaRecord.setDirty(true);
         }
