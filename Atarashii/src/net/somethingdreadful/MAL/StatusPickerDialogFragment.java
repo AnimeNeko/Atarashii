@@ -7,11 +7,13 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
@@ -76,6 +78,36 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
         }
 
         statusGroup = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
+
+        Resources res = getResources();
+        String[] status = res.getStringArray(R.array.mediaStatus_User);
+
+        // status ids correlated to status strings
+        int[] statusIds = {
+            R.id.statusRadio_Completed,
+            R.id.statusRadio_OnHold,
+            R.id.statusRadio_Dropped,
+            R.id.statusRadio_InProgress,
+            R.id.statusRadio_Planned,
+            R.id.statusRadio_InProgress,
+            R.id.statusRadio_Planned
+        };
+
+        // set button order
+        int[] buttonorder = {
+            ("anime".equals(type) ? 3 : 5),
+            0,
+            1,
+            2,
+            ("anime".equals(type) ? 4 : 6)
+        };
+
+        for (int index: buttonorder) {
+            RadioButton rb = (RadioButton)inflater.inflate(R.layout.status_radiobutton, statusGroup, false);
+            rb.setText(status[index]);
+            rb.setId(statusIds[index]);
+            statusGroup.addView(rb);
+        }
 
         statusGroup.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
