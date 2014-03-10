@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -41,6 +42,7 @@ implements IItemGridFragment, ActionBar.TabListener,
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    ViewFlipper vf;
     ActionBar actionBar;
     static Context context;
     PrefManager mPrefManager;
@@ -60,6 +62,8 @@ implements IItemGridFragment, ActionBar.TabListener,
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
 
         setContentView(R.layout.activity_search);
+
+        vf = (ViewFlipper)findViewById(R.id.viewFlipperSearch);
 
         // Set up the action bar.
         actionBar = getSupportActionBar();
@@ -104,6 +108,7 @@ implements IItemGridFragment, ActionBar.TabListener,
     }
 
     public void doSearch() { //i search both anime and manga
+        toggleLoadingIndicator(true);
         new AnimeNetworkTask(TaskJob.SEARCH, context, this).execute(query);
         new MangaNetworkTask(TaskJob.SEARCH, context, this).execute(query);
         
@@ -189,6 +194,12 @@ implements IItemGridFragment, ActionBar.TabListener,
         }
     }
 
+    private void toggleLoadingIndicator(boolean show) {
+        if (vf != null) {
+            vf.setDisplayedChild(show ? 1 : 0);
+        }
+    }
+
 	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
 		if (result != null) {
 			if (result.size() > 0) {
@@ -203,6 +214,7 @@ implements IItemGridFragment, ActionBar.TabListener,
 		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
 		    animeError = true;
         }
+        toggleLoadingIndicator(false);
 	}
 
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
@@ -219,5 +231,6 @@ implements IItemGridFragment, ActionBar.TabListener,
 		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
 		    mangaError = true;
 		}
+        toggleLoadingIndicator(false);
 	}
 }
