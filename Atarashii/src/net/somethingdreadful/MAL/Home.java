@@ -42,6 +42,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -69,6 +70,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    ViewFlipper vf;
     Context context;
     PrefManager mPrefManager;
     public MALManager mManager;
@@ -119,6 +121,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
             listView = (ListView)findViewById(R.id.left_drawer);
+            vf = (ViewFlipper)findViewById(R.id.viewFlipperHome);
 
 			NavigationItems mNavigationContent = new NavigationItems();
 			mNavigationItemAdapter = new NavigationItemAdapter(this,
@@ -363,6 +366,12 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         AutoSync = 1;
     }
 
+    private void toggleLoadingIndicator(boolean show) {
+        if (vf != null) {
+            vf.setDisplayedChild(show ? 1 : 0);
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle state) {
         //This is telling out future selves that we already have some things and not to do them
@@ -500,10 +509,12 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     private void getList(MALApi.ListType listType, TaskJob job) {
     	switch (listType) {
 		case ANIME:
+            toggleLoadingIndicator(true);
 			AnimeNetworkTask atask = new AnimeNetworkTask(job, context, this);
 			atask.execute(query);
 			break;
 		case MANGA:
+            toggleLoadingIndicator(true);
 			MangaNetworkTask mtask = new MangaNetworkTask(job, context, this);
 			mtask.execute(query);
 			break;
@@ -694,6 +705,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		} else {
 		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
         }
+        toggleLoadingIndicator(false);
 	}
 
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
@@ -724,6 +736,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		} else {
 		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
 		}
+        toggleLoadingIndicator(false);
 	}
 
 	private class NavigationItemAdapter extends ArrayAdapter<NavItem> {

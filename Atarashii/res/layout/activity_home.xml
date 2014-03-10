@@ -7,12 +7,21 @@
     
     
     >
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <ViewFlipper
+        android:id="@+id/viewFlipperHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Home"
-        />
+        android:layout_height="match_parent">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".Home"
+            />
+        <ProgressBar
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center" />
+    </ViewFlipper>
     
     <ListView android:id="@+id/left_drawer"
               android:layout_width="240dp"
