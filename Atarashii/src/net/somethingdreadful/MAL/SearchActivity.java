@@ -103,8 +103,7 @@ implements IItemGridFragment, ActionBar.TabListener,
         return (MALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
     }
 
-    @Override
-    public void doSearch(MALApi.ListType listType) { //ignore listtype, search both anime and manga
+    public void doSearch() { //i search both anime and manga
         new AnimeNetworkTask(TaskJob.SEARCH, context, this).execute(query);
         new MangaNetworkTask(TaskJob.SEARCH, context, this).execute(query);
         
@@ -139,9 +138,7 @@ implements IItemGridFragment, ActionBar.TabListener,
             case R.id.menu_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -154,12 +151,13 @@ implements IItemGridFragment, ActionBar.TabListener,
         mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         af.setMode(TaskJob.SEARCH);
         mf.setMode(TaskJob.SEARCH);
-        doSearch(MALApi.ListType.ANIME);	
-        doSearch(MALApi.ListType.MANGA);	
+        doSearch();	
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+    	animeError = false;
+    	mangaError = false;
         return false;
     }
 
@@ -196,8 +194,10 @@ implements IItemGridFragment, ActionBar.TabListener,
 			if (result.size() > 0) {
 				af.setAnimeRecords(result);
 				SearchActivity.this.af.scrollListener.notifyMorePages(ListType.ANIME);
-			} else {
-				Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
+			} else if (!animeError) {
+				animeError = true;
+				if (mangaError)
+					Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
 			}
 		} else if (!animeError) {
 		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
@@ -210,6 +210,10 @@ implements IItemGridFragment, ActionBar.TabListener,
 			if (result.size() > 0) {
 				mf.setMangaRecords(result);
 				SearchActivity.this.mf.scrollListener.notifyMorePages(ListType.MANGA);	
+			} else if (!mangaError) {
+				mangaError = true;
+				if (animeError)
+					Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
 			}
 		} else if (!mangaError) {
 		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
