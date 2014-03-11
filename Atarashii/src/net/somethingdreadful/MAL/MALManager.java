@@ -1,6 +1,8 @@
 package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import retrofit.RetrofitError;
@@ -169,12 +171,21 @@ public class MALManager {
         return anime;
     }
     
+    private class FriendlistComparator implements Comparator<User> {
+        @Override
+        public int compare(User u1, User u2) {
+           return u1.getName().compareTo(u2.getName());
+        }
+        
+    }
+    
     public ArrayList<User> downloadAndStoreFriendList(String user) {
         ArrayList<User> result = null;
         try {
             result = malApi.getFriends(user);
             if ( result.size() > 0 ) {
                 dbMan.saveFriendList(result);
+                Collections.sort(result, new FriendlistComparator());
             }
         } catch (Exception e) {
             result = null;
