@@ -155,7 +155,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             		TextView Username = (TextView) view.findViewById(R.id.userName);
             		Username.setText(username);
             		if (User.isDeveloperRecord(username)) {
-            			Username.setTextColor(Color.parseColor("#8CD4D3")); //Developer
+            			Username.setTextColor(Color.parseColor("#008583")); //Developer
             		}
             		String last_online = record.getProfile().getDetails().getLastOnline();
             		//Set online or offline status
