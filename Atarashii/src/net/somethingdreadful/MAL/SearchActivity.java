@@ -202,8 +202,8 @@ implements IItemGridFragment, ActionBar.TabListener,
 
 	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
 		if (result != null) {
+            af.setAnimeRecords(result);
 			if (result.size() > 0) {
-				af.setAnimeRecords(result);
 				SearchActivity.this.af.scrollListener.notifyMorePages(ListType.ANIME);
 			} else if (!animeError) {
 				animeError = true;
@@ -219,8 +219,8 @@ implements IItemGridFragment, ActionBar.TabListener,
 
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
 		if (result != null) {
+            mf.setMangaRecords(result);
 			if (result.size() > 0) {
-				mf.setMangaRecords(result);
 				SearchActivity.this.mf.scrollListener.notifyMorePages(ListType.MANGA);	
 			} else if (!mangaError) {
 				mangaError = true;
