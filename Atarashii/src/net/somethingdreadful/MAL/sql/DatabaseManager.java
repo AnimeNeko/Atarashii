@@ -136,7 +136,7 @@ public class DatabaseManager {
 		ArrayList<Anime> result = null;
 		Cursor cursor;
 		try {
-			cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, selection, selectionArgs, null, null, "recordName ASC");
+			cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
 			if (cursor.moveToFirst())
 			{
 				result = new ArrayList<Anime>();
@@ -230,7 +230,7 @@ public class DatabaseManager {
 		ArrayList<Manga> result = null;
 		Cursor cursor;
 		try {
-			cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, selection, selectionArgs, null, null, "recordName ASC");
+			cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
 			if (cursor.moveToFirst())
 			{
 				result = new ArrayList<Manga>();
@@ -286,7 +286,7 @@ public class DatabaseManager {
         ArrayList<User> result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, FRIENDSCOLUMNS, null, null, null, null, "username ASC");
+            cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, FRIENDSCOLUMNS, null, null, null, null, "username COLLATE NOCASE");
             if (cursor.moveToFirst())
             {
                 result = new ArrayList<User>();
