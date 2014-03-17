@@ -202,7 +202,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                                 "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
                                 new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))
                                 ),
-                                NdefRecord.createApplicationRecord("net.somethingdreadful.MAL")
+                                NdefRecord.createApplicationRecord(getPackageName())
                 });
                 mNfcAdapter.setNdefPushMessage(message, this);
             }
