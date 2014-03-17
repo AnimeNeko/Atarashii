@@ -24,7 +24,7 @@
     <string name="crouton_error_Search_Anime">Error while searching for anime records.</string>
     <string name="crouton_error_Search_Manga">Error while searching for manga records.</string>
     <string name="crouton_error_Search">Error while searching! Please try again later.</string>
-    <string name="crouton_error_noUserRecord">This user doesn\'t has an offline record!</string>
+    <string name="crouton_error_noUserRecord">This user doesn\'t have an offline record!</string>
     <string name="crouton_error_Anime_Sync">Sync error while getting animelist!</string>
     <string name="crouton_error_Manga_Sync">Sync error while getting mangalist!</string>
     <string name="crouton_error_noFriends">You have no friends on MAL!</string>
