@@ -325,6 +325,7 @@
 	<item>2880</item>
     </string-array>
 
+    <string name="dateformat">MM-dd-yy</string>
     <string name="datetimeformat">MM-dd-yy, h:m a</string>
     <string name="datetimeformat_yesterday">\'Yesterday\', h:m a</string>
     <string name="datetimeformat_dayname">EEEE, h:m a</string>
