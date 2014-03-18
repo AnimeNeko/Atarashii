@@ -324,4 +324,17 @@
 	<item>1440</item>
 	<item>2880</item>
     </string-array>
+
+    <string name="dateformat">MM-dd-yy, h:m a</string>
+    <string name="dateformat_yesterday">\'Yesterday\', h:m a</string>
+    <string name="dateformat_dayname">EEEE, h:m a</string>
+    <plurals name="minutes_ago">
+        <item quantity="zero">now</item>
+        <item quantity="one">One minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">One hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
 </resources>

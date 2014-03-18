@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -121,5 +123,53 @@ public class MALDateTools {
 
         // return unformatted if parsing failed
         return maldate;
+    }
+
+    public static String formatDate(Date date, Context context) {
+        Resources res = context.getResources();
+
+        long diffHoursToNow = new Date().getTime() - date.getTime();
+        final int MINUTE = 60000;
+        final int HOUR = MINUTE * 60;
+        final int DAY = HOUR * 24;
+
+        if (diffHoursToNow < HOUR) {
+            int minutes = (int) diffHoursToNow / MINUTE;
+            return res.getQuantityString(R.plurals.minutes_ago, minutes, minutes);
+        }
+
+        if (diffHoursToNow < DAY) {
+            int hours = (int) diffHoursToNow / HOUR;
+            return res.getQuantityString(R.plurals.hours_ago, hours, hours);
+        }
+
+        SimpleDateFormat formatSdf;
+        if ( diffHoursToNow < DAY * 2) {
+            String dateformat_yesterday = res.getString(R.string.dateformat_yesterday);
+            formatSdf = new SimpleDateFormat(dateformat_yesterday);
+            return formatSdf.format(date);
+        }
+
+        if ( diffHoursToNow < DAY * 5) {
+            String dateformat_dayname = res.getString(R.string.dateformat_dayname);
+            formatSdf = new SimpleDateFormat(dateformat_dayname);
+            return formatSdf.format(date);
+        }
+
+        String dateformat = res.getString(R.string.dateformat);
+        formatSdf = new SimpleDateFormat(dateformat);
+        return formatSdf.format(date);
+    }
+
+    public static String formatISO8601DateString(String date, Context context) {
+        SimpleDateFormat sdf = new SimpleDateFormat(ISO8601DATESTRING);
+        try {
+            Date result = sdf.parse(date);
+            return formatDate(result, context);
+        } catch (ParseException e) {
+            Log.e("MALX", "parsing exception: " + e.getMessage());
+        }
+        // return unformatted if parsing failed
+        return date;
     }
 }
