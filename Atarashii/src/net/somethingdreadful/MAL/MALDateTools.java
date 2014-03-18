@@ -144,19 +144,19 @@ public class MALDateTools {
         }
 
         SimpleDateFormat formatSdf;
-        if ( diffHoursToNow < DAY * 2) {
-            String dateformat_yesterday = res.getString(R.string.dateformat_yesterday);
+        if (diffHoursToNow < DAY * 2) {
+            String dateformat_yesterday = res.getString(R.string.datetimeformat_yesterday);
             formatSdf = new SimpleDateFormat(dateformat_yesterday);
             return formatSdf.format(date);
         }
 
-        if ( diffHoursToNow < DAY * 5) {
-            String dateformat_dayname = res.getString(R.string.dateformat_dayname);
+        if (diffHoursToNow < DAY * 5) {
+            String dateformat_dayname = res.getString(R.string.datetimeformat_dayname);
             formatSdf = new SimpleDateFormat(dateformat_dayname);
             return formatSdf.format(date);
         }
 
-        String dateformat = res.getString(R.string.dateformat);
+        String dateformat = res.getString(R.string.datetimeformat);
         formatSdf = new SimpleDateFormat(dateformat);
         return formatSdf.format(date);
     }
