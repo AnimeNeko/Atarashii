@@ -13,6 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MALDateTools {
+    private static final String ISO8601DATESTRING = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final String MALTIMEZONE = "America/Los_Angeles";
 
     /*
      * this parses all the different date formats MAL returns into one normalized to store in the db
@@ -46,22 +48,22 @@ public class MALDateTools {
                 switch (i) {
                     case 0: // yyyy-MM-dd, h:m a
                         sdf = new SimpleDateFormat("yyyy-MM-dd, h:m a", Locale.US);
-                        sdf.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+                        sdf.setTimeZone(TimeZone.getTimeZone(MALTIMEZONE));
                         try {
                             Date result = sdf.parse(maldate);
                             return result;
                         } catch (ParseException e) {
-                            Log.d("MALX", "parsing exception: " + String.valueOf(i) + " - " + e.getMessage());
+                            Log.e("MALX", "parsing exception: " + e.getMessage());
                         }
                         break;
                     case 1: // MM-dd-yy, h:m a
                         sdf = new SimpleDateFormat("MM-dd-yy, h:m a", Locale.US);
-                        sdf.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+                        sdf.setTimeZone(TimeZone.getTimeZone(MALTIMEZONE));
                         try {
                             Date result = sdf.parse(maldate);
                             return result;
                         } catch (ParseException e) {
-                            Log.d("MALX", "parsing exception: " + String.valueOf(i) + " - " + e.getMessage());
+                            Log.e("MALX", "parsing exception: " + e.getMessage());
                         }
                         break;
                     case 2: // EEEE, h:m a
@@ -74,7 +76,7 @@ public class MALDateTools {
                                 "Friday",
                                 "Saturday"
                         };
-                        cal = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"));
+                        cal = Calendar.getInstance(TimeZone.getTimeZone(MALTIMEZONE));
                         int currentdayofweek = cal.get(Calendar.DAY_OF_WEEK);
                         int dayofweek = Arrays.asList(week_days).indexOf(matcher.group(1)) + 1;
                         int difference = currentdayofweek - dayofweek;
@@ -88,7 +90,7 @@ public class MALDateTools {
                         cal.set(Calendar.AM_PM, matcher.group(4).equals("AM") ? Calendar.AM : Calendar.PM);
                         return cal.getTime();
                     case 3: // Yesterday, h:m a
-                        cal = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"));
+                        cal = Calendar.getInstance(TimeZone.getTimeZone(MALTIMEZONE));
                         cal.add(Calendar.DATE, -1);
                         cal.set(Calendar.HOUR, Integer.parseInt(matcher.group(1)));
                         cal.set(Calendar.MINUTE, Integer.parseInt(matcher.group(2)));
@@ -111,7 +113,7 @@ public class MALDateTools {
     }
 
     public static String parseMALDateToString(String maldate) {
-        SimpleDateFormat formatSdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        SimpleDateFormat formatSdf = new SimpleDateFormat(ISO8601DATESTRING);
 
         Date date = parseMALDate(maldate);
         if ( date != null )
