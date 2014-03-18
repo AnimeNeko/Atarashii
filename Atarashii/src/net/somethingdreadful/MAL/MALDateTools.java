@@ -37,6 +37,7 @@ public class MALDateTools {
                 "\\d{4}-\\d{2}-\\d{2}, \\d{1,2}:\\d{2} (AM|PM)", // yyyy-MM-dd, h:m a
                 "\\d{2}-\\d{2}-\\d{2}, \\d{1,2}:\\d{2} (AM|PM)", // MM-dd-yy, h:m a
                 "(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (\\d{1,2}):(\\d{2}) (AM|PM)", // EEEE, h:m a
+                "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}", // MMMM dd, yyyy
                 "Yesterday, (\\d{1,2}):(\\d{2}) (AM|PM)", // Yesterday, h:m a
                 "(\\d*) (hours?|minutes?) ago" // x hours/minutes ago
         };
@@ -91,7 +92,17 @@ public class MALDateTools {
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.AM_PM, matcher.group(4).equals("AM") ? Calendar.AM : Calendar.PM);
                         return cal.getTime();
-                    case 3: // Yesterday, h:m a
+                    case 3: //MMMM dd, yyyy
+                        sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+                        sdf.setTimeZone(TimeZone.getTimeZone(MALTIMEZONE));
+                        try {
+                            Date result = sdf.parse(maldate);
+                            return result;
+                        } catch (ParseException e) {
+                            Log.e("MALX", "parsing exception: " + e.getMessage());
+                        }
+                        break;
+                    case 4: // Yesterday, h:m a
                         cal = Calendar.getInstance(TimeZone.getTimeZone(MALTIMEZONE));
                         cal.add(Calendar.DATE, -1);
                         cal.set(Calendar.HOUR, Integer.parseInt(matcher.group(1)));
@@ -99,7 +110,7 @@ public class MALDateTools {
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.AM_PM, matcher.group(3).equals("AM") ? Calendar.AM : Calendar.PM);
                         return cal.getTime();
-                    case 4:
+                    case 5:
                         Date result = new Date();
                         int count = Integer.parseInt(matcher.group(1));
                         String unit = matcher.group(2);
