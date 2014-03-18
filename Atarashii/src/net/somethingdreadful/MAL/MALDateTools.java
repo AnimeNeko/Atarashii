@@ -172,4 +172,11 @@ public class MALDateTools {
         // return empty string if parsing failed
         return "";
     }
+
+    public static String formatDateString(String date, Context context) {
+        Date result = parseMALDate(date);
+        if (result != null)
+            return formatDate(result, context);
+        return "";
+    }
 }
