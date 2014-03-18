@@ -121,8 +121,8 @@ public class MALDateTools {
         if ( date != null )
             return formatSdf.format(date);
 
-        // return unformatted if parsing failed
-        return maldate;
+        // return empty string if parsing failed
+        return "";
     }
 
     public static String formatDate(Date date, Context context) {
@@ -169,7 +169,7 @@ public class MALDateTools {
         } catch (ParseException e) {
             Log.e("MALX", "parsing exception: " + e.getMessage());
         }
-        // return unformatted if parsing failed
-        return date;
+        // return empty string if parsing failed
+        return "";
     }
 }
