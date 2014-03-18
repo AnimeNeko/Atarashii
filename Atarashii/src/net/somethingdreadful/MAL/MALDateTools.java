@@ -114,7 +114,7 @@ public class MALDateTools {
         return null;
     }
 
-    public static String parseMALDateToString(String maldate) {
+    public static String parseMALDateToISO8601String(String maldate) {
         SimpleDateFormat formatSdf = new SimpleDateFormat(ISO8601DATESTRING);
 
         Date date = parseMALDate(maldate);
