@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MALDateTools {
-    private static final String ISO8601DATESTRING = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final String ISO8601DATESTRING = "yyyy-MM-dd'T'HH:mm:ssZ";
     private static final String MALTIMEZONE = "America/Los_Angeles";
 
     /*
