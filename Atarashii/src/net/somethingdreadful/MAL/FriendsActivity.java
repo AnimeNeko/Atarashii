@@ -153,11 +153,9 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
                 }
                 TextView since = (TextView) view.findViewById(R.id.since);
                 String friendSince = "";
-                if ( record.getFriendSince() != null ) {
-                    Log.d("MALX", "friends since: " + record.getFriendSince());
+                if ( record.getFriendSince() != null )
                     friendSince = MALDateTools.formatDateString(record.getFriendSince(), context, true);
-                    Log.d("MALX", "friendsince variable: " + friendSince);
-                } else
+                else
                     friendSince = getString(R.string.unknown);
                 since.setText(friendSince.equals("") ? getString(R.string.unknown) : friendSince);
 
