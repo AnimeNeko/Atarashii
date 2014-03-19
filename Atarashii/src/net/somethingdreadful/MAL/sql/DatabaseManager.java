@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.User;
@@ -271,13 +272,15 @@ public class DatabaseManager {
         
         cv.put("username", friend.getName());
         cv.put("avatar_url", friend.getProfile().getAvatarUrl());
-        if ( friend.getProfile().getDetails().getLastOnline() != null )
-            cv.put("last_online", friend.getProfile().getDetails().getLastOnline());
-        else
+        if ( friend.getProfile().getDetails().getLastOnline() != null ) {
+            String lastOnline = MALDateTools.parseMALDateToISO8601String(friend.getProfile().getDetails().getLastOnline());
+            cv.put("last_online", lastOnline.equals("") ? friend.getProfile().getDetails().getLastOnline() : lastOnline);
+        } else
             cv.putNull("last_online");
-        if ( friend.getFriendSince() != null )
-            cv.put("friend_since", friend.getFriendSince());
-        else
+        if ( friend.getFriendSince() != null ) {
+            String friendSince = MALDateTools.parseMALDateToISO8601String(friend.getFriendSince());
+            cv.put("friend_since", friendSince.equals("") ? friend.getFriendSince() : friendSince);
+        } else
             cv.putNull("friend_since");
         getDBWrite().replace(MALSqlHelper.TABLE_FRIENDS, null, cv);
     }
@@ -307,22 +310,25 @@ public class DatabaseManager {
         
         cv.put("username", user.getName());
         cv.put("avatar_url", user.getProfile().getAvatarUrl());
-        if ( user.getProfile().getDetails().getBirthday() != null )
-            cv.put("birthday", user.getProfile().getDetails().getBirthday());
-        else
+        if ( user.getProfile().getDetails().getBirthday() != null ) {
+            String birthday = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getBirthday());
+            cv.put("birthday", birthday.equals("") ? user.getProfile().getDetails().getBirthday() : birthday);
+        } else
             cv.putNull("birthday");
         cv.put("location", user.getProfile().getDetails().getLocation());
         cv.put("website", user.getProfile().getDetails().getWebsite());
         cv.put("comments", user.getProfile().getDetails().getComments());
         cv.put("forum_posts", user.getProfile().getDetails().getForumPosts());
-        if ( user.getProfile().getDetails().getLastOnline() != null )
-            cv.put("last_online", user.getProfile().getDetails().getLastOnline());
-        else
+        if ( user.getProfile().getDetails().getLastOnline() != null ) {
+            String lastOnline = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getLastOnline());
+            cv.put("last_online", lastOnline.equals("") ? user.getProfile().getDetails().getLastOnline() : lastOnline);
+        } else
             cv.putNull("last_online");
         cv.put("gender", user.getProfile().getDetails().getGender());
-        if ( user.getProfile().getDetails().getJoinDate() != null )
-            cv.put("join_date", user.getProfile().getDetails().getJoinDate());
-        else
+        if ( user.getProfile().getDetails().getJoinDate() != null ) {
+            String joindate = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getJoinDate());
+            cv.put("join_date", joindate.equals("") ? user.getProfile().getDetails().getJoinDate() : joindate);
+        } else
             cv.putNull("join_date");
         cv.put("access_rank", user.getProfile().getDetails().getAccessRank());
         cv.put("anime_list_views", user.getProfile().getDetails().getAnimeListViews());
