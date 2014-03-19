@@ -193,9 +193,16 @@ public class MALDateTools {
     }
 
     public static String formatDateString(String date, Context context, boolean withtime) {
-        Date result = parseMALDate(date);
-        if (result != null)
+        SimpleDateFormat sdf = new SimpleDateFormat(ISO8601DATESTRING);
+        try {
+            Date result = sdf.parse(date);
             return formatDate(result, context, withtime);
+        } catch (ParseException e) {
+            Date result = parseMALDate(date);
+            if (result != null)
+                return formatDate(result, context, withtime);
+        }
+        // return empty string if parsing failed
         return "";
     }
 }
