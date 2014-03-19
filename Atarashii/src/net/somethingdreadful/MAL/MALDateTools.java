@@ -180,18 +180,6 @@ public class MALDateTools {
         }
     }
 
-    public static String formatISO8601DateString(String date, Context context, boolean withtime) {
-        SimpleDateFormat sdf = new SimpleDateFormat(ISO8601DATESTRING);
-        try {
-            Date result = sdf.parse(date);
-            return formatDate(result, context, withtime);
-        } catch (ParseException e) {
-            Log.e("MALX", "parsing exception: " + e.getMessage());
-        }
-        // return empty string if parsing failed
-        return "";
-    }
-
     public static String formatDateString(String date, Context context, boolean withtime) {
         SimpleDateFormat sdf = new SimpleDateFormat(ISO8601DATESTRING);
         try {
