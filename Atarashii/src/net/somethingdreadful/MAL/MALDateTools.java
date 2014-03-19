@@ -23,7 +23,7 @@ public class MALDateTools {
      */
     public static Date parseMALDate(String maldate) {
         // easiest possibility
-        if (maldate.equals("now")) {
+        if (maldate.toLowerCase(Locale.US).equals("now")) {
             Date result = new Date();
             return result;
         }
