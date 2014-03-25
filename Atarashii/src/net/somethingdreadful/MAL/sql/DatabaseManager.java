@@ -254,6 +254,7 @@ public class DatabaseManager {
     public void saveFriendList(ArrayList<User> list) {
         if ( list != null && list.size() > 0 ) {
             try {
+            	getDBWrite().delete(MALSqlHelper.TABLE_FRIENDS, null, new String[]{});
                 getDBWrite().beginTransaction();
                 for(User friend: list)
                     saveFriend(friend);
