@@ -189,8 +189,8 @@ implements IItemGridFragment, ActionBar.TabListener,
         super.onResume();
         ItemGridFragment.home = false;
         if (instanceExists && af.getMode()==null) {
-        	af.getRecords(af.currentList, "anime", false, context);
-        	mf.getRecords(mf.currentList, "manga", false, context);
+            af.getRecords(TaskJob.GETLIST,context,af.currentList);
+            mf.getRecords(TaskJob.GETLIST,context,mf.currentList);
         }
     }
 

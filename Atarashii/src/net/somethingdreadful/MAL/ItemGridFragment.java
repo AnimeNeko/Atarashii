@@ -56,7 +56,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     int screenWidthDp;
     int gridCellWidth;
     int gridCellHeight;
-    String recordType;
+    ListType recordType;
     
     TaskJob mode;
     ItemGridFragmentScrollViewListener scrollListener;
@@ -97,31 +97,36 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         }
 
         useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
-        final String recordType = args.getString("type");
+        setRecordType(ListType.fromInt(args.getInt("type")));
         gv = (GridView) layout.findViewById(R.id.gridview);
-        
-        if ("anime".equals(recordType)) {
-            gv.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).getId());
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
 
-                    startActivity(startDetails);
-                }
-            });
-        } else if ("manga".equals(recordType)) {
-            gv.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).getId());
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+        switch (recordType) {
+            case ANIME:
+                gv.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).getId());
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
 
-                    startActivity(startDetails);
-                }
-            });
+                        startActivity(startDetails);
+                    }
+                });
+                break;
+            case MANGA:
+                gv.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).getId());
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+
+                        startActivity(startDetails);
+                    }
+                });
+                break;
+            default:
+                Log.e("MALX", "invalid record type: " + recordType.toString());
         }
 
         if (useTraditionalList) {
@@ -143,7 +148,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
         gv.setDrawSelectorOnTop(true);
 
-        getRecords(currentList, recordType, false, this.c);
+        getRecords(TaskJob.GETLIST,this.c,currentList);
         
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
@@ -176,19 +181,35 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         return layout;
     }
 
-    public void getRecords(int listint, String mediaType, boolean forceSync, Context c) {
-        currentList = listint;
-        recordType = mediaType;
+    public void setRecordType(ListType type) {
+        recordType = type;
+    }
 
-        // Don't use forceSyncBool = forceSync! We don't wan't to set this to false here!
-        if  (forceSync)
+    public void getRecords(TaskJob job, Context c, int listint) {
+        if (recordType == null)
+            return;
+
+        currentList = listint;
+        mode = job;
+
+        // Don't use forceSyncBool = (job == TaskJob.FORCESYNC)! We don't wan't to set this to false here!
+        if  (job == TaskJob.FORCESYNC)
             forceSyncBool = true;
 
-        if (recordType.equals("anime")) {
-        	new AnimeNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
-        } else if (recordType.equals("manga")) {
-        	new MangaNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "manga"));
+        switch (recordType) {
+            case ANIME:
+                new AnimeNetworkTask(job, c, this).execute(job == TaskJob.GETLIST ? MALManager.listSortFromInt(listint, "anime") : null);
+                break;
+            case MANGA:
+                new MangaNetworkTask(job, c, this).execute(job == TaskJob.GETLIST ? MALManager.listSortFromInt(listint, "manga") : null);
+                break;
+            default:
+                Log.e("MALX", "invalid recordType: " + recordType.toString());
         }
+    }
+
+    public void getRecords(TaskJob job, Context c) {
+        getRecords(job, c, 0);
     }
 
     public void setAnimeRecords(ArrayList<Anime> objects){
