@@ -204,10 +204,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
         switch (recordType) {
             case ANIME:
-                new AnimeNetworkTask(job, c, this).execute(job == TaskJob.GETLIST ? MALManager.listSortFromInt(listint, "anime") : null);
+                new AnimeNetworkTask(job, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
                 break;
             case MANGA:
-                new MangaNetworkTask(job, c, this).execute(job == TaskJob.GETLIST ? MALManager.listSortFromInt(listint, "manga") : null);
+                new MangaNetworkTask(job, c, this).execute(MALManager.listSortFromInt(listint, "manga"));
                 break;
             default:
                 Log.e("MALX", "invalid recordType: " + recordType.toString());
