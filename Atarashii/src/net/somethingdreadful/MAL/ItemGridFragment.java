@@ -189,6 +189,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         if (recordType == null)
             return;
 
+        // don't show loading indicator when changing filter of own list
+        toggleLoadingIndicator(!(job == TaskJob.GETLIST && job == mode));
+
         // currentList is only needed for the own list, don't update it for other lists
         if  (job == TaskJob.GETLIST)
             currentList = listint;
@@ -296,6 +299,13 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     	gv.setSelection(0);
     }
 
+    private void toggleLoadingIndicator(boolean show) {
+        if (getActivity() != null) {
+            if (getActivity().getClass() == Home.class)
+                ((Home) getActivity()).toggleLoadingIndicator(show);
+        }
+    }
+
 	@Override
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
 
@@ -336,6 +346,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             nm.cancel(R.id.notification_sync);
 	        forceSyncBool = false;
         }
+        toggleLoadingIndicator(false);
 	}
 
 	@Override
@@ -378,5 +389,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             nm.cancel(R.id.notification_sync);
             forceSyncBool = false;
 		}
+        toggleLoadingIndicator(false);
 	}
 }

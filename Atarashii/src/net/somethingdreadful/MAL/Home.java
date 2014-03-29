@@ -365,7 +365,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         AutoSync = 1;
     }
 
-    private void toggleLoadingIndicator(boolean show) {
+    public void toggleLoadingIndicator(boolean show) {
         if (vf != null) {
             vf.setDisplayedChild(show ? 1 : 0);
         }
