@@ -189,7 +189,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         if (recordType == null)
             return;
 
-        currentList = listint;
+        // currentList is only needed for the own list, don't update it for other lists
+        if  (job == TaskJob.GETLIST)
+            currentList = listint;
+
         mode = job;
 
         // Don't use forceSyncBool = (job == TaskJob.FORCESYNC)! We don't wan't to set this to false here!

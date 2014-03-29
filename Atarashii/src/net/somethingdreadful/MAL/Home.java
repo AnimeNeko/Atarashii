@@ -82,8 +82,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     MenuItem searchItem;
 
     int AutoSync = 0; //run or not to run.
-    int listType = 0; //remembers the list_type.
-
 
     private DrawerLayout mDrawerLayout;
     private ListView listView;
@@ -486,8 +484,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			if (af.getMode() != null) {
 	            af.setMode(null);
 				mf.setMode(null);
-				af.getRecords(TaskJob.GETLIST, Home.this.context, listType);
-	            mf.getRecords(TaskJob.GETLIST, Home.this.context, listType);
+				af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
+	            mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
 	            myList = true;
 	        }
         } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
@@ -529,8 +527,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     startActivity(Profile);
                     break;
                 case 1:
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, listType);
-                    mf.getRecords(TaskJob.GETLIST, Home.this.context, listType);
+                    af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
+                    mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
                 break;
                 case 2:
                     Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
