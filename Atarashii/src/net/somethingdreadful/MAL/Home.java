@@ -360,7 +360,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     public void synctask(){
         af.getRecords(TaskJob.FORCESYNC, this.context, af.currentList);
-        mf.getRecords(TaskJob.FORCESYNC, this.context, af.currentList);
+        mf.getRecords(TaskJob.FORCESYNC, this.context, mf.currentList);
         syncNotify();
         AutoSync = 1;
     }
