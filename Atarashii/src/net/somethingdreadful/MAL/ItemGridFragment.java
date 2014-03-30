@@ -160,7 +160,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             public void onRefresh(int pageNumber, ListType listType) {
                 try{
                     // not all jobs return paged results
-                    if ( mode != null && mode != TaskJob.GETLIST ) {
+                    if ( mode != null && mode != TaskJob.GETLIST && mode != TaskJob.FORCESYNC) {
                         switch (listType) {
                             case ANIME:
                                 AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
