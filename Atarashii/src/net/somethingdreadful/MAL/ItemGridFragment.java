@@ -366,7 +366,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             nm.cancel(R.id.notification_sync);
 	        forceSyncBool = false;
         }
-        toggleLoadingIndicator(false);
+        toggleLoadingIndicator(job == TaskJob.GETLIST && forceSyncBool);
 	}
 
 	@Override
@@ -409,6 +409,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             nm.cancel(R.id.notification_sync);
             forceSyncBool = false;
 		}
-        toggleLoadingIndicator(false);
+        toggleLoadingIndicator(job == TaskJob.GETLIST && forceSyncBool);
 	}
 }
