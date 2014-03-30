@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -21,7 +22,7 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
 
     View view;
 
-    String type;
+    MALApi.ListType type;
     String currentStatus;
 
     RadioGroup statusGroup;
@@ -67,13 +68,13 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
         if (state == null) {
             type = ((DetailView) getActivity()).recordType;
 
-            if ("anime".equals(type)) {
+            if (type == MALApi.ListType.ANIME) {
                 currentStatus = ((DetailView) getActivity()).animeRecord.getWatchedStatus();
             } else {
                 currentStatus = ((DetailView) getActivity()).mangaRecord.getReadStatus();
             }
         } else {
-            type = state.getString("type");
+            type = (MALApi.ListType) state.getSerializable("type");
             currentStatus = state.getString("status");
         }
 
@@ -95,11 +96,11 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
 
         // set button order
         int[] buttonorder = {
-            ("anime".equals(type) ? 3 : 5),
+            (type == MALApi.ListType.ANIME ? 3 : 5),
             0,
             1,
             2,
-            ("anime".equals(type) ? 4 : 6)
+            (type == MALApi.ListType.ANIME ? 4 : 6)
         };
 
         for (int index: buttonorder) {
@@ -116,7 +117,7 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         switch (checkedId) {
                             case R.id.statusRadio_InProgress:
-                                if ("anime".equals(type)) {
+                                if (type == MALApi.ListType.ANIME) {
                                     currentStatus = Anime.STATUS_WATCHING;
                                 } else {
                                     currentStatus = Manga.STATUS_READING;
@@ -136,7 +137,7 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
                                 break;
 
                             case R.id.statusRadio_Planned:
-                                if ("anime".equals(type)) {
+                                if (type == MALApi.ListType.ANIME) {
                                     currentStatus = Anime.STATUS_PLANTOWATCH;
                                 } else {
                                     currentStatus = Manga.STATUS_PLANTOREAD;
@@ -179,7 +180,7 @@ public class StatusPickerDialogFragment extends SherlockDialogFragment {
     @Override
     public void onSaveInstanceState(Bundle state) {
 
-        state.putString("type", type);
+        state.putSerializable("type", type);
         state.putString("status", currentStatus);
 
         super.onSaveInstanceState(state);
