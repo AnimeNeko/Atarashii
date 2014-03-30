@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -40,6 +41,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     private static final double MAL_IMAGE_HEIGHT = 320;
 
     GridView gv;
+    ViewFlipper vf;
     MALManager mManager;
     PrefManager mPrefManager;
     Context c;
@@ -99,6 +101,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
         setRecordType(ListType.fromInt(args.getInt("type")));
         gv = (GridView) layout.findViewById(R.id.gridview);
+        vf = (ViewFlipper) layout.findViewById(R.id.viewFlipper);
 
         switch (recordType) {
             case ANIME:
@@ -300,9 +303,8 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     }
 
     private void toggleLoadingIndicator(boolean show) {
-        if (getActivity() != null) {
-            if (getActivity().getClass() == Home.class)
-                ((Home) getActivity()).toggleLoadingIndicator(show);
+        if (vf != null) {
+            vf.setDisplayedChild(show ? 1 : 0);
         }
     }
 

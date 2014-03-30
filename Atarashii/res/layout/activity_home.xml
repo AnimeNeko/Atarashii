@@ -4,24 +4,13 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    
-    
     >
-    <ViewFlipper
-        android:id="@+id/viewFlipperHome"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".Home"
-            />
-        <ProgressBar
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center" />
-    </ViewFlipper>
+        android:layout_height="match_parent"
+        tools:context=".Home"
+        />
     
     <ListView android:id="@+id/left_drawer"
               android:layout_width="240dp"
@@ -31,9 +20,5 @@
               android:choiceMode="singleChoice"
               android:background="#333333"
               />
-    
-    
-    
-    
 </android.support.v4.widget.DrawerLayout>
 

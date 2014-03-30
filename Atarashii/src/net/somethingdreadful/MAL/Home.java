@@ -69,7 +69,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-    ViewFlipper vf;
     Context context;
     PrefManager mPrefManager;
     public MALManager mManager;
@@ -118,7 +117,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
             listView = (ListView)findViewById(R.id.left_drawer);
-            vf = (ViewFlipper)findViewById(R.id.viewFlipperHome);
 
 			NavigationItems mNavigationContent = new NavigationItems();
 			mNavigationItemAdapter = new NavigationItemAdapter(this,
@@ -363,12 +361,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mf.getRecords(TaskJob.FORCESYNC, this.context, mf.currentList);
         syncNotify();
         AutoSync = 1;
-    }
-
-    public void toggleLoadingIndicator(boolean show) {
-        if (vf != null) {
-            vf.setDisplayedChild(show ? 1 : 0);
-        }
     }
 
     @Override
