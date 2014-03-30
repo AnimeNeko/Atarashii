@@ -160,7 +160,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             public void onRefresh(int pageNumber, ListType listType) {
                 try{
                     // not all jobs return paged results
-                    if ( mode != null && mode != TaskJob.GETLIST && mode != TaskJob.FORCESYNC) {
+                    if ( mode != null && mode != TaskJob.GETLIST) {
                         switch (listType) {
                             case ANIME:
                                 AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
@@ -213,7 +213,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         if  (job == TaskJob.GETLIST)
             currentList = listint;
 
-        mode = job;
+        /* don't save FORCESYNC as job, this would cause mulitple force syncs on rotation
+         * save GETLIST instead because this is what should be done after a force sync
+         */
+        mode = job != TaskJob.FORCESYNC ? job : TaskJob.GETLIST;
 
         // Don't use forceSyncBool = (job == TaskJob.FORCESYNC)! We don't wan't to set this to false here!
         if  (job == TaskJob.FORCESYNC)
