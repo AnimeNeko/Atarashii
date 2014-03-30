@@ -286,7 +286,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
-        if (instanceExists && af.getMode()==null) {
+        if (instanceExists && af.getMode() == TaskJob.GETLIST) {
             af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
             mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
         }
