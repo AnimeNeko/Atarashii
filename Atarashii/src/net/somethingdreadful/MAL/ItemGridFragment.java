@@ -50,7 +50,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     IItemGridFragment Iready;
 
     static boolean forceSyncBool = false;
-    static boolean home = true;
     boolean useTraditionalList = false;
     boolean useSecondaryAmounts = false;
     int currentList;
@@ -83,14 +82,14 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         View layout = inflater.inflate(R.layout.fragment_animelist, null);
         c = layout.getContext();
         
-        if (home){
+        if (isOnHomeActivity()){
         	mManager = ((Home) getActivity()).mManager;
         	mPrefManager = ((Home) getActivity()).mPrefManager;
         	if (!((Home) getActivity()).instanceExists) {
         		currentList = mPrefManager.getDefaultList();
         		useTraditionalList = mPrefManager.getTraditionalListEnabled();
         	}
-        }else{
+        }else if (isOnSearchActivity()) {
         	mPrefManager = ((SearchActivity) getActivity()).mPrefManager;
         	if (!((SearchActivity) getActivity()).instanceExists) {
         		currentList = mPrefManager.getDefaultList();
@@ -182,6 +181,18 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         Iready.fragmentReady();
 
         return layout;
+    }
+
+    private boolean isOnHomeActivity() {
+        if (getActivity() != null)
+            return getActivity().getClass() == Home.class;
+        return false;
+    }
+
+    private boolean isOnSearchActivity() {
+        if (getActivity() != null)
+            return getActivity().getClass() == SearchActivity.class;
+        return false;
     }
 
     public void setRecordType(ListType type) {

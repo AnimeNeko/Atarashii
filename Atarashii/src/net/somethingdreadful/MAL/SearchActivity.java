@@ -151,7 +151,6 @@ implements IItemGridFragment, ActionBar.TabListener,
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-    	ItemGridFragment.home = false;
         af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
         mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         af.setMode(TaskJob.SEARCH);
@@ -187,7 +186,6 @@ implements IItemGridFragment, ActionBar.TabListener,
 
 	public void onResume() {
         super.onResume();
-        ItemGridFragment.home = false;
         if (instanceExists && af.getMode()==null) {
             af.getRecords(TaskJob.GETLIST,context,af.currentList);
             mf.getRecords(TaskJob.GETLIST,context,mf.currentList);

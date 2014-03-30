@@ -285,7 +285,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onResume() {
         super.onResume();
-        ItemGridFragment.home = true;
         checkNetworkAndDisplayCrouton();
         if (instanceExists && af.getMode()==null) {
             af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
