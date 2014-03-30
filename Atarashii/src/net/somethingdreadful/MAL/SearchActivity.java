@@ -184,14 +184,6 @@ implements IItemGridFragment, ActionBar.TabListener,
         instanceExists = true;
     }
 
-	public void onResume() {
-        super.onResume();
-        if (instanceExists && af.getMode()==null) {
-            af.getRecords(TaskJob.GETLIST,context,af.currentList);
-            mf.getRecords(TaskJob.GETLIST,context,mf.currentList);
-        }
-    }
-
     private void toggleLoadingIndicator(boolean show) {
         if (vf != null) {
             vf.setDisplayedChild(show ? 1 : 0);
