@@ -151,7 +151,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 
         gv.setDrawSelectorOnTop(true);
 
-        getRecords(TaskJob.GETLIST,this.c,currentList);
+        // load right list if possible (not possible for SEARCH because we don't know the search term here)
+        if (mode == null || mode != TaskJob.SEARCH)
+            getRecords(mode == null ? TaskJob.GETLIST : mode, this.c, currentList);
         
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
