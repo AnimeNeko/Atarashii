@@ -183,8 +183,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         // Set up the action bar.
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        setupBeam();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -291,7 +289,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             String[] splitmessage = message.split(":", 2);
             if ( splitmessage.length == 2 ) {
                 try {
-                    recordType = MALApi.ListType.valueOf(splitmessage[0]);
+                    recordType = MALApi.ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
                     recordID = Integer.parseInt(splitmessage[1]);
                     getDetails();
                 } catch (NumberFormatException e) {
@@ -657,6 +655,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
+
+                setupBeam();
             } else {
                 // if gr is null then the anime/manga is not stored in the database and could not be loaded from the API (e. g. no network connection)
                 Toast.makeText(context, R.string.crouton_error_DetailsError, Toast.LENGTH_SHORT).show();
