@@ -282,11 +282,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     public void onSaveInstanceState(Bundle state) {
         state.putInt("list", currentList);
         state.putBoolean("traditionalList", useTraditionalList);
-        /* We don't want to save a FORCESYNC task because it would cause a new FORCESYNC after
-         * rotation, which should not happen!
-         */
-        if (mode != TaskJob.FORCESYNC)
-            state.putSerializable("mode", mode);
+        state.putSerializable("mode", mode);
 
         super.onSaveInstanceState(state);
     }
