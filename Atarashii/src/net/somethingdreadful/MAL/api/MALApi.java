@@ -34,20 +34,8 @@ public class MALApi {
     private String username;
     
     public enum ListType {
-    	ANIME(0), MANGA(1);
-        public final int value;
-
-        private ListType(int value) {
-            this.value = value;
-        }
-
-        public static ListType fromInt(int value) {
-            for (ListType type: ListType.values()) {
-                if ( type.value == value )
-                    return type;
-            }
-            return null;
-        }
+    	ANIME,
+        MANGA
     }
 
 	public MALApi(Context context) {

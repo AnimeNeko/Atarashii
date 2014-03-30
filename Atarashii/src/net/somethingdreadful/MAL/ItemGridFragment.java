@@ -98,7 +98,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         }
 
         useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
-        setRecordType(ListType.fromInt(args.getInt("type")));
+        setRecordType((ListType)args.getSerializable("type"));
         gv = (GridView) layout.findViewById(R.id.gridview);
         vf = (ViewFlipper) layout.findViewById(R.id.viewFlipper);
 
