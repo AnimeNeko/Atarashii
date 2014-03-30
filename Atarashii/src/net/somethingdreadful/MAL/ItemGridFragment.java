@@ -70,6 +70,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             currentList = state.getInt("list", 1);
             useTraditionalList = state.getBoolean("traditionalList");
             useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
+            mode = (TaskJob) state.getSerializable("mode");
         }
     }
 
@@ -279,6 +280,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     public void onSaveInstanceState(Bundle state) {
         state.putInt("list", currentList);
         state.putBoolean("traditionalList", useTraditionalList);
+        state.putSerializable("mode", mode);
 
         super.onSaveInstanceState(state);
     }
