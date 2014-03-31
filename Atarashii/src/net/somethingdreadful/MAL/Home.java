@@ -230,50 +230,50 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
             case R.id.listType_all:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, 0);
-                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 0);
+                    af.getRecords(TaskJob.GETLIST, context, 0);
+                    mf.getRecords(TaskJob.GETLIST, context, 0);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_inprogress:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, 1);
-                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 1);
+                    af.getRecords(TaskJob.GETLIST, context, 1);
+                    mf.getRecords(TaskJob.GETLIST, context, 1);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_completed:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, 2);
-                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 2);
+                    af.getRecords(TaskJob.GETLIST, context, 2);
+                    mf.getRecords(TaskJob.GETLIST, context, 2);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_onhold:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, 3);
-                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 3);
+                    af.getRecords(TaskJob.GETLIST, context, 3);
+                    mf.getRecords(TaskJob.GETLIST, context, 3);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_dropped:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, 4);
-                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 4);
+                    af.getRecords(TaskJob.GETLIST, context, 4);
+                    mf.getRecords(TaskJob.GETLIST, context, 4);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_planned:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.GETLIST, Home.this.context, 5);
+                    af.getRecords(TaskJob.GETLIST, context, 5);
                     mf.getRecords(TaskJob.GETLIST, Home.this.context, 5);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
                 if (af != null && mf != null) {
-                    af.getRecords(TaskJob.FORCESYNC, Home.this.context, af.currentList);
-                    mf.getRecords(TaskJob.FORCESYNC, Home.this.context, mf.currentList);
+                    af.getRecords(TaskJob.FORCESYNC, context, af.currentList);
+                    mf.getRecords(TaskJob.FORCESYNC, context, mf.currentList);
                     syncNotify();
                 }
                 break;
@@ -286,8 +286,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         super.onResume();
         checkNetworkAndDisplayCrouton();
         if (instanceExists && af.getMode() == TaskJob.GETLIST) {
-            af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
-            mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
+            af.getRecords(TaskJob.GETLIST, context, af.currentList);
+            mf.getRecords(TaskJob.GETLIST, context, mf.currentList);
         }
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (mSearchView != null) {
@@ -355,8 +355,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     }
 
     public void synctask(){
-        af.getRecords(TaskJob.FORCESYNC, this.context, af.currentList);
-        mf.getRecords(TaskJob.FORCESYNC, this.context, mf.currentList);
+        af.getRecords(TaskJob.FORCESYNC, context, af.currentList);
+        mf.getRecords(TaskJob.FORCESYNC, context, mf.currentList);
         syncNotify();
         AutoSync = 1;
     }
@@ -473,8 +473,8 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 			if (af.getMode() != null) {
 	            af.setMode(null);
 				mf.setMode(null);
-				af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
-	            mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
+				af.getRecords(TaskJob.GETLIST, context, af.currentList);
+	            mf.getRecords(TaskJob.GETLIST, context, mf.currentList);
 	        }
         } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
