@@ -1,12 +1,13 @@
 package net.somethingdreadful.MAL.api.response;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import android.database.Cursor;
 
-public class Manga extends GenericRecord {
+public class Manga extends GenericRecord implements Serializable {
 
 	public static final String STATUS_READING = "reading";
 	public static final String STATUS_PLANTOREAD = "plan to read";

@@ -300,4 +300,8 @@ public class CoverAdapter<T> extends ArrayAdapter<T> {
         ImageView actionButton;
     }
 
+    public ArrayList<T> getAllObjects() {
+        return objects;
+    }
+
 }

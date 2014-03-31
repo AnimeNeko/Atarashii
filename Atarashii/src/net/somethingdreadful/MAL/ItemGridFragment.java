@@ -75,6 +75,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     }
 
     @SuppressLint("NewApi")
+    @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -150,10 +151,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         gv.setNumColumns(listColumns);
 
         gv.setDrawSelectorOnTop(true);
-
-        // load right list if possible (not possible for SEARCH because we don't know the search term here)
-        if (mode == null || mode != TaskJob.SEARCH)
-            getRecords(mode == null ? TaskJob.GETLIST : mode, this.c, currentList);
         
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
@@ -180,6 +177,38 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             }
         });
         gv.setOnScrollListener(scrollListener);
+
+        boolean listLoaded = false;
+        if (savedInstanceState != null) {
+            if (recordType == ListType.ANIME && savedInstanceState.containsKey("animelist")) {
+                try {
+                    ArrayList<Anime> animelist = (ArrayList<Anime>)savedInstanceState.getSerializable("animelist");
+                    if (animelist != null) {
+                        listLoaded = !animelist.isEmpty();
+                        setAnimeRecords(animelist);
+                    }
+                } catch (ClassCastException e){
+                    Log.e("MALX", "error getting animelist from savedInstanceState: " + e.getMessage());
+                }
+            } else if (recordType == ListType.MANGA && savedInstanceState.containsKey("mangalist")) {
+                try {
+                    ArrayList<Manga> mangalist = (ArrayList<Manga>)savedInstanceState.getSerializable("mangalist");
+                    if (mangalist != null) {
+                        listLoaded = !mangalist.isEmpty();
+                        setMangaRecords(mangalist);
+                    }
+                } catch (ClassCastException e){
+                    Log.e("MALX", "error getting mangalist from savedInstanceState: " + e.getMessage());
+                }
+            }
+        }
+
+        if (!listLoaded) {
+            // load right list if possible (not possible for SEARCH because we don't know the search term here)
+            if (mode == null || mode != TaskJob.SEARCH)
+                getRecords(mode == null ? TaskJob.GETLIST : mode, this.c, currentList);
+        }
+
 
         Iready.fragmentReady();
 
@@ -257,6 +286,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     		adapter.notifyDataSetChanged();
     		scrollListener.resetPageNumber();
     	}
+        if ( mode != null && mode != TaskJob.GETLIST && mode != TaskJob.FORCESYNC ) {
+            scrollListener.notifyMorePages(ListType.ANIME);
+        }
     	ca = adapter;
     }
     
@@ -278,6 +310,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             adapter.notifyDataSetChanged();
             scrollListener.resetPageNumber();
         }
+        if ( mode != null && mode != TaskJob.GETLIST && mode != TaskJob.FORCESYNC ) {
+            scrollListener.notifyMorePages(ListType.MANGA);
+        }
         cm = adapter;
     }
 
@@ -286,6 +321,11 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         state.putInt("list", currentList);
         state.putBoolean("traditionalList", useTraditionalList);
         state.putSerializable("mode", mode);
+
+        if (ca != null)
+            state.putSerializable("animelist", ca.getAllObjects());
+        if (cm != null)
+            state.putSerializable("mangalist", cm.getAllObjects());
 
         super.onSaveInstanceState(state);
     }
