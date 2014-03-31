@@ -88,7 +88,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     private ActionBarHelper mActionBar;
     View mActiveView;
     View mPreviousView;
-    boolean myList = true; //tracks if the user is on 'My List' or not
 
 	private NavigationItemAdapter mNavigationItemAdapter;
 
@@ -374,7 +373,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item  = menu.findItem(R.id.menu_listType);
-        if(!myList){//if not on my list then disable menu items like listType, etc
+        if(af.getMode() != TaskJob.GETLIST){//if not on my list then disable menu items like listType, etc
             item.setEnabled(false);
             item.setVisible(false);
         }
@@ -406,7 +405,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
 
         if (networkAvailable) {
-            if (myList){
+            if (af.getMode() == TaskJob.GETLIST){
                 menu.findItem(R.id.forceSync).setVisible(true);
             }else{
                 menu.findItem(R.id.forceSync).setVisible(false);
@@ -447,7 +446,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentText(getString(R.string.crouton_info_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
-        myList = true;
         supportInvalidateOptionsMenu();
     }
 
@@ -477,7 +475,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 				mf.setMode(null);
 				af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
 	            mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
-	            myList = true;
 	        }
         } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
@@ -510,7 +507,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             	position = 1;
             	Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
-            myList = (position == 1);
             switch (position){
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
