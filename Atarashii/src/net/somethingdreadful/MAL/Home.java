@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +37,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.NavigationItems.NavItem;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
@@ -47,7 +46,6 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import org.holoeverywhere.app.Activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -83,7 +81,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     boolean instanceExists;
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
-    int AutoSync = 0; //run or not to run.
 
     boolean callbackAnimeError = false;
     boolean callbackMangaError = false;
@@ -93,90 +90,89 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        mPrefManager = new PrefManager(context);
-        mManager = new MALManager(context);
-        actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeButtonEnabled(true);
+        if (AccountService.getAccount(context) != null) {
+            mPrefManager = new PrefManager(context);
+            mManager = new MALManager(context);
+            actionbar = getSupportActionBar();
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeButtonEnabled(true);
 
-        if (!mPrefManager.getInit()) {
+            //The following is state handling code
+            instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
+            networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
+            if (savedInstanceState != null) {
+                myList = savedInstanceState.getBoolean("myList");
+            }
+
+            setContentView(R.layout.activity_home);
+            // Creates the adapter to return the Animu and Mango fragments
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            DrawerLayout.setDrawerListener(new DemoDrawerListener());
+            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+            DrawerList = (ListView) findViewById(R.id.left_drawer);
+
+            NavigationItems mNavigationContent = new NavigationItems();
+            mNavigationItemAdapter = new NavigationItemAdapter(this, R.layout.record_home_navigation, mNavigationContent.ITEMS);
+            DrawerList.setAdapter(mNavigationItemAdapter);
+            DrawerList.setOnItemClickListener(new DrawerItemClickListener());
+            DrawerList.setCacheColorHint(0);
+            DrawerList.setScrollingCacheEnabled(false);
+            DrawerList.setScrollContainer(false);
+            DrawerList.setFastScrollEnabled(true);
+            DrawerList.setSmoothScrollbarEnabled(true);
+
+            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle.syncState();
+
+            // Set up the action bar.
+            final ActionBar actionBar = getSupportActionBar();
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setPageMargin(32);
+
+            // When swiping between different sections, select the corresponding
+            // tab.
+            // We can also use ActionBar.Tab#select() to do this if we have a
+            // reference to the
+            // Tab.
+            mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    actionBar.setSelectedNavigationItem(position);
+                }
+            });
+
+            // Add tabs for the anime and manga lists
+            for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+                // Create a tab with text corresponding to the page title
+                // defined by the adapter.
+                // Also specify this Activity object, which implements the
+                // TabListener interface, as the
+                // listener for when this tab is selected.
+                actionBar.addTab(actionBar.newTab()
+                        .setText(mSectionsPagerAdapter.getPageTitle(i))
+                        .setTabListener(this));
+            }
+
+            networkReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    checkNetworkAndDisplayCrouton();
+                }
+            };
+
+            autosync();
+        } else {
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             startActivity(firstRunInit);
             finish();
         }
-
-        //The following is state handling code
-        instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
-        networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-        if (savedInstanceState != null) {
-            AutoSync = savedInstanceState.getInt("AutoSync");
-            myList = savedInstanceState.getBoolean("myList");
-        } else {
-            autosync();
-        }
-        setContentView(R.layout.activity_home);
-        // Creates the adapter to return the Animu and Mango fragments
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        DrawerLayout.setDrawerListener(new DemoDrawerListener());
-        DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-        DrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        NavigationItems mNavigationContent = new NavigationItems();
-        mNavigationItemAdapter = new NavigationItemAdapter(this, R.layout.record_home_navigation, mNavigationContent.ITEMS);
-        DrawerList.setAdapter(mNavigationItemAdapter);
-        DrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        DrawerList.setCacheColorHint(0);
-        DrawerList.setScrollingCacheEnabled(false);
-        DrawerList.setScrollContainer(false);
-        DrawerList.setFastScrollEnabled(true);
-        DrawerList.setSmoothScrollbarEnabled(true);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
-        mDrawerToggle.syncState();
-
-        // Set up the action bar.
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setPageMargin(32);
-
-        // When swiping between different sections, select the corresponding
-        // tab.
-        // We can also use ActionBar.Tab#select() to do this if we have a
-        // reference to the
-        // Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-
-        // Add tabs for the anime and manga lists
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title
-            // defined by the adapter.
-            // Also specify this Activity object, which implements the
-            // TabListener interface, as the
-            // listener for when this tab is selected.
-            actionBar.addTab(actionBar.newTab()
-                    .setText(mSectionsPagerAdapter.getPageTitle(i))
-                    .setTabListener(this));
-        }
-
-        networkReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                checkNetworkAndDisplayCrouton();
-            }
-        };
-
         NfcHelper.disableBeam(this);
     }
 
@@ -188,12 +184,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
-    }
-
-    public boolean isConnectedWifi() {
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        return Wifi.isConnected() && mPrefManager.getonly_wifiEnabled();
     }
 
     @Override
@@ -264,7 +254,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
-        registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        registerReceiver(networkReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     @SuppressLint("NewApi")
@@ -278,28 +268,10 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     }
 
     public void autosync() {
-
-        //auto-sync stuff
-        if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable) {
-            mPrefManager.setsync_time_last(1);
+        if (mPrefManager.ForceSync()) {
+            mPrefManager.setForceSync(false);
             mPrefManager.commitChanges();
             synctask(true, true);
-        } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable) {
-            Calendar localCalendar = Calendar.getInstance();
-            int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR) * 24 * 60; //will reset on new year ;)
-            Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY) * 60;
-            Time_now = Time_now + localCalendar.get(Calendar.MINUTE);
-            int last_sync = mPrefManager.getsync_time_last();
-            if (!(last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time()))) {
-                if (mPrefManager.getonly_wifiEnabled()) {
-                    synctask(true, true);
-                    mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
-                } else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()) { //connected to Wi-Fi and sync only on Wi-Fi checked.
-                    synctask(true, true);
-                    mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
-                }
-            }
-            mPrefManager.commitChanges();
         }
     }
 
@@ -308,7 +280,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             af.getRecords(clear, TaskJob.FORCESYNC, af.list);
             mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
             syncNotify(notify);
-            AutoSync = 1;
         }
     }
 
@@ -318,7 +289,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putBoolean("myList", myList);
-        state.putInt("AutoSync", AutoSync);
         super.onSaveInstanceState(state);
     }
 
@@ -374,19 +344,14 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         } else {
             menu.findItem(R.id.forceSync).setVisible(false);
             menu.findItem(R.id.action_search).setVisible(false);
-            AutoSync = 1;
         }
     }
 
     @SuppressLint("NewApi")
     public void onLogoutConfirmed() {
-        mPrefManager.setInit(false);
-        mPrefManager.setUser("");
-        mPrefManager.setPass("");
-        mPrefManager.commitChanges();
         context.deleteDatabase(MALSqlHelper.getHelper(context).getDatabaseName());
-        Intent firstRunInit = new Intent(this, FirstTimeInit.class);
-        startActivity(firstRunInit);
+        AccountService.deleteAccount(context);
+        startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
 
@@ -455,6 +420,51 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     }
 
+    @Override
+    public void onIGFReady(IGF igf) {
+        if (igf.listType.equals(MALApi.ListType.ANIME))
+            af = igf;
+        else
+            mf = igf;
+        if (igf.taskjob == null)
+            igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
+    }
+
+    @Override
+    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+        if (cancelled && !job.equals(TaskJob.FORCESYNC)) {
+            return;
+        }
+
+        callbackCounter++;
+
+        if (type.equals(MALApi.ListType.ANIME))
+            callbackAnimeError = error;
+        else
+            callbackMangaError = error;
+
+        if (callbackCounter >= 2) {
+            callbackCounter = 0;
+
+            if (job.equals(TaskJob.FORCESYNC)) {
+                NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                nm.cancel(R.id.notification_sync);
+                if (callbackAnimeError && callbackMangaError) // the sync failed completely
+                    Crouton.makeText(this, R.string.crouton_error_SyncFailed, Style.ALERT).show();
+                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
+                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
+                else // everything went well
+                    Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
+            } else {
+                if (callbackAnimeError && callbackMangaError) // the sync failed completely
+                    Crouton.makeText(this, R.string.crouton_error_Records, Style.ALERT).show();
+                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
+                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
+                // no else here, there is nothing to be shown when everything went well
+            }
+        }
+    }
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
@@ -471,7 +481,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             switch (position) {
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                    Profile.putExtra("username", mPrefManager.getUser());
+                    Profile.putExtra("username", AccountService.getAccount(context).name);
                     startActivity(Profile);
                     break;
                 case 1:
@@ -576,51 +586,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             }
 
             return v;
-        }
-    }
-
-    @Override
-    public void onIGFReady(IGF igf) {
-        if (igf.listType.equals(MALApi.ListType.ANIME))
-            af = igf;
-        else
-            mf = igf;
-        if (igf.taskjob == null)
-            igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
-    }
-
-    @Override
-    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
-        if (cancelled && !job.equals(TaskJob.FORCESYNC)) {
-            return;
-        }
-
-        callbackCounter++;
-
-        if (type.equals(MALApi.ListType.ANIME))
-            callbackAnimeError = error;
-        else
-            callbackMangaError = error;
-
-        if (callbackCounter >= 2) {
-            callbackCounter = 0;
-
-            if (job.equals(TaskJob.FORCESYNC)) {
-                NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                nm.cancel(R.id.notification_sync);
-                if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
-                    Crouton.makeText(this, R.string.crouton_error_SyncFailed, Style.ALERT).show();
-                else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
-                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-                else // everything went well
-                    Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
-            } else {
-                if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
-                    Crouton.makeText(this, R.string.crouton_error_Records, Style.ALERT).show();
-                else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
-                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
-                // no else here, there is nothing to be shown when everything went well
-            }
         }
     }
 }

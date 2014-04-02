@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
@@ -28,7 +29,6 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class ProfileActivity extends Activity implements UserNetworkTaskFinishedListener {
     MALManager mManager;
     Context context;
-    ImageView Image;
     PrefManager prefs;
     LinearLayout animecard;
     LinearLayout mangacard;
@@ -122,9 +122,9 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
         String name = record.getName();
         String rank = record.getProfile().getDetails().getAccessRank() != null ? record.getProfile().getDetails().getAccessRank() : "";
-        if (prefs.Textcolordisable() == false) {
-            setcolor(true);
-            setcolor(false);
+        if (prefs.Textcolordisable()) {
+            setColor(true);
+            setColor(false);
             if (rank.contains("Administrator")) {
                 tv8.setTextColor(Color.parseColor("#850000"));
             } else if (rank.contains("Moderator")) {
@@ -142,9 +142,9 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         }
     }
 
-    public void setcolor(boolean type) {
-        int Hue = 0;
-        TextView textview = null;
+    public void setColor(boolean type) {
+        int Hue;
+        TextView textview;
         if (type) {
             textview = (TextView) findViewById(R.id.atimedayssmall); //anime
             Hue = (int) (record.getProfile().getAnimeStats().getTimeDays() * 2.5);
@@ -264,7 +264,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
     }
 
     public void refresh(Boolean crouton) {
-        if (crouton == true) {
+        if (crouton) {
             Crouton.makeText(this, R.string.crouton_info_UserRecord_updated, Style.CONFIRM).show();
         }
         if (record == null) {
@@ -287,7 +287,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
     void choosedialog(final boolean share) { //as the name says
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        if (share == true) {
+        if (share) {
             builder.setTitle(R.string.dialog_title_share);
             builder.setMessage(R.string.dialog_message_share);
             sharingIntent.setType("text/plain");
@@ -300,10 +300,10 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         builder.setPositiveButton(R.string.dialog_label_anime, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (share == true) {
+                if (share) {
                     sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_animelist)
                             .replace("$name;", record.getName())
-                            .replace("$username;", prefs.getUser()));
+                            .replace("$username;", AccountService.getAccount(context).name));
                     startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
                 } else {
                     Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + record.getName());
@@ -320,10 +320,10 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         builder.setNegativeButton(R.string.dialog_label_manga, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (share == true) {
+                if (share) {
                     sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_mangalist)
                             .replace("$name;", record.getName())
-                            .replace("$username;", prefs.getUser()));
+                            .replace("$username;", AccountService.getAccount(context).name));
                     startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
                 } else {
                     Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + record.getName());

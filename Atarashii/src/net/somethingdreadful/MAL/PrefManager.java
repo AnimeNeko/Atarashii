@@ -17,28 +17,12 @@ public class PrefManager {
         prefeditor = prefs.edit();
     }
 
-    public String getUser() {
-        return prefs.getString("user", "failed");
-    }
-
-    public void setUser(String newUser) {
-        prefeditor.putString("user", newUser);
-    }
-
-    public String getPass() {
-        return prefs.getString("pass", "failed");
-    }
-
-    public void setPass(String newPass) {
-        prefeditor.putString("pass", newPass);
-    }
-
     public String getCustomShareText() {
         return prefs.getString("customShareText", context.getString(R.string.preference_default_customShareText));
     }
 
-    public boolean getInit() {
-        return prefs.getBoolean("init", false);
+    public boolean getUpgradeInit() {
+        return prefs.getBoolean("upgradeInit", false);
     }
 
     public void setInit(boolean newInit) {
@@ -57,16 +41,12 @@ public class PrefManager {
         return prefs.getBoolean("synchronisation", false);
     }
 
-    public boolean getonly_wifiEnabled() { //Home, if the setting sync only at wifi is turned on
-        return prefs.getBoolean("Only_wifi", false);
-    }
-
     public Integer getsync_time() { //Home, get the auto-sync interval
-        return Integer.parseInt(prefs.getString("synchronisation_time", "5"));
+        return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
-    public Integer getsync_time_last() { //Home, get the last auto-sync interval
-        return prefs.getInt("synchronisation_time_last", 1);
+    public boolean ForceSync() {
+        return prefs.getBoolean("ForceSync", false);
     }
 
     public boolean anime_manga_zero() { //profile activity, if the card is empty setting
@@ -85,8 +65,8 @@ public class PrefManager {
         return prefs.getBoolean("M_hide", false); //manga card
     }
 
-    public void setsync_time_last(int time) { //Home, set the last auto-sync interval
-        prefeditor.putInt("synchronisation_time_last", time);
+    public void setForceSync(boolean force) {
+        prefeditor.putBoolean("ForceSync", force);
     }
 
     public void commitChanges() {
