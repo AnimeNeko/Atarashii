@@ -55,8 +55,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class Home extends BaseActionBarSearchView
 implements ActionBar.TabListener, ItemGridFragment.IItemGridFragment,
-LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener,
-AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
+LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -70,7 +69,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-    ViewFlipper vf;
     Context context;
     PrefManager mPrefManager;
     public MALManager mManager;
@@ -83,8 +81,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     MenuItem searchItem;
 
     int AutoSync = 0; //run or not to run.
-    int listType = 0; //remembers the list_type.
-
 
     private DrawerLayout mDrawerLayout;
     private ListView listView;
@@ -92,7 +88,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     private ActionBarHelper mActionBar;
     View mActiveView;
     View mPreviousView;
-    boolean myList = true; //tracks if the user is on 'My List' or not
 
 	private NavigationItemAdapter mNavigationItemAdapter;
 
@@ -121,7 +116,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
             listView = (ListView)findViewById(R.id.left_drawer);
-            vf = (ViewFlipper)findViewById(R.id.viewFlipperHome);
 
 			NavigationItems mNavigationContent = new NavigationItems();
 			mNavigationItemAdapter = new NavigationItemAdapter(this,
@@ -236,50 +230,50 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 
             case R.id.listType_all:
                 if (af != null && mf != null) {
-                    af.getRecords(0, "anime", false, this.context);
-                    mf.getRecords(0, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 0);
+                    mf.getRecords(TaskJob.GETLIST, context, 0);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_inprogress:
                 if (af != null && mf != null) {
-                    af.getRecords(1, "anime", false, this.context);
-                    mf.getRecords(1, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 1);
+                    mf.getRecords(TaskJob.GETLIST, context, 1);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_completed:
                 if (af != null && mf != null) {
-                    af.getRecords(2, "anime", false, this.context);
-                    mf.getRecords(2, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 2);
+                    mf.getRecords(TaskJob.GETLIST, context, 2);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_onhold:
                 if (af != null && mf != null) {
-                    af.getRecords(3, "anime", false, this.context);
-                    mf.getRecords(3, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 3);
+                    mf.getRecords(TaskJob.GETLIST, context, 3);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_dropped:
                 if (af != null && mf != null) {
-                    af.getRecords(4, "anime", false, this.context);
-                    mf.getRecords(4, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 4);
+                    mf.getRecords(TaskJob.GETLIST, context, 4);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_planned:
                 if (af != null && mf != null) {
-                    af.getRecords(5, "anime", false, this.context);
-                    mf.getRecords(5, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 5);
+                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 5);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
                 if (af != null && mf != null) {
-                    af.getRecords(af.currentList, "anime", true, this.context);
-                    mf.getRecords(mf.currentList, "manga", true, this.context);
+                    af.getRecords(TaskJob.FORCESYNC, context, af.currentList);
+                    mf.getRecords(TaskJob.FORCESYNC, context, mf.currentList);
                     syncNotify();
                 }
                 break;
@@ -290,11 +284,10 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     @Override
     public void onResume() {
         super.onResume();
-        ItemGridFragment.home = true;
         checkNetworkAndDisplayCrouton();
-        if (instanceExists && af.getMode()==null) {
-            af.getRecords(af.currentList, "anime", false, Home.this.context);
-            mf.getRecords(mf.currentList, "manga", false, Home.this.context);
+        if (instanceExists && af.getMode() == TaskJob.GETLIST) {
+            af.getRecords(TaskJob.GETLIST, context, af.currentList);
+            mf.getRecords(TaskJob.GETLIST, context, mf.currentList);
         }
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (mSearchView != null) {
@@ -332,6 +325,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
         af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
         mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        af.setRecordType(ListType.ANIME);
+        mf.setRecordType(ListType.MANGA);
 
         //auto-sync stuff
         if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable == true){
@@ -360,16 +355,10 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     }
 
     public void synctask(){
-        af.getRecords(af.currentList, "anime", true, this.context);
-        mf.getRecords(mf.currentList, "manga", true, this.context);
+        af.getRecords(TaskJob.FORCESYNC, context, af.currentList);
+        mf.getRecords(TaskJob.FORCESYNC, context, mf.currentList);
         syncNotify();
         AutoSync = 1;
-    }
-
-    private void toggleLoadingIndicator(boolean show) {
-        if (vf != null) {
-            vf.setDisplayedChild(show ? 1 : 0);
-        }
     }
 
     @Override
@@ -384,7 +373,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item  = menu.findItem(R.id.menu_listType);
-        if(!myList){//if not on my list then disable menu items like listType, etc
+        if(af.getMode() != TaskJob.GETLIST){//if not on my list then disable menu items like listType, etc
             item.setEnabled(false);
             item.setVisible(false);
         }
@@ -416,7 +405,7 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
         }
 
         if (networkAvailable) {
-            if (myList){
+            if (af.getMode() == TaskJob.GETLIST){
                 menu.findItem(R.id.forceSync).setVisible(true);
             }else{
                 menu.findItem(R.id.forceSync).setVisible(false);
@@ -457,7 +446,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                 .setContentText(getString(R.string.crouton_info_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
-        myList = true;
         supportInvalidateOptionsMenu();
     }
 
@@ -485,9 +473,8 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 			if (af.getMode() != null) {
 	            af.setMode(null);
 				mf.setMode(null);
-				af.getRecords(listType, "anime", false, Home.this.context);
-	            mf.getRecords(listType, "manga", false, Home.this.context);
-	            myList = true;
+				af.getRecords(TaskJob.GETLIST, context, af.currentList);
+	            mf.getRecords(TaskJob.GETLIST, context, mf.currentList);
 	        }
         } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
@@ -502,40 +489,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
             networkAvailable = true;
         }
         supportInvalidateOptionsMenu();
-    }
-
-    /* thread & methods to fetch most popular anime/manga*/
-    //in order to reuse the code , 1 signifies a getPopular job and 2 signifies a getTopRated job. Probably a better way to do this
-    private void getList(MALApi.ListType listType, TaskJob job) {
-    	switch (listType) {
-		case ANIME:
-            toggleLoadingIndicator(true);
-			AnimeNetworkTask atask = new AnimeNetworkTask(job, context, this);
-			atask.execute(query);
-			break;
-		case MANGA:
-            toggleLoadingIndicator(true);
-			MangaNetworkTask mtask = new MangaNetworkTask(job, context, this);
-			mtask.execute(query);
-			break;
-		default:
-			Log.e("MALX", "invalid list type: " + listType.name());
-			break;
-    	}
-	} 
-
-    public void getMostPopular(MALApi.ListType listType){
-    	getList(listType, TaskJob.GETMOSTPOPULAR);
-    }
-
-    public void getTopRated(MALApi.ListType listType){
-    	getList(listType, TaskJob.GETTOPRATED);
-    }
-    public void getJustAdded(MALApi.ListType listType){
-    	getList(listType, TaskJob.GETJUSTADDED);
-    }
-    public void getUpcoming(MALApi.ListType listType){
-    	getList(listType, TaskJob.GETUPCOMING);
     }
 
     /*private classes for nav drawer*/
@@ -561,49 +514,34 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
                     startActivity(Profile);
                     break;
                 case 1:
-                    af.getRecords(af.currentList, "anime", false, Home.this.context);
-                    mf.getRecords(mf.currentList, "manga", false, Home.this.context);
-                    myList = true;
-                    af.setMode(TaskJob.GETLIST);
-                    mf.setMode(TaskJob.GETLIST);
+                    af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
+                    mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
                 break;
                 case 2:
                     Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
                     startActivity(Friends);
                     break;
                 case 3:
-                    getTopRated(MALApi.ListType.ANIME);
-                    getTopRated(MALApi.ListType.MANGA);
-                    myList = false;
-                    af.setMode(TaskJob.GETTOPRATED);
-                    mf.setMode(TaskJob.GETTOPRATED);
+                    af.getRecords(TaskJob.GETTOPRATED, Home.this.context);
+                    mf.getRecords(TaskJob.GETTOPRATED, Home.this.context);
                     af.scrollListener.resetPageNumber();
                     mf.scrollListener.resetPageNumber();
                     break;
                 case 4:
-                    getMostPopular(MALApi.ListType.ANIME);
-                    getMostPopular(MALApi.ListType.MANGA);
-                    myList = false;
-                    af.setMode(TaskJob.GETMOSTPOPULAR);
-                    mf.setMode(TaskJob.GETMOSTPOPULAR);
+                    af.getRecords(TaskJob.GETMOSTPOPULAR, Home.this.context);
+                    mf.getRecords(TaskJob.GETMOSTPOPULAR, Home.this.context);
                     af.scrollListener.resetPageNumber();
                     mf.scrollListener.resetPageNumber();
                     break;
                 case 5:
-                    getJustAdded(MALApi.ListType.ANIME);
-                    getJustAdded(MALApi.ListType.MANGA);
-                    myList = false;
-                    af.setMode(TaskJob.GETJUSTADDED);
-                    mf.setMode(TaskJob.GETJUSTADDED);
+                    af.getRecords(TaskJob.GETJUSTADDED, Home.this.context);
+                    mf.getRecords(TaskJob.GETJUSTADDED, Home.this.context);
                     af.scrollListener.resetPageNumber();
                     mf.scrollListener.resetPageNumber();
                     break;
                 case 6:
-                    getUpcoming(MALApi.ListType.ANIME);
-                    getUpcoming(MALApi.ListType.MANGA);
-                    myList = false;
-                    af.setMode(TaskJob.GETUPCOMING);
-                    mf.setMode(TaskJob.GETUPCOMING);
+                    af.getRecords(TaskJob.GETUPCOMING, Home.this.context);
+                    mf.getRecords(TaskJob.GETUPCOMING, Home.this.context);
                     af.scrollListener.resetPageNumber();
                     mf.scrollListener.resetPageNumber();
                     break;
@@ -675,68 +613,6 @@ AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 		public void onDrawerOpened() {
 			mActionBar.setTitle(mDrawerTitle);
 		}
-	}
-
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
-		if (result != null) {
-			if (result.size() > 0) {
-				af.setAnimeRecords(result);
-				Home.this.af.scrollListener.notifyMorePages(ListType.ANIME);
-			} else {
-				Log.w("MALX", "No anime records, trying to fetch again.");
-                af.scrollToTop();
-				switch ( job )	{
-					case GETTOPRATED:
-						getTopRated(MALApi.ListType.ANIME);
-						break;
-					case GETMOSTPOPULAR:
-						getMostPopular(MALApi.ListType.ANIME);
-						break;
-					case GETJUSTADDED:
-						getJustAdded(MALApi.ListType.ANIME);
-						break;
-					case GETUPCOMING:
-						getUpcoming(MALApi.ListType.ANIME);
-						break;
-					default:
-						Log.i("MALX", "invalid job: " + job.name());
-				}
-			}
-		} else {
-		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
-        }
-        toggleLoadingIndicator(false);
-	}
-
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
-		if (result != null) {
-			if (result.size() > 0) {
-				mf.setMangaRecords(result);
-				Home.this.mf.scrollListener.notifyMorePages(ListType.MANGA);
-			} else {
-				Log.w("MALX", "No manga records, trying to fetch again.");
-                mf.scrollToTop();
-				switch ( job )	{
-    				case GETTOPRATED:
-    					getTopRated(MALApi.ListType.MANGA);
-    					break;
-    				case GETMOSTPOPULAR:
-    					getMostPopular(MALApi.ListType.MANGA);
-    					break;
-    				case GETJUSTADDED:
-    					getJustAdded(MALApi.ListType.MANGA);
-    					break;
-    				case GETUPCOMING:
-    					getUpcoming(MALApi.ListType.MANGA);
-    					break;
-    				default:
-    				    Log.i("MALX", "invalid job: " + job.name());
-				}
-			}
-		} else {
-		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-		}
-        toggleLoadingIndicator(false);
 	}
 
 	private class NavigationItemAdapter extends ArrayAdapter<NavItem> {

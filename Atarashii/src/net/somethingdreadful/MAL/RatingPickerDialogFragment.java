@@ -15,6 +15,8 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
+import net.somethingdreadful.MAL.api.MALApi;
+
 public class RatingPickerDialogFragment extends SherlockDialogFragment implements SlidingRatingBar.IUpdateRatingText {
 
     View view;
@@ -23,7 +25,7 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
     TextView FlavourText;
 
     int rating;
-    String type;
+    MALApi.ListType type;
     String[] ratingsText;
 
 
@@ -68,13 +70,13 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
         if (state == null) {
             type = ((DetailView) getActivity()).recordType;
 
-            if ("anime".equals(type)) {
+            if (type == MALApi.ListType.ANIME) {
                 rating = ((DetailView) getActivity()).animeRecord.getScore();
             } else {
                 rating = ((DetailView) getActivity()).mangaRecord.getScore();
             }
         } else {
-            type = state.getString("type");
+            type = (MALApi.ListType) state.getSerializable("type");
             rating = state.getInt("rating");
 
         }
@@ -117,7 +119,7 @@ public class RatingPickerDialogFragment extends SherlockDialogFragment implement
     @Override
     public void onSaveInstanceState(Bundle state) {
         state.putInt("rating", rating);
-        state.putString("type", type);
+        state.putSerializable("type", type);
 
         super.onSaveInstanceState(state);
     }

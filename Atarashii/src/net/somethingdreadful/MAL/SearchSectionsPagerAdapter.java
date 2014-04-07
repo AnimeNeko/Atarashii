@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import net.somethingdreadful.MAL.api.MALApi;
+
 public class SearchSectionsPagerAdapter extends HomeSectionsPagerAdapter {
 
     public SearchSectionsPagerAdapter(FragmentManager fm) {
@@ -18,13 +20,13 @@ public class SearchSectionsPagerAdapter extends HomeSectionsPagerAdapter {
         fragment = new ItemGridFragment();
         switch (i) {
             case 0:
-                args.putString("type", MALManager.TYPE_ANIME);
+                args.putSerializable("type", MALApi.ListType.ANIME);
                 break;
             case 1:
-                args.putString("type", MALManager.TYPE_MANGA);
+                args.putSerializable("type", MALApi.ListType.MANGA);
                 break;
             default:
-                args.putString("type", MALManager.TYPE_ANIME);
+                args.putSerializable("type", MALApi.ListType.ANIME);
                 break;
         }
 

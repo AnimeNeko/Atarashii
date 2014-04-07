@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -40,6 +41,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     private static final double MAL_IMAGE_HEIGHT = 320;
 
     GridView gv;
+    ViewFlipper vf;
     MALManager mManager;
     PrefManager mPrefManager;
     Context c;
@@ -48,7 +50,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     IItemGridFragment Iready;
 
     static boolean forceSyncBool = false;
-    static boolean home = true;
     boolean useTraditionalList = false;
     boolean useSecondaryAmounts = false;
     int currentList;
@@ -56,7 +57,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     int screenWidthDp;
     int gridCellWidth;
     int gridCellHeight;
-    String recordType;
+    ListType recordType;
     
     TaskJob mode;
     ItemGridFragmentScrollViewListener scrollListener;
@@ -69,10 +70,12 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             currentList = state.getInt("list", 1);
             useTraditionalList = state.getBoolean("traditionalList");
             useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
+            mode = (TaskJob) state.getSerializable("mode");
         }
     }
 
     @SuppressLint("NewApi")
+    @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -81,14 +84,14 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         View layout = inflater.inflate(R.layout.fragment_animelist, null);
         c = layout.getContext();
         
-        if (home){
+        if (isOnHomeActivity()){
         	mManager = ((Home) getActivity()).mManager;
         	mPrefManager = ((Home) getActivity()).mPrefManager;
         	if (!((Home) getActivity()).instanceExists) {
         		currentList = mPrefManager.getDefaultList();
         		useTraditionalList = mPrefManager.getTraditionalListEnabled();
         	}
-        }else{
+        }else if (isOnSearchActivity()) {
         	mPrefManager = ((SearchActivity) getActivity()).mPrefManager;
         	if (!((SearchActivity) getActivity()).instanceExists) {
         		currentList = mPrefManager.getDefaultList();
@@ -97,31 +100,37 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         }
 
         useSecondaryAmounts = mPrefManager.getUseSecondaryAmountsEnabled();
-        final String recordType = args.getString("type");
+        setRecordType((ListType)args.getSerializable("type"));
         gv = (GridView) layout.findViewById(R.id.gridview);
-        
-        if ("anime".equals(recordType)) {
-            gv.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).getId());
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+        vf = (ViewFlipper) layout.findViewById(R.id.viewFlipper);
 
-                    startActivity(startDetails);
-                }
-            });
-        } else if ("manga".equals(recordType)) {
-            gv.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).getId());
-                    startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+        switch (recordType) {
+            case ANIME:
+                gv.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordID", ca.getItem(position).getId());
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
 
-                    startActivity(startDetails);
-                }
-            });
+                        startActivity(startDetails);
+                    }
+                });
+                break;
+            case MANGA:
+                gv.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        Intent startDetails = new Intent(getView().getContext(), DetailView.class);
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordID", cm.getItem(position).getId());
+                        startDetails.putExtra("net.somethingdreadful.MAL.recordType", recordType);
+
+                        startActivity(startDetails);
+                    }
+                });
+                break;
+            default:
+                Log.e("MALX", "invalid record type: " + recordType.toString());
         }
 
         if (useTraditionalList) {
@@ -142,15 +151,13 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         gv.setNumColumns(listColumns);
 
         gv.setDrawSelectorOnTop(true);
-
-        getRecords(currentList, recordType, false, this.c);
         
         scrollListener = new ItemGridFragmentScrollViewListener(gv,new RefreshList(){
         	@Override
             public void onRefresh(int pageNumber, ListType listType) {
                 try{
                     // not all jobs return paged results
-                    if ( mode != null && mode != TaskJob.GETLIST ) {
+                    if ( mode != null && mode != TaskJob.GETLIST && listType != null) {
                         switch (listType) {
                             case ANIME:
                                 AnimeNetworkTask animetask = new AnimeNetworkTask(mode,pageNumber, c, ItemGridFragment.this);
@@ -171,24 +178,93 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
         });
         gv.setOnScrollListener(scrollListener);
 
+        boolean listLoaded = false;
+        if (savedInstanceState != null) {
+            if (recordType == ListType.ANIME && savedInstanceState.containsKey("animelist")) {
+                try {
+                    ArrayList<Anime> animelist = (ArrayList<Anime>)savedInstanceState.getSerializable("animelist");
+                    if (animelist != null) {
+                        listLoaded = !animelist.isEmpty();
+                        setAnimeRecords(animelist);
+                    }
+                } catch (ClassCastException e){
+                    Log.e("MALX", "error getting animelist from savedInstanceState: " + e.getMessage());
+                }
+            } else if (recordType == ListType.MANGA && savedInstanceState.containsKey("mangalist")) {
+                try {
+                    ArrayList<Manga> mangalist = (ArrayList<Manga>)savedInstanceState.getSerializable("mangalist");
+                    if (mangalist != null) {
+                        listLoaded = !mangalist.isEmpty();
+                        setMangaRecords(mangalist);
+                    }
+                } catch (ClassCastException e){
+                    Log.e("MALX", "error getting mangalist from savedInstanceState: " + e.getMessage());
+                }
+            }
+        }
+
+        if (!listLoaded) {
+            // load right list if possible (not possible for SEARCH because we don't know the search term here)
+            if (mode == null || mode != TaskJob.SEARCH)
+                getRecords(mode == null ? TaskJob.GETLIST : mode, this.c, currentList);
+        }
+
+
         Iready.fragmentReady();
 
         return layout;
     }
 
-    public void getRecords(int listint, String mediaType, boolean forceSync, Context c) {
-        currentList = listint;
-        recordType = mediaType;
+    private boolean isOnHomeActivity() {
+        if (getActivity() != null)
+            return getActivity().getClass() == Home.class;
+        return false;
+    }
 
-        // Don't use forceSyncBool = forceSync! We don't wan't to set this to false here!
-        if  (forceSync)
+    private boolean isOnSearchActivity() {
+        if (getActivity() != null)
+            return getActivity().getClass() == SearchActivity.class;
+        return false;
+    }
+
+    public void setRecordType(ListType type) {
+        recordType = type;
+    }
+
+    public void getRecords(TaskJob job, Context c, int listint) {
+        if (recordType == null)
+            return;
+
+        // don't show loading indicator when changing filter of own list
+        toggleLoadingIndicator(!(job == TaskJob.GETLIST && job == mode));
+
+        // currentList is only needed for the own list, don't update it for other lists
+        if  (job == TaskJob.GETLIST)
+            currentList = listint;
+
+        /* don't save FORCESYNC as job, this would cause mulitple force syncs on rotation
+         * save GETLIST instead because this is what should be done after a force sync
+         */
+        mode = job != TaskJob.FORCESYNC ? job : TaskJob.GETLIST;
+
+        // Don't use forceSyncBool = (job == TaskJob.FORCESYNC)! We don't wan't to set this to false here!
+        if  (job == TaskJob.FORCESYNC)
             forceSyncBool = true;
 
-        if (recordType.equals("anime")) {
-        	new AnimeNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
-        } else if (recordType.equals("manga")) {
-        	new MangaNetworkTask(forceSync ? TaskJob.FORCESYNC : TaskJob.GETLIST, c, this).execute(MALManager.listSortFromInt(listint, "manga"));
+        switch (recordType) {
+            case ANIME:
+                new AnimeNetworkTask(job, c, this).execute(MALManager.listSortFromInt(listint, "anime"));
+                break;
+            case MANGA:
+                new MangaNetworkTask(job, c, this).execute(MALManager.listSortFromInt(listint, "manga"));
+                break;
+            default:
+                Log.e("MALX", "invalid recordType: " + recordType.toString());
         }
+    }
+
+    public void getRecords(TaskJob job, Context c) {
+        getRecords(job, c, 0);
     }
 
     public void setAnimeRecords(ArrayList<Anime> objects){
@@ -210,6 +286,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     		adapter.notifyDataSetChanged();
     		scrollListener.resetPageNumber();
     	}
+        if ( mode != null && mode != TaskJob.GETLIST && mode != TaskJob.FORCESYNC ) {
+            scrollListener.notifyMorePages(ListType.ANIME);
+        }
     	ca = adapter;
     }
     
@@ -231,6 +310,9 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             adapter.notifyDataSetChanged();
             scrollListener.resetPageNumber();
         }
+        if ( mode != null && mode != TaskJob.GETLIST && mode != TaskJob.FORCESYNC ) {
+            scrollListener.notifyMorePages(ListType.MANGA);
+        }
         cm = adapter;
     }
 
@@ -238,6 +320,12 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     public void onSaveInstanceState(Bundle state) {
         state.putInt("list", currentList);
         state.putBoolean("traditionalList", useTraditionalList);
+        state.putSerializable("mode", mode);
+
+        if (ca != null)
+            state.putSerializable("animelist", ca.getAllObjects());
+        if (cm != null)
+            state.putSerializable("mangalist", cm.getAllObjects());
 
         super.onSaveInstanceState(state);
     }
@@ -272,6 +360,12 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
     	gv.setSelection(0);
     }
 
+    private void toggleLoadingIndicator(boolean show) {
+        if (vf != null) {
+            vf.setDisplayedChild(show ? 1 : 0);
+        }
+    }
+
 	@Override
 	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
 
@@ -300,10 +394,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            cm.notifyDataSetChanged();
 	        }
 
-	        if (forceSyncBool)
+            if (forceSyncBool && job == TaskJob.FORCESYNC)
 	            Crouton.makeText((Activity)c, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
 		} else {
-			if (forceSyncBool)
+            if (forceSyncBool && job == TaskJob.FORCESYNC)
 				Crouton.makeText(this.getActivity(), R.string.crouton_error_Manga_Sync, Style.ALERT).show();
         }
 
@@ -312,6 +406,7 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             nm.cancel(R.id.notification_sync);
 	        forceSyncBool = false;
         }
+        toggleLoadingIndicator(job == TaskJob.GETLIST && forceSyncBool);
 	}
 
 	@Override
@@ -342,10 +437,10 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
 	            ca.notifyDataSetChanged();
 	        }
 
-	        if (forceSyncBool)
+	        if (forceSyncBool && job == TaskJob.FORCESYNC)
 	        	Crouton.makeText((Activity)c, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
     	} else {
-    		if (forceSyncBool)
+            if (forceSyncBool && job == TaskJob.FORCESYNC)
     			Crouton.makeText(this.getActivity(), R.string.crouton_error_Anime_Sync, Style.ALERT).show();
         }
 
@@ -354,5 +449,6 @@ public class ItemGridFragment extends SherlockFragment implements AnimeNetworkTa
             nm.cancel(R.id.notification_sync);
             forceSyncBool = false;
 		}
+        toggleLoadingIndicator(job == TaskJob.GETLIST && forceSyncBool);
 	}
 }

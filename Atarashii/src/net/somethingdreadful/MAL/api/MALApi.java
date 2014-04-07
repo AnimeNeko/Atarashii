@@ -34,7 +34,8 @@ public class MALApi {
     private String username;
     
     public enum ListType {
-    	ANIME, MANGA
+    	ANIME,
+        MANGA
     }
 
 	public MALApi(Context context) {

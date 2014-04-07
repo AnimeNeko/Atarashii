@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -53,7 +54,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     ActionBar actionBar;
     Anime animeRecord;
     Manga mangaRecord;
-    String recordType;
+    MALApi.ListType recordType;
     boolean isAdded = true;
 
     DetailsBasicFragment bfrag;
@@ -105,7 +106,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         //Get the recordType, also passed from calling activity
         //Record type will determine how the detail view lays out itself
-        recordType = getIntent().getStringExtra("net.somethingdreadful.MAL.recordType");
+        recordType = (MALApi.ListType) getIntent().getSerializableExtra("net.somethingdreadful.MAL.recordType");
 
         context = getApplicationContext();
         mManager = new MALManager(context);
@@ -128,7 +129,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         ProgressFragment = (GenericCardFragment) fm.findFragmentById(R.id.ProgressFragment);
         int card_layout_progress = R.layout.card_layout_progress;
-        if ("manga".equals(recordType)) {
+        if (recordType == MALApi.ListType.MANGA) {
             card_layout_progress = R.layout.card_layout_progress_manga;
         }
         ProgressFragment.setArgsSensibly(getString(R.string.card_name_progress), card_layout_progress, GenericCardFragment.CONTENT_TYPE_PROGRESS, true);
@@ -182,8 +183,6 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         // Set up the action bar.
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        setupBeam();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -195,7 +194,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 Log.i("MALX", "NFC not available");
             } else {
                 // Register NFC callback
-                String message_str = recordType + ":" + String.valueOf(recordID);
+                String message_str = recordType.toString() + ":" + String.valueOf(recordID);
                 NdefMessage message = new NdefMessage(new NdefRecord[] {
                         new NdefRecord(
                                 NdefRecord.TNF_MIME_MEDIA ,
@@ -252,7 +251,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 addToList();
                 break;
             case R.id.action_ViewMALPage:
-                Uri malurl = Uri.parse("http://myanimelist.net/" + recordType + "/" + recordID + "/");
+                Uri malurl = Uri.parse("http://myanimelist.net/" + recordType.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
         }
@@ -290,7 +289,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             String[] splitmessage = message.split(":", 2);
             if ( splitmessage.length == 2 ) {
                 try {
-                    recordType = splitmessage[0];
+                    recordType = MALApi.ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
                     recordID = Integer.parseInt(splitmessage[1]);
                     getDetails();
                 } catch (NumberFormatException e) {
@@ -305,7 +304,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         super.onPause();
 
         try {
-            if ("anime".equals(recordType)) {
+            if (recordType == MALApi.ListType.ANIME) {
                 if (animeRecord.getDirty()) {
                     writeDetails(animeRecord);
                 }
@@ -334,7 +333,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
     public void showProgressDialog() // Just a function to keep logic out of the switch statement
     {
-        if ("anime".equals(recordType)) {
+        if (recordType == MALApi.ListType.ANIME) {
             showEpisodesWatchedDialog();
         } else {
             showMangaProgressDialog();
@@ -424,7 +423,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public class getDetailsTask extends AsyncTask<Void, Boolean, GenericRecord> {
         int mRecordID;
         MALManager mMalManager;
-        String internalType;
+        MALApi.ListType internalType;
 
         @Override
         protected void onPreExecute() {
@@ -436,7 +435,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         @Override
         protected GenericRecord doInBackground(Void... arg0) {
 
-            if ("anime".equals(internalType)) {
+            if (internalType == MALApi.ListType.ANIME) {
                 animeRecord = mMalManager.getAnimeRecord(mRecordID);
 
                 //Basically I just use publishProgress as an easy way to display info we already have loaded sooner
@@ -477,7 +476,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
         @Override
         protected void onProgressUpdate(Boolean... progress) {
-            if (animeRecord != null && MALManager.TYPE_ANIME.equals(internalType)) {
+            if (animeRecord != null && internalType == MALApi.ListType.ANIME) {
                 actionBar.setTitle(animeRecord.getTitle());
 
                 Picasso coverImage = Picasso.with(context);
@@ -605,7 +604,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     // Parent activity is destroy, skipping
                     return;
                 }
-                if ("anime".equals(internalType)) {
+                if (internalType == MALApi.ListType.ANIME) {
                     MALScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MALScoreBar);
                     MyScoreBar = (RatingBar) ScoreFragment.getView().findViewById(R.id.MyScoreBar);
 
@@ -656,6 +655,8 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                     MALScoreBar.setRating(MemberScore / 2);
                     MyScoreBar.setRating(MyScore / 2);
                 }
+
+                setupBeam();
             } else {
                 // if gr is null then the anime/manga is not stored in the database and could not be loaded from the API (e. g. no network connection)
                 Toast.makeText(context, R.string.crouton_error_DetailsError, Toast.LENGTH_SHORT).show();
@@ -666,7 +667,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
     public class writeDetailsTask extends AsyncTask<GenericRecord, Void, Boolean> {
         MALManager internalManager;
-        String internalType;
+        MALApi.ListType internalType;
         boolean internalNetworkAvailable;
 
         @Override
@@ -683,13 +684,13 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
 
             boolean result;
 
-            if ("anime".equals(internalType))
+            if (internalType == MALApi.ListType.ANIME)
                 internalManager.saveAnimeToDatabase((Anime) gr[0], false);
             else
                 internalManager.saveMangaToDatabase((Manga) gr[0], false);
 
             if (gr[0].getDeleteFlag()) {
-                if ("anime".equals(internalType)) {
+                if (internalType == MALApi.ListType.ANIME) {
                     internalManager.deleteAnimeFromDatabase((Anime) gr[0]);
                     result = internalManager.writeAnimeDetailsToMAL((Anime) gr[0]);
                 } else {
@@ -699,7 +700,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
             }
             else {
                 if (internalNetworkAvailable){
-                    if ("anime".equals(internalType)) {
+                    if (internalType == MALApi.ListType.ANIME) {
                         if (gr[0].getCreateFlag())
                             result = internalManager.addAnimeToMAL((Anime) gr[0]);
                         else
@@ -722,7 +723,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
                 if (result) {
                     gr[0].setDirty(false);
 
-                    if ("anime".equals(internalType)) {
+                    if (internalType == MALApi.ListType.ANIME) {
                         internalManager.saveAnimeToDatabase((Anime) gr[0], false);
                     } else {
                         internalManager.saveMangaToDatabase((Manga) gr[0], false);
@@ -741,7 +742,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     //Dialog returns new value, do something with it
     @Override
     public void onDialogDismissed(int newValue) {
-        if ("anime".equals(recordType)) {
+        if (recordType == MALApi.ListType.ANIME) {
             if (newValue == animeRecord.getWatchedEpisodes()) {
 
             } else {
@@ -801,7 +802,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public void setStatus(String currentStatus) {
         String prevStatus;
 
-        if ("anime".equals(recordType)) {
+        if (recordType == MALApi.ListType.ANIME) {
             prevStatus = animeRecord.getStatus();
 
             if (Anime.STATUS_WATCHING.equals(currentStatus)) {
@@ -853,7 +854,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     public void setRating(int rating) {
         Log.v("MALX", "setRating received rating: " + rating);
 
-        if ("anime".equals(recordType)) {
+        if (recordType == MALApi.ListType.ANIME) {
             MyScoreBar.setRating((float) rating / 2);
 
             animeRecord.setScore(rating);
@@ -869,7 +870,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     @Override
     public void onMangaDialogDismissed(int newChapterValue, int newVolumeValue) {
 
-        if ("manga".equals(recordType)) {
+        if (recordType == MALApi.ListType.MANGA) {
 
             if (newChapterValue == mangaRecord.getProgress(false)) {
 
@@ -976,7 +977,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
         String shareText = pManager.getCustomShareText();
 
         shareText = shareText.replace("$title;", actionBar.getTitle());
-        shareText = shareText.replace("$link;", "http://myanimelist.net/" + recordType + "/" + Integer.toString(recordID));
+        shareText = shareText.replace("$link;", "http://myanimelist.net/" + recordType.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
 
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
 
@@ -998,7 +999,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     @Override
     public void onRemoveConfirmed() {
         Log.v("MALX", "Item flagged for being removing.");
-        if ("anime".equals(recordType)) {
+        if (recordType == MALApi.ListType.ANIME) {
             animeRecord.setDeleteFlag(true);
             animeRecord.setDirty(true);
         } else {
@@ -1010,7 +1011,7 @@ RemoveConfirmationDialogFragment.RemoveConfirmationDialogListener {
     }
 
     public void addToList() {
-        if (recordType.equals("anime")) {
+        if (recordType == MALApi.ListType.ANIME) {
             animeRecord.setCreateFlag(true);
             animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
             MyStatusView.setText(getUserStatusString(animeRecord.getWatchedStatusInt()));

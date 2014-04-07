@@ -1,12 +1,13 @@
 package net.somethingdreadful.MAL.api.response;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
 import android.text.Html;
 import android.text.Spanned;
 
-public class GenericRecord {
+public class GenericRecord implements Serializable {
 	
 	// these are the same for both, so put them in here
 	public static final String STATUS_COMPLETED = "completed";
