@@ -37,7 +37,7 @@ public class MALDateTools {
                 "\\d{4}-\\d{2}-\\d{2}, \\d{1,2}:\\d{2} (AM|PM)", // yyyy-MM-dd, h:m a
                 "\\d{2}-\\d{2}-\\d{2}, \\d{1,2}:\\d{2} (AM|PM)", // MM-dd-yy, h:m a
                 "(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (\\d{1,2}):(\\d{2}) (AM|PM)", // EEEE, h:m a
-                "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}", // MMMM dd, yyyy
+                "(January|February|March|April|May|June|July|August|September|October|November|December) +\\d{1,2}, \\d{4}", // MMMM dd, yyyy
                 "Yesterday, (\\d{1,2}):(\\d{2}) (AM|PM)", // Yesterday, h:m a
                 "(\\d*) (hours?|minutes?) ago" // x hours/minutes ago
         };
