@@ -147,35 +147,33 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             record = ((User) listarray.get(position));
             
             try{
-            	if (view == null) {
-            		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            		view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
+            	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            	view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
                 
-            		String username =  record.getName();
-            		TextView Username = (TextView) view.findViewById(R.id.userName);
-            		Username.setText(username);
-            		if (User.isDeveloperRecord(username)) {
-            			Username.setTextColor(Color.parseColor("#008583")); //Developer
-            		}
-            		String last_online = record.getProfile().getDetails().getLastOnline();
-            		//Set online or offline status
-            		View Status = (View) view.findViewById(R.id.status);
-            		if (last_online.equals("Now")){
-            			Status.setBackgroundColor(Color.parseColor("#0D8500"));
-            		}else{
-            			Status.setBackgroundColor(Color.parseColor("#D10000"));
-            		}
-            		TextView since = (TextView) view.findViewById(R.id.since);
-            		since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : getString(R.string.unknown));
-            		TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
-            		lastonline.setText(last_online);
-            		Picasso picasso =  Picasso.with(context);
-	            	picasso.load(record.getProfile().getAvatarUrl())
-	            		.error(R.drawable.cover_error)
-	            		.placeholder(R.drawable.cover_loading)
-	            		.fit()
-	            		.into((ImageView) view.findViewById(R.id.profileImg));
+            	String username =  record.getName();
+            	TextView Username = (TextView) view.findViewById(R.id.userName);
+            	Username.setText(username);
+            	if (User.isDeveloperRecord(username)) {
+            		Username.setTextColor(Color.parseColor("#008583")); //Developer
             	}
+            	String last_online = record.getProfile().getDetails().getLastOnline();
+            	//Set online or offline status
+            	View Status = (View) view.findViewById(R.id.status);
+            	if (last_online.equals("Now")){
+            		Status.setBackgroundColor(Color.parseColor("#0D8500"));
+            	}else{
+            		Status.setBackgroundColor(Color.parseColor("#D10000"));
+            	}
+            	TextView since = (TextView) view.findViewById(R.id.since);
+            	since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : getString(R.string.unknown));
+            	TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
+            	lastonline.setText(last_online);
+            	Picasso picasso =  Picasso.with(context);
+	            picasso.load(record.getProfile().getAvatarUrl())
+	            	.error(R.drawable.cover_error)
+	            	.placeholder(R.drawable.cover_loading)
+	            	.fit()
+	            	.into((ImageView) view.findViewById(R.id.profileImg));
             }catch (Exception e){
             	e.printStackTrace();
             }
