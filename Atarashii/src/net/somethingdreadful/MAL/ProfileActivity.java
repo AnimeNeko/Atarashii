@@ -179,7 +179,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     	if (record.getProfile().getDetails().getBirthday() == null){
     		tv1.setText(R.string.not_specified);
     	}else{
-            String birthday = MALDateTools.formatDateString(record.getProfile().getDetails().getBirthday(), this, true);
+            String birthday = MALDateTools.formatDateString(record.getProfile().getDetails().getBirthday(), this, false);
             tv1.setText(birthday.equals("") ? record.getProfile().getDetails().getBirthday() : birthday);
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
