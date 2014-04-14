@@ -127,19 +127,6 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
 		public ListViewAdapter(Context context, int resource) {
             super(context, resource);
         }
-		
-		private String formatDate(String date) {
-		    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US); 
-		    try {
-                Date dateobj = dt.parse(date);
-                SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd, h:m a", Locale.US);
-                return dt1.format(dateobj);
-            } catch (ParseException e) {
-                Log.e("MALX", "error parsing date: " + e.getMessage());
-                // return date without changing
-                return date;
-            }
-		}
 	    
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
@@ -150,30 +137,37 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             	view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
                 
-            	String username =  record.getName();
-            	TextView Username = (TextView) view.findViewById(R.id.userName);
-            	Username.setText(username);
-            	if (User.isDeveloperRecord(username)) {
-            		Username.setTextColor(Color.parseColor("#008583")); //Developer
-            	}
-            	String last_online = record.getProfile().getDetails().getLastOnline();
-            	//Set online or offline status
-            	View Status = (View) view.findViewById(R.id.status);
-            	if (last_online.equals("Now")){
-            		Status.setBackgroundColor(Color.parseColor("#0D8500"));
-            	}else{
-            		Status.setBackgroundColor(Color.parseColor("#D10000"));
-            	}
-            	TextView since = (TextView) view.findViewById(R.id.since);
-            	since.setText(record.getFriendSince() != null ? formatDate(record.getFriendSince()) : getString(R.string.unknown));
-            	TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
-            	lastonline.setText(last_online);
-            	Picasso picasso =  Picasso.with(context);
-	            picasso.load(record.getProfile().getAvatarUrl())
-	            	.error(R.drawable.cover_error)
-	            	.placeholder(R.drawable.cover_loading)
-	            	.fit()
-	            	.into((ImageView) view.findViewById(R.id.profileImg));
+                String username =  record.getName();
+                TextView Username = (TextView) view.findViewById(R.id.userName);
+                Username.setText(username);
+                if (User.isDeveloperRecord(username)) {
+                    Username.setTextColor(Color.parseColor("#008583")); //Developer
+                }
+                String last_online = record.getProfile().getDetails().getLastOnline();
+                //Set online or offline status
+                View Status = (View) view.findViewById(R.id.status);
+                if (last_online.equals("Now")){
+                    Status.setBackgroundColor(Color.parseColor("#0D8500"));
+                }else{
+                    Status.setBackgroundColor(Color.parseColor("#D10000"));
+                }
+                TextView since = (TextView) view.findViewById(R.id.since);
+                String friendSince = "";
+                if ( record.getFriendSince() != null )
+                    friendSince = MALDateTools.formatDateString(record.getFriendSince(), context, true);
+                else
+                    friendSince = getString(R.string.unknown);
+                since.setText(friendSince.equals("") ? getString(R.string.unknown) : friendSince);
+
+                last_online = MALDateTools.formatDateString(last_online, context, true);
+                TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
+                lastonline.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
+                Picasso picasso =  Picasso.with(context);
+                picasso.load(record.getProfile().getAvatarUrl())
+                    .error(R.drawable.cover_error)
+                    .placeholder(R.drawable.cover_loading)
+                    .fit()
+                    .into((ImageView) view.findViewById(R.id.profileImg));
             }catch (Exception e){
             	e.printStackTrace();
             }

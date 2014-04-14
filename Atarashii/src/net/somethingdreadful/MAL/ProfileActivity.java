@@ -179,7 +179,8 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     	if (record.getProfile().getDetails().getBirthday() == null){
     		tv1.setText(R.string.not_specified);
     	}else{
-    		tv1.setText(record.getProfile().getDetails().getBirthday());
+            String birthday = MALDateTools.formatDateString(record.getProfile().getDetails().getBirthday(), this, false);
+            tv1.setText(birthday.equals("") ? record.getProfile().getDetails().getBirthday() : birthday);
     	}
 		TextView tv2 = (TextView) findViewById(R.id.locationsmall);
 		if (record.getProfile().getDetails().getLocation() == null){
@@ -201,16 +202,18 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		TextView tv4 = (TextView) findViewById(R.id.forumpostssmall);
 		tv4.setText(String.valueOf(record.getProfile().getDetails().getForumPosts()));
 		TextView tv5 = (TextView) findViewById(R.id.lastonlinesmall);
-		if (record.getProfile().getDetails().getLastOnline() != null ) 
-		    tv5.setText(record.getProfile().getDetails().getLastOnline());
-		else
+		if (record.getProfile().getDetails().getLastOnline() != null ) {
+            String lastOnline = MALDateTools.formatDateString(record.getProfile().getDetails().getLastOnline(), this, true);
+            tv5.setText(lastOnline.equals("") ? record.getProfile().getDetails().getLastOnline() : lastOnline);
+        } else
 		    tv5.setText("-");
 		TextView tv6 = (TextView) findViewById(R.id.gendersmall);
 		tv6.setText(getStringFromResourceArray(R.array.gender,R.string.not_specified,record.getProfile().getDetails().getGenderInt()));
 		TextView tv7 = (TextView) findViewById(R.id.joindatesmall);
-		if (record.getProfile().getDetails().getJoinDate() != null ) 
-            tv7.setText(record.getProfile().getDetails().getJoinDate());
-        else
+		if (record.getProfile().getDetails().getJoinDate() != null ) {
+            String joinDate = MALDateTools.formatDateString(record.getProfile().getDetails().getJoinDate(), this, false);
+            tv7.setText(joinDate.equals("") ? record.getProfile().getDetails().getJoinDate() : joinDate);
+        } else
             tv7.setText("-");
 		TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
 		tv8.setText(record.getProfile().getDetails().getAccessRank());
