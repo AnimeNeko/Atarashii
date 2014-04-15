@@ -176,6 +176,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     checkNetworkAndDisplayCrouton();
                 }
             };
+
+        	af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+            mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -323,8 +326,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-        af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-        mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         af.setRecordType(ListType.ANIME);
         mf.setRecordType(ListType.MANGA);
 
@@ -466,9 +467,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
         if (!MALApi.isNetworkAvailable(context) && networkAvailable == true) {
     		Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
-
-            af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-            mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
 
 			if (af.getMode() != null) {
 	            af.setMode(null);
