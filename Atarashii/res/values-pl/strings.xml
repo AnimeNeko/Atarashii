@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<resources>
+    <string name="app_name">Atarashii!</string>
+    <!-- All (Actionbar Title) Strings -->
+    <string name="title_activity_firstRun">Kreator pierwszego uruchomienia</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="title_activity_about">O programie</string>
+    <string name="title_activity_detail_view">Widok Szczegółów</string>
+    <string name="title_activity_profile">Profil Użytkownika</string>
+    <string name="title_activity_friends">Moi znajomi</string>
+    <string name="title_activity_logout">Wyloguj</string>
+    <!-- All (Actionbar Actions) Strings -->
+    <string name="menu_listType">Przełącznik listy</string>
+    <string name="menu_settings">Ustawienia</string>
+    <string name="menu_sync">Pełna Synchronizacja</string>
+    <string name="menu_sortType">Sortowanie</string>
+    <!-- All (Crouton) Strings -->
+    <string name="crouton_error_noConnectivityOnRun">Nie wykryto połączenia. Zmiany będą przechowywane do późniejszej synchronizacji.</string>
+    <string name="crouton_error_noConnectivity">Nie wykryto połączenia sieciowego.</string>
+    <string name="crouton_error_UserRecord">Profil użytkownika jest pusty!</string>
+    <string name="crouton_error_Search_Anime">Błąd podczas szukania rekordów anime.</string>
+    <string name="crouton_error_Search_Manga">Błąd podczas szukania rekordów mangi.</string>
+    <string name="crouton_error_Search">Błąd podczas szukania! Proszę spróbować później.</string>
+    <string name="crouton_error_noUserRecord">Ten użytkownik nie ma rekordu w trybie offline!</string>
+    <string name="crouton_error_Anime_Sync">Błąd synchronizacji podczas pobierania listy anime!</string>
+    <string name="crouton_error_Manga_Sync">Błąd synchronizacji podczas pobierania listy mang!</string>
+    <string name="crouton_error_noFriends">Nie masz znajomych na MAL!</string>
+    <string name="crouton_error_DetailsError">Nie można załadować szczegółów, proszę sprawdzić swoje połączenie z internetem.</string>
+    <string name="crouton_error_VerifyProblem">Whoah! Coś nie działa. Sprawdź swoje uwierzytelnienie i połączenie sieciowe po czym spróbuj ponownie.</string>
+    <string name="crouton_error_Friends">Błąd synchronizacji podczas pobierania listy znajomych!</string>
+    <string name="crouton_error_nothingFound">Nie znaleziono wyników dla anime lub mangi. Albo API jest uszkodzone albo nie znacz pisowni.</string>
+    <string name="crouton_info_SyncMessage">Synchronizowanie wszystkiego. Może to potrwać chwilę lub dwie, w zależności od szybkości internetu.</string>
+    <string name="crouton_info_connectionRestored">Połączenie przywrócone. Synchronizowanie oczekujących zmian.</string>
+    <string name="crouton_info_UserRecord_updated">Profil użytkownika zaktualizowany!</string>
+    <string name="crouton_info_SyncDone">Synchronizacja Ukończona</string>
+    <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_view">Widok</string>
+    <string name="dialog_title_share">Podziel się</string>
+    <string name="dialog_title_share_via">Udostępnij przez</string>
+    <string name="dialog_title_Verifying">Weryfikacja</string>
+    <string name="dialog_title_rating">Ocena</string>
+    <string name="dialog_title_logout">Potwierdź wylogowanie</string>
+    <string name="dialog_title_watched_update">Widziałem</string>
+    <string name="dialog_title_read_update">Przeczytałem</string>
+    <string name="dialog_title_status">Status</string>
+    <string name="dialog_message_view">Którą listę chcesz wyświetlić?</string>
+    <string name="dialog_message_logout">Czy na pewno chcesz się wylogować? Spowoduje to usunięcie wszystkich zapisanych danych i obrazów.</string>
+    <string name="dialog_message_remove">Absolutnie pewien? Jak już raz stracisz, to już na dobre i nie można ich odzyskać. Tak czy inaczej nie jest to łatwe.</string>
+    <string name="dialog_message_share">Którą listą chcesz się podzielić?</string>
+    <string name="dialog_message_Verifying">Upewniam się, że konto jest OK. Trzymaj się mocno przez chwilę.</string>
+    <string name="dialog_label_cancel">Anuluj</string>
+    <string name="dialog_label_update">Aktualizuj</string>
+    <string name="dialog_label_anime">Moja lista Anime</string>
+    <string name="dialog_label_manga">Moja lista Mang</string>
+    <string name="dialog_title_remove">Usuń z listy</string>
+    <string name="dialog_label_logout">Wyloguj</string>
+    <!-- ProfileActivity (Contents) Strings -->
+    <string name="share_animelist">$username; dzieli się listą anime używając Atarashii: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; dzieli się listą mang używając Atarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="layout_card_title_details">Szczegóły</string>
+    <string name="layout_discription">Ikona aplikacji</string>
+    <string name="layout_card_loading">Ładowanie</string>
+    <string name="layout_card_birthday">Urodziny</string>
+    <string name="layout_card_location">Lokalizacja</string>
+    <string name="layout_card_website">Strona internetowa</string>
+    <string name="layout_card_comments">Komentarze</string>
+    <string name="layout_card_forum">Posty na Forum</string>
+    <string name="layout_card_last">Online</string>
+    <string name="layout_card_gender">Płeć</string>
+    <string name="layout_card_join">Data rejestracji</string>
+    <string name="layout_card_acces">Stopień</string>
+    <string name="access_rank_atarashii_developer">Twórcy Atarashii</string>
+    <string name="layout_card_anime_views">Odsłon listy anime</string>
+    <string name="layout_card_manga_views">Odsłon listy mang</string>
+    <string name="layout_card_anime_details">Szczegóły Anime</string>
+    <string name="layout_card_manga_details">Szczegóły Mangi</string>
+    <string name="layout_card_anime_time">Czas w dniach</string>
+    <string name="layout_card_anime_watching">Oglądam</string>
+    <string name="layout_card_anime_completed">Zakończone</string>
+    <string name="layout_card_anime_on">Wstrzymane</string>
+    <string name="layout_card_anime_dropped">Porzucone</string>
+    <string name="layout_card_anime_plan">Planuje obejrzeć</string>
+    <string name="layout_card_anime_total">Wszystkich wpisów</string>
+    <string name="layout_card_manga_reading">Czytam</string>
+    <string name="layout_card_manga_plan">Planuję przeczytać</string>
+    <string name="action_viewListOnMAL">Widok listy na MAL</string>
+    <string name="not_specified">nie podano</string>
+    <string-array name="gender">
+        <item>Kobieta</item>
+        <item>Mężczyzna</item>
+    </string-array>
+    <!-- FriendsActivity Strings -->
+    <string name="layout_card_friends_since">Przyjaciele od</string>
+    <string name="unknown">nieznany</string>
+    <!-- FirstTimeInit (Contents) Strings -->
+    <string name="form_hint_user">Nazwa użytkownika MAL</string>
+    <string name="form_hint_pass">Hasło MAL</string>
+    <string name="form_hint_info">Wpisz poniżej swoje uwierzytelnienie MyAnimeList:</string>
+    <string name="form_action_create">Załóż konto</string>
+    <string name="form_action_connect">Podłącz do MAL</string>
+    <!-- CoverAdapter (MyList Cover) Strings -->
+    <string name="cover_Watching">Widziałem:</string>
+    <string name="cover_Completed">Zakończone</string>
+    <string name="cover_Reading">Przeczytałem:</string>
+    <string name="cover_OnHold">Wstrzymane na:</string>
+    <string name="cover_Dropped">Porzucone</string>
+    <string name="cover_PlanningToWatch">Planuje oglądać</string>
+    <string name="cover_PlanningToRead">Planuje przeczytać</string>
+    <string name="action_PlusOneWatched">+1 Oglądnięty</string>
+    <string name="action_PlusOneRead">+1 Przeczytany</string>
+    <string name="action_MarkAsComplete">Oznacz jako zakończone</string>
+    <string name="label_Chapters">Rozdziały:</string>
+    <string name="label_Volumes">Tomy:</string>
+    <!-- Navigation drawer (item & action) Strings -->
+    <string name="nav_item_my_profile">Mój Profil</string>
+    <string name="nav_item_my_list">Moja Lista</string>
+    <string name="nav_item_my_friends">Moi Znajomi</string>
+    <string name="nav_item_top_rated">Najwyżej oceniane</string>
+    <string name="nav_item_most_popular">Najpopularniejsze</string>
+    <string name="nav_item_just_added">Ostatnio dodane</string>
+    <string name="nav_item_upcoming">Nadchodzące</string>
+    <string name="drawer_open">Otwórz szufladę nawigacji</string>
+    <string name="drawer_close">Zamknij szufladę nawigacji</string>
+    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
+    <string name="title_Stats">Statystyki</string>
+    <string name="title_BasicStuff">Okładka</string>
+    <!-- DetailView (Card names) Strings -->
+    <string name="card_name_synopsis">STRESZCZENIE</string>
+    <string name="card_name_progress">POSTĘP</string>
+    <string name="card_name_stats">STATYSTYKI MAL</string>
+    <string name="card_name_rating">OCENA</string>
+    <string name="card_name_status">STATUS</string>
+    <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_volumes">Tomy</string>
+    <string name="card_content_chapters">Rozdziały</string>
+    <string name="card_content_episodes">Odcinki</string>
+    <string name="card_content_mal_score">Punkty MAL</string>
+    <string name="card_content_my_score">Moje punkty</string>
+    <string name="card_content_media_type">Typ nośnika</string>
+    <string name="card_content_media_status">Status Mediów</string>
+    <!-- DetailView (Actionbar actions) Strings -->
+    <string name="action_viewMALPage">Zobacz szczegóły na MyAnimeList</string>
+    <string name="action_Share">Podziel się</string>
+    <string name="action_Remove">Usuń z listy</string>
+    <string name="action_AddToList">Dodaj do listy</string>
+    <!-- DetailView (Media info) Strings -->
+    <string-array name="mediaType_Anime">
+    <!-- DetailView (Media info) Strings -->
+        <item>TV</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Film</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>OVA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>ONA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Specjanlny</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Muzyka</item>
+    </string-array>
+    <string-array name="mediaType_Manga">
+        <item>Manga</item>
+        <item>Powieść</item>
+        <item>One Shot</item>
+        <item>Doujin</item>
+        <item>Manwha</item>
+        <item>Manhua</item>
+        <item>OEL</item>
+    </string-array>
+    <string-array name="mediaStatus_Anime">
+        <item>zakończone nadawanie</item>
+        <item>obecnie nadawane</item>
+        <item>jeszcze nie nadawane</item>
+    </string-array>
+    <string-array name="mediaStatus_Manga">
+        <item>zakończone</item>
+        <item>wydawnictwo</item>
+        <item>jeszcze nie wydane</item>
+    </string-array>
+    <!-- Anime/Manga progress status strings -->
+    <string-array name="mediaStatus_User">
+    <!-- Anime/Manga progress status strings -->
+        <item>Zakonczone</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Wstrzymane</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Porzucone</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Oglądam</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Planuję oglądnąć</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Czytam</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Planuję przeczytać</item>
+    </string-array>
+    <!-- AndroidManifest (Unknown) Strings -->
+    <string name="permission_group_useAtarashii">Użyj Atarashii! do obsługi MyAnimeList</string>
+    <string name="permission_group_description_useAtarashii">Zezwalaj tej aplikacji do korzystania z Atarashii! (jeśli jest zainstalowany), aby uzyskać dostęp do konta MyAnimeList</string>
+    <string name="permission_updateMedia">Zaktualizuj rekordy</string>
+    <string name="permission_description_updateMedia">Zezwól tej aplikacji do aktualizowania rekordów na koncie MyAnimeList</string>
+    <!-- BaseActionBarSearchView (Unknown) Strings -->
+    <string name="search_prompt">Szukaj na MAL</string>
+    <!-- AboutActivity (contents) Strings -->
+    <string name="contributors_card_title">Główni Współpracownicy</string>
+    <string name="acknowledgements_card_title">Biblioteki Open Source</string>
+    <string name="acknowledgements">Atarashii! realizuje Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> przez Square Inc. i <a href="https://code.google.com/p/google-gson/">google-gson</a> przez Google Inc. który jest używany przez Retrofit, z których wszystkie są licencjonowane pod licencją <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.</string>
+    <string name="app_description">Atarashii! jest najlepszym sposobem na dostęp do MyAnimeList z twojego telefonu. Jest nowoczesny i pięknie dopasowany do interfejsu Androida w połączeniu z wszystkimi funkcjami jakie możesz sobie życzyć.</string>
+    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
+    <string name="contributor_anima_summary">\"Wszystkie inne aplikacje do bani!\" \n\nZałożyciel i główny programista. Zmęczeni złym UI z innych aplikacji i ich ogólnego braku konserwacji, poszedł i stworzył ten.</string>
+    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
+    <string name="contributor_motokochan_summary">Skupia się w czyszczeniu kodu i realizacji małych funkcji. Pracował nad rozszerzeniem aplikacji do obsługi mangi.</string>
+    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
+    <string name="contributor_apkawa_summary">Wdrożona funkcjonalność wyszukiwania. </string>
+    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
+    <string name="contributor_dsko_summary">Wdrożona modernizacja do obsługi API.</string>
+    <string name="community_card_title">Społeczność Atarashii</string>
+    <string name="customShareText_fromAtarashii">\n\nUdostępnione z Atarashii! - Nowoczesny MAL dla Androida</string>
+    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Dołącz do naszej społeczności!</a>Grupa społeczności Atarashii! na Google+ jest świetnym miejscem do interakcji z twórcami i daniem nam znać co myślisz. Problemy, propozycje nowych funkcji, aktualizacje statusów, to wszystko jest tam. Nie ugryziemy, obiecujemy.</string>
+    <!-- Preferences (contents) Strings -->
+    <string name="dialog_DefaultList">Domyślna Lista</string>
+    <string name="summary_DefaultList">Którą listę chcesz żeby aplikacja załadowała po otwarciu?</string>
+    <string name="preference_category_list">Lista</string>
+    <string name="preference_category_synchronisation">synchronizacja</string>
+    <string name="preference_category_sharing">Udostępnianie</string>
+    <string name="preference_category_profile">Profil</string>
+    <string name="preference_synchronisation">Automatyczna synchronizacja</string>
+    <string name="preference_TraditionalList">Użyj Tradycyjnej Listy</string>
+    <string name="preference_Only_wifi">Synchronizuj tylko za pomocą Wi-Fi</string>
+    <string name="preference_customShareText">Niestandardowy Tekst Udostępniania</string>
+    <string name="preference_displayVolumes">Użyj Tomów na Okładki</string>
+    <string name="preference_autosync">Interwał Auto-synchronizacji</string>
+    <string name="preference_profileTextColors">Wyłącz kolory tekstu</string>
+    <string name="preference_profileAnimeHide">Zawsze ukrywaj szczegóły anime</string>
+    <string name="preference_profileMangaHide">Zawsze ukrywaj szczegóły mangi</string>
+    <string name="preference_profileBothHide">Ukryj auto. szczegóły dla anime/mang</string>
+    <string name="preference_summary_TraditionList">Skorzystaj z listy wypróbowane-i-prawdziwe zamiast stylu płynącej-okładki. Wymagany restart by zmiany były widoczne.</string>
+    <string name="preference_summary_synchronisation">Jeśli zaznaczone, Atarashii zsynchronizuje się przy starcie.</string>
+    <string name="preference_summary_Only_wifi">Atarashii będzie do automatycznej synchronizacji używać tylko Wi-Fi.</string>
+    <string name="preference_summary_customShareText">Nie podoba ci się standardowy teks udostępniania? Stwórz swój! Użyj $title; i $link; w miejscu tytułu i linku do MAL, a my zrobimy resztę.</string>
+    <string name="preference_summary_autosync">Czas po którym auto-synchronizacja włączy się podczas startu.</string>
+    <string name="preference_summary_displayVolumes">Wyświetla tomy zamiast rozdziałów na okładkach. Akcja +1 Przeczytany również zastosuje tomy zamiast rozdziałów. Wymaga ponownego uruchomienia aplikacji by zmiany weszły w życie.</string>
+    <string name="preference_summary_profileTextColors">Zmuś stronę profilu do używania tekstu w czarnym kolorze.</string>
+    <string name="preference_summary_profileAnimeHide">Ukryj szczegóły anime na wszystkich profilach.</string>
+    <string name="preference_summary_profileMangaHide">Ukryj szczegóły mangi na wszystkich profilach.</string>
+    <string name="preference_summary_profileBothHide">Ukryj szczegóły anime/mangi na wszystkich profilach, gdy całkowita ilość wpisów wynosi zero.</string>
+    <string name="preference_default_customShareText">Sprawdź $title; na MyAnimeList!\n$link;</string>
+    <!-- Dialog_Status_picker (ListType) Strings -->
+    <string name="listType_all">Wszystko</string>
+    <string name="listType_onhold">Wstrzymane</string>
+    <string name="listType_dropped">Porzucone</string>
+    <string name="listType_planned">Zaplanowane</string>
+    <string name="listType_Completed">Zakończone</string>
+    <string name="listType_InProgress">Oglądane</string>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+    <string-array name="array_ratings_text">
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>Bez oceny</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>1: Przerażający</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>2: Straszny</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>3: Bardzo zły</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>4: Zły</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>5: Średni</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>6: Fajny</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>7: Dobry</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>8: Bardzo dobry</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>9: Wspaniały</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>10: Arcydzieło</item>
+    </string-array>
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="listTypeArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Wszystko</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Oglądam</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Zakończone</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Wstrzymane</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Porzucone</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Planuje Oglądnąć</item>
+    </string-array>
+    <string-array name="listTypeValuesArray">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="syncArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>5 minut</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 minut</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>15 minut</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>30 minut</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>60 minut</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>2 godziny</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 godziny</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 godzin</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>8 godzin</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 godzin</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>12 godzin</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>24 godziny</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>48 godzin</item>
+    </string-array>
+    <string-array name="syncValuesArray">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+        <item>600</item>
+        <item>720</item>
+        <item>1440</item>
+        <item>2880</item>
+    </string-array>
+</resources>

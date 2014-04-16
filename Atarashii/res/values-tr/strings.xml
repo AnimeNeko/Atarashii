@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<resources>
+    <string name="app_name">Atarashii!</string>
+    <!-- All (Actionbar Title) Strings -->
+    <string name="title_activity_firstRun">İlk açılış kurulumu</string>
+    <string name="title_activity_settings">Ayarlar</string>
+    <string name="title_activity_about">Hakkında</string>
+    <string name="title_activity_detail_view">Detay Görünümü</string>
+    <string name="title_activity_profile">Kullanıcı profili</string>
+    <string name="title_activity_friends">Arkadaşlarım</string>
+    <string name="title_activity_logout">Çıkış</string>
+    <!-- All (Actionbar Actions) Strings -->
+    <string name="menu_listType">Listeyi değiştir</string>
+    <string name="menu_settings">Ayarlar</string>
+    <string name="menu_sync">Tam Senkronizasyon</string>
+    <string name="menu_sortType">Sırala</string>
+    <!-- All (Crouton) Strings -->
+    <string name="crouton_error_noConnectivityOnRun">İnternet bağlantısı bulunamadı. Değişiklikler daha sonra senkronize edilmek üzere saklanacaktır.</string>
+    <string name="crouton_error_noConnectivity">İnternet bağlantısı bulunamadı.</string>
+    <string name="crouton_error_UserRecord">Kullanıcı profili boş!</string>
+    <string name="crouton_error_Search_Anime">Anime kayıtlarını ararken bir sorun ile karşılaşıldı.</string>
+    <string name="crouton_error_Search_Manga">Manga kayıtlarını ararken bir sorun ile karşılaşıldı.</string>
+    <string name="crouton_error_Search">Arama yaparken bir sorun ile karşılaşıldı. Lütfen sonra tekrar deneyin.</string>
+    <string name="crouton_error_noUserRecord">Bu kullanıcının çevrimdışı kaydı bulunmamaktadır!</string>
+    <string name="crouton_error_Anime_Sync">Anime listesi indirilemedi!</string>
+    <string name="crouton_error_Manga_Sync">Manga listesi indirilemedi!</string>
+    <string name="crouton_error_noFriends">MAL\'da hiç arkadaşınız yok!</string>
+    <string name="crouton_error_DetailsError">Detaylar yüklenemedi. Lütfen internet bağlantınızı kontrol edin.</string>
+    <string name="crouton_error_VerifyProblem">Ah! Birşey çalışmadı. Kullanıcı bilgilerinizi ve internet bağlantınızı kontrol ettikten sonra tekrar deneyin.</string>
+    <string name="crouton_error_Friends">Arkadaş listesini indirirken bir hata oluştu.</string>
+    <string name="crouton_error_nothingFound">Böyle bir anime veya manga bulunamadı. Ya API bozuk, ya da siz bir yazım hatası yaptınız.</string>
+    <string name="crouton_info_SyncMessage">Herşey senkronize ediliyor. Bu işlem internet bağlantınıza göre birkaç saniye sürebilir.</string>
+    <string name="crouton_info_connectionRestored">İnternet bağlantısı onarıldı. Bekleyen değişiklikler senkronize ediliyor.</string>
+    <string name="crouton_info_UserRecord_updated">Kullanıcı profili güncellendi!</string>
+    <string name="crouton_info_SyncDone">Senkronizasyon tamamlandı!</string>
+    <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_view">Göster</string>
+    <string name="dialog_title_share">Paylaş</string>
+    <string name="dialog_title_share_via">Paylaş</string>
+    <string name="dialog_title_Verifying">Doğrulanıyor</string>
+    <string name="dialog_title_rating">Rating</string>
+    <string name="dialog_title_logout">Çıkışı onayla</string>
+    <string name="dialog_title_watched_update">İzledim</string>
+    <string name="dialog_title_read_update">Okudum</string>
+    <string name="dialog_title_status">Durum</string>
+    <string name="dialog_message_view">Hangi listeyi görmek istiyorsunuz?</string>
+    <string name="dialog_message_logout">Çıkış yapmak istediğinizden emin misiniz? Bu işlem tüm saklanan verileri silinmesine sebep olacaktır.</string>
+    <string name="dialog_message_remove">Kesinlikle emin misiniz? Bir defa gitti mi, bir daha geri gelmez. En azından kolay br şekilde değil.</string>
+    <string name="dialog_message_share">Hangi listeyi paylaşmak istiyorsunuz?</string>
+    <string name="dialog_message_Verifying">Kullanıcını bilgileriniz kontrol ediliyor. Az bekleyin lütfen.</string>
+    <string name="dialog_label_cancel">İptal</string>
+    <string name="dialog_label_update">Güncelle</string>
+    <string name="dialog_label_anime">Anime Listem</string>
+    <string name="dialog_label_manga">Manga Listem</string>
+    <string name="dialog_title_remove">Listeden kaldır</string>
+    <string name="dialog_label_logout">Çıkış</string>
+    <!-- ProfileActivity (Contents) Strings -->
+    <string name="share_animelist">$username;, Atarashii\'yi kullanarak bir anime listesi paylaştı: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username;, Atarashii\'yi kullanarak bir manga listesi paylaştı: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="layout_card_title_details">Detaylar</string>
+    <string name="layout_discription">Uygulama Simgesi</string>
+    <string name="layout_card_loading">Yükleniyor</string>
+    <string name="layout_card_birthday">Doğum günü</string>
+    <string name="layout_card_location">Konum</string>
+    <string name="layout_card_website">Web Sitesi</string>
+    <string name="layout_card_comments">Yorumlar</string>
+    <string name="layout_card_forum">Forum iletileri</string>
+    <string name="layout_card_last">Son çevrimiçi</string>
+    <string name="layout_card_gender">Cinsiyet</string>
+    <string name="layout_card_join">Katılım tarihi</string>
+    <string name="layout_card_acces">Rütbe</string>
+    <string name="access_rank_atarashii_developer">Atarashii geliştiricisi</string>
+    <string name="layout_card_anime_views">Anime listesi gösterimi</string>
+    <string name="layout_card_manga_views">Manga listesi gösterimi</string>
+    <string name="layout_card_anime_details">Anime detayları</string>
+    <string name="layout_card_manga_details">Manga detayları</string>
+    <string name="layout_card_anime_time">Zaman gün</string>
+    <string name="layout_card_anime_watching">İzlenen</string>
+    <string name="layout_card_anime_completed">İzlenmiş</string>
+    <string name="layout_card_anime_on">Beklemede</string>
+    <string name="layout_card_anime_dropped">Bırakılmış</string>
+    <string name="layout_card_anime_plan">Planlanıyor</string>
+    <string name="layout_card_anime_total">Toplam</string>
+    <string name="layout_card_manga_reading">Okunuyor</string>
+    <string name="layout_card_manga_plan">Planlanıyor</string>
+    <string name="action_viewListOnMAL">Listeye MAL\'de bak</string>
+    <string name="not_specified">belirtilmemiş</string>
+    <string-array name="gender">
+        <item>Bayan</item>
+        <item>Erkek</item>
+    </string-array>
+    <!-- FriendsActivity Strings -->
+    <string name="layout_card_friends_since">Beri arkadaş</string>
+    <string name="unknown">bilinmiyor</string>
+    <!-- FirstTimeInit (Contents) Strings -->
+    <string name="form_hint_user">Kullanıcı ismi</string>
+    <string name="form_hint_pass">Şifre</string>
+    <string name="form_hint_info">MyAnimeList bilgilerinizi aşağıya girin:</string>
+    <string name="form_action_create">Kullanıcı oluştur</string>
+    <string name="form_action_connect">MAL\'a bağlan</string>
+    <!-- CoverAdapter (MyList Cover) Strings -->
+    <string name="cover_Watching">İzlediğim:</string>
+    <string name="cover_Completed">Bitirilmiş</string>
+    <string name="cover_Reading">Okuduğum:</string>
+    <string name="cover_OnHold">Beklemede:</string>
+    <string name="cover_Dropped">Bırakılmış</string>
+    <string name="cover_PlanningToWatch">Planlanıyor</string>
+    <string name="cover_PlanningToRead">Planlanıyor</string>
+    <string name="action_PlusOneWatched">+1 İzlenmiş</string>
+    <string name="action_PlusOneRead">+1 Okunmuş</string>
+    <string name="action_MarkAsComplete">Bitmiş olarak işaretle</string>
+    <string name="label_Chapters">Bolüm:</string>
+    <string name="label_Volumes">Cilt:</string>
+    <!-- Navigation drawer (item & action) Strings -->
+    <string name="nav_item_my_profile">Profilim</string>
+    <string name="nav_item_my_list">Listem</string>
+    <string name="nav_item_my_friends">Arkadaşlarım</string>
+    <string name="nav_item_top_rated">En Beğenilen</string>
+    <string name="nav_item_most_popular">En Popüler</string>
+    <string name="nav_item_just_added">Yeni Eklenen</string>
+    <string name="nav_item_upcoming">Yakında Çıkan</string>
+    <string name="drawer_open">Navigasyon çekmecesini aç</string>
+    <string name="drawer_close">Navigasyon çekmecesini kapat</string>
+    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
+    <string name="title_Stats">Durum</string>
+    <string name="title_BasicStuff">Kapak</string>
+    <!-- DetailView (Card names) Strings -->
+    <string name="card_name_synopsis">ÖZET</string>
+    <string name="card_name_progress">DURUM</string>
+    <string name="card_name_stats">MAL BİLGİLERİ</string>
+    <string name="card_name_rating">RATİNG</string>
+    <string name="card_name_status">DURUM</string>
+    <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_volumes">Cilt</string>
+    <string name="card_content_chapters">Bölüm</string>
+    <string name="card_content_episodes">Bölüm</string>
+    <string name="card_content_mal_score">MAL Puanı</string>
+    <string name="card_content_my_score">Benim Puanım</string>
+    <string name="card_content_media_type">Medya Türü</string>
+    <string name="card_content_media_status">Medya Durumu</string>
+    <!-- DetailView (Actionbar actions) Strings -->
+    <string name="action_viewMALPage">Detayları MyAnimeList\'de oku</string>
+    <string name="action_Share">Paylaş</string>
+    <string name="action_Remove">Listeden kaldır</string>
+    <string name="action_AddToList">Listeye ekle</string>
+    <!-- DetailView (Media info) Strings -->
+    <string-array name="mediaType_Anime">
+    <!-- DetailView (Media info) Strings -->
+        <item>TV</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Film</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>OVA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>ONA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Özel</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Müzik</item>
+    </string-array>
+    <string-array name="mediaType_Manga">
+        <item>Manga</item>
+        <item>Roman</item>
+        <item>One Shot</item>
+        <item>Doujin</item>
+        <item>Manwha</item>
+        <item>Manhua</item>
+        <item>OEL</item>
+    </string-array>
+    <string-array name="mediaStatus_Anime">
+        <item>yayınlanmış</item>
+        <item>yayınlanıyor</item>
+        <item>henüz yayınlanmamış</item>
+    </string-array>
+    <string-array name="mediaStatus_Manga">
+        <item>yayınlanmış</item>
+        <item>yayınlanıyor</item>
+        <item>henüz yayınlanmamış</item>
+    </string-array>
+    <!-- Anime/Manga progress status strings -->
+    <string-array name="mediaStatus_User">
+    <!-- Anime/Manga progress status strings -->
+        <item>Bitirilmiş</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Beklemede</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Bırakılmış</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>İzleniyor</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Planlanıyor</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Okunuyor</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Planlanıyor</item>
+    </string-array>
+    <!-- AndroidManifest (Unknown) Strings -->
+    <string name="permission_group_useAtarashii">MyAnimeList için Atarashii!\'yi kullan</string>
+    <string name="permission_group_description_useAtarashii">Bu uygulamaya Atarashii! (eğer yüklüyse) üzerinden MyAnimeList kullanıcınıza erişmesine izin ver</string>
+    <string name="permission_updateMedia">Kayıtları Yenile</string>
+    <string name="permission_description_updateMedia">Bu uygulamaya MyAnimeList kullanıcınızın kayıtlarını yenilemesine izin ver</string>
+    <!-- BaseActionBarSearchView (Unknown) Strings -->
+    <string name="search_prompt">MAL\'de Ara</string>
+    <!-- AboutActivity (contents) Strings -->
+    <string name="contributors_card_title">Katkıda Bulunanlar</string>
+    <string name="acknowledgements_card_title">Açık Kaynaklı Bileşenler</string>
+    <string name="acknowledgements">Atarashii! Jake Wharton\'nın <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'nin <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'in <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'ın <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, Square Inc. tarafından geliştirilen <a href="http://square.github.io/retrofit/">Retrofit</a> ve retrofit tarafından kullanılan, Google Inc. tarafından da geliştirilen <a href="https://code.google.com/p/google-gson/">google-gson</a> isimli, <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> lisanslı kütüphaneleri kullanmaktadır.</string>
+    <string name="app_description">Atarashii!, akıllı telefonunuzdan MyAnimeList\'e erişmenin en güzel şekli. Atarashii!, modern, güzel bir kullanıcı arayüzü ile birlikte isteyebileceğiniz bütün özellikleri de içeriyor.</string>
+    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
+    <string name="contributor_anima_summary">\"Diğer uygulamaların hepsi berbat!\"\n\nKurucu ve asıl geliştirici. Diğer uygulamaların eski, çirkin arayüzünden ve bakımsızlığından sıkılıp bu uygulamayı geliştirdi.</string>
+    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
+    <string name="contributor_motokochan_summary">Kod düzenleme ve küçük özellikler üzerinde yoğunlaşır. Uygulamanın manga desteği üzerinde çalıştı.</string>
+    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
+    <string name="contributor_apkawa_summary">Arama özelliğini ekledi.</string>
+    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
+    <string name="contributor_dsko_summary">API idaresi için retrofit kütüphanesini ekledi.</string>
+    <string name="community_card_title">Atarashii Topluluğu</string>
+    <string name="customShareText_fromAtarashii">\n\nAtarashii!\'den paylaşıldı - Android için modern bir MAL uygulaması</string>
+    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Topluluğumuza katılın!</a> Google+\'da bulunan topluluğumuz, geliştiricilerle irtibata geçmek veya görüşlerinizi paylaşmak için en güzel yer. Sorunlar, özellik talepleri, durum güncellemeleri, herşey burada. Söz, ısırmayız!</string>
+    <!-- Preferences (contents) Strings -->
+    <string name="dialog_DefaultList">Varsayılan Liste</string>
+    <string name="summary_DefaultList">Uygulama açıldığında hangi listeyi görmek istersiniz?</string>
+    <string name="preference_category_list">Liste</string>
+    <string name="preference_category_synchronisation">Senkronizasyon</string>
+    <string name="preference_category_sharing">Paylaşım</string>
+    <string name="preference_category_profile">Profil senkronizasyonu</string>
+    <string name="preference_synchronisation">Otomatik senkronizasyon</string>
+    <string name="preference_TraditionalList">Geleneksen liste tarzını kullan</string>
+    <string name="preference_Only_wifi">Sadece Wi-Fi üzerinden senkronize et</string>
+    <string name="preference_customShareText">Kişisel Paylaşım Metni</string>
+    <string name="preference_displayVolumes">Kapaklarda Ciltleri kullan</string>
+    <string name="preference_autosync">Otomatik senkronizasyon süresi</string>
+    <string name="preference_profileTextColors">Renkli yazıları devre dışı bırak</string>
+    <string name="preference_profileAnimeHide">Anime detaylarını herzaman gizle</string>
+    <string name="preference_profileMangaHide">Manga detaylarını herzaman gizle</string>
+    <string name="preference_profileBothHide">Otomatik olarak anime/manga detaylarını gizle</string>
+    <string name="preference_summary_TraditionList">Kapak resimleri yerine geleneksel liste stilini kullan. Değişikliklerin fark etmesi için uygulamanın yeniden başlaması gerekir.</string>
+    <string name="preference_summary_synchronisation">Seçildiği sürece Atarashii her açılışta senkronizasyon yapacaktır</string>
+    <string name="preference_summary_Only_wifi">Atarashii sadece Wi-Fi üzerinden senkronizasyon yapacaktır</string>
+    <string name="preference_summary_customShareText">Varsayılan paylaşım metnini beğenmiyor musunuz? Kendinizinkini oluşturun! Başlık yerine $title; link yerine de $link kullanın. Gerisini biz hallederiz.</string>
+    <string name="preference_summary_autosync">Açılıştan sonra otomatik senkronizasyonun başlaması için gereken süre</string>
+    <string name="preference_summary_displayVolumes">Kapaklarda bölümler yerine ciltleri göster. +1 Okunmuş özelliği de bölümler yerine ciltere işlemeye başlar. Değişikliklerin fark etmesi için uygulamanın yeniden başlaması gerekir.</string>
+    <string name="preference_summary_profileTextColors">Profil sayfasını siyah yazı renki kullanmaya zorla</string>
+    <string name="preference_summary_profileAnimeHide">Anime detaylarını tüm profillerde gizle</string>
+    <string name="preference_summary_profileMangaHide">Manga detaylarını tüm profillerde gizle</string>
+    <string name="preference_summary_profileBothHide">Toplam kayıt sayısı sıfır olduğunda anime/manga detaylarını sakla</string>
+    <string name="preference_default_customShareText">MyAnimeList\'de $title;\'a bak!\n$link;</string>
+    <!-- Dialog_Status_picker (ListType) Strings -->
+    <string name="listType_all">Herşey</string>
+    <string name="listType_onhold">Beklemede Olan</string>
+    <string name="listType_dropped">Bırakılan</string>
+    <string name="listType_planned">Planlanan</string>
+    <string name="listType_Completed">Bitirilen</string>
+    <string name="listType_InProgress">Devam Edilen</string>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+    <string-array name="array_ratings_text">
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>Puan Verilmemiş</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>1: Korkunç</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>2: Berbat</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>3: Çok Kötü</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>4: Kötü</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>5: Orta</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>6: Fena Değil</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>7: İyi</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>8: Çok İyi</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>9: Harika</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>10: Şaheser</item>
+    </string-array>
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="listTypeArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Herşey</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Devam Ediliyor</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Bitirilmiş</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Beklemede</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Bırakılmış</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Planlanıyor</item>
+    </string-array>
+    <string-array name="listTypeValuesArray">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="syncArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>5 dakika</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 dakika</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>15 dakika</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>30 dakika</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>60 dakika</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>2 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>8 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>12 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>24 saat</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>48 saat</item>
+    </string-array>
+    <string-array name="syncValuesArray">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+        <item>600</item>
+        <item>720</item>
+        <item>1440</item>
+        <item>2880</item>
+    </string-array>
+</resources>
