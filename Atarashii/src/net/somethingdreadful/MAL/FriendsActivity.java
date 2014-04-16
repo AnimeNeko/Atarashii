@@ -1,12 +1,7 @@
 package net.somethingdreadful.MAL;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
-
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
@@ -16,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,7 +140,9 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
                 String last_online = record.getProfile().getDetails().getLastOnline();
                 //Set online or offline status
                 View Status = (View) view.findViewById(R.id.status);
-                if (last_online.equals("Now")){
+                if (last_online.contains("seconds")){
+                    Status.setBackgroundColor(Color.parseColor("#0D8500"));
+                }else if (last_online.contains("minutes") && Integer.parseInt(last_online.replace(" minutes ago", "")) < 16){
                     Status.setBackgroundColor(Color.parseColor("#0D8500"));
                 }else{
                     Status.setBackgroundColor(Color.parseColor("#D10000"));
