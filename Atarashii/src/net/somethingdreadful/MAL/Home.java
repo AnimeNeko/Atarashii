@@ -328,6 +328,9 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
         af.setRecordType(ListType.ANIME);
         mf.setRecordType(ListType.MANGA);
+        
+        //Set myList to if we are on the user's personal list or not
+        myList = (af.getMode() == TaskJob.GETLIST);
 
         //auto-sync stuff
         if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable == true){
