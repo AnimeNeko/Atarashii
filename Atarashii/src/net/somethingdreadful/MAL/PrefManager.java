@@ -24,7 +24,7 @@ public class PrefManager {
     }
 
     public String getCustomShareText() {
-        return prefs.getString("customShareText", "Check out $title; on MyAnimeList!\n$link;");
+        return prefs.getString("customShareText", context.getString(R.string.preference_default_customShareText));
     }
 
     public boolean getUpgradeInit() {
