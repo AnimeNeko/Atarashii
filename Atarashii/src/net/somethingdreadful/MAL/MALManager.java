@@ -155,7 +155,9 @@ public class MALManager {
     	if ( anime_api != null ) {
     		anime.setSynopsis(anime_api.getSynopsis());
     		anime.setMembersScore(anime_api.getMembersScore());
-            dbMan.saveAnime(anime, false);
+            // only store anime with user status in database
+            if (anime.getWatchedStatus() != null)
+                dbMan.saveAnime(anime, false);
     	}
         
         return anime;
@@ -214,7 +216,9 @@ public class MALManager {
     	if ( manga_api != null ) {
     		manga.setSynopsis(manga_api.getSynopsis());
     		manga.setMembersScore(manga_api.getMembersScore());
-    		dbMan.saveManga(manga, false);
+            // only store manga with user status in database
+            if (manga.getReadStatus() != null)
+    		    dbMan.saveManga(manga, false);
     	}
         
         return manga;
