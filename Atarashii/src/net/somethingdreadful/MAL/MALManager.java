@@ -97,11 +97,6 @@ public class MALManager {
     public Anime getAnimeRecordFromMAL(int id) {
         try {
             Anime anime = malApi.getAnime(id);
-            if ( anime != null ) {
-    	        if (anime.getWatchedStatus() == null) {
-    	        	anime.setCreateFlag(true);
-    	        }
-            }
             return anime;
         } catch (RetrofitError e) {
             Log.e("MALX", "error downloading anime details: " + e.getMessage());
@@ -112,11 +107,6 @@ public class MALManager {
     public Manga getMangaRecordFromMAL(int id) {
         try {
         	Manga manga = malApi.getManga(id);
-            if ( manga != null ) {
-    	        if (manga.getReadStatus() == null) {
-    	        	manga.setCreateFlag(true);
-    	        }
-            }
             return manga;
         } catch (RetrofitError e) {
             Log.e("MALX", "error downloading manga details: " + e.getMessage());
