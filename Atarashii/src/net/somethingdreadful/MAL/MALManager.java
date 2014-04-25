@@ -97,11 +97,6 @@ public class MALManager {
     public Anime getAnimeRecordFromMAL(int id) {
         try {
             Anime anime = malApi.getAnime(id);
-            if ( anime != null ) {
-    	        if (anime.getWatchedStatus() == null) {
-    	        	anime.setCreateFlag(true);
-    	        }
-            }
             return anime;
         } catch (RetrofitError e) {
             Log.e("MALX", "error downloading anime details: " + e.getMessage());
@@ -112,11 +107,6 @@ public class MALManager {
     public Manga getMangaRecordFromMAL(int id) {
         try {
         	Manga manga = malApi.getManga(id);
-            if ( manga != null ) {
-    	        if (manga.getReadStatus() == null) {
-    	        	manga.setCreateFlag(true);
-    	        }
-            }
             return manga;
         } catch (RetrofitError e) {
             Log.e("MALX", "error downloading manga details: " + e.getMessage());
@@ -165,7 +155,9 @@ public class MALManager {
     	if ( anime_api != null ) {
     		anime.setSynopsis(anime_api.getSynopsis());
     		anime.setMembersScore(anime_api.getMembersScore());
-            dbMan.saveAnime(anime, false);
+            // only store anime with user status in database
+            if (anime.getWatchedStatus() != null)
+                dbMan.saveAnime(anime, false);
     	}
         
         return anime;
@@ -224,7 +216,9 @@ public class MALManager {
     	if ( manga_api != null ) {
     		manga.setSynopsis(manga_api.getSynopsis());
     		manga.setMembersScore(manga_api.getMembersScore());
-    		dbMan.saveManga(manga, false);
+            // only store manga with user status in database
+            if (manga.getReadStatus() != null)
+    		    dbMan.saveManga(manga, false);
     	}
         
         return manga;
