@@ -1,10 +1,5 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
-    }
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
 }
 
 apply plugin: 'android'
@@ -50,7 +45,6 @@ repositories {
     maven {
         url 'https://github.com/toxbee/mvn-repo/raw/master/maven-deploy'
     }
-    mavenCentral()
 }
 
 dependencies {
