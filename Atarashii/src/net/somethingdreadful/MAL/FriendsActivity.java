@@ -162,7 +162,6 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
                 picasso.load(record.getProfile().getAvatarUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
-                    .fit()
                     .into((ImageView) view.findViewById(R.id.profileImg));
             }catch (Exception e){
             	e.printStackTrace();
