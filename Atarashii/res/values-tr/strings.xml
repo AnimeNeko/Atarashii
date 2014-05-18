@@ -138,6 +138,7 @@
     <string name="card_content_my_score">Benim Puanım</string>
     <string name="card_content_media_type">Medya Türü</string>
     <string name="card_content_media_status">Medya Durumu</string>
+    <string name="card_content_loading">Yükleniyor</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Detayları MyAnimeList\'de oku</string>
     <string name="action_Share">Paylaş</string>
@@ -207,7 +208,7 @@
     <string name="acknowledgements">Atarashii! Jake Wharton\'nın <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'nin <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'in <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'ın <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, Square Inc. tarafından geliştirilen <a href="http://square.github.io/retrofit/">Retrofit</a> ve retrofit tarafından kullanılan, Google Inc. tarafından da geliştirilen <a href="https://code.google.com/p/google-gson/">google-gson</a> isimli, <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> lisanslı kütüphaneleri kullanmaktadır.</string>
     <string name="app_description">Atarashii!, akıllı telefonunuzdan MyAnimeList\'e erişmenin en güzel şekli. Atarashii!, modern, güzel bir kullanıcı arayüzü ile birlikte isteyebileceğiniz bütün özellikleri de içeriyor.</string>
     <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
-    <string name="contributor_anima_summary">\"Diğer uygulamaların hepsi berbat!\"\n\nKurucu ve asıl geliştirici. Diğer uygulamaların eski, çirkin arayüzünden ve bakımsızlığından sıkılıp bu uygulamayı geliştirdi.</string>
+    <string name="contributor_anima_summary">\"Diğer uygulamaların hepsi berbat!\" \n\nKurucu ve asıl geliştirici. Diğer uygulamaların eski, çirkin arayüzünden ve bakımsızlığından sıkılıp bu uygulamayı geliştirdi.</string>
     <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Kod düzenleme ve küçük özellikler üzerinde yoğunlaşır. Uygulamanın manga desteği üzerinde çalıştı.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
@@ -344,4 +345,16 @@
         <item>1440</item>
         <item>2880</item>
     </string-array>
+    <string name="dateformat">dd-MM-yy</string>
+    <string name="datetimeformat">dd-MM-yy, h:mm a</string>
+    <string name="datetimeformat_yesterday">\'Dün\', h:mm a</string>
+    <string name="datetimeformat_dayname">EEEE, h:mm a</string>
+    <plurals name="minutes_ago">
+        <item quantity="one">Bir dakika önce</item>
+        <item quantity="other">%d dakika önce</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">Bir saat önce</item>
+        <item quantity="other">%d saat önce</item>
+    </plurals>
 </resources>

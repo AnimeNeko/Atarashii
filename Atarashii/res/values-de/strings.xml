@@ -138,6 +138,7 @@
     <string name="card_content_my_score">Meine Bewertung</string>
     <string name="card_content_media_type">Medientyp</string>
     <string name="card_content_media_status">Medienstatus</string>
+    <string name="card_content_loading">Lade, eine Sek.</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Details auf MyAnimeList ansehen</string>
     <string name="action_Share">Teilen</string>
@@ -251,7 +252,7 @@
     <string name="listType_dropped">Abgebrochen</string>
     <string name="listType_planned">Geplant</string>
     <string name="listType_Completed">Abgeschlossen</string>
-    <string name="listType_InProgress">In Bearbeitung</string>
+    <string name="listType_InProgress">Aktuell</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
     <!-- RatingPickerDialogFragment (Rating) Items -->
@@ -344,4 +345,16 @@
         <item>1440</item>
         <item>2880</item>
     </string-array>
+    <string name="dateformat">dd.MM.yy</string>
+    <string name="datetimeformat">dd.MM.yy, HH:mm</string>
+    <string name="datetimeformat_yesterday">\'Gestern\', HH:mm</string>
+    <string name="datetimeformat_dayname">EEEE, HH:mm</string>
+    <plurals name="minutes_ago">
+        <item quantity="one">vor einer Minute</item>
+        <item quantity="other">vor %d Minuten</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">vor einer Stunde</item>
+        <item quantity="other">vor %d Stunden</item>
+    </plurals>
 </resources>

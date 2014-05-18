@@ -49,7 +49,7 @@
     <string name="dialog_message_share">Каким списком вы хотели бы поделиться?</string>
     <string name="dialog_message_Verifying">Удостоверяемся, что ваша учетная запись в порядке. Крепитесь.</string>
     <string name="dialog_label_cancel">Отмена</string>
-    <string name="dialog_label_update">Обновление</string>
+    <string name="dialog_label_update">Обновить</string>
     <string name="dialog_label_anime">Мой список аниме</string>
     <string name="dialog_label_manga">Мой список манги</string>
     <string name="dialog_title_remove">Удалить из списка</string>
@@ -70,16 +70,16 @@
     <string name="layout_card_join">Дата регистрации</string>
     <string name="layout_card_acces">Уровень доступа</string>
     <string name="access_rank_atarashii_developer">Создатель Atarashii</string>
-    <string name="layout_card_anime_views">Просмотры списка аниме</string>
-    <string name="layout_card_manga_views">Просмотры списка манги</string>
-    <string name="layout_card_anime_details">Подробности аниме</string>
-    <string name="layout_card_manga_details">Подробности манги</string>
+    <string name="layout_card_anime_views">Просм. спис. аниме</string>
+    <string name="layout_card_manga_views">Просм. спис. манги</string>
+    <string name="layout_card_anime_details">Подробно об аниме</string>
+    <string name="layout_card_manga_details">Подробно о манге</string>
     <string name="layout_card_anime_time">Время в днях</string>
     <string name="layout_card_anime_watching">Смотрит</string>
     <string name="layout_card_anime_completed">Завершено</string>
     <string name="layout_card_anime_on">В ожидании</string>
     <string name="layout_card_anime_dropped">Заброшено</string>
-    <string name="layout_card_anime_plan">Планируется посмотреть</string>
+    <string name="layout_card_anime_plan">К просмотру</string>
     <string name="layout_card_anime_total">Всего записей</string>
     <string name="layout_card_manga_reading">Читает</string>
     <string name="layout_card_manga_plan">Планируется прочитать</string>
@@ -138,6 +138,7 @@
     <string name="card_content_my_score">Моя оценка</string>
     <string name="card_content_media_type">Тип</string>
     <string name="card_content_media_status">Состояние</string>
+    <string name="card_content_loading">Загрузка, секундочку.</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Посмотреть подробности на MyAnimeList</string>
     <string name="action_Share">Поделиться</string>
@@ -344,4 +345,18 @@
         <item>1440</item>
         <item>2880</item>
     </string-array>
+    <string name="dateformat">dd.MM.yy</string>
+    <string name="datetimeformat">dd.MM.yy, HH:mm</string>
+    <string name="datetimeformat_yesterday">\'Вчера\', HH:mm</string>
+    <string name="datetimeformat_dayname">EEEE, HH:mm</string>
+    <plurals name="minutes_ago">
+        <item quantity="one">Минуту назад</item>
+        <item quantity="other">%d минут назад</item>
+        <item quantity="many">%d минут назад</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">Час назад</item>
+        <item quantity="other">%d ч. назад</item>
+        <item quantity="many">%d ч. назад</item>
+    </plurals>
 </resources>

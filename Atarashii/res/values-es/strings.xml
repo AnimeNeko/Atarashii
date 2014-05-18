@@ -45,14 +45,14 @@
     <string name="dialog_title_status">Estado</string>
     <string name="dialog_message_view">¿Que lista quieres ver? </string>
     <string name="dialog_message_logout">¿Seguro que deseas salir? Esto borrara toda la información é imágenes guardadas</string>
-    <string name="dialog_message_remove">¿Estas seguro? Una vez que sea borrado se ira para siempre y no puede ser recuperado. Bueno no tan fácilmente.</string>
+    <string name="dialog_message_remove">¿Completamente seguro? Una vez se va, se va para siempre y no puede ser recuperado. Al menos no de forma sencilla.</string>
     <string name="dialog_message_share">¿Que lista deseas compartir?</string>
     <string name="dialog_message_Verifying">Asegurando que tu cuenta esta bien. Mantente ahi por un momento.</string>
     <string name="dialog_label_cancel">Cancelar </string>
     <string name="dialog_label_update">Actualizar</string>
     <string name="dialog_label_anime">Mí lista de Anime</string>
     <string name="dialog_label_manga">Mi lista de Manga </string>
-    <string name="dialog_title_remove">Remover de la lista </string>
+    <string name="dialog_title_remove">Eliminar de la lista</string>
     <string name="dialog_label_logout">Salir</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; compartio una lista de anime con Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -119,8 +119,8 @@
     <string name="nav_item_most_popular">Los mas populares</string>
     <string name="nav_item_just_added">Se ha añadido</string>
     <string name="nav_item_upcoming">Proximamente</string>
-    <string name="drawer_open">Abrir el ordenador</string>
-    <string name="drawer_close">Cerrar el ordenador</string>
+    <string name="drawer_open">Abrir cajón de navegación</string>
+    <string name="drawer_close">Cerrar el cajón de navegación</string>
     <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
     <string name="title_Stats">Estadísticas </string>
     <string name="title_BasicStuff">Cubierta</string>
@@ -138,6 +138,7 @@
     <string name="card_content_my_score">Mi puntuación</string>
     <string name="card_content_media_type">Tipo de medio</string>
     <string name="card_content_media_status">Estado de medio</string>
+    <string name="card_content_loading">Cargando, espera un segundo.</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Vista detallada en MyAnimeList</string>
     <string name="action_Share">Compartir</string>
@@ -344,4 +345,16 @@
         <item>1440</item>
         <item>2880</item>
     </string-array>
+    <string name="dateformat">dd-MM-yy</string>
+    <string name="datetimeformat">dd-MM-yy, h:mm a</string>
+    <string name="datetimeformat_yesterday">\'Ayer\', h:mm a</string>
+    <string name="datetimeformat_dayname">EEEE, h:mm a</string>
+    <plurals name="minutes_ago">
+        <item quantity="one">Hace un minuto</item>
+        <item quantity="other">Hace %d minutos</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">Hace una hora</item>
+        <item quantity="other">Hace %d horas</item>
+    </plurals>
 </resources>
