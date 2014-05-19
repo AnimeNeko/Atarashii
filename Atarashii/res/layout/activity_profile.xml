@@ -142,7 +142,12 @@
     						    android:layout_alignBaseline="@id/websitefront"
     						    android:layout_alignParentRight="true"
     						    android:text="@string/layout_card_loading"
-    						    android:textSize="16sp" />
+    						    android:textSize="16sp" 
+    						    android:marqueeRepeatLimit="marquee_forever" 
+    						    android:singleLine="true" 
+    						    android:ellipsize="marquee"
+    						    android:focusable="true" 
+    						    android:focusableInTouchMode="true" />
     						
     						<TextView
     						    android:id="@+id/commentsfront"
