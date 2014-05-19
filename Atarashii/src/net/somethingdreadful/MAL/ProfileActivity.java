@@ -252,17 +252,8 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
 		tv24.setText(String.valueOf(record.getProfile().getMangaStats().getTotalEntries()));
 		
-		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265){
-			tv25.setTextSize(14);
-		}
-		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 14){
-			tv25.setTextSize(12);
-		}
-		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 12){
-			tv25.setTextSize(10);
-		}
-		if (tv36.getWidth()- tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 10){
-			tv25.setTextSize(8);
+		if (tv25.length() * 11 + tv25.getWidth() >= tv36.getWidth() - (tv25.getWidth() + tv26.getWidth())){
+			tv25.setWidth(tv36.getWidth() - (tv25.getWidth() + tv26.getWidth() - 16));
 		}
     }
     
