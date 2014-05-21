@@ -553,12 +553,21 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     break;
 			}
 			Home.this.supportInvalidateOptionsMenu();
-			//This part is for figuring out which item in the nav drawer is selected and highlighting it with colors
-			mPreviousView = mActiveView;
-			if (mPreviousView != null)
-				mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
-			mActiveView = view;
-			mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+
+			// This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
+            // Highlight the item if it doesn't lead to an activity. If it does, then set the background to dark/initial
+            // so that it doesn't look stuck at TOUCH DOWN state.
+
+            if (position != 0 && position != 2) {
+                mPreviousView = mActiveView;
+                if (mPreviousView != null)
+                    mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+                mActiveView = view;
+                mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+            } else {
+                view.setBackgroundColor(Color.parseColor("#333333"));
+            }
+
 			mDrawerLayout.closeDrawer(listView);
 		}
 	}
