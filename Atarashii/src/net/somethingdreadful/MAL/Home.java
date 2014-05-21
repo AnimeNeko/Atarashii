@@ -512,7 +512,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
             	position = 1;
             	Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
-            myList = (position == 1);
+            myList = ((position <= 2 && myList) || position == 1);
             switch (position){
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
