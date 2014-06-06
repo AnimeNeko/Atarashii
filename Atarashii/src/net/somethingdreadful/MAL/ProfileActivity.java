@@ -192,7 +192,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
 		TextView tv26 = (TextView) findViewById(R.id.websitefront);
 		LinearLayout tv36 = (LinearLayout) findViewById(R.id.details_card);
 		if (record.getProfile().getDetails().getWebsite() != null && record.getProfile().getDetails().getWebsite().contains("http://") && record.getProfile().getDetails().getWebsite().contains(".")){ // filter fake websites
-    		tv25.setText(record.getProfile().getDetails().getWebsite());
+    		tv25.setText(record.getProfile().getDetails().getWebsite().replace("http://", ""));
     	}else{
     		tv25.setVisibility(View.GONE);
     		tv26.setVisibility(View.GONE);
