@@ -14,14 +14,12 @@ import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.holoeverywhere.ThemeManager;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -53,7 +51,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
-public class DetailView extends Activity implements OnClickListener, OnRatingBarChangeListener, AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
+public class DetailView extends Activity implements OnClickListener, OnRatingBarChangeListener, NetworkTaskCallbackListener {
 
     int recordID;
     public ListType type;
@@ -384,29 +382,38 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         }
     }
 
-	@Override
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result,	TaskJob job, int page) {
-		if (result == null) {
+    @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, int page, ListType type) {
+        if (result == null) {
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
-		} else if (result.size() == 0) {
-			Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
         } else {
-    		mangaRecord = result.get(0);
-    		setText();
+            ArrayList resultList;
+            try {
+                if (type == ListType.ANIME) {
+                    resultList = (ArrayList<Anime>) result;
+                } else {
+                    resultList = (ArrayList<Manga>) result;
+                }
+            } catch (ClassCastException e) {
+                Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+                resultList = null;
+            }
+            if (resultList != null) {
+                if (resultList.size() == 0) {
+                    Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
+                } else {
+                    if (type == ListType.ANIME)
+                        animeRecord = (Anime)resultList.get(0);
+                    else
+                        mangaRecord = (Manga)resultList.get(0);
+                    setText();
+                }
+            } else {
+                Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
+            }
         }
-	}
-
-	@Override
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result,	TaskJob job, int page) {
-    	if (result == null) {
-            Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
-		} else if (result.size() == 0) {
-			Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
-        } else {
-        	animeRecord = result.get(0);
-        	setText();
-        }
-	}
+    }
 	
 	/*
 	 * Get the translation from strings.xml
@@ -630,7 +637,7 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
 	}
 
 	public void onRemoveConfirmed() {
-		if (type.equals(ListType.ANIME)) {
+        if (type.equals(ListType.ANIME)) {
             animeRecord.setDirty(true);
             animeRecord.setDeleteFlag(true);
         } else {
@@ -639,5 +646,5 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         }
 
         finish();
-	}
+    }
 }
