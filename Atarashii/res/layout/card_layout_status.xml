@@ -5,27 +5,30 @@
 
     <TextView
         android:id="@+id/mediaTypeLabel"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="8dp"
-        android:text="Media Type"
+        android:text="@string/card_content_media_type"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/mediaStatusLabel"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/mediaTypeLabel"
         android:layout_marginTop="8dp"
-        android:text="Media Status"
+        android:text="@string/card_content_media_status"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/mediaStatus"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/mediaStatusLabel"
@@ -35,6 +38,7 @@
 
     <TextView
         android:id="@+id/mediaType"
+        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/mediaTypeLabel"

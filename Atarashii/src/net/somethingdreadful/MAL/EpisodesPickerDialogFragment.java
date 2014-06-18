@@ -40,20 +40,20 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onDialogDismissed(picker.getValue());
                 dismiss();
             }
         }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle("I've watched:");
+        ).setNegativeButton(R.string.dialog_label_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dismiss();
+            }
+        }
+        ).setView(view).setTitle(R.string.dialog_title_watched_update);
 
         return builder.create();
 
@@ -64,8 +64,8 @@ public class EpisodesPickerDialogFragment extends SherlockDialogFragment {
         //        View view = inflater.inflate(R.layout.dialog_episode_picker, container);
 
         if (state == null) {
-            totalEpisodes = Integer.parseInt(((DetailView) getActivity()).animeRecord.getTotal(false));
-            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getPersonalProgress(false);
+            totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
+            watchedEpisodes = ((DetailView) getActivity()).animeRecord.getWatchedEpisodes();
             pickerValue = watchedEpisodes;
 
         } else {

@@ -1,7 +1,19 @@
 package net.somethingdreadful.MAL;
 
-import net.somethingdreadful.MAL.api.BaseMALApi;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import net.somethingdreadful.MAL.NavigationItems.NavItem;
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.TaskJob;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -17,12 +30,25 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -54,6 +80,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     BroadcastReceiver networkReceiver;
     MenuItem searchItem;
 
+    int AutoSync = 0; //run or not to run.
+
+    private DrawerLayout mDrawerLayout;
+    private ListView listView;
+    private SherlockActionBarDrawerToggle mDrawerToggle;
+    private ActionBarHelper mActionBar;
+    View mActiveView;
+    View mPreviousView;
+    boolean myList = true; //tracks if the user is on 'My List' or not
+
+	private NavigationItemAdapter mNavigationItemAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,18 +103,39 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
+        if (savedInstanceState != null) {
+            AutoSync = savedInstanceState.getInt("AutoSync");
+        }
 
         if (init) {
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
-            mSectionsPagerAdapter = new HomeSectionsPagerAdapter(
-                    getSupportFragmentManager());
+            mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
+
+            mDrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
+            mDrawerLayout.setDrawerListener(new DemoDrawerListener());
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+            listView = (ListView)findViewById(R.id.left_drawer);
+
+			NavigationItems mNavigationContent = new NavigationItems();
+			mNavigationItemAdapter = new NavigationItemAdapter(this,
+					R.layout.item_navigation, mNavigationContent.ITEMS);
+			listView.setAdapter(mNavigationItemAdapter);
+            listView.setOnItemClickListener(new DrawerItemClickListener());
+            listView.setCacheColorHint(0);
+            listView.setScrollingCacheEnabled(false);
+            listView.setScrollContainer(false);
+            listView.setFastScrollEnabled(true);
+            listView.setSmoothScrollbarEnabled(true);
+
+            mActionBar = createActionBarHelper();
+            mActionBar.init();
+
+            mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_light, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle.syncState();
 
             mManager = new MALManager(context);
-
-            if (!instanceExists) {
-
-            }
 
             // Set up the action bar.
             final ActionBar actionBar = getSupportActionBar();
@@ -100,7 +159,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 }
             });
 
-            // Add tabs for the animu and mango lists
+            // Add tabs for the anime and manga lists
             for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
                 // Create a tab with text corresponding to the page title
                 // defined by the adapter.
@@ -110,7 +169,6 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 actionBar.addTab(actionBar.newTab()
                         .setText(mSectionsPagerAdapter.getPageTitle(i))
                         .setTabListener(this));
-
             }
 
             networkReceiver = new BroadcastReceiver() {
@@ -119,14 +177,14 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                     checkNetworkAndDisplayCrouton();
                 }
             };
-
-        } else //If the app hasn't been configured, take us to the first run screen to sign in
-        {
+        } else { //If the app hasn't been configured, take us to the first run screen to sign in.
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             firstRunInit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(firstRunInit);
             finish();
         }
+
+        NfcHelper.disableBeam(this);
     }
 
     @Override
@@ -137,15 +195,27 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         return true;
     }
 
-
     @Override
-    public BaseMALApi.ListType getCurrentListType() {
+    public MALApi.ListType getCurrentListType() {
         String listName = getSupportActionBar().getSelectedTab().getText().toString();
-        return BaseMALApi.getListTypeByString(listName);
+        return MALApi.getListTypeByString(listName);
+    }
+
+    public boolean isConnectedWifi() {
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo Wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (Wifi.isConnected()&& mPrefManager.getonly_wifiEnabled() ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, Settings.class));
@@ -161,100 +231,90 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
 
             case R.id.listType_all:
                 if (af != null && mf != null) {
-                    af.getRecords(0, "anime", false, this.context);
-                    mf.getRecords(0, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 0);
+                    mf.getRecords(TaskJob.GETLIST, context, 0);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_inprogress:
                 if (af != null && mf != null) {
-                    af.getRecords(1, "anime", false, this.context);
-                    mf.getRecords(1, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 1);
+                    mf.getRecords(TaskJob.GETLIST, context, 1);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_completed:
                 if (af != null && mf != null) {
-                    af.getRecords(2, "anime", false, this.context);
-                    mf.getRecords(2, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 2);
+                    mf.getRecords(TaskJob.GETLIST, context, 2);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_onhold:
                 if (af != null && mf != null) {
-                    af.getRecords(3, "anime", false, this.context);
-                    mf.getRecords(3, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 3);
+                    mf.getRecords(TaskJob.GETLIST, context, 3);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_dropped:
                 if (af != null && mf != null) {
-                    af.getRecords(4, "anime", false, this.context);
-                    mf.getRecords(4, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 4);
+                    mf.getRecords(TaskJob.GETLIST, context, 4);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.listType_planned:
                 if (af != null && mf != null) {
-                    af.getRecords(5, "anime", false, this.context);
-                    mf.getRecords(5, "manga", false, this.context);
+                    af.getRecords(TaskJob.GETLIST, context, 5);
+                    mf.getRecords(TaskJob.GETLIST, Home.this.context, 5);
                     supportInvalidateOptionsMenu();
                 }
                 break;
             case R.id.forceSync:
                 if (af != null && mf != null) {
-                    af.getRecords(af.currentList, "anime", true, this.context);
-                    mf.getRecords(af.currentList, "manga", true, this.context);
+                    af.getRecords(TaskJob.FORCESYNC, context, af.currentList);
+                    mf.getRecords(TaskJob.FORCESYNC, context, mf.currentList);
                     syncNotify();
                 }
                 break;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (instanceExists) {
-            af.getRecords(af.currentList, "anime", false, this.context);
-            mf.getRecords(af.currentList, "manga", false, this.context);
-        }
-
         checkNetworkAndDisplayCrouton();
-
+        if (instanceExists && af.getMode() == TaskJob.GETLIST) {
+            af.getRecords(TaskJob.GETLIST, context, af.currentList);
+            mf.getRecords(TaskJob.GETLIST, context, mf.currentList);
+        }
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        
         if (mSearchView != null) {
-        	mSearchView.clearFocus();
+            mSearchView.clearFocus();
             mSearchView.setFocusable(false);
             mSearchView.setQuery("", false);
-            searchItem.collapseActionView();      
+            searchItem.collapseActionView();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         instanceExists = true;
-
         unregisterReceiver(networkReceiver);
     }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
     }
-
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
     }
-
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -263,18 +323,46 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
-
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-        af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-        mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+        mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        af.setRecordType(ListType.ANIME);
+        mf.setRecordType(ListType.MANGA);
+        
+        //Set myList to if we are on the user's personal list or not
+        myList = (af.getMode() == TaskJob.GETLIST);
 
-        //Logic to check if we have just signed in. If yes, automatically do a sync
-        if (getIntent().getBooleanExtra("net.somethingdreadful.MAL.firstSync", false)) {
-            af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(mf.currentList, "manga", true, this.context);
-            getIntent().removeExtra("net.somethingdreadful.MAL.firstSync");
-            syncNotify();
+        //auto-sync stuff
+        if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable == true){
+            mPrefManager.setsync_time_last(1);
+            mPrefManager.commitChanges();
+            synctask();
+        } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable == true){
+            Calendar localCalendar = Calendar.getInstance();
+            int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
+            Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY)*60;
+            Time_now = Time_now + localCalendar.get(Calendar.MINUTE);
+            int last_sync = mPrefManager.getsync_time_last();
+            if (last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time())){
+                //no sync needed (This is inside the time range)
+            }else{
+                if (mPrefManager.getonly_wifiEnabled() == false){
+                    synctask();
+                    mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+                }else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+                    synctask();
+                    mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
+                }
+            }
+            mPrefManager.commitChanges();
         }
+    }
+
+    public void synctask(){
+        af.getRecords(TaskJob.FORCESYNC, context, af.currentList);
+        mf.getRecords(TaskJob.FORCESYNC, context, mf.currentList);
+        syncNotify();
+        AutoSync = 1;
     }
 
     @Override
@@ -282,12 +370,21 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         //This is telling out future selves that we already have some things and not to do them
         state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
-
+        state.putInt("AutoSync", AutoSync);
         super.onSaveInstanceState(state);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item  = menu.findItem(R.id.menu_listType);
+        if(!myList){//if not on my list then disable menu items like listType, etc
+            item.setEnabled(false);
+            item.setVisible(false);
+        }
+        else{
+            item.setEnabled(true);
+            item.setVisible(true);
+        }
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.currentList) {
@@ -312,14 +409,18 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         }
 
         if (networkAvailable) {
-            menu.findItem(R.id.forceSync).setVisible(true);
+            if (myList){
+                menu.findItem(R.id.forceSync).setVisible(true);
+            }else{
+                menu.findItem(R.id.forceSync).setVisible(false);
+            }
             menu.findItem(R.id.action_search).setVisible(true);
         }
         else {
             menu.findItem(R.id.forceSync).setVisible(false);
             menu.findItem(R.id.action_search).setVisible(false);
+            AutoSync = 1;
         }
-
         return true;
     }
 
@@ -331,13 +432,12 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         mPrefManager.setPass("");
         mPrefManager.commitChanges();
         context.deleteDatabase(MALSqlHelper.getHelper(context).getDatabaseName());
-        new ImageDownloader(context).wipeCache();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
 
     private void syncNotify() {
-        Crouton.makeText(this, R.string.toast_SyncMessage, Style.INFO).show();
+        Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -347,10 +447,11 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_SyncMessage))
+                .setContentText(getString(R.string.crouton_info_SyncMessage))
                 .getNotification();
         nm.notify(R.id.notification_sync, syncNotification);
-
+        myList = true;
+        supportInvalidateOptionsMenu();
     }
 
     private void showLogoutDialog() {
@@ -366,39 +467,206 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
         lcdf.show(fm, "fragment_LogoutConfirmationDialog");
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-
-    }
-
     public void checkNetworkAndDisplayCrouton() {
-        if (!isNetworkAvailable() && networkAvailable == true) {
-            Crouton.makeText(this, R.string.crouton_noConnectivityOnRun, Style.ALERT).show();
+
+        if (!MALApi.isNetworkAvailable(context) && networkAvailable == true) {
+    		Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
+
+            af = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+            mf = (net.somethingdreadful.MAL.ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+
+			if (af.getMode() != null) {
+	            af.setMode(null);
+				mf.setMode(null);
+				af.getRecords(TaskJob.GETLIST, context, af.currentList);
+	            mf.getRecords(TaskJob.GETLIST, context, mf.currentList);
+	        }
+        } else if (MALApi.isNetworkAvailable(context) && networkAvailable == false) {
+            Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
+
+            synctask();
+
         }
 
-        if (isNetworkAvailable() && networkAvailable == false) {
-            Crouton.makeText(this, R.string.crouton_connectionRestored, Style.INFO).show();
-            //TODO: Sync here, but first sync any records marked DIRTY
-            af.getRecords(af.currentList, "anime", true, this.context);
-            mf.getRecords(af.currentList, "manga", true, this.context);
-            syncNotify();
-        }
-
-        if (!isNetworkAvailable()) {
+        if (!MALApi.isNetworkAvailable(context)) {
             networkAvailable = false;
-        }
-        else {
+        } else {
             networkAvailable = true;
         }
-
         supportInvalidateOptionsMenu();
     }
+
+    /*private classes for nav drawer*/
+    private ActionBarHelper createActionBarHelper() {
+        return new ActionBarHelper();
+    }
+
+    public class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /* do stuff when drawer item is clicked here */
+            af.scrollToTop();
+            mf.scrollToTop();
+            if (!networkAvailable && position > 2) {
+            	position = 1;
+            	Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+            }
+            myList = ((position <= 2 && myList) || position == 1);
+            switch (position){
+                case 0:
+                    Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+                    Profile.putExtra("username", mPrefManager.getUser());
+                    startActivity(Profile);
+                    break;
+                case 1:
+                    af.getRecords(TaskJob.GETLIST, Home.this.context, af.currentList);
+                    mf.getRecords(TaskJob.GETLIST, Home.this.context, mf.currentList);
+                break;
+                case 2:
+                    Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
+                    startActivity(Friends);
+                    break;
+                case 3:
+                    af.getRecords(TaskJob.GETTOPRATED, Home.this.context);
+                    mf.getRecords(TaskJob.GETTOPRATED, Home.this.context);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+                case 4:
+                    af.getRecords(TaskJob.GETMOSTPOPULAR, Home.this.context);
+                    mf.getRecords(TaskJob.GETMOSTPOPULAR, Home.this.context);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+                case 5:
+                    af.getRecords(TaskJob.GETJUSTADDED, Home.this.context);
+                    mf.getRecords(TaskJob.GETJUSTADDED, Home.this.context);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+                case 6:
+                    af.getRecords(TaskJob.GETUPCOMING, Home.this.context);
+                    mf.getRecords(TaskJob.GETUPCOMING, Home.this.context);
+                    af.scrollListener.resetPageNumber();
+                    mf.scrollListener.resetPageNumber();
+                    break;
+			}
+			Home.this.supportInvalidateOptionsMenu();
+
+			// This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
+            // Highlight the item if it doesn't lead to an activity. If it does, then set the background to dark/initial
+            // so that it doesn't look stuck at TOUCH DOWN state.
+
+            if (position != 0 && position != 2) {
+                mPreviousView = mActiveView;
+                if (mPreviousView != null)
+                    mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //dark color
+                mActiveView = view;
+                mActiveView.setBackgroundColor(Color.parseColor("#38B2E1")); //blue color
+            } else {
+                view.setBackgroundColor(Color.parseColor("#333333"));
+            }
+
+			mDrawerLayout.closeDrawer(listView);
+		}
+	}
+    
+    private class DemoDrawerListener implements DrawerLayout.DrawerListener {
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            mDrawerToggle.onDrawerOpened(drawerView);
+            mActionBar.onDrawerOpened();
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            mDrawerToggle.onDrawerClosed(drawerView);
+            mActionBar.onDrawerClosed();
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            mDrawerToggle.onDrawerStateChanged(newState);
+        }
+    }
+
+    private class ActionBarHelper {
+        private final ActionBar mActionBar;
+        private CharSequence mDrawerTitle;
+        private CharSequence mTitle;
+
+        private ActionBarHelper() {
+            mActionBar = getSupportActionBar();
+        }
+
+        public void init() {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setHomeButtonEnabled(true);
+            mTitle = mDrawerTitle = getTitle();
+        }
+
+        /**
+         * When the drawer is closed we restore the action bar state reflecting
+         * the specific contents in view.
+         */
+        public void onDrawerClosed() {
+            mActionBar.setTitle(mTitle);
+        }
+
+		/**
+		 * When the drawer is open we set the action bar to a generic title. The
+		 * action bar should only contain data relevant at the top level of the
+		 * nav hierarchy represented by the drawer, as the rest of your content
+		 * will be dimmed down and non-interactive.
+		 */
+		public void onDrawerOpened() {
+			mActionBar.setTitle(mDrawerTitle);
+		}
+	}
+
+	private class NavigationItemAdapter extends ArrayAdapter<NavItem> {
+		private ArrayList<NavItem> items;
+
+		public NavigationItemAdapter(Context context, int textViewResourceId,
+				ArrayList<NavItem> objects) {
+			super(context, textViewResourceId, objects);
+			this.items = objects;
+		}
+
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+
+			if (v == null) {
+				LayoutInflater vi = getLayoutInflater();
+				v = vi.inflate(R.layout.item_navigation, null);
+			}
+
+			NavItem item = items.get(position);
+
+			if (item != null) {
+				ImageView mIcon = (ImageView) v
+						.findViewById(R.id.nav_item_icon);
+				TextView mTitle = (TextView) v.findViewById(R.id.nav_item_text);
+
+				if (mIcon != null) {
+					mIcon.setImageResource(item.icon);
+				} else {
+					Log.d("LISTITEM", "Null");
+				}
+				if (mTitle != null) {
+					mTitle.setText(item.title);
+				} else {
+					Log.d("LISTITEM", "Null");
+				}
+			}
+
+			return v;
+		}
+	}
 }

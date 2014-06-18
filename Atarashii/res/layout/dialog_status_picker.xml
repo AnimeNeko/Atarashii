@@ -7,52 +7,6 @@
     <RadioGroup
         android:id="@+id/statusRadioGroup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <RadioButton
-            android:id="@+id/statusRadio_InProgress"
-            style="@style/Widget.Sherlock.ActionButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="@string/listType_InProgress" />
-
-        <RadioButton
-            android:id="@+id/statusRadio_Completed"
-            style="@style/Widget.Sherlock.ActionButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="@string/listType_Completed" />
-
-        <RadioButton
-            android:id="@+id/statusRadio_OnHold"
-            style="@style/Widget.Sherlock.ActionButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="@string/listType_onhold" />
-
-        <RadioButton
-            android:id="@+id/statusRadio_Dropped"
-            style="@style/Widget.Sherlock.ActionButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="@string/listType_dropped" />
-
-        <RadioButton
-            android:id="@+id/statusRadio_Planned"
-            style="@style/Widget.Sherlock.ActionButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="@string/listType_planned" />
-    </RadioGroup>
+        android:layout_height="match_parent" />
 
 </ScrollView>

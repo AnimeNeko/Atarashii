@@ -5,9 +5,10 @@
 
     <TextView
         android:id="@+id/SynopsisContent"
+        style="@style/TextViewLightFont"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Loading, just a sec." >
+        android:text="@string/card_content_loading" >
     </TextView>
 
 </LinearLayout>

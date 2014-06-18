@@ -20,13 +20,13 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
         fragment = new ItemGridFragment();
         switch (i) {
             case 0:
-                args.putString("type", MALManager.TYPE_ANIME);
+                args.putSerializable("type", MALApi.ListType.ANIME);
                 break;
             case 1:
-                args.putString("type", MALManager.TYPE_MANGA);
+                args.putSerializable("type", MALApi.ListType.MANGA);
                 break;
             default:
-                args.putString("type", MALManager.TYPE_ANIME);
+                args.putSerializable("type", MALApi.ListType.ANIME);
                 break;
         }
 

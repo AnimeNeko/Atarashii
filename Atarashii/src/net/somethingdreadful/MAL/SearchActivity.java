@@ -2,33 +2,33 @@ package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
 
-import net.somethingdreadful.MAL.api.BaseMALApi;
+import net.somethingdreadful.MAL.ItemGridFragment.IItemGridFragment;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.record.AnimeRecord;
-import net.somethingdreadful.MAL.record.MangaRecord;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.TaskJob;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class SearchActivity extends BaseActionBarSearchView
-implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
+implements IItemGridFragment, ActionBar.TabListener,
+	AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -42,38 +42,35 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    ViewFlipper vf;
     ActionBar actionBar;
-    Context context;
+    static Context context;
     PrefManager mPrefManager;
-    public MALManager mManager;
-    BaseItemGridFragment animeItemGridFragment;
-    BaseItemGridFragment mangaItemGridFragment;
-    Activity activity;
+    ItemGridFragment af;
+    ItemGridFragment mf;
+    BaseActionBarSearchView b;
     
-    boolean noAnimeRecordsFound = false;
-    boolean noMangaRecordsFound = false;
-    
-    boolean searchedOnce;
+    public boolean animeError = false;
+    public boolean mangaError = false;
+    public boolean instanceExists;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        activity = this;
         mPrefManager = new PrefManager(context);
-        
-        searchedOnce = false;
+        instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
 
         setContentView(R.layout.activity_search);
-        mManager = new MALManager(context);
+
+        vf = (ViewFlipper)findViewById(R.id.viewFlipperSearch);
 
         // Set up the action bar.
         actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mSectionsPagerAdapter = new SearchSectionsPagerAdapter(
-                getSupportFragmentManager());
+        mSectionsPagerAdapter = new SearchSectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.searchResult);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -93,39 +90,32 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
                     .setTabListener(this));
         }
 
-        String query = getIntent().getStringExtra("net.somethingdreadful.MAL.search_query");
-        int ordinalListType = getIntent().getIntExtra(
-                "net.somethingdreadful.MAL.search_type", BaseMALApi.ListType.ANIME.ordinal());
-        BaseMALApi.ListType listType = BaseMALApi.ListType.values()[ordinalListType];
-        if (query != null && !query.equals("")) {
-            doSearch(query, listType);
-            setQuery(query);
-            if (listType == BaseMALApi.ListType.MANGA) {
+        BaseActionBarSearchView.query = getIntent().getStringExtra("net.somethingdreadful.MAL.search_query");
+        int ordinalListType = getIntent().getIntExtra("net.somethingdreadful.MAL.search_type", MALApi.ListType.ANIME.ordinal());
+        MALApi.ListType listType = MALApi.ListType.values()[ordinalListType];
+        if (BaseActionBarSearchView.query != null && !BaseActionBarSearchView.query.equals("")) {
+            if (listType == MALApi.ListType.MANGA) {
                 actionBar.setSelectedNavigationItem(1);
             }
         }
-    }
-
-    @Override
-    public BaseMALApi.ListType getCurrentListType() {
-        return (BaseMALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
-    }
-
-    @Override
-    public void doSearch(String query, BaseMALApi.ListType listType) { //ignore listtype, search both anime and manga
-        networkThread animethread = new networkThread();
-        animethread.setListType(BaseMALApi.ListType.ANIME);
-        animethread.execute(query);
         
-        networkThread mangathread = new networkThread();
-        mangathread.setListType(BaseMALApi.ListType.MANGA);
-        mangathread.execute(query);
+        NfcHelper.disableBeam(this);
+    }
+
+    @Override
+    public MALApi.ListType getCurrentListType() {
+        return (MALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
+    }
+
+    public void doSearch() { //i search both anime and manga
+        toggleLoadingIndicator(true);
+        new AnimeNetworkTask(TaskJob.SEARCH, context, this).execute(query);
+        new MangaNetworkTask(TaskJob.SEARCH, context, this).execute(query);
         
         if (mSearchView != null) {
         	mSearchView.clearFocus();
             mSearchView.setFocusable(false);
         }
-        
     }
 
     @Override
@@ -153,9 +143,7 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
             case R.id.menu_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -163,8 +151,18 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
     public void fragmentReady() {
         //Interface implementation for knowing when the dynamically created fragment is finished loading
         //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-        animeItemGridFragment = (BaseItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-        mangaItemGridFragment = (BaseItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+        mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        af.setMode(TaskJob.SEARCH);
+        mf.setMode(TaskJob.SEARCH);
+        doSearch();	
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+    	animeError = false;
+    	mangaError = false;
+        return false;
     }
 
     @Override
@@ -179,99 +177,50 @@ implements BaseItemGridFragment.IBaseItemGridFragment, ActionBar.TabListener {
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
-
-    public class networkThread extends AsyncTask<String, Void, Void> {
-        JSONArray _result;
-
-        public MALApi.ListType getListType() {
-            return listType;
-        }
-
-        public void setListType(MALApi.ListType listType) {
-            this.listType = listType;
-        }
-
-        MALApi.ListType listType;
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String query = params[0];
-            MALApi api = new MALApi(context);
-            _result = api.search(getListType(), query);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            String type = MALApi.getListTypeString(getListType());
-            
-            try {
-                switch (listType) {
-                    case ANIME: {
-                        ArrayList<AnimeRecord> list = new ArrayList<AnimeRecord>();
-                        
-                        if (_result.length() == 0) {
-                        	noAnimeRecordsFound = true;
-                        }
-                        else {
-                        	for (int i = 0; i < _result.length(); i++) {
-                                JSONObject genre = (JSONObject) _result.get(i);
-                                AnimeRecord record = new AnimeRecord(mManager.getRecordDataFromJSONObject(genre, type));
-                                list.add(record);
-                            }
-                        }
-                        
-                        animeItemGridFragment.setAnimeRecords(list);
-                        break;
-                    }
-                    case MANGA: {
-                        ArrayList<MangaRecord> list = new ArrayList<MangaRecord>();
-                        
-                        if (_result.length() == 0) {
-                        	noMangaRecordsFound = true;
-                        }
-                        else {
-                        	for (int i = 0; i < _result.length(); i++) {
-                                JSONObject genre =  (JSONObject) _result.get(i);
-                                MangaRecord record = new MangaRecord(mManager.getRecordDataFromJSONObject(genre, type));
-                                list.add(record);
-                            }	
-                        }
-                        
-                        mangaItemGridFragment.setMangaRecords(list);
-                        break;
-                    }
-                }
-                
-            } catch (JSONException e) {
-                Log.e(SearchActivity.class.getName(), Log.getStackTraceString(e));
-            }
-            displayCrouton();
-        }
-    }
-    
-    public void displayCrouton() {
-    	if (!searchedOnce) {
-    		searchedOnce = true;
-    	}
-    	else {
-    		if (noAnimeRecordsFound && noMangaRecordsFound) {
-            	Crouton.makeText(activity, R.string.crouton_nothingFound, Style.ALERT).show();
-            }
-            else if (noAnimeRecordsFound) {          	
-            	mViewPager.setCurrentItem(1);
-            	actionBar.setSelectedNavigationItem(1);
-            }
-            else if (noMangaRecordsFound) {
-            	mViewPager.setCurrentItem(0);
-            	actionBar.setSelectedNavigationItem(0);
-            }
-    		
-    		searchedOnce = false;
-    		noAnimeRecordsFound = false;
-    		noMangaRecordsFound = false;
-    	}
+	
+	@Override
+    public void onPause() {
+        super.onPause();
+        instanceExists = true;
     }
 
+    private void toggleLoadingIndicator(boolean show) {
+        if (vf != null) {
+            vf.setDisplayedChild(show ? 1 : 0);
+        }
+    }
 
+	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
+		if (result != null) {
+            af.setAnimeRecords(result);
+			if (result.size() > 0) {
+				SearchActivity.this.af.scrollListener.notifyMorePages(ListType.ANIME);
+			} else if (!animeError) {
+				animeError = true;
+				if (mangaError)
+					Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
+			}
+		} else if (!animeError) {
+		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
+		    animeError = true;
+        }
+        toggleLoadingIndicator(false);
+	}
+
+	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
+		if (result != null) {
+            mf.setMangaRecords(result);
+			if (result.size() > 0) {
+				SearchActivity.this.mf.scrollListener.notifyMorePages(ListType.MANGA);	
+			} else if (!mangaError) {
+				mangaError = true;
+				if (animeError)
+					Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
+			}
+		} else if (!mangaError) {
+		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
+		    mangaError = true;
+		}
+        toggleLoadingIndicator(false);
+	}
 }

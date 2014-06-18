@@ -1,22 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/preference_category_ListSettings">
-        <ListPreference
-            android:summary="@string/summary_DefaultList"
-            android:dialogTitle="@string/dialog_DefaultList"
-            android:title="@string/dialog_DefaultList"
-            android:entries="@array/listTypeArray"
-            android:entryValues="@array/listTypeValuesArray"
-            android:key="defList" />
-        <CheckBoxPreference
-            android:key="traditionalList"
-            android:summary="@string/preference_summary_TraditionList"
-            android:title="@string/preference_TraditionalList" />
-        
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preference_category_mangaSettings">
-        <CheckBoxPreference android:title="@string/preference_displayVolumes" android:summary="@string/preference_summary_displayVolumes" android:key="displayVolumes" android:defaultValue="false"/>
-    </PreferenceCategory>
+		<PreferenceScreen android:key="List settings" android:title="@string/preference_category_list" android:persistent="false">
+			<ListPreference
+				android:summary="@string/summary_DefaultList"
+				android:dialogTitle="@string/dialog_DefaultList"
+				android:title="@string/dialog_DefaultList"
+				android:entries="@array/listTypeArray"
+				android:entryValues="@array/listTypeValuesArray"
+				android:key="defList" />
+			<CheckBoxPreference
+				android:key="traditionalList"
+				android:summary="@string/preference_summary_TraditionList"
+				android:title="@string/preference_TraditionalList" />
+			<CheckBoxPreference
+				android:title="@string/preference_displayVolumes"
+				android:summary="@string/preference_summary_displayVolumes"
+				android:key="displayVolumes"
+				android:defaultValue="false" />
+		</PreferenceScreen>
+		<PreferenceScreen android:key="Profile settings" android:title="@string/preference_category_profile" android:persistent="false">
+			<CheckBoxPreference
+				android:key="text_colours"
+				android:title="@string/preference_profileTextColors"
+				android:summary="@string/preference_summary_profileTextColors"
+				android:defaultValue="false"/>
+			<CheckBoxPreference
+				android:key="a_mhide"
+				android:title="@string/preference_profileBothHide"
+				android:summary="@string/preference_summary_profileBothHide"
+				android:defaultValue="false"/>
+			<CheckBoxPreference
+				android:key="A_hide"
+				android:title="@string/preference_profileAnimeHide"
+				android:summary="@string/preference_summary_profileAnimeHide"
+				android:defaultValue="false"/>
+			<CheckBoxPreference
+				android:key="M_hide"
+				android:title="@string/preference_profileMangaHide"
+				android:summary="@string/preference_summary_profileMangaHide"
+				android:defaultValue="false"/>
+		</PreferenceScreen>
+		<PreferenceScreen android:key="Synchronisation settings" android:title="@string/preference_category_synchronisation" android:persistent="false">
+			<CheckBoxPreference
+				android:key="synchronisation"
+				android:title="@string/preference_synchronisation"
+				android:summary="@string/preference_summary_synchronisation"
+				android:defaultValue="false"/>
+			<CheckBoxPreference
+				android:key="Only_wifi"
+				android:title="@string/preference_Only_wifi"
+				android:summary="@string/preference_summary_Only_wifi"
+				android:defaultValue="false"
+				android:dependency="synchronisation"/>
+			<ListPreference
+				android:summary="@string/preference_summary_autosync"
+				android:dialogTitle="@string/preference_autosync"
+				android:title="@string/preference_autosync"
+				android:entries="@array/syncArray"
+				android:entryValues="@array/syncValuesArray"
+				android:key="synchronisation_time"
+				android:defaultValue="10"
+				android:dependency="synchronisation"/>
+	</PreferenceScreen>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference
             android:key="customShareText"

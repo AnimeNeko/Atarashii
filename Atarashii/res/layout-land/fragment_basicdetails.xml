@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE"  >
-    
-    <HorizontalScrollView xmlns:tools="http://schemas.android.com/tools" 
-        android:id="@+id/scrollView" 
+
+    <HorizontalScrollView 
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
+        android:layout_height="fill_parent"
         android:fadingEdge="none">
-        
-        <RelativeLayout android:id="@+id/backgroundContainer" 
-             android:layout_width="match_parent" 
-           android:layout_height="wrap_content" 
+
+
+        <RelativeLayout android:id="@+id/backgroundContainer"
+             android:layout_width="match_parent"
+           android:layout_height="wrap_content"
            android:padding="8dp">
-    
+
               <!-- TODO: Set up a default image placeholder -->
 
             <ImageView
                 android:id="@+id/detailCoverImage"
+                android:background="@drawable/card"
                 android:layout_width="225dp"
                 android:layout_height="320dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/description_CoverImage"
-                android:paddingBottom="8dp"
-                android:paddingRight="8dp"
+                android:contentDescription="@string/layout_card_loading"
+                android:paddingBottom="5dp"
                 android:scaleType="centerCrop" />
-    
+
               <fragment
                   android:id="@+id/SynopsisFragment"
                   android:name="net.somethingdreadful.MAL.GenericCardFragment"
@@ -38,7 +39,7 @@
                   android:layout_margin="8dp"
                   android:layout_toRightOf="@id/detailCoverImage"
                   tools:layout="@layout/card_layout_base" />
-    
+
               <fragment
                   android:id="@+id/StatusFragment"
                   android:name="net.somethingdreadful.MAL.GenericCardFragment"
@@ -47,7 +48,7 @@
                   android:layout_margin="8dp"
                   android:layout_toRightOf="@id/SynopsisFragment"
                   tools:layout="@layout/card_layout_base" />
-              
+
               <fragment
                   android:id="@+id/WatchStatusFragment"
                   android:name="net.somethingdreadful.MAL.GenericCardFragment"
@@ -57,7 +58,7 @@
                   android:layout_margin="8dp"
                   android:layout_toRightOf="@id/SynopsisFragment"
                   tools:layout="@layout/card_layout_base" />
-              
+
               <fragment
                   android:id="@+id/ProgressFragment"
                   android:name="net.somethingdreadful.MAL.GenericCardFragment"
@@ -66,23 +67,19 @@
                   android:layout_margin="8dp"
                   android:layout_toRightOf="@id/StatusFragment"
                   tools:layout="@layout/card_layout_base" />
-              
-              <fragment android:id="@+id/ScoreFragment" 
-                  android:name="net.somethingdreadful.MAL.GenericCardFragment" 
-                  android:layout_width="300dp" 
-                  android:layout_height="fill_parent" 
-                  android:layout_toRightOf="@id/ProgressFragment" 
-                  android:layout_margin="8dp" 
+
+              <fragment android:id="@+id/ScoreFragment"
+                  android:name="net.somethingdreadful.MAL.GenericCardFragment"
+                  android:layout_width="300dp"
+                  android:layout_height="fill_parent"
+                  android:layout_toRightOf="@id/ProgressFragment"
+                  android:layout_margin="8dp"
                   tools:layout="@layout/card_layout_base" />
-              
+
 
         </RelativeLayout>
-        
+
     </HorizontalScrollView>
-  
+
 </RelativeLayout>
-
-    
-
-    
 

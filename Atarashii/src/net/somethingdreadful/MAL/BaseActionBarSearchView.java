@@ -3,53 +3,40 @@ package net.somethingdreadful.MAL;
 import android.content.Intent;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
-import net.somethingdreadful.MAL.api.BaseMALApi;
+
+import net.somethingdreadful.MAL.api.MALApi.ListType;
 
 public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         implements SearchView.OnQueryTextListener {
+	
     SearchView mSearchView;
-
-    String query;
-
-    public String getQuery() {
-        if (query == null) {
-            return "";
-        }
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
+    static String query = "";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) searchItem.getActionView();
-        mSearchView.setQueryHint("Search in MAL"); // TODO use R.string
+        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        mSearchView.setQueryHint(getString(R.string.search_prompt));
         mSearchView.setOnQueryTextListener(this);
         if (SearchActivity.class.isInstance(this)) {
             mSearchView.setIconifiedByDefault(false);
         }
-        String query = getQuery();
         if (!query.equals("")) {
             mSearchView.setQuery(query, false);
         }
         return true;
     }
 
-    public BaseMALApi.ListType getCurrentListType() {
-        return BaseMALApi.ListType.ANIME;
+    public ListType getCurrentListType() {
+        return ListType.ANIME;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (!query.equals("")) {
             if (SearchActivity.class.isInstance(this)) {
-                this.doSearch(query, getCurrentListType());
+            	BaseActionBarSearchView.query = query;
+                this.doSearch();
             } else {
                 Intent startSearch = new Intent(this, SearchActivity.class);
                 startSearch.putExtra("net.somethingdreadful.MAL.search_query", query);
@@ -60,7 +47,7 @@ public abstract class BaseActionBarSearchView extends SherlockFragmentActivity
         return false;
     }
 
-    public void doSearch(String query, BaseMALApi.ListType listType) {
+    public void doSearch() {
     }
 
     @Override

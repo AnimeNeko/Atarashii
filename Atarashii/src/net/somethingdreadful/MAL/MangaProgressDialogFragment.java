@@ -45,20 +45,20 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialog));
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 ((DetailView) getActivity()).onMangaDialogDismissed(chapterPicker.getValue(), volumePicker.getValue());
                 dismiss();
             }
         }
-                ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dismiss();
-                    }
-                }
-                        ).setView(view).setTitle("I've read:");
+        ).setNegativeButton(R.string.dialog_label_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dismiss();
+            }
+        }
+        ).setView(view).setTitle(R.string.dialog_title_read_update);
 
         return builder.create();
 
@@ -69,12 +69,12 @@ public class MangaProgressDialogFragment extends DialogFragment {
 
         if (state == null) {
 
-            chaptersTotal = Integer.parseInt(((DetailView) getActivity()).mangaRecord.getTotal(false));
-            chaptersRead = ((DetailView) getActivity()).mangaRecord.getPersonalProgress(false);
+            chaptersTotal = ((DetailView) getActivity()).mangaRecord.getChapters();
+            chaptersRead = ((DetailView) getActivity()).mangaRecord.getChaptersRead();
             chapterPickerValue = chaptersRead;
 
-            volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumesTotal();
-            volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumeProgress();
+            volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumes();
+            volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumesRead();
             volumePickerValue = volumesRead;
 
         } else {

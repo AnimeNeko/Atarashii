@@ -1,0 +1,360 @@
+<?xml version="1.0"?>
+<resources>
+    <string name="app_name">Atarashii!</string>
+    <!-- All (Actionbar Title) Strings -->
+    <string name="title_activity_firstRun">Beginconfiguratie</string>
+    <string name="title_activity_settings">Instellingen</string>
+    <string name="title_activity_about">Over</string>
+    <string name="title_activity_detail_view">Detailoverzicht</string>
+    <string name="title_activity_profile">Gebruikersprofiel</string>
+    <string name="title_activity_friends">Mijn vrienden</string>
+    <string name="title_activity_logout">Uitloggen</string>
+    <!-- All (Actionbar Actions) Strings -->
+    <string name="menu_listType">Lijst veranderen</string>
+    <string name="menu_settings">Instellingen</string>
+    <string name="menu_sync">Volledige Sync</string>
+    <string name="menu_sortType">Sorteren</string>
+    <!-- All (Crouton) Strings -->
+    <string name="crouton_error_noConnectivityOnRun">Geen verbinding gedetecteerd. Wijzigingen worden opgeslagen om later gesynchroniseerd te worden.</string>
+    <string name="crouton_error_noConnectivity">Geen verbinding gedetecteerd.</string>
+    <string name="crouton_error_UserRecord">Gebruikersprofiel is leeg!</string>
+    <string name="crouton_error_Search_Anime">Fout bij zoeken naar animerecords.</string>
+    <string name="crouton_error_Search_Manga">Fout bij zoeken naar mangarecords.</string>
+    <string name="crouton_error_Search">Fout tijdens zoeken! Probeer het later opnieuw.</string>
+    <string name="crouton_error_noUserRecord">Deze gebruiker heeft geen offline gegevens.</string>
+    <string name="crouton_error_Anime_Sync">Sync fout tijdens het downloaden van de animelijst!</string>
+    <string name="crouton_error_Manga_Sync">Sync fout tijdens het downloaden van de mangalijst!</string>
+    <string name="crouton_error_noFriends">Je hebt geen vrienden op MAL!</string>
+    <string name="crouton_error_DetailsError">Details kunnen niet worden geladen, controleer je internetverbinding.</string>
+    <string name="crouton_error_VerifyProblem">Wow! Iets ging niet als gepland. Controleer je gebruikersnaam, wachtwoord, internetverbinding en probeer het opnieuw.</string>
+    <string name="crouton_error_Friends">Sync fout tijdens het downloaden van de vriendenlijst!</string>
+    <string name="crouton_error_nothingFound">Geen anime of manga gevonden. Ofwel werkt de API niet, ofwel kan je niet spellen.</string>
+    <string name="crouton_info_SyncMessage">Alles synchroniseren. Dit zou een paar seconden kunnen duren, afhankelijk van je internet snelheid.</string>
+    <string name="crouton_info_connectionRestored">Verbinding hersteld. Opgeslagen wijzigingen synchroniseren.</string>
+    <string name="crouton_info_UserRecord_updated">Gebruikersprofiel bijgewerkt!</string>
+    <string name="crouton_info_SyncDone">Sync voltooid!</string>
+    <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_view">Bekijken</string>
+    <string name="dialog_title_share">Delen</string>
+    <string name="dialog_title_share_via">Delen met</string>
+    <string name="dialog_title_Verifying">Verifiëren</string>
+    <string name="dialog_title_rating">Waardering</string>
+    <string name="dialog_title_logout">Uitloggen bevestigen</string>
+    <string name="dialog_title_watched_update">Ik bekeek al</string>
+    <string name="dialog_title_read_update">Ik las al</string>
+    <string name="dialog_title_status">Status</string>
+    <string name="dialog_message_view">Welke lijst wil je bekijken?</string>
+    <string name="dialog_message_logout">Weet je zeker dat je wilt uitloggen? Dit zal alle opgeslagen data en foto\'s verwijderen.</string>
+    <string name="dialog_message_remove">Weet je het zeker? Eenmaal als het verwijdert is kan je het niet herstellen. Niet makkelijk in ieder geval.</string>
+    <string name="dialog_message_share">Welke lijst wil je delen?</string>
+    <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblik geduld alstublieft.</string>
+    <string name="dialog_label_cancel">Annuleren</string>
+    <string name="dialog_label_update">Bijwerken</string>
+    <string name="dialog_label_anime">Mijn animelijst</string>
+    <string name="dialog_label_manga">Mijn mangalijst</string>
+    <string name="dialog_title_remove">Verwijderen van lijst</string>
+    <string name="dialog_label_logout">Uitloggen</string>
+    <!-- ProfileActivity (Contents) Strings -->
+    <string name="share_animelist">$username, deelde een animelijst met behulp van Atarashii: http://myanimelist.net/animelist/ $name;!</string>
+    <string name="share_mangalist">$username; deelt een mangalijst via Atarashii: http://myanimelist.net/$name;!</string>
+    <string name="layout_card_title_details">Details</string>
+    <string name="layout_discription">Applicatie-icoon</string>
+    <string name="layout_card_loading">Laden</string>
+    <string name="layout_card_birthday">Verjaardag</string>
+    <string name="layout_card_location">Locatie</string>
+    <string name="layout_card_website">Website</string>
+    <string name="layout_card_comments">Reacties</string>
+    <string name="layout_card_forum">Forumberichten</string>
+    <string name="layout_card_last">Laatst online</string>
+    <string name="layout_card_gender">Geslacht</string>
+    <string name="layout_card_join">Lid sinds</string>
+    <string name="layout_card_acces">Rank</string>
+    <string name="access_rank_atarashii_developer">Atarashii-ontwikkelaar</string>
+    <string name="layout_card_anime_views">Animelijstweergaven</string>
+    <string name="layout_card_manga_views">Mangalijstweergaven</string>
+    <string name="layout_card_anime_details">Animedetails</string>
+    <string name="layout_card_manga_details">Mangadetails</string>
+    <string name="layout_card_anime_time">Tijd in dagen</string>
+    <string name="layout_card_anime_watching">Kijkend</string>
+    <string name="layout_card_anime_completed">Voltooid</string>
+    <string name="layout_card_anime_on">Gepauzeerd</string>
+    <string name="layout_card_anime_dropped">Gestopt</string>
+    <string name="layout_card_anime_plan">Gepland</string>
+    <string name="layout_card_anime_total">Totaal</string>
+    <string name="layout_card_manga_reading">Lezend</string>
+    <string name="layout_card_manga_plan">Gepland</string>
+    <string name="action_viewListOnMAL">Lijst bekijken op MAL</string>
+    <string name="not_specified">niet gespecificeerd</string>
+    <string-array name="gender">
+        <item>Vrouw</item>
+        <item>Man</item>
+    </string-array>
+    <!-- FriendsActivity Strings -->
+    <string name="layout_card_friends_since">Friend sinds</string>
+    <string name="unknown">onbekend</string>
+    <!-- FirstTimeInit (Contents) Strings -->
+    <string name="form_hint_user">MAL-gebruikersnaam</string>
+    <string name="form_hint_pass">MAL-wachtwoord</string>
+    <string name="form_hint_info">Voer je MyAnimeList-gebruikersnaam en -wachtwoord hieronder in:</string>
+    <string name="form_action_create">Account maken</string>
+    <string name="form_action_connect">Verbind met MAL</string>
+    <!-- CoverAdapter (MyList Cover) Strings -->
+    <string name="cover_Watching">Bekeken:</string>
+    <string name="cover_Completed">Voltooid</string>
+    <string name="cover_Reading">Gelezen:</string>
+    <string name="cover_OnHold">Gepauzeerd bij:</string>
+    <string name="cover_Dropped">Gestopt</string>
+    <string name="cover_PlanningToWatch">Van plan te kijken</string>
+    <string name="cover_PlanningToRead">Van plan te lezen</string>
+    <string name="action_PlusOneWatched">+1 bekeken</string>
+    <string name="action_PlusOneRead">+1 gelezen</string>
+    <string name="action_MarkAsComplete">Markeren als voltooid</string>
+    <string name="label_Chapters">Hoofdstukken:</string>
+    <string name="label_Volumes">Volumes:</string>
+    <!-- Navigation drawer (item & action) Strings -->
+    <string name="nav_item_my_profile">Mijn profiel</string>
+    <string name="nav_item_my_list">Mijn lijst</string>
+    <string name="nav_item_my_friends">Mijn vrienden</string>
+    <string name="nav_item_top_rated">Best gewaardeerd</string>
+    <string name="nav_item_most_popular">Populairste</string>
+    <string name="nav_item_just_added">Recent toegevoegd</string>
+    <string name="nav_item_upcoming">Binnenkort</string>
+    <string name="drawer_open">Open de navigatiebalk</string>
+    <string name="drawer_close">Sluit de navigatiebalk</string>
+    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
+    <string name="title_Stats">Statistieken</string>
+    <string name="title_BasicStuff">Omslag</string>
+    <!-- DetailView (Card names) Strings -->
+    <string name="card_name_synopsis">SAMENVATTING</string>
+    <string name="card_name_progress">VOORUITGANG</string>
+    <string name="card_name_stats">MAL STATISTIEKEN</string>
+    <string name="card_name_rating">WAARDERING</string>
+    <string name="card_name_status">STATUS</string>
+    <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_volumes">Volumes</string>
+    <string name="card_content_chapters">Hoofdstukken</string>
+    <string name="card_content_episodes">Afleveringen</string>
+    <string name="card_content_mal_score">MAL Score</string>
+    <string name="card_content_my_score">Mijn Score</string>
+    <string name="card_content_media_type">Media Type</string>
+    <string name="card_content_media_status">Media Status</string>
+    <string name="card_content_loading">Een moment geduld AUB.</string>
+    <!-- DetailView (Actionbar actions) Strings -->
+    <string name="action_viewMALPage">Bekijk de Details op MyAnimeList</string>
+    <string name="action_Share">Delen</string>
+    <string name="action_Remove">Verwijder van mijn lijst</string>
+    <string name="action_AddToList">Toevoegen aan mijn lijst</string>
+    <!-- DetailView (Media info) Strings -->
+    <string-array name="mediaType_Anime">
+    <!-- DetailView (Media info) Strings -->
+        <item>Tv</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Film</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>OVA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>ONA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Special</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>Muziek</item>
+    </string-array>
+    <string-array name="mediaType_Manga">
+        <item>Manga</item>
+        <item>Novel</item>
+        <item>One Shot</item>
+        <item>Doujin</item>
+        <item>Manwha</item>
+        <item>Manhua</item>
+        <item>OEL</item>
+    </string-array>
+    <string-array name="mediaStatus_Anime">
+        <item>uitgezonden</item>
+        <item>wordt uitgezonden</item>
+        <item>nog niet uitgezonden</item>
+    </string-array>
+    <string-array name="mediaStatus_Manga">
+        <item>voltooid</item>
+        <item>publicerend</item>
+        <item>niet gepubliceerd</item>
+    </string-array>
+    <!-- Anime/Manga progress status strings -->
+    <string-array name="mediaStatus_User">
+    <!-- Anime/Manga progress status strings -->
+        <item>Voltooid</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Gepauzeerd</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Gestopt</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Kijkend</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Gepland</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Lezend</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>Gepland</item>
+    </string-array>
+    <!-- AndroidManifest (Unknown) Strings -->
+    <string name="permission_group_useAtarashii">Gebruik Atarashii voor MyAnimeList</string>
+    <string name="permission_group_description_useAtarashii">Sta deze app toe (indien geinstalleerd) om toegang te krijgen van je MAL account</string>
+    <string name="permission_updateMedia">Vernieuw gegevens</string>
+    <string name="permission_description_updateMedia">Sta deze app toe om je gegeven bij te werken op je MAL account</string>
+    <!-- BaseActionBarSearchView (Unknown) Strings -->
+    <string name="search_prompt">Zoek via MAL</string>
+    <!-- AboutActivity (contents) Strings -->
+    <string name="contributors_card_title">Belangrijke bijdragers</string>
+    <string name="acknowledgements_card_title">Open Source-componenten</string>
+    <string name="acknowledgements">Atarashii! gebruikt Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> door Square Inc. en <a href="https://code.google.com/p/google-gson/">google-gson</a> door Google Inc. dat gebruikt wordt door Retrofit, die allemaal gelicenseerd zijn onder de <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
+    <string name="app_description">Atarashii! is de beste manier om toegang te krijgen van MyAnimeList op je mobieltje. Het heeft een moderne, prachtige layout met functies die je allemaal zou willen.</string>
+    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
+    <string name="contributor_anima_summary">\"Alle andere applicaties falen!" \n\nOprichter en belangrijkste codeerder. Moe van de slechte gebruikersinterface van andere applicaties en hun algemene gebrek aan onderhoud, hij creëerde deze app.</string>
+    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
+    <string name="contributor_motokochan_summary">Focust op code opschoning en het toevoegen van kleine functies. Werkte aan het uitbreiden van Atarashii voor manga ondersteuning.</string>
+    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
+    <string name="contributor_apkawa_summary">ïmplementeerde de zoekfunctie. </string>
+    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
+    <string name="contributor_dsko_summary">ïmplementeerde retrofit voor API handelingen.</string>
+    <string name="community_card_title">Atarashii gemeenschap</string>
+    <string name="customShareText_fromAtarashii">\n\nGedeeld via Atarashii! - Moderne MAL voor Android</string>
+    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Word lid van onze Gemeenschap!</a> De Atarashii! gemeenschap op Google+ is een geweldige plek om te communiceren met de ontwikkelaars en om ons te laten weten wat u denkt. Problemen, functie verzoeken, status updates, het is er allemaal. We bijten niet, belooft.</string>
+    <!-- Preferences (contents) Strings -->
+    <string name="dialog_DefaultList">Standaard Lijst</string>
+    <string name="summary_DefaultList">Welke lijst wil je openen bij het opstarten?</string>
+    <string name="preference_category_list">Lijst</string>
+    <string name="preference_category_synchronisation">Synchronisatie</string>
+    <string name="preference_category_sharing">Delen</string>
+    <string name="preference_category_profile">Profiel</string>
+    <string name="preference_synchronisation">Auto-synchronisatie</string>
+    <string name="preference_TraditionalList">Gebruik de traditionele lijst</string>
+    <string name="preference_Only_wifi">Gebruik alleen wifi voor Sync</string>
+    <string name="preference_customShareText">Aangepaste deel tekst</string>
+    <string name="preference_displayVolumes">Gebruik Volumes op de omslagen</string>
+    <string name="preference_autosync">Auto-sync pauzes</string>
+    <string name="preference_profileTextColors">Schakel de tekst kleuren uit</string>
+    <string name="preference_profileAnimeHide">Verberg altijd animedetails</string>
+    <string name="preference_profileMangaHide">Verberg altijd mangadetails</string>
+    <string name="preference_profileBothHide">Verberg automatisch anime/manga -details</string>
+    <string name="preference_summary_TraditionList">Gebruik de lijstweergave in plaats van de tegel-achtige stijl. Opnieuw opstarten noodzakelijk om de wijziging door te voeren.</string>
+    <string name="preference_summary_synchronisation">Indien aangekruist, Atarashii zal synchroniseren bij het opstarten</string>
+    <string name="preference_summary_Only_wifi">Atarashii zal alleen auto-sync bij Wi-Fi verbindingen.</string>
+    <string name="preference_summary_customShareText">Vind je de standaard deel tekst niet leuk? Maak er zelf een! Gebruik $title; en $link; op de plaats van de titel en link naar MAL, wij zullen de rest voor je doen.</string>
+    <string name="preference_summary_autosync">Tijd totdat auto-sync gaat beginnen bij het opstarten.</string>
+    <string name="preference_summary_displayVolumes">Laat volumes zien in plaats van hoofdstukken op de omslag. De +1 gelezen actie verandert dan ook van hoofdstukken naar volumes.</string>
+    <string name="preference_summary_profileTextColors">Forceer de profielpagina om zwarte tekstkleur te gebruiken</string>
+    <string name="preference_summary_profileAnimeHide">Verberg animedetails op alle gebruikersprofielen.</string>
+    <string name="preference_summary_profileMangaHide">Verberg mangadetails op alle gebruikersprofielen.</string>
+    <string name="preference_summary_profileBothHide">Verberg anime/manga -details op alle gebruikersprofielen.</string>
+    <string name="preference_default_customShareText">Bekijk $title; op MyAnimeList!\n$link;</string>
+    <!-- Dialog_Status_picker (ListType) Strings -->
+    <string name="listType_all">Alles</string>
+    <string name="listType_onhold">Gepauzeerd</string>
+    <string name="listType_dropped">Gestopt</string>
+    <string name="listType_planned">Gepland</string>
+    <string name="listType_Completed">Voltooid</string>
+    <string name="listType_InProgress">In vooruitgang</string>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+    <string-array name="array_ratings_text">
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>Ongewaardeerd</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>1: Verschrikkelijk</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>2: Schandalig</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>3: Heel Slecht</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>4: Slecht</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>5: Normaal</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>6: Aardig</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>7: Goed</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>8: Heel Goed</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>9: Fantastisch</item>
+    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <item>10: Meesterwerk</item>
+    </string-array>
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="listTypeArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Alles</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Kijkend</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Voltooid</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Gepauzeerd</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Gestopt</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Van plan te kijken</item>
+    </string-array>
+    <string-array name="listTypeValuesArray">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="syncArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>5 minuten</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 minuten</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>15 minuten</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>30 minuten</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>60 minuten</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>2 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>8 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>12 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>24 Uren</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>48 Uren</item>
+    </string-array>
+    <string-array name="syncValuesArray">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+        <item>600</item>
+        <item>720</item>
+        <item>1440</item>
+        <item>2880</item>
+    </string-array>
+    <string name="dateformat">dd-MM-yy</string>
+    <string name="datetimeformat">dd-MM-yy HH:mm</string>
+    <string name="datetimeformat_yesterday">\'Gisteren\' HH:mm</string>
+    <string name="datetimeformat_dayname">HH:mm EEEE</string>
+    <plurals name="minutes_ago">
+        <item quantity="one">Een minuut geleden</item>
+        <item quantity="other">%d minuten geleden</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">Een uur geleden</item>
+        <item quantity="other">%d Uren geleden</item>
+    </plurals>
+</resources>

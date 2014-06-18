@@ -30,11 +30,11 @@
 
             <TextView
                 android:id="@+id/app_description"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="@string/app_description"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -46,12 +46,13 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/card"
             android:orientation="vertical"
-            android:padding="12dp" >
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/contributors_card_title"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -67,6 +68,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -81,6 +83,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -95,26 +98,73 @@
                 android:textStyle="bold" />
 
             <TextView
+                style="@style/TextViewLightFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:paddingLeft="8dp"
+                android:text="@string/contributor_apkawa_summary" />
+            
+            <TextView
+                android:id="@+id/contributor_dsko_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contributor_dsko_name"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
-                android:text="@string/contributor_apkawa_summary" />
+                android:text="@string/contributor_dsko_summary" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/acknowledgements_card"
+            android:id="@+id/community_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/contributors_card"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="12dp" >
+
+            <TextView
+                android:id="@+id/community_card_title"
+                style="@style/TextViewLightFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/community_card_title"
+                android:textColor="#0099CC"
+                android:textSize="18sp" />
+
+            <TextView
+                style="@style/TextViewLightFont"
+                android:id="@+id/community_card_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/community"/>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/acknowledgements_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/community_card"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/card"
             android:orientation="vertical"
             android:padding="12dp" >
 
             <TextView
                 android:id="@+id/acknowledgements_card_title"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -124,6 +174,7 @@
 
             <TextView
                 android:id="@+id/acknowledgements_card_content"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/acknowledgements" />

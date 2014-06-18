@@ -28,10 +28,11 @@
 
             <TextView
                 android:id="@+id/textblurb"
+                style="@style/TextViewLightFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="@string/fr_textblurb"
+                android:text="@string/form_hint_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="16sp" />
 
@@ -42,7 +43,7 @@
                 android:layout_below="@id/textblurb"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:hint="@string/fr_hint_user"
+                android:hint="@string/form_hint_user"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:padding="8dp" >
@@ -57,7 +58,7 @@
                 android:layout_below="@id/edittext_malUser"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:hint="@string/fr_hint_pass"
+                android:hint="@string/form_hint_pass"
                 android:inputType="textPassword"
                 android:padding="8dp" />
 
@@ -70,7 +71,7 @@
                 android:layout_marginTop="8dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/fr_action_connect" />
+                android:text="@string/form_action_connect" />
 
             <Button
                 android:id="@+id/registerButton"
@@ -81,7 +82,7 @@
                 android:layout_marginTop="24dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/fr_noaccount_button" />
+                android:text="@string/form_action_create" />
         </RelativeLayout>
     </RelativeLayout>
 
