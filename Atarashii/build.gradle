@@ -48,16 +48,19 @@ repositories {
     maven {
         url 'https://raw.github.com/nicolasjafelle/maven-repo/master/'
     }
+    // see: https://github.com/Prototik/HoloEverywhere/wiki/Import-in-IDE#maven
+    maven {
+        url 'http://192.241.191.41/repo'
+    }
 }
 
 dependencies {
-    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
-    compile 'net.simonvt.numberpicker:android-numberpicker:1.0.0'
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19+'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.3'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
     compile 'org.apache.commons:commons-lang3:3.2.1'
     compile 'com.squareup.picasso:picasso:2.2.0'
-    compile 'com.sherlock:navigationdrawer:+@aar'
+    compile 'org.holoeverywhere:library:2.1.0'
+    compile 'org.holoeverywhere:addon-preferences:2.1.0'
 }

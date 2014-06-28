@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="66dp" >
+
+    <ImageView
+        android:id="@+id/coverImage"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/transpanel" />
+
+    <ImageView
+        android:id="@+id/textOverlayPanel"
+        android:layout_width="fill_parent"
+        android:layout_height="66dp"
+        android:layout_gravity="bottom"
+        android:alpha="0.7"
+        android:scaleType="fitXY"
+        android:src="@drawable/panel" />
+
+    <TextView
+        android:id="@+id/animeName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="0px"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Anime Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right" >
+
+        <TextView
+            android:id="@+id/watchedCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+            android:text="111"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/stringWatched"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/watchedCount"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_marginRight="4dp"
+            android:layout_toLeftOf="@id/watchedCount"
+            android:text="I&apos;ve watched:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/popUpButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|left"
+        android:focusable="false"
+        android:paddingLeft="0dip"
+        android:paddingRight="22dip"
+        android:paddingTop="10dp"
+        android:scaleType="center"
+        android:src="@drawable/cover_action" />
+
+</FrameLayout>

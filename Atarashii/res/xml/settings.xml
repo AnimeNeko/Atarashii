@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-		<PreferenceScreen android:key="List settings" android:title="@string/preference_category_list" android:persistent="false">
+		<PreferenceScreen android:id="@+id/Listsettings" android:title="@string/preference_category_list">
 			<ListPreference
 				android:summary="@string/summary_DefaultList"
 				android:dialogTitle="@string/dialog_DefaultList"
@@ -16,9 +16,9 @@
 				android:title="@string/preference_displayVolumes"
 				android:summary="@string/preference_summary_displayVolumes"
 				android:key="displayVolumes"
-				android:defaultValue="false" />
+				android:defaultValue="false"/>
 		</PreferenceScreen>
-		<PreferenceScreen android:key="Profile settings" android:title="@string/preference_category_profile" android:persistent="false">
+		<PreferenceScreen android:key="Profile settings" android:title="@string/preference_category_profile">
 			<CheckBoxPreference
 				android:key="text_colours"
 				android:title="@string/preference_profileTextColors"
@@ -40,7 +40,7 @@
 				android:summary="@string/preference_summary_profileMangaHide"
 				android:defaultValue="false"/>
 		</PreferenceScreen>
-		<PreferenceScreen android:key="Synchronisation settings" android:title="@string/preference_category_synchronisation" android:persistent="false">
+		<PreferenceScreen android:key="Synchronisation settings" android:title="@string/preference_category_synchronisation">
 			<CheckBoxPreference
 				android:key="synchronisation"
 				android:title="@string/preference_synchronisation"

@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_listType" android:showAsAction="ifRoom|withText"
-          android:title="@string/menu_listType" android:icon="@drawable/ic_menu_switchlist"
-            >
-
-        <menu>
-            <group android:id="@+id/listGroup" android:checkableBehavior="single">
-                <item android:id="@+id/listType_all" android:title="@string/listType_all"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_inprogress" android:title="@string/listType_InProgress"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_completed" android:title="@string/listType_Completed"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_onhold" android:title="@string/listType_onhold"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_dropped" android:title="@string/listType_dropped"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_planned" android:title="@string/listType_planned"
-                      android:checkable="true"/>
-            </group>
-
-        </menu>
+        android:title="@string/menu_listType" android:icon="@drawable/ic_menu_switchlist">
+        
+            <menu>
+                <group android:checkableBehavior="single">
+                	<item android:id="@+id/listType_all" android:title="@string/listType_all" android:showAsAction="never"/>
+                	<item android:id="@+id/listType_inprogress" android:title="@string/listType_InProgress" android:showAsAction="never"/>
+                	<item android:id="@+id/listType_completed" android:title="@string/listType_Completed" android:showAsAction="never"/>
+                	<item android:id="@+id/listType_onhold" android:title="@string/listType_onhold" android:showAsAction="never"/>
+                	<item android:id="@+id/listType_dropped" android:title="@string/listType_dropped" android:showAsAction="never"/>
+                	<item android:id="@+id/listType_planned" android:title="@string/listType_planned" android:showAsAction="never"/>
+                </group>
+            </menu>
     </item>
     <item android:id="@+id/forceSync"
           android:title="@string/menu_sync"
           android:icon="@drawable/ic_menu_refresh"
           android:showAsAction="ifRoom"/>
     <item android:id="@+id/action_search"
-          android:title="Search"
+          android:title="@string/search_prompt"
           android:icon="@drawable/ic_menu_search"
-          android:showAsAction="always|collapseActionView"
-          android:actionViewClass="com.actionbarsherlock.widget.SearchView"
-            />
+          android:showAsAction="always|collapseActionView" 
+          android:actionViewClass="android.support.v7.widget.SearchView"/>
     <item android:id="@+id/menu_settings"
           android:title="@string/menu_settings"
           android:icon="@drawable/ic_menu_settings"

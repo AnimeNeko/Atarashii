@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.response.Manga;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,6 +12,7 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 	TaskJob job;
 	int page = 1;
 	Context context;
+	Manga record;
 	MangaNetworkTaskFinishedListener callback;
 
 	public MangaNetworkTask(TaskJob job, int page, Context context, MangaNetworkTaskFinishedListener callback) {
@@ -22,10 +22,11 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 		this.callback = callback;
 	}
 	
-	public MangaNetworkTask(TaskJob job, Context context, MangaNetworkTaskFinishedListener callback) {
+	public MangaNetworkTask(TaskJob job, Context context, Manga manga, MangaNetworkTaskFinishedListener callback) {
 		this.job = job;
 		this.context = context;
 		this.callback = callback;
+		this.record = manga;
 	}
 
 	@Override
@@ -61,6 +62,14 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
     				break;
     			case GETUPCOMING:
     				result = mManager.getAPIObject().getUpcomingManga(page);
+    				break;
+    			case GET:
+    				result = new ArrayList<Manga>();
+    				result.add(mManager.getMangaRecord(Integer.parseInt(params[0])));
+    				break;
+    			case GETDETAILS:
+    				result = new ArrayList<Manga>();
+    				result.add(mManager.updateWithDetails(record.getId(), record));
     				break;
     			case SEARCH:
     				result = mManager.getAPIObject().searchManga(params[0], page);

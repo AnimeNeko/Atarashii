@@ -26,10 +26,8 @@ Third-Party Components
 ----------------------
 Atarashii! makes use of several third-party components and services:
 
-* [ActionBarSherlock](http://actionbarsherlock.com/) by Jack Wharton
-* [Android NumberPicker Backport](https://github.com/SimonVT/android-numberpicker) by Simon Vig Therkildsen
 * [Crouton](https://github.com/keyboardsurfer/Crouton) by Benjamin Weiss
-* [SherlockNavigationDrawer](https://github.com/nicolasjafelle/SherlockNavigationDrawer) by Nicolas Jafelle
-* The [MyAnimeList Unofficial API](http://mal-api.com/) by Chu Yeow
+* [Atarashii MAL API](https://bitbucket.org/ratan12/atarashii-api) by Ratan Dhawtal & Michael Johnson
+* [HoloEverywhere] (https://github.com/Prototik/HoloEverywhere) by Sergey Shatunov
 * [Retrofit](http://square.github.io/retrofit/) by Square Inc.
 * [Gson](https://code.google.com/p/google-gson/) by Google Inc.

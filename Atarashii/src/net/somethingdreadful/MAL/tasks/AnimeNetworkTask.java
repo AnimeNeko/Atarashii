@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.response.Anime;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,6 +12,7 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 	TaskJob job;
 	int page = 1;
 	Context context;
+	Anime record;
 	AnimeNetworkTaskFinishedListener callback;
 	
 	public AnimeNetworkTask(TaskJob job, int page, Context context, AnimeNetworkTaskFinishedListener callback) {
@@ -22,9 +22,10 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
 		this.callback = callback;
 	}
 
-	public AnimeNetworkTask(TaskJob job, Context context, AnimeNetworkTaskFinishedListener callback) {
+	public AnimeNetworkTask(TaskJob job, Context context, Anime anime, AnimeNetworkTaskFinishedListener callback) {
 		this.job = job;
 		this.context = context;
+		this.record = anime;
 		this.callback = callback;
 	}
 
@@ -62,6 +63,14 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
     			case GETUPCOMING:
     				result = mManager.getAPIObject().getUpcomingAnime(page);
     				break;
+    			case GET:
+    				result = new ArrayList<Anime>();
+    				result.add(mManager.getAnimeRecord(Integer.parseInt(params[0])));
+    				break;
+    			case GETDETAILS:
+    				result = new ArrayList<Anime>();
+    				result.add(mManager.updateWithDetails(record.getId(), record));
+    				break;
     			case SEARCH:
     				result = mManager.getAPIObject().searchAnime(params[0], page);
     				break;
@@ -69,7 +78,8 @@ public class AnimeNetworkTask extends AsyncTask<String, Void, ArrayList<Anime>> 
     				Log.e("MALX", "invalid job identifier " + job.name());
     		}
 
-    		/* returning null means there was an error, so return an empty ArrayList if there was no error
+    		/* 
+    		 * returning null means there was an error, so return an empty ArrayList if there was no error
              * but an empty result
              */
             if ( result == null )

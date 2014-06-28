@@ -1,13 +1,13 @@
 package net.somethingdreadful.MAL;
 
+import org.holoeverywhere.app.Activity;
+
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.widget.TextView;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 
-public class AboutActivity extends SherlockActivity {
+public class AboutActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +15,6 @@ public class AboutActivity extends SherlockActivity {
         setContentView(R.layout.activity_about);
 
         setTitle(R.string.title_activity_about);
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
 
         TextView animaMalContent = (TextView) findViewById(R.id.contributor_anima_name);
         TextView motokochanMalContent = (TextView) findViewById(R.id.contributor_motokochan_name);

@@ -1,10 +1,11 @@
 package net.somethingdreadful.MAL;
 
+import org.holoeverywhere.app.Activity;
+
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,16 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class ProfileActivity extends SherlockFragmentActivity implements UserNetworkTaskFinishedListener   {
+public class ProfileActivity extends Activity implements UserNetworkTaskFinishedListener   {
     MALManager mManager;
     Context context;
     ImageView Image;
@@ -42,9 +39,8 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-        
+    
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
         mManager = new MALManager(context);
         prefs = new PrefManager(context);
@@ -66,13 +62,13 @@ public class ProfileActivity extends SherlockFragmentActivity implements UserNet
     	NfcHelper.disableBeam(this);
     }
     
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_profile_view, menu);
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_profile_view, menu);
         return true;
     }
     
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
