@@ -91,10 +91,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
             swipeRefresh.setOnRefreshListener((Home)getActivity());
             swipeRefresh.setColorScheme(
-                    android.R.color.holo_blue_bright,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light
+                    R.color.holo_blue_bright,
+                    R.color.holo_green_light,
+                    R.color.holo_orange_light,
+                    R.color.holo_red_light
             );
         }
 
