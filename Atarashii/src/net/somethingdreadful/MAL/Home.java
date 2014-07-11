@@ -261,7 +261,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         		}
         		break;
             case R.id.forceSync:
-                forceSync(true);
+                synctask(true);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -294,7 +294,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable){
             mPrefManager.setsync_time_last(1);
             mPrefManager.commitChanges();
-            synctask();
+            synctask(true);
         } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable){
             Calendar localCalendar = Calendar.getInstance();
             int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
@@ -303,10 +303,10 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             int last_sync = mPrefManager.getsync_time_last();
             if (!(last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time()))){
                 if (mPrefManager.getonly_wifiEnabled()){
-                    synctask();
+                    synctask(true);
                     mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
                 }else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
-                    synctask();
+                    synctask(true);
                     mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
                 }
             }
@@ -314,18 +314,12 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         }
     }
 
-    public void synctask(){
-        af.getRecords(true, TaskJob.FORCESYNC, af.list);
-        mf.getRecords(true, TaskJob.FORCESYNC, mf.list);
-        syncNotify(false);
-        AutoSync = 1;
-    }
-
-    private void forceSync(boolean clear) {
+    public void synctask(boolean clear){
         if (af != null && mf != null) {
             af.getRecords(clear, TaskJob.FORCESYNC, af.list);
             mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
             syncNotify(false);
+            AutoSync = 1;
         }
     }
 
@@ -437,7 +431,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 	        mf.getRecords(true, TaskJob.GETLIST, mf.list);
         } else if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
-            synctask();
+            synctask(true);
         }
         networkAvailable = MALApi.isNetworkAvailable(context);
     }
@@ -445,7 +439,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     @Override
     public void onRefresh() {
         if(networkAvailable)
-            forceSync(false);
+            synctask(false);
         else {
             if (af != null && mf != null) {
                 af.toggleSwipeRefreshAnimation(false);
