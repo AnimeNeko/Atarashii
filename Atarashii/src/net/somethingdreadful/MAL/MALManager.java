@@ -233,7 +233,7 @@ public class MALManager {
 
     public Manga getMangaRecord(int recordID) {
     	Manga result = dbMan.getManga(recordID);
-        if ( result == null )
+        if (result == null)
         	result = getMangaRecordFromMAL(recordID);
         return result;
     }

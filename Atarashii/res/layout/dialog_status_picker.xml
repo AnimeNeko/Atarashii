@@ -7,6 +7,52 @@
     <RadioGroup
         android:id="@+id/statusRadioGroup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        
+        <RadioButton
+            android:id="@+id/statusRadio_InProgress"
+    		android:layout_width="match_parent"
+    		android:layout_height="48dp"
+    		android:layout_marginLeft="16dp"
+    		android:layout_marginRight="16dp"
+    		android:text="@string/listType_InProgress"
+    		android:gravity="center" />
+        
+        <RadioButton
+            android:id="@+id/statusRadio_Completed"
+    		android:layout_width="match_parent"
+    		android:layout_height="48dp"
+    		android:layout_marginLeft="16dp"
+    		android:layout_marginRight="16dp"
+    		android:text="@string/listType_Completed"
+    		android:gravity="center" />
+        
+        <RadioButton
+            android:id="@+id/statusRadio_OnHold"
+    		android:layout_width="match_parent"
+    		android:layout_height="48dp"
+    		android:layout_marginLeft="16dp"
+    		android:layout_marginRight="16dp"
+    		android:text="@string/listType_onhold" 
+    		android:gravity="center" />
+        
+        <RadioButton
+            android:id="@+id/statusRadio_Dropped"
+    		android:layout_width="match_parent"
+    		android:layout_height="48dp"
+    		android:layout_marginLeft="16dp"
+    		android:layout_marginRight="16dp"
+    		android:text="@string/listType_dropped" 
+    		android:gravity="center" />
+        
+        <RadioButton
+            android:id="@+id/statusRadio_Planned"
+    		android:layout_width="match_parent"
+    		android:layout_height="48dp"
+    		android:layout_marginLeft="16dp"
+    		android:layout_marginRight="16dp"
+    		android:text="@string/listType_planned" 
+    		android:gravity="center" />
+    </RadioGroup>
 
 </ScrollView>

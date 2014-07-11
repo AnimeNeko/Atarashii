@@ -6,7 +6,6 @@
 
     <TextView
         android:id="@+id/searchResultRow"
-        style="@style/TextViewLightFont"
         android:layout_width="203dp"
         android:layout_height="23dp"
         android:layout_gravity="left|center_vertical"

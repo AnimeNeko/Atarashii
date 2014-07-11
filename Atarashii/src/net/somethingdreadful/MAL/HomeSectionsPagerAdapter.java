@@ -1,10 +1,9 @@
 package net.somethingdreadful.MAL;
 
-import android.os.Bundle;
+import net.somethingdreadful.MAL.api.MALApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import net.somethingdreadful.MAL.api.MALApi;
 
 public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -14,36 +13,26 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        Fragment fragment;
-        Bundle args = new Bundle();
-
-        fragment = new ItemGridFragment();
         switch (i) {
             case 0:
-                args.putSerializable("type", MALApi.ListType.ANIME);
-                break;
+     			return Home.af;
             case 1:
-                args.putSerializable("type", MALApi.ListType.MANGA);
-                break;
+     			return Home.mf;
             default:
-                args.putSerializable("type", MALApi.ListType.ANIME);
-                break;
+     			return Home.af;
         }
-
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public int getCount() {
         return 2;
     }
-
+    
     @Override
     public CharSequence getPageTitle(int position) {
         return MALApi.getListTypeString(getTag(position)).toUpperCase();
     }
-
+    
     public MALApi.ListType getTag(int position) {
         switch (position) {
             case 0:

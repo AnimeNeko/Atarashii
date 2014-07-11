@@ -35,7 +35,9 @@
     <string name="crouton_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="crouton_info_connectionRestored">Connection restored. Syncing pending changes.</string>
     <string name="crouton_info_UserRecord_updated">UserProfile updated!</string>
+    <string name="crouton_info_Max_Counter">It\'s over 9999!</string>
     <string name="crouton_info_SyncDone">Sync Complete!</string>
+    <string name="crouton_info_Copied">Copied the title successfully to the clipboard!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
@@ -58,6 +60,7 @@
     <string name="dialog_label_manga">My mangalist</string>
     <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_label_logout">Logout</string>
+    <string name="dialog_label_remove">Remove</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -94,11 +97,11 @@
         <item>Female</item>
         <item>Male</item>
     </string-array>
-    
+
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Friends since</string>
     <string name="unknown">unknown</string>
-    
+
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">MAL Username</string>
     <string name="form_hint_pass">MAL Password</string>
@@ -106,7 +109,7 @@
     <string name="form_action_create">Create an Account</string>
     <string name="form_action_connect">Connect to MAL</string>
 
-    <!-- CoverAdapter (MyList Cover) Strings -->
+    <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">I\'ve watched:</string>
     <string name="cover_Completed">Completed</string>
     <string name="cover_Reading">I\'ve read:</string>
@@ -119,6 +122,7 @@
     <string name="action_MarkAsComplete">Mark Completed</string>
     <string name="label_Chapters">Chapters:</string>
     <string name="label_Volumes">Volumes:</string>
+    <string name="label_Number">Number:</string>
 
     <!-- Navigation drawer (item & action) Strings -->
     <string name="nav_item_my_profile">My Profile</string>
@@ -130,11 +134,7 @@
     <string name="nav_item_upcoming">Upcoming</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
-    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
-    <string name="title_Stats">Stats</string>
-    <string name="title_BasicStuff">Cover</string>
-
+    
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">SYNOPSIS</string>
     <string name="card_name_progress">PROGRESS</string>
@@ -157,7 +157,7 @@
     <string name="action_Share">Share</string>
     <string name="action_Remove">Remove from list</string>
     <string name="action_AddToList">Add to list</string>
-    
+
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
         <item>TV</item>

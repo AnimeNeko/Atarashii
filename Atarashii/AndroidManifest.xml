@@ -24,14 +24,12 @@
     <uses-permission android:name="android.permission.NFC"/>
 
     <application
+        android:name=".Theme"
             android:icon="@drawable/icon"
-            android:label="@string/app_name"
-            android:theme="@style/AtarashiiLightBg"
-            >
+            android:label="@string/app_name">
         <activity
                 android:name=".Home"
-                android:label="@string/app_name"
-                android:theme="@style/AtarashiiDarkBg">
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -40,6 +38,9 @@
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
+            <meta-data
+	            android:name="android.app.default_searchable"
+	            android:value=".SearchActivity" />
         </activity>
         <activity
                 android:name=".FirstTimeInit"
@@ -55,12 +56,13 @@
         </activity>
         <activity
                 android:name=".DetailView"
-                android:label="@string/title_activity_detail_view">
+                android:label="@string/title_activity_detail_view"
+				android:configChanges="orientation|screenSize">
                 <intent-filter>
-	                    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-	                    <category android:name="android.intent.category.DEFAULT"/>
-	                    <data android:mimeType="application/net.somethingdreadful.mal"/>
-	            </intent-filter>
+	            <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+	            <category android:name="android.intent.category.DEFAULT"/>
+	            <data android:mimeType="application/net.somethingdreadful.mal"/>
+	        </intent-filter>
         </activity>
 		<activity
                 android:name=".ProfileActivity"
@@ -72,9 +74,13 @@
         </activity>
 
         <activity
-                android:name=".SearchActivity"
+				android:name=".SearchActivity"
                 android:launchMode="singleTask"
                 android:label="Search">
+		    <intent-filter>
+			<action android:name="android.intent.action.SEARCH" />
+		    </intent-filter>
+		    <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
 
 

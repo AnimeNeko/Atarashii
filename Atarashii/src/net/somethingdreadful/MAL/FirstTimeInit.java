@@ -1,6 +1,6 @@
 package net.somethingdreadful.MAL;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,28 +11,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockActivity;
-
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.ProgressDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import net.somethingdreadful.MAL.api.MALApi;
 
-public class FirstTimeInit extends SherlockActivity {
+public class FirstTimeInit extends Activity {
     static EditText malUser;
     static EditText malPass;
     static String testMalUser;
     static String testMalPass;
-    static ProgressDialog pd;
+    static ProgressDialog dialog;
     static Thread netThread;
     static Context context;
-    static private Handler messenger;
+    static Handler messenger;
     static PrefManager prefManager;
 
-    @Override
+    @SuppressLint("HandlerLeak")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.firstrun);
+    	super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_firstrun);
 
         malUser = (EditText) findViewById(R.id.edittext_malUser);
         malPass = (EditText) findViewById(R.id.edittext_malPass);
@@ -62,11 +62,11 @@ public class FirstTimeInit extends SherlockActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == 2) {
-                    pd.dismiss();
+                	dialog.dismiss();
                     Crouton.makeText(FirstTimeInit.this, R.string.crouton_error_VerifyProblem , Style.ALERT).show();
                 }
                 if (msg.what == 3) {
-                    pd.dismiss();
+                	dialog.dismiss();
 
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
@@ -74,9 +74,9 @@ public class FirstTimeInit extends SherlockActivity {
                     prefManager.setsync_time_last(0);
                     prefManager.commitChanges();
 
-                    Intent goHome = new Intent(context, Home.class);
-                    startActivity(goHome);
-                    System.exit(0);
+                    Intent home = new Intent(getApplicationContext(), Home.class);
+                    startActivity(home);
+                    finish();
                 }
                 super.handleMessage(msg);
             }
@@ -86,7 +86,12 @@ public class FirstTimeInit extends SherlockActivity {
     }
 
     private void tryConnection() {
-        pd = ProgressDialog.show(this, context.getString(R.string.dialog_title_Verifying), context.getString(R.string.dialog_message_Verifying));
+    	dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setTitle(getString(R.string.dialog_title_Verifying));
+        dialog.setMessage(getString(R.string.dialog_message_Verifying));
+        dialog.show();
         netThread = new networkThread();
         netThread.start();
     }

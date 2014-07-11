@@ -2,11 +2,13 @@ package net.somethingdreadful.MAL;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.holoeverywhere.app.Activity;
+
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,16 +23,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends SherlockFragmentActivity implements FriendsNetworkTaskFinishedListener {
+public class FriendsActivity extends Activity implements FriendsNetworkTaskFinishedListener {
 	
     Context context;
     ArrayList<User> listarray = new ArrayList<User>();
@@ -45,13 +43,12 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();   
         
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_friends);
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true); //go to home to actionbar
         setTitle(R.string.title_activity_friends); //set title
         
         Gridview = (GridView)findViewById(R.id.listview);
-        int recource = R.layout.list_friends_with_text_item;
+        int recource = R.layout.record_friends_gridview;
         
         listadapter = new ListViewAdapter<User>(context, recource);
         mManager = new MALManager(context);
@@ -90,13 +87,13 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
         listadapter.notifyDataSetChanged();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_friends_view, menu);
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_friends_view, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         final int itemId = item.getItemId();
 		switch (itemId) {
 		case android.R.id.home:
@@ -129,7 +126,7 @@ public class FriendsActivity extends SherlockFragmentActivity implements Friends
             
             try{
             	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            	view = inflater.inflate(R.layout.list_friends_with_text_item, parent, false);
+            	view = inflater.inflate(R.layout.record_friends_gridview, parent, false);
                 
                 String username =  record.getName();
                 TextView Username = (TextView) view.findViewById(R.id.userName);
