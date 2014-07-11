@@ -21,6 +21,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
@@ -51,7 +52,7 @@ import java.util.Calendar;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener {
+public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -260,11 +261,7 @@ public class Home extends Activity implements TabListener {
         		}
         		break;
             case R.id.forceSync:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.FORCESYNC, af.list);
-                    mf.getRecords(true, TaskJob.FORCESYNC, mf.list);
-                    syncNotify();
-                }
+                forceSync(true);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -320,8 +317,16 @@ public class Home extends Activity implements TabListener {
     public void synctask(){
         af.getRecords(true, TaskJob.FORCESYNC, af.list);
         mf.getRecords(true, TaskJob.FORCESYNC, mf.list);
-        syncNotify();
+        syncNotify(false);
         AutoSync = 1;
+    }
+
+    private void forceSync(boolean clear) {
+        if (af != null && mf != null) {
+            af.getRecords(clear, TaskJob.FORCESYNC, af.list);
+            mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
+            syncNotify(false);
+        }
     }
 
     @Override
@@ -402,8 +407,9 @@ public class Home extends Activity implements TabListener {
         finish();
     }
 
-    private void syncNotify() {
-        Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
+    private void syncNotify(boolean showCrouton) {
+        if (showCrouton)
+            Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -434,6 +440,11 @@ public class Home extends Activity implements TabListener {
             synctask();
         }
         networkAvailable = MALApi.isNetworkAvailable(context);
+    }
+
+    @Override
+    public void onRefresh() {
+        forceSync(false);
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {

@@ -3,20 +3,25 @@
     android:id="@+id/viewFlipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-	<GridView
-    	android:id="@+id/gridview"
-    	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
-    	android:background="@color/bg_dark"
-    	android:columnWidth="150dp"
-    	android:fadingEdge="none"
-    	android:fastScrollEnabled="true"
-    	android:gravity="center"
-    	android:horizontalSpacing="1dp"
-    	android:listSelector="#00343434"
-    	android:numColumns="auto_fit"
-    	android:stretchMode="columnWidth"
-    	android:verticalSpacing="1dp" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/bg_dark"
+            android:columnWidth="150dp"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="true"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:listSelector="#00343434"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 	<ProgressBar
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
