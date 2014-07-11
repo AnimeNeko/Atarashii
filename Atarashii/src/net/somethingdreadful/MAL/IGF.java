@@ -175,6 +175,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
+    public void setSwipeRefreshEnabled(boolean enabled) {
+        if(swipeRefresh != null) {
+            swipeRefresh.setEnabled(enabled);
+        }
+    }
+
     /*
 	 * get the anime/manga lists.
 	 * (if clear is true the whole list will be cleared and loaded)
