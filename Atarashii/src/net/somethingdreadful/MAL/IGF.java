@@ -169,7 +169,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
-    private void toggleSwipeRefreshAnimation(boolean show) {
+    public void toggleSwipeRefreshAnimation(boolean show) {
         if(swipeRefresh != null) {
             swipeRefresh.setRefreshing(show);
         }

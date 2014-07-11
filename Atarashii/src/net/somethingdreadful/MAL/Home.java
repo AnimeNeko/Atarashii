@@ -444,7 +444,15 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        forceSync(false);
+        if(networkAvailable)
+            forceSync(false);
+        else {
+            if (af != null && mf != null) {
+                af.toggleSwipeRefreshAnimation(false);
+                mf.toggleSwipeRefreshAnimation(false);
+            }
+            Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+        }
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
