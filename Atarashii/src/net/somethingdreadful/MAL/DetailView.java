@@ -520,8 +520,8 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         	.placeholder(R.drawable.cover_loading)
         	.fit()
         	.into((ImageView) findViewById(R.id.detailCoverImage));
-        
-        setTitle(record.getTitle());
+
+        getSupportActionBar().setTitle(record.getTitle());
         setupBeam();
 	}
 
