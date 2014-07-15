@@ -6,7 +6,6 @@ import org.holoeverywhere.app.Activity;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import android.support.v4.view.MenuItemCompat;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -94,12 +93,6 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
-    
-    @Override
-    public void onStop () {
-    	query = "";
-    	super.onStop();
-    }
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -112,10 +105,6 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
             	mf.getRecords(true, null, 0);
             }
         }
-    }
-    
-    public MALApi.ListType getCurrentListType() {
-        return (MALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
     }
 
 	@Override
@@ -171,11 +160,6 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 	public void onPageSelected(int position) {
 		actionBar.setSelectedNavigationItem(position);
 	}
-	
-	@Override
-    public void onPause() {
-        super.onPause();
-    }
 
 	public static void onError(ListType type, boolean error, Activity activity, TaskJob job) {
 		called = called + 1;
@@ -212,9 +196,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 	    searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
 	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 	    searchView.setIconifiedByDefault(false);
-	    searchView.setFocusableInTouchMode(true);
-	    searchView.requestFocusFromTouch();
-	    searchView.setQuery(query, false);
+	    searchView.setQuery(query, true);
 	    return true;
 	}
 }

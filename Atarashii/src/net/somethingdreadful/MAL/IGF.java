@@ -98,10 +98,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             );
         }
 
-        if (list == -1)
-        	getRecords(true, null, pref.getDefaultList());
-        else
-        	refresh();
+        if (!taskjob.equals(TaskJob.SEARCH)) {
+            if (list == -1)
+                getRecords(true, null, pref.getDefaultList());
+            else
+                refresh();
+        }
         
     	NfcHelper.disableBeam(activity);
         return view;
