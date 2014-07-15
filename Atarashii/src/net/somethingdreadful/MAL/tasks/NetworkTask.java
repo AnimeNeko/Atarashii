@@ -117,7 +117,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     Log.e("MALX", String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }
         } catch (RetrofitError re) {
-            if (re.getResponse() != null)
+            if (re.getResponse() != null && re.isNetworkError())
                 Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
             else
                 Log.e("MALX", String.format("%s-task unknown API error on job %s", type.toString(), job.name()));
