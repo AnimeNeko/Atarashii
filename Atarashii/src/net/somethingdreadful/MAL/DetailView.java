@@ -379,7 +379,7 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
 
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         if (result == null) {
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
         } else {

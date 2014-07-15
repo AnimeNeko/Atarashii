@@ -58,6 +58,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     ArrayList<Manga> ml = new ArrayList<Manga>();
     ListViewAdapter<Anime> aa;
     ListViewAdapter<Manga> ma;
+
+    NetworkTask networkTask;
 	
 	int page = 1;
 	int list = -1;
@@ -229,7 +231,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 			}
             Bundle data = new Bundle();
             data.putInt("page", page);
-            new NetworkTask(taskjob, getListType(), context, data, this).execute(isList() ? MALManager.listSortFromInt(list, getListType()) : SearchActivity.query);
+            if (networkTask != null)
+                networkTask.cancelTask();
+            networkTask = new NetworkTask(taskjob, getListType(), context, data, this);
+            networkTask.execute(isList() ? MALManager.listSortFromInt(list, getListType()) : SearchActivity.query);
 		}catch (Exception e){
                Log.e("MALX", "error getting records: " + e.getMessage());
 		}
@@ -466,11 +471,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data) {
-        if (result == null) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        if (!cancelled) // don't change the UI if cancelled
+            toggleLoadingIndicator(false);
+        if (result == null && !cancelled) {
             Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
         } else {
-            ArrayList resultList;
+            if ( !cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
+                ArrayList resultList;
                 try {
                     if (type == ListType.ANIME) {
                         resultList = (ArrayList<Anime>) result;
@@ -482,29 +490,33 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     resultList = null;
                 }
                 if (resultList != null) {
-                if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
-                    if (this.page == 1)
-                        SearchActivity.onError(type, true, (SearchActivity) getActivity(), job);
-                } else {
-                    if (job.equals(TaskJob.FORCESYNC))
-                        SearchActivity.onError(type, false, (Home) getActivity(), job);
-                    if (type == ListType.ANIME) {
-                        if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
-                            al.clear();
-                            detail = false;
-                        }
-                        al.addAll(resultList);
+                    if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
+                        if (this.page == 1)
+                            SearchActivity.onError(type, true, (SearchActivity) getActivity(), job);
                     } else {
-                        if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
-                            ml.clear();
-                            detail = false;
+                        if (job.equals(TaskJob.FORCESYNC))
+                            SearchActivity.onError(type, false, (Home) getActivity(), job);
+                        if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
+                            if (type == ListType.ANIME) {
+                                if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+                                    al.clear();
+                                    detail = false;
+                                }
+                                al.addAll(resultList);
+                            } else {
+                                if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+                                    ml.clear();
+                                    detail = false;
+                                }
+                                ml.addAll(resultList);
+                            }
+                            refresh();
                         }
-                        ml.addAll(resultList);
                     }
-                    refresh();
                 }
             }
         }
+        networkTask = null;
         toggleSwipeRefreshAnimation(false);
         toggleLoadingIndicator(false);
     }
