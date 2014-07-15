@@ -176,7 +176,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     public void onPause() {
         super.onPause();
     }
-	
+
 	public static void onError(ListType type, boolean error, Activity activity, TaskJob job) {
 		called = called + 1;
 		

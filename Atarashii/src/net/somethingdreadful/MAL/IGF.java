@@ -12,9 +12,8 @@ import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 import android.annotation.SuppressLint;
@@ -41,7 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
+public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener {
 
 	Context context;
 	Boolean isAnime;
@@ -308,10 +307,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	public boolean isList(){
         return taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC);
 	}
-	
-	/*
-	 * the custom adapter for the covers anime/manga.
-	 */
+
+    /*
+     * the custom adapter for the covers anime/manga.
+     */
 	public class ListViewAdapter<T> extends ArrayAdapter<T> {
         
 		public ListViewAdapter(Context context, int resource) {
@@ -420,52 +419,53 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         ImageView bar;
         ImageView actionButton;
     }
-	
-	/*
-	 * set the list with the new page/list.
-	 */
-	@Override
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
-		toggleLoadingIndicator(false);
-		if (result == null) {
-            Crouton.makeText(activity, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-		} else if (result.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
-			if (this.page == 1)
-				SearchActivity.onError(getListType(), true, (SearchActivity) getActivity(), job);
+
+    /*
+     * set the list with the new page/list.
+     */
+    @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, int page, ListType type) {
+        toggleLoadingIndicator(false);
+        if (result == null) {
+            Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
         } else {
-        	if (job.equals(TaskJob.FORCESYNC))
-        		SearchActivity.onError(getListType(), false, (Home) getActivity(), job);
-			if (detail){
-				ml.clear();
-				detail = false;
-			}
-        	ml.addAll(result);
-            refresh();
+            ArrayList resultList;
+                try {
+                    if (type == ListType.ANIME) {
+                        resultList = (ArrayList<Anime>) result;
+                    } else {
+                        resultList = (ArrayList<Manga>) result;
+                    }
+                } catch (ClassCastException e) {
+                    Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+                    resultList = null;
+                }
+                if (resultList != null) {
+                if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
+                    if (this.page == 1)
+                        SearchActivity.onError(type, true, (SearchActivity) getActivity(), job);
+                } else {
+                    if (job.equals(TaskJob.FORCESYNC))
+                        SearchActivity.onError(type, false, (Home) getActivity(), job);
+                    if (type == ListType.ANIME) {
+                        if (detail) {
+                            al.clear();
+                            detail = false;
+                        }
+                        al.addAll(resultList);
+                    } else {
+                        if (detail) {
+                            ml.clear();
+                            detail = false;
+                        }
+                        ml.addAll(resultList);
+                    }
+                    refresh();
+                }
+            }
         }
-	}
-	
-	/*
-	 * set the list with the new page/list.
-	 */
-	@Override
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
-		toggleLoadingIndicator(false);
-		if (result == null) {
-            Crouton.makeText(activity, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
-		} else if (result.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
-			if (this.page == 1)
-				SearchActivity.onError(getListType(), true, (SearchActivity) getActivity(), job);
-        } else {
-        	if (job.equals(TaskJob.FORCESYNC))
-        		SearchActivity.onError(getListType(), false, (Home) getActivity(), job);
-			if (detail){
-				al.clear();
-				detail = false;
-			}
-        	al.addAll(result);
-        	refresh();
-        }
-	}
+    }
 
 	/*
 	 * handle the gridview click by navigating to the detailview.

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.tasks;
 import java.util.ArrayList;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Manga;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,17 +13,17 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 	TaskJob job;
 	int page = 1;
 	Context context;
-	Manga record;
-	MangaNetworkTaskFinishedListener callback;
+    Manga record;
+	NetworkTaskCallbackListener callback;
 
-	public MangaNetworkTask(TaskJob job, int page, Context context, MangaNetworkTaskFinishedListener callback) {
+	public MangaNetworkTask(TaskJob job, int page, Context context, NetworkTaskCallbackListener callback) {
 		this.job = job;
 		this.page = page;
 		this.context = context;
 		this.callback = callback;
 	}
 	
-	public MangaNetworkTask(TaskJob job, Context context, Manga manga, MangaNetworkTaskFinishedListener callback) {
+	public MangaNetworkTask(TaskJob job, Context context, Manga manga, NetworkTaskCallbackListener callback) {
 		this.job = job;
 		this.context = context;
 		this.callback = callback;
@@ -97,6 +98,6 @@ public class MangaNetworkTask extends AsyncTask<String, Void, ArrayList<Manga>> 
 	@Override
 	protected void onPostExecute(ArrayList<Manga> result) {
 		if (callback != null)
-			callback.onMangaNetworkTaskFinished(result, job, page);
+			callback.onNetworkTaskFinished(result, job, page, MALApi.ListType.MANGA);
 	}
 }
