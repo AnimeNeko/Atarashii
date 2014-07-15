@@ -21,6 +21,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
@@ -51,7 +52,7 @@ import java.util.Calendar;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener {
+public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -260,11 +261,7 @@ public class Home extends Activity implements TabListener {
         		}
         		break;
             case R.id.forceSync:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.FORCESYNC, af.list);
-                    mf.getRecords(true, TaskJob.FORCESYNC, mf.list);
-                    syncNotify();
-                }
+                synctask(true, true);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -297,7 +294,7 @@ public class Home extends Activity implements TabListener {
         if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable){
             mPrefManager.setsync_time_last(1);
             mPrefManager.commitChanges();
-            synctask();
+            synctask(true, true);
         } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable){
             Calendar localCalendar = Calendar.getInstance();
             int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
@@ -306,10 +303,10 @@ public class Home extends Activity implements TabListener {
             int last_sync = mPrefManager.getsync_time_last();
             if (!(last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time()))){
                 if (mPrefManager.getonly_wifiEnabled()){
-                    synctask();
+                    synctask(true, true);
                     mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
                 }else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
-                    synctask();
+                    synctask(true, true);
                     mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
                 }
             }
@@ -317,11 +314,13 @@ public class Home extends Activity implements TabListener {
         }
     }
 
-    public void synctask(){
-        af.getRecords(true, TaskJob.FORCESYNC, af.list);
-        mf.getRecords(true, TaskJob.FORCESYNC, mf.list);
-        syncNotify();
-        AutoSync = 1;
+    public void synctask(boolean clear, boolean notify){
+        if (af != null && mf != null) {
+            af.getRecords(clear, TaskJob.FORCESYNC, af.list);
+            mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
+            syncNotify(notify);
+            AutoSync = 1;
+        }
     }
 
     @Override
@@ -402,8 +401,9 @@ public class Home extends Activity implements TabListener {
         finish();
     }
 
-    private void syncNotify() {
-        Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
+    private void syncNotify(boolean showCrouton) {
+        if (showCrouton)
+            Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
 
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -431,9 +431,22 @@ public class Home extends Activity implements TabListener {
 	        mf.getRecords(true, TaskJob.GETLIST, mf.list);
         } else if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
-            synctask();
+            synctask(true, true);
         }
         networkAvailable = MALApi.isNetworkAvailable(context);
+    }
+
+    @Override
+    public void onRefresh() {
+        if(networkAvailable)
+            synctask(false, false);
+        else {
+            if (af != null && mf != null) {
+                af.toggleSwipeRefreshAnimation(false);
+                mf.toggleSwipeRefreshAnimation(false);
+            }
+            Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+        }
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -448,6 +461,9 @@ public class Home extends Activity implements TabListener {
             }
             myList = ((position <= 2 && myList) || position == 1);
             myListChanged();
+            // disable swipeRefresh for other lists
+            af.setSwipeRefreshEnabled(myList);
+            mf.setSwipeRefreshEnabled(myList);
             switch (position){
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);

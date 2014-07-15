@@ -8,4 +8,10 @@
     <color name="card_content">#ffffff</color>
     <color name="card_content_pressed">#f8f8f8</color>
 
+    <!-- SwipeRefreshLayout: Holo colors for API level < 14 -->
+    <color name="holo_blue_bright">#00ddff</color>
+    <color name="holo_green_light">#99cc00</color>
+    <color name="holo_orange_light">#ffbb33</color>
+    <color name="holo_red_light">#ff4444</color>
+
 </resources>

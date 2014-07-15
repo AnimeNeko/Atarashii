@@ -1,27 +1,12 @@
 package net.somethingdreadful.MAL;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import com.squareup.picasso.Picasso;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
-import net.somethingdreadful.MAL.tasks.TaskJob;
-import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +25,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.squareup.picasso.Picasso;
+
+import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.api.response.Anime;
+import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
+import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
+import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
+import net.somethingdreadful.MAL.tasks.TaskJob;
+import net.somethingdreadful.MAL.tasks.WriteDetailTask;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener {
 
 	Context context;
@@ -48,7 +52,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	GridView Gridview;
 	PrefManager pref;
 	ViewFlipper viewflipper;
-	FragmentActivity activity;
+    SwipeRefreshLayout swipeRefresh;
+    FragmentActivity activity;
     ArrayList<Anime> al = new ArrayList<Anime>();
     ArrayList<Manga> ml = new ArrayList<Manga>();
     ListViewAdapter<Anime> aa;
@@ -82,6 +87,17 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         	resource = R.layout.record_igf_gridview;
         }
 
+        if (isOnHomeActivity()) {
+            swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+            swipeRefresh.setOnRefreshListener((Home)getActivity());
+            swipeRefresh.setColorScheme(
+                    R.color.holo_blue_bright,
+                    R.color.holo_green_light,
+                    R.color.holo_orange_light,
+                    R.color.holo_red_light
+            );
+        }
+
         if (list == -1)
         	getRecords(true, null, pref.getDefaultList());
         else
@@ -90,7 +106,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     	NfcHelper.disableBeam(activity);
         return view;
     }
-	
+
+    private boolean isOnHomeActivity() {
+        if (getActivity() != null)
+            return getActivity().getClass() == Home.class;
+        return false;
+    }
+
 	/*
 	 * get the ListType
 	 */
@@ -146,8 +168,20 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         	viewflipper.setDisplayedChild(show ? 1 : 0);
         }
     }
-	
-	/*
+
+    public void toggleSwipeRefreshAnimation(boolean show) {
+        if(swipeRefresh != null) {
+            swipeRefresh.setRefreshing(show);
+        }
+    }
+
+    public void setSwipeRefreshEnabled(boolean enabled) {
+        if(swipeRefresh != null) {
+            swipeRefresh.setEnabled(enabled);
+        }
+    }
+
+    /*
 	 * get the anime/manga lists.
 	 * (if clear is true the whole list will be cleared and loaded)
 	 */
@@ -158,8 +192,18 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 		if (list != this.list){
 			this.list = list;
 		}
-		if (page == 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC))
-			toggleLoadingIndicator(true);
+        /* only show loading indicator if
+         * - is not own list and not page 1
+         * - force sync and list is empty (only show swipe refresh animation if not empty) or should
+         *   be cleared
+         */
+        boolean isEmpty = (isAnime ? al.isEmpty() : ml.isEmpty());
+        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && (isEmpty || clear)));
+        /* show swipe refresh animation if
+         * - loading more pages
+         * - forced update
+         */
+        toggleSwipeRefreshAnimation((page > 1 && !isList()) || taskjob.equals(TaskJob.FORCESYNC));
 		loading = true;
 		try{
 			if (isAnime){
@@ -426,7 +470,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, int page, ListType type) {
-        toggleLoadingIndicator(false);
         if (result == null) {
             Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
         } else {
@@ -449,13 +492,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     if (job.equals(TaskJob.FORCESYNC))
                         SearchActivity.onError(type, false, (Home) getActivity(), job);
                     if (type == ListType.ANIME) {
-                        if (detail) {
+                        if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
                             al.clear();
                             detail = false;
                         }
                         al.addAll(resultList);
                     } else {
-                        if (detail) {
+                        if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
                             ml.clear();
                             detail = false;
                         }
@@ -465,6 +508,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 }
             }
         }
+        toggleSwipeRefreshAnimation(false);
+        toggleLoadingIndicator(false);
     }
 
 	/*
