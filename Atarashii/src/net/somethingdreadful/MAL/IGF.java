@@ -194,10 +194,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 		}
         /* only show loading indicator if
          * - is not own list and not page 1
-         * - force sync and list is empty (only show swipe refresh animation if not empty)
+         * - force sync and list is empty (only show swipe refresh animation if not empty) or should
+         *   be cleared
          */
         boolean isEmpty = (isAnime ? al.isEmpty() : ml.isEmpty());
-        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && isEmpty));
+        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && (isEmpty || clear)));
         /* show swipe refresh animation if
          * - loading more pages
          * - forced update
