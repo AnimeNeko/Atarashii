@@ -1,4 +1,5 @@
 package net.somethingdreadful.MAL;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -32,8 +33,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
+import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
@@ -217,10 +217,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 					aa.clear();
 					resetPage();
 				}
-				if (isList())
-					new AnimeNetworkTask(taskjob, page, context, IGF.this).execute(MALManager.listSortFromInt(list, "anime"));
-				else 
-					new AnimeNetworkTask(taskjob, page, context, IGF.this).execute(SearchActivity.query);
 			} else {
 				if (clear){
 					ml.clear();
@@ -230,11 +226,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 					ma.clear();
 					resetPage();
 				}
-				if (isList())
-					new MangaNetworkTask(taskjob, page, context, this).execute(MALManager.listSortFromInt(list, "manga"));
-				else
-					new MangaNetworkTask(taskjob, page, context, this).execute(SearchActivity.query);
 			}
+            Bundle data = new Bundle();
+            data.putInt("page", page);
+            new NetworkTask(taskjob, getListType(), context, data, this).execute(isList() ? MALManager.listSortFromInt(list, getListType()) : SearchActivity.query);
 		}catch (Exception e){
                Log.e("MALX", "error getting records: " + e.getMessage());
 		}
@@ -471,7 +466,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, int page, ListType type) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data) {
         if (result == null) {
             Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
         } else {
