@@ -69,9 +69,11 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 			af = new IGF();
 			af.isAnime = true;
 			af.taskjob = TaskJob.SEARCH;
+            af.setSwipeRefreshEnabled(false);
 			mf = new IGF();
 			mf.isAnime = false;
 			mf.taskjob = TaskJob.SEARCH;
+            mf.setSwipeRefreshEnabled(false);
 		}
 		
 		for (String tab : tabs) {
