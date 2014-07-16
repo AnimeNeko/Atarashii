@@ -24,7 +24,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     boolean cancelled = false;
 
     public NetworkTask(TaskJob job, MALApi.ListType type, Context context, Bundle data, NetworkTaskCallbackListener callback) {
-        if(job == null || type == null || context == null)
+        if (job == null || type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
         this.type = type;
@@ -39,7 +39,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
     @Override
     protected Object doInBackground(String... params) {
-        if ( job == null ) {
+        if (job == null) {
             Log.e("MALX", "no job identifier, don't know what to do");
             return null;
         }
@@ -47,7 +47,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
         if (data != null) {
             if (data.containsKey("page"))
-                page = data.getInt("page",1);
+                page = data.getInt("page", 1);
         }
 
         taskResult = null;
@@ -55,18 +55,18 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         try {
             switch (job) {
                 case GETLIST:
-                    if ( params != null )
+                    if (params != null)
                         taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0]) : mManager.getMangaListFromDB(params[0]);
                     else
                         taskResult = isAnimeTask() ? mManager.getAnimeListFromDB() : mManager.getMangaListFromDB();
                     break;
                 case FORCESYNC:
-                    if(isAnimeTask())
+                    if (isAnimeTask())
                         mManager.cleanDirtyAnimeRecords();
                     else
                         mManager.cleanDirtyMangaRecords();
                     taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList() : mManager.downloadAndStoreMangaList();
-                    if ( taskResult != null && params != null )
+                    if (taskResult != null && params != null)
                         taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0]) : mManager.getMangaListFromDB(params[0]);
                     break;
                 case GETMOSTPOPULAR:
@@ -87,17 +87,17 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     break;
                 case GETDETAILS:
                     if (data != null && data.containsKey("record")) {
-                        if(isAnimeTask()) {
-                            Anime record = (Anime)data.getSerializable("record");
+                        if (isAnimeTask()) {
+                            Anime record = (Anime) data.getSerializable("record");
                             taskResult = mManager.updateWithDetails(record.getId(), record);
                         } else {
-                            Manga record = (Manga)data.getSerializable("record");
+                            Manga record = (Manga) data.getSerializable("record");
                             taskResult = mManager.updateWithDetails(record.getId(), record);
                         }
                     }
                     break;
                 case SEARCH:
-                    if ( params != null ) {
+                    if (params != null) {
                         /* The search API returns an 404 status code if nothing is found, that is the
                          * normal behavior and no error. So return an empty list in this case.
                          */
@@ -108,7 +108,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                 if (re.getResponse().getStatus() == 404)
                                     taskResult = new ArrayList<Anime>();
                                 else // thats really an error, throw it again for the outer catch
-                                throw re;
+                                    throw re;
                             }
                         }
                     }
@@ -122,12 +122,12 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             else
                 Log.e("MALX", String.format("%s-task unknown API error on job %s", type.toString(), job.name()));
         } catch (Exception e) {
-            Log.e("MALX", String.format("%s-task error on job %s: %s", type.toString(),  job.name(), e.getMessage()));
+            Log.e("MALX", String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
             taskResult = null;
         }
         return taskResult;
     }
-    
+
     /* own cancel implementation, reason:
      * Force syncs should always complete in the background, even if the user switched to an other
      * list. If the user switches list to fast, the doInBackground function won't be called at all

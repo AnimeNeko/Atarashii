@@ -146,17 +146,17 @@
     <string name="action_AddToList">Listeye ekle</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>TV</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Film</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Özel</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Müzik</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -180,19 +180,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Bitirilmiş</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Beklemede</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Bırakılmış</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>İzleniyor</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Planlanıyor</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Okunuyor</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Planlanıyor</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -255,42 +255,42 @@
     <string name="listType_InProgress">Devam Edilen</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Puan Verilmemiş</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: Korkunç</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>2: Berbat</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>3: Çok Kötü</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: Kötü</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>5: Orta</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: Fena Değil</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: İyi</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>8: Çok İyi</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: Harika</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>10: Şaheser</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Herşey</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Devam Ediliyor</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Bitirilmiş</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Beklemede</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Bırakılmış</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Planlanıyor</item>
     </string-array>
     <string-array name="listTypeValuesArray">
@@ -303,31 +303,31 @@
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>5 dakika</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>10 dakika</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>15 dakika</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>30 dakika</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>60 dakika</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>2 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>4 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>6 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>8 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>10 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>12 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>24 saat</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>48 saat</item>
     </string-array>
     <string-array name="syncValuesArray">

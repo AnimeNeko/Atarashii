@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
+import android.database.Cursor;
+
 import java.util.Arrays;
 import java.util.List;
-
-import android.database.Cursor;
 
 public class Profile {
     private int id;
@@ -12,7 +12,7 @@ public class Profile {
 
     private ProfileAnimeStats anime_stats;
     private ProfileMangaStats manga_stats;
-    
+
     public static Profile fromCursor(Cursor c) {
         return fromCursor(c, false);
     }
@@ -24,13 +24,13 @@ public class Profile {
         result.setAvatarUrl(c.getString(columnNames.indexOf("avatar_url")));
         // friends profile is less detailed
         result.setDetails(ProfileDetails.fromCursor(c, friendDetails));
-        if ( !friendDetails ) {
+        if (!friendDetails) {
             result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
             result.setMangaStats(ProfileMangaStats.fromCursor(c));
         }
         return result;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -46,7 +46,7 @@ public class Profile {
     public void setAvatarUrl(String avatarurl) {
         this.avatar_url = avatarurl;
     }
-    
+
     public ProfileDetails getDetails() {
         return details;
     }

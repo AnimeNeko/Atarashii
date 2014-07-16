@@ -145,17 +145,17 @@
     <string name="action_AddToList">Προσθήκη στη λίστα</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Σειρά</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Ταινία</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Ειδικό επεισόδιο</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Μουσική</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -179,19 +179,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Ολοκληρωμένα</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Σε αναμονή</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Παρατημένα</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Σε παρακαλούθηση</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Μελλοντική παρακολούθηση</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Σε ανάγνωση</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Μελλοντική ανάγνωση</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -254,42 +254,42 @@
     <string name="listType_InProgress">Σε εξέλιξη</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Χωρίς βαθμολογία</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: Άθλιο</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>2: Φρικτό</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>3: Πολύ κακό</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: Κακό</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>5: Μέτριο</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: Καλούτσικο</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: Καλό</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>8: Πολύ καλό</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: Σπουδαίο</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>10: Αριστούργημα</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Όλα</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Παρακαλούθηση</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Ολοκληρωμένα</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Σε αναμονή</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Παρατημένα</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Σε αναμονή για παρακολούθηση</item>
     </string-array>
     <string-array name="listTypeValuesArray">
@@ -302,31 +302,31 @@
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>5 λεπτά</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>10 λεπτά</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>15 λεπτά</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>30 λεπτά</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>60 λεπτά</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>2 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>4 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>6 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>8 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>10 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>12 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>24 ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>48 ώρες</item>
     </string-array>
     <string-array name="syncValuesArray">

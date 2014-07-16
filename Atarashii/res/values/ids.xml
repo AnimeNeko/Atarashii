@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <item type="id" name="notification_sync" />
-    <item type="id" name="statusRadio_Completed" />
-    <item type="id" name="statusRadio_OnHold" />
-    <item type="id" name="statusRadio_Dropped" />
-    <item type="id" name="statusRadio_InProgress" />
-    <item type="id" name="statusRadio_Planned" />
+<resources>
+    <item name="notification_sync" type="id" />
+    <item name="statusRadio_Completed" type="id" />
+    <item name="statusRadio_OnHold" type="id" />
+    <item name="statusRadio_Dropped" type="id" />
+    <item name="statusRadio_InProgress" type="id" />
+    <item name="statusRadio_Planned" type="id" />
 </resources>

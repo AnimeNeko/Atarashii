@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-            <group android:id="@+id/listGroup">
-                <item android:id="@+id/listType_all" android:title="@string/listType_all" android:showAsAction="ifRoom"/>
-                <item android:id="@+id/listType_inprogress" android:title="@string/listType_InProgress" android:showAsAction="ifRoom"/>
-                <item android:id="@+id/listType_completed" android:title="@string/listType_Completed" android:showAsAction="ifRoom"/>
-                <item android:id="@+id/listType_onhold" android:title="@string/listType_onhold" android:showAsAction="ifRoom"/>
-                <item android:id="@+id/listType_dropped" android:title="@string/listType_dropped" android:showAsAction="ifRoom"/>
-                <item android:id="@+id/listType_planned" android:title="@string/listType_planned" android:showAsAction="ifRoom"/>
-            </group>
+    <group android:id="@+id/listGroup">
+        <item
+            android:id="@+id/listType_all"
+            android:showAsAction="ifRoom"
+            android:title="@string/listType_all" />
+        <item
+            android:id="@+id/listType_inprogress"
+            android:showAsAction="ifRoom"
+            android:title="@string/listType_InProgress" />
+        <item
+            android:id="@+id/listType_completed"
+            android:showAsAction="ifRoom"
+            android:title="@string/listType_Completed" />
+        <item
+            android:id="@+id/listType_onhold"
+            android:showAsAction="ifRoom"
+            android:title="@string/listType_onhold" />
+        <item
+            android:id="@+id/listType_dropped"
+            android:showAsAction="ifRoom"
+            android:title="@string/listType_dropped" />
+        <item
+            android:id="@+id/listType_planned"
+            android:showAsAction="ifRoom"
+            android:title="@string/listType_planned" />
+    </group>
 </menu>

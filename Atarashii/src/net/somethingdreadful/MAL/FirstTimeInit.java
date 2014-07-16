@@ -11,11 +11,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import net.somethingdreadful.MAL.api.MALApi;
+
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ProgressDialog;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import net.somethingdreadful.MAL.api.MALApi;
 
 public class FirstTimeInit extends Activity {
     static EditText malUser;
@@ -29,9 +32,9 @@ public class FirstTimeInit extends Activity {
     static PrefManager prefManager;
 
     @SuppressLint("HandlerLeak")
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
 
         malUser = (EditText) findViewById(R.id.edittext_malUser);
@@ -62,11 +65,11 @@ public class FirstTimeInit extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == 2) {
-                	dialog.dismiss();
-                    Crouton.makeText(FirstTimeInit.this, R.string.crouton_error_VerifyProblem , Style.ALERT).show();
+                    dialog.dismiss();
+                    Crouton.makeText(FirstTimeInit.this, R.string.crouton_error_VerifyProblem, Style.ALERT).show();
                 }
                 if (msg.what == 3) {
-                	dialog.dismiss();
+                    dialog.dismiss();
 
                     prefManager.setUser(testMalUser);
                     prefManager.setPass(testMalPass);
@@ -86,7 +89,7 @@ public class FirstTimeInit extends Activity {
     }
 
     private void tryConnection() {
-    	dialog = new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle(getString(R.string.dialog_title_Verifying));

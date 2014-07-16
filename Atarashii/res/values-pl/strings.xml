@@ -146,17 +146,17 @@
     <string name="action_AddToList">Dodaj do listy</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>TV</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Film</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Specjanlny</item>
-    <!-- DetailView (Media info) Strings -->
+        <!-- DetailView (Media info) Strings -->
         <item>Muzyka</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -180,19 +180,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Zakonczone</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Wstrzymane</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Porzucone</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Oglądam</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Planuję oglądnąć</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Czytam</item>
-    <!-- Anime/Manga progress status strings -->
+        <!-- Anime/Manga progress status strings -->
         <item>Planuję przeczytać</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -255,42 +255,42 @@
     <string name="listType_InProgress">Oglądane</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Bez oceny</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: Przerażający</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>2: Straszny</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>3: Bardzo zły</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: Zły</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>5: Średni</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: Fajny</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: Dobry</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>8: Bardzo dobry</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: Wspaniały</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+        <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>10: Arcydzieło</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Wszystko</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Oglądam</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Zakończone</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Wstrzymane</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Porzucone</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>Planuje Oglądnąć</item>
     </string-array>
     <string-array name="listTypeValuesArray">
@@ -303,31 +303,31 @@
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>5 minut</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>10 minut</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>15 minut</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>30 minut</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>60 minut</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>2 godziny</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>4 godziny</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>6 godzin</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>8 godzin</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>10 godzin</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>12 godzin</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>24 godziny</item>
-    <!-- Settings (ListPreference Entries) Items -->
+        <!-- Settings (ListPreference Entries) Items -->
         <item>48 godzin</item>
     </string-array>
     <string-array name="syncValuesArray">

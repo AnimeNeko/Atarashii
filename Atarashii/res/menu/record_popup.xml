@@ -1,4 +1,8 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item  android:id="@+id/plusOne" android:title="@string/action_PlusOneWatched" />
-    <item  android:id="@+id/markCompleted" android:title="@string/action_MarkAsComplete" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/plusOne"
+        android:title="@string/action_PlusOneWatched" />
+    <item
+        android:id="@+id/markCompleted"
+        android:title="@string/action_MarkAsComplete" />
 </menu>

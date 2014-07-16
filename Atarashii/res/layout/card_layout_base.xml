@@ -7,7 +7,7 @@
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp"
     android:background="@drawable/card"
-    android:padding="12dp" >
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/CardTitle"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/CardTitle"
         android:layout_below="@+id/CardTitle"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
     <ImageView
         android:id="@+id/actionableIcon"

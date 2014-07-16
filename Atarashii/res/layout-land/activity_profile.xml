@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
 
     <RelativeLayout
         android:id="@+id/profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
-        android:padding="16dp" >
+        android:padding="16dp">
 
         <!-- Profile picture -->
 
@@ -19,7 +19,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="8dp"
             android:background="@drawable/card"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/Image"
@@ -59,7 +59,7 @@
             android:layout_toRightOf="@id/name_card"
             android:background="@drawable/card"
             android:orientation="vertical"
-            android:padding="12dp" >
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/details_title"
@@ -75,11 +75,11 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbarStyle="outsideOverlay" >
+                android:scrollbarStyle="outsideOverlay">
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_height="fill_parent">
 
                     <TextView
                         android:id="@+id/birthdayfront"
@@ -322,7 +322,7 @@
             android:layout_toRightOf="@id/details_card"
             android:background="@drawable/card"
             android:orientation="vertical"
-            android:padding="12dp" >
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/Anime_card_title"
@@ -338,11 +338,11 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbarStyle="outsideOverlay" >
+                android:scrollbarStyle="outsideOverlay">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent" >
+                    android:layout_height="fill_parent">
 
                     <TextView
                         android:id="@+id/atimedaysfront"
@@ -503,7 +503,7 @@
             android:layout_toRightOf="@id/Anime_card"
             android:background="@drawable/card"
             android:orientation="vertical"
-            android:padding="12dp" >
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/Manga_card_title"
@@ -519,11 +519,11 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbarStyle="outsideOverlay" >
+                android:scrollbarStyle="outsideOverlay">
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_height="fill_parent">
 
                     <TextView
                         android:id="@+id/mtimedaysfront"

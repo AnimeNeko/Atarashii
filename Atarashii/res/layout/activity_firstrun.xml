@@ -2,13 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
 
     <RelativeLayout
         android:id="@+id/loginForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp" >
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/loginIcon"
@@ -38,7 +38,7 @@
             android:hint="@string/form_hint_user"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:padding="8dp" >
+            android:padding="8dp">
 
             <requestFocus />
         </EditText>

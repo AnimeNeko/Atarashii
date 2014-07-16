@@ -114,9 +114,9 @@ public class MALDateTools {
                         Date result = new Date();
                         int count = Integer.parseInt(matcher.group(1));
                         String unit = matcher.group(2);
-                        if ( unit.matches("minute[s?]") )
+                        if (unit.matches("minute[s?]"))
                             result.setTime(result.getTime() - (count * 60000));
-                        else if ( unit.matches("hour[s?]") )
+                        else if (unit.matches("hour[s?]"))
                             result.setTime(result.getTime() - (count * 3600000));
                         return result;
                 }
@@ -129,7 +129,7 @@ public class MALDateTools {
         SimpleDateFormat formatSdf = new SimpleDateFormat(ISO8601DATESTRING);
 
         Date date = parseMALDate(maldate);
-        if ( date != null )
+        if (date != null)
             return formatSdf.format(date);
 
         // return empty string if parsing failed

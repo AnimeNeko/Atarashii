@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
 
     <GridView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:clipToPadding="false"
         android:columnWidth="300dp"
         android:gravity="center"
+        android:horizontalSpacing="10dp"
         android:numColumns="auto_fit"
-        android:clipToPadding="false"
-        android:stretchMode="columnWidth"
         android:padding="16dp"
         android:scrollbarStyle="outsideOverlay"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp" >
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp">
 
     </GridView>
 </LinearLayout>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MangaList {
     private ArrayList<Manga> manga;
 
-	public ArrayList<Manga> getManga() {
-		return manga;
-	}
+    public ArrayList<Manga> getManga() {
+        return manga;
+    }
 }
