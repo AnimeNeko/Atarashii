@@ -65,6 +65,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	boolean useSecondaryAmounts;
 	boolean loading = true;
 	boolean detail = false;
+    /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
+     * called), so save it and apply it in onCreateView() */
+    boolean swipeRefreshEnabled = true;
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -87,8 +90,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         	resource = R.layout.record_igf_gridview;
         }
 
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         if (isOnHomeActivity()) {
-            swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
             swipeRefresh.setOnRefreshListener((Home)getActivity());
             swipeRefresh.setColorScheme(
                     R.color.holo_blue_bright,
@@ -97,6 +100,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     R.color.holo_red_light
             );
         }
+        swipeRefresh.setEnabled(swipeRefreshEnabled);
 
         if (!taskjob.equals(TaskJob.SEARCH)) {
             if (list == -1)
@@ -178,6 +182,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     public void setSwipeRefreshEnabled(boolean enabled) {
+        swipeRefreshEnabled = enabled;
         if(swipeRefresh != null) {
             swipeRefresh.setEnabled(enabled);
         }
