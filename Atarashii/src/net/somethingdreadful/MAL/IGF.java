@@ -54,11 +54,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	ViewFlipper viewflipper;
     SwipeRefreshLayout swipeRefresh;
     FragmentActivity activity;
-    ArrayList<Anime> al = new ArrayList<Anime>();
-    ArrayList<Manga> ml = new ArrayList<Manga>();
-    ListViewAdapter<Anime> aa;
-    ListViewAdapter<Manga> ma;
-
+    ArrayList<GenericRecord> gl = new ArrayList<GenericRecord>();
+    ListViewAdapter<GenericRecord> ga;
     NetworkTask networkTask;
 	
 	int page = 1;
@@ -116,9 +113,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     private boolean isOnHomeActivity() {
-        if (getActivity() != null)
-            return getActivity().getClass() == Home.class;
-        return false;
+        return getActivity() != null && getActivity().getClass() == Home.class;
     }
 
 	/*
@@ -127,7 +122,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	public ListType getListType(){
 		if (isAnime)
 			return ListType.ANIME;
-		else 
+		else
 			return ListType.MANGA;
 	}
 
@@ -157,12 +152,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     		if (anime.getEpisodes() > 0)
     			anime.setWatchedEpisodes(anime.getEpisodes());
     		anime.setDirty(true);
-	        al.remove(anime);
+	        gl.remove(anime);
 	        new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(anime);
     	} else {
     		manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
     		manga.setDirty(true);
-	        ml.remove(manga);
+            gl.remove(manga);
 	        new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(manga);
     	}
         refresh();
@@ -206,7 +201,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
          * - force sync and list is empty (only show swipe refresh animation if not empty) or should
          *   be cleared
          */
-        boolean isEmpty = (isAnime ? al.isEmpty() : ml.isEmpty());
+        boolean isEmpty = gl.isEmpty();
         toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && (isEmpty || clear)));
         /* show swipe refresh animation if
          * - loading more pages
@@ -215,25 +210,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         toggleSwipeRefreshAnimation((page > 1 && !isList()) || taskjob.equals(TaskJob.FORCESYNC));
 		loading = true;
 		try{
-			if (isAnime){
-				if (clear){
-					al.clear();
-					if (aa == null){
-						setAdapter();
-					}
-					aa.clear();
-					resetPage();
-				}
-			} else {
-				if (clear){
-					ml.clear();
-					if (ma == null){
-						setAdapter();	
-					}
-					ma.clear();
-					resetPage();
-				}
-			}
+            if (clear){
+                gl.clear();
+                if (ga == null){
+                    setAdapter();
+                }
+                ga.clear();
+                resetPage();
+            }
             Bundle data = new Bundle();
             data.putInt("page", page);
             if (networkTask != null)
@@ -259,13 +243,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	 * set the adapter anime/manga
 	 */
 	public void setAdapter(){
-		if (isAnime){
-			aa = new ListViewAdapter<Anime>(context, resource);
-            aa.setNotifyOnChange(true);
-		} else {
-			ma = new ListViewAdapter<Manga>(context, resource);
-			ma.setNotifyOnChange(true);
-		}
+			ga = new ListViewAdapter<GenericRecord>(context, resource);
+            ga.setNotifyOnChange(true);
 	}
 	
 	/*
@@ -313,25 +292,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	 */
 	public void refresh(){
 		try{
-			if (isAnime){
-				if (aa == null){
+				if (ga == null)
 					setAdapter();
-				}
-				aa.clear();
-				aa.supportAddAll(al);
-				if (Gridview.getAdapter() == null){
-					Gridview.setAdapter(aa);
-				}
-			} else{
-				if (ma == null){
-					setAdapter();
-				}
-				ma.clear();
-				ma.supportAddAll(ml);
-				if (Gridview.getAdapter() == null){
-					Gridview.setAdapter(ma);
-				}
-			}
+				ga.clear();
+				ga.supportAddAll(gl);
+				if (Gridview.getAdapter() == null)
+					Gridview.setAdapter(ga);
 		} catch (Exception e){
 			if (MALApi.isNetworkAvailable(context)){
 				e.printStackTrace();
@@ -370,7 +336,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	    
 		@SuppressWarnings("deprecation")
 		public View getView(int position, View view, ViewGroup parent) {
-			final GenericRecord record;
+			final GenericRecord record = gl.get(position);
 	        ViewHolder viewHolder;
 	        
 	        if (view == null) {
@@ -389,10 +355,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             	viewHolder = (ViewHolder) view.getTag();
             }
             try{
-            	if (isAnime)
-	            	record = al.get(position);
- 	            else
-	            	record = ml.get(position);
             	
             	if (taskjob.equals(TaskJob.GETMOSTPOPULAR) || taskjob.equals(TaskJob.GETTOPRATED)){
             		viewHolder.progressCount.setVisibility(View.VISIBLE);
@@ -502,19 +464,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                         if (job.equals(TaskJob.FORCESYNC))
                             SearchActivity.onError(type, false, (Home) getActivity(), job);
                         if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
-                            if (type == ListType.ANIME) {
-                                if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
-                                    al.clear();
-                                    detail = false;
-                                }
-                                al.addAll(resultList);
-                            } else {
-                                if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
-                                    ml.clear();
-                                    detail = false;
-                                }
-                                ml.addAll(resultList);
-                            }
+                            if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+								gl.clear();
+                            detail = false;
+                        }
+                        gl.addAll(resultList);
                             refresh();
                         }
                     }
@@ -532,11 +486,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
 		Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-		if (isAnime){
-			startDetails.putExtra("net.somethingdreadful.MAL.recordID", aa.getItem(position).getId());
-		} else {
-			startDetails.putExtra("net.somethingdreadful.MAL.recordID", ma.getItem(position).getId());
-		}
+		startDetails.putExtra("net.somethingdreadful.MAL.recordID", ga.getItem(position).getId());
 		startDetails.putExtra("net.somethingdreadful.MAL.recordType", getListType());
         startActivity(startDetails);
         if (isList() || taskjob.equals(TaskJob.SEARCH)){
@@ -573,18 +523,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 		Crouton.makeText(activity, R.string.crouton_info_Copied, Style.CONFIRM).show();
 	    if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
 	        android.text.ClipboardManager c = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-	        if (isAnime) {
-	        	c.setText(al.get(position).getTitle());
-	        } else {
-	        	c.setText(ml.get(position).getTitle());
-	        }
+	        c.setText(gl.get(position).getTitle());
 	    } else {
 	        android.content.ClipboardManager c1 = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 	        android.content.ClipData c2;
-	        if (isAnime)
-	        	c2 = android.content.ClipData.newPlainText("Atarashii", al.get(position).getTitle());
-	        else 
-	        	c2 = android.content.ClipData.newPlainText("Atarashii", ml.get(position).getTitle());
+	        c2 = android.content.ClipData.newPlainText("Atarashii", gl.get(position).getTitle());
 	        c1.setPrimaryClip(c2);
 	    }
 		return false;
