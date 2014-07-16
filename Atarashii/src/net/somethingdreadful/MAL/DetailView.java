@@ -13,8 +13,7 @@ import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
+import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
@@ -245,13 +244,9 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
      * Get the records (Anime/Manga)
      */
     public void getRecord(){
-    	if (type.equals(ListType.ANIME)){
-    		new AnimeNetworkTask(TaskJob.GET, 0, context, this).execute(Integer.toString(recordID));
-    	} else if (type.equals(ListType.MANGA)) {
-    		new MangaNetworkTask(TaskJob.GET, 0, context, this).execute(Integer.toString(recordID));
-    	} else {
-			Log.e("MALX", "error getting record: Unknown ListType");
-    	}
+        Bundle data = new Bundle();
+        data.putInt("recordID", recordID);
+        new NetworkTask(TaskJob.GET, type, context, data, this).execute();
     }
     
     /*
@@ -384,32 +379,18 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
 
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, int page, ListType type) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         if (result == null) {
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
         } else {
-            ArrayList resultList;
             try {
-                if (type == ListType.ANIME) {
-                    resultList = (ArrayList<Anime>) result;
-                } else {
-                    resultList = (ArrayList<Manga>) result;
-                }
+                if (type == ListType.ANIME)
+                    animeRecord = (Anime) result;
+                else
+                    mangaRecord = (Manga) result;
+                setText();
             } catch (ClassCastException e) {
                 Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
-                resultList = null;
-            }
-            if (resultList != null) {
-                if (resultList.size() == 0) {
-                    Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
-                } else {
-                    if (type == ListType.ANIME)
-                        animeRecord = (Anime)resultList.get(0);
-                    else
-                        mangaRecord = (Manga)resultList.get(0);
-                    setText();
-                }
-            } else {
                 Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
             }
         }
@@ -456,11 +437,9 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
 		TextView synopsis = (TextView) findViewById(R.id.SynopsisContent);
 		if (record.getSynopsis() == null){
 			if (MALApi.isNetworkAvailable(context)){
-				if (type.equals(ListType.ANIME)){
-					new AnimeNetworkTask(TaskJob.GETDETAILS, context, animeRecord,  this).execute();
-				} else {
-					new MangaNetworkTask(TaskJob.GETDETAILS, context, mangaRecord,  this).execute();
-				}
+                Bundle data = new Bundle();
+                data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
+                new NetworkTask(TaskJob.GETDETAILS, type,context, data, this).execute();
 			} else {
 				synopsis.setText(getString(R.string.crouton_error_noConnectivity));
 			}

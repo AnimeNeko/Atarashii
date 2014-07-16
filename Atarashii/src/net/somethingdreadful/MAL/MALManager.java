@@ -34,10 +34,10 @@ public class MALManager {
         dbMan = new DatabaseManager(context);
     }
 
-    public static String listSortFromInt(int i, String type) {
+    public static String listSortFromInt(int i, MALApi.ListType type) {
         String r = "";
 
-        if (type.equals("anime")) {
+        if (type.equals(MALApi.ListType.ANIME)) {
             switch (i) {
                 case 0:
                     r = "";
@@ -61,7 +61,7 @@ public class MALManager {
                     r = Anime.STATUS_WATCHING;
                     break;
             }
-        } else if (type.equals("manga")) {
+        } else {
             switch (i) {
                 case 0:
                     r = "";
