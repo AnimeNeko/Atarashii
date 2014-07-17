@@ -116,6 +116,12 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 default:
                     Log.e("MALX", String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }
+            /* if result is still null at this point there was no error but the API returned an empty result
+             * (e. g. an empty anime-/mangalist), so create an empty list to let the callback know that
+             * there was no error
+             */
+            if (taskResult == null && !job.equals(TaskJob.GETDETAILS) && !job.equals(TaskJob.GET))
+                taskResult = isAnimeTask() ? new ArrayList<Anime>() : new ArrayList<Manga>();
         } catch (RetrofitError re) {
             if (re.getResponse() != null && re.isNetworkError())
                 Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
