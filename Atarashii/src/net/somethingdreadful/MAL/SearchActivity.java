@@ -138,17 +138,6 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     }
 
     @Override
-    public void onIGFReady() {
-        af = (IGF)mSectionsPagerAdapter.instantiateItem(ViewPager, 0);
-        mf = (IGF)mSectionsPagerAdapter.instantiateItem(ViewPager, 1);
-        if (query != null) { // there is already a search to do
-            af.searchRecords(query);
-            mf.searchRecords(query);
-        }
-    }
-
-
-    @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
         // TODO Auto-generated method stub
     }
@@ -156,6 +145,16 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     @Override
     public void onPageSelected(int position) {
         actionBar.setSelectedNavigationItem(position);
+    }
+
+    @Override
+    public void onIGFReady(IGF igf) {
+        if (igf.isAnime)
+            af = igf;
+        else
+            mf = igf;
+        if (query != null) // there is already a search to do
+            igf.searchRecords(query);
     }
 
     @Override

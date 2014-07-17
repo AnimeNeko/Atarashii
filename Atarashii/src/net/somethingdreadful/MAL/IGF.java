@@ -147,7 +147,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         NfcHelper.disableBeam(activity);
 
         if (readyListener != null)
-            readyListener.onIGFReady();
+            readyListener.onIGFReady(this);
         return view;
     }
 
@@ -160,7 +160,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     public interface IGFReadyListener {
-        public void onIGFReady();
+        public void onIGFReady(IGF igf);
     }
 
     private boolean isOnHomeActivity() {

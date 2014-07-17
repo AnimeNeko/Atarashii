@@ -450,9 +450,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     }
 
     @Override
-    public void onIGFReady() {
-        af = (IGF)mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-        mf = (IGF)mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+    public void onIGFReady(IGF igf) {
+        if (igf.isAnime)
+            af = igf;
+        else
+            mf = igf;
     }
 
     @Override
