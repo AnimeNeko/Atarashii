@@ -149,7 +149,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 
     @Override
     public void onIGFReady(IGF igf) {
-        if (igf.isAnime)
+        if (igf.listType.equals(ListType.ANIME))
             af = igf;
         else
             mf = igf;

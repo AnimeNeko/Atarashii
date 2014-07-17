@@ -47,7 +47,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener {
 
     Context context;
-    Boolean isAnime;
+    ListType listType = ListType.ANIME; // just to have it proper initialized
     TaskJob taskjob;
     GridView Gridview;
     PrefManager pref;
@@ -168,28 +168,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     /*
-     * get the ListType
-     */
-    public ListType getListType() {
-        if (isAnime)
-            return ListType.ANIME;
-        else
-            return ListType.MANGA;
-    }
-
-    /*
      * add +1 episode/volume/chapters to the anime/manga.
      */
     public void setProgressPlusOne(Anime anime, Manga manga) {
-        if (isAnime) {
+        if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
             if (anime.getWatchedEpisodes() == anime.getEpisodes())
                 anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts))
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
         }
         refresh();
     }
@@ -198,18 +189,18 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      * mark the anime/manga as completed.
      */
     public void setMarkAsComplete(Anime anime, Manga manga) {
-        if (isAnime) {
+        if (listType.equals(ListType.ANIME)) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
             anime.setDirty(true);
             gl.remove(anime);
-            new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             manga.setDirty(true);
             gl.remove(manga);
-            new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
         }
         refresh();
     }
@@ -273,8 +264,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             data.putInt("page", page);
             if (networkTask != null)
                 networkTask.cancelTask();
-            networkTask = new NetworkTask(taskjob, getListType(), context, data, this);
-            networkTask.execute(isList() ? MALManager.listSortFromInt(list, getListType()) : query);
+            networkTask = new NetworkTask(taskjob, listType, context, data, this);
+            networkTask.execute(isList() ? MALManager.listSortFromInt(list, listType) : query);
         }catch (Exception e){
             Log.e("MALX", "error getting records: " + e.getMessage());
         }
@@ -325,7 +316,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Crouton.makeText(activity, R.string.crouton_error_Search, Style.ALERT).show();
                 } else {
-                    if (isAnime) {
+                    if (listType.equals(ListType.ANIME)) {
                         Crouton.makeText(activity, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
                     } else {
                         Crouton.makeText(activity, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
@@ -414,7 +405,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent startDetails = new Intent(getView().getContext(), DetailView.class);
         startDetails.putExtra("net.somethingdreadful.MAL.recordID", ga.getItem(position).getId());
-        startDetails.putExtra("net.somethingdreadful.MAL.recordType", getListType());
+        startDetails.putExtra("net.somethingdreadful.MAL.recordType", listType);
         startActivity(startDetails);
         if (isList() || taskjob.equals(TaskJob.SEARCH))
             this.detail = true;
@@ -503,7 +494,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     viewHolder.progressCount.setText(Integer.toString(position + 1));
                     viewHolder.actionButton.setVisibility(View.GONE);
                     viewHolder.flavourText.setText(R.string.label_Number);
-                } else if (isAnime) {
+                } else if (listType.equals(ListType.ANIME)) {
                     viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
                     setStatus(((Anime) record).getWatchedStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
                 } else {
@@ -527,19 +518,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                         public void onClick(View v) {
                             PopupMenu popup = new PopupMenu(context, v);
                             popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
-                            if (!isAnime)
+                            if (!listType.equals(ListType.ANIME))
                                 popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 public boolean onMenuItemClick(MenuItem item) {
                                     switch (item.getItemId()) {
                                         case R.id.plusOne:
-                                            if (isAnime)
+                                            if (listType.equals(ListType.ANIME))
                                                 setProgressPlusOne((Anime) record, null);
                                             else
                                                 setProgressPlusOne(null, (Manga) record);
                                             break;
                                         case R.id.markCompleted:
-                                            if (isAnime)
+                                            if (listType.equals(ListType.ANIME))
                                                 setMarkAsComplete((Anime) record, null);
                                             else
                                                 setMarkAsComplete(null, (Manga) record);

@@ -176,15 +176,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         NfcHelper.disableBeam(this);
     }
 
-    public void setIGF() {
-        af = new IGF();
-        af.isAnime = true;
-        af.taskjob = TaskJob.GETLIST;
-        mf = new IGF();
-        mf.isAnime = false;
-        mf.taskjob = TaskJob.GETLIST;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.activity_home, menu);
@@ -451,7 +442,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @Override
     public void onIGFReady(IGF igf) {
-        if (igf.isAnime)
+        if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else
             mf = igf;
