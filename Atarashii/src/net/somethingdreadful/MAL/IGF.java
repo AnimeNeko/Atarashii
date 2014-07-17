@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,9 +53,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     PrefManager pref;
     ViewFlipper viewflipper;
     SwipeRefreshLayout swipeRefresh;
-    FragmentActivity activity;
+    Activity activity;
     ArrayList<GenericRecord> gl = new ArrayList<GenericRecord>();
     ListViewAdapter<GenericRecord> ga;
+    IGFReadyListener readyListener;
+
     NetworkTask networkTask;
 
     int page = 1;
@@ -140,7 +143,22 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
 
         NfcHelper.disableBeam(activity);
+
+        if (readyListener != null)
+            readyListener.onIGFReady();
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+        if (IGFReadyListener.class.isInstance(activity))
+            readyListener = (IGFReadyListener)activity;
+    }
+
+    public interface IGFReadyListener {
+        public void onIGFReady();
     }
 
     private boolean isOnHomeActivity() {
@@ -372,10 +390,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         startDetails.putExtra("net.somethingdreadful.MAL.recordID", ga.getItem(position).getId());
         startDetails.putExtra("net.somethingdreadful.MAL.recordType", getListType());
         startActivity(startDetails);
-        if (isList() || taskjob.equals(TaskJob.SEARCH)) {
-            Home.af.detail = true;
-            Home.mf.detail = true;
-        }
+        if (isList() || taskjob.equals(TaskJob.SEARCH))
+            this.detail = true;
     }
 
     @Override

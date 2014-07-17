@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.tasks.TaskJob;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,14 +16,10 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        switch (i) {
-            case 0:
-                return Home.af;
-            case 1:
-                return Home.mf;
-            default:
-                return Home.af;
-        }
+        IGF fragment = new IGF();
+        fragment.taskjob = TaskJob.GETLIST;
+        fragment.isAnime = i == 0;
+        return fragment;
     }
 
     @Override

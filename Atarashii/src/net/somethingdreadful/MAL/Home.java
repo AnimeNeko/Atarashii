@@ -52,10 +52,10 @@ import java.util.Calendar;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener {
+public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFReadyListener {
 
-    static IGF af;
-    static IGF mf;
+    IGF af;
+    IGF mf;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
@@ -108,7 +108,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             AutoSync = savedInstanceState.getInt("AutoSync");
             myList = savedInstanceState.getBoolean("myList");
         } else {
-            setIGF();
             autosync();
         }
         setContentView(R.layout.activity_home);
@@ -270,10 +269,12 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
-        registerReceiver(networkReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        if (af.detail) {
-            af.getRecords(false, TaskJob.GETLIST, af.list);
-            mf.getRecords(false, TaskJob.GETLIST, mf.list);
+        registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        if (af != null && mf != null){
+            if (af.detail)
+                af.getRecords(false, TaskJob.GETLIST, af.list);
+            if (mf.detail)
+                mf.getRecords(false, TaskJob.GETLIST, mf.list);
         }
     }
 
@@ -446,6 +447,12 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             }
             Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
         }
+    }
+
+    @Override
+    public void onIGFReady() {
+        af = (IGF)mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
+        mf = (IGF)mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
     }
 
     @Override
