@@ -62,7 +62,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
      * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
      * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    HomeSectionsPagerAdapter mSectionsPagerAdapter;
+    SectionsPagerAdapter mSectionsPagerAdapter;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -112,7 +112,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         }
         setContentView(R.layout.activity_home);
         // Creates the adapter to return the Animu and Mango fragments
-        mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         DrawerLayout.setDrawerListener(new DemoDrawerListener());

@@ -5,9 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -29,19 +26,19 @@ import java.util.ArrayList;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener {
-    static IGF af;
-    static IGF mf;
-    static String query;
+public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener, IGF.IGFReadyListener {
+    IGF af;
+    IGF mf;
+    String query;
     static boolean animeError = false;
     static boolean mangaError = false;
     static int called = 0;
     ViewPager ViewPager;
+    SectionsPagerAdapter mSectionsPagerAdapter;
     PrefManager mPrefManager;
     Context context;
     SearchView searchView;
     ActionBar actionBar;
-    ArrayList<String> tabs = new ArrayList<String>();
 
     public static void onError(ListType type, boolean error, Activity activity, TaskJob job) {
         called = called + 1;
@@ -79,31 +76,16 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        
         ViewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
+        ViewPager.setAdapter(mSectionsPagerAdapter);
         ViewPager.setOnPageChangeListener(this);
 
-        setTabs();
-
-        handleIntent(getIntent());
-    }
-
-    public void setTabs() {
-        tabs.add("Anime");
-        tabs.add("Manga");
-        if (af == null) {
-            af = new IGF();
-            af.isAnime = true;
-            af.taskjob = TaskJob.SEARCH;
-            af.setSwipeRefreshEnabled(false);
-            mf = new IGF();
-            mf.isAnime = false;
-            mf.taskjob = TaskJob.SEARCH;
-            mf.setSwipeRefreshEnabled(false);
-        }
-
-        for (String tab : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab).setTabListener(this));
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+            actionBar.addTab(actionBar.newTab()
+                .setText(mSectionsPagerAdapter.getPageTitle(i))
+                .setTabListener(this));
         }
     }
 
@@ -119,7 +101,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 
     @Override
     protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
+        setIntent(intent);
     }
 
     private void handleIntent(Intent intent) {
@@ -127,10 +109,10 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
             query = intent.getStringExtra(SearchManager.QUERY);
             if (searchView != null) {
                 searchView.setQuery(query, false);
-                af.page = 1;
-                mf.page = 1;
-                af.getRecords(true, null, 0);
-                mf.getRecords(true, null, 0);
+            }
+            if (af != null && mf != null) {
+                af.searchRecords(query);
+                mf.searchRecords(query);
             }
         }
     }
@@ -156,6 +138,17 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     }
 
     @Override
+    public void onIGFReady() {
+        af = (IGF)mSectionsPagerAdapter.instantiateItem(ViewPager, 0);
+        mf = (IGF)mSectionsPagerAdapter.instantiateItem(ViewPager, 1);
+        if (query != null) { // there is already a search to do
+            af.searchRecords(query);
+            mf.searchRecords(query);
+        }
+    }
+
+
+    @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
         // TODO Auto-generated method stub
     }
@@ -175,31 +168,14 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
-        searchView.setQuery(query, true);
+        searchView.setQuery(query, false);
         return true;
     }
 
-    public class TabsPagerAdapter extends FragmentPagerAdapter {
-
-        public TabsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            switch (i) {
-                case 0:
-                    return af;
-                case 1:
-                    return mf;
-                default:
-                    return af;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
+    @Override
+    protected void onResume() {
+        if (getIntent() != null)
+            handleIntent(getIntent());
+        super.onResume();
     }
 }

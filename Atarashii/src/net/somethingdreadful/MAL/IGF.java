@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -69,6 +68,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     boolean swipeRefreshEnabled = true;
+
+    String query;
 
     /*
      * set the watched/read count & status on the covers.
@@ -256,7 +257,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
          * - loading more pages
          * - forced update
          */
-        toggleSwipeRefreshAnimation((page > 1 && !isList()) || taskjob.equals(TaskJob.FORCESYNC) && !taskjob.equals(TaskJob.SEARCH));
+        toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !taskjob.equals(TaskJob.SEARCH));
 		loading = true;
 		try{
             if (clear){
@@ -272,10 +273,20 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             if (networkTask != null)
                 networkTask.cancelTask();
             networkTask = new NetworkTask(taskjob, getListType(), context, data, this);
-            networkTask.execute(isList() ? MALManager.listSortFromInt(list, getListType()) : SearchActivity.query);
-        } catch (Exception e) {
+            networkTask.execute(isList() ? MALManager.listSortFromInt(list, getListType()) : query);
+        }catch (Exception e){
             Log.e("MALX", "error getting records: " + e.getMessage());
         }
+    }
+
+    public void searchRecords(String search) {
+        if (!search.equals(query)) { // no need for searching the same again
+            query = search;
+            page = 1;
+            setSwipeRefreshEnabled(false);
+            getRecords(true, TaskJob.SEARCH, 0);
+        }
+
     }
 
     /*

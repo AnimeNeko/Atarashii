@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.api.MALApi;
 
-public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public HomeSectionsPagerAdapter(FragmentManager fm) {
+    public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
