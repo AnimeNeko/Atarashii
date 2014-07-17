@@ -6,4 +6,5 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 public interface NetworkTaskCallbackListener {
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
+    public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
 }

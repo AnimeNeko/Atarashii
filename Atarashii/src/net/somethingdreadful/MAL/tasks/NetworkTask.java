@@ -159,19 +159,25 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
      */
     @Override
     protected void onCancelled() {
-        if (callback != null)
-            callback.onNetworkTaskFinished(taskResult, job, type, data, true);
+        doCallback(taskResult, true);
     }
 
     @Override
     protected void onCancelled(Object result) {
-        if (callback != null)
-            callback.onNetworkTaskFinished(result, job, type, data, true);
+        doCallback(result, true);
     }
 
     @Override
     protected void onPostExecute(Object result) {
-        if (callback != null)
-            callback.onNetworkTaskFinished(result, job, type, data, cancelled);
+        doCallback(result, false);
+    }
+
+    private void doCallback(Object result, boolean cancelled) {
+        if (callback != null) {
+            if (result != null)
+                callback.onNetworkTaskFinished(taskResult, job, type, data, cancelled);
+            else
+                callback.onNetworkTaskError(job, type, data, cancelled);
+        }
     }
 }

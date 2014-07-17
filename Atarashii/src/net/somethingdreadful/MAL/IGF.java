@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -353,36 +354,32 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         if (!cancelled) // don't change the UI if cancelled
             toggleLoadingIndicator(false);
-        if (result == null && !cancelled) {
-            Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-        } else {
-            if (!cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
-                ArrayList resultList;
-                try {
-                    if (type == ListType.ANIME) {
-                        resultList = (ArrayList<Anime>) result;
-                    } else {
-                        resultList = (ArrayList<Manga>) result;
-                    }
-                } catch (ClassCastException e) {
-                    Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
-                    resultList = null;
+        if ( !cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
+            ArrayList resultList;
+            try {
+                if (type == ListType.ANIME) {
+                    resultList = (ArrayList<Anime>) result;
+                } else {
+                    resultList = (ArrayList<Manga>) result;
                 }
-                if (resultList != null) {
-                    if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
-                        if (this.page == 1)
-                            SearchActivity.onError(type, true, (SearchActivity) getActivity(), job);
-                    } else {
-                        if (job.equals(TaskJob.FORCESYNC))
-                            SearchActivity.onError(type, false, (Home) getActivity(), job);
-                        if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
-                            if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
-                                gl.clear();
-                                detail = false;
-                            }
-                            gl.addAll(resultList);
-                            refresh();
-                        }
+            } catch (ClassCastException e) {
+                Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+                resultList = null;
+            }
+            if (resultList != null) {
+                if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
+                    if (this.page == 1)
+                        SearchActivity.onError(type, true, (SearchActivity) getActivity(), job);
+                } else {
+                    if (job.equals(TaskJob.FORCESYNC))
+                        SearchActivity.onError(type, false, (Home) getActivity(), job);
+                    if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
+                        if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+                            gl.clear();
+                        detail = false;
+                    }
+                    gl.addAll(resultList);
+                        refresh();
                     }
                 }
             }
@@ -390,6 +387,24 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         networkTask = null;
         toggleSwipeRefreshAnimation(false);
         toggleLoadingIndicator(false);
+    }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        if (!cancelled && !job.equals(TaskJob.FORCESYNC)) {
+            switch (job) {
+                case FORCESYNC:
+                    Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
+                    NotificationManager nm = (NotificationManager) activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    nm.cancel(R.id.notification_sync);
+                    break;
+                case SEARCH:
+                    Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Search_Anime : R.string.crouton_error_Search_Manga, Style.ALERT).show();
+                    break;
+                default:
+                    Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
+            }
+        }
     }
 
     /*

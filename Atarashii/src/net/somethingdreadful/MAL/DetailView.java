@@ -380,21 +380,23 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (result == null) {
+        try {
+            if (type == ListType.ANIME)
+                animeRecord = (Anime) result;
+            else
+                mangaRecord = (Manga) result;
+            setText();
+        } catch (ClassCastException e) {
+            Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
-        } else {
-            try {
-                if (type == ListType.ANIME)
-                    animeRecord = (Anime) result;
-                else
-                    mangaRecord = (Manga) result;
-                setText();
-            } catch (ClassCastException e) {
-                Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
-                Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
-            }
         }
     }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
+    }
+
 
     /*
      * Get the translation from strings.xml
