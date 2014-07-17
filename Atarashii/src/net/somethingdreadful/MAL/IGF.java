@@ -238,10 +238,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
          * - loading more pages
          * - forced update
          */
-        toggleSwipeRefreshAnimation((page > 1 && !isList()) || taskjob.equals(TaskJob.FORCESYNC));
-        loading = true;
-        try {
-            if (clear) {
+        toggleSwipeRefreshAnimation((page > 1 && !isList()) || taskjob.equals(TaskJob.FORCESYNC) && !taskjob.equals(TaskJob.SEARCH));
+		loading = true;
+		try{
+            if (clear){
                 gl.clear();
                 if (ga == null) {
                     setAdapter();
