@@ -52,7 +52,7 @@ import java.util.Calendar;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFReadyListener {
+public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener {
 
     IGF af;
     IGF mf;
@@ -84,6 +84,10 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
     int AutoSync = 0; //run or not to run.
+
+    boolean callbackAnimeError = false;
+    boolean callbackMangaError = false;
+    int callbackCounter = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -441,14 +445,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     }
 
     @Override
-    public void onIGFReady(IGF igf) {
-        if (igf.listType.equals(MALApi.ListType.ANIME))
-            af = igf;
-        else
-            mf = igf;
-    }
-
-    @Override
     public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
         // TODO Auto-generated method stub
 
@@ -588,6 +584,49 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             }
 
             return v;
+        }
+    }
+
+    @Override
+    public void onIGFReady(IGF igf) {
+        if (igf.listType.equals(MALApi.ListType.ANIME))
+            af = igf;
+        else
+            mf = igf;
+    }
+
+    @Override
+    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+        if (cancelled && !job.equals(TaskJob.FORCESYNC)) {
+            return;
+        }
+
+        callbackCounter++;
+
+        if (type.equals(MALApi.ListType.ANIME))
+            callbackAnimeError = error;
+        else
+            callbackMangaError = error;
+
+        if (callbackCounter >= 2) {
+            callbackCounter = 0;
+
+            if (job.equals(TaskJob.FORCESYNC)) {
+                NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                nm.cancel(R.id.notification_sync);
+                if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
+                    Crouton.makeText(this, R.string.crouton_error_SyncFailed, Style.ALERT).show();
+                else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
+                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
+                else // everything went well
+                    Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
+            } else {
+                if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
+                    Crouton.makeText(this, R.string.crouton_error_Records, Style.ALERT).show();
+                else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
+                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
+                // no else here, there is nothing to be shown when everything went well
+            }
         }
     }
 }

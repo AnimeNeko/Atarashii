@@ -27,8 +27,10 @@
     <string name="crouton_error_noUserRecord">This user doesn\'t have an offline record!</string>
     <string name="crouton_error_Anime_Sync">Sync error while getting animelist!</string>
     <string name="crouton_error_Manga_Sync">Sync error while getting mangalist!</string>
+    <string name="crouton_error_SyncFailed">Sync failed! Please try again later.</string>
     <string name="crouton_error_Anime_Records">Error while getting anime records.</string>
     <string name="crouton_error_Manga_Records">Error while getting manga records.</string>
+    <string name="crouton_error_Records">Error while getting records. Please try again later.</string>
     <string name="crouton_error_noFriends">You have no friends on MAL!</string>
     <string name="crouton_error_DetailsError">Could not load details, please check your Internet connection.</string>
     <string name="crouton_error_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and network connection and try again.</string>
