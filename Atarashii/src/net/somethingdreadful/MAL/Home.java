@@ -593,6 +593,8 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             af = igf;
         else
             mf = igf;
+        if (!instanceExists)
+            igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
     }
 
     @Override
