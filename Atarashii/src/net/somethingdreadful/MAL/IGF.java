@@ -136,12 +136,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
         swipeRefresh.setEnabled(swipeRefreshEnabled);
 
-        if (taskjob != null && !taskjob.equals(TaskJob.SEARCH)) {
-            if (list == -1)
-                getRecords(true, null, pref.getDefaultList());
-            else
-                refresh();
-        }
+        if ( gl.size() > 0 ) // there are already records, fragment has been rotated
+            refresh();
 
         NfcHelper.disableBeam(activity);
 
