@@ -411,6 +411,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        // don't do anything if there is nothing in the list
+        if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
+            return;
         if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages){
             loading = true;
             if (jobReturnsPagedResults(taskjob)){
