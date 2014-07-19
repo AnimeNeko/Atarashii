@@ -329,7 +329,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      * check if the taskjob is my personal anime/manga list
      */
     public boolean isList() {
-        return taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC);
+        return taskjob != null && (taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC));
     }
 
     /*
