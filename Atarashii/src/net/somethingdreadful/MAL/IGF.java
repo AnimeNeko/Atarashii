@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -43,7 +45,7 @@ import java.util.Collection;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener {
+public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
 
     Context context;
     ListType listType = ListType.ANIME; // just to have it proper initialized
@@ -59,12 +61,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 
     NetworkTask networkTask;
 
+    RecordStatusUpdatedReceiver recordStatusReceiver;
+
     int page = 1;
     int list = -1;
     int resource;
     boolean useSecondaryAmounts;
     boolean loading = true;
-    boolean detail = false;
+    boolean clearAfterLoading = false;
     boolean hasmorepages = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
@@ -153,6 +157,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         this.activity = activity;
         if (IGFCallbackListener.class.isInstance(activity))
             callback = (IGFCallbackListener)activity;
+        recordStatusReceiver = new RecordStatusUpdatedReceiver(this);
+        IntentFilter filter = new IntentFilter(recordStatusReceiver.RECV_IDENT);
+        LocalBroadcastManager.getInstance(activity).registerReceiver(recordStatusReceiver, filter);
+    }
+
+    @Override
+    public void onDetach() {
+        if (recordStatusReceiver != null)
+            LocalBroadcastManager.getInstance(activity).unregisterReceiver(recordStatusReceiver);
+        super.onDetach();
     }
 
     private boolean isOnHomeActivity() {
@@ -360,9 +374,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     if (job.equals(TaskJob.FORCESYNC))
                         doRecordsLoadedCallback(type, job, false, false, cancelled);
                     if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
-                        if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+                        if (clearAfterLoading || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
                             gl.clear();
-                            detail = false;
+                            clearAfterLoading = false;
                         }
                         if (jobReturnsPagedResults(job))
                             hasmorepages = resultList.size() > 0;
@@ -398,8 +412,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         startDetails.putExtra("net.somethingdreadful.MAL.recordID", ga.getItem(position).getId());
         startDetails.putExtra("net.somethingdreadful.MAL.recordType", listType);
         startActivity(startDetails);
-        if (isList() || taskjob.equals(TaskJob.SEARCH))
-            this.detail = true;
     }
 
     @Override
@@ -548,6 +560,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             for (T record : collection) {
                 this.add(record);
             }
+        }
+    }
+
+    // user updated record on DetailsView, so update the list if necessary
+    @Override
+    public void onRecordStatusUpdated(ListType type) {
+        // broadcast received
+        if (type != null && type.equals(listType) && isList()) {
+            clearAfterLoading = true;
+            getRecords(false, TaskJob.GETLIST, list);
         }
     }
 }

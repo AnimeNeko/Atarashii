@@ -1,10 +1,13 @@
 package net.somethingdreadful.MAL.tasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -55,5 +58,14 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        // send broadcast for list updates
+        Intent i = new Intent();
+        i.setAction(RecordStatusUpdatedReceiver.RECV_IDENT);
+        i.putExtra("type", type);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(i);
     }
 }

@@ -265,12 +265,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         super.onResume();
         checkNetworkAndDisplayCrouton();
         registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        if (af != null && mf != null){
-            if (af.detail)
-                af.getRecords(false, TaskJob.GETLIST, af.list);
-            if (mf.detail)
-                mf.getRecords(false, TaskJob.GETLIST, mf.list);
-        }
     }
 
     @SuppressLint("NewApi")
