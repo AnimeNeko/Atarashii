@@ -344,7 +344,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     private boolean jobReturnsPagedResults(TaskJob job) {
-        return !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST);
+        return !isList() && !job.equals(TaskJob.SEARCH);
     }
     /*
      * set the list with the new page/list.
