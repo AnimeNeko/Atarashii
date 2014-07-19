@@ -465,8 +465,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            af.resetPage();
-            mf.resetPage();
             if (!networkAvailable && position > 2) {
                 position = 1;
                 Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
