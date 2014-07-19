@@ -65,6 +65,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     boolean useSecondaryAmounts;
     boolean loading = true;
     boolean detail = false;
+    boolean hasmorepages = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     boolean swipeRefreshEnabled = true;
@@ -328,6 +329,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         return taskjob != null && (taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC));
     }
 
+    private boolean jobReturnsPagedResults(TaskJob job) {
+        return !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST);
+    }
     /*
      * set the list with the new page/list.
      */
@@ -360,6 +364,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                             gl.clear();
                             detail = false;
                         }
+                        if (jobReturnsPagedResults(job))
+                            hasmorepages = resultList.size() > 0;
                         gl.addAll(resultList);
                         refresh();
                     }
@@ -405,10 +411,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading) {
+        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages){
             loading = true;
-            if (taskjob != TaskJob.GETLIST && taskjob != TaskJob.FORCESYNC) {
-                page = page + 1;
+            if (jobReturnsPagedResults(taskjob)){
+                page++;
                 getRecords(false, null, 0);
             }
         }
