@@ -418,7 +418,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             loading = true;
             if (jobReturnsPagedResults(taskjob)){
                 page++;
-                getRecords(false, null, 0);
+                getRecords(false, null, list);
             }
         }
     }
