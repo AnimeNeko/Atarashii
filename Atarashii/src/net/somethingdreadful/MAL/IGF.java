@@ -267,7 +267,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     public void searchRecords(String search) {
-        if (search != null && !search.equals(query) && !search.isEmpty()) { // no need for searching the same again or empty string
+        if (search != null && !search.equals(query) && !search.equals("")) { // no need for searching the same again or empty string
             query = search;
             page = 1;
             setSwipeRefreshEnabled(false);
