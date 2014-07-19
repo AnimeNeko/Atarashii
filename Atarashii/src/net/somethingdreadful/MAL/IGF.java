@@ -362,9 +362,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
                         if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
                             gl.clear();
-                        detail = false;
-                    }
-                    gl.addAll(resultList);
+                            detail = false;
+                        }
+                        gl.addAll(resultList);
                         refresh();
                     }
                 }
