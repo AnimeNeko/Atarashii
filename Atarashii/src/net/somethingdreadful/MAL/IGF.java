@@ -254,8 +254,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         /* show swipe refresh animation if
          * - loading more pages
          * - forced update
+         * - clear is unset
          */
-        toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !taskjob.equals(TaskJob.SEARCH));
+        toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !taskjob.equals(TaskJob.SEARCH) && !clear);
 		loading = true;
 		try{
             if (clear){
