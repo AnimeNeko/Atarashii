@@ -245,12 +245,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             this.list = list;
         }
         /* only show loading indicator if
-         * - is not own list and not page 1
-         * - force sync and list is empty (only show swipe refresh animation if not empty) or should
-         *   be cleared
+         * - is not own list and on page 1
+         * - force sync and list is empty (only show swipe refresh animation if not empty)
+         * - clear is set
          */
         boolean isEmpty = gl.isEmpty();
-        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && (isEmpty || clear)));
+        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && isEmpty) || clear);
         /* show swipe refresh animation if
          * - loading more pages
          * - forced update
@@ -352,8 +352,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (!cancelled) // don't change the UI if cancelled
-            toggleLoadingIndicator(false);
         if ( !cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
             ArrayList resultList;
             try {
