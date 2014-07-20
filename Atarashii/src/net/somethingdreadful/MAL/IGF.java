@@ -260,12 +260,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 		loading = true;
 		try{
             if (clear){
+                resetPage();
                 gl.clear();
                 if (ga == null) {
                     setAdapter();
                 }
                 ga.clear();
-                resetPage();
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
@@ -291,10 +291,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     /*
      * reset the page number of anime/manga lists.
      */
-    public void resetPage() {
-        if (!isList()) {
-            page = 1;
-            Gridview.setSelection(0);
+    public void resetPage(){
+        page = 1;
+        if (Gridview != null) {
+            Gridview.requestFocusFromTouch();
+            Gridview.post(new Runnable() {
+                @Override
+                public void run() {
+                    Gridview.setSelection(0);
+                }
+            });
         }
     }
 
