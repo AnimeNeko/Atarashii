@@ -16,6 +16,9 @@ public class AboutActivity extends Activity {
 
         setTitle(R.string.title_activity_about);
 
+        ((Card) findViewById(R.id.contributors_card)).setContent(R.layout.card_about_contributors);
+        ((Card) findViewById(R.id.community_card)).setContent(R.layout.card_about_community);
+        ((Card) findViewById(R.id.acknowledgements_card)).setContent(R.layout.card_about_acknowledgements);
         TextView animaMalContent = (TextView) findViewById(R.id.contributor_anima_name);
         TextView motokochanMalContent = (TextView) findViewById(R.id.contributor_motokochan_name);
         TextView apkawaMalContent = (TextView) findViewById(R.id.contributor_apkawa_name);

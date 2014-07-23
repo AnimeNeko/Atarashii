@@ -3,6 +3,18 @@
 
     <color name="bg_dark">#333333</color>
     <color name="bg_light">#EEEEEE</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bg_activity">#EEEEEE</color>
+
+    <!-- Card: Header colors -->
+    <color name="card_green">#53A93F</color>
+    <color name="card_red">#a93f53</color>
+    <color name="card_blue">#3f53a9</color>
+    <color name="card_purple">#953fa9</color>
+    <color name="card_yellow">#a9953f</color>
+    <color name="card_cyan">#3fa995</color>
+
+    <!-- Card: layout components -->
     <color name="card_shadow">#dbdbdb</color>
     <color name="card_shadow2">#e1e1e1</color>
     <color name="card_content">#ffffff</color>

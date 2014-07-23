@@ -12,7 +12,9 @@
             <solid android:color="@color/card_shadow" />
         </shape>
     </item>
-    <item android:bottom="2dp">
+    <item
+        android:id="@+id/card_content_drawable"
+        android:bottom="2dp">
         <shape android:shape="rectangle">
             <corners android:radius="2dp" />
             <solid android:color="@color/card_content" />

@@ -19,11 +19,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.RelativeLayout;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.api.MALApi;
@@ -42,16 +44,16 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements OnClickListener, OnRatingBarChangeListener, NetworkTaskCallbackListener {
+public class DetailView extends Activity implements Serializable, OnRatingBarChangeListener, NetworkTaskCallbackListener, Card.onCardClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -65,9 +67,16 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_view);
 
+        setContentView(R.layout.activity_detailview);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((Card) findViewById(R.id.detailCoverImage)).setContent(R.layout.card_detailview_image);
+        ((Card) findViewById(R.id.synopsis)).setContent(R.layout.card_detailview_synopsis);
+        ((Card) findViewById(R.id.mediainfo)).setContent(R.layout.card_detailview_mediainfo);
+        ((Card) findViewById(R.id.status)).setContent(R.layout.card_detailview_status);
+        ((Card) findViewById(R.id.progress)).setContent(R.layout.card_detailview_progress);
+        ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
 
         recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
         type = (ListType) getIntent().getSerializableExtra("net.somethingdreadful.MAL.recordType");
@@ -75,17 +84,34 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         manager = new MALManager(context);
         pref = new PrefManager(context);
 
-        if (type != null) {
-            setCard();
+        setCard();
+        if (savedInstanceState == null) {
             getRecord();
+        } else {
+            animeRecord = (Anime) savedInstanceState.getSerializable("anime");
+            mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
+            setText();
         }
         setClickListener();
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle State) {
+        super.onSaveInstanceState(State);
+        State.putSerializable("anime", animeRecord);
+        State.putSerializable("manga", mangaRecord);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.activity_detail_view);
+        setContentView(R.layout.activity_detailview);
+        ((Card) findViewById(R.id.detailCoverImage)).setContent(R.layout.card_detailview_image);
+        ((Card) findViewById(R.id.synopsis)).setContent(R.layout.card_detailview_synopsis);
+        ((Card) findViewById(R.id.mediainfo)).setContent(R.layout.card_detailview_mediainfo);
+        ((Card) findViewById(R.id.status)).setContent(R.layout.card_detailview_status);
+        ((Card) findViewById(R.id.progress)).setContent(R.layout.card_detailview_progress);
+        ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
         setCard();
         setText();
         setClickListener();
@@ -132,14 +158,9 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
      * set all the ClickListeners
      */
     public void setClickListener() {
-        RatingBar MyScoreBar = (RatingBar) findViewById(R.id.MyScoreBar);
-        MyScoreBar.setOnRatingBarChangeListener(this);
-
-        LinearLayout StatusCard = (LinearLayout) findViewById(R.id.status);
-        StatusCard.setOnClickListener(this);
-
-        LinearLayout ProgressCard = (LinearLayout) findViewById(R.id.progress);
-        ProgressCard.setOnClickListener(this);
+        ((RatingBar) findViewById(R.id.MyScoreBar)).setOnRatingBarChangeListener(this);
+        ((Card) findViewById(R.id.status)).setCardClickListener(this);
+        ((Card) findViewById(R.id.progress)).setCardClickListener(this);
     }
 
     /*
@@ -406,11 +427,11 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         Resources res = getResources();
         try {
             String[] types = res.getStringArray(resArrayId);
-            if (index < 0 || index >= types.length ) // make sure to have a valid array index
+            if (index < 0 || index >= types.length) // make sure to have a valid array index
                 return res.getString(notFoundStringId);
             else
                 return types[index];
-        } catch (Resources.NotFoundException e){
+        } catch (Resources.NotFoundException e) {
             return res.getString(notFoundStringId);
         }
     }
@@ -446,8 +467,7 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         TextView mediaStatus = (TextView) findViewById(R.id.mediaStatus);
         if (type.equals(ListType.ANIME)) {
             record = animeRecord;
-
-            LinearLayout statusCard = (LinearLayout) findViewById(R.id.status);
+            Card statusCard = (Card) findViewById(R.id.status);
             if (animeRecord.getWatchedStatus() != null) {
                 status.setText(WordUtils.capitalize(getUserStatusString(animeRecord.getWatchedStatusInt())));
                 statusCard.setVisibility(View.VISIBLE);
@@ -458,8 +478,7 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
             mediaStatus.setText(getAnimeStatusString(animeRecord.getStatusInt()));
         } else {
             record = mangaRecord;
-
-            LinearLayout statusCard = (LinearLayout) findViewById(R.id.status);
+            Card statusCard = (Card) findViewById(R.id.status);
             if (mangaRecord.getReadStatus() != null) {
                 status.setText(WordUtils.capitalize(getUserStatusString(mangaRecord.getReadStatusInt())));
                 statusCard.setVisibility(View.VISIBLE);
@@ -484,7 +503,7 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
             synopsis.setText(Html.fromHtml(record.getSynopsis()));
         }
 
-        LinearLayout progress = (LinearLayout) findViewById(R.id.progress);
+        Card progress = (Card) findViewById(R.id.progress);
         if (isAdded()) {
             progress.setVisibility(View.VISIBLE);
         } else {
@@ -529,15 +548,26 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
             MyScoreLabel.setVisibility(View.GONE);
             MyScoreBar.setVisibility(View.GONE);
         }
+        (findViewById(R.id.Image)).setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         Picasso.with(context)
                 .load(record.getImageUrl())
                 .error(R.drawable.cover_error)
                 .placeholder(R.drawable.cover_loading)
                 .fit()
-                .into((ImageView) findViewById(R.id.detailCoverImage));
+                .into((ImageView) findViewById(R.id.Image), new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        ((Card) findViewById(R.id.detailCoverImage)).wrapWidth(false);
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
 
         getSupportActionBar().setTitle(record.getTitle());
+        ((Card) findViewById(R.id.detailCoverImage)).Header.setText(record.getTitle());
         setupBeam();
     }
 
@@ -552,19 +582,6 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
             if (animeRecord != null) {
                 mangaRecord.setScore((int) (rating * 2));
                 mangaRecord.setDirty(true);
-            }
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.status) {
-            showStatusDialog();
-        } else if (v.getId() == R.id.progress) {
-            if (type.equals(ListType.ANIME)) {
-                showEpisodesDialog();
-            } else {
-                showMangaDialog();
             }
         }
     }
@@ -655,5 +672,18 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
         }
 
         finish();
+    }
+
+    @Override
+    public void onCardClickListener(int res) {
+        if (res == R.id.status) {
+            showStatusDialog();
+        } else if (res == R.id.progress) {
+            if (type.equals(ListType.ANIME)) {
+                showEpisodesDialog();
+            } else {
+                showMangaDialog();
+            }
+        }
     }
 }

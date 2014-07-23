@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <style name="TextViewLightFont" parent="@android:style/Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
-    </style>
-
-</resources>

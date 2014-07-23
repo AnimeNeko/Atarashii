@@ -3,37 +3,45 @@
     android:id="@+id/BaseCard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="8dp"
-    android:background="@drawable/card"
-    android:padding="12dp">
+    android:background="@drawable/card_neutral">
 
     <TextView
         android:id="@+id/CardTitle"
-        style="@style/TextViewLightFont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="TITLE"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/card_header"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="@string/card_content_loading"
         android:textColor="#0099CC"
         android:textSize="18sp" />
 
-    <ViewStub
-        android:id="@+id/contentStub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/CardTitle"
-        android:layout_below="@+id/CardTitle"
-        android:layout_marginTop="8dp" />
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/CardTitle">
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="6dp" />
+    </ScrollView>
 
     <ImageView
         android:id="@+id/actionableIcon"
-        style="@style/TextViewLightFont"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/CardTitle"
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_action_cardaction" />
 
