@@ -2,8 +2,8 @@ package net.somethingdreadful.MAL;
 
 import android.content.Context;
 
-import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.preference.PreferenceManager;
+import org.holoeverywhere.preference.SharedPreferences;
 
 public class PrefManager {
     private static SharedPreferences prefs;
@@ -11,8 +11,7 @@ public class PrefManager {
     private static Context context;
 
 
-    public PrefManager(Context mContext)
-    {
+    public PrefManager(Context mContext) {
         context = mContext;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefeditor = prefs.edit();
@@ -22,8 +21,16 @@ public class PrefManager {
         return prefs.getString("user", "failed");
     }
 
+    public void setUser(String newUser) {
+        prefeditor.putString("user", newUser);
+    }
+
     public String getPass() {
         return prefs.getString("pass", "failed");
+    }
+
+    public void setPass(String newPass) {
+        prefeditor.putString("pass", newPass);
     }
 
     public String getCustomShareText() {
@@ -32,6 +39,10 @@ public class PrefManager {
 
     public boolean getInit() {
         return prefs.getBoolean("init", false);
+    }
+
+    public void setInit(boolean newInit) {
+        prefeditor.putBoolean("init", newInit);
     }
 
     public boolean getTraditionalListEnabled() {
@@ -72,18 +83,6 @@ public class PrefManager {
 
     public boolean mangahide() {//profile activity, if the setting force hide is turned on
         return prefs.getBoolean("M_hide", false); //manga card
-    }
-
-    public void setUser(String newUser) {
-        prefeditor.putString("user", newUser);
-    }
-
-    public void setPass(String newPass) {
-        prefeditor.putString("pass", newPass);
-    }
-
-    public void setInit(boolean newInit) {
-        prefeditor.putBoolean("init", newInit);
     }
 
     public void setsync_time_last(int time) { //Home, set the last auto-sync interval

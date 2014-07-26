@@ -1,5 +1,9 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 
@@ -8,21 +12,17 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.NumberPicker;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.View;
-
 public class MangaPickerDialogFragment extends DialogFragment {
-	NumberPicker chapterPicker;
-	NumberPicker volumePicker;
-	int chaptersTotal;
-	int chaptersRead;
-	int chapterPickerValue;
-	
-	int volumesTotal;
-	int volumesRead;
-	int volumePickerValue;
-	
+    NumberPicker chapterPicker;
+    NumberPicker volumePicker;
+    int chaptersTotal;
+    int chaptersRead;
+    int chapterPickerValue;
+
+    int volumesTotal;
+    int volumesRead;
+    int volumePickerValue;
+
     private View makeNumberPicker() {
         View view = getLayoutInflater().inflate(R.layout.dialog_manga_picker);
 
@@ -30,7 +30,7 @@ public class MangaPickerDialogFragment extends DialogFragment {
         volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumesRead();
         chaptersTotal = ((DetailView) getActivity()).mangaRecord.getChapters();
         chaptersRead = ((DetailView) getActivity()).mangaRecord.getChaptersRead();
-        
+
         chapterPicker = (NumberPicker) view.findViewById(R.id.chapterPicker);
         volumePicker = (NumberPicker) view.findViewById(R.id.volumePicker);
         chapterPicker.setMinValue(0);
@@ -39,12 +39,12 @@ public class MangaPickerDialogFragment extends DialogFragment {
         if (chaptersTotal != 0) {
             chapterPicker.setMaxValue(chaptersTotal);
         } else {
-        	chapterPicker.setMaxValue(9999);
+            chapterPicker.setMaxValue(9999);
         }
         if (volumesTotal != 0) {
             volumePicker.setMaxValue(volumesTotal);
         } else {
-        	chapterPicker.setMaxValue(9999);
+            chapterPicker.setMaxValue(9999);
         }
 
         chapterPicker.setValue(chaptersRead);
@@ -53,14 +53,14 @@ public class MangaPickerDialogFragment extends DialogFragment {
     }
 
     @Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity(), getTheme());
         builder.setView(makeNumberPicker());
         builder.setTitle(R.string.dialog_title_read_update);
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
-            	((DetailView) getActivity()).onMangaDialogDismissed(chapterPicker.getValue(), volumePicker.getValue());
+                ((DetailView) getActivity()).onMangaDialogDismissed(chapterPicker.getValue(), volumePicker.getValue());
                 dismiss();
             }
         });

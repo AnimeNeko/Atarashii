@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
+import android.database.Cursor;
+
 import java.util.Arrays;
 import java.util.List;
-
-import android.database.Cursor;
 
 public class ProfileMangaStats {
     private int completed;
@@ -13,7 +13,7 @@ public class ProfileMangaStats {
     private int reading;
     private Double time_days;
     private int total_entries;
-    
+
     public static ProfileMangaStats fromCursor(Cursor c) {
         ProfileMangaStats result = new ProfileMangaStats();
 

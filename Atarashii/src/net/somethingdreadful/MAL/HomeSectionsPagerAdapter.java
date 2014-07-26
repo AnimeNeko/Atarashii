@@ -1,9 +1,10 @@
 package net.somethingdreadful.MAL;
 
-import net.somethingdreadful.MAL.api.MALApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import net.somethingdreadful.MAL.api.MALApi;
 
 public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -15,11 +16,11 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-     			return Home.af;
+                return Home.af;
             case 1:
-     			return Home.mf;
+                return Home.mf;
             default:
-     			return Home.af;
+                return Home.af;
         }
     }
 
@@ -27,12 +28,12 @@ public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 2;
     }
-    
+
     @Override
     public CharSequence getPageTitle(int position) {
         return MALApi.getListTypeString(getTag(position)).toUpperCase();
     }
-    
+
     public MALApi.ListType getTag(int position) {
         switch (position) {
             case 0:

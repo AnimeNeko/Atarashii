@@ -1,5 +1,4 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -11,13 +10,14 @@
         android:layout_height="match_parent"
         android:background="@color/bg_dark"
         tools:context=".Home" />
-    
-    <ListView android:id="@+id/left_drawer"
-              android:layout_width="240dp"
-              android:layout_height="match_parent"
-              android:layout_gravity="left"
-              android:listSelector="@android:color/white"
-              android:choiceMode="singleChoice"
-              android:background="#333333"/>
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="#333333"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/white" />
 </android.support.v4.widget.DrawerLayout>
 

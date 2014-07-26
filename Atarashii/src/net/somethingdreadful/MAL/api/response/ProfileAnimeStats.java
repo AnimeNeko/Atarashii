@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
+import android.database.Cursor;
+
 import java.util.Arrays;
 import java.util.List;
-
-import android.database.Cursor;
 
 public class ProfileAnimeStats {
     private int completed;
@@ -13,7 +13,7 @@ public class ProfileAnimeStats {
     private Double time_days;
     private int total_entries;
     private int watching;
-    
+
     public static ProfileAnimeStats fromCursor(Cursor c) {
         ProfileAnimeStats result = new ProfileAnimeStats();
 

@@ -1,9 +1,9 @@
 package net.somethingdreadful.MAL.api.response;
 
+import android.database.Cursor;
+
 import java.util.Arrays;
 import java.util.List;
-
-import android.database.Cursor;
 
 public class ProfileDetails {
     private String access_rank;
@@ -17,18 +17,18 @@ public class ProfileDetails {
     private String location;
     private int manga_list_views;
     private String website;
-    
+
     public static ProfileDetails fromCursor(Cursor c) {
         return fromCursor(c, false);
     }
-    
+
     public static ProfileDetails fromCursor(Cursor c, boolean friendDetails) {
         ProfileDetails result = new ProfileDetails();
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
-        
+
         result.setLastOnline(c.getString(columnNames.indexOf("last_online")));
-        if ( !friendDetails ) {
+        if (!friendDetails) {
             result.setBirthday(c.getString(columnNames.indexOf("birthday")));
             result.setLocation(c.getString(columnNames.indexOf("location")));
             result.setWebsite(c.getString(columnNames.indexOf("website")));

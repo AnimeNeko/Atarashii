@@ -1,11 +1,11 @@
 package net.somethingdreadful.MAL;
 
-import org.holoeverywhere.app.Activity;
-
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import org.holoeverywhere.app.Activity;
 
 public class AboutActivity extends Activity {
 
@@ -29,13 +29,13 @@ public class AboutActivity extends Activity {
         dskoMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         communityContent.setMovementMethod(LinkMovementMethod.getInstance());
         acknowledgementsContent.setMovementMethod(LinkMovementMethod.getInstance());
-        
+
         NfcHelper.disableBeam(this);
     }
-    
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        
+
     }
 
     @Override

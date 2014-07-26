@@ -54,6 +54,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener {
 
+    static IGF af;
+    static IGF mf;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
@@ -61,7 +63,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
      * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     HomeSectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -70,8 +71,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     PrefManager mPrefManager;
     MALManager mManager;
     Menu menu;
-    static IGF af;
-    static IGF mf;
     BroadcastReceiver networkReceiver;
     DrawerLayout DrawerLayout;
     ListView DrawerList;
@@ -80,7 +79,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     ActionBar actionbar;
     NavigationItemAdapter mNavigationItemAdapter;
     SearchView searchView;
-    
+
     boolean instanceExists;
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
@@ -95,20 +94,20 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeButtonEnabled(true);
-        
+
         if (!mPrefManager.getInit()) {
-        	Intent firstRunInit = new Intent(this, FirstTimeInit.class);
+            Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             startActivity(firstRunInit);
             finish();
         }
-        
+
         //The following is state handling code
         instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
         networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
         if (savedInstanceState != null) {
             AutoSync = savedInstanceState.getInt("AutoSync");
             myList = savedInstanceState.getBoolean("myList");
-        }else{
+        } else {
             setIGF();
             autosync();
         }
@@ -116,21 +115,21 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         // Creates the adapter to return the Animu and Mango fragments
         mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
 
-        DrawerLayout= (DrawerLayout)findViewById(R.id.drawer_layout);
+        DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         DrawerLayout.setDrawerListener(new DemoDrawerListener());
         DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-            
-        DrawerList = (ListView)findViewById(R.id.left_drawer);
+
+        DrawerList = (ListView) findViewById(R.id.left_drawer);
 
         NavigationItems mNavigationContent = new NavigationItems();
-		mNavigationItemAdapter = new NavigationItemAdapter(this,R.layout.record_home_navigation, mNavigationContent.ITEMS);
-		DrawerList.setAdapter(mNavigationItemAdapter);
-		DrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		DrawerList.setCacheColorHint(0);
-		DrawerList.setScrollingCacheEnabled(false);
-		DrawerList.setScrollContainer(false);
-		DrawerList.setFastScrollEnabled(true);
-		DrawerList.setSmoothScrollbarEnabled(true);
+        mNavigationItemAdapter = new NavigationItemAdapter(this, R.layout.record_home_navigation, mNavigationContent.ITEMS);
+        DrawerList.setAdapter(mNavigationItemAdapter);
+        DrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        DrawerList.setCacheColorHint(0);
+        DrawerList.setScrollingCacheEnabled(false);
+        DrawerList.setScrollContainer(false);
+        DrawerList.setFastScrollEnabled(true);
+        DrawerList.setSmoothScrollbarEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         mDrawerToggle.syncState();
@@ -155,7 +154,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                 actionBar.setSelectedNavigationItem(position);
             }
         });
-        
+
         // Add tabs for the anime and manga lists
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title
@@ -177,15 +176,15 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
         NfcHelper.disableBeam(this);
     }
-    
-    public void setIGF(){
-		af = new IGF();
-		af.isAnime = true;
-		af.taskjob = TaskJob.GETLIST;
-		mf = new IGF();
-		mf.isAnime = false;
-		mf.taskjob = TaskJob.GETLIST;
-	}
+
+    public void setIGF() {
+        af = new IGF();
+        af.isAnime = true;
+        af.taskjob = TaskJob.GETLIST;
+        mf = new IGF();
+        mf.isAnime = false;
+        mf.taskjob = TaskJob.GETLIST;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -219,47 +218,47 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
             case R.id.listType_all:
-        		if (af != null && mf != null) {
-        			af.getRecords(true, TaskJob.GETLIST, 0);
-        			mf.getRecords(true, TaskJob.GETLIST, 0);
-        			setChecked(item);
-        		}
-        		break;
-        	case R.id.listType_inprogress:
-        		if (af != null && mf != null) {
-        			af.getRecords(true, TaskJob.GETLIST, 1);
-        			mf.getRecords(true, TaskJob.GETLIST, 1);
-        			setChecked(item);
-        		}
-        		break;
-        	case R.id.listType_completed:
-        		if (af != null && mf != null) {
-        			af.getRecords(true, TaskJob.GETLIST, 2);
-        			mf.getRecords(true, TaskJob.GETLIST, 2);
-        			setChecked(item);
-        		}
-        		break;
-        	case R.id.listType_onhold:
-        		if (af != null && mf != null) {
-        			af.getRecords(true, TaskJob.GETLIST, 3);
-        			mf.getRecords(true, TaskJob.GETLIST, 3);
-        			setChecked(item);
-        		}
-        		break;
-        	case R.id.listType_dropped:
-        		if (af != null && mf != null) {
-        			af.getRecords(true, TaskJob.GETLIST, 4);
-        			mf.getRecords(true, TaskJob.GETLIST, 4);
-        			setChecked(item);
-        		}
-        		break;
-        	case R.id.listType_planned:
-        		if (af != null && mf != null) {
-        			af.getRecords(true, TaskJob.GETLIST, 5);
-        			mf.getRecords(true, TaskJob.GETLIST, 5);
-        			setChecked(item);
-        		}
-        		break;
+                if (af != null && mf != null) {
+                    af.getRecords(true, TaskJob.GETLIST, 0);
+                    mf.getRecords(true, TaskJob.GETLIST, 0);
+                    setChecked(item);
+                }
+                break;
+            case R.id.listType_inprogress:
+                if (af != null && mf != null) {
+                    af.getRecords(true, TaskJob.GETLIST, 1);
+                    mf.getRecords(true, TaskJob.GETLIST, 1);
+                    setChecked(item);
+                }
+                break;
+            case R.id.listType_completed:
+                if (af != null && mf != null) {
+                    af.getRecords(true, TaskJob.GETLIST, 2);
+                    mf.getRecords(true, TaskJob.GETLIST, 2);
+                    setChecked(item);
+                }
+                break;
+            case R.id.listType_onhold:
+                if (af != null && mf != null) {
+                    af.getRecords(true, TaskJob.GETLIST, 3);
+                    mf.getRecords(true, TaskJob.GETLIST, 3);
+                    setChecked(item);
+                }
+                break;
+            case R.id.listType_dropped:
+                if (af != null && mf != null) {
+                    af.getRecords(true, TaskJob.GETLIST, 4);
+                    mf.getRecords(true, TaskJob.GETLIST, 4);
+                    setChecked(item);
+                }
+                break;
+            case R.id.listType_planned:
+                if (af != null && mf != null) {
+                    af.getRecords(true, TaskJob.GETLIST, 5);
+                    mf.getRecords(true, TaskJob.GETLIST, 5);
+                    setChecked(item);
+                }
+                break;
             case R.id.forceSync:
                 synctask(true, true);
                 break;
@@ -271,41 +270,41 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
-        registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        if (af.detail){
-        	af.getRecords(false, TaskJob.GETLIST, af.list);
-        	mf.getRecords(false, TaskJob.GETLIST, mf.list);
+        registerReceiver(networkReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        if (af.detail) {
+            af.getRecords(false, TaskJob.GETLIST, af.list);
+            mf.getRecords(false, TaskJob.GETLIST, mf.list);
         }
     }
 
     @SuppressLint("NewApi")
-	@Override
+    @Override
     public void onPause() {
         super.onPause();
         if (menu != null)
-        	MenuItemCompat.collapseActionView(menu.findItem(R.id.action_search));
+            MenuItemCompat.collapseActionView(menu.findItem(R.id.action_search));
         instanceExists = true;
         unregisterReceiver(networkReceiver);
     }
 
     public void autosync() {
-        
+
         //auto-sync stuff
-        if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable){
+        if (mPrefManager.getsync_time_last() == 0 && AutoSync == 0 && networkAvailable) {
             mPrefManager.setsync_time_last(1);
             mPrefManager.commitChanges();
             synctask(true, true);
-        } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable){
+        } else if (mPrefManager.getsynchronisationEnabled() && AutoSync == 0 && networkAvailable) {
             Calendar localCalendar = Calendar.getInstance();
-            int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR)*24*60; //will reset on new year ;)
-            Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY)*60;
+            int Time_now = localCalendar.get(Calendar.DAY_OF_YEAR) * 24 * 60; //will reset on new year ;)
+            Time_now = Time_now + localCalendar.get(Calendar.HOUR_OF_DAY) * 60;
             Time_now = Time_now + localCalendar.get(Calendar.MINUTE);
             int last_sync = mPrefManager.getsync_time_last();
-            if (!(last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time()))){
-                if (mPrefManager.getonly_wifiEnabled()){
+            if (!(last_sync >= Time_now && last_sync <= (Time_now + mPrefManager.getsync_time()))) {
+                if (mPrefManager.getonly_wifiEnabled()) {
                     synctask(true, true);
                     mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
-                }else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()){ //connected to Wi-Fi and sync only on Wi-Fi checked.
+                } else if (mPrefManager.getonly_wifiEnabled() && isConnectedWifi()) { //connected to Wi-Fi and sync only on Wi-Fi checked.
                     synctask(true, true);
                     mPrefManager.setsync_time_last(Time_now + mPrefManager.getsync_time());
                 }
@@ -314,7 +313,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         }
     }
 
-    public void synctask(boolean clear, boolean notify){
+    public void synctask(boolean clear, boolean notify) {
         if (af != null && mf != null) {
             af.getRecords(clear, TaskJob.FORCESYNC, af.list);
             mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
@@ -334,51 +333,51 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {        
+    public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
         myListChanged();
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.list) {
                 case 0:
-                	setChecked(menu.findItem(R.id.listType_all));
+                    setChecked(menu.findItem(R.id.listType_all));
                     break;
                 case 1:
-                	setChecked(menu.findItem(R.id.listType_inprogress));
+                    setChecked(menu.findItem(R.id.listType_inprogress));
                     break;
                 case 2:
-                	setChecked(menu.findItem(R.id.listType_completed));
+                    setChecked(menu.findItem(R.id.listType_completed));
                     break;
                 case 3:
-                	setChecked(menu.findItem(R.id.listType_onhold));
+                    setChecked(menu.findItem(R.id.listType_onhold));
                     break;
                 case 4:
-                	setChecked(menu.findItem(R.id.listType_dropped));
+                    setChecked(menu.findItem(R.id.listType_dropped));
                     break;
                 case 5:
-                	setChecked(menu.findItem(R.id.listType_planned));
+                    setChecked(menu.findItem(R.id.listType_planned));
             }
         }
         return true;
     }
-    
-    public void setChecked(MenuItem item){
-    	item.setChecked(true);
+
+    public void setChecked(MenuItem item) {
+        item.setChecked(true);
     }
-    
-    public void myListChanged(){
-    	MenuItem item  = menu.findItem(R.id.menu_listType);
-    	if(!myList){//if not on my list then disable menu items like listType, etc
+
+    public void myListChanged() {
+        MenuItem item = menu.findItem(R.id.menu_listType);
+        if (!myList) {//if not on my list then disable menu items like listType, etc
             item.setEnabled(false);
             item.setVisible(false);
-        } else{
+        } else {
             item.setEnabled(true);
             item.setVisible(true);
         }
-    	if (networkAvailable) {
-            if (myList){
+        if (networkAvailable) {
+            if (myList) {
                 menu.findItem(R.id.forceSync).setVisible(true);
-            }else{
+            } else {
                 menu.findItem(R.id.forceSync).setVisible(false);
             }
             menu.findItem(R.id.action_search).setVisible(true);
@@ -390,7 +389,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     }
 
     @SuppressLint("NewApi")
-	public void onLogoutConfirmed() {
+    public void onLogoutConfirmed() {
         mPrefManager.setInit(false);
         mPrefManager.setUser("");
         mPrefManager.setPass("");
@@ -426,9 +425,9 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     public void checkNetworkAndDisplayCrouton() {
         if (!MALApi.isNetworkAvailable(context) && networkAvailable) {
-    		Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
-			af.getRecords(true, TaskJob.GETLIST, af.list);
-	        mf.getRecords(true, TaskJob.GETLIST, mf.list);
+            Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
+            af.getRecords(true, TaskJob.GETLIST, af.list);
+            mf.getRecords(true, TaskJob.GETLIST, mf.list);
         } else if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
             synctask(true, true);
@@ -438,7 +437,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        if(networkAvailable)
+        if (networkAvailable)
             synctask(false, false);
         else {
             if (af != null && mf != null) {
@@ -449,6 +448,23 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         }
     }
 
+    @Override
+    public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
+        mViewPager.setCurrentItem(arg0.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
@@ -456,15 +472,15 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             af.resetPage();
             mf.resetPage();
             if (!networkAvailable && position > 2) {
-            	position = 1;
-            	Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+                position = 1;
+                Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
             myList = ((position <= 2 && myList) || position == 1);
             myListChanged();
             // disable swipeRefresh for other lists
             af.setSwipeRefreshEnabled(myList);
             mf.setSwipeRefreshEnabled(myList);
-            switch (position){
+            switch (position) {
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
                     Profile.putExtra("username", mPrefManager.getUser());
@@ -473,7 +489,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                 case 1:
                     af.getRecords(true, TaskJob.GETLIST, af.list);
                     mf.getRecords(true, TaskJob.GETLIST, mf.list);
-                break;
+                    break;
                 case 2:
                     Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
                     startActivity(Friends);
@@ -494,12 +510,12 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                     af.getRecords(true, TaskJob.GETUPCOMING, af.list);
                     mf.getRecords(true, TaskJob.GETUPCOMING, mf.list);
                     break;
-			}
-            
+            }
+
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
-             */			
-			if (position != 0 && position != 2) {
+             */
+            if (position != 0 && position != 2) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //normal color
                 view.setBackgroundColor(getResources().getColor(R.color.background_dark)); // dark color
@@ -508,10 +524,10 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                 view.setBackgroundColor(Color.parseColor("#333333"));
             }
 
-			DrawerLayout.closeDrawer(DrawerList);
-		}
-	}
-    
+            DrawerLayout.closeDrawer(DrawerList);
+        }
+    }
+
     private class DemoDrawerListener implements DrawerLayout.DrawerListener {
         @Override
         public void onDrawerOpened(View drawerView) {
@@ -536,59 +552,42 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         }
     }
 
-	private class NavigationItemAdapter extends ArrayAdapter<NavItem> {
-		private ArrayList<NavItem> items;
+    private class NavigationItemAdapter extends ArrayAdapter<NavItem> {
+        private ArrayList<NavItem> items;
 
-		public NavigationItemAdapter(Context context, int textViewResourceId,
-				ArrayList<NavItem> objects) {
-			super(context, textViewResourceId, objects);
-			this.items = objects;
-		}
+        public NavigationItemAdapter(Context context, int textViewResourceId,
+                                     ArrayList<NavItem> objects) {
+            super(context, textViewResourceId, objects);
+            this.items = objects;
+        }
 
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
 
-			if (v == null) {
-				LayoutInflater vi = getLayoutInflater();
-				v = vi.inflate(R.layout.record_home_navigation, null);
-			}
+            if (v == null) {
+                LayoutInflater vi = getLayoutInflater();
+                v = vi.inflate(R.layout.record_home_navigation, null);
+            }
 
-			NavItem item = items.get(position);
+            NavItem item = items.get(position);
 
-			if (item != null) {
-				ImageView mIcon = (ImageView) v.findViewById(R.id.nav_item_icon);
-				TextView mTitle = (TextView) v.findViewById(R.id.nav_item_text);
+            if (item != null) {
+                ImageView mIcon = (ImageView) v.findViewById(R.id.nav_item_icon);
+                TextView mTitle = (TextView) v.findViewById(R.id.nav_item_text);
 
-				if (mIcon != null) {
-					mIcon.setImageResource(item.icon);
-				} else {
-					Log.d("LISTITEM", "Null");
-				}
-				if (mTitle != null) {
-					mTitle.setText(item.title);
-				} else {
-					Log.d("LISTITEM", "Null");
-				}
-			}
+                if (mIcon != null) {
+                    mIcon.setImageResource(item.icon);
+                } else {
+                    Log.d("LISTITEM", "Null");
+                }
+                if (mTitle != null) {
+                    mTitle.setText(item.title);
+                } else {
+                    Log.d("LISTITEM", "Null");
+                }
+            }
 
-			return v;
-		}
-	}
-
-	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
-		mViewPager.setCurrentItem(arg0.getPosition());
-	}
-
-	@Override
-	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+            return v;
+        }
+    }
 }
