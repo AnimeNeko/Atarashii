@@ -1,11 +1,13 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -43,29 +45,36 @@ import java.util.Collection;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener {
+public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
 
     Context context;
-    Boolean isAnime;
+    ListType listType = ListType.ANIME; // just to have it proper initialized
     TaskJob taskjob;
     GridView Gridview;
     PrefManager pref;
     ViewFlipper viewflipper;
     SwipeRefreshLayout swipeRefresh;
-    FragmentActivity activity;
+    Activity activity;
     ArrayList<GenericRecord> gl = new ArrayList<GenericRecord>();
     ListViewAdapter<GenericRecord> ga;
+    IGFCallbackListener callback;
+
     NetworkTask networkTask;
+
+    RecordStatusUpdatedReceiver recordStatusReceiver;
 
     int page = 1;
     int list = -1;
     int resource;
     boolean useSecondaryAmounts;
     boolean loading = true;
-    boolean detail = false;
+    boolean clearAfterLoading = false;
+    boolean hasmorepages = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     boolean swipeRefreshEnabled = true;
+
+    String query;
 
     /*
      * set the watched/read count & status on the covers.
@@ -132,15 +141,32 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
         swipeRefresh.setEnabled(swipeRefreshEnabled);
 
-        if (!taskjob.equals(TaskJob.SEARCH)) {
-            if (list == -1)
-                getRecords(true, null, pref.getDefaultList());
-            else
-                refresh();
-        }
+        if ( gl.size() > 0 ) // there are already records, fragment has been rotated
+            refresh();
 
         NfcHelper.disableBeam(activity);
+
+        if (callback != null)
+            callback.onIGFReady(this);
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+        if (IGFCallbackListener.class.isInstance(activity))
+            callback = (IGFCallbackListener)activity;
+        recordStatusReceiver = new RecordStatusUpdatedReceiver(this);
+        IntentFilter filter = new IntentFilter(recordStatusReceiver.RECV_IDENT);
+        LocalBroadcastManager.getInstance(activity).registerReceiver(recordStatusReceiver, filter);
+    }
+
+    @Override
+    public void onDetach() {
+        if (recordStatusReceiver != null)
+            LocalBroadcastManager.getInstance(activity).unregisterReceiver(recordStatusReceiver);
+        super.onDetach();
     }
 
     private boolean isOnHomeActivity() {
@@ -148,28 +174,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     /*
-     * get the ListType
-     */
-    public ListType getListType() {
-        if (isAnime)
-            return ListType.ANIME;
-        else
-            return ListType.MANGA;
-    }
-
-    /*
      * add +1 episode/volume/chapters to the anime/manga.
      */
     public void setProgressPlusOne(Anime anime, Manga manga) {
-        if (isAnime) {
+        if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
             if (anime.getWatchedEpisodes() == anime.getEpisodes())
                 anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts))
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
         }
         refresh();
     }
@@ -178,18 +195,18 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      * mark the anime/manga as completed.
      */
     public void setMarkAsComplete(Anime anime, Manga manga) {
-        if (isAnime) {
+        if (listType.equals(ListType.ANIME)) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
             anime.setDirty(true);
             gl.remove(anime);
-            new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             manga.setDirty(true);
             gl.remove(manga);
-            new WriteDetailTask(getListType(), TaskJob.UPDATE, context).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
         }
         refresh();
     }
@@ -228,45 +245,62 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             this.list = list;
         }
         /* only show loading indicator if
-         * - is not own list and not page 1
-         * - force sync and list is empty (only show swipe refresh animation if not empty) or should
-         *   be cleared
+         * - is not own list and on page 1
+         * - force sync and list is empty (only show swipe refresh animation if not empty)
+         * - clear is set
          */
         boolean isEmpty = gl.isEmpty();
-        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && (isEmpty || clear)));
+        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && isEmpty) || clear);
         /* show swipe refresh animation if
          * - loading more pages
          * - forced update
+         * - clear is unset
          */
-        toggleSwipeRefreshAnimation((page > 1 && !isList()) || taskjob.equals(TaskJob.FORCESYNC));
-        loading = true;
-        try {
-            if (clear) {
+        toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !taskjob.equals(TaskJob.SEARCH) && !clear);
+		loading = true;
+		try{
+            if (clear){
+                resetPage();
                 gl.clear();
                 if (ga == null) {
                     setAdapter();
                 }
                 ga.clear();
-                resetPage();
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
             if (networkTask != null)
                 networkTask.cancelTask();
-            networkTask = new NetworkTask(taskjob, getListType(), context, data, this);
-            networkTask.execute(isList() ? MALManager.listSortFromInt(list, getListType()) : SearchActivity.query);
-        } catch (Exception e) {
+            networkTask = new NetworkTask(taskjob, listType, context, data, this);
+            networkTask.execute(isList() ? MALManager.listSortFromInt(list, listType) : query);
+        }catch (Exception e){
             Log.e("MALX", "error getting records: " + e.getMessage());
         }
+    }
+
+    public void searchRecords(String search) {
+        if (search != null && !search.equals(query) && !search.equals("")) { // no need for searching the same again or empty string
+            query = search;
+            page = 1;
+            setSwipeRefreshEnabled(false);
+            getRecords(true, TaskJob.SEARCH, 0);
+        }
+
     }
 
     /*
      * reset the page number of anime/manga lists.
      */
-    public void resetPage() {
-        if (!isList()) {
-            page = 1;
-            Gridview.setSelection(0);
+    public void resetPage(){
+        page = 1;
+        if (Gridview != null) {
+            Gridview.requestFocusFromTouch();
+            Gridview.post(new Runnable() {
+                @Override
+                public void run() {
+                    Gridview.setSelection(0);
+                }
+            });
         }
     }
 
@@ -295,7 +329,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Crouton.makeText(activity, R.string.crouton_error_Search, Style.ALERT).show();
                 } else {
-                    if (isAnime) {
+                    if (listType.equals(ListType.ANIME)) {
                         Crouton.makeText(activity, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
                     } else {
                         Crouton.makeText(activity, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
@@ -313,54 +347,65 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      * check if the taskjob is my personal anime/manga list
      */
     public boolean isList() {
-        return taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC);
+        return taskjob != null && (taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC));
     }
 
+    private boolean jobReturnsPagedResults(TaskJob job) {
+        return !isList() && !job.equals(TaskJob.SEARCH);
+    }
     /*
      * set the list with the new page/list.
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (!cancelled) // don't change the UI if cancelled
-            toggleLoadingIndicator(false);
-        if (result == null && !cancelled) {
-            Crouton.makeText(activity, type == ListType.ANIME ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-        } else {
-            if (!cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
-                ArrayList resultList;
-                try {
-                    if (type == ListType.ANIME) {
-                        resultList = (ArrayList<Anime>) result;
-                    } else {
-                        resultList = (ArrayList<Manga>) result;
-                    }
-                } catch (ClassCastException e) {
-                    Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
-                    resultList = null;
+        if ( !cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
+            ArrayList resultList;
+            try {
+                if (type == ListType.ANIME) {
+                    resultList = (ArrayList<Anime>) result;
+                } else {
+                    resultList = (ArrayList<Manga>) result;
                 }
-                if (resultList != null) {
-                    if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
-                        if (this.page == 1)
-                            SearchActivity.onError(type, true, (SearchActivity) getActivity(), job);
-                    } else {
-                        if (job.equals(TaskJob.FORCESYNC))
-                            SearchActivity.onError(type, false, (Home) getActivity(), job);
-                        if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
-                            if (detail || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
-                                gl.clear();
-                                detail = false;
-                            }
-                            gl.addAll(resultList);
-                            refresh();
+            } catch (ClassCastException e) {
+                Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+                resultList = null;
+            }
+            if (resultList != null) {
+                if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
+                    if (this.page == 1)
+                        doRecordsLoadedCallback(type, job, false, true, cancelled);
+                } else {
+                    if (job.equals(TaskJob.FORCESYNC))
+                        doRecordsLoadedCallback(type, job, false, false, cancelled);
+                    if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
+                        if (clearAfterLoading || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+                            gl.clear();
+                            clearAfterLoading = false;
                         }
+                        if (jobReturnsPagedResults(job))
+                            hasmorepages = resultList.size() > 0;
+                        gl.addAll(resultList);
+                        refresh();
                     }
                 }
+            } else {
+                doRecordsLoadedCallback(type, job, true, false, cancelled); // no resultList ? something went wrong
             }
         }
         networkTask = null;
         toggleSwipeRefreshAnimation(false);
         toggleLoadingIndicator(false);
+    }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        doRecordsLoadedCallback(type, job, true, true, false);
+    }
+
+    private void doRecordsLoadedCallback(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+        if (callback != null)
+            callback.onRecordsLoadingFinished(type, job, error, resultEmpty, cancelled);
     }
 
     /*
@@ -370,12 +415,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent startDetails = new Intent(getView().getContext(), DetailView.class);
         startDetails.putExtra("net.somethingdreadful.MAL.recordID", ga.getItem(position).getId());
-        startDetails.putExtra("net.somethingdreadful.MAL.recordType", getListType());
+        startDetails.putExtra("net.somethingdreadful.MAL.recordType", listType);
         startActivity(startDetails);
-        if (isList() || taskjob.equals(TaskJob.SEARCH)) {
-            Home.af.detail = true;
-            Home.mf.detail = true;
-        }
     }
 
     @Override
@@ -387,11 +428,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading) {
+        // don't do anything if there is nothing in the list
+        if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
+            return;
+        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages){
             loading = true;
-            if (taskjob != TaskJob.GETLIST && taskjob != TaskJob.FORCESYNC) {
-                page = page + 1;
-                getRecords(false, null, 0);
+            if (jobReturnsPagedResults(taskjob)){
+                page++;
+                getRecords(false, null, list);
             }
         }
     }
@@ -461,7 +505,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     viewHolder.progressCount.setText(Integer.toString(position + 1));
                     viewHolder.actionButton.setVisibility(View.GONE);
                     viewHolder.flavourText.setText(R.string.label_Number);
-                } else if (isAnime) {
+                } else if (listType.equals(ListType.ANIME)) {
                     viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
                     setStatus(((Anime) record).getWatchedStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
                 } else {
@@ -485,19 +529,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                         public void onClick(View v) {
                             PopupMenu popup = new PopupMenu(context, v);
                             popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
-                            if (!isAnime)
+                            if (!listType.equals(ListType.ANIME))
                                 popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 public boolean onMenuItemClick(MenuItem item) {
                                     switch (item.getItemId()) {
                                         case R.id.plusOne:
-                                            if (isAnime)
+                                            if (listType.equals(ListType.ANIME))
                                                 setProgressPlusOne((Anime) record, null);
                                             else
                                                 setProgressPlusOne(null, (Manga) record);
                                             break;
                                         case R.id.markCompleted:
-                                            if (isAnime)
+                                            if (listType.equals(ListType.ANIME))
                                                 setMarkAsComplete((Anime) record, null);
                                             else
                                                 setMarkAsComplete(null, (Manga) record);
@@ -521,6 +565,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             for (T record : collection) {
                 this.add(record);
             }
+        }
+    }
+
+    // user updated record on DetailsView, so update the list if necessary
+    @Override
+    public void onRecordStatusUpdated(ListType type) {
+        // broadcast received
+        if (type != null && type.equals(listType) && isList()) {
+            clearAfterLoading = true;
+            getRecords(false, TaskJob.GETLIST, list);
         }
     }
 }

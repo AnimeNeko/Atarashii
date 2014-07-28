@@ -1,27 +1,24 @@
 package net.somethingdreadful.MAL;
 
+import net.somethingdreadful.MAL.tasks.TaskJob;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.api.MALApi;
 
-public class HomeSectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public HomeSectionsPagerAdapter(FragmentManager fm) {
+    public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int i) {
-        switch (i) {
-            case 0:
-                return Home.af;
-            case 1:
-                return Home.mf;
-            default:
-                return Home.af;
-        }
+        IGF fragment = new IGF();
+        fragment.listType = i == 0 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA;
+        return fragment;
     }
 
     @Override

@@ -52,17 +52,17 @@ import java.util.Calendar;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener {
+public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener {
 
-    static IGF af;
-    static IGF mf;
+    IGF af;
+    IGF mf;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
      * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
      * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    HomeSectionsPagerAdapter mSectionsPagerAdapter;
+    SectionsPagerAdapter mSectionsPagerAdapter;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -84,6 +84,10 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
     int AutoSync = 0; //run or not to run.
+
+    boolean callbackAnimeError = false;
+    boolean callbackMangaError = false;
+    int callbackCounter = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,12 +112,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             AutoSync = savedInstanceState.getInt("AutoSync");
             myList = savedInstanceState.getBoolean("myList");
         } else {
-            setIGF();
             autosync();
         }
         setContentView(R.layout.activity_home);
         // Creates the adapter to return the Animu and Mango fragments
-        mSectionsPagerAdapter = new HomeSectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         DrawerLayout.setDrawerListener(new DemoDrawerListener());
@@ -175,15 +178,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         };
 
         NfcHelper.disableBeam(this);
-    }
-
-    public void setIGF() {
-        af = new IGF();
-        af.isAnime = true;
-        af.taskjob = TaskJob.GETLIST;
-        mf = new IGF();
-        mf.isAnime = false;
-        mf.taskjob = TaskJob.GETLIST;
     }
 
     @Override
@@ -270,11 +264,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     public void onResume() {
         super.onResume();
         checkNetworkAndDisplayCrouton();
-        registerReceiver(networkReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        if (af.detail) {
-            af.getRecords(false, TaskJob.GETLIST, af.list);
-            mf.getRecords(false, TaskJob.GETLIST, mf.list);
-        }
+        registerReceiver(networkReceiver,  new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     @SuppressLint("NewApi")
@@ -469,8 +459,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            af.resetPage();
-            mf.resetPage();
             if (!networkAvailable && position > 2) {
                 position = 1;
                 Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
@@ -588,6 +576,51 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             }
 
             return v;
+        }
+    }
+
+    @Override
+    public void onIGFReady(IGF igf) {
+        if (igf.listType.equals(MALApi.ListType.ANIME))
+            af = igf;
+        else
+            mf = igf;
+        if (igf.taskjob == null)
+            igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
+    }
+
+    @Override
+    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+        if (cancelled && !job.equals(TaskJob.FORCESYNC)) {
+            return;
+        }
+
+        callbackCounter++;
+
+        if (type.equals(MALApi.ListType.ANIME))
+            callbackAnimeError = error;
+        else
+            callbackMangaError = error;
+
+        if (callbackCounter >= 2) {
+            callbackCounter = 0;
+
+            if (job.equals(TaskJob.FORCESYNC)) {
+                NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                nm.cancel(R.id.notification_sync);
+                if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
+                    Crouton.makeText(this, R.string.crouton_error_SyncFailed, Style.ALERT).show();
+                else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
+                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
+                else // everything went well
+                    Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
+            } else {
+                if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
+                    Crouton.makeText(this, R.string.crouton_error_Records, Style.ALERT).show();
+                else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
+                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
+                // no else here, there is nothing to be shown when everything went well
+            }
         }
     }
 }

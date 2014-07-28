@@ -1,13 +1,9 @@
 package net.somethingdreadful.MAL;
 
-import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -29,46 +25,27 @@ import java.util.ArrayList;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener {
-    static IGF af;
-    static IGF mf;
-    static String query;
+public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener, IGFCallbackListener {
+    IGF af;
+    IGF mf;
+    String query;
     static boolean animeError = false;
     static boolean mangaError = false;
     static int called = 0;
     ViewPager ViewPager;
+    SectionsPagerAdapter mSectionsPagerAdapter;
     PrefManager mPrefManager;
     Context context;
     SearchView searchView;
     ActionBar actionBar;
-    ArrayList<String> tabs = new ArrayList<String>();
 
-    public static void onError(ListType type, boolean error, Activity activity, TaskJob job) {
-        called = called + 1;
-
-        if (error) {
-            if (ListType.ANIME.equals(type)) {
-                animeError = true;
-            } else {
-                mangaError = true;
-            }
-        }
-
-        if (called >= 2) {
-            called = 0;
-            if (job.equals(TaskJob.FORCESYNC))
-                Crouton.makeText(activity, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
-            if (mangaError & animeError)
-                Crouton.makeText(activity, R.string.crouton_error_nothingFound, Style.ALERT).show();
-            NotificationManager nm = (NotificationManager) activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.cancel(R.id.notification_sync);
-
-            mangaError = false;
-            animeError = false;
-        }
-    }
-
-    @Override
+    boolean callbackAnimeError = false;
+    boolean callbackMangaError = false;
+    boolean callbackAnimeResultEmpty = false;
+    boolean callbackMangaResultEmpty = false;
+    int callbackCounter = 0;
+    
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
@@ -79,31 +56,16 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        
         ViewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
+        ViewPager.setAdapter(mSectionsPagerAdapter);
         ViewPager.setOnPageChangeListener(this);
 
-        setTabs();
-
-        handleIntent(getIntent());
-    }
-
-    public void setTabs() {
-        tabs.add("Anime");
-        tabs.add("Manga");
-        if (af == null) {
-            af = new IGF();
-            af.isAnime = true;
-            af.taskjob = TaskJob.SEARCH;
-            af.setSwipeRefreshEnabled(false);
-            mf = new IGF();
-            mf.isAnime = false;
-            mf.taskjob = TaskJob.SEARCH;
-            mf.setSwipeRefreshEnabled(false);
-        }
-
-        for (String tab : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab).setTabListener(this));
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+            actionBar.addTab(actionBar.newTab()
+                .setText(mSectionsPagerAdapter.getPageTitle(i))
+                .setTabListener(this));
         }
     }
 
@@ -119,7 +81,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 
     @Override
     protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
+        setIntent(intent);
     }
 
     private void handleIntent(Intent intent) {
@@ -127,10 +89,10 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
             query = intent.getStringExtra(SearchManager.QUERY);
             if (searchView != null) {
                 searchView.setQuery(query, false);
-                af.page = 1;
-                mf.page = 1;
-                af.getRecords(true, null, 0);
-                mf.getRecords(true, null, 0);
+            }
+            if (af != null && mf != null) {
+                af.searchRecords(query);
+                mf.searchRecords(query);
             }
         }
     }
@@ -175,31 +137,52 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
-        searchView.setQuery(query, true);
+        searchView.setQuery(query, false);
         return true;
     }
 
-    public class TabsPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    protected void onResume() {
+        if (getIntent() != null)
+            handleIntent(getIntent());
+        super.onResume();
+    }
 
-        public TabsPagerAdapter(FragmentManager fm) {
-            super(fm);
+    @Override
+    public void onIGFReady(IGF igf) {
+        if (igf.listType.equals(ListType.ANIME))
+            af = igf;
+        else
+            mf = igf;
+        if (query != null) // there is already a search to do
+            igf.searchRecords(query);
+    }
+
+    @Override
+    public void onRecordsLoadingFinished(ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+        if (cancelled) {
+            return;
         }
 
-        @Override
-        public Fragment getItem(int i) {
-            switch (i) {
-                case 0:
-                    return af;
-                case 1:
-                    return mf;
-                default:
-                    return af;
-            }
+        callbackCounter++;
+
+        if (type.equals(ListType.ANIME)) {
+            callbackAnimeError = error;
+            callbackAnimeResultEmpty = resultEmpty;
+        } else {
+            callbackMangaError = error;
+            callbackMangaResultEmpty = resultEmpty;
         }
 
-        @Override
-        public int getCount() {
-            return 2;
+        if (callbackCounter >= 2) {
+            callbackCounter = 0;
+
+            if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
+                Crouton.makeText(this, R.string.crouton_error_Search, Style.ALERT).show();
+            else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
+                Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Search_Anime : R.string.crouton_error_Search_Manga, Style.ALERT).show();
+            else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
+                Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
         }
     }
 }

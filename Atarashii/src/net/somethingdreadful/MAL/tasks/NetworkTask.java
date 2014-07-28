@@ -97,21 +97,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                     break;
                 case SEARCH:
-                    if (params != null) {
-                        /* The search API returns an 404 status code if nothing is found, that is the
-                         * normal behavior and no error. So return an empty list in this case.
-                         */
-                        try {
-                            taskResult = isAnimeTask() ? mManager.getAPIObject().searchAnime(params[0], page) : mManager.getAPIObject().searchManga(params[0], page);
-                        } catch (RetrofitError re) {
-                            if (re.getResponse() != null) {
-                                if (re.getResponse().getStatus() == 404)
-                                    taskResult = new ArrayList<Anime>();
-                                else // thats really an error, throw it again for the outer catch
-                                    throw re;
-                            }
-                        }
-                    }
+                    if ( params != null )
+                        taskResult = isAnimeTask() ? mManager.getAPIObject().searchAnime(params[0], page) : mManager.getAPIObject().searchManga(params[0], page);
                     break;
                 default:
                     Log.e("MALX", String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
@@ -123,10 +110,20 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             if (taskResult == null && !job.equals(TaskJob.GETDETAILS) && !job.equals(TaskJob.GET))
                 taskResult = isAnimeTask() ? new ArrayList<Anime>() : new ArrayList<Manga>();
         } catch (RetrofitError re) {
-            if (re.getResponse() != null && re.isNetworkError())
-                Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
-            else
+            if (re.getResponse() != null) {
+                /* Search and Toplist API's are returning an 404 status code if nothing is found (nothing
+                 * found for search, invalid page number for toplists, that is the normal behavior
+                 * and no error. So return an empty list in this case.
+                 */
+                if (re.getResponse().getStatus() == 404 && (job.equals(TaskJob.SEARCH) || job.equals(TaskJob.GETJUSTADDED) ||
+                        job.equals(TaskJob.GETMOSTPOPULAR) || job.equals(TaskJob.GETTOPRATED) || job.equals(TaskJob.GETUPCOMING))) {
+                    taskResult = new ArrayList<Anime>();
+                } else {
+                    Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                }
+            } else {
                 Log.e("MALX", String.format("%s-task unknown API error on job %s", type.toString(), job.name()));
+            }
         } catch (Exception e) {
             Log.e("MALX", String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
             taskResult = null;
@@ -159,19 +156,25 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
      */
     @Override
     protected void onCancelled() {
-        if (callback != null)
-            callback.onNetworkTaskFinished(taskResult, job, type, data, true);
+        doCallback(taskResult, true);
     }
 
     @Override
     protected void onCancelled(Object result) {
-        if (callback != null)
-            callback.onNetworkTaskFinished(result, job, type, data, true);
+        doCallback(result, true);
     }
 
     @Override
     protected void onPostExecute(Object result) {
-        if (callback != null)
-            callback.onNetworkTaskFinished(result, job, type, data, cancelled);
+        doCallback(result, false);
+    }
+
+    private void doCallback(Object result, boolean cancelled) {
+        if (callback != null) {
+            if (result != null)
+                callback.onNetworkTaskFinished(taskResult, job, type, data, cancelled);
+            else
+                callback.onNetworkTaskError(job, type, data, cancelled);
+        }
     }
 }
