@@ -22,6 +22,11 @@
                 android:label="@string/permission_updateMedia"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <application
         android:name=".Theme"
@@ -64,7 +69,7 @@
 	            <data android:mimeType="application/net.somethingdreadful.mal"/>
 	        </intent-filter>
         </activity>
-		<activity
+	<activity
                 android:name=".ProfileActivity"
                 android:label="Profile">
         </activity>
@@ -83,13 +88,32 @@
 		    <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
 
+	<provider android:authorities=".account.Provider"
+                  android:name=".account.Provider"
+                  android:label="@string/preference_android_synchronisation"
+                  android:exported="false"/>
 
-        <receiver android:name="net.somethingdreadful.MAL.UpdateReceiver"
+        <receiver android:name=".UpdateReceiver"
                   android:permission="net.somethingdreadful.MAL.permissions.UPDATE_MEDIA" android:exported="true">
             <intent-filter>
                 <action android:name="net.somethingdreadful.MAL.action.UPDATE_MEDIA"/>
             </intent-filter>
         </receiver>
+	<service android:name=".account.AccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+	<service android:name=".account.SyncService" android:exported="true">
+	    <intent-filter>
+		<action android:name="android.content.SyncAdapter" />
+	    </intent-filter>
+	    <meta-data
+		android:name="android.content.SyncAdapter"
+		android:resource="@xml/syncadapter" />
+	</service>
     </application>
 
 </manifest>

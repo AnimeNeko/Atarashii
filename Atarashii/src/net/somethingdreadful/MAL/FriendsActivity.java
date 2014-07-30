@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
@@ -36,7 +37,6 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     ListViewAdapter<User> listadapter;
     GridView Gridview;
     boolean forcesync = false;
-    PrefManager prefs;
     MALManager mManager;
 
     @Override
@@ -53,9 +53,9 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
 
         listadapter = new ListViewAdapter<User>(context, recource);
         mManager = new MALManager(context);
-        prefs = new PrefManager(context);
 
-        new FriendsNetworkTask(context, forcesync, this).execute(prefs.getUser());
+        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
+
         refresh(false);
 
         Gridview.setOnItemClickListener(new OnItemClickListener() { //start the profile with your friend
@@ -71,7 +71,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     }
 
     public void refresh(Boolean crouton) {
-        if (crouton == true) {
+        if (crouton) {
             Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
         }
         Gridview.setAdapter(listadapter);
@@ -104,7 +104,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 if (MALApi.isNetworkAvailable(context)) {
                     Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
                     forcesync = true;
-                    new FriendsNetworkTask(context, forcesync, this).execute(prefs.getUser());
+                    new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
                 } else {
                     Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
                 }
@@ -133,7 +133,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             final User record;
-            record = ((User) listarray.get(position));
+            record = (listarray.get(position));
 
             try {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -147,7 +147,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 }
                 String last_online = record.getProfile().getDetails().getLastOnline();
                 //Set online or offline status
-                View Status = (View) view.findViewById(R.id.status);
+                View Status = view.findViewById(R.id.status);
                 if (last_online.contains("seconds")) {
                     Status.setBackgroundColor(Color.parseColor("#0D8500"));
                 } else if (last_online.contains("minutes") && Integer.parseInt(last_online.replace(" minutes ago", "")) < 16) {
@@ -156,7 +156,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                     Status.setBackgroundColor(Color.parseColor("#D10000"));
                 }
                 TextView since = (TextView) view.findViewById(R.id.since);
-                String friendSince = "";
+                String friendSince;
                 if (record.getFriendSince() != null)
                     friendSince = MALDateTools.formatDateString(record.getFriendSince(), context, true);
                 else

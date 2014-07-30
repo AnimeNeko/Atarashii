@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
-import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -34,16 +34,29 @@ public class MALApi {
     private MALInterface service;
     private String username;
 
-    public MALApi(Context context) {
-        PrefManager prefManager = new PrefManager(context);
-        username = prefManager.getUser();
-        setupRESTService(prefManager.getUser(), prefManager.getPass());
-    }
 
-    public MALApi(String username, String password) {
-        this.username = username;
-        setupRESTService(username, password);
+	public MALApi(Context context) {
+		username = AccountService.getAccount(context).name;
+		setupRESTService(username, AccountService.GetPassword(context));
+	}
+	
+	public MALApi(String username, String password) {
+		this.username = username;
+		setupRESTService(username, password);
     }
+	
+	private void setupRESTService(String username, String password) {
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
+		client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
+				new UsernamePasswordCredentials(username,password));
+		
+		RestAdapter restAdapter = new RestAdapter.Builder()
+			.setClient(new ApacheClient(client))
+			.setServer(API_HOST)
+			.build();
+		service = restAdapter.create(MALInterface.class);
+	}
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -55,25 +68,8 @@ public class MALApi {
         }
     }
 
-    public static ListType getListTypeByString(String name) {
-        return ListType.valueOf(name.toUpperCase());
-    }
-
     public static String getListTypeString(ListType type) {
         return type.name().toLowerCase();
-    }
-
-    private void setupRESTService(String username, String password) {
-        DefaultHttpClient client = new DefaultHttpClient();
-        HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
-        client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                new UsernamePasswordCredentials(username, password));
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new ApacheClient(client))
-                .setServer(API_HOST)
-                .build();
-        service = restAdapter.create(MALInterface.class);
     }
 
     public boolean isAuth() {

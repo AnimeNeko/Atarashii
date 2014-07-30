@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 
 import org.holoeverywhere.app.Activity;
@@ -23,8 +24,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class FirstTimeInit extends Activity {
     static EditText malUser;
     static EditText malPass;
-    static String testMalUser;
-    static String testMalPass;
+    static String MalUser;
+    static String MalPass;
     static ProgressDialog dialog;
     static Thread netThread;
     static Context context;
@@ -47,8 +48,8 @@ public class FirstTimeInit extends Activity {
 
         connectButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                testMalUser = malUser.getText().toString().trim();
-                testMalPass = malPass.getText().toString().trim();
+                MalUser = malUser.getText().toString().trim();
+                MalPass = malPass.getText().toString().trim();
                 tryConnection();
             }
         });
@@ -69,16 +70,12 @@ public class FirstTimeInit extends Activity {
                     Crouton.makeText(FirstTimeInit.this, R.string.crouton_error_VerifyProblem, Style.ALERT).show();
                 }
                 if (msg.what == 3) {
-                    dialog.dismiss();
-
-                    prefManager.setUser(testMalUser);
-                    prefManager.setPass(testMalPass);
-                    prefManager.setInit(true);
-                    prefManager.setsync_time_last(0);
+                    AccountService.addAccount(context, MalUser, MalPass);
+                    prefManager.setForceSync(true);
                     prefManager.commitChanges();
-
-                    Intent home = new Intent(getApplicationContext(), Home.class);
-                    startActivity(home);
+                    dialog.dismiss();
+                    Intent goHome = new Intent(context, Home.class);
+                    startActivity(goHome);
                     finish();
                 }
                 super.handleMessage(msg);
@@ -102,7 +99,7 @@ public class FirstTimeInit extends Activity {
     public class networkThread extends Thread {
         @Override
         public void run() {
-            boolean valid = new MALApi(testMalUser, testMalPass).isAuth();
+            boolean valid = new MALApi(MalUser, MalPass).isAuth();
             Message msg = new Message();
             if (!valid) {
                 msg.what = 2;
