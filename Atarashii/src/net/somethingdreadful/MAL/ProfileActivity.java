@@ -10,9 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -21,6 +21,7 @@ import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.app.Activity;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -30,8 +31,9 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
     MALManager mManager;
     Context context;
     PrefManager prefs;
-    LinearLayout animecard;
-    LinearLayout mangacard;
+    Card imagecard;
+    Card animecard;
+    Card mangacard;
     User record;
 
     boolean forcesync = false;
@@ -45,8 +47,14 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         context = getApplicationContext();
         mManager = new MALManager(context);
         prefs = new PrefManager(context);
-        animecard = (LinearLayout) findViewById(R.id.Anime_card);
-        mangacard = (LinearLayout) findViewById(R.id.Manga_card);
+
+        imagecard = ((Card) findViewById(R.id.name_card));
+        imagecard.setContent(R.layout.card_profile_image);
+        ((Card) findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
+        animecard = (Card) findViewById(R.id.Anime_card);
+        animecard.setContent(R.layout.card_profile_anime);
+        mangacard = (Card) findViewById(R.id.Manga_card);
+        mangacard.setContent(R.layout.card_profile_manga);
         setTitle(R.string.title_activity_profile); //set title
 
         new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
@@ -114,15 +122,15 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         if (prefs.anime_manga_zero() && record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
             animecard.setVisibility(View.GONE);
         }
-        TextView namecard = (TextView) findViewById(R.id.name_text);
-        namecard.setText(record.getName());
+        Card namecard = (Card) findViewById(R.id.name_card);
+        namecard.Header.setText(WordUtils.capitalize(record.getName()));
     }
 
     public void setcolor() {
         TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
         String name = record.getName();
         String rank = record.getProfile().getDetails().getAccessRank() != null ? record.getProfile().getDetails().getAccessRank() : "";
-        if (prefs.Textcolordisable()) {
+        if (!prefs.Textcolordisable()) {
             setColor(true);
             setColor(false);
             if (rank.contains("Administrator")) {
@@ -187,7 +195,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         }
         TextView tv25 = (TextView) findViewById(R.id.websitesmall);
         TextView tv26 = (TextView) findViewById(R.id.websitefront);
-        LinearLayout tv36 = (LinearLayout) findViewById(R.id.details_card);
+        Card tv36 = (Card) findViewById(R.id.details_card);
         if (record.getProfile().getDetails().getWebsite() != null && record.getProfile().getDetails().getWebsite().contains("http://") && record.getProfile().getDetails().getWebsite().contains(".")) { // filter fake websites
             tv25.setText(record.getProfile().getDetails().getWebsite().replace("http://", ""));
         } else {
@@ -274,13 +282,22 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
                 Crouton.makeText(this, R.string.crouton_error_UserRecord, Style.ALERT).show();
             }
         } else {
-            Picasso.with(context).load(record.getProfile().getAvatarUrl())
-                    .error(R.drawable.cover_error)
-                    .placeholder(R.drawable.cover_loading)
-                    .into((ImageView) findViewById(R.id.Image));
             card();
             Settext();
             setcolor();
+            Picasso.with(context).load(record.getProfile().getAvatarUrl())
+                    .error(R.drawable.cover_error)
+                    .placeholder(R.drawable.cover_loading)
+                    .into((ImageView) findViewById(R.id.Image), new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            imagecard.wrapWidth(true);
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
         }
     }
 

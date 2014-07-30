@@ -61,8 +61,7 @@
         </activity>
         <activity
                 android:name=".DetailView"
-                android:label="@string/title_activity_detail_view"
-				android:configChanges="orientation|screenSize">
+                android:label="@string/title_activity_detail_view">
                 <intent-filter>
 	            <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
 	            <category android:name="android.intent.category.DEFAULT"/>
