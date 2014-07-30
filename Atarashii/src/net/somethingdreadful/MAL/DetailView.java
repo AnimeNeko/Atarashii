@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -401,9 +402,37 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
     /*
      * Get the translation from strings.xml
      */
+    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+        Resources res = getResources();
+        try {
+            String[] types = res.getStringArray(resArrayId);
+            if (index < 0 || index >= types.length ) // make sure to have a valid array index
+                return res.getString(notFoundStringId);
+            else
+                return types[index];
+        } catch (Resources.NotFoundException e){
+            return res.getString(notFoundStringId);
+        }
+    }
+
+    private String getAnimeTypeString(int typeInt) {
+        return getStringFromResourceArray(R.array.mediaType_Anime, R.string.unknown, typeInt);
+    }
+
+    private String getAnimeStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_Anime, R.string.unknown, statusInt);
+    }
+
+    private String getMangaTypeString(int typeInt) {
+        return getStringFromResourceArray(R.array.mediaType_Manga, R.string.unknown, typeInt);
+    }
+
+    private String getMangaStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_Manga, R.string.unknown, statusInt);
+    }
+
     private String getUserStatusString(int statusInt) {
-        String[] types = getResources().getStringArray(R.array.mediaStatus_User);
-        return types[statusInt];
+        return getStringFromResourceArray(R.array.mediaStatus_User, R.string.unknown, statusInt);
     }
 
     /*
@@ -412,28 +441,33 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
     public void setText() {
         GenericRecord record;
         setMenu();
+        TextView status = (TextView) findViewById(R.id.cardStatusLabel);
+        TextView mediaType = (TextView) findViewById(R.id.mediaType);
+        TextView mediaStatus = (TextView) findViewById(R.id.mediaStatus);
         if (type.equals(ListType.ANIME)) {
             record = animeRecord;
 
             LinearLayout statusCard = (LinearLayout) findViewById(R.id.status);
             if (animeRecord.getWatchedStatus() != null) {
-                TextView status = (TextView) findViewById(R.id.cardStatusLabel);
                 status.setText(WordUtils.capitalize(getUserStatusString(animeRecord.getWatchedStatusInt())));
                 statusCard.setVisibility(View.VISIBLE);
             } else {
                 statusCard.setVisibility(View.GONE);
             }
+            mediaType.setText(getAnimeTypeString(animeRecord.getTypeInt()));
+            mediaStatus.setText(getAnimeStatusString(animeRecord.getStatusInt()));
         } else {
             record = mangaRecord;
 
             LinearLayout statusCard = (LinearLayout) findViewById(R.id.status);
             if (mangaRecord.getReadStatus() != null) {
-                TextView status = (TextView) findViewById(R.id.cardStatusLabel);
-                status.setText(WordUtils.capitalize(mangaRecord.getReadStatus()));
+                status.setText(WordUtils.capitalize(getUserStatusString(mangaRecord.getReadStatusInt())));
                 statusCard.setVisibility(View.VISIBLE);
             } else {
                 statusCard.setVisibility(View.GONE);
             }
+            mediaType.setText(getMangaTypeString(mangaRecord.getTypeInt()));
+            mediaStatus.setText(getMangaStatusString(mangaRecord.getStatusInt()));
         }
 
         TextView synopsis = (TextView) findViewById(R.id.SynopsisContent);
@@ -449,12 +483,6 @@ public class DetailView extends Activity implements OnClickListener, OnRatingBar
             synopsis.setMovementMethod(LinkMovementMethod.getInstance());
             synopsis.setText(Html.fromHtml(record.getSynopsis()));
         }
-
-        TextView mediaType = (TextView) findViewById(R.id.mediaType);
-        mediaType.setText(record.getType());
-
-        TextView mediaStatus = (TextView) findViewById(R.id.mediaStatus);
-        mediaStatus.setText(record.getStatus());
 
         LinearLayout progress = (LinearLayout) findViewById(R.id.progress);
         if (isAdded()) {
