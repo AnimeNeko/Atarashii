@@ -470,7 +470,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     @Override
     public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
         // check if it is already showing
-        if ( getSupportFragmentManager().findFragmentByTag("fragment_updatePassword") == null ) {
+        if (getSupportFragmentManager().findFragmentByTag("fragment_updatePassword") == null) {
             FragmentManager fm = getSupportFragmentManager();
             UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
             passwordFragment.show(fm, "fragment_updatePassword");

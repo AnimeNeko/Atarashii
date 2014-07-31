@@ -58,7 +58,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         }
 
         // only update if everything went well!
-        if ( !error ) {
+        if (!error) {
             if (!job.equals(TaskJob.UPDATE)) {
                 if (ListType.ANIME.equals(type)) {
                     manager.deleteAnimeFromDatabase((Anime) gr[0]);

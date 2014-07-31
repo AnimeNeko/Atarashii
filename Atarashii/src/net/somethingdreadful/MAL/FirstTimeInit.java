@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;

@@ -105,7 +105,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                     break;
                 case SEARCH:
-                    if ( params != null )
+                    if (params != null)
                         taskResult = isAnimeTask() ? mManager.getAPIObject().searchAnime(params[0], page) : mManager.getAPIObject().searchManga(params[0], page);
                     break;
                 default:

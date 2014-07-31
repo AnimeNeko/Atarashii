@@ -35,28 +35,28 @@ public class MALApi {
     private String username;
 
 
-	public MALApi(Context context) {
-		username = AccountService.getAccount(context).name;
-		setupRESTService(username, AccountService.GetPassword(context));
-	}
-	
-	public MALApi(String username, String password) {
-		this.username = username;
-		setupRESTService(username, password);
+    public MALApi(Context context) {
+        username = AccountService.getAccount(context).name;
+        setupRESTService(username, AccountService.GetPassword(context));
     }
-	
-	private void setupRESTService(String username, String password) {
-		DefaultHttpClient client = new DefaultHttpClient();
-		HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
-		client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-				new UsernamePasswordCredentials(username,password));
-		
-		RestAdapter restAdapter = new RestAdapter.Builder()
-			.setClient(new ApacheClient(client))
-			.setServer(API_HOST)
-			.build();
-		service = restAdapter.create(MALInterface.class);
-	}
+
+    public MALApi(String username, String password) {
+        this.username = username;
+        setupRESTService(username, password);
+    }
+
+    private void setupRESTService(String username, String password) {
+        DefaultHttpClient client = new DefaultHttpClient();
+        HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
+        client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
+                new UsernamePasswordCredentials(username, password));
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setClient(new ApacheClient(client))
+                .setServer(API_HOST)
+                .build();
+        service = restAdapter.create(MALInterface.class);
+    }
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

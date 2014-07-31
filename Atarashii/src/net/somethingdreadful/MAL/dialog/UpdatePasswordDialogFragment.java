@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
@@ -85,8 +84,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
         if (result) {
             AccountService.updatePassword(getActivity(), getPassword());
             dismiss();
-        }
-        else {
+        } else {
             passwordEdit.setText("");
             passwordWrongText.setVisibility(View.VISIBLE);
             toggleLoadingIndicator(false);
