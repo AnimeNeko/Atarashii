@@ -14,21 +14,25 @@ import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
 
+import retrofit.RetrofitError;
+
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
-    MALManager manager;
     Context context;
     ListType type;
     TaskJob job;
+    APIAuthenticationErrorListener authErrorCallback;
 
-    public WriteDetailTask(ListType type, TaskJob job, Context context) {
+    public WriteDetailTask(ListType type, TaskJob job, Context context, APIAuthenticationErrorListener authErrorCallback) {
         this.context = context;
         this.job = job;
         this.type = type;
+        this.authErrorCallback = authErrorCallback;
     }
 
     @Override
     protected Boolean doInBackground(GenericRecord... gr) {
-        manager = new MALManager(context);
+        boolean error = false;
+        MALManager manager = new MALManager(context);
 
         try {
             if (MALApi.isNetworkAvailable(context)) {
@@ -39,21 +43,34 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 }
                 gr[0].setDirty(false);
             }
+        } catch (RetrofitError re) {
+            if (re.getResponse() != null) {
+                Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                if (re.getResponse().getStatus() == 401) {
+                    if (authErrorCallback != null)
+                        authErrorCallback.onAPIAuthenticationError(type, job);
+                }
+            }
+            error = true;
         } catch (Exception e) {
             Log.e("MALX", "error on response WriteDetailTask: " + e.getMessage());
+            error = true;
         }
 
-        if (!job.equals(TaskJob.UPDATE)) {
-            if (ListType.ANIME.equals(type)) {
-                manager.deleteAnimeFromDatabase((Anime) gr[0]);
+        // only update if everything went well!
+        if ( !error ) {
+            if (!job.equals(TaskJob.UPDATE)) {
+                if (ListType.ANIME.equals(type)) {
+                    manager.deleteAnimeFromDatabase((Anime) gr[0]);
+                } else {
+                    manager.deleteMangaFromDatabase((Manga) gr[0]);
+                }
             } else {
-                manager.deleteMangaFromDatabase((Manga) gr[0]);
-            }
-        } else {
-            if (type.equals(ListType.ANIME)) {
-                manager.saveAnimeToDatabase((Anime) gr[0], false);
-            } else {
-                manager.saveMangaToDatabase((Manga) gr[0], false);
+                if (type.equals(ListType.ANIME)) {
+                    manager.saveAnimeToDatabase((Anime) gr[0], false);
+                } else {
+                    manager.saveMangaToDatabase((Manga) gr[0], false);
+                }
             }
         }
 

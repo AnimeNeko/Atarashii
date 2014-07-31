@@ -74,7 +74,7 @@ public class MALApi {
 
     public boolean isAuth() {
         try {
-            Response response = service.verifyAuthentication();
+            Response response = verifyAuthentication();
             return response.getStatus() == 200;
         } catch (RetrofitError e) {
             if (e.getResponse() != null)
@@ -83,6 +83,10 @@ public class MALApi {
                 Log.e("MALX", "caught retrofit error: " + e.getMessage());
             return false;
         }
+    }
+
+    public Response verifyAuthentication() {
+        return service.verifyAuthentication();
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {

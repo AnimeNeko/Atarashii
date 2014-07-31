@@ -37,6 +37,8 @@ import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
+import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -53,7 +55,7 @@ import java.util.Locale;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements Serializable, OnRatingBarChangeListener, NetworkTaskCallbackListener, Card.onCardClickListener {
+public class DetailView extends Activity implements Serializable, OnRatingBarChangeListener, NetworkTaskCallbackListener, Card.onCardClickListener, APIAuthenticationErrorListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -235,15 +237,15 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         try {
             if (type.equals(ListType.ANIME)) {
                 if (animeRecord.getDirty() && !animeRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.UPDATE, context).execute(animeRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, context, this).execute(animeRecord);
                 } else if (animeRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, context).execute(animeRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, context, this).execute(animeRecord);
                 }
             } else if (type.equals(ListType.MANGA)) {
                 if (mangaRecord.getDirty() && !mangaRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.UPDATE, context).execute(mangaRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, context, this).execute(mangaRecord);
                 } else if (mangaRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, context).execute(mangaRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, context, this).execute(mangaRecord);
                 }
             }
         } catch (Exception e) {
@@ -268,7 +270,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     public void getRecord() {
         Bundle data = new Bundle();
         data.putInt("recordID", recordID);
-        new NetworkTask(TaskJob.GET, type, context, data, this).execute();
+        new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
     }
 
     /*
@@ -494,7 +496,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             if (MALApi.isNetworkAvailable(context)) {
                 Bundle data = new Bundle();
                 data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
-                new NetworkTask(TaskJob.GETDETAILS, type, context, data, this).execute();
+                new NetworkTask(TaskJob.GETDETAILS, type, context, data, this, this).execute();
             } else {
                 synopsis.setText(getString(R.string.crouton_error_noConnectivity));
             }
@@ -685,5 +687,12 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 showMangaDialog();
             }
         }
+    }
+
+    @Override
+    public void onAPIAuthenticationError(ListType type, TaskJob job) {
+        FragmentManager fm = getSupportFragmentManager();
+        UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
+        passwordFragment.show(fm, "fragment_updatePassword");
     }
 }

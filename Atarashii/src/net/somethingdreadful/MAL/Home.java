@@ -40,7 +40,9 @@ import net.somethingdreadful.MAL.NavigationItems.NavItem;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
+import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import org.holoeverywhere.app.Activity;
@@ -50,7 +52,7 @@ import java.util.ArrayList;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener {
+public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
 
     IGF af;
     IGF mf;
@@ -462,6 +464,16 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                     Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
                 // no else here, there is nothing to be shown when everything went well
             }
+        }
+    }
+
+    @Override
+    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
+        // check if it is already showing
+        if ( getSupportFragmentManager().findFragmentByTag("fragment_updatePassword") == null ) {
+            FragmentManager fm = getSupportFragmentManager();
+            UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
+            passwordFragment.show(fm, "fragment_updatePassword");
         }
     }
 

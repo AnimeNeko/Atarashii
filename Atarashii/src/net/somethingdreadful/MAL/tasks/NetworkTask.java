@@ -20,10 +20,11 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     Context context;
     Bundle data;
     NetworkTaskCallbackListener callback;
+    APIAuthenticationErrorListener authErrorCallback;
     Object taskResult;
     boolean cancelled = false;
 
-    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, Bundle data, NetworkTaskCallbackListener callback) {
+    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, Bundle data, NetworkTaskCallbackListener callback, APIAuthenticationErrorListener authErrorCallback) {
         if (job == null || type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
@@ -31,6 +32,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.context = context;
         this.data = data;
         this.callback = callback;
+        this.authErrorCallback = authErrorCallback;
     }
 
     private boolean isAnimeTask() {
@@ -61,6 +63,12 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         taskResult = isAnimeTask() ? mManager.getAnimeListFromDB() : mManager.getMangaListFromDB();
                     break;
                 case FORCESYNC:
+                    /* FORCESYNC may not require authentication if there are no dirty records to update, so a forced sync would even
+                     * work if the password has changed, which would be strange for the user. So do an Auth-Check before syncing
+                     *
+                     * this will throw an RetrofitError-Exception if the credentials are wrong
+                     */
+                    mManager.getAPIObject().verifyAuthentication();
                     if (isAnimeTask())
                         mManager.cleanDirtyAnimeRecords();
                     else
@@ -120,6 +128,11 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     taskResult = new ArrayList<Anime>();
                 } else {
                     Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                    // Authentication failed, fire callback!
+                    if (re.getResponse().getStatus() == 401) {
+                        if (authErrorCallback != null)
+                            authErrorCallback.onAPIAuthenticationError(type, job);
+                    }
                 }
             } else {
                 Log.e("MALX", String.format("%s-task unknown API error on job %s", type.toString(), job.name()));

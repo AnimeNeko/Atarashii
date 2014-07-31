@@ -34,6 +34,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -181,12 +182,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
             if (anime.getWatchedEpisodes() == anime.getEpisodes())
                 anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts))
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
         refresh();
     }
@@ -201,12 +202,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 anime.setWatchedEpisodes(anime.getEpisodes());
             anime.setDirty(true);
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             manga.setDirty(true);
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
         refresh();
     }
@@ -231,6 +232,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         if (swipeRefresh != null) {
             swipeRefresh.setEnabled(enabled);
         }
+    }
+
+    private APIAuthenticationErrorListener getAuthErrorCallback() {
+        if (APIAuthenticationErrorListener.class.isInstance(getActivity()))
+            return (APIAuthenticationErrorListener) getActivity();
+        else
+            return null;
     }
 
     /*
@@ -271,7 +279,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             data.putInt("page", page);
             if (networkTask != null)
                 networkTask.cancelTask();
-            networkTask = new NetworkTask(taskjob, listType, context, data, this);
+            networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             networkTask.execute(isList() ? MALManager.listSortFromInt(list, listType) : query);
         }catch (Exception e){
             Log.e("MALX", "error getting records: " + e.getMessage());
@@ -401,6 +409,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
         doRecordsLoadedCallback(type, job, true, true, false);
+        toggleSwipeRefreshAnimation(false);
+        toggleLoadingIndicator(false);
     }
 
     private void doRecordsLoadedCallback(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
