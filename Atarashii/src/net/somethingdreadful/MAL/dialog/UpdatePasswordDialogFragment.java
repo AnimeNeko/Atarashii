@@ -9,6 +9,7 @@ import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
@@ -20,7 +21,6 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
     EditText passwordEdit;
     TextView passwordWrongText;
     ViewFlipper viewFlipper;
-    PrefManager prefManager;
     AlertDialog dialog;
 
     private View createView() {
@@ -47,7 +47,6 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        prefManager = new PrefManager(getSupportActivity());
         AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity(), getTheme());
         builder.setTitle(R.string.dialog_title_update_password);
 
@@ -74,7 +73,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
                 if (!getPassword().equals("")) {
                     passwordWrongText.setVisibility(View.GONE);
                     toggleLoadingIndicator(true);
-                    new AuthenticationCheckTask(UpdatePasswordDialogFragment.this).execute(prefManager.getUser(), getPassword());
+                    new AuthenticationCheckTask(UpdatePasswordDialogFragment.this).execute(AccountService.getAccount(getActivity()).name, getPassword());
                 }
             }
         });
@@ -84,8 +83,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
     @Override
     public void onAuthenticationCheckFinished(boolean result) {
         if (result) {
-            prefManager.setPass(getPassword());
-            prefManager.commitChanges();
+            AccountService.updatePassword(getActivity(), getPassword());
             dismiss();
         }
         else {

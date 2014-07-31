@@ -44,6 +44,11 @@ public class AccountService extends Service {
     	final Account account = new Account(username, ".account.SyncAdapter.account");
     	accountManager.addAccountExplicitly(account, password, null);
     }
+
+    public static void updatePassword(Context context, String newPassword) {
+        AccountManager accountManager = AccountManager.get(context);
+        accountManager.setPassword(getAccount(context), newPassword);
+    }
  
     @Override
     public void onCreate() {
