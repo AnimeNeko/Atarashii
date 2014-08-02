@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/loginIcon"
+            android:layout_centerInParent="true"
             android:padding="8dp"
             android:text="@string/form_hint_info"
             android:textAppearance="?android:attr/textAppearanceLarge"
