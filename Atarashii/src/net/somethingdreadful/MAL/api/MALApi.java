@@ -35,28 +35,28 @@ public class MALApi {
     private String username;
 
 
-	public MALApi(Context context) {
-		username = AccountService.getAccount(context).name;
-		setupRESTService(username, AccountService.GetPassword(context));
-	}
-	
-	public MALApi(String username, String password) {
-		this.username = username;
-		setupRESTService(username, password);
+    public MALApi(Context context) {
+        username = AccountService.getAccount(context).name;
+        setupRESTService(username, AccountService.GetPassword(context));
     }
-	
-	private void setupRESTService(String username, String password) {
-		DefaultHttpClient client = new DefaultHttpClient();
-		HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
-		client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-				new UsernamePasswordCredentials(username,password));
-		
-		RestAdapter restAdapter = new RestAdapter.Builder()
-			.setClient(new ApacheClient(client))
-			.setServer(API_HOST)
-			.build();
-		service = restAdapter.create(MALInterface.class);
-	}
+
+    public MALApi(String username, String password) {
+        this.username = username;
+        setupRESTService(username, password);
+    }
+
+    private void setupRESTService(String username, String password) {
+        DefaultHttpClient client = new DefaultHttpClient();
+        HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
+        client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
+                new UsernamePasswordCredentials(username, password));
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setClient(new ApacheClient(client))
+                .setServer(API_HOST)
+                .build();
+        service = restAdapter.create(MALInterface.class);
+    }
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -74,7 +74,7 @@ public class MALApi {
 
     public boolean isAuth() {
         try {
-            Response response = service.verifyAuthentication();
+            Response response = verifyAuthentication();
             return response.getStatus() == 200;
         } catch (RetrofitError e) {
             if (e.getResponse() != null)
@@ -83,6 +83,10 @@ public class MALApi {
                 Log.e("MALX", "caught retrofit error: " + e.getMessage());
             return false;
         }
+    }
+
+    public Response verifyAuthentication() {
+        return service.verifyAuthentication();
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {

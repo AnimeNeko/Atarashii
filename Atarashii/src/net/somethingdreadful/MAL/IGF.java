@@ -34,6 +34,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -141,7 +142,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
         swipeRefresh.setEnabled(swipeRefreshEnabled);
 
-        if ( gl.size() > 0 ) // there are already records, fragment has been rotated
+        if (gl.size() > 0) // there are already records, fragment has been rotated
             refresh();
 
         NfcHelper.disableBeam(activity);
@@ -156,7 +157,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         super.onAttach(activity);
         this.activity = activity;
         if (IGFCallbackListener.class.isInstance(activity))
-            callback = (IGFCallbackListener)activity;
+            callback = (IGFCallbackListener) activity;
         recordStatusReceiver = new RecordStatusUpdatedReceiver(this);
         IntentFilter filter = new IntentFilter(recordStatusReceiver.RECV_IDENT);
         LocalBroadcastManager.getInstance(activity).registerReceiver(recordStatusReceiver, filter);
@@ -181,12 +182,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
             if (anime.getWatchedEpisodes() == anime.getEpisodes())
                 anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts))
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
         refresh();
     }
@@ -201,12 +202,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 anime.setWatchedEpisodes(anime.getEpisodes());
             anime.setDirty(true);
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             manga.setDirty(true);
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
         refresh();
     }
@@ -233,6 +234,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
+    private APIAuthenticationErrorListener getAuthErrorCallback() {
+        if (APIAuthenticationErrorListener.class.isInstance(getActivity()))
+            return (APIAuthenticationErrorListener) getActivity();
+        else
+            return null;
+    }
+
     /*
      * get the anime/manga lists.
 	 * (if clear is true the whole list will be cleared and loaded)
@@ -257,9 +265,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
          * - clear is unset
          */
         toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !taskjob.equals(TaskJob.SEARCH) && !clear);
-		loading = true;
-		try{
-            if (clear){
+        loading = true;
+        try {
+            if (clear) {
                 resetPage();
                 gl.clear();
                 if (ga == null) {
@@ -271,9 +279,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             data.putInt("page", page);
             if (networkTask != null)
                 networkTask.cancelTask();
-            networkTask = new NetworkTask(taskjob, listType, context, data, this);
+            networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             networkTask.execute(isList() ? MALManager.listSortFromInt(list, listType) : query);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("MALX", "error getting records: " + e.getMessage());
         }
     }
@@ -291,7 +299,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     /*
      * reset the page number of anime/manga lists.
      */
-    public void resetPage(){
+    public void resetPage() {
         page = 1;
         if (Gridview != null) {
             Gridview.requestFocusFromTouch();
@@ -353,13 +361,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     private boolean jobReturnsPagedResults(TaskJob job) {
         return !isList() && !job.equals(TaskJob.SEARCH);
     }
+
     /*
      * set the list with the new page/list.
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if ( !cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
+        if (!cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
             ArrayList resultList;
             try {
                 if (type == ListType.ANIME) {
@@ -401,6 +410,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
         doRecordsLoadedCallback(type, job, true, true, false);
+        toggleSwipeRefreshAnimation(false);
+        toggleLoadingIndicator(false);
     }
 
     private void doRecordsLoadedCallback(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
@@ -431,9 +442,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         // don't do anything if there is nothing in the list
         if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
             return;
-        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages){
+        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages) {
             loading = true;
-            if (jobReturnsPagedResults(taskjob)){
+            if (jobReturnsPagedResults(taskjob)) {
                 page++;
                 getRecords(false, null, list);
             }
