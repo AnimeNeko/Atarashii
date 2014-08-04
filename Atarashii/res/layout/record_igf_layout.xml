@@ -13,8 +13,6 @@
             android:id="@+id/gridview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@color/bg_dark"
-            android:columnWidth="150dp"
             android:fadingEdge="none"
             android:fastScrollEnabled="true"
             android:gravity="center"
