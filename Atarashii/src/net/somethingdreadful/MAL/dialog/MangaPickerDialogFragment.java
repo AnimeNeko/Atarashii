@@ -17,11 +17,9 @@ public class MangaPickerDialogFragment extends DialogFragment {
     NumberPicker volumePicker;
     int chaptersTotal;
     int chaptersRead;
-    int chapterPickerValue;
 
     int volumesTotal;
     int volumesRead;
-    int volumePickerValue;
 
     private View makeNumberPicker() {
         View view = getLayoutInflater().inflate(R.layout.dialog_manga_picker);
@@ -41,10 +39,11 @@ public class MangaPickerDialogFragment extends DialogFragment {
         } else {
             chapterPicker.setMaxValue(9999);
         }
+
         if (volumesTotal != 0) {
             volumePicker.setMaxValue(volumesTotal);
         } else {
-            chapterPicker.setMaxValue(9999);
+            volumePicker.setMaxValue(9999);
         }
 
         chapterPicker.setValue(chaptersRead);
