@@ -277,8 +277,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
-            if (networkTask != null)
-                networkTask.cancelTask();
+            cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             networkTask.execute(isList() ? MALManager.listSortFromInt(list, listType) : query);
         } catch (Exception e) {
@@ -360,6 +359,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 
     private boolean jobReturnsPagedResults(TaskJob job) {
         return !isList() && !job.equals(TaskJob.SEARCH);
+    }
+
+    public void cancelNetworkTask() {
+        if (networkTask != null)
+            networkTask.cancelTask();
     }
 
     /*

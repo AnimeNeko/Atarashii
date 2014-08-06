@@ -351,7 +351,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @SuppressLint("NewApi")
     public void onLogoutConfirmed() {
-        context.deleteDatabase(MALSqlHelper.getHelper(context).getDatabaseName());
+        if (af != null)
+            af.cancelNetworkTask();
+        if (mf != null)
+            mf.cancelNetworkTask();
+        MALSqlHelper.getHelper(context).deleteDatabase(context);
         AccountService.deleteAccount(context);
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();

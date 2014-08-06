@@ -20,8 +20,8 @@ import java.util.Locale;
 
 public class DatabaseManager {
 
-    static MALSqlHelper malSqlHelper;
-    static SQLiteDatabase dbRead;
+    MALSqlHelper malSqlHelper;
+    SQLiteDatabase dbRead;
     public final String[] ANIMECOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
             "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
     private final String[] MANGACOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
@@ -41,11 +41,11 @@ public class DatabaseManager {
         }
     }
 
-    public synchronized static SQLiteDatabase getDBWrite() {
+    public synchronized SQLiteDatabase getDBWrite() {
         return malSqlHelper.getWritableDatabase();
     }
 
-    public static SQLiteDatabase getDBRead() {
+    public SQLiteDatabase getDBRead() {
         if (dbRead == null) {
             dbRead = malSqlHelper.getReadableDatabase();
         }

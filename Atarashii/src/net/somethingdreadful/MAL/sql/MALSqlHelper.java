@@ -112,6 +112,11 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
     }
 
+    public void deleteDatabase(Context context) {
+        instance = null;
+        context.deleteDatabase(DATABASE_NAME);
+    }
+
     @Override
     public String getDatabaseName() {
         return DATABASE_NAME;
