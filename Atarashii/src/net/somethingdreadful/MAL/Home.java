@@ -168,8 +168,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                     checkNetworkAndDisplayCrouton();
                 }
             };
-
-            autosync();
         } else {
             Intent firstRunInit = new Intent(this, FirstTimeInit.class);
             startActivity(firstRunInit);
@@ -267,14 +265,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             MenuItemCompat.collapseActionView(menu.findItem(R.id.action_search));
         instanceExists = true;
         unregisterReceiver(networkReceiver);
-    }
-
-    public void autosync() {
-        if (mPrefManager.ForceSync()) {
-            mPrefManager.setForceSync(false);
-            mPrefManager.commitChanges();
-            synctask(true, true);
-        }
     }
 
     public void synctask(boolean clear, boolean notify) {
@@ -426,8 +416,18 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             af = igf;
         else
             mf = igf;
-        if (igf.taskjob == null)
-            igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
+        // do forced sync after FirstInit
+        if (mPrefManager.ForceSync()) {
+            if (af != null && mf != null) {
+                mPrefManager.setForceSync(false);
+                mPrefManager.commitChanges();
+                synctask(true, true);
+            }
+        } else {
+            if (igf.taskjob == null) {
+                igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
+            }
+        }
     }
 
     @Override
