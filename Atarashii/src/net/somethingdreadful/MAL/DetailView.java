@@ -62,7 +62,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     public Manga mangaRecord;
     int recordID;
     Context context;
-    MALManager manager;
     PrefManager pref;
     Menu menu;
 
@@ -83,7 +82,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
         type = (ListType) getIntent().getSerializableExtra("net.somethingdreadful.MAL.recordType");
         context = getApplicationContext();
-        manager = new MALManager(context);
         pref = new PrefManager(context);
 
         setCard();

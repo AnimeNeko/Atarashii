@@ -37,7 +37,6 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     ListViewAdapter<User> listadapter;
     GridView Gridview;
     boolean forcesync = false;
-    MALManager mManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
         int recource = R.layout.record_friends_gridview;
 
         listadapter = new ListViewAdapter<User>(context, recource);
-        mManager = new MALManager(context);
 
         new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
 

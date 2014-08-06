@@ -69,7 +69,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     ViewPager mViewPager;
     Context context;
     PrefManager mPrefManager;
-    MALManager mManager;
     Menu menu;
     BroadcastReceiver networkReceiver;
     DrawerLayout DrawerLayout;
@@ -94,7 +93,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             mPrefManager = new PrefManager(context);
-            mManager = new MALManager(context);
             actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeButtonEnabled(true);
