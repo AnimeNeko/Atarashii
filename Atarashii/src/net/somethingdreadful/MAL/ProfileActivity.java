@@ -28,7 +28,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ProfileActivity extends Activity implements UserNetworkTaskFinishedListener {
-    MALManager mManager;
     Context context;
     PrefManager prefs;
     Card imagecard;
@@ -45,7 +44,6 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
-        mManager = new MALManager(context);
         prefs = new PrefManager(context);
 
         imagecard = ((Card) findViewById(R.id.name_card));

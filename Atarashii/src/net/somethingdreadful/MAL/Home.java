@@ -69,7 +69,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     ViewPager mViewPager;
     Context context;
     PrefManager mPrefManager;
-    MALManager mManager;
     Menu menu;
     BroadcastReceiver networkReceiver;
     DrawerLayout DrawerLayout;
@@ -94,7 +93,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             mPrefManager = new PrefManager(context);
-            mManager = new MALManager(context);
             actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeButtonEnabled(true);
@@ -341,7 +339,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @SuppressLint("NewApi")
     public void onLogoutConfirmed() {
-        context.deleteDatabase(MALSqlHelper.getHelper(context).getDatabaseName());
+        if (af != null)
+            af.cancelNetworkTask();
+        if (mf != null)
+            mf.cancelNetworkTask();
+        MALSqlHelper.getHelper(context).deleteDatabase(context);
         AccountService.deleteAccount(context);
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
