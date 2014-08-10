@@ -84,15 +84,20 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         context = getApplicationContext();
         pref = new PrefManager(context);
 
-        setCard();
-        if (savedInstanceState == null) {
-            getRecord();
+        // received Android Beam?
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            processIntent(getIntent());
         } else {
-            animeRecord = (Anime) savedInstanceState.getSerializable("anime");
-            mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
-            setText();
+            setCard();
+            if (savedInstanceState == null) {
+                getRecord();
+            } else {
+                animeRecord = (Anime) savedInstanceState.getSerializable("anime");
+                mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
+                setText();
+            }
+            setClickListener();
         }
-        setClickListener();
     }
 
     @Override
