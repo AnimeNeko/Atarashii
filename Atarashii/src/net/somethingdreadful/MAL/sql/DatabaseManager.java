@@ -12,11 +12,7 @@ import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.User;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class DatabaseManager {
 
@@ -36,9 +32,8 @@ public class DatabaseManager {
             "manga_plan_to_read", "manga_total_entries"};
 
     public DatabaseManager(Context context) {
-        if (malSqlHelper == null) {
+        if (malSqlHelper == null)
             malSqlHelper = MALSqlHelper.getHelper(context);
-        }
     }
 
     public synchronized SQLiteDatabase getDBWrite() {
@@ -46,21 +41,9 @@ public class DatabaseManager {
     }
 
     public SQLiteDatabase getDBRead() {
-        if (dbRead == null) {
+        if (dbRead == null)
             dbRead = malSqlHelper.getReadableDatabase();
-        }
         return dbRead;
-    }
-
-    public static Date parseSQLDateString(String date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        try {
-            Date result = sdf.parse(date);
-            return result;
-        } catch (ParseException e) {
-            Log.e("MALX", "Parsing datetime failed", e);
-            return null;
-        }
     }
 
     public void saveAnimeList(ArrayList<Anime> list) {
@@ -94,10 +77,9 @@ public class DatabaseManager {
         cv.put("dirty", anime.getDirty());
         if (anime.getLastUpdate() != null)
             cv.put("lastUpdate", anime.getLastUpdate().getTime());
-
-        if (!ignoreSynopsis) {
+        if (!ignoreSynopsis)
             cv.put("synopsis", anime.getSynopsis());
-        }
+
         getDBWrite().replace(MALSqlHelper.TABLE_ANIME, null, cv);
     }
 
@@ -112,10 +94,6 @@ public class DatabaseManager {
 
     public boolean deleteAnime(int id) {
         return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
-    }
-
-    public ArrayList<Anime> getAnimeList() {
-        return getAnimeList("watching");
     }
 
     public ArrayList<Anime> getAnimeList(String listType) {
@@ -146,11 +124,6 @@ public class DatabaseManager {
         }
 
         return result;
-    }
-
-    // replacement for clearDeletedItems, with imo better describing name
-    public int clearOldAnimeRecords(Date time) {
-        return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "lastUpdate < ?", new String[]{time.toString()});
     }
 
     public void saveMangaList(ArrayList<Manga> list) {
@@ -207,10 +180,6 @@ public class DatabaseManager {
         return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
     }
 
-    public ArrayList<Manga> getMangaList() {
-        return getMangaList("reading");
-    }
-
     public ArrayList<Manga> getMangaList(String listType) {
         if (listType == "")
             return getMangaList(null, null);
@@ -239,11 +208,6 @@ public class DatabaseManager {
         }
 
         return result;
-    }
-
-    // replacement for clearDeletedItems, with imo better describing name
-    public int clearOldMangaRecords(Date time) {
-        return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "lastUpdate < ?", new String[]{time.toString()});
     }
 
     public void saveFriendList(ArrayList<User> list) {

@@ -15,17 +15,10 @@ import net.somethingdreadful.MAL.sql.DatabaseManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 import retrofit.RetrofitError;
 
 public class MALManager {
-
-    final static String TYPE_ANIME = "anime";
-    final static String TYPE_MANGA = "manga";
-    final static String TYPE_FRIENDS = "friends";
-    final static String TYPE_PROFILE = "profile";
-
     MALApi malApi;
     DatabaseManager dbMan;
 
@@ -35,56 +28,39 @@ public class MALManager {
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
-        String r = "";
+        String r;
 
-        if (type.equals(MALApi.ListType.ANIME)) {
-            switch (i) {
-                case 0:
-                    r = "";
-                    break;
-                case 1:
+        switch (i) {
+            case 0:
+                r = "";
+                break;
+            case 1:
+                if (type.equals(MALApi.ListType.ANIME))
                     r = Anime.STATUS_WATCHING;
-                    break;
-                case 2:
-                    r = Anime.STATUS_COMPLETED;
-                    break;
-                case 3:
-                    r = Anime.STATUS_ONHOLD;
-                    break;
-                case 4:
-                    r = Anime.STATUS_DROPPED;
-                    break;
-                case 5:
+                else
+                    r = Manga.STATUS_READING;
+                break;
+            case 2:
+                r = Anime.STATUS_COMPLETED;
+                break;
+            case 3:
+                r = Anime.STATUS_ONHOLD;
+                break;
+            case 4:
+                r = Anime.STATUS_DROPPED;
+                break;
+            case 5:
+                if (type.equals(MALApi.ListType.ANIME))
                     r = Anime.STATUS_PLANTOWATCH;
-                    break;
-                default:
-                    r = Anime.STATUS_WATCHING;
-                    break;
-            }
-        } else {
-            switch (i) {
-                case 0:
-                    r = "";
-                    break;
-                case 1:
-                    r = Manga.STATUS_READING;
-                    break;
-                case 2:
-                    r = Manga.STATUS_COMPLETED;
-                    break;
-                case 3:
-                    r = Manga.STATUS_ONHOLD;
-                    break;
-                case 4:
-                    r = Manga.STATUS_DROPPED;
-                    break;
-                case 5:
+                else
                     r = Manga.STATUS_PLANTOREAD;
-                    break;
-                default:
+                break;
+            default:
+                if (type.equals(MALApi.ListType.ANIME))
+                    r = Anime.STATUS_WATCHING;
+                else
                     r = Manga.STATUS_READING;
-                    break;
-            }
+                break;
         }
 
         return r;
@@ -96,8 +72,7 @@ public class MALManager {
 
     public Anime getAnimeRecordFromMAL(int id) {
         try {
-            Anime anime = malApi.getAnime(id);
-            return anime;
+            return malApi.getAnime(id);
         } catch (RetrofitError e) {
             Log.e("MALX", "error downloading anime details: " + e.getMessage());
         }
@@ -106,8 +81,7 @@ public class MALManager {
 
     public Manga getMangaRecordFromMAL(int id) {
         try {
-            Manga manga = malApi.getManga(id);
-            return manga;
+            return malApi.getManga(id);
         } catch (RetrofitError e) {
             Log.e("MALX", "error downloading manga details: " + e.getMessage());
         }
@@ -134,16 +108,8 @@ public class MALManager {
         return result;
     }
 
-    public ArrayList<Anime> getAnimeListFromDB() {
-        return dbMan.getAnimeList();
-    }
-
     public ArrayList<Anime> getAnimeListFromDB(String ListType) {
         return dbMan.getAnimeList(ListType);
-    }
-
-    public ArrayList<Manga> getMangaListFromDB() {
-        return dbMan.getMangaList();
     }
 
     public ArrayList<Manga> getMangaListFromDB(String ListType) {
@@ -172,7 +138,6 @@ public class MALManager {
                 Collections.sort(result, new FriendlistComparator());
             }
         } catch (Exception e) {
-            result = null;
             Log.e("MALX", "error downloading friendlist: " + e.getMessage());
         }
         return result;
@@ -246,14 +211,6 @@ public class MALManager {
         return dbMan.deleteManga(manga.getId());
     }
 
-    /* only difference between old addItemToMAL and writeDetailsToMAL was that
-     * addItemToMal sets score to 0... so do that and pass to writeAnimeDetailsToMAL
-     */
-    public boolean addAnimeToMAL(Anime anime) {
-        anime.setScore(0);
-        return writeAnimeDetailsToMAL(anime);
-    }
-
     public boolean writeAnimeDetailsToMAL(Anime anime) {
         boolean result;
         if (anime.getDeleteFlag())
@@ -263,14 +220,6 @@ public class MALManager {
         return result;
     }
 
-    /* only difference between old addItemToMAL and writeDetailsToMAL was that
-     * addItemToMal sets score to 0... so do that and pass to writeAnimeDetailsToMAL
-     */
-    public boolean addMangaToMAL(Manga manga) {
-        manga.setScore(0);
-        return writeMangaDetailsToMAL(manga);
-    }
-
     public boolean writeMangaDetailsToMAL(Manga manga) {
         boolean result;
         if (manga.getDeleteFlag())
@@ -278,28 +227,6 @@ public class MALManager {
         else
             result = malApi.addOrUpdateManga(manga);
         return result;
-    }
-
-    public void clearDeletedItems(String type, Date currentTime) {
-        Log.v("MALX", "Removing deleted items of type " + type + " older than " + currentTime.toString());
-        int recordsRemoved = 0;
-        if (getListTypeFromString(type) == MALApi.ListType.ANIME)
-            recordsRemoved = dbMan.clearOldAnimeRecords(currentTime);
-        else
-            recordsRemoved = dbMan.clearOldMangaRecords(currentTime);
-
-        Log.v("MALX", "Removed " + recordsRemoved + " " + type + " items");
-    }
-
-    private MALApi.ListType getListTypeFromString(String type) {
-        if (type.equals(TYPE_ANIME)) {
-
-            return MALApi.ListType.ANIME;
-        } else if (type.equals(TYPE_MANGA)) {
-            return MALApi.ListType.MANGA;
-        } else {
-            return null;
-        }
     }
 
     public boolean cleanDirtyAnimeRecords() {
@@ -353,6 +280,5 @@ public class MALManager {
         public int compare(User u1, User u2) {
             return u1.getName().compareTo(u2.getName());
         }
-
     }
 }
