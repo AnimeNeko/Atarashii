@@ -514,17 +514,26 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             TextView progresslabel1Current = (TextView) findViewById(R.id.progresslabel1Current);
             progresslabel1Current.setText(Integer.toString(animeRecord.getWatchedEpisodes()));
             TextView progresslabel1Total = (TextView) findViewById(R.id.progresslabel1Total);
-            progresslabel1Total.setText("/" + Integer.toString(animeRecord.getEpisodes()));
+            if (animeRecord.getEpisodes() == 0)
+                progresslabel1Total.setText("/?");
+            else
+                progresslabel1Total.setText("/" + Integer.toString(animeRecord.getEpisodes()));
         } else {
             TextView progresslabel1Current = (TextView) findViewById(R.id.progresslabel1Current);
             progresslabel1Current.setText(Integer.toString(mangaRecord.getVolumesRead()));
             TextView progresslabel1Total = (TextView) findViewById(R.id.progresslabel1Total);
-            progresslabel1Total.setText("/" + Integer.toString(mangaRecord.getVolumes()));
+            if (mangaRecord.getVolumes() == 0)
+                progresslabel1Total.setText("/?");
+            else
+                progresslabel1Total.setText("/" + Integer.toString(mangaRecord.getVolumes()));
 
             TextView progresslabel2Current = (TextView) findViewById(R.id.progresslabel2Current);
             progresslabel2Current.setText(Integer.toString(mangaRecord.getChaptersRead()));
             TextView progresslabel2Total = (TextView) findViewById(R.id.progresslabel2Total);
-            progresslabel2Total.setText("/" + Integer.toString(mangaRecord.getChapters()));
+            if (mangaRecord.getChapters() == 0)
+                progresslabel2Total.setText("/?");
+            else
+                progresslabel2Total.setText("/" + Integer.toString(mangaRecord.getChapters()));
         }
 
         TextView MALScoreLabel = (TextView) findViewById(R.id.MALScoreLabel);
