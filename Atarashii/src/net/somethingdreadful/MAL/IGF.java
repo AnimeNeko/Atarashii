@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -67,6 +68,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     int page = 1;
     int list = -1;
     int resource;
+    int height = 0;
     boolean useSecondaryAmounts;
     boolean loading = true;
     boolean clearAfterLoading = false;
@@ -121,6 +123,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
 
         context = getActivity();
         activity = getActivity();
+        setColumns();
         pref = new PrefManager(context);
         useSecondaryAmounts = pref.getUseSecondaryAmountsEnabled();
         if (pref.getTraditionalListEnabled()) {
@@ -168,6 +171,25 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         if (recordStatusReceiver != null)
             LocalBroadcastManager.getInstance(activity).unregisterReceiver(recordStatusReceiver);
         super.onDetach();
+    }
+
+    /*
+     * set the height of the gridview items & the number of columns
+     */
+    @SuppressLint("InlinedApi")
+    public void setColumns() {
+        float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
+        int screenWidth;
+        try {
+            screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
+        } catch (NoSuchFieldError e) {
+            screenWidth = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+        }
+        float minWidth = 225 * density;
+        int columns = (int)  Math.ceil(screenWidth / minWidth);
+        int width = screenWidth / columns;
+        height = (int) (width / 0.7);
+        Gridview.setNumColumns(columns);
     }
 
     private boolean isOnHomeActivity() {
@@ -509,7 +531,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 viewHolder.bar = (ImageView) view.findViewById(R.id.textOverlayPanel);
                 viewHolder.actionButton = (ImageView) view.findViewById(R.id.popUpButton);
                 viewHolder.flavourText = (TextView) view.findViewById(R.id.stringWatched);
+
                 view.setTag(viewHolder);
+                view.getLayoutParams().height = height;
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
