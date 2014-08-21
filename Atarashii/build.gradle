@@ -50,7 +50,7 @@ repositories {
     }
     // see: https://github.com/Prototik/HoloEverywhere/wiki/Import-in-IDE#maven
     maven {
-        url 'http://192.241.191.41/repo'
+        url 'http://holoeverywhere.cf/repo'
     }
 }
 
