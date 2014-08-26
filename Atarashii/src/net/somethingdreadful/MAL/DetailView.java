@@ -167,7 +167,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Manage the progress card
      */
     public void setCard() {
-        if (type.equals(ListType.ANIME)) {
+        if (type != null && type.equals(ListType.ANIME)) {
             TextView progresslabel1 = (TextView) findViewById(R.id.progresslabel1);
             progresslabel1.setText(getString(R.string.card_content_episodes));
             TextView progresslabel2 = (TextView) findViewById(R.id.progresslabel2);
@@ -266,9 +266,11 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Get the records (Anime/Manga)
      */
     public void getRecord() {
-        Bundle data = new Bundle();
-        data.putInt("recordID", recordID);
-        new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+        if (type != null) {
+            Bundle data = new Bundle();
+            data.putInt("recordID", recordID);
+            new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+        }
     }
 
     /*
@@ -460,6 +462,8 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Place all the text in the right textview
      */
     public void setText() {
+        if (type == null || (animeRecord == null && mangaRecord == null)) // not enough data to do anything
+            return;
         GenericRecord record;
         setMenu();
         TextView status = (TextView) findViewById(R.id.cardStatusLabel);
