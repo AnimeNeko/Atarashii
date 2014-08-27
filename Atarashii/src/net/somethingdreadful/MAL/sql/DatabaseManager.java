@@ -67,7 +67,11 @@ public class DatabaseManager {
         if (!ignoreSynopsis)
             cv.put("synopsis", anime.getSynopsis());
 
-        getDBWrite().replace(MALSqlHelper.TABLE_ANIME, null, cv);
+        // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, "recordID = ?", new String[]{Integer.toString(anime.getId())});
+        if (updateResult == 0) {
+            getDBWrite().insert(MALSqlHelper.TABLE_ANIME, null, cv);
+        }
     }
 
     public Anime getAnime(int id) {
@@ -151,7 +155,11 @@ public class DatabaseManager {
             cv.put("synopsis", manga.getSynopsis());
         }
 
-        getDBWrite().replace(MALSqlHelper.TABLE_MANGA, null, cv);
+        // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_MANGA, cv, "recordID = ?", new String[]{Integer.toString(manga.getId())});
+        if (updateResult == 0) {
+            getDBWrite().insert(MALSqlHelper.TABLE_MANGA, null, cv);
+        }
     }
 
     public Manga getManga(int id) {
