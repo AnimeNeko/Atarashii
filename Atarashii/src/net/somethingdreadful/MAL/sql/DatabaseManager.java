@@ -48,7 +48,7 @@ public class DatabaseManager {
         }
     }
 
-    public void saveAnime(Anime anime, boolean ignoreSynopsis) {
+    public void saveAnime(Anime anime, boolean IGF) {
         ContentValues cv = new ContentValues();
 
         cv.put("recordID", anime.getId());
@@ -57,15 +57,16 @@ public class DatabaseManager {
         cv.put("imageUrl", anime.getImageUrl());
         cv.put("recordStatus", anime.getStatus());
         cv.put("myStatus", anime.getWatchedStatus());
-        cv.put("memberScore", anime.getMembersScore());
         cv.put("myScore", anime.getScore());
         cv.put("episodesWatched", anime.getWatchedEpisodes());
         cv.put("episodesTotal", anime.getEpisodes());
         cv.put("dirty", anime.getDirty());
         if (anime.getLastUpdate() != null)
             cv.put("lastUpdate", anime.getLastUpdate().getTime());
-        if (!ignoreSynopsis)
+        if (!IGF) {
             cv.put("synopsis", anime.getSynopsis());
+            cv.put("memberScore", anime.getMembersScore());
+        }
 
         // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
         int updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, "recordID = ?", new String[]{Integer.toString(anime.getId())});
