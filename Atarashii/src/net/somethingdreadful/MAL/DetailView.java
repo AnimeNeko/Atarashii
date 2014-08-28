@@ -410,10 +410,15 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         try {
-            if (type == ListType.ANIME)
+            if (type == ListType.ANIME) {
                 animeRecord = (Anime) result;
-            else
+                if (isAdded())
+                    animeRecord.setDirty(true);
+            } else {
                 mangaRecord = (Manga) result;
+                if (isAdded())
+                    mangaRecord.setDirty(true);
+            }
             setText();
         } catch (ClassCastException e) {
             Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
