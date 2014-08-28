@@ -68,7 +68,7 @@ public class MALManager {
         return malApi;
     }
 
-    public Anime getAnimeRecordFromMAL(int id) {
+    public Anime getAnimeRecord(int id) {
         try {
             return malApi.getAnime(id);
         } catch (RetrofitError e) {
@@ -77,7 +77,7 @@ public class MALManager {
         return null;
     }
 
-    public Manga getMangaRecordFromMAL(int id) {
+    public Manga getMangaRecord(int id) {
         try {
             return malApi.getManga(id);
         } catch (RetrofitError e) {
@@ -176,20 +176,6 @@ public class MALManager {
         }
 
         return manga;
-    }
-
-    public Anime getAnimeRecord(int recordID) {
-        Anime result = dbMan.getAnime(recordID);
-        if (result == null)
-            result = getAnimeRecordFromMAL(recordID);
-        return result;
-    }
-
-    public Manga getMangaRecord(int recordID) {
-        Manga result = dbMan.getManga(recordID);
-        if (result == null)
-            result = getMangaRecordFromMAL(recordID);
-        return result;
     }
 
     public void saveAnimeToDatabase(Anime anime, boolean ignoreSynopsis) {
