@@ -91,7 +91,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
 
         setCard();
         if (savedInstanceState == null) {
-            getRecord();
+            setText();
         } else {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
