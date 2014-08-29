@@ -2,10 +2,11 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class Profile {
+public class Profile implements Serializable {
     private int id;
     private String avatar_url;
     private ProfileDetails details;
