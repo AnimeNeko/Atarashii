@@ -23,7 +23,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
 
     @Override
     protected ArrayList<User> doInBackground(String... params) {
-        ArrayList<User> result = null;
+        ArrayList<User> result;
         if (params == null) {
             Log.e("MALX", "FriendsNetworkTask: no username to fetch friendlist");
             return null;
@@ -33,12 +33,13 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
             if (forcesync && MALApi.isNetworkAvailable(context)) {
                 result = mManager.downloadAndStoreFriendList(params[0]);
             } else {
-                result = mManager.getFriendListFromDB();
+                result = mManager.getFriendListFromDB(params[0]);
                 if ((result == null || result.isEmpty()) && MALApi.isNetworkAvailable(context))
                     result = mManager.downloadAndStoreFriendList(params[0]);
             }
 
-            /* returning null means there was an error, so return an empty ArrayList if there was no error
+            /*
+             * returning null means there was an error, so return an empty ArrayList if there was no error
              * but an empty result
              */
             if (result == null)

@@ -205,99 +205,85 @@ public class DatabaseManager {
         return result;
     }
 
-    public void saveFriendList(ArrayList<User> list) {
-        if (list != null && list.size() > 0) {
-            try {
-                getDBWrite().beginTransaction();
-                for (User friend : list)
-                    saveFriend(friend);
-                getDBWrite().setTransactionSuccessful();
-            } catch (Exception e) {
-                Log.e("MALX", "error saving friendlist to db: " + e.getMessage());
-            } finally {
-                getDBWrite().endTransaction();
-            }
-        }
-    }
-
-    public void saveFriend(User friend) {
-        ContentValues cv = new ContentValues();
-
-        cv.put("username", friend.getName());
-        cv.put("avatar_url", friend.getProfile().getAvatarUrl());
-        if (friend.getProfile().getDetails().getLastOnline() != null) {
-            String lastOnline = MALDateTools.parseMALDateToISO8601String(friend.getProfile().getDetails().getLastOnline());
-            cv.put("last_online", lastOnline.equals("") ? friend.getProfile().getDetails().getLastOnline() : lastOnline);
-        } else
-            cv.putNull("last_online");
-        getDBWrite().replace(MALSqlHelper.TABLE_FRIENDS, null, cv);
-    }
-
-    public ArrayList<User> getFriendList() {
-        ArrayList<User> result = null;
-        Cursor cursor;
-        try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, null, null, null, null, null, "username COLLATE NOCASE");
-            if (cursor.moveToFirst()) {
-                result = new ArrayList<User>();
-                do {
-                    result.add(User.fromCursor(cursor, true));
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        } catch (SQLException e) {
-            Log.e("MALX", "DatabaseManager.getFriendList exception: " + e.getMessage());
-        }
-
-        return result;
-    }
-
-    public void saveUser(User user) {
+    public void saveUser(User user, Boolean profile) {
         ContentValues cv = new ContentValues();
 
         cv.put("username", user.getName());
-        cv.put("avatar_url", user.getProfile().getAvatarUrl());
-        if (user.getProfile().getDetails().getBirthday() != null) {
-            String birthday = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getBirthday());
-            cv.put("birthday", birthday.equals("") ? user.getProfile().getDetails().getBirthday() : birthday);
-        } else
-            cv.putNull("birthday");
-        cv.put("location", user.getProfile().getDetails().getLocation());
-        cv.put("website", user.getProfile().getDetails().getWebsite());
-        cv.put("comments", user.getProfile().getDetails().getComments());
-        cv.put("forum_posts", user.getProfile().getDetails().getForumPosts());
+        if (user.getProfile().getAvatarUrl().equals("http://cdn.myanimelist.net/images/questionmark_50.gif"))
+            cv.put("avatar_url", "http://cdn.myanimelist.net/images/na.gif");
+        else
+            cv.put("avatar_url", user.getProfile().getAvatarUrl());
         if (user.getProfile().getDetails().getLastOnline() != null) {
             String lastOnline = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getLastOnline());
             cv.put("last_online", lastOnline.equals("") ? user.getProfile().getDetails().getLastOnline() : lastOnline);
         } else
             cv.putNull("last_online");
-        cv.put("gender", user.getProfile().getDetails().getGender());
-        if (user.getProfile().getDetails().getJoinDate() != null) {
-            String joindate = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getJoinDate());
-            cv.put("join_date", joindate.equals("") ? user.getProfile().getDetails().getJoinDate() : joindate);
-        } else
-            cv.putNull("join_date");
-        cv.put("access_rank", user.getProfile().getDetails().getAccessRank());
-        cv.put("anime_list_views", user.getProfile().getDetails().getAnimeListViews());
-        cv.put("manga_list_views", user.getProfile().getDetails().getMangaListViews());
 
-        cv.put("anime_time_days", user.getProfile().getAnimeStats().getTimeDays());
-        cv.put("anime_watching", user.getProfile().getAnimeStats().getWatching());
-        cv.put("anime_completed", user.getProfile().getAnimeStats().getCompleted());
-        cv.put("anime_on_hold", user.getProfile().getAnimeStats().getOnHold());
-        cv.put("anime_dropped", user.getProfile().getAnimeStats().getDropped());
-        cv.put("anime_plan_to_watch", user.getProfile().getAnimeStats().getPlanToWatch());
-        cv.put("anime_total_entries", user.getProfile().getAnimeStats().getTotalEntries());
+        if (profile) {
+            if (user.getProfile().getDetails().getBirthday() != null) {
+                String birthday = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getBirthday());
+                cv.put("birthday", birthday.equals("") ? user.getProfile().getDetails().getBirthday() : birthday);
+            } else
+                cv.putNull("birthday");
+            cv.put("location", user.getProfile().getDetails().getLocation());
+            cv.put("website", user.getProfile().getDetails().getWebsite());
+            cv.put("comments", user.getProfile().getDetails().getComments());
+            cv.put("forum_posts", user.getProfile().getDetails().getForumPosts());
+            cv.put("gender", user.getProfile().getDetails().getGender());
+            if (user.getProfile().getDetails().getJoinDate() != null) {
+                String joindate = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getJoinDate());
+                cv.put("join_date", joindate.equals("") ? user.getProfile().getDetails().getJoinDate() : joindate);
+            } else
+                cv.putNull("join_date");
+            cv.put("access_rank", user.getProfile().getDetails().getAccessRank());
+            cv.put("anime_list_views", user.getProfile().getDetails().getAnimeListViews());
+            cv.put("manga_list_views", user.getProfile().getDetails().getMangaListViews());
 
-        cv.put("manga_time_days", user.getProfile().getMangaStats().getTimeDays());
-        cv.put("manga_reading", user.getProfile().getMangaStats().getReading());
-        cv.put("manga_completed", user.getProfile().getMangaStats().getCompleted());
-        cv.put("manga_on_hold", user.getProfile().getMangaStats().getOnHold());
-        cv.put("manga_dropped", user.getProfile().getMangaStats().getDropped());
-        cv.put("manga_plan_to_read", user.getProfile().getMangaStats().getPlanToRead());
-        cv.put("manga_total_entries", user.getProfile().getMangaStats().getTotalEntries());
+            cv.put("anime_time_days", user.getProfile().getAnimeStats().getTimeDays());
+            cv.put("anime_watching", user.getProfile().getAnimeStats().getWatching());
+            cv.put("anime_completed", user.getProfile().getAnimeStats().getCompleted());
+            cv.put("anime_on_hold", user.getProfile().getAnimeStats().getOnHold());
+            cv.put("anime_dropped", user.getProfile().getAnimeStats().getDropped());
+            cv.put("anime_plan_to_watch", user.getProfile().getAnimeStats().getPlanToWatch());
+            cv.put("anime_total_entries", user.getProfile().getAnimeStats().getTotalEntries());
 
-        getDBWrite().replace(MALSqlHelper.TABLE_PROFILE, null, cv);
+            cv.put("manga_time_days", user.getProfile().getMangaStats().getTimeDays());
+            cv.put("manga_reading", user.getProfile().getMangaStats().getReading());
+            cv.put("manga_completed", user.getProfile().getMangaStats().getCompleted());
+            cv.put("manga_on_hold", user.getProfile().getMangaStats().getOnHold());
+            cv.put("manga_dropped", user.getProfile().getMangaStats().getDropped());
+            cv.put("manga_plan_to_read", user.getProfile().getMangaStats().getPlanToRead());
+            cv.put("manga_total_entries", user.getProfile().getMangaStats().getTotalEntries());
+        }
+
+        // don't use replace it alters the autoincrement _id field!
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_PROFILE, cv, "username = ?", new String[]{user.getName()});
+        if (updateResult > 0) {// updated row
+            user.setId(getUserId(user.getName()));
+        } else {
+            Long insertResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
+            user.setId(insertResult.intValue());
+        }
+    }
+
+    public void saveUserFriends(Integer userId, ArrayList<User> friends) {
+        if (userId == null || friends == null) {
+            return;
+        }
+        SQLiteDatabase db = getDBWrite();
+        db.beginTransaction();
+        try {
+            db.delete(MALSqlHelper.TABLE_FRIENDLIST, "profile_id = ?", new String[]{userId.toString()});
+            for (User friend : friends) {
+                ContentValues cv = new ContentValues();
+                cv.put("profile_id", userId);
+                cv.put("friend_id", friend.getId());
+                db.insert(MALSqlHelper.TABLE_FRIENDLIST, null, cv);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public User getProfile(String name) {
@@ -313,4 +299,45 @@ public class DatabaseManager {
         }
         return result;
     }
+
+    public ArrayList<User> getFriendList(String username) {
+        ArrayList<User> friendlist = new ArrayList<User>();
+        Cursor cursor = getDBRead().rawQuery("SELECT p1.* FROM " + MALSqlHelper.TABLE_PROFILE + " AS p1" +                  // for result rows
+                " INNER JOIN " + MALSqlHelper.TABLE_PROFILE + " AS p2" +                                                    // for getting user id to given name
+                " INNER JOIN " + MALSqlHelper.TABLE_FRIENDLIST + " AS fl ON fl.profile_id = p2." + MALSqlHelper.COLUMN_ID + // for user<>friend relation
+                " WHERE p2.username = ? AND p1." + MALSqlHelper.COLUMN_ID + " = fl.friend_id ORDER BY p1.username COLLATE NOCASE", new String[]{username});
+        if (cursor.moveToFirst()) {
+            do {
+                friendlist.add(User.fromCursor(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return friendlist;
+    }
+
+    private Integer getUserId(String username) {
+        Integer result = null;
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_PROFILE, new String[]{MALSqlHelper.COLUMN_ID}, "username = ?", new String[]{username}, null, null, null);
+        if (cursor.moveToFirst()) {
+            result = cursor.getInt(0);
+        }
+        cursor.close();
+        return result;
+    }
+
+    public void saveFriendList(ArrayList<User> friendlist, String username) {
+        for (User friend : friendlist) {
+            saveUser(friend, false);
+        }
+
+        Integer userId = getUserId(username);
+        if (userId == null) { // the users profile itself is not saved, so add it as simple dummy (will get all data once the user clicks on his profile
+            ContentValues cv = new ContentValues();
+            cv.put("username", username);
+            Long userAddResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
+            userId = userAddResult.intValue();
+        }
+        saveUserFriends(userId, friendlist);
+    }
 }
+

@@ -128,31 +128,33 @@ public class MALManager {
     }
 
     public ArrayList<User> downloadAndStoreFriendList(String user) {
-        ArrayList<User> result = null;
+        ArrayList<User> result;
         try {
+            Log.d("MALX", "downloading friendlist of " + user);
             result = malApi.getFriends(user);
             if (result.size() > 0) {
-                dbMan.saveFriendList(result);
+                dbMan.saveFriendList(result, user);
             }
         } catch (Exception e) {
             Log.e("MALX", "error downloading friendlist: " + e.getMessage());
         }
-        return result;
+        return dbMan.getFriendList(user);
     }
 
-    public ArrayList<User> getFriendListFromDB() {
-        return dbMan.getFriendList();
+    public ArrayList<User> getFriendListFromDB(String username) {
+        return dbMan.getFriendList(username);
     }
 
     public User downloadAndStoreProfile(String name) {
         User result = null;
         try {
+            Log.d("MALX", "downloading profile of " + name);
             Profile profile = malApi.getProfile(name);
             if (profile != null) {
                 result = new User();
                 result.setName(name);
                 result.setProfile(profile);
-                dbMan.saveUser(result);
+                dbMan.saveUser(result, true);
             }
         } catch (Exception e) {
             Log.e("MALX", e.getMessage());

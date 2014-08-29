@@ -13,21 +13,14 @@ public class Profile {
     private ProfileAnimeStats anime_stats;
     private ProfileMangaStats manga_stats;
 
-    public static Profile fromCursor(Cursor c) {
-        return fromCursor(c, false);
-    }
-
     public static Profile fromCursor(Cursor c, boolean friendDetails) {
         Profile result = new Profile();
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
         result.setAvatarUrl(c.getString(columnNames.indexOf("avatar_url")));
-        // friends profile is less detailed
-        result.setDetails(ProfileDetails.fromCursor(c, friendDetails));
-        if (!friendDetails) {
-            result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
-            result.setMangaStats(ProfileMangaStats.fromCursor(c));
-        }
+        result.setDetails(ProfileDetails.fromCursor(c));
+        result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
+        result.setMangaStats(ProfileMangaStats.fromCursor(c));
         return result;
     }
 

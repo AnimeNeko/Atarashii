@@ -56,14 +56,6 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + TABLE_MANGA
             + " ADD COLUMN lastUpdate integer NOT NULL DEFAULT 407570400";
     public static final String TABLE_FRIENDS = "friends";
-    private static final String CREATE_FRIENDS_TABLE = "create table "
-            + TABLE_FRIENDS + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
-            + "username varchar UNIQUE, "
-            + "avatar_url varchar, "
-            + "last_online varchar, "
-            + "friend_since varchar "
-            + ");";
     public static final String TABLE_PROFILE = "profile";
     private static final String CREATE_PROFILE_TABLE = "create table "
             + TABLE_PROFILE + "("
@@ -96,8 +88,16 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "manga_plan_to_read integer, "
             + "manga_total_entries integer "
             + ");";
+    public static final String TABLE_FRIENDLIST = "friendlist";
+    private static final String CREATE_FRIENDLIST_TABLE = "CREATE TABLE "
+            + TABLE_FRIENDLIST + "("
+            + "profile_id INTEGER NOT NULL, "
+            + "friend_id INTEGER NOT NULL, "
+            + "PRIMARY KEY(profile_id, friend_id)"
+            + ");";
+
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -126,8 +126,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_ANIME_TABLE);
         db.execSQL(CREATE_MANGA_TABLE);
-        db.execSQL(CREATE_FRIENDS_TABLE);
         db.execSQL(CREATE_PROFILE_TABLE);
+        db.execSQL(CREATE_FRIENDLIST_TABLE);
     }
 
     @Override
@@ -185,8 +185,21 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("insert into " + TABLE_MANGA + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
 
-            db.execSQL(CREATE_FRIENDS_TABLE);
             db.execSQL(CREATE_PROFILE_TABLE);
+        }
+
+        if (oldVersion < 7) {
+            /*
+             * We are dropping the existing friendlist and made a relation table
+             * This way we can pass the data simply to the friendlist
+             *
+             * The friend_since date has been removed due inconsistency
+             */
+            db.execSQL("drop table if exists " + TABLE_FRIENDS);
+            db.execSQL("drop table " + TABLE_PROFILE);
+
+            db.execSQL(CREATE_PROFILE_TABLE);
+            db.execSQL(CREATE_FRIENDLIST_TABLE);
         }
     }
 }
