@@ -4,8 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical|center_horizontal"
-    android:background="@drawable/card_neutral"
     android:minHeight="82dp"
+    android:background="@drawable/highlite_friendlist"
     android:orientation="horizontal">
 
     <ImageView
