@@ -55,7 +55,12 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         mangacard.setContent(R.layout.card_profile_manga);
         setTitle(R.string.title_activity_profile); //set title
 
-        new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
+        if (getIntent().getExtras().containsKey("user")) {
+            record = (User) getIntent().getExtras().get("user");
+            refresh(forcesync);
+        }else {
+            new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
+        }
 
         TextView tv25 = (TextView) findViewById(R.id.websitesmall);
         tv25.setOnClickListener(new View.OnClickListener() {
