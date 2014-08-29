@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +32,13 @@ import java.util.Collection;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends Activity implements FriendsNetworkTaskFinishedListener {
+public class FriendsActivity extends Activity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
 
     Context context;
     ArrayList<User> listarray = new ArrayList<User>();
     ListViewAdapter<User> listadapter;
     GridView Gridview;
+    SwipeRefreshLayout swipeRefresh;
     boolean forcesync = false;
 
     @Override
@@ -65,6 +67,11 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 startActivity(profile);
             }
         });
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
 
         NfcHelper.disableBeam(this);
     }
@@ -100,13 +107,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 finish();
                 break;
             case R.id.forceSync:
-                if (MALApi.isNetworkAvailable(context)) {
-                    Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
-                    forcesync = true;
-                    new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
-                } else {
-                    Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
-                }
+                sync(false);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -115,11 +116,33 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     @Override
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {
+            swipeRefresh.setEnabled(true);
             listarray = result;
+            if (listarray.size() == 0)
+                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             refresh(forcesync); // show crouton only if sync was forced
         } else {
             Crouton.makeText(this, R.string.crouton_error_Friends, Style.ALERT).show();
         }
+        swipeRefresh.setRefreshing(false);
+    }
+
+    public void sync(Boolean swipe) {
+        swipeRefresh.setEnabled(false);
+        if (MALApi.isNetworkAvailable(context)) {
+            if (!swipe)
+                Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
+            forcesync = true;
+            new FriendsNetworkTask(context, true, this).execute(AccountService.getAccount(context).name);
+        } else {
+            swipeRefresh.setRefreshing(false);
+            Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        sync(true);
     }
 
     static class ViewHolder {

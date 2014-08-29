@@ -5,19 +5,26 @@
     android:background="#E6E6E6"
     android:orientation="horizontal">
 
-    <GridView
-        android:id="@+id/listview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clipToPadding="false"
-        android:columnWidth="300dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:padding="16dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    </GridView>
+        <GridView
+            android:id="@+id/listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clipToPadding="false"
+            android:columnWidth="300dp"
+            android:fadingEdge="none"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:numColumns="auto_fit"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
