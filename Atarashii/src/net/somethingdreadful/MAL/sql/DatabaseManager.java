@@ -235,11 +235,6 @@ public class DatabaseManager {
             cv.put("last_online", lastOnline.equals("") ? friend.getProfile().getDetails().getLastOnline() : lastOnline);
         } else
             cv.putNull("last_online");
-        if (friend.getFriendSince() != null) {
-            String friendSince = MALDateTools.parseMALDateToISO8601String(friend.getFriendSince());
-            cv.put("friend_since", friendSince.equals("") ? friend.getFriendSince() : friendSince);
-        } else
-            cv.putNull("friend_since");
         getDBWrite().replace(MALSqlHelper.TABLE_FRIENDS, null, cv);
     }
 

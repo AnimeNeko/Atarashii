@@ -153,13 +153,6 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 } else {
                     Status.setBackgroundColor(Color.parseColor("#D10000"));
                 }
-                TextView since = (TextView) view.findViewById(R.id.since);
-                String friendSince;
-                if (record.getFriendSince() != null)
-                    friendSince = MALDateTools.formatDateString(record.getFriendSince(), context, true);
-                else
-                    friendSince = getString(R.string.unknown);
-                since.setText(friendSince.equals("") ? getString(R.string.unknown) : friendSince);
 
                 last_online = MALDateTools.formatDateString(last_online, context, true);
                 TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
