@@ -15,21 +15,8 @@ import net.somethingdreadful.MAL.api.response.User;
 import java.util.ArrayList;
 
 public class DatabaseManager {
-
     MALSqlHelper malSqlHelper;
     SQLiteDatabase dbRead;
-    public final String[] ANIMECOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
-            "episodesWatched", "episodesTotal", "memberScore", "myScore", "synopsis", "imageUrl", "dirty", "lastUpdate"};
-    private final String[] MANGACOLUMNS = {"recordID", "recordName", "recordType", "recordStatus", "myStatus",
-            "volumesRead", "chaptersRead", "volumesTotal", "chaptersTotal", "memberScore", "myScore", "synopsis",
-            "imageUrl", "dirty", "lastUpdate"};
-    private final String[] FRIENDSCOLUMNS = {"username", "avatar_url", "last_online", "friend_since"};
-    private final String[] PROFILECOLUMNS = {"username", "avatar_url", "birthday", "location", "website", "comments", "forum_posts",
-            "last_online", "gender", "join_date", "access_rank", "anime_list_views", "manga_list_views",
-            "anime_time_days", "anime_watching", "anime_completed", "anime_on_hold", "anime_dropped",  //anime
-            "anime_plan_to_watch", "anime_total_entries",
-            "manga_time_days", "manga_reading", "manga_completed", "manga_on_hold", "manga_dropped",   //manga
-            "manga_plan_to_read", "manga_total_entries"};
 
     public DatabaseManager(Context context) {
         if (malSqlHelper == null)
@@ -80,12 +67,16 @@ public class DatabaseManager {
         if (!ignoreSynopsis)
             cv.put("synopsis", anime.getSynopsis());
 
-        getDBWrite().replace(MALSqlHelper.TABLE_ANIME, null, cv);
+        // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, "recordID = ?", new String[]{Integer.toString(anime.getId())});
+        if (updateResult == 0) {
+            getDBWrite().insert(MALSqlHelper.TABLE_ANIME, null, cv);
+        }
     }
 
     public Anime getAnime(int id) {
         Anime result = null;
-        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, null, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
         if (cursor.moveToFirst())
             result = Anime.fromCursor(cursor);
         cursor.close();
@@ -111,7 +102,7 @@ public class DatabaseManager {
         ArrayList<Anime> result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, ANIMECOLUMNS, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
+            cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, null, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Anime>();
                 do {
@@ -164,12 +155,16 @@ public class DatabaseManager {
             cv.put("synopsis", manga.getSynopsis());
         }
 
-        getDBWrite().replace(MALSqlHelper.TABLE_MANGA, null, cv);
+        // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_MANGA, cv, "recordID = ?", new String[]{Integer.toString(manga.getId())});
+        if (updateResult == 0) {
+            getDBWrite().insert(MALSqlHelper.TABLE_MANGA, null, cv);
+        }
     }
 
     public Manga getManga(int id) {
         Manga result = null;
-        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, null, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
         if (cursor.moveToFirst())
             result = Manga.fromCursor(cursor);
         cursor.close();
@@ -195,7 +190,7 @@ public class DatabaseManager {
         ArrayList<Manga> result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, MANGACOLUMNS, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
+            cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, null, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Manga>();
                 do {
@@ -242,7 +237,7 @@ public class DatabaseManager {
         ArrayList<User> result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, FRIENDSCOLUMNS, null, null, null, null, "username COLLATE NOCASE");
+            cursor = getDBRead().query(MALSqlHelper.TABLE_FRIENDS, null, null, null, null, null, "username COLLATE NOCASE");
             if (cursor.moveToFirst()) {
                 result = new ArrayList<User>();
                 do {
@@ -309,7 +304,7 @@ public class DatabaseManager {
         User result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_PROFILE, PROFILECOLUMNS, "username = ?", new String[]{name}, null, null, null);
+            cursor = getDBRead().query(MALSqlHelper.TABLE_PROFILE, null, "username = ?", new String[]{name}, null, null, null);
             if (cursor.moveToFirst())
                 result = User.fromCursor(cursor);
             cursor.close();
