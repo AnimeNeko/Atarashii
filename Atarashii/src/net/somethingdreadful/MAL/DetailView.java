@@ -567,6 +567,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 .load(record.getImageUrl())
                 .error(R.drawable.cover_error)
                 .placeholder(R.drawable.cover_loading)
+                .centerInside()
                 .fit()
                 .into((ImageView) findViewById(R.id.Image), new Callback() {
                     @Override
