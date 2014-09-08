@@ -13,8 +13,6 @@ import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import retrofit.RetrofitError;
 
@@ -135,7 +133,6 @@ public class MALManager {
             result = malApi.getFriends(user);
             if (result.size() > 0) {
                 dbMan.saveFriendList(result);
-                Collections.sort(result, new FriendlistComparator());
             }
         } catch (Exception e) {
             Log.e("MALX", "error downloading friendlist: " + e.getMessage());
@@ -273,12 +270,5 @@ public class MALManager {
             Log.v("MALX", "Cleaned dirty manga records, status: " + totalSuccess);
         }
         return totalSuccess;
-    }
-
-    private class FriendlistComparator implements Comparator<User> {
-        @Override
-        public int compare(User u1, User u2) {
-            return u1.getName().compareTo(u2.getName());
-        }
     }
 }

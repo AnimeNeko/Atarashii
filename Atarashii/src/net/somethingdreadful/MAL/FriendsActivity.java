@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.app.Activity;
 
 import java.util.ArrayList;
@@ -30,12 +32,13 @@ import java.util.Collection;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends Activity implements FriendsNetworkTaskFinishedListener {
+public class FriendsActivity extends Activity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
 
     Context context;
     ArrayList<User> listarray = new ArrayList<User>();
     ListViewAdapter<User> listadapter;
     GridView Gridview;
+    SwipeRefreshLayout swipeRefresh;
     boolean forcesync = false;
 
     @Override
@@ -64,6 +67,11 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 startActivity(profile);
             }
         });
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
 
         NfcHelper.disableBeam(this);
     }
@@ -99,13 +107,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                 finish();
                 break;
             case R.id.forceSync:
-                if (MALApi.isNetworkAvailable(context)) {
-                    Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
-                    forcesync = true;
-                    new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
-                } else {
-                    Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
-                }
+                sync(false);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -114,61 +116,79 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     @Override
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {
+            swipeRefresh.setEnabled(true);
             listarray = result;
+            if (listarray.size() == 0)
+                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             refresh(forcesync); // show crouton only if sync was forced
         } else {
             Crouton.makeText(this, R.string.crouton_error_Friends, Style.ALERT).show();
         }
+        swipeRefresh.setRefreshing(false);
+    }
+
+    public void sync(Boolean swipe) {
+        swipeRefresh.setEnabled(false);
+        if (MALApi.isNetworkAvailable(context)) {
+            if (!swipe)
+                Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
+            forcesync = true;
+            new FriendsNetworkTask(context, true, this).execute(AccountService.getAccount(context).name);
+        } else {
+            swipeRefresh.setRefreshing(false);
+            Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        sync(true);
+    }
+
+    static class ViewHolder {
+        TextView username;
+        TextView last_online;
+        ImageView avatar;
     }
 
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
-
 
         public ListViewAdapter(Context context, int resource) {
             super(context, resource);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            final User record;
-            record = (listarray.get(position));
+        public View getView(int position, View view, ViewGroup parent) {
+            final User record = (listarray.get(position));
+            ViewHolder viewHolder;
 
-            try {
+            if (view == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.record_friends_gridview, parent, false);
 
-                String username = record.getName();
-                TextView Username = (TextView) view.findViewById(R.id.userName);
-                Username.setText(username);
-                if (User.isDeveloperRecord(username)) {
-                    Username.setTextColor(Color.parseColor("#008583")); //Developer
-                }
-                String last_online = record.getProfile().getDetails().getLastOnline();
-                //Set online or offline status
-                View Status = view.findViewById(R.id.status);
-                if (last_online.contains("seconds")) {
-                    Status.setBackgroundColor(Color.parseColor("#0D8500"));
-                } else if (last_online.contains("minutes") && Integer.parseInt(last_online.replace(" minutes ago", "")) < 16) {
-                    Status.setBackgroundColor(Color.parseColor("#0D8500"));
-                } else {
-                    Status.setBackgroundColor(Color.parseColor("#D10000"));
-                }
-                TextView since = (TextView) view.findViewById(R.id.since);
-                String friendSince;
-                if (record.getFriendSince() != null)
-                    friendSince = MALDateTools.formatDateString(record.getFriendSince(), context, true);
-                else
-                    friendSince = getString(R.string.unknown);
-                since.setText(friendSince.equals("") ? getString(R.string.unknown) : friendSince);
+                viewHolder = new ViewHolder();
+                viewHolder.username = (TextView) view.findViewById(R.id.userName);
+                viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
+                viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
 
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
+            }
+
+            try {
+                String username = record.getName();
+                viewHolder.username.setText(WordUtils.capitalize(username));
+                if (User.isDeveloperRecord(username))
+                    viewHolder.username.setTextColor(Color.parseColor("#008583")); //Developer
+
+                String last_online = record.getProfile().getDetails().getLastOnline();
                 last_online = MALDateTools.formatDateString(last_online, context, true);
-                TextView lastonline = (TextView) view.findViewById(R.id.lastonline);
-                lastonline.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
+                viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
                 Picasso picasso = Picasso.with(context);
                 picasso.load(record.getProfile().getAvatarUrl())
                         .error(R.drawable.cover_error)
                         .placeholder(R.drawable.cover_loading)
-                        .into((ImageView) view.findViewById(R.id.profileImg));
+                        .into(viewHolder.avatar);
             } catch (Exception e) {
                 e.printStackTrace();
             }

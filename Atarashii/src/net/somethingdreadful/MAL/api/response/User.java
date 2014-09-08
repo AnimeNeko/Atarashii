@@ -20,8 +20,6 @@ public class User {
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
         result.setName(c.getString(columnNames.indexOf("username")));
-        if (friendDetails)
-            result.setFriendSince(c.getString(columnNames.indexOf("friend_since")));
 
         result.setProfile(Profile.fromCursor(c, friendDetails));
         return result;
