@@ -81,15 +81,20 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         ((Card) findViewById(R.id.progress)).setContent(R.layout.card_detailview_progress);
         ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
 
-        recordID = getIntent().getIntExtra("net.somethingdreadful.MAL.recordID", 1);
-        type = (ListType) getIntent().getSerializableExtra("net.somethingdreadful.MAL.recordType");
+        type = (ListType) getIntent().getSerializableExtra("recordType");
+        if (type.equals(ListType.ANIME))
+            animeRecord = (Anime) getIntent().getSerializableExtra("record");
+        else
+            mangaRecord = (Manga) getIntent().getSerializableExtra("record");
+        recordID = (type.equals(ListType.ANIME) ? animeRecord.getId() : mangaRecord.getId());
+
         context = getApplicationContext();
         pref = new PrefManager(context);
 
         setCard();
         setListener();
         if (savedInstanceState == null) {
-            getRecord();
+            setText();
         } else {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
@@ -420,10 +425,15 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         try {
-            if (type == ListType.ANIME)
+            if (type == ListType.ANIME) {
                 animeRecord = (Anime) result;
-            else
+                if (isAdded())
+                    animeRecord.setDirty(true);
+            } else {
                 mangaRecord = (Manga) result;
+                if (isAdded())
+                    mangaRecord.setDirty(true);
+            }
             setText();
             swipeRefresh.setRefreshing(false);
         } catch (ClassCastException e) {

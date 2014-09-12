@@ -451,8 +451,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-        startDetails.putExtra("net.somethingdreadful.MAL.recordID", ga.getItem(position).getId());
-        startDetails.putExtra("net.somethingdreadful.MAL.recordType", listType);
+        startDetails.putExtra("record", gl.get(position));
+        startDetails.putExtra("recordType", listType);
         startActivity(startDetails);
     }
 
