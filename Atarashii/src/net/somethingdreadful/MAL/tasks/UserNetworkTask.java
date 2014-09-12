@@ -21,20 +21,21 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
 
     @Override
     protected User doInBackground(String... params) {
-        User result = null;
+        User result;
         if (params == null) {
             Log.e("MALX", "UserNetworkTask: no username to fetch profile");
             return null;
         }
         MALManager mManager = new MALManager(context);
-        Log.d("MALX", "downloading profile of " + params[0]);
 
         if (forcesync && MALApi.isNetworkAvailable(context)) {
             result = mManager.downloadAndStoreProfile(params[0]);
         } else {
             result = mManager.getProfileFromDB(params[0]);
-            if (result == null && MALApi.isNetworkAvailable(context))
+            if ((result == null || result.getProfile().getDetails().getAccessRank() == null) && MALApi.isNetworkAvailable(context))
                 result = mManager.downloadAndStoreProfile(params[0]);
+            else if (result != null && result.getProfile().getDetails().getAccessRank() == null)
+                result = null;
         }
         return result;
     }

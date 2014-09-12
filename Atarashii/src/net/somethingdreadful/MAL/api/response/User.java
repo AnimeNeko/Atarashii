@@ -2,14 +2,16 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 public class User {
     private String name;
-    private String friend_since;
     private Profile profile;
+    private Integer id;
 
     public static User fromCursor(Cursor c) {
         return fromCursor(c, false);
@@ -19,6 +21,7 @@ public class User {
         User result = new User();
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
+        result.setId(c.getInt(columnNames.indexOf(MALSqlHelper.COLUMN_ID)));
         result.setName(c.getString(columnNames.indexOf("username")));
 
         result.setProfile(Profile.fromCursor(c, friendDetails));
@@ -36,20 +39,20 @@ public class User {
         return Arrays.asList(developers).contains(name.toLowerCase(Locale.US));
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getFriendSince() {
-        return friend_since;
-    }
-
-    public void setFriendSince(String friend_since) {
-        this.friend_since = friend_since;
     }
 
     public Profile getProfile() {
