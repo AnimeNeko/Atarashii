@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -55,11 +56,12 @@ import java.util.Locale;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements Serializable, OnRatingBarChangeListener, NetworkTaskCallbackListener, Card.onCardClickListener, APIAuthenticationErrorListener {
+public class DetailView extends Activity implements Serializable, OnRatingBarChangeListener, NetworkTaskCallbackListener, Card.onCardClickListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
+    SwipeRefreshLayout swipeRefresh;
     int recordID;
     Context context;
     PrefManager pref;
@@ -85,6 +87,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         pref = new PrefManager(context);
 
         setCard();
+        setListener();
         if (savedInstanceState == null) {
             getRecord();
         } else {
@@ -92,7 +95,11 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
             setText();
         }
-        setClickListener();
+    }
+
+    @Override
+    public void onRefresh() {
+        getRecord();
     }
 
     @Override
@@ -114,7 +121,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
         setCard();
         setText();
-        setClickListener();
+        setListener();
     }
 
     @Override
@@ -157,10 +164,15 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     /*
      * set all the ClickListeners
      */
-    public void setClickListener() {
+    public void setListener() {
         ((RatingBar) findViewById(R.id.MyScoreBar)).setOnRatingBarChangeListener(this);
         ((Card) findViewById(R.id.status)).setCardClickListener(this);
         ((Card) findViewById(R.id.progress)).setCardClickListener(this);
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
     }
 
     /*
@@ -266,10 +278,13 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Get the records (Anime/Manga)
      */
     public void getRecord() {
-        if (type != null) {
+        if (MALApi.isNetworkAvailable(context)) {
             Bundle data = new Bundle();
             data.putInt("recordID", recordID);
             new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+        } else {
+            setText();
+            swipeRefresh.setRefreshing(false);
         }
     }
 
@@ -410,6 +425,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             else
                 mangaRecord = (Manga) result;
             setText();
+            swipeRefresh.setRefreshing(false);
         } catch (ClassCastException e) {
             Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
