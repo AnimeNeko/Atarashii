@@ -47,8 +47,16 @@ public class PrefManager {
         return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
-    public String getlocale() {
-        return prefs.getString("locale", Locale.getDefault().toString());
+    public Locale getLocale() {
+        String localeName = prefs.getString("locale", Locale.getDefault().toString());
+        Locale locale;
+        if (localeName.equals("pt-br"))
+            locale = new Locale("pt", "PT");
+        else if (localeName.equals("pt-pt"))
+            locale = new Locale("pt", "BR");
+        else
+            locale = new Locale(localeName);
+        return locale;
     }
 
     public boolean ForceSync() {
