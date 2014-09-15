@@ -46,6 +46,7 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
@@ -289,23 +290,11 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     }
 
     /*
-     * Show the EpisodePickerDialog
+     * show the dialog with the tag
      */
-    @SuppressWarnings("deprecation")
-    public void showEpisodesDialog() {
+    public void showDialog(String tag, DialogFragment dialog) {
         FragmentManager fm = getSupportFragmentManager();
-        EpisodesPickerDialogFragment epdf = new EpisodesPickerDialogFragment();
-        epdf.show(fm, "fragment_EpisodePicker");
-    }
-
-    /*
-     * Show the MangaPickerDialog
-     */
-    @SuppressWarnings("deprecation")
-    public void showMangaDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        MangaPickerDialogFragment mpdf = new MangaPickerDialogFragment();
-        mpdf.show(fm, "fragment_MangaProgress");
+        dialog.show(fm, "fragment_" + tag);
     }
 
     /*
@@ -315,16 +304,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         FragmentManager fm = getSupportFragmentManager();
         RemoveConfirmationDialogFragment rcdf = new RemoveConfirmationDialogFragment();
         rcdf.show(fm, "fragment_RemoveConfirmation");
-    }
-
-    /*
-     * Show the StatusChangerDialog
-     */
-    @SuppressWarnings("deprecation")
-    public void showStatusDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        StatusPickerDialogFragment spdf = new StatusPickerDialogFragment();
-        spdf.show(fm, "fragment_StatusPicker");
     }
 
     /*
@@ -693,20 +672,18 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     @Override
     public void onCardClickListener(int res) {
         if (res == R.id.status) {
-            showStatusDialog();
+            showDialog("statusPicker", new StatusPickerDialogFragment());
         } else if (res == R.id.progress) {
             if (type.equals(ListType.ANIME)) {
-                showEpisodesDialog();
+                showDialog("episodes", new EpisodesPickerDialogFragment());
             } else {
-                showMangaDialog();
+                showDialog("manga", new MangaPickerDialogFragment());
             }
         }
     }
 
     @Override
     public void onAPIAuthenticationError(ListType type, TaskJob job) {
-        FragmentManager fm = getSupportFragmentManager();
-        UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
-        passwordFragment.show(fm, "fragment_updatePassword");
+        showDialog("updatePassword", new UpdatePasswordDialogFragment());
     }
 }
