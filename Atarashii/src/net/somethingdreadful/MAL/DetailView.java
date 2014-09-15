@@ -138,7 +138,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 Share();
                 break;
             case R.id.action_Remove:
-                showRemoveDialog();
+                showDialog("removeConfirmation", new RemoveConfirmationDialogFragment());
                 break;
             case R.id.action_addToList:
                 addToList();
@@ -295,15 +295,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     public void showDialog(String tag, DialogFragment dialog) {
         FragmentManager fm = getSupportFragmentManager();
         dialog.show(fm, "fragment_" + tag);
-    }
-
-    /*
-     * Show the RecordRemovalDialog
-     */
-    public void showRemoveDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        RemoveConfirmationDialogFragment rcdf = new RemoveConfirmationDialogFragment();
-        rcdf.show(fm, "fragment_RemoveConfirmation");
     }
 
     /*
