@@ -3,7 +3,6 @@ package net.somethingdreadful.MAL;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -112,21 +111,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         super.onSaveInstanceState(State);
         State.putSerializable("anime", animeRecord);
         State.putSerializable("manga", mangaRecord);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.activity_detailview);
-        ((Card) findViewById(R.id.detailCoverImage)).setContent(R.layout.card_detailview_image);
-        ((Card) findViewById(R.id.synopsis)).setContent(R.layout.card_detailview_synopsis);
-        ((Card) findViewById(R.id.mediainfo)).setContent(R.layout.card_detailview_mediainfo);
-        ((Card) findViewById(R.id.status)).setContent(R.layout.card_detailview_status);
-        ((Card) findViewById(R.id.progress)).setContent(R.layout.card_detailview_progress);
-        ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
-        setCard();
-        setText();
-        setListener();
     }
 
     @Override
