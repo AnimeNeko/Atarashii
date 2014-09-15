@@ -282,17 +282,9 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      */
     public boolean isAdded() {
         if (ListType.ANIME.equals(type)) {
-            if (animeRecord.getWatchedStatus() == null) {
-                return false;
-            } else {
-                return true;
-            }
+            return animeRecord.getWatchedStatus() != null;
         } else {
-            if (mangaRecord.getReadStatus() == null) {
-                return false;
-            } else {
-                return true;
-            }
+            return mangaRecord.getReadStatus() != null;
         }
     }
 
