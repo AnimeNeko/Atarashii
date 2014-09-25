@@ -5,12 +5,12 @@
     <string name="title_activity_firstRun">Kreator pierwszego uruchomienia</string>
     <string name="title_activity_settings">Ustawienia</string>
     <string name="title_activity_about">O programie</string>
-    <string name="title_activity_detail_view">Widok Szczegółów</string>
-    <string name="title_activity_profile">Profil Użytkownika</string>
+    <string name="title_activity_detail_view">Widok szczegółowy</string>
+    <string name="title_activity_profile">Profil użytkownika</string>
     <string name="title_activity_friends">Moi znajomi</string>
     <string name="title_activity_logout">Wyloguj</string>
     <!-- All (Actionbar Actions) Strings -->
-    <string name="menu_listType">Przełącznik listy</string>
+    <string name="menu_listType">Przełącz listę</string>
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_sync">Pełna Synchronizacja</string>
     <string name="menu_sortType">Sortowanie</string>
@@ -22,17 +22,17 @@
     <string name="crouton_error_Search_Manga">Błąd podczas szukania rekordów mangi.</string>
     <string name="crouton_error_Search">Błąd podczas szukania! Proszę spróbować później.</string>
     <string name="crouton_error_noUserRecord">Ten użytkownik nie ma rekordu w trybie offline!</string>
-    <string name="crouton_error_Anime_Sync">Błąd synchronizacji podczas pobierania listy anime!</string>
-    <string name="crouton_error_Manga_Sync">Błąd synchronizacji podczas pobierania listy mang!</string>
+    <string name="crouton_error_Anime_Sync">Wystąpił błąd podczas pobierania listy anime!</string>
+    <string name="crouton_error_Manga_Sync">Wystąpił błąd podczas pobierania listy mang!</string>
     <string name="crouton_error_noFriends">Nie masz znajomych na MAL!</string>
     <string name="crouton_error_DetailsError">Nie można załadować szczegółów, proszę sprawdzić swoje połączenie z internetem.</string>
-    <string name="crouton_error_VerifyProblem">Whoah! Coś nie działa. Sprawdź swoje uwierzytelnienie i połączenie sieciowe po czym spróbuj ponownie.</string>
-    <string name="crouton_error_Friends">Błąd synchronizacji podczas pobierania listy znajomych!</string>
-    <string name="crouton_error_nothingFound">Nie znaleziono wyników dla anime lub mangi. Albo API jest uszkodzone albo nie znacz pisowni.</string>
-    <string name="crouton_info_SyncMessage">Synchronizowanie wszystkiego. Może to potrwać chwilę lub dwie, w zależności od szybkości internetu.</string>
+    <string name="crouton_error_VerifyProblem">Ups, coś nie działa. Sprawdź czy wpisałeś poprawny login i hasło oraz czy masz połączenie z internetem i spróbuj ponownie.</string>
+    <string name="crouton_error_Friends">Wystąpił błąd podczas pobierania listy znajomych!</string>
+    <string name="crouton_error_nothingFound">Nie znaleziono wyników dla anime lub mangi. Albo API jest zepsute albo popełniłeś błąd w tytule.</string>
+    <string name="crouton_info_SyncMessage">Synchronizacja w toku. W zależności od prędkości połączenia może to zająć chwilę lub dwie.</string>
     <string name="crouton_info_connectionRestored">Połączenie przywrócone. Synchronizowanie oczekujących zmian.</string>
     <string name="crouton_info_UserRecord_updated">Profil użytkownika zaktualizowany!</string>
-    <string name="crouton_info_SyncDone">Synchronizacja Ukończona</string>
+    <string name="crouton_info_SyncDone">Synchronizacja ukończona</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Widok</string>
     <string name="dialog_title_share">Podziel się</string>
@@ -45,13 +45,13 @@
     <string name="dialog_title_status">Status</string>
     <string name="dialog_message_view">Którą listę chcesz wyświetlić?</string>
     <string name="dialog_message_logout">Czy na pewno chcesz się wylogować? Spowoduje to usunięcie wszystkich zapisanych danych i obrazów.</string>
-    <string name="dialog_message_remove">Absolutnie pewien? Jak już raz stracisz, to już na dobre i nie można ich odzyskać. Tak czy inaczej nie jest to łatwe.</string>
+    <string name="dialog_message_remove">Czy jesteś absolutnie pewien? Jest to operacja nieodwracalna.</string>
     <string name="dialog_message_share">Którą listą chcesz się podzielić?</string>
     <string name="dialog_message_Verifying">Upewniam się, że konto jest OK. Wytrzymaj przez chwilę.</string>
     <string name="dialog_label_cancel">Anuluj</string>
     <string name="dialog_label_update">Aktualizuj</string>
-    <string name="dialog_label_anime">Moja lista Anime</string>
-    <string name="dialog_label_manga">Moja lista Mang</string>
+    <string name="dialog_label_anime">Moja lista anime</string>
+    <string name="dialog_label_manga">Moja lista mang</string>
     <string name="dialog_title_remove">Usuń z listy</string>
     <string name="dialog_label_logout">Wyloguj</string>
     <!-- ProfileActivity (Contents) Strings -->
@@ -212,7 +212,7 @@
     <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Skupia się w czyszczeniu kodu i realizacji małych funkcji. Pracował nad rozszerzeniem aplikacji do obsługi mangi.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">Wdrożona funkcjonalność wyszukiwania. </string>
+    <string name="contributor_apkawa_summary">Wdrożona funkcjonalność wyszukiwania.</string>
     <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
     <string name="contributor_dsko_summary">Wdrożona modernizacja do obsługi API.</string>
     <string name="community_card_title">Społeczność Atarashii</string>

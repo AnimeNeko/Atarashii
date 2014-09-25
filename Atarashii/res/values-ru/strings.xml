@@ -79,10 +79,10 @@
     <string name="layout_card_anime_completed">Завершено</string>
     <string name="layout_card_anime_on">В ожидании</string>
     <string name="layout_card_anime_dropped">Заброшено</string>
-    <string name="layout_card_anime_plan">К просмотру</string>
+    <string name="layout_card_anime_plan">Планирует посмотреть</string>
     <string name="layout_card_anime_total">Всего записей</string>
     <string name="layout_card_manga_reading">Читает</string>
-    <string name="layout_card_manga_plan">Планируется прочитать</string>
+    <string name="layout_card_manga_plan">Планирует прочитать</string>
     <string name="action_viewListOnMAL">Посмотреть список на MAL</string>
     <string name="not_specified">не указано</string>
     <string-array name="gender">
@@ -212,7 +212,7 @@
     <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Ориентирован на чистку кода и реализацию небольших нововведений. Работал над расширением приложения для поддержки манги.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">Реализовал функционал поиска. </string>
+    <string name="contributor_apkawa_summary">Реализовал функционал поиска.</string>
     <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
     <string name="contributor_dsko_summary">Реализовал модернизации для обработки API.</string>
     <string name="community_card_title">Сообщество Atarashii</string>
