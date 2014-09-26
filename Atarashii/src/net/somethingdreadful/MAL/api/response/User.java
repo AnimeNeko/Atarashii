@@ -4,11 +4,12 @@ import android.database.Cursor;
 
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private Profile profile;
     private Integer id;

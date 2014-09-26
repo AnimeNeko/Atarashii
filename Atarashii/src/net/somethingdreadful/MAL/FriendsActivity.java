@@ -45,25 +45,24 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_friends);
         setTitle(R.string.title_activity_friends); //set title
 
         Gridview = (GridView) findViewById(R.id.listview);
-        int recource = R.layout.record_friends_gridview;
-
-        listadapter = new ListViewAdapter<User>(context, recource);
+        listadapter = new ListViewAdapter<User>(context, R.layout.record_friends_gridview);
 
         new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
-
         refresh(false);
 
         Gridview.setOnItemClickListener(new OnItemClickListener() { //start the profile with your friend
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                profile.putExtra("username", listarray.get(position).getName());
+                if (listarray.get(position).getProfile().getDetails().getAccessRank() == null) {
+                    profile.putExtra("username", listarray.get(position).getName());
+                } else
+                    profile.putExtra("user", listarray.get(position));
                 startActivity(profile);
             }
         });
