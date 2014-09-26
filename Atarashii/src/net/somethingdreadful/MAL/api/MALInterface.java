@@ -23,7 +23,7 @@ public interface MALInterface {
     @GET("/account/verify_credentials")
     Response verifyAuthentication();
 
-    @GET("/anime/{anime_id}")
+    @GET("/anime/{anime_id}?mine=1")
     Anime getAnime(@Path("anime_id") int anime_id);
 
     @GET("/anime/search")
@@ -57,7 +57,7 @@ public interface MALInterface {
     Response updateAnime(@Path("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes,
                          @Field("score") int score);
 
-    @GET("/manga/{manga_id}")
+    @GET("/manga/{manga_id}?mine=1")
     Manga getManga(@Path("manga_id") int manga_id);
 
     @GET("/manga/search")
