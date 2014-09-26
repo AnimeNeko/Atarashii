@@ -5,6 +5,8 @@ import android.content.Context;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 
+import java.util.Locale;
+
 public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefeditor;
@@ -43,6 +45,18 @@ public class PrefManager {
 
     public Integer getsync_time() { //Home, get the auto-sync interval
         return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
+    }
+
+    public Locale getLocale() {
+        String localeName = prefs.getString("locale", Locale.getDefault().toString());
+        Locale locale;
+        if (localeName.equals("pt-br"))
+            locale = new Locale("pt", "PT");
+        else if (localeName.equals("pt-pt"))
+            locale = new Locale("pt", "BR");
+        else
+            locale = new Locale(localeName);
+        return locale;
     }
 
     public boolean ForceSync() {

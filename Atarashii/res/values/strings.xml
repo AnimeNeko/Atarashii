@@ -239,19 +239,22 @@
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
     <string name="preference_category_list">List</string>
     <string name="preference_category_synchronisation">Sync</string>
-    <string name="preference_category_sharing">Sharing</string>
+    <string name="preference_category_sharing">Other settings</string>
     <string name="preference_category_profile">Profile</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_customShareText">Custom Share Text</string>
     <string name="preference_displayVolumes">Use Volumes on Covers</string>
     <string name="preference_autosync">Auto-sync interval</string>
+    <string name="preference_language">Change the language into</string>
+    <string name="preference_title_language">Change the language</string>
     <string name="preference_profileTextColors">Disable text colours</string>
     <string name="preference_profileAnimeHide">Hide always anime details</string>
     <string name="preference_profileMangaHide">Hide always manga details</string>
     <string name="preference_profileBothHide">Hide automatic anime/manga details</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync in the background.</string>
+    <string name="preference_summary_Language">Change the default language into your desired one. Requires restart to take effect.</string>
     <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>
     <string name="preference_summary_autosync">Time until auto-sync will run in the background.</string>
     <string name="preference_summary_displayVolumes">Display volumes instead of chapters on covers. The +1 Read action will also apply to volumes instead of chapters. Requires restart to take effect.</string>
@@ -301,6 +304,36 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+    </string-array>
+
+    <!-- Settings (LocalePreference Entries) Items -->
+    <string-array name="localeArray">
+        <item>Arabic</item>
+        <item>Dutch</item>
+        <item>English</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Polish</item>
+        <item>Portuguese (Brazil)</item>
+        <item>Portuguese (Portugal)</item>
+        <item>russian</item>
+        <item>Spanish</item>
+        <item>Turkish</item>
+    </string-array>
+    <string-array name="localeValuesArray">
+        <item>ar</item>
+        <item>nl</item>
+        <item>en</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>el</item>
+        <item>pl</item>
+        <item>pt-pt</item>
+        <item>pt-br</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>tr</item>
     </string-array>
 
     <!-- Settings (ListPreference Entries) Items -->
