@@ -401,23 +401,27 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void setupBeam() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            // setup beam functionality (if NFC is available)
-            NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            if (mNfcAdapter == null) {
-                Log.i("MALX", "NFC not available");
-            } else {
-                // Register NFC callback
-                String message_str = type.toString() + ":" + String.valueOf(recordID);
-                NdefMessage message = new NdefMessage(new NdefRecord[]{
-                        new NdefRecord(
-                                NdefRecord.TNF_MIME_MEDIA,
-                                "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
-                                new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))),
-                        NdefRecord.createApplicationRecord(getPackageName())
-                });
-                mNfcAdapter.setNdefPushMessage(message, this);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                // setup beam functionality (if NFC is available)
+                NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+                if (mNfcAdapter == null) {
+                    Log.i("MALX", "NFC not available");
+                } else {
+                    // Register NFC callback
+                    String message_str = type.toString() + ":" + String.valueOf(recordID);
+                    NdefMessage message = new NdefMessage(new NdefRecord[]{
+                            new NdefRecord(
+                                    NdefRecord.TNF_MIME_MEDIA,
+                                    "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
+                                    new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))),
+                            NdefRecord.createApplicationRecord(getPackageName())
+                    });
+                    mNfcAdapter.setNdefPushMessage(message, this);
+                }
             }
+        } catch (Exception e) {
+            Log.e("MALX", "error at setupBeam: " + e.getMessage());
         }
     }
 
