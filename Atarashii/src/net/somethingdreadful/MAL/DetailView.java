@@ -3,7 +3,6 @@ package net.somethingdreadful.MAL;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -47,6 +46,7 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
@@ -115,21 +115,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.activity_detailview);
-        ((Card) findViewById(R.id.detailCoverImage)).setContent(R.layout.card_detailview_image);
-        ((Card) findViewById(R.id.synopsis)).setContent(R.layout.card_detailview_synopsis);
-        ((Card) findViewById(R.id.mediainfo)).setContent(R.layout.card_detailview_mediainfo);
-        ((Card) findViewById(R.id.status)).setContent(R.layout.card_detailview_status);
-        ((Card) findViewById(R.id.progress)).setContent(R.layout.card_detailview_progress);
-        ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
-        setCard();
-        setText();
-        setListener();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_detail_view, menu);
         return true;
@@ -153,7 +138,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 Share();
                 break;
             case R.id.action_Remove:
-                showRemoveDialog();
+                showDialog("removeConfirmation", new RemoveConfirmationDialogFragment());
                 break;
             case R.id.action_addToList:
                 addToList();
@@ -298,57 +283,18 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      */
     public boolean isAdded() {
         if (ListType.ANIME.equals(type)) {
-            if (animeRecord.getWatchedStatus() == null) {
-                return false;
-            } else {
-                return true;
-            }
+            return animeRecord.getWatchedStatus() != null;
         } else {
-            if (mangaRecord.getReadStatus() == null) {
-                return false;
-            } else {
-                return true;
-            }
+            return mangaRecord.getReadStatus() != null;
         }
     }
 
     /*
-     * Show the EpisodePickerDialog
+     * show the dialog with the tag
      */
-    @SuppressWarnings("deprecation")
-    public void showEpisodesDialog() {
+    public void showDialog(String tag, DialogFragment dialog) {
         FragmentManager fm = getSupportFragmentManager();
-        EpisodesPickerDialogFragment epdf = new EpisodesPickerDialogFragment();
-        epdf.show(fm, "fragment_EpisodePicker");
-    }
-
-    /*
-     * Show the MangaPickerDialog
-     */
-    @SuppressWarnings("deprecation")
-    public void showMangaDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        MangaPickerDialogFragment mpdf = new MangaPickerDialogFragment();
-        mpdf.show(fm, "fragment_MangaProgress");
-    }
-
-    /*
-     * Show the RecordRemovalDialog
-     */
-    public void showRemoveDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        RemoveConfirmationDialogFragment rcdf = new RemoveConfirmationDialogFragment();
-        rcdf.show(fm, "fragment_RemoveConfirmation");
-    }
-
-    /*
-     * Show the StatusChangerDialog
-     */
-    @SuppressWarnings("deprecation")
-    public void showStatusDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        StatusPickerDialogFragment spdf = new StatusPickerDialogFragment();
-        spdf.show(fm, "fragment_StatusPicker");
+        dialog.show(fm, "fragment_" + tag);
     }
 
     /*
@@ -722,20 +668,18 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     @Override
     public void onCardClickListener(int res) {
         if (res == R.id.status) {
-            showStatusDialog();
+            showDialog("statusPicker", new StatusPickerDialogFragment());
         } else if (res == R.id.progress) {
             if (type.equals(ListType.ANIME)) {
-                showEpisodesDialog();
+                showDialog("episodes", new EpisodesPickerDialogFragment());
             } else {
-                showMangaDialog();
+                showDialog("manga", new MangaPickerDialogFragment());
             }
         }
     }
 
     @Override
     public void onAPIAuthenticationError(ListType type, TaskJob job) {
-        FragmentManager fm = getSupportFragmentManager();
-        UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
-        passwordFragment.show(fm, "fragment_updatePassword");
+        showDialog("updatePassword", new UpdatePasswordDialogFragment());
     }
 }
