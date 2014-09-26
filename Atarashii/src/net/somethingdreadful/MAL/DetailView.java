@@ -524,6 +524,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             if (MALApi.isNetworkAvailable(context)) {
                 Bundle data = new Bundle();
                 data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
+                swipeRefresh.setRefreshing(true);
                 new NetworkTask(TaskJob.GETDETAILS, type, context, data, this, this).execute();
             } else {
                 synopsis.setText(getString(R.string.crouton_error_noConnectivity));
