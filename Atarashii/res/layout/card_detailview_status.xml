@@ -1,6 +1,6 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardStatusLabel"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="@string/card_content_loading"
     android:textAppearance="?android:attr/textAppearanceLarge" />
