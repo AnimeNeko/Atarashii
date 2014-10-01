@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -11,11 +12,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import org.holoeverywhere.app.Activity;
@@ -87,12 +90,17 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
-            if (searchView != null) {
-                searchView.setQuery(query, false);
-            }
-            if (af != null && mf != null) {
-                af.searchRecords(query);
-                mf.searchRecords(query);
+            if (TextUtils.isDigitsOnly(query)) {
+                FragmentManager fm = getSupportFragmentManager();
+                (new SearchIdDialogFragment()).show(fm, "fragment_id_search");
+            } else {
+                if (searchView != null) {
+                    searchView.setQuery(query, false);
+                }
+                if (af != null && mf != null) {
+                    af.searchRecords(query);
+                    mf.searchRecords(query);
+                }
             }
         }
     }
