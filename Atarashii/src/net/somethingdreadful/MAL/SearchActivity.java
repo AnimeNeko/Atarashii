@@ -162,7 +162,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
             af = igf;
         else
             mf = igf;
-        if (query != null) // there is already a search to do
+        if (query != null && !TextUtils.isDigitsOnly(query)) // there is already a search to do
             igf.searchRecords(query);
     }
 
