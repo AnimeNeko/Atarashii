@@ -28,10 +28,10 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener, IGFCallbackListener {
     IGF af;
     IGF mf;
-    String query;
     static boolean animeError = false;
     static boolean mangaError = false;
     static int called = 0;
+    public String query;
     ViewPager ViewPager;
     SectionsPagerAdapter mSectionsPagerAdapter;
     PrefManager mPrefManager;
