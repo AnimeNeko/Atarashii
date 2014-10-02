@@ -2,9 +2,9 @@ package net.somethingdreadful.MAL;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
@@ -13,8 +13,6 @@ import net.somethingdreadful.MAL.dialog.SyncDialogFragment;
 
 import org.holoeverywhere.preference.PreferenceActivity;
 import org.holoeverywhere.preference.PreferenceManager;
-
-import java.util.Locale;
 
 public class Settings extends PreferenceActivity implements OnSharedPreferenceChangeListener {
     Context context;
@@ -55,13 +53,10 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
                 ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
             }
         } else if (key.equals("locale")) {
-            Locale locale = Prefs.getLocale();
-
-            // apply it until the app remains cached
-            Locale.setDefault(locale);
-            Configuration newConfig = new Configuration();
-            newConfig.locale = locale;
-            getBaseContext().getResources().updateConfiguration(newConfig, getBaseContext().getResources().getDisplayMetrics());
+            sharedPreferences.edit().commit();
+            Intent Home = new Intent(context, Home.class);
+            startActivity(Home);
+            System.exit(0);
         }
     }
 }
