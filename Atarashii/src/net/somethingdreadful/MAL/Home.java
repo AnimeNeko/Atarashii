@@ -244,6 +244,12 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             case R.id.forceSync:
                 synctask(true, true);
                 break;
+            case R.id.menu_inverse:
+                if (af != null && mf != null) {
+                    af.inverse();
+                    mf.inverse();
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
