@@ -332,8 +332,10 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         }
         if (networkAvailable) {
             if (myList) {
+                menu.findItem(R.id.menu_inverse).setVisible(true);
                 menu.findItem(R.id.forceSync).setVisible(true);
             } else {
+                menu.findItem(R.id.menu_inverse).setVisible(false);
                 menu.findItem(R.id.forceSync).setVisible(false);
             }
             menu.findItem(R.id.action_search).setVisible(true);
