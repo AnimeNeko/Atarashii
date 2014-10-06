@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class Anime extends GenericRecord implements Serializable {
         Anime result = new Anime();
         result.setCreatedFromCursor(true);
         List<String> columnNames = Arrays.asList(c.getColumnNames());
-        result.setId(c.getInt(columnNames.indexOf("recordID")));
+        result.setId(c.getInt(columnNames.indexOf(MALSqlHelper.COLUMN_ID)));
         result.setTitle(c.getString(columnNames.indexOf("recordName")));
         result.setType(c.getString(columnNames.indexOf("recordType")));
         result.setStatus(c.getString(columnNames.indexOf("recordStatus")));

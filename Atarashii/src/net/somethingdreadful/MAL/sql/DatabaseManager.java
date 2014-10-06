@@ -33,12 +33,13 @@ public class DatabaseManager {
         return dbRead;
     }
 
-    public void saveAnimeList(ArrayList<Anime> list) {
-        if (list != null && list.size() > 0) {
+    public void saveAnimeList(ArrayList<Anime> list, String username) {
+        Integer userId = getUserId(username);
+        if (list != null && list.size() > 0 && userId != null) {
             try {
                 getDBWrite().beginTransaction();
                 for (Anime anime : list)
-                    saveAnime(anime, true);
+                    saveAnime(anime, true, userId);
                 getDBWrite().setTransactionSuccessful();
             } catch (Exception e) {
                 Log.e("MALX", "error saving animelist to db");
@@ -48,36 +49,54 @@ public class DatabaseManager {
         }
     }
 
-    public void saveAnime(Anime anime, boolean IGF) {
+    public void saveAnime(Anime anime, boolean IGF, String username) {
+        Integer userId;
+        if (username.equals(""))
+            userId = 0;
+        else
+            userId = getUserId(username);
+        if (userId != null)
+            saveAnime(anime, IGF, userId);
+    }
+
+    public void saveAnime(Anime anime, boolean IGF, int userId) {
         ContentValues cv = new ContentValues();
 
-        cv.put("recordID", anime.getId());
+        cv.put(MALSqlHelper.COLUMN_ID, anime.getId());
         cv.put("recordName", anime.getTitle());
         cv.put("recordType", anime.getType());
         cv.put("imageUrl", anime.getImageUrl());
         cv.put("recordStatus", anime.getStatus());
-        cv.put("myStatus", anime.getWatchedStatus());
-        cv.put("myScore", anime.getScore());
-        cv.put("episodesWatched", anime.getWatchedEpisodes());
         cv.put("episodesTotal", anime.getEpisodes());
-        cv.put("dirty", anime.getDirty());
-        if (anime.getLastUpdate() != null)
-            cv.put("lastUpdate", anime.getLastUpdate().getTime());
         if (!IGF) {
             cv.put("synopsis", anime.getSynopsis());
             cv.put("memberScore", anime.getMembersScore());
         }
 
         // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
-        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, "recordID = ?", new String[]{Integer.toString(anime.getId())});
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIME, cv, MALSqlHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(anime.getId())});
         if (updateResult == 0) {
             getDBWrite().insert(MALSqlHelper.TABLE_ANIME, null, cv);
+        }
+
+        // update animelist if user id is provided
+        if (userId > 0) {
+            ContentValues alcv = new ContentValues();
+            alcv.put("profile_id", userId);
+            alcv.put("anime_id", anime.getId());
+            alcv.put("status", anime.getWatchedStatus());
+            alcv.put("score", anime.getScore());
+            alcv.put("watched", anime.getWatchedEpisodes());
+            alcv.put("dirty", anime.getDirty());
+            if (anime.getLastUpdate() != null)
+                alcv.put("lastUpdate", anime.getLastUpdate().getTime());
+            getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
         }
     }
 
     public Anime getAnime(int id) {
         Anime result = null;
-        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, null, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, null, MALSqlHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
         if (cursor.moveToFirst())
             result = Anime.fromCursor(cursor);
         cursor.close();
@@ -85,25 +104,40 @@ public class DatabaseManager {
     }
 
     public boolean deleteAnime(int id) {
-        return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
+        return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, MALSqlHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
     }
 
-    public ArrayList<Anime> getAnimeList(String listType) {
+    public boolean deleteAnimeFromAnimelist(int id, String username) {
+        boolean result = false;
+        Integer userId = getUserId(username);
+        if (userId != null)
+            result = getDBWrite().delete(MALSqlHelper.TABLE_ANIMELIST, "profile_id = ? AND anime_id = ?", new String[]{userId.toString(), String.valueOf(id)}) == 1;
+        return result;
+    }
+
+    public ArrayList<Anime> getAnimeList(String listType, String username) {
         if (listType == "")
-            return getAnimeList(null, null);
+            return getAnimeList(getUserId(username), "", false);
         else
-            return getAnimeList("myStatus = ?", new String[]{listType});
+            return getAnimeList(getUserId(username), listType, false);
     }
 
-    public ArrayList<Anime> getDirtyAnimeList() {
-        return getAnimeList("dirty = ?", new String[]{"1"});
+    public ArrayList<Anime> getDirtyAnimeList(String username) {
+        return getAnimeList(getUserId(username), "", true);
     }
 
-    private ArrayList<Anime> getAnimeList(String selection, String[] selectionArgs) {
+    private ArrayList<Anime> getAnimeList(int userId, String listType, boolean dirtyOnly) {
         ArrayList<Anime> result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, null, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
+            ArrayList<String> selArgs = new ArrayList<String>();
+            selArgs.add(String.valueOf(userId));
+            if (listType != "") {
+                selArgs.add(listType);
+            }
+            cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate" +
+                    " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                    " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Anime>();
                 do {
@@ -118,12 +152,13 @@ public class DatabaseManager {
         return result;
     }
 
-    public void saveMangaList(ArrayList<Manga> list) {
-        if (list != null && list.size() > 0) {
+    public void saveMangaList(ArrayList<Manga> list, String username) {
+        Integer userId = getUserId(username);
+        if (list != null && list.size() > 0 && userId != null) {
             try {
                 getDBWrite().beginTransaction();
                 for (Manga manga : list)
-                    saveManga(manga, true);
+                    saveManga(manga, true, userId);
                 getDBWrite().setTransactionSuccessful();
             } catch (Exception e) {
                 Log.e("MALX", "error saving mangalist to db: " + e.getMessage());
@@ -133,39 +168,57 @@ public class DatabaseManager {
         }
     }
 
-    public void saveManga(Manga manga, boolean ignoreSynopsis) {
+    public void saveManga(Manga manga, boolean ignoreSynopsis, String username) {
+        Integer userId;
+        if (username.equals(""))
+            userId = 0;
+        else
+            userId = getUserId(username);
+        if (userId != null)
+            saveManga(manga, ignoreSynopsis, userId);
+    }
+
+    public void saveManga(Manga manga, boolean ignoreSynopsis, int userId) {
         ContentValues cv = new ContentValues();
 
-        cv.put("recordID", manga.getId());
+        cv.put(MALSqlHelper.COLUMN_ID, manga.getId());
         cv.put("recordName", manga.getTitle());
         cv.put("recordType", manga.getType());
         cv.put("imageUrl", manga.getImageUrl());
         cv.put("recordStatus", manga.getStatus());
-        cv.put("myStatus", manga.getReadStatus());
         cv.put("memberScore", manga.getMembersScore());
-        cv.put("myScore", manga.getScore());
-        cv.put("volumesRead", manga.getVolumesRead());
-        cv.put("chaptersRead", manga.getChaptersRead());
         cv.put("volumesTotal", manga.getVolumes());
         cv.put("chaptersTotal", manga.getChapters());
-        cv.put("dirty", manga.getDirty());
-        if (manga.getLastUpdate() != null)
-            cv.put("lastUpdate", manga.getLastUpdate().getTime());
 
         if (!ignoreSynopsis) {
             cv.put("synopsis", manga.getSynopsis());
         }
 
         // don't use replace it replaces synopsis with null even when we don't put it in the ContentValues
-        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_MANGA, cv, "recordID = ?", new String[]{Integer.toString(manga.getId())});
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_MANGA, cv, MALSqlHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(manga.getId())});
         if (updateResult == 0) {
             getDBWrite().insert(MALSqlHelper.TABLE_MANGA, null, cv);
+        }
+
+        // update mangalist if user id is provided
+        if (userId > 0) {
+            ContentValues mlcv = new ContentValues();
+            mlcv.put("profile_id", userId);
+            mlcv.put("manga_id", manga.getId());
+            mlcv.put("status", manga.getReadStatus());
+            mlcv.put("score", manga.getScore());
+            mlcv.put("volumesRead", manga.getVolumesRead());
+            mlcv.put("chaptersRead", manga.getChaptersRead());
+            mlcv.put("dirty", manga.getDirty());
+            if (manga.getLastUpdate() != null)
+                mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
+            getDBWrite().replace(MALSqlHelper.TABLE_MANGALIST, null, mlcv);
         }
     }
 
     public Manga getManga(int id) {
         Manga result = null;
-        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, null, "recordID = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, null, MALSqlHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
         if (cursor.moveToFirst())
             result = Manga.fromCursor(cursor);
         cursor.close();
@@ -173,25 +226,40 @@ public class DatabaseManager {
     }
 
     public boolean deleteManga(int id) {
-        return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, "recordID = ?", new String[]{String.valueOf(id)}) == 1;
+        return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, MALSqlHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
     }
 
-    public ArrayList<Manga> getMangaList(String listType) {
+    public boolean deleteMangaFromMangalist(int id, String username) {
+        boolean result = false;
+        Integer userId = getUserId(username);
+        if (userId != null)
+            result = getDBWrite().delete(MALSqlHelper.TABLE_MANGALIST, "profile_id = ? AND manga_id = ?", new String[]{userId.toString(), String.valueOf(id)}) == 1;
+        return result;
+    }
+
+    public ArrayList<Manga> getMangaList(String listType, String username) {
         if (listType == "")
-            return getMangaList(null, null);
+            return getMangaList(getUserId(username), "", false);
         else
-            return getMangaList("myStatus = ?", new String[]{listType});
+            return getMangaList(getUserId(username), listType, false);
     }
 
-    public ArrayList<Manga> getDirtyMangaList() {
-        return getMangaList("dirty = ?", new String[]{"1"});
+    public ArrayList<Manga> getDirtyMangaList(String username) {
+        return getMangaList(getUserId(username), "", true);
     }
 
-    private ArrayList<Manga> getMangaList(String selection, String[] selectionArgs) {
+    private ArrayList<Manga> getMangaList(int userId, String listType, boolean dirtyOnly) {
         ArrayList<Manga> result = null;
         Cursor cursor;
         try {
-            cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, null, selection, selectionArgs, null, null, "recordName COLLATE NOCASE");
+            ArrayList<String> selArgs = new ArrayList<String>();
+            selArgs.add(String.valueOf(userId));
+            if (listType != "") {
+                selArgs.add(listType);
+            }
+            cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.dirty, ml.lastUpdate" +
+                    " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+                    " WHERE ml.profile_id = ? " + (listType != "" ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty = 1 " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Manga>();
                 do {
@@ -323,6 +391,15 @@ public class DatabaseManager {
             result = cursor.getInt(0);
         }
         cursor.close();
+
+        if (result == null) { // the users profile does not exist until now, so add it as simple dummy (will get all data once the user clicks on his profile)
+            ContentValues cv = new ContentValues();
+            cv.put("username", username);
+            Long userAddResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
+            if (userAddResult > -1) {
+                result = userAddResult.intValue();
+            }
+        }
         return result;
     }
 
@@ -332,12 +409,6 @@ public class DatabaseManager {
         }
 
         Integer userId = getUserId(username);
-        if (userId == null) { // the users profile itself is not saved, so add it as simple dummy (will get all data once the user clicks on his profile
-            ContentValues cv = new ContentValues();
-            cv.put("username", username);
-            Long userAddResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
-            userId = userAddResult.intValue();
-        }
         saveUserFriends(userId, friendlist);
     }
 }

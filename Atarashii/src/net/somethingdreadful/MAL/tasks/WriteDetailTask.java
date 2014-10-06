@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.tasks;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.util.Log;
 
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.RecordStatusUpdatedReceiver;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -59,17 +61,18 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
         // only update if everything went well!
         if (!error) {
+            Account account = AccountService.getAccount(context);
             if (!job.equals(TaskJob.UPDATE)) {
                 if (ListType.ANIME.equals(type)) {
-                    manager.deleteAnimeFromDatabase((Anime) gr[0]);
+                    manager.deleteAnimeFromAnimelist((Anime) gr[0], account.name);
                 } else {
-                    manager.deleteMangaFromDatabase((Manga) gr[0]);
+                    manager.deleteMangaFromMangalist((Manga) gr[0], account.name);
                 }
             } else {
                 if (type.equals(ListType.ANIME)) {
-                    manager.saveAnimeToDatabase((Anime) gr[0], false);
+                    manager.saveAnimeToDatabase((Anime) gr[0], false, account.name);
                 } else {
-                    manager.saveMangaToDatabase((Manga) gr[0], false);
+                    manager.saveMangaToDatabase((Manga) gr[0], false, account.name);
                 }
             }
         }

@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.widget.ViewFlipper;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -53,6 +55,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     Context context;
     ListType listType = ListType.ANIME; // just to have it proper initialized
     TaskJob taskjob;
+
     GridView Gridview;
     PrefManager pref;
     ViewFlipper viewflipper;
@@ -79,6 +82,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     boolean swipeRefreshEnabled = true;
 
     String query;
+
+    // use setter to change this!
+    private String username;
+    private boolean ownList = false; // not set directly, is set by setUsername()
 
     /*
      * set the watched/read count & status on the covers.
@@ -187,7 +194,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             screenWidth = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
         }
         float minWidth = 225 * density;
-        int columns = (int)  Math.ceil(screenWidth / minWidth);
+        int columns = (int) Math.ceil(screenWidth / minWidth);
         int width = screenWidth / columns;
         height = (int) (width / 0.7);
         Gridview.setNumColumns(columns);
@@ -302,7 +309,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             data.putInt("page", page);
             cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
-            networkTask.execute(isList() ? MALManager.listSortFromInt(list, listType) : query);
+            ArrayList<String> args = new ArrayList<String>();
+            if (username != "") {
+                args.add(username);
+                if (isList()) {
+                    args.add(MALManager.listSortFromInt(list, listType));
+                }
+            } else {
+                args.add(query);
+            }
+            networkTask.execute(args.toArray(new String[args.size()]));
         } catch (Exception e) {
             Log.e("MALX", "error getting records: " + e.getMessage());
         }
@@ -459,6 +475,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         Intent startDetails = new Intent(getView().getContext(), DetailView.class);
         startDetails.putExtra("record", gl.get(position));
         startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", username);
         startActivity(startDetails);
     }
 
@@ -501,6 +518,20 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             c1.setPrimaryClip(c2);
         }
         return false;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        if (username == null || username.equals("")) {
+            ownList = false;
+        } else {
+            Account account = AccountService.getAccount(context);
+            if (account != null) {
+                ownList = account.name.equals(username);
+            } else {
+                ownList = false;
+            }
+        }
     }
 
     static class ViewHolder {
@@ -550,15 +581,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     viewHolder.progressCount.setText(Integer.toString(position + 1));
                     viewHolder.actionButton.setVisibility(View.GONE);
                     viewHolder.flavourText.setText(R.string.label_Number);
-                } else if (listType.equals(ListType.ANIME)) {
-                    viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
-                    setStatus(((Anime) record).getWatchedStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
                 } else {
-                    if (useSecondaryAmounts)
-                        viewHolder.progressCount.setText(Integer.toString(((Manga) record).getVolumesRead()));
-                    else
-                        viewHolder.progressCount.setText(Integer.toString(((Manga) record).getChaptersRead()));
-                    setStatus(((Manga) record).getReadStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
+                    // only show actionbutton on own list
+                    viewHolder.actionButton.setVisibility(ownList ? View.VISIBLE : View.GONE);
+                    if (listType.equals(ListType.ANIME)) {
+                        viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
+                        setStatus(((Anime) record).getWatchedStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
+                    } else {
+                        if (useSecondaryAmounts)
+                            viewHolder.progressCount.setText(Integer.toString(((Manga) record).getVolumesRead()));
+                        else
+                            viewHolder.progressCount.setText(Integer.toString(((Manga) record).getChaptersRead()));
+                        setStatus(((Manga) record).getReadStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
+                    }
                 }
                 viewHolder.label.setText(record.getTitle());
 

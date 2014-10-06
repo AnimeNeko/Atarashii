@@ -86,42 +86,42 @@ public class MALManager {
         return null;
     }
 
-    public ArrayList<Anime> downloadAndStoreAnimeList() {
+    public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
         ArrayList<Anime> result = null;
         AnimeList animeList = malApi.getAnimeList();
         if (animeList != null) {
             result = animeList.getAnimes();
-            dbMan.saveAnimeList(result);
+            dbMan.saveAnimeList(result, username);
         }
         return result;
     }
 
-    public ArrayList<Manga> downloadAndStoreMangaList() {
+    public ArrayList<Manga> downloadAndStoreMangaList(String username) {
         ArrayList<Manga> result = null;
         MangaList mangaList = malApi.getMangaList();
         if (mangaList != null) {
             result = mangaList.getManga();
-            dbMan.saveMangaList(result);
+            dbMan.saveMangaList(result, username);
         }
         return result;
     }
 
-    public ArrayList<Anime> getAnimeListFromDB(String ListType) {
-        return dbMan.getAnimeList(ListType);
+    public ArrayList<Anime> getAnimeListFromDB(String ListType, String username) {
+        return dbMan.getAnimeList(ListType, username);
     }
 
-    public ArrayList<Manga> getMangaListFromDB(String ListType) {
-        return dbMan.getMangaList(ListType);
+    public ArrayList<Manga> getMangaListFromDB(String ListType, String username) {
+        return dbMan.getMangaList(ListType, username);
     }
 
-    public Anime updateWithDetails(int id, Anime anime) {
+    public Anime updateWithDetails(int id, Anime anime, String username) {
         Anime anime_api = malApi.getAnime(id);
         if (anime_api != null) {
             anime.setSynopsis(anime_api.getSynopsis());
             anime.setMembersScore(anime_api.getMembersScore());
             // only store anime with user status in database
             if (anime.getWatchedStatus() != null)
-                dbMan.saveAnime(anime, false);
+                dbMan.saveAnime(anime, false, username);
         }
 
         return anime;
@@ -167,33 +167,41 @@ public class MALManager {
         return dbMan.getProfile(name);
     }
 
-    public Manga updateWithDetails(int id, Manga manga) {
+    public Manga updateWithDetails(int id, Manga manga, String username) {
         Manga manga_api = malApi.getManga(id);
         if (manga_api != null) {
             manga.setSynopsis(manga_api.getSynopsis());
             manga.setMembersScore(manga_api.getMembersScore());
             // only store manga with user status in database
             if (manga.getReadStatus() != null)
-                dbMan.saveManga(manga, false);
+                dbMan.saveManga(manga, false, username);
         }
 
         return manga;
     }
 
-    public void saveAnimeToDatabase(Anime anime, boolean ignoreSynopsis) {
-        dbMan.saveAnime(anime, ignoreSynopsis);
+    public void saveAnimeToDatabase(Anime anime, boolean ignoreSynopsis, String username) {
+        dbMan.saveAnime(anime, ignoreSynopsis, username);
     }
 
-    public void saveMangaToDatabase(Manga manga, boolean ignoreSynopsis) {
-        dbMan.saveManga(manga, ignoreSynopsis);
+    public void saveMangaToDatabase(Manga manga, boolean ignoreSynopsis, String username) {
+        dbMan.saveManga(manga, ignoreSynopsis, username);
     }
 
     public boolean deleteAnimeFromDatabase(Anime anime) {
         return dbMan.deleteAnime(anime.getId());
     }
 
+    public boolean deleteAnimeFromAnimelist(Anime anime, String username) {
+        return dbMan.deleteAnimeFromAnimelist(anime.getId(), username);
+    }
+
     public boolean deleteMangaFromDatabase(Manga manga) {
         return dbMan.deleteManga(manga.getId());
+    }
+
+    public boolean deleteMangaFromMangalist(Manga manga, String username) {
+        return dbMan.deleteMangaFromMangalist(manga.getId(), username);
     }
 
     public boolean writeAnimeDetailsToMAL(Anime anime) {
@@ -214,10 +222,10 @@ public class MALManager {
         return result;
     }
 
-    public boolean cleanDirtyAnimeRecords() {
+    public boolean cleanDirtyAnimeRecords(String username) {
         boolean totalSuccess = true;
 
-        ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList();
+        ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList(username);
 
         if (dirtyAnimes != null) {
             Log.v("MALX", "Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
@@ -226,7 +234,7 @@ public class MALManager {
                 totalSuccess = writeAnimeDetailsToMAL(anime);
                 if (totalSuccess) {
                     anime.setDirty(false);
-                    saveAnimeToDatabase(anime, false);
+                    saveAnimeToDatabase(anime, false, username);
                 }
 
                 if (!totalSuccess)
@@ -237,10 +245,10 @@ public class MALManager {
         return totalSuccess;
     }
 
-    public boolean cleanDirtyMangaRecords() {
+    public boolean cleanDirtyMangaRecords(String username) {
         boolean totalSuccess = true;
 
-        ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList();
+        ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList(username);
 
         if (dirtyMangas != null) {
             Log.v("MALX", "Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
@@ -249,7 +257,7 @@ public class MALManager {
                 totalSuccess = writeMangaDetailsToMAL(manga);
                 if (totalSuccess) {
                     manga.setDirty(false);
-                    saveMangaToDatabase(manga, false);
+                    saveMangaToDatabase(manga, false, username);
                 }
 
                 if (!totalSuccess)

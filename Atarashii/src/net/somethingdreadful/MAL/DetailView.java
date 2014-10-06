@@ -63,6 +63,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     public Manga mangaRecord;
     SwipeRefreshLayout swipeRefresh;
     int recordID;
+    String username;
     Context context;
     PrefManager pref;
     Menu menu;
@@ -87,6 +88,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         else
             mangaRecord = (Manga) getIntent().getSerializableExtra("record");
         recordID = (type.equals(ListType.ANIME) ? animeRecord.getId() : mangaRecord.getId());
+        username = getIntent().getStringExtra("username");
 
         context = getApplicationContext();
         pref = new PrefManager(context);

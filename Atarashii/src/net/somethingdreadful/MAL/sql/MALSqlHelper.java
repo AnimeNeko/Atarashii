@@ -1,30 +1,30 @@
 package net.somethingdreadful.MAL.sql;
 
+import android.accounts.Account;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.account.AccountService;
+
 public class MALSqlHelper extends SQLiteOpenHelper {
+    Context context;
 
     public static final String COLUMN_ID = "_id";
     public static final String TABLE_ANIME = "anime";
     private static final String CREATE_ANIME_TABLE = "create table "
             + TABLE_ANIME + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
-            + "recordID integer UNIQUE, "
+            + COLUMN_ID + " integer primary key, "
             + "recordName varchar, "
             + "recordType varchar, "
             + "imageUrl varchar, "
             + "recordStatus varchar, "
-            + "myStatus varchar, "
             + "memberScore float, "
-            + "myScore integer, "
             + "synopsis varchar, "
-            + "episodesWatched integer, "
-            + "episodesTotal integer, "
-            + "dirty boolean DEFAULT false, "
-            + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now'))"
+            + "episodesTotal integer "
             + ");";
     //Since SQLite doesn't allow "dynamic" dates, we set the default timestamp an adequate distance in the
     //past (1 December 1982) to make sure it will be in the past for update calculations. This should be okay,
@@ -35,22 +35,15 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     public static final String TABLE_MANGA = "manga";
     private static final String CREATE_MANGA_TABLE = "create table "
             + TABLE_MANGA + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
-            + "recordID integer UNIQUE, "
+            + COLUMN_ID + " integer primary key, "
             + "recordName varchar, "
             + "recordType varchar, "
             + "imageUrl varchar, "
             + "recordStatus varchar, "
-            + "myStatus varchar, "
             + "memberScore float, "
-            + "myScore integer, "
             + "synopsis varchar, "
-            + "chaptersRead integer, "
             + "chaptersTotal integer, "
-            + "volumesRead integer, "
-            + "volumesTotal integer, "
-            + "dirty boolean DEFAULT false, "
-            + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now'))"
+            + "volumesTotal integer "
             + ");";
     private static final String ADD_MANGA_SYNC_TIME = "ALTER TABLE "
             + TABLE_MANGA
@@ -96,8 +89,35 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "PRIMARY KEY(profile_id, friend_id)"
             + ");";
 
+    public static final String TABLE_ANIMELIST = "animelist";
+    private static final String CREATE_ANIMELIST_TABLE = "CREATE TABLE "
+            + TABLE_ANIMELIST + "("
+            + "profile_id integer NOT NULL REFERENCES " + TABLE_PROFILE + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "status varchar, "
+            + "watched integer, "
+            + "score integer, "
+            + "dirty boolean DEFAULT false, "
+            + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
+            + "PRIMARY KEY(profile_id, anime_id)"
+            + ");";
+
+    public static final String TABLE_MANGALIST = "mangalist";
+    private static final String CREATE_MANGALIST_TABLE = "CREATE TABLE "
+            + TABLE_MANGALIST + "("
+            + "profile_id integer NOT NULL REFERENCES " + TABLE_PROFILE + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "status varchar, "
+            + "chaptersRead integer, "
+            + "volumesRead integer, "
+            + "score integer, "
+            + "dirty boolean DEFAULT false, "
+            + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
+            + "PRIMARY KEY(profile_id, manga_id)"
+            + ");";
+
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -108,6 +128,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         if (instance == null) {
             instance = new MALSqlHelper(context);
         }
+        instance.context = context;
         return instance;
 
     }
@@ -128,6 +149,17 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MANGA_TABLE);
         db.execSQL(CREATE_PROFILE_TABLE);
         db.execSQL(CREATE_FRIENDLIST_TABLE);
+        db.execSQL(CREATE_ANIMELIST_TABLE);
+        db.execSQL(CREATE_MANGALIST_TABLE);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
     }
 
     @Override
@@ -200,6 +232,100 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
             db.execSQL(CREATE_PROFILE_TABLE);
             db.execSQL(CREATE_FRIENDLIST_TABLE);
+        }
+
+        if (oldVersion < 8) {
+            /*
+             * upgrade database to support multiple anime-/mangalists
+             * because of SQLite's basic ALTER TABLE support which does not allow to delete columns
+             * we have to recreate the tables
+             */
+            // we need the username for building the relation tables, so get the account here
+            Integer userId = null;
+            Account account = AccountService.getAccount(context);
+            if (account != null) {
+                Cursor userCursor = db.query(TABLE_PROFILE, new String[]{COLUMN_ID}, "username = ?", new String[]{account.name}, null, null, null);
+                if (userCursor.moveToFirst()) {
+                    userId = userCursor.getInt(0);
+                }
+                userCursor.close();
+
+                if (userId == null) { // the users profile does not exist until now, so add it as simple dummy (will get all data once the user clicks on his profile)
+                    ContentValues cv = new ContentValues();
+                    cv.put("username", account.name);
+                    Long userAddResult = db.insert(TABLE_PROFILE, null, cv);
+                    if (userAddResult > -1) {
+                        userId = userAddResult.intValue();
+                    }
+                }
+            }
+
+            // "SELECT * ..." won't work here because recordId is remapped to COLUMN_ID
+            db.execSQL("create table temp_table as select recordId as " + COLUMN_ID + ", recordName, "
+                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, episodesTotal, "
+                    + "myStatus, myScore, episodesWatched, dirty, lastUpdate from " + TABLE_ANIME);
+            db.execSQL("drop table " + TABLE_ANIME);
+            db.execSQL(CREATE_ANIME_TABLE);
+            db.execSQL("insert into " + TABLE_ANIME + " select " + COLUMN_ID + ", recordName, "
+                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, episodesTotal from temp_table;");
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            // build relations in animelist table
+            if (userId != null) {
+                try {
+                    Cursor acursor = db.query("temp_table", new String[]{COLUMN_ID, "myStatus", "myScore", "episodesWatched", "dirty", "lastUpdate"}, null, null, null, null, COLUMN_ID);
+                    if (acursor.moveToFirst()) {
+                        do {
+                            ContentValues cv = new ContentValues();
+                            cv.put("profile_id", userId);
+                            cv.put("anime_id", acursor.getInt(0));
+                            cv.put("status", acursor.getString(1));
+                            cv.put("score", acursor.getInt(2));
+                            cv.put("watched", acursor.getInt(3));
+                            cv.put("dirty", acursor.getInt(4));
+                            cv.put("lastUpdate", acursor.getInt(5));
+                            db.insert(TABLE_ANIMELIST, null, cv);
+                        } while (acursor.moveToNext());
+                    }
+                    acursor.close();
+                } catch (Exception e) {
+                    Log.e("MALX", "error building animelist after database upgrade: " + e.getMessage());
+                }
+            }
+            db.execSQL("drop table temp_table;");
+
+            // "SELECT * ..." won't work here because recordId is remapped to COLUMN_ID
+            db.execSQL("create table temp_table as select recordId as " + COLUMN_ID + ", recordName, "
+                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, chaptersTotal, "
+                    + "myStatus, myScore, chaptersRead, volumesRead, volumesTotal, dirty, lastUpdate from " + TABLE_MANGA);
+            db.execSQL("drop table " + TABLE_MANGA);
+            db.execSQL(CREATE_MANGA_TABLE);
+            db.execSQL("insert into " + TABLE_MANGA + " select " + COLUMN_ID + ", recordName, "
+                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, chaptersTotal, volumesTotal from temp_table;");
+            db.execSQL(CREATE_MANGALIST_TABLE);
+            // build relations in mangalist table
+            if (userId != null) {
+                try {
+                    Cursor mcursor = db.query("temp_table", new String[]{COLUMN_ID, "myStatus", "myScore", "chaptersRead", "volumesRead", "dirty", "lastUpdate"}, null, null, null, null, COLUMN_ID);
+                    if (mcursor.moveToFirst()) {
+                        do {
+                            ContentValues cv = new ContentValues();
+                            cv.put("profile_id", userId);
+                            cv.put("manga_id", mcursor.getInt(0));
+                            cv.put("status", mcursor.getString(1));
+                            cv.put("score", mcursor.getInt(2));
+                            cv.put("chaptersRead", mcursor.getInt(3));
+                            cv.put("volumesRead", mcursor.getInt(4));
+                            cv.put("dirty", mcursor.getInt(5));
+                            cv.put("lastUpdate", mcursor.getInt(6));
+                            db.insert(TABLE_MANGALIST, null, cv);
+                        } while (mcursor.moveToNext());
+                    }
+                    mcursor.close();
+                } catch (Exception e) {
+                    Log.e("MALX", "error building mangalist after database upgrade: " + e.getMessage());
+                }
+            }
+            db.execSQL("drop table temp_table;");
         }
     }
 }
