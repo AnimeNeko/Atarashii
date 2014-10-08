@@ -51,10 +51,10 @@ repositories {
 }
 
 dependencies {
-    compile 'de.keyboardsurfer.android.widget:crouton:1.8.3'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.3@aar'
     compile 'net.simonvt.numberpicker:android-numberpicker:1.0.0'
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v4:19+'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
     compile 'org.apache.commons:commons-lang3:3.2.1'
