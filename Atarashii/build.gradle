@@ -1,8 +1,18 @@
+buildscript {
+    repositories {
+        maven { url 'http://download.crashlytics.com/maven' }
+    }
+
+    dependencies {
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+    }
+}
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }
 
 apply plugin: 'android'
+apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 19
@@ -48,6 +58,7 @@ repositories {
     maven {
         url 'https://raw.github.com/nicolasjafelle/maven-repo/master/'
     }
+    maven { url 'http://download.crashlytics.com/maven' }
 }
 
 dependencies {
@@ -60,4 +71,5 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.2.1'
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.sherlock:navigationdrawer:+@aar'
+    compile 'com.crashlytics.android:crashlytics:1.+'
 }

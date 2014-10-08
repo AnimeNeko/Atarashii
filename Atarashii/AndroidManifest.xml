@@ -84,6 +84,7 @@
                 <action android:name="net.somethingdreadful.MAL.action.UPDATE_MEDIA"/>
             </intent-filter>
         </receiver>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="5b41441e0dcb3c428a56660c8be6c8e7e1055667"/>
     </application>
 
 </manifest>

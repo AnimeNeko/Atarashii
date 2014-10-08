@@ -41,3 +41,9 @@ Thumbs.db
 # Android Studio
 .gradle
 build/
+
+##Crashlytics Data
+#Stores unique secret key
+crashlytics.properties
+#Build-unique data
+crashlytics-build.properties

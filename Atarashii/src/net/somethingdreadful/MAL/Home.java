@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import com.crashlytics.android.Crashlytics;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -95,6 +96,7 @@ LogoutConfirmationDialogFragment.LogoutConfirmationDialogListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
         context = getApplicationContext();
 
         mPrefManager = new PrefManager(context);
