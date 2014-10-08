@@ -138,6 +138,7 @@
     <string name="card_content_my_score">Ο δικός μου βαθμός</string>
     <string name="card_content_media_type">Είδος</string>
     <string name="card_content_media_status">Κατάσταση</string>
+    <string name="card_content_loading">Φορτώνει. Παρακαλώ περιμένετε.</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Προβολή λεπτομερειών στο MyAnimeList</string>
     <string name="action_Share">Διαμοιρασμός</string>
