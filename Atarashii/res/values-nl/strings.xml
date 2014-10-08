@@ -22,17 +22,17 @@
     <string name="crouton_error_Search_Manga">Fout bij zoeken naar mangarecords.</string>
     <string name="crouton_error_Search">Fout tijdens zoeken! Probeer het later opnieuw.</string>
     <string name="crouton_error_noUserRecord">Deze gebruiker heeft geen offline gegevens.</string>
-    <string name="crouton_error_Anime_Sync">Sync fout tijdens het downloaden van de animelijst!</string>
-    <string name="crouton_error_Manga_Sync">Sync fout tijdens het downloaden van de mangalijst!</string>
+    <string name="crouton_error_Anime_Sync">Synchronisatiefout tijdens het downloaden van de animelijst!</string>
+    <string name="crouton_error_Manga_Sync">Synchronisatiefout tijdens het downloaden van de mangalijst!</string>
     <string name="crouton_error_noFriends">Je hebt geen vrienden op MAL!</string>
     <string name="crouton_error_DetailsError">Details kunnen niet worden geladen, controleer je internetverbinding.</string>
     <string name="crouton_error_VerifyProblem">Wow! Iets ging niet als gepland. Controleer je gebruikersnaam, wachtwoord, internetverbinding en probeer het opnieuw.</string>
-    <string name="crouton_error_Friends">Sync fout tijdens het downloaden van de vriendenlijst!</string>
+    <string name="crouton_error_Friends">Synchronisatiefout tijdens het downloaden van de vriendenlijst!</string>
     <string name="crouton_error_nothingFound">Geen anime of manga gevonden. Ofwel werkt de API niet, ofwel kan je niet spellen.</string>
-    <string name="crouton_info_SyncMessage">Alles synchroniseren. Dit zou een paar seconden kunnen duren, afhankelijk van je internet snelheid.</string>
-    <string name="crouton_info_connectionRestored">Verbinding hersteld. Opgeslagen wijzigingen synchroniseren.</string>
+    <string name="crouton_info_SyncMessage">Alles synchroniseren. Dit kan een seconde of twee duren, afhankelijk van je internetsnelheid.</string>
+    <string name="crouton_info_connectionRestored">Verbinding hersteld. Opgeslagen wijzigingen worden gesynchroniseerd.</string>
     <string name="crouton_info_UserRecord_updated">Gebruikersprofiel bijgewerkt!</string>
-    <string name="crouton_info_SyncDone">Sync voltooid!</string>
+    <string name="crouton_info_SyncDone">Synchronisatie voltooid!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Bekijken</string>
     <string name="dialog_title_share">Delen</string>
@@ -45,9 +45,9 @@
     <string name="dialog_title_status">Status</string>
     <string name="dialog_message_view">Welke lijst wil je bekijken?</string>
     <string name="dialog_message_logout">Weet je zeker dat je wilt uitloggen? Dit zal alle opgeslagen data en foto\'s verwijderen.</string>
-    <string name="dialog_message_remove">Weet je het zeker? Eenmaal als het verwijdert is kan je het niet herstellen. Niet makkelijk in ieder geval.</string>
+    <string name="dialog_message_remove">Weet je het zeker? Eenmaal verwijderd is het voorgoed weg en kan je het niet herstellen. Niet makkelijk in ieder geval.</string>
     <string name="dialog_message_share">Welke lijst wil je delen?</string>
-    <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblik geduld alstublieft.</string>
+    <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblikje...</string>
     <string name="dialog_label_cancel">Annuleren</string>
     <string name="dialog_label_update">Bijwerken</string>
     <string name="dialog_label_anime">Mijn animelijst</string>
@@ -55,8 +55,8 @@
     <string name="dialog_title_remove">Verwijderen van lijst</string>
     <string name="dialog_label_logout">Uitloggen</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username, deelde een animelijst met behulp van Atarashii: http://myanimelist.net/animelist/ $name;!</string>
-    <string name="share_mangalist">$username; deelt een mangalijst via Atarashii: http://myanimelist.net/$name;!</string>
+    <string name="share_animelist">$username; deelde een animelijst met Atarashii: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; deelde een mangalijst met Atarashii: http://myanimelist.net/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_discription">Applicatie-icoon</string>
     <string name="layout_card_loading">Laden</string>
@@ -127,23 +127,23 @@
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">SAMENVATTING</string>
     <string name="card_name_progress">VOORUITGANG</string>
-    <string name="card_name_stats">MAL STATISTIEKEN</string>
+    <string name="card_name_stats">MAL-STATISTIEKEN</string>
     <string name="card_name_rating">WAARDERING</string>
     <string name="card_name_status">STATUS</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_chapters">Hoofdstukken</string>
     <string name="card_content_episodes">Afleveringen</string>
-    <string name="card_content_mal_score">MAL Score</string>
-    <string name="card_content_my_score">Mijn Score</string>
+    <string name="card_content_mal_score">MAL score</string>
+    <string name="card_content_my_score">Mijn score</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
     <string name="card_content_loading">Een moment geduld AUB.</string>
     <!-- DetailView (Actionbar actions) Strings -->
-    <string name="action_viewMALPage">Bekijk de Details op MyAnimeList</string>
+    <string name="action_viewMALPage">Details bekijken op MyAnimeList</string>
     <string name="action_Share">Delen</string>
-    <string name="action_Remove">Verwijder van mijn lijst</string>
-    <string name="action_AddToList">Toevoegen aan mijn lijst</string>
+    <string name="action_Remove">Verwijderen van lijst</string>
+    <string name="action_AddToList">Toevoegen aan lijst</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
     <!-- DetailView (Media info) Strings -->
@@ -196,30 +196,30 @@
         <item>Gepland</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
-    <string name="permission_group_useAtarashii">Gebruik Atarashii voor MyAnimeList</string>
-    <string name="permission_group_description_useAtarashii">Sta deze app toe (indien geinstalleerd) om toegang te krijgen van je MAL account</string>
-    <string name="permission_updateMedia">Vernieuw gegevens</string>
-    <string name="permission_description_updateMedia">Sta deze app toe om je gegeven bij te werken op je MAL account</string>
+    <string name="permission_group_useAtarashii">Gebruik Atarashii! voor MyAnimeList</string>
+    <string name="permission_group_description_useAtarashii">Sta deze app toe Atarashii! (indien geïnstalleerd) te gebruiken om toegang tot je MyAnimeList-account te verkrijgen</string>
+    <string name="permission_updateMedia">Gegevens vernieuwen</string>
+    <string name="permission_description_updateMedia">Sta deze app toe om je gegevens bij te werken op je MAL-account</string>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">Zoek via MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Belangrijke bijdragers</string>
-    <string name="acknowledgements_card_title">Open Source-componenten</string>
-    <string name="acknowledgements">Atarashii! gebruikt Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> door Square Inc. en <a href="https://code.google.com/p/google-gson/">google-gson</a> door Google Inc. dat gebruikt wordt door Retrofit, die allemaal gelicenseerd zijn onder de <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
-    <string name="app_description">Atarashii! is de beste manier om toegang te krijgen van MyAnimeList op je mobieltje. Het heeft een moderne, prachtige layout met functies die je allemaal zou willen.</string>
+    <string name="acknowledgements_card_title">Open source-componenten</string>
+    <string name="acknowledgements">Atarashii! gebruikt Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> door Square Inc. en <a href="https://code.google.com/p/google-gson/">google-gson</a> door Google Inc. dat gebruikt wordt door Retrofit, die allemaal gelicenseerd zijn onder de <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>- licentie.</string>
+    <string name="app_description">Atarashii! is de beste manier om MyAnimeList te gebruiken vanop je telefoon. Het heeft een moderne, prachtig gemaakte lay-out voor Android, met alle functies die je maar kunt bedenken.</string>
     <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
     <string name="contributor_anima_summary">\"Alle andere applicaties falen!" \n\nOprichter en belangrijkste codeerder. Moe van de slechte gebruikersinterface van andere applicaties en hun algemene gebrek aan onderhoud, hij creëerde deze app.</string>
     <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
-    <string name="contributor_motokochan_summary">Focust op code opschoning en het toevoegen van kleine functies. Werkte aan het uitbreiden van Atarashii voor manga ondersteuning.</string>
+    <string name="contributor_motokochan_summary">Concentreert zich op het opschonen van de code en het toevoegen van kleine functies. Werkte aan de uitbreidingen voor mangaondersteuning.</string>
     <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">ïmplementeerde de zoekfunctie. </string>
+    <string name="contributor_apkawa_summary">Implementeerde de zoekfunctie.</string>
     <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
-    <string name="contributor_dsko_summary">ïmplementeerde retrofit voor API handelingen.</string>
+    <string name="contributor_dsko_summary">Implementeerde retrofit voor API-handelingen.</string>
     <string name="community_card_title">Atarashii gemeenschap</string>
-    <string name="customShareText_fromAtarashii">\n\nGedeeld via Atarashii! - Moderne MAL voor Android</string>
-    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Word lid van onze Gemeenschap!</a> De Atarashii! gemeenschap op Google+ is een geweldige plek om te communiceren met de ontwikkelaars en om ons te laten weten wat u denkt. Problemen, functie verzoeken, status updates, het is er allemaal. We bijten niet, belooft.</string>
+    <string name="customShareText_fromAtarashii">Gedeeld via Atarashii! - Moderne MAL voor Android</string>
+    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Word lid van onze Gemeenschap!</a> De Atarashii!-gemeenschap op Google+ is een geweldige plek om te communiceren met de ontwikkelaars en om ons te laten weten wat je denkt. Problemen, functieverzoeken, status-updates, het is er allemaal. We bijten niet, belooft.</string>
     <!-- Preferences (contents) Strings -->
-    <string name="dialog_DefaultList">Standaard Lijst</string>
+    <string name="dialog_DefaultList">Standaardlijst</string>
     <string name="summary_DefaultList">Welke lijst wil je openen bij het opstarten?</string>
     <string name="preference_category_list">Lijst</string>
     <string name="preference_category_synchronisation">Synchronisatie</string>
@@ -228,20 +228,20 @@
     <string name="preference_synchronisation">Auto-synchronisatie</string>
     <string name="preference_TraditionalList">Gebruik de traditionele lijst</string>
     <string name="preference_Only_wifi">Gebruik alleen wifi voor Sync</string>
-    <string name="preference_customShareText">Aangepaste deel tekst</string>
-    <string name="preference_displayVolumes">Gebruik Volumes op de omslagen</string>
-    <string name="preference_autosync">Auto-sync pauzes</string>
-    <string name="preference_profileTextColors">Schakel de tekst kleuren uit</string>
+    <string name="preference_customShareText">Aangepaste tekst om te delen</string>
+    <string name="preference_displayVolumes">Volumes op omslagen gebruiken</string>
+    <string name="preference_autosync">Interval auto-synchronisatie</string>
+    <string name="preference_profileTextColors">Tekstkleuren uitschakelen</string>
     <string name="preference_profileAnimeHide">Verberg altijd animedetails</string>
     <string name="preference_profileMangaHide">Verberg altijd mangadetails</string>
-    <string name="preference_profileBothHide">Verberg automatisch anime/manga -details</string>
-    <string name="preference_summary_TraditionList">Gebruik de lijstweergave in plaats van de tegel-achtige stijl. Opnieuw opstarten noodzakelijk om de wijziging door te voeren.</string>
     <string name="preference_summary_synchronisation">Indien aangekruist, Atarashii zal synchroniseren bij het opstarten</string>
     <string name="preference_summary_Only_wifi">Atarashii zal alleen auto-sync bij Wi-Fi verbindingen.</string>
-    <string name="preference_summary_customShareText">Vind je de standaard deel tekst niet leuk? Maak er zelf een! Gebruik $title; en $link; op de plaats van de titel en link naar MAL, wij zullen de rest voor je doen.</string>
     <string name="preference_summary_autosync">Tijd totdat auto-sync gaat beginnen bij het opstarten.</string>
-    <string name="preference_summary_displayVolumes">Laat volumes zien in plaats van hoofdstukken op de omslag. De +1 gelezen actie verandert dan ook van hoofdstukken naar volumes.</string>
-    <string name="preference_summary_profileTextColors">Forceer de profielpagina om zwarte tekstkleur te gebruiken</string>
+    <string name="preference_profileBothHide">Verberg automatisch anime- /mangadetails</string>
+    <string name="preference_summary_TraditionList">Gebruik de lijstweergave in plaats van de tegelachtige stijl. Opnieuw opstarten is noodzakelijk om de wijziging door te voeren.</string>
+    <string name="preference_summary_customShareText">Vind je de standaardtekst bij het delen niet leuk? Maak er zelf een! Gebruik $title; en $link; op de plaats van de titel en link naar MAL, wij zullen de rest voor je doen.</string>
+    <string name="preference_summary_displayVolumes">Laat volumes zien in plaats van hoofdstukken op de omslag. De actie +1 gelezen verandert dan ook van hoofdstukken naar volumes.</string>
+    <string name="preference_summary_profileTextColors">Forceer de profielpagina om zwarte tekstkleur te gebruiken.</string>
     <string name="preference_summary_profileAnimeHide">Verberg animedetails op alle gebruikersprofielen.</string>
     <string name="preference_summary_profileMangaHide">Verberg mangadetails op alle gebruikersprofielen.</string>
     <string name="preference_summary_profileBothHide">Verberg anime/manga -details op alle gebruikersprofielen.</string>
@@ -252,7 +252,7 @@
     <string name="listType_dropped">Gestopt</string>
     <string name="listType_planned">Gepland</string>
     <string name="listType_Completed">Voltooid</string>
-    <string name="listType_InProgress">In vooruitgang</string>
+    <string name="listType_InProgress">Mee bezig</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
     <!-- RatingPickerDialogFragment (Rating) Items -->
@@ -260,19 +260,19 @@
     <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: Verschrikkelijk</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>2: Schandalig</item>
+        <item>2: Afschuwelijk</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>3: Heel Slecht</item>
+        <item>3: Heel slecht</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: Slecht</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>5: Normaal</item>
+        <item>5: Gewoon</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: Aardig</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: Goed</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>8: Heel Goed</item>
+        <item>8: Heel goed</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: Fantastisch</item>
     <!-- RatingPickerDialogFragment (Rating) Items -->

@@ -125,11 +125,11 @@
     <string name="title_Stats">Estatísticas</string>
     <string name="title_BasicStuff">Capa</string>
     <!-- DetailView (Card names) Strings -->
-    <string name="card_name_synopsis">Sinopse</string>
-    <string name="card_name_progress">Progresso</string>
-    <string name="card_name_stats">Estatísticas MAL</string>
-    <string name="card_name_rating">Classificação</string>
-    <string name="card_name_status">Estado</string>
+    <string name="card_name_synopsis">SINOPSE</string>
+    <string name="card_name_progress">PROGRESSO</string>
+    <string name="card_name_stats">ESTATÍSTICAS MAL</string>
+    <string name="card_name_rating">CLASSIFICAÇÃO</string>
+    <string name="card_name_status">ESTADO</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_chapters">Capítulos</string>
