@@ -5,6 +5,7 @@ import android.database.Cursor;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,11 @@ public class Manga extends GenericRecord implements Serializable {
     private String read_status;
     private int chapters_read;
     private int volumes_read;
+    private int listed_manga_id;
+    ArrayList<MangaRecordStub> alternative_versions;
+    ArrayList<MangaRecordStub> related_manga;
+    ArrayList<AnimeRecordStub> anime_adaptations;
+
 
     public static Manga fromCursor(Cursor c) {
         Manga result = new Manga();
@@ -38,6 +44,11 @@ public class Manga extends GenericRecord implements Serializable {
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
         result.setDirty(c.getInt(columnNames.indexOf("dirty")) > 0);
+        result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
+        result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
+        result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
+        result.setRank(c.getInt(columnNames.indexOf("rank")));
+        result.setListedId(c.getInt(columnNames.indexOf("listedId")));
         Date lastUpdateDate;
         try {
             long lastUpdate = c.getLong(columnNames.indexOf("lastUpdate"));
@@ -87,6 +98,38 @@ public class Manga extends GenericRecord implements Serializable {
 
     public void setVolumesRead(int volumes_read) {
         this.volumes_read = volumes_read;
+    }
+
+    public int getListedId() {
+        return listed_manga_id;
+    }
+
+    public void setListedId(int listed_manga_id) {
+        this.listed_manga_id = listed_manga_id;
+    }
+
+    public ArrayList<MangaRecordStub> getAlternativeVersions() {
+        return alternative_versions;
+    }
+
+    public void setAlternativeVersions(ArrayList<MangaRecordStub> alternative_versions) {
+        this.alternative_versions = alternative_versions;
+    }
+
+    public ArrayList<MangaRecordStub> getRelatedManga() {
+        return related_manga;
+    }
+
+    public void setRelatedManga(ArrayList<MangaRecordStub> related_manga) {
+        this.related_manga = related_manga;
+    }
+
+    public ArrayList<AnimeRecordStub> getAnimeAdaptations() {
+        return anime_adaptations;
+    }
+
+    public void setAnimeAdaptations(ArrayList<AnimeRecordStub> anime_adaptations) {
+        this.anime_adaptations = anime_adaptations;
     }
 
     public int getTypeInt() {

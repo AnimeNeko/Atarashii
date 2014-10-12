@@ -24,7 +24,15 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "recordStatus varchar, "
             + "memberScore float, "
             + "synopsis varchar, "
-            + "episodesTotal integer "
+            + "episodesTotal integer, "
+            + "classification string, "
+            + "membersCount integer, "
+            + "favoritedCount integer, "
+            + "popularityRank integer, "
+            + "rank integer, "
+            + "startDate varchar, "
+            + "endDate varchar, "
+            + "listedId integer"
             + ");";
     //Since SQLite doesn't allow "dynamic" dates, we set the default timestamp an adequate distance in the
     //past (1 December 1982) to make sure it will be in the past for update calculations. This should be okay,
@@ -43,7 +51,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "memberScore float, "
             + "synopsis varchar, "
             + "chaptersTotal integer, "
-            + "volumesTotal integer "
+            + "volumesTotal integer, "
+            + "membersCount integer, "
+            + "favoritedCount integer, "
+            + "popularityRank integer, "
+            + "rank integer, "
+            + "listedId integer"
             + ");";
     private static final String ADD_MANGA_SYNC_TIME = "ALTER TABLE "
             + TABLE_MANGA
@@ -116,6 +129,98 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "PRIMARY KEY(profile_id, manga_id)"
             + ");";
 
+    /*
+     * Anime-/Manga-relation tables
+     *
+     * Structure for these tables is
+     * - anime id
+     * - related id
+     * - relation type (side story, summary, alternative version etc.), see RELATION_TYPE-constants
+     *   below
+     */
+    public static final int RELATION_TYPE_ALTERNATIVE = 0;
+    public static final int RELATION_TYPE_CHARACTER = 1;
+    public static final int RELATION_TYPE_SIDE_STORY = 2;
+    public static final int RELATION_TYPE_SPINOFF = 3;
+    public static final int RELATION_TYPE_SUMMARY = 4;
+    public static final int RELATION_TYPE_ADAPTATION = 5;
+
+    public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
+    private static final String CREATE_ANIME_ANIME_RELATIONS_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_ANIME_RELATIONS + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "related_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "relationType integer NOT NULL, "
+            + "PRIMARY KEY(anime_id, related_id)"
+            + ");";
+    public static final String TABLE_ANIME_MANGA_RELATIONS = "rel_anime_manga";
+    private static final String CREATE_ANIME_MANGA_RELATIONS_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_MANGA_RELATIONS + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "related_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "relationType integer NOT NULL, " // can only be RELATION_TYPE_ADAPTATION
+            + "PRIMARY KEY(anime_id, related_id)"
+            + ");";
+
+    public static final String TABLE_MANGA_MANGA_RELATIONS = "rel_manga_manga";
+    private static final String CREATE_MANGA_MANGA_RELATIONS_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_MANGA_RELATIONS + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "related_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "relationType integer NOT NULL, "
+            + "PRIMARY KEY(manga_id, related_id)"
+            + ");";
+    public static final String TABLE_MANGA_ANIME_RELATIONS = "rel_manga_anime";
+    private static final String CREATE_MANGA_ANIME_RELATIONS_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_ANIME_RELATIONS + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "related_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "relationType integer NOT NULL, " // can only be RELATION_TYPE_ADAPTATION
+            + "PRIMARY KEY(manga_id, related_id)"
+            + ");";
+
+    public static final String TABLE_GENRES = "genres";
+    private static final String CREATE_GENRES_TABLE = "CREATE TABLE "
+            + TABLE_GENRES + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + "recordName varchar NOT NULL "
+            + ");";
+    public static final String TABLE_ANIME_GENRES = "anime_genres";
+    private static final String CREATE_ANIME_GENRES_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_GENRES + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "genre_id integer NOT NULL REFERENCES " + TABLE_GENRES + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(anime_id, genre_id)"
+            + ");";
+    public static final String TABLE_MANGA_GENRES = "manga_genres";
+    private static final String CREATE_MANGA_GENRES_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_GENRES + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "genre_id integer NOT NULL REFERENCES " + TABLE_GENRES + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(manga_id, genre_id)"
+            + ");";
+
+    public static final String TABLE_TAGS = "tags";
+    private static final String CREATE_TAGS_TABLE = "CREATE TABLE "
+            + TABLE_TAGS + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + "recordName varchar NOT NULL "
+            + ");";
+    public static final String TABLE_ANIME_TAGS = "anime_tags";
+    private static final String CREATE_ANIME_TAGS_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_TAGS + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(anime_id, tag_id)"
+            + ");";
+    public static final String TABLE_MANGA_TAGS = "manga_tags";
+    private static final String CREATE_MANGA_TAGS_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_TAGS + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(manga_id, tag_id)"
+            + ");";
+
     protected static final String DATABASE_NAME = "MAL.db";
     private static final int DATABASE_VERSION = 8;
     private static MALSqlHelper instance;
@@ -151,6 +256,16 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_FRIENDLIST_TABLE);
         db.execSQL(CREATE_ANIMELIST_TABLE);
         db.execSQL(CREATE_MANGALIST_TABLE);
+        db.execSQL(CREATE_ANIME_ANIME_RELATIONS_TABLE);
+        db.execSQL(CREATE_ANIME_MANGA_RELATIONS_TABLE);
+        db.execSQL(CREATE_MANGA_MANGA_RELATIONS_TABLE);
+        db.execSQL(CREATE_MANGA_ANIME_RELATIONS_TABLE);
+        db.execSQL(CREATE_GENRES_TABLE);
+        db.execSQL(CREATE_ANIME_GENRES_TABLE);
+        db.execSQL(CREATE_MANGA_GENRES_TABLE);
+        db.execSQL(CREATE_TAGS_TABLE);
+        db.execSQL(CREATE_ANIME_TAGS_TABLE);
+        db.execSQL(CREATE_MANGA_TAGS_TABLE);
     }
 
     @Override
@@ -326,6 +441,16 @@ public class MALSqlHelper extends SQLiteOpenHelper {
                 }
             }
             db.execSQL("drop table temp_table;");
+            db.execSQL(CREATE_ANIME_ANIME_RELATIONS_TABLE);
+            db.execSQL(CREATE_ANIME_MANGA_RELATIONS_TABLE);
+            db.execSQL(CREATE_MANGA_MANGA_RELATIONS_TABLE);
+            db.execSQL(CREATE_MANGA_ANIME_RELATIONS_TABLE);
+            db.execSQL(CREATE_GENRES_TABLE);
+            db.execSQL(CREATE_ANIME_GENRES_TABLE);
+            db.execSQL(CREATE_MANGA_GENRES_TABLE);
+            db.execSQL(CREATE_TAGS_TABLE);
+            db.execSQL(CREATE_ANIME_TAGS_TABLE);
+            db.execSQL(CREATE_MANGA_TAGS_TABLE);
         }
     }
 }

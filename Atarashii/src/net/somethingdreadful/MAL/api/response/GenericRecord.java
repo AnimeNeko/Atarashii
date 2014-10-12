@@ -4,6 +4,7 @@ import android.text.Html;
 import android.text.Spanned;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -19,8 +20,14 @@ public class GenericRecord implements Serializable {
     private String image_url;
     private String type;
     private String status;
+    private ArrayList<String> genres;
+    private ArrayList<String> tags;
     private int score;
+    private int rank;
     private float members_score;
+    private int members_count;
+    private int favorited_count;
+    private int popularity_rank;
     private String synopsis;
     private boolean dirty;
     private Date lastUpdate;
@@ -73,6 +80,22 @@ public class GenericRecord implements Serializable {
         this.status = status;
     }
 
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<String> genres) {
+        this.genres = genres;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
     public int getScore() {
         return score;
     }
@@ -81,12 +104,44 @@ public class GenericRecord implements Serializable {
         this.score = score;
     }
 
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
     public float getMembersScore() {
         return members_score;
     }
 
     public void setMembersScore(float members_score) {
         this.members_score = members_score;
+    }
+
+    public int getMembersCount() {
+        return members_count;
+    }
+
+    public void setMembersCount(int members_count) {
+        this.members_count = members_count;
+    }
+
+    public int getFavoritedCount() {
+        return favorited_count;
+    }
+
+    public void setFavoritedCount(int favorited_count) {
+        this.favorited_count = favorited_count;
+    }
+
+    public int getPopularityRank() {
+        return popularity_rank;
+    }
+
+    public void setPopularityRank(int popularity_rank) {
+        this.popularity_rank = popularity_rank;
     }
 
     public String getSynopsis() {
