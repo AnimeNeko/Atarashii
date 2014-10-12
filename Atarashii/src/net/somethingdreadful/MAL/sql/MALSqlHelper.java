@@ -376,13 +376,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             }
 
             // "SELECT * ..." won't work here because recordId is remapped to COLUMN_ID
-            db.execSQL("create table temp_table as select recordId as " + COLUMN_ID + ", recordName, "
-                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, episodesTotal, "
-                    + "myStatus, myScore, episodesWatched, dirty, lastUpdate from " + TABLE_ANIME);
+            String animeUpdateFields = COLUMN_ID + ", recordName, "
+                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, episodesTotal";
+            db.execSQL("create table temp_table as select recordId as " + animeUpdateFields + ", episodesWatched, myStatus, myScore, dirty, lastUpdate from " + TABLE_ANIME);
             db.execSQL("drop table " + TABLE_ANIME);
             db.execSQL(CREATE_ANIME_TABLE);
-            db.execSQL("insert into " + TABLE_ANIME + " select " + COLUMN_ID + ", recordName, "
-                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, episodesTotal from temp_table;");
+            db.execSQL("insert into " + TABLE_ANIME + "(" + animeUpdateFields + ") select " + animeUpdateFields + " from temp_table;");
             db.execSQL(CREATE_ANIMELIST_TABLE);
             // build relations in animelist table
             if (userId != null) {
@@ -409,13 +408,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("drop table temp_table;");
 
             // "SELECT * ..." won't work here because recordId is remapped to COLUMN_ID
-            db.execSQL("create table temp_table as select recordId as " + COLUMN_ID + ", recordName, "
-                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, chaptersTotal, "
-                    + "myStatus, myScore, chaptersRead, volumesRead, volumesTotal, dirty, lastUpdate from " + TABLE_MANGA);
+            String mangaUpdateFields = COLUMN_ID + ", recordName, "
+                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, chaptersTotal, volumesTotal";
+            db.execSQL("create table temp_table as select recordId as " + mangaUpdateFields + ", myStatus, myScore, chaptersRead, volumesRead, dirty, lastUpdate from " + TABLE_MANGA);
             db.execSQL("drop table " + TABLE_MANGA);
             db.execSQL(CREATE_MANGA_TABLE);
-            db.execSQL("insert into " + TABLE_MANGA + " select " + COLUMN_ID + ", recordName, "
-                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, chaptersTotal, volumesTotal from temp_table;");
+            db.execSQL("insert into " + TABLE_MANGA + "(" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
             db.execSQL(CREATE_MANGALIST_TABLE);
             // build relations in mangalist table
             if (userId != null) {
