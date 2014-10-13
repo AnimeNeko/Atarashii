@@ -1,9 +1,11 @@
 package net.somethingdreadful.MAL.api.response;
 
+import java.io.Serializable;
+
 /*
  * base stub class for relations returned by API like side stories, sequels etc
  */
-public class RecordStub {
+public class RecordStub implements Serializable {
     private String title;
     private String url;
 

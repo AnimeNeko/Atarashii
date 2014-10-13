@@ -138,12 +138,17 @@ public class MALSqlHelper extends SQLiteOpenHelper {
      * - relation type (side story, summary, alternative version etc.), see RELATION_TYPE-constants
      *   below
      */
-    public static final int RELATION_TYPE_ALTERNATIVE = 0;
-    public static final int RELATION_TYPE_CHARACTER = 1;
-    public static final int RELATION_TYPE_SIDE_STORY = 2;
-    public static final int RELATION_TYPE_SPINOFF = 3;
-    public static final int RELATION_TYPE_SUMMARY = 4;
-    public static final int RELATION_TYPE_ADAPTATION = 5;
+
+    /* relation types, as these constants are only used for database queries they can be stored as strings
+     * to avoid conversion in every query
+     */
+    public static final String RELATION_TYPE_ALTERNATIVE = "0";
+    public static final String RELATION_TYPE_CHARACTER = "1";
+    public static final String RELATION_TYPE_SIDE_STORY = "2";
+    public static final String RELATION_TYPE_SPINOFF = "3";
+    public static final String RELATION_TYPE_SUMMARY = "4";
+    public static final String RELATION_TYPE_ADAPTATION = "5";
+    public static final String RELATION_TYPE_RELATED = "6";
 
     public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
     private static final String CREATE_ANIME_ANIME_RELATIONS_TABLE = "CREATE TABLE "
@@ -158,7 +163,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + TABLE_ANIME_MANGA_RELATIONS + "("
             + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "related_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
-            + "relationType integer NOT NULL, " // can only be RELATION_TYPE_ADAPTATION
+            + "relationType integer NOT NULL, " // can currently only be RELATION_TYPE_ADAPTATION
             + "PRIMARY KEY(anime_id, related_id)"
             + ");";
 
@@ -175,7 +180,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + TABLE_MANGA_ANIME_RELATIONS + "("
             + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "related_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
-            + "relationType integer NOT NULL, " // can only be RELATION_TYPE_ADAPTATION
+            + "relationType integer NOT NULL, " // can currently only be RELATION_TYPE_ADAPTATION
             + "PRIMARY KEY(manga_id, related_id)"
             + ");";
 

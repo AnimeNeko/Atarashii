@@ -1,6 +1,8 @@
 package net.somethingdreadful.MAL.api.response;
 
-public class MangaRecordStub {
+import java.io.Serializable;
+
+public class MangaRecordStub extends RecordStub implements Serializable {
     private int manga_id;
 
     public int getId() {
