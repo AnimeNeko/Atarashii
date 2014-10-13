@@ -225,6 +225,27 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "PRIMARY KEY(manga_id, tag_id)"
             + ");";
+    /* title types, working the same way as the relation types
+     */
+    public static final String TITLE_TYPE_JAPANESE = "0";
+    public static final String TITLE_TYPE_ENGLISH = "1";
+    public static final String TITLE_TYPE_SYNONYM = "2";
+    public static final String TABLE_ANIME_OTHER_TITLES = "animeothertitles";
+    private static final String CREATE_ANIME_OTHER_TITLES_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_OTHER_TITLES + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "titleType integer NOT NULL, "
+            + "title varchar NOT NULL, "
+            + "PRIMARY KEY(anime_id, titleType, title)"
+            + ");";
+    public static final String TABLE_MANGA_OTHER_TITLES = "mangaothertitles";
+    private static final String CREATE_MANGA_OTHER_TITLES_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_OTHER_TITLES + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "titleType integer NOT NULL, "
+            + "title varchar NOT NULL, "
+            + "PRIMARY KEY(manga_id, titleType, title)"
+            + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
     private static final int DATABASE_VERSION = 8;
@@ -271,6 +292,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TAGS_TABLE);
         db.execSQL(CREATE_ANIME_TAGS_TABLE);
         db.execSQL(CREATE_MANGA_TAGS_TABLE);
+        db.execSQL(CREATE_ANIME_OTHER_TITLES_TABLE);
+        db.execSQL(CREATE_MANGA_OTHER_TITLES_TABLE);
     }
 
     @Override
@@ -454,6 +477,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_TAGS_TABLE);
             db.execSQL(CREATE_ANIME_TAGS_TABLE);
             db.execSQL(CREATE_MANGA_TAGS_TABLE);
+            db.execSQL(CREATE_ANIME_OTHER_TITLES_TABLE);
+            db.execSQL(CREATE_MANGA_OTHER_TITLES_TABLE);
         }
     }
 }

@@ -29,6 +29,8 @@ public class GenericRecord implements Serializable {
     private int favorited_count;
     private int popularity_rank;
     private String synopsis;
+    private OtherTitles other_titles;
+
     private boolean dirty;
     private Date lastUpdate;
     private boolean flag_create;
@@ -150,6 +152,14 @@ public class GenericRecord implements Serializable {
 
     public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
+    }
+
+    public OtherTitles getOtherTitles() {
+        return other_titles;
+    }
+
+    public void setOtherTitles(OtherTitles other_titles) {
+        this.other_titles = other_titles;
     }
 
     public boolean getDirty() {
