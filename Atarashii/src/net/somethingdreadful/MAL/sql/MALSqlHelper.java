@@ -405,7 +405,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
             // "SELECT * ..." won't work here because recordId is remapped to COLUMN_ID
             String animeUpdateFields = COLUMN_ID + ", recordName, "
-                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, episodesTotal";
+                    + "recordType, imageUrl, recordStatus, memberScore, episodesTotal";
             db.execSQL("create table temp_table as select recordId as " + animeUpdateFields + ", episodesWatched, myStatus, myScore, dirty, lastUpdate from " + TABLE_ANIME);
             db.execSQL("drop table " + TABLE_ANIME);
             db.execSQL(CREATE_ANIME_TABLE);
@@ -437,7 +437,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
             // "SELECT * ..." won't work here because recordId is remapped to COLUMN_ID
             String mangaUpdateFields = COLUMN_ID + ", recordName, "
-                    + "recordType, imageUrl, recordStatus, memberScore, synopsis, chaptersTotal, volumesTotal";
+                    + "recordType, imageUrl, recordStatus, memberScore, chaptersTotal, volumesTotal";
             db.execSQL("create table temp_table as select recordId as " + mangaUpdateFields + ", myStatus, myScore, chaptersRead, volumesRead, dirty, lastUpdate from " + TABLE_MANGA);
             db.execSQL("drop table " + TABLE_MANGA);
             db.execSQL(CREATE_MANGA_TABLE);
