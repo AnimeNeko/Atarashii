@@ -473,7 +473,15 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-        startDetails.putExtra("record", gl.get(position));
+        /* only pass the complete record on items from a stored list, as there would not be additional
+         * informations like genres, tags and record relations from lists loaded from the API like
+         * search results or top lists (newest, most popular etc.)
+         */
+        if (isList()) {
+            startDetails.putExtra("record", gl.get(position));
+        } else {
+            startDetails.putExtra("recordID", gl.get(position).getId());
+        }
         startDetails.putExtra("recordType", listType);
         startDetails.putExtra("username", username);
         startActivity(startDetails);
