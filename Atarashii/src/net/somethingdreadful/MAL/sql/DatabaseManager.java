@@ -234,9 +234,11 @@ public class DatabaseManager {
         }
     }
 
-    public Anime getAnime(int id) {
+    public Anime getAnime(Integer id, String username) {
         Anime result = null;
-        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ANIME, null, MALSqlHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate" +
+                " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                " WHERE al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
             result = Anime.fromCursor(cursor);
             result.setGenres(getAnimeGenres(result.getId()));
@@ -479,9 +481,11 @@ public class DatabaseManager {
         }
     }
 
-    public Manga getManga(int id) {
+    public Manga getManga(Integer id, String username) {
         Manga result = null;
-        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_MANGA, null, MALSqlHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.dirty, ml.lastUpdate" +
+                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+                " WHERE ml.profile_id = ? and m." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
             result.setGenres(getMangaGenres(result.getId()));

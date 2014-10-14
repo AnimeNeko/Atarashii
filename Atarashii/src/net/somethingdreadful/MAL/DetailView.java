@@ -38,6 +38,7 @@ import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
+import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
@@ -278,15 +279,33 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         return shareText;
     }
 
+    private boolean getRecordFromDB() {
+        DatabaseManager dbMan = new DatabaseManager(context);
+        if (type.equals(ListType.ANIME)) {
+            animeRecord = dbMan.getAnime(recordID, username);
+            return animeRecord != null;
+        } else {
+            mangaRecord = dbMan.getManga(recordID, username);
+            return mangaRecord != null;
+        }
+    }
+
     /*
      * Get the records (Anime/Manga)
+     *
+     * try to fetch them from the Database first to get reading/watching details
      */
     public void getRecord() {
         if (MALApi.isNetworkAvailable(context)) {
             swipeRefresh.setRefreshing(true);
-            Bundle data = new Bundle();
-            data.putInt("recordID", recordID);
-            new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+            if (getRecordFromDB()) {
+                setText();
+                swipeRefresh.setRefreshing(false);
+            } else {
+                Bundle data = new Bundle();
+                data.putInt("recordID", recordID);
+                new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+            }
         } else {
             setText();
             swipeRefresh.setRefreshing(false);

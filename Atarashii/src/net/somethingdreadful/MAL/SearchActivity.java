@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.accounts.Account;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -151,6 +153,15 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 
     @Override
     public void onIGFReady(IGF igf) {
+        /* Set Username to the search IGFs, looks strange but has a reason:
+         * The username is passed to DetailViews if clicked, the DetailView tries to get user-specific
+         * details (read/watch status, score). To do this it needs the username to determine the correct
+         * anime-/mangalist
+         */
+        Account account = AccountService.getAccount(context);
+        if (account != null) {
+            igf.setUsername(account.name);
+        }
         if (igf.listType.equals(ListType.ANIME))
             af = igf;
         else
