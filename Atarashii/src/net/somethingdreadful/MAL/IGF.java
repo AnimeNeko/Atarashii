@@ -310,7 +310,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
-            if (username != "") {
+            if (username != "" && !taskjob.equals(TaskJob.SEARCH)) {
                 args.add(username);
                 if (isList()) {
                     args.add(MALManager.listSortFromInt(list, listType));
