@@ -144,13 +144,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         if (isOnHomeActivity()) {
             swipeRefresh.setOnRefreshListener((Home) getActivity());
-            swipeRefresh.setColorScheme(
-                    R.color.holo_blue_bright,
-                    R.color.holo_green_light,
-                    R.color.holo_orange_light,
-                    R.color.holo_red_light
-            );
         }
+        swipeRefresh.setColorScheme(
+                R.color.holo_blue_bright,
+                R.color.holo_green_light,
+                R.color.holo_orange_light,
+                R.color.holo_red_light
+        );
         swipeRefresh.setEnabled(swipeRefreshEnabled);
 
         if (gl.size() > 0) // there are already records, fragment has been rotated
@@ -294,7 +294,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
          * - forced update
          * - clear is unset
          */
-        toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !taskjob.equals(TaskJob.SEARCH) && !clear);
+        toggleSwipeRefreshAnimation((page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC)) && !clear);
         loading = true;
         try {
             if (clear) {
@@ -310,7 +310,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
-            if (username != "" && !taskjob.equals(TaskJob.SEARCH)) {
+            if (username != "" && isList()) {
                 args.add(username);
                 if (isList()) {
                     args.add(MALManager.listSortFromInt(list, listType));
@@ -331,7 +331,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             setSwipeRefreshEnabled(false);
             getRecords(true, TaskJob.SEARCH, 0);
         }
-
     }
 
     /*
@@ -392,12 +391,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     /*
      * check if the taskjob is my personal anime/manga list
      */
+    public boolean isList(TaskJob job) {
+        return job != null && (job.equals(TaskJob.GETLIST) || job.equals(TaskJob.FORCESYNC));
+    }
+
     public boolean isList() {
-        return taskjob != null && (taskjob.equals(TaskJob.GETLIST) || taskjob.equals(TaskJob.FORCESYNC));
+        return isList(taskjob);
     }
 
     private boolean jobReturnsPagedResults(TaskJob job) {
-        return !isList() && !job.equals(TaskJob.SEARCH);
+        return !isList(job);
     }
 
     public void cancelNetworkTask() {
