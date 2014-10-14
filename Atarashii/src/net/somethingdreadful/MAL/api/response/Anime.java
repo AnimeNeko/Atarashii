@@ -24,6 +24,8 @@ public class Anime extends GenericRecord implements Serializable {
     private Date end_date;*/
     private ArrayList<AnimeRecordStub> alternative_versions;
     private ArrayList<AnimeRecordStub> character_anime;
+    private ArrayList<AnimeRecordStub> prequels;
+    private ArrayList<AnimeRecordStub> sequels;
     private ArrayList<AnimeRecordStub> side_stories;
     private ArrayList<AnimeRecordStub> summaries;
     private ArrayList<AnimeRecordStub> spin_offs;
@@ -132,6 +134,22 @@ public class Anime extends GenericRecord implements Serializable {
 
     public void setCharacterAnime(ArrayList<AnimeRecordStub> character_anime) {
         this.character_anime = character_anime;
+    }
+
+    public ArrayList<AnimeRecordStub> getPrequels() {
+        return prequels;
+    }
+
+    public void setPrequels(ArrayList<AnimeRecordStub> prequels) {
+        this.prequels = prequels;
+    }
+
+    public ArrayList<AnimeRecordStub> getSequels() {
+        return sequels;
+    }
+
+    public void setSequels(ArrayList<AnimeRecordStub> sequels) {
+        this.sequels = sequels;
     }
 
     public ArrayList<AnimeRecordStub> getSideStories() {

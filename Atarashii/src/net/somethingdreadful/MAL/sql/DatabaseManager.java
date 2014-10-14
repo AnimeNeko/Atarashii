@@ -137,6 +137,24 @@ public class DatabaseManager {
                     }
                 }
 
+                if (anime.getPrequels() != null) {
+                    // delete old relations
+                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_PREQUEL});
+
+                    for (AnimeRecordStub animeStub : anime.getPrequels()) {
+                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_PREQUEL);
+                    }
+                }
+
+                if (anime.getSequels() != null) {
+                    // delete old relations
+                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SEQUEL});
+
+                    for (AnimeRecordStub animeStub : anime.getSequels()) {
+                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SEQUEL);
+                    }
+                }
+
                 if (anime.getSideStories() != null) {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SIDE_STORY});
@@ -225,6 +243,8 @@ public class DatabaseManager {
             result.setTags(getAnimeTags(result.getId()));
             result.setAlternativeVersions(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
             result.setCharacterAnime(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER));
+            result.setPrequels(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL));
+            result.setSequels(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL));
             result.setSideStories(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY));
             result.setSpinOffs(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF));
             result.setSummaries(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY));
@@ -282,6 +302,8 @@ public class DatabaseManager {
                     anime.setTags(getAnimeTags(anime.getId()));
                     anime.setAlternativeVersions(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
                     anime.setCharacterAnime(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER));
+                    anime.setPrequels(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL));
+                    anime.setSequels(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL));
                     anime.setSideStories(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY));
                     anime.setSpinOffs(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF));
                     anime.setSummaries(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY));

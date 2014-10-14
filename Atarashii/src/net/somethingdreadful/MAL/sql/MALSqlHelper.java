@@ -149,6 +149,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     public static final String RELATION_TYPE_SUMMARY = "4";
     public static final String RELATION_TYPE_ADAPTATION = "5";
     public static final String RELATION_TYPE_RELATED = "6";
+    public static final String RELATION_TYPE_PREQUEL = "7";
+    public static final String RELATION_TYPE_SEQUEL = "8";
 
     public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
     private static final String CREATE_ANIME_ANIME_RELATIONS_TABLE = "CREATE TABLE "
