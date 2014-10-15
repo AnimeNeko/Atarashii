@@ -69,6 +69,27 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     PrefManager pref;
     Menu menu;
 
+    Card cardMain;
+    Card cardSynopsis;
+    Card cardMediainfo;
+    Card cardStatus;
+    Card cardProgress;
+    Card cardRating;
+
+    TextView synopsis;
+    TextView mediaType;
+    TextView mediaStatus;
+    TextView status;
+    TextView progress1Total;
+    TextView progress1Current;
+    TextView progress2Total;
+    TextView progress2Current;
+    TextView myScore;
+    TextView MALScore;
+    RatingBar myScoreBar;
+    RatingBar MALScoreBar;
+    ImageView image;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,22 +97,17 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         setContentView(R.layout.activity_detailview);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((Card) findViewById(R.id.detailCoverImage)).setContent(R.layout.card_detailview_image);
-        ((Card) findViewById(R.id.synopsis)).setContent(R.layout.card_detailview_synopsis);
-        ((Card) findViewById(R.id.mediainfo)).setContent(R.layout.card_detailview_mediainfo);
-        ((Card) findViewById(R.id.status)).setContent(R.layout.card_detailview_status);
-        ((Card) findViewById(R.id.progress)).setContent(R.layout.card_detailview_progress);
-        ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
-
-        type = (ListType) getIntent().getSerializableExtra("recordType");
-        recordID = getIntent().getIntExtra("recordID", -1);
         username = getIntent().getStringExtra("username");
-
         context = getApplicationContext();
         pref = new PrefManager(context);
 
+        setViews();
         setCard();
         setListener();
+
+        type = (ListType) getIntent().getSerializableExtra("recordType");
+        recordID = getIntent().getIntExtra("recordID", -1);
+
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
@@ -102,6 +118,45 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         } else {
             setText();
         }
+    }
+
+    /*
+     * Set all views once
+     */
+    public void setViews() {
+        // set all the card views
+        cardMain = (Card) findViewById(R.id.detailCoverImage);
+        cardSynopsis = (Card) findViewById(R.id.synopsis);
+        cardMediainfo = (Card) findViewById(R.id.mediainfo);
+        cardStatus = (Card) findViewById(R.id.status);
+        cardProgress = (Card) findViewById(R.id.progress);
+        cardRating = (Card) findViewById(R.id.rating);
+
+        // add all the card contents
+        cardMain.setContent(R.layout.card_detailview_image);
+        cardSynopsis.setContent(R.layout.card_detailview_synopsis);
+        cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
+        cardStatus.setContent(R.layout.card_detailview_status);
+        cardProgress.setContent(R.layout.card_detailview_progress);
+        cardRating.setContent(R.layout.card_detailview_rating);
+
+        // set all the views
+        image = (ImageView) findViewById(R.id.Image);
+        synopsis = (TextView) findViewById(R.id.SynopsisContent);
+        mediaType = (TextView) findViewById(R.id.mediaType);
+        mediaStatus = (TextView) findViewById(R.id.mediaStatus);
+        status = (TextView) findViewById(R.id.cardStatusLabel);
+        progress1Total = (TextView) findViewById(R.id.progresslabel1Total);
+        progress1Current = (TextView) findViewById(R.id.progresslabel1Current);
+        progress1Total = (TextView) findViewById(R.id.progresslabel1Total);
+        progress2Total = (TextView) findViewById(R.id.progresslabel2Total);
+        progress2Current = (TextView) findViewById(R.id.progresslabel2Current);
+        progress1Current = (TextView) findViewById(R.id.progresslabel1Current);
+        myScore = (TextView) findViewById(R.id.MyScoreLabel);
+        MALScore = (TextView) findViewById(R.id.MALScoreLabel);
+        myScoreBar = (RatingBar) findViewById(R.id.MyScoreBar);
+        MALScoreBar = (RatingBar) findViewById(R.id.MALScoreBar);
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
     }
 
     @Override
@@ -157,11 +212,10 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * set all the ClickListeners
      */
     public void setListener() {
-        ((RatingBar) findViewById(R.id.MyScoreBar)).setOnRatingBarChangeListener(this);
-        ((Card) findViewById(R.id.status)).setCardClickListener(this);
-        ((Card) findViewById(R.id.progress)).setCardClickListener(this);
+        myScoreBar.setOnRatingBarChangeListener(this);
+        cardStatus.setCardClickListener(this);
+        cardProgress.setCardClickListener(this);
 
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
@@ -172,14 +226,12 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      */
     public void setCard() {
         if (type != null && type.equals(ListType.ANIME)) {
-            TextView progresslabel1 = (TextView) findViewById(R.id.progresslabel1);
-            progresslabel1.setText(getString(R.string.card_content_episodes));
-            TextView progresslabel2 = (TextView) findViewById(R.id.progresslabel2);
-            progresslabel2.setVisibility(View.GONE);
-            TextView progresslabel2Current = (TextView) findViewById(R.id.progresslabel2Current);
-            progresslabel2Current.setVisibility(View.GONE);
-            TextView progresslabel2Total = (TextView) findViewById(R.id.progresslabel2Total);
-            progresslabel2Total.setVisibility(View.GONE);
+            TextView progress1 = (TextView) findViewById(R.id.progresslabel1);
+            progress1.setText(getString(R.string.card_content_episodes));
+            TextView progress2 = (TextView) findViewById(R.id.progresslabel2);
+            progress2.setVisibility(View.GONE);
+            progress2Current.setVisibility(View.GONE);
+            progress2Total.setVisibility(View.GONE);
         }
     }
 
@@ -433,7 +485,6 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
     }
 
-
     /*
      * Get the translation from strings.xml
      */
@@ -478,34 +529,29 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             return;
         GenericRecord record;
         setMenu();
-        TextView status = (TextView) findViewById(R.id.cardStatusLabel);
-        TextView mediaType = (TextView) findViewById(R.id.mediaType);
-        TextView mediaStatus = (TextView) findViewById(R.id.mediaStatus);
         if (type.equals(ListType.ANIME)) {
             record = animeRecord;
-            Card statusCard = (Card) findViewById(R.id.status);
             if (animeRecord.getWatchedStatus() != null) {
                 status.setText(WordUtils.capitalize(getUserStatusString(animeRecord.getWatchedStatusInt())));
-                statusCard.setVisibility(View.VISIBLE);
+                cardStatus.setVisibility(View.VISIBLE);
             } else {
-                statusCard.setVisibility(View.GONE);
+                cardStatus.setVisibility(View.GONE);
             }
             mediaType.setText(getAnimeTypeString(animeRecord.getTypeInt()));
             mediaStatus.setText(getAnimeStatusString(animeRecord.getStatusInt()));
         } else {
             record = mangaRecord;
-            Card statusCard = (Card) findViewById(R.id.status);
+
             if (mangaRecord.getReadStatus() != null) {
                 status.setText(WordUtils.capitalize(getUserStatusString(mangaRecord.getReadStatusInt())));
-                statusCard.setVisibility(View.VISIBLE);
+                cardStatus.setVisibility(View.VISIBLE);
             } else {
-                statusCard.setVisibility(View.GONE);
+                cardStatus.setVisibility(View.GONE);
             }
             mediaType.setText(getMangaTypeString(mangaRecord.getTypeInt()));
             mediaStatus.setText(getMangaStatusString(mangaRecord.getStatusInt()));
         }
 
-        TextView synopsis = (TextView) findViewById(R.id.SynopsisContent);
         if (record.getSynopsis() == null) {
             if (MALApi.isNetworkAvailable(context)) {
                 Bundle data = new Bundle();
@@ -520,61 +566,51 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             synopsis.setText(Html.fromHtml(record.getSynopsis()));
         }
 
-        Card progress = (Card) findViewById(R.id.progress);
         if (isAdded()) {
-            progress.setVisibility(View.VISIBLE);
+            cardProgress.setVisibility(View.VISIBLE);
         } else {
-            progress.setVisibility(View.GONE);
+            cardProgress.setVisibility(View.GONE);
         }
 
         if (type.equals(ListType.ANIME)) {
-            TextView progresslabel1Current = (TextView) findViewById(R.id.progresslabel1Current);
-            progresslabel1Current.setText(Integer.toString(animeRecord.getWatchedEpisodes()));
-            TextView progresslabel1Total = (TextView) findViewById(R.id.progresslabel1Total);
+            progress1Current.setText(Integer.toString(animeRecord.getWatchedEpisodes()));
             if (animeRecord.getEpisodes() == 0)
-                progresslabel1Total.setText("/?");
+                progress1Total.setText("/?");
             else
-                progresslabel1Total.setText("/" + Integer.toString(animeRecord.getEpisodes()));
+                progress1Total.setText("/" + Integer.toString(animeRecord.getEpisodes()));
         } else {
-            TextView progresslabel1Current = (TextView) findViewById(R.id.progresslabel1Current);
-            progresslabel1Current.setText(Integer.toString(mangaRecord.getVolumesRead()));
-            TextView progresslabel1Total = (TextView) findViewById(R.id.progresslabel1Total);
+            progress1Current.setText(Integer.toString(mangaRecord.getVolumesRead()));
             if (mangaRecord.getVolumes() == 0)
-                progresslabel1Total.setText("/?");
+                progress1Total.setText("/?");
             else
-                progresslabel1Total.setText("/" + Integer.toString(mangaRecord.getVolumes()));
+                progress1Total.setText("/" + Integer.toString(mangaRecord.getVolumes()));
 
-            TextView progresslabel2Current = (TextView) findViewById(R.id.progresslabel2Current);
-            progresslabel2Current.setText(Integer.toString(mangaRecord.getChaptersRead()));
-            TextView progresslabel2Total = (TextView) findViewById(R.id.progresslabel2Total);
+            progress2Current.setText(Integer.toString(mangaRecord.getChaptersRead()));
+
             if (mangaRecord.getChapters() == 0)
-                progresslabel2Total.setText("/?");
+                progress2Total.setText("/?");
             else
-                progresslabel2Total.setText("/" + Integer.toString(mangaRecord.getChapters()));
+                progress2Total.setText("/" + Integer.toString(mangaRecord.getChapters()));
         }
 
-        TextView MALScoreLabel = (TextView) findViewById(R.id.MALScoreLabel);
-        RatingBar MALScoreBar = (RatingBar) findViewById(R.id.MALScoreBar);
         if (record.getMembersScore() == 0) {
             MALScoreBar.setVisibility(View.GONE);
-            MALScoreLabel.setVisibility(View.GONE);
+            MALScore.setVisibility(View.GONE);
         } else {
             MALScoreBar.setVisibility(View.VISIBLE);
-            MALScoreLabel.setVisibility(View.VISIBLE);
+            MALScore.setVisibility(View.VISIBLE);
             MALScoreBar.setRating(record.getMembersScore() / 2);
         }
 
-        RatingBar MyScoreBar = (RatingBar) findViewById(R.id.MyScoreBar);
-        TextView MyScoreLabel = (TextView) findViewById(R.id.MyScoreLabel);
         if (isAdded()) {
-            MyScoreLabel.setVisibility(View.VISIBLE);
-            MyScoreBar.setVisibility(View.VISIBLE);
-            MyScoreBar.setRating((float) record.getScore() / 2);
+            myScore.setVisibility(View.VISIBLE);
+            myScoreBar.setVisibility(View.VISIBLE);
+            myScoreBar.setRating((float) record.getScore() / 2);
         } else {
-            MyScoreLabel.setVisibility(View.GONE);
-            MyScoreBar.setVisibility(View.GONE);
+            myScore.setVisibility(View.GONE);
+            myScoreBar.setVisibility(View.GONE);
         }
-        (findViewById(R.id.Image)).setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         Picasso.with(context)
                 .load(record.getImageUrl())
@@ -582,10 +618,10 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 .placeholder(R.drawable.cover_loading)
                 .centerInside()
                 .fit()
-                .into((ImageView) findViewById(R.id.Image), new Callback() {
+                .into(image, new Callback() {
                     @Override
                     public void onSuccess() {
-                        ((Card) findViewById(R.id.detailCoverImage)).wrapWidth(false);
+                        cardMain.wrapWidth(false);
                     }
 
                     @Override
@@ -594,7 +630,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 });
 
         getSupportActionBar().setTitle(record.getTitle());
-        ((Card) findViewById(R.id.detailCoverImage)).Header.setText(record.getTitle());
+        cardMain.Header.setText(record.getTitle());
         setupBeam();
     }
 
