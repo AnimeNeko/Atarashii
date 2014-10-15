@@ -299,23 +299,7 @@ public class DatabaseManager {
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Anime>();
                 do {
-                    Anime anime = Anime.fromCursor(cursor);
-                    anime.setGenres(getAnimeGenres(anime.getId()));
-                    anime.setTags(getAnimeTags(anime.getId()));
-                    anime.setAlternativeVersions(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
-                    anime.setCharacterAnime(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER));
-                    anime.setPrequels(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL));
-                    anime.setSequels(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL));
-                    anime.setSideStories(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY));
-                    anime.setSpinOffs(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF));
-                    anime.setSummaries(getAnimeToAnimeRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY));
-                    anime.setMangaAdaptions(getAnimeToMangaRelations(anime.getId(), MALSqlHelper.RELATION_TYPE_ADAPTATION));
-                    OtherTitles otherTitles = new OtherTitles();
-                    otherTitles.setEnglish(getAnimeOtherTitles(anime.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
-                    otherTitles.setJapanese(getAnimeOtherTitles(anime.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
-                    otherTitles.setSynonyms(getAnimeOtherTitles(anime.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
-                    anime.setOtherTitles(otherTitles);
-                    result.add(anime);
+                    result.add(Anime.fromCursor(cursor));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -541,18 +525,7 @@ public class DatabaseManager {
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Manga>();
                 do {
-                    Manga manga = Manga.fromCursor(cursor);
-                    manga.setGenres(getMangaGenres(manga.getId()));
-                    manga.setTags(getMangaTags(manga.getId()));
-                    manga.setAlternativeVersions(getMangaToMangaRelations(manga.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
-                    manga.setRelatedManga(getMangaToMangaRelations(manga.getId(), MALSqlHelper.RELATION_TYPE_RELATED));
-                    manga.setAnimeAdaptations(getMangaToAnimeRelations(manga.getId(), MALSqlHelper.RELATION_TYPE_ADAPTATION));
-                    OtherTitles otherTitles = new OtherTitles();
-                    otherTitles.setEnglish(getMangaOtherTitles(manga.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
-                    otherTitles.setJapanese(getMangaOtherTitles(manga.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
-                    otherTitles.setSynonyms(getMangaOtherTitles(manga.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
-                    manga.setOtherTitles(otherTitles);
-                    result.add(manga);
+                    result.add(Manga.fromCursor(cursor));
                 } while (cursor.moveToNext());
             }
             cursor.close();

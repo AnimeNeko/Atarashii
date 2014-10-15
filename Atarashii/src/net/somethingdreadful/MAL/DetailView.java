@@ -84,15 +84,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
 
         type = (ListType) getIntent().getSerializableExtra("recordType");
-        if (getIntent().hasExtra("record")) {
-            if (type.equals(ListType.ANIME))
-                animeRecord = (Anime) getIntent().getSerializableExtra("record");
-            else
-                mangaRecord = (Manga) getIntent().getSerializableExtra("record");
-            recordID = (type.equals(ListType.ANIME) ? animeRecord.getId() : mangaRecord.getId());
-        } else {
-            recordID = getIntent().getIntExtra("recordID", -1);
-        }
+        recordID = getIntent().getIntExtra("recordID", -1);
         username = getIntent().getStringExtra("username");
 
         context = getApplicationContext();
@@ -100,20 +92,15 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
 
         setCard();
         setListener();
-        if (savedInstanceState == null) {
-            if (type.equals(ListType.ANIME) ? animeRecord.getTitle() == null : mangaRecord.getTitle() == null)
-                getRecord();
-            else
-                setText();
-        } else {
+        if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
-            setText();
         }
 
-        // only a recordID was passed to the activity, load data
-        if (animeRecord == null && mangaRecord == null && recordID > -1) {
+        if (animeRecord == null && mangaRecord == null) {
             getRecord();
+        } else {
+            setText();
         }
     }
 
