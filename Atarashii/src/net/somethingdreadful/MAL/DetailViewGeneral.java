@@ -119,7 +119,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
     @Override
     public void onRefresh() {
-        activity.getRecord();
+        activity.getRecord(true);
     }
 
     /*

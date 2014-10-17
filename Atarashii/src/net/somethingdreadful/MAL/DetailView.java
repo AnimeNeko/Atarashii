@@ -1,9 +1,7 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -12,31 +10,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RatingBar.OnRatingBarChangeListener;
-import android.widget.RelativeLayout;
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
-import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
-import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
@@ -45,118 +34,57 @@ import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
-import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import retrofit.http.HEAD;
 
-public class DetailView extends Activity implements Serializable, OnRatingBarChangeListener, NetworkTaskCallbackListener, Card.onCardClickListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener {
 
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
-    SwipeRefreshLayout swipeRefresh;
+    public String username;
+    public PrefManager pref;
+    public DetailViewGeneral general;
+    DetailViewPagerAdapter PageAdapter;
     int recordID;
-    String username;
-    Context context;
-    PrefManager pref;
-    Menu menu;
-
-    Card cardMain;
-    Card cardSynopsis;
-    Card cardMediainfo;
-    Card cardStatus;
-    Card cardProgress;
-    Card cardRating;
-
-    TextView synopsis;
-    TextView mediaType;
-    TextView mediaStatus;
-    TextView status;
-    TextView progress1Total;
-    TextView progress1Current;
-    TextView progress2Total;
-    TextView progress2Current;
-    TextView myScore;
-    TextView MALScore;
-    RatingBar myScoreBar;
-    RatingBar MALScoreBar;
-    ImageView image;
+    private ActionBar actionbar;
+    private ViewPager viewPager;
+    private Menu menu;
+    private ArrayList<String> tabs = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detailview);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        actionbar = getSupportActionBar();
         username = getIntent().getStringExtra("username");
-        context = getApplicationContext();
-        pref = new PrefManager(context);
-
-        setViews();
-        setCard();
-        setListener();
-
+        pref = new PrefManager(this);
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
+
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        PageAdapter = new DetailViewPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(PageAdapter);
+        viewPager.setOnPageChangeListener(this);
+
+        setTabs();
 
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
         }
-
-        if (animeRecord == null && mangaRecord == null && type != null) {
-            getRecord(false);
-        } else {
-            setText();
-        }
-    }
-
-    /*
-     * Set all views once
-     */
-    public void setViews() {
-        // set all the card views
-        cardMain = (Card) findViewById(R.id.detailCoverImage);
-        cardSynopsis = (Card) findViewById(R.id.synopsis);
-        cardMediainfo = (Card) findViewById(R.id.mediainfo);
-        cardStatus = (Card) findViewById(R.id.status);
-        cardProgress = (Card) findViewById(R.id.progress);
-        cardRating = (Card) findViewById(R.id.rating);
-
-        // add all the card contents
-        cardMain.setContent(R.layout.card_detailview_image);
-        cardSynopsis.setContent(R.layout.card_detailview_synopsis);
-        cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
-        cardStatus.setContent(R.layout.card_detailview_status);
-        cardProgress.setContent(R.layout.card_detailview_progress);
-        cardRating.setContent(R.layout.card_detailview_rating);
-
-        // set all the views
-        image = (ImageView) findViewById(R.id.Image);
-        synopsis = (TextView) findViewById(R.id.SynopsisContent);
-        mediaType = (TextView) findViewById(R.id.mediaType);
-        mediaStatus = (TextView) findViewById(R.id.mediaStatus);
-        status = (TextView) findViewById(R.id.cardStatusLabel);
-        progress1Total = (TextView) findViewById(R.id.progresslabel1Total);
-        progress1Current = (TextView) findViewById(R.id.progresslabel1Current);
-        progress1Total = (TextView) findViewById(R.id.progresslabel1Total);
-        progress2Total = (TextView) findViewById(R.id.progresslabel2Total);
-        progress2Current = (TextView) findViewById(R.id.progresslabel2Current);
-        progress1Current = (TextView) findViewById(R.id.progresslabel1Current);
-        myScore = (TextView) findViewById(R.id.MyScoreLabel);
-        MALScore = (TextView) findViewById(R.id.MALScoreLabel);
-        myScoreBar = (RatingBar) findViewById(R.id.MyScoreBar);
-        MALScoreBar = (RatingBar) findViewById(R.id.MALScoreBar);
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
     }
 
     @Override
@@ -171,195 +99,15 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         State.putSerializable("manga", mangaRecord);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_detail_view, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        this.menu = menu;
-        if (animeRecord != null || mangaRecord != null)
-            setMenu();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.action_Share:
-                Share();
-                break;
-            case R.id.action_Remove:
-                showDialog("removeConfirmation", new RemoveConfirmationDialogFragment());
-                break;
-            case R.id.action_addToList:
-                addToList();
-                break;
-            case R.id.action_ViewMALPage:
-                Uri malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
-                startActivity(new Intent(Intent.ACTION_VIEW, malurl));
-                break;
-        }
-        return true;
-    }
-
     /*
-     * set all the ClickListeners
+     * Create tabs in the actionbar
      */
-    public void setListener() {
-        myScoreBar.setOnRatingBarChangeListener(this);
-        cardStatus.setCardClickListener(this);
-        cardProgress.setCardClickListener(this);
-
-        swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
-        swipeRefresh.setEnabled(true);
-    }
-
-    /*
-     * Manage the progress card
-     */
-    public void setCard() {
-        if (type != null && type.equals(ListType.ANIME)) {
-            TextView progress1 = (TextView) findViewById(R.id.progresslabel1);
-            progress1.setText(getString(R.string.card_content_episodes));
-            TextView progress2 = (TextView) findViewById(R.id.progresslabel2);
-            progress2.setVisibility(View.GONE);
-            progress2Current.setVisibility(View.GONE);
-            progress2Total.setVisibility(View.GONE);
+    public void setTabs() {
+        for (int i = 0; i < PageAdapter.getCount(); i++) {
+            tabs.add(PageAdapter.getPageTitle(i));
         }
-    }
-
-    /*
-     * set the right menu items.
-     */
-    public void setMenu() {
-        if (menu != null) {
-            if (isAdded()) {
-                menu.findItem(R.id.action_Remove).setVisible(true);
-                menu.findItem(R.id.action_addToList).setVisible(false);
-            } else {
-                menu.findItem(R.id.action_Remove).setVisible(false);
-                menu.findItem(R.id.action_addToList).setVisible(true);
-            }
-            if (MALApi.isNetworkAvailable(context) && menu.findItem(R.id.action_Remove).isVisible()) {
-                menu.findItem(R.id.action_Remove).setVisible(true);
-            } else {
-                menu.findItem(R.id.action_Remove).setVisible(false);
-            }
-        }
-    }
-
-    /*
-     * Add record to list
-     */
-    public void addToList() {
-        if (type.equals(ListType.ANIME)) {
-            animeRecord.setCreateFlag(true);
-            animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-            animeRecord.setDirty(true);
-        } else {
-            mangaRecord.setCreateFlag(true);
-            mangaRecord.setReadStatus(Manga.STATUS_READING);
-            mangaRecord.setDirty(true);
-        }
-        setMenu();
-        setText();
-    }
-
-    /*
-     * Open the share dialog
-     */
-    public void Share() {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, makeShareText());
-
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        try {
-            if (type.equals(ListType.ANIME)) {
-                if (animeRecord.getDirty() && !animeRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.UPDATE, context, this).execute(animeRecord);
-                } else if (animeRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, context, this).execute(animeRecord);
-                }
-            } else if (type.equals(ListType.MANGA)) {
-                if (mangaRecord.getDirty() && !mangaRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.UPDATE, context, this).execute(mangaRecord);
-                } else if (mangaRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, context, this).execute(mangaRecord);
-                }
-            }
-        } catch (Exception e) {
-            Log.e("MALX", "Error updating record: " + e.getMessage());
-        }
-    }
-
-    /*
-     * Make the share text for the share dialog
-     */
-    public String makeShareText() {
-        String shareText = pref.getCustomShareText();
-        shareText = shareText.replace("$title;", getSupportActionBar().getTitle());
-        shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
-        shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
-        return shareText;
-    }
-
-    private boolean getRecordFromDB() {
-        DatabaseManager dbMan = new DatabaseManager(context);
-        if (type.equals(ListType.ANIME)) {
-            animeRecord = dbMan.getAnime(recordID, username);
-            return animeRecord != null;
-        } else {
-            mangaRecord = dbMan.getManga(recordID, username);
-            return mangaRecord != null;
-        }
-    }
-
-    /*
-     * Get the records (Anime/Manga)
-     *
-     * try to fetch them from the Database first to get reading/watching details
-     */
-    public void getRecord(boolean forceUpdate) {
-        swipeRefresh.setRefreshing(true);
-        boolean loaded = false;
-        if (!forceUpdate || !MALApi.isNetworkAvailable(context)) {
-            if (getRecordFromDB()) {
-                setText();
-                swipeRefresh.setRefreshing(false);
-                loaded = true;
-            }
-        }
-        if (MALApi.isNetworkAvailable(context)) {
-            if (!loaded || forceUpdate) {
-                Bundle data = new Bundle();
-                boolean saveDetails = username != null && !username.equals("") && isAdded();
-                if (saveDetails) {
-                    data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
-                } else {
-                    data.putInt("recordID", recordID);
-                }
-                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, context, data, this, this).execute();
-            }
-        } else {
-            swipeRefresh.setRefreshing(false);
-            if (!loaded) {
-                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
-            }
+        for (String tab : tabs) {
+            actionbar.addTab(actionbar.newTab().setText(tab).setTabListener(this));
         }
     }
 
@@ -367,18 +115,19 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Checks if this record is in our list
      */
     public boolean isAdded() {
-        if (animeRecord == null && mangaRecord == null) {
-            return false;
-        }
-        if (ListType.ANIME.equals(type)) {
-            return animeRecord.getWatchedStatus() != null;
-        } else {
-            return mangaRecord.getReadStatus() != null;
-        }
+        return (ListType.ANIME.equals(type) ? animeRecord.getWatchedStatus() != null : mangaRecord.getReadStatus() != null);
     }
 
     /*
-     * show the dialog with the tag
+     * Set refreshing on all SwipeRefreshViews
+     */
+    public void setRefreshing(Boolean show) {
+        general.swipeRefresh.setRefreshing(show);
+        general.swipeRefresh.setEnabled(!show);
+    }
+
+    /*
+     * Show the dialog with the tag
      */
     public void showDialog(String tag, DialogFragment dialog) {
         FragmentManager fm = getSupportFragmentManager();
@@ -404,247 +153,109 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // received Android Beam?
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction()))
-            processIntent(getIntent());
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void processIntent(Intent intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            // only one message sent during the beam
-            NdefMessage msg = (NdefMessage) rawMsgs[0];
-            String message = new String(msg.getRecords()[0].getPayload());
-            String[] splitmessage = message.split(":", 2);
-            if (splitmessage.length == 2) {
-                try {
-                    type = ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
-                    recordID = Integer.parseInt(splitmessage[1]);
-                    setCard();
-                    getRecord(false);
-                } catch (NumberFormatException e) {
-                    finish();
-                }
-            }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void setupBeam() {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                // setup beam functionality (if NFC is available)
-                NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-                if (mNfcAdapter == null) {
-                    Log.i("MALX", "NFC not available");
-                } else {
-                    // Register NFC callback
-                    String message_str = type.toString() + ":" + String.valueOf(recordID);
-                    NdefMessage message = new NdefMessage(new NdefRecord[]{
-                            new NdefRecord(
-                                    NdefRecord.TNF_MIME_MEDIA,
-                                    "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
-                                    new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))),
-                            NdefRecord.createApplicationRecord(getPackageName())
-                    });
-                    mNfcAdapter.setNdefPushMessage(message, this);
-                }
-            }
-        } catch (Exception e) {
-            Log.e("MALX", "error at setupBeam: " + e.getMessage());
-        }
-    }
-
-    @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
-    @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        try {
-            if (type == ListType.ANIME) {
-                animeRecord = (Anime) result;
-                if (isAdded())
-                    animeRecord.setDirty(true);
+    /*
+     * Set the right menu items.
+     */
+    public void setMenu() {
+        if (menu != null) {
+            if (isAdded()) {
+                menu.findItem(R.id.action_Remove).setVisible(true);
+                menu.findItem(R.id.action_addToList).setVisible(false);
             } else {
-                mangaRecord = (Manga) result;
-                if (isAdded())
-                    mangaRecord.setDirty(true);
+                menu.findItem(R.id.action_Remove).setVisible(false);
+                menu.findItem(R.id.action_addToList).setVisible(true);
             }
-            setText();
-            swipeRefresh.setRefreshing(false);
-        } catch (ClassCastException e) {
-            Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
-            Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
+            if (MALApi.isNetworkAvailable(this) && menu.findItem(R.id.action_Remove).isVisible()) {
+                menu.findItem(R.id.action_Remove).setVisible(true);
+            } else {
+                menu.findItem(R.id.action_Remove).setVisible(false);
+            }
         }
     }
 
-    @Override
-    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
-    }
-
     /*
-     * Get the translation from strings.xml
+     * Add record to list
      */
-    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
-        Resources res = getResources();
-        try {
-            String[] types = res.getStringArray(resArrayId);
-            if (index < 0 || index >= types.length) // make sure to have a valid array index
-                return res.getString(notFoundStringId);
-            else
-                return types[index];
-        } catch (Resources.NotFoundException e) {
-            return res.getString(notFoundStringId);
+    public void addToList() {
+        if (type.equals(ListType.ANIME)) {
+            animeRecord.setCreateFlag(true);
+            animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
+            animeRecord.setDirty(true);
+        } else {
+            mangaRecord.setCreateFlag(true);
+            mangaRecord.setReadStatus(Manga.STATUS_READING);
+            mangaRecord.setDirty(true);
         }
-    }
-
-    private String getAnimeTypeString(int typeInt) {
-        return getStringFromResourceArray(R.array.mediaType_Anime, R.string.unknown, typeInt);
-    }
-
-    private String getAnimeStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_Anime, R.string.unknown, statusInt);
-    }
-
-    private String getMangaTypeString(int typeInt) {
-        return getStringFromResourceArray(R.array.mediaType_Manga, R.string.unknown, typeInt);
-    }
-
-    private String getMangaStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_Manga, R.string.unknown, statusInt);
-    }
-
-    private String getUserStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_User, R.string.unknown, statusInt);
-    }
-
-    /*
-     * Place all the text in the right textview
-     */
-    public void setText() {
-        if (type == null || (animeRecord == null && mangaRecord == null)) // not enough data to do anything
-            return;
-        GenericRecord record;
         setMenu();
-        if (type.equals(ListType.ANIME)) {
-            record = animeRecord;
-            if (animeRecord.getWatchedStatus() != null) {
-                status.setText(WordUtils.capitalize(getUserStatusString(animeRecord.getWatchedStatusInt())));
-                cardStatus.setVisibility(View.VISIBLE);
-            } else {
-                cardStatus.setVisibility(View.GONE);
-            }
-            mediaType.setText(getAnimeTypeString(animeRecord.getTypeInt()));
-            mediaStatus.setText(getAnimeStatusString(animeRecord.getStatusInt()));
-        } else {
-            record = mangaRecord;
-
-            if (mangaRecord.getReadStatus() != null) {
-                status.setText(WordUtils.capitalize(getUserStatusString(mangaRecord.getReadStatusInt())));
-                cardStatus.setVisibility(View.VISIBLE);
-            } else {
-                cardStatus.setVisibility(View.GONE);
-            }
-            mediaType.setText(getMangaTypeString(mangaRecord.getTypeInt()));
-            mediaStatus.setText(getMangaStatusString(mangaRecord.getStatusInt()));
-        }
-
-        if (record.getSynopsis() == null) {
-            if (MALApi.isNetworkAvailable(context)) {
-                Bundle data = new Bundle();
-                data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
-                swipeRefresh.setRefreshing(true);
-                new NetworkTask(TaskJob.GETDETAILS, type, context, data, this, this).execute();
-            } else {
-                synopsis.setText(getString(R.string.crouton_error_noConnectivity));
-            }
-        } else {
-            synopsis.setMovementMethod(LinkMovementMethod.getInstance());
-            synopsis.setText(Html.fromHtml(record.getSynopsis()));
-        }
-
-        if (isAdded()) {
-            cardProgress.setVisibility(View.VISIBLE);
-        } else {
-            cardProgress.setVisibility(View.GONE);
-        }
-
-        if (type.equals(ListType.ANIME)) {
-            progress1Current.setText(Integer.toString(animeRecord.getWatchedEpisodes()));
-            if (animeRecord.getEpisodes() == 0)
-                progress1Total.setText("/?");
-            else
-                progress1Total.setText("/" + Integer.toString(animeRecord.getEpisodes()));
-        } else {
-            progress1Current.setText(Integer.toString(mangaRecord.getVolumesRead()));
-            if (mangaRecord.getVolumes() == 0)
-                progress1Total.setText("/?");
-            else
-                progress1Total.setText("/" + Integer.toString(mangaRecord.getVolumes()));
-
-            progress2Current.setText(Integer.toString(mangaRecord.getChaptersRead()));
-
-            if (mangaRecord.getChapters() == 0)
-                progress2Total.setText("/?");
-            else
-                progress2Total.setText("/" + Integer.toString(mangaRecord.getChapters()));
-        }
-
-        if (record.getMembersScore() == 0) {
-            MALScoreBar.setVisibility(View.GONE);
-            MALScore.setVisibility(View.GONE);
-        } else {
-            MALScoreBar.setVisibility(View.VISIBLE);
-            MALScore.setVisibility(View.VISIBLE);
-            MALScoreBar.setRating(record.getMembersScore() / 2);
-        }
-
-        if (isAdded()) {
-            myScore.setVisibility(View.VISIBLE);
-            myScoreBar.setVisibility(View.VISIBLE);
-            myScoreBar.setRating((float) record.getScore() / 2);
-        } else {
-            myScore.setVisibility(View.GONE);
-            myScoreBar.setVisibility(View.GONE);
-        }
-        image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        Picasso.with(context)
-                .load(record.getImageUrl())
-                .error(R.drawable.cover_error)
-                .placeholder(R.drawable.cover_loading)
-                .centerInside()
-                .fit()
-                .into(image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        cardMain.wrapWidth(false);
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                });
-
-        getSupportActionBar().setTitle(record.getTitle());
-        cardMain.Header.setText(record.getTitle());
-        setupBeam();
     }
 
-    @Override
-    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+    /*
+     * Open the share dialog
+     */
+    public void Share() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, makeShareText());
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    /*
+     * Make the share text for the share dialog
+     */
+    public String makeShareText() {
+        String shareText = pref.getCustomShareText();
+        shareText = shareText.replace("$title;", getSupportActionBar().getTitle());
+        shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+        shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
+        return shareText;
+    }
+
+    /*
+     * Check if the database contains the record.
+     * Apply if it does.
+     */
+    private boolean getRecordFromDB() {
+        DatabaseManager dbMan = new DatabaseManager(this);
         if (type.equals(ListType.ANIME)) {
-            if (animeRecord != null) {
-                animeRecord.setScore((int) (rating * 2));
-                animeRecord.setDirty(true);
+            animeRecord = dbMan.getAnime(recordID, username);
+            return animeRecord != null;
+        } else {
+            mangaRecord = dbMan.getManga(recordID, username);
+            return mangaRecord != null;
+        }
+    }
+
+    /*
+     * Get the records (Anime/Manga)
+     *
+     * try to fetch them from the Database first to get reading/watching details
+     */
+    public void getRecord(boolean forceUpdate) {
+        setRefreshing(true);
+        boolean loaded = false;
+        if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
+            if (getRecordFromDB()) {
+                setText();
+                setRefreshing(false);
+                loaded = true;
+            }
+        }
+        if (MALApi.isNetworkAvailable(this)) {
+            if (!loaded || forceUpdate) {
+                Bundle data = new Bundle();
+                boolean saveDetails = username != null && !username.equals("") && isAdded();
+                if (saveDetails) {
+                    data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
+                } else {
+                    data.putInt("recordID", recordID);
+                }
+                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, this, data, this, this).execute();
             }
         } else {
-            if (animeRecord != null) {
-                mangaRecord.setScore((int) (rating * 2));
-                mangaRecord.setDirty(true);
+            setRefreshing(false);
+            if (!loaded) {
+                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
         }
     }
@@ -694,6 +305,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         setText();
     }
 
+
     public void onMangaDialogDismissed(int value, int value2) {
         if (value != mangaRecord.getChaptersRead()) {
             if (value == mangaRecord.getChapters() && mangaRecord.getChapters() != 0) {
@@ -733,25 +345,192 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
             mangaRecord.setDirty(true);
             mangaRecord.setDeleteFlag(true);
         }
-
-        finish();
     }
 
     @Override
-    public void onCardClickListener(int res) {
-        if (res == R.id.status) {
-            showDialog("statusPicker", new StatusPickerDialogFragment());
-        } else if (res == R.id.progress) {
+    protected void onSaveInstanceState(Bundle State) {
+        super.onSaveInstanceState(State);
+        State.putSerializable("anime", animeRecord);
+        State.putSerializable("manga", mangaRecord);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_detail_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        this.menu = menu;
+        setMenu();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_Share:
+                Share();
+                break;
+            case R.id.action_Remove:
+                showDialog("removeConfirmation", new RemoveConfirmationDialogFragment());
+                break;
+            case R.id.action_addToList:
+                addToList();
+                break;
+            case R.id.action_ViewMALPage:
+                Uri malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
+                startActivity(new Intent(Intent.ACTION_VIEW, malurl));
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        try {
             if (type.equals(ListType.ANIME)) {
-                showDialog("episodes", new EpisodesPickerDialogFragment());
-            } else {
-                showDialog("manga", new MangaPickerDialogFragment());
+                if (animeRecord.getDirty() && !animeRecord.getDeleteFlag()) {
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(animeRecord);
+                } else if (animeRecord.getDeleteFlag()) {
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(animeRecord);
+                }
+            } else if (type.equals(ListType.MANGA)) {
+                if (mangaRecord.getDirty() && !mangaRecord.getDeleteFlag()) {
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(mangaRecord);
+                } else if (mangaRecord.getDeleteFlag()) {
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(mangaRecord);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("MALX", "Error updating record: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // received Android Beam?
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction()))
+            processIntent(getIntent());
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void processIntent(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            // only one message sent during the beam
+            NdefMessage msg = (NdefMessage) rawMsgs[0];
+            String message = new String(msg.getRecords()[0].getPayload());
+            String[] splitmessage = message.split(":", 2);
+            if (splitmessage.length == 2) {
+                try {
+                    type = ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
+                    recordID = Integer.parseInt(splitmessage[1]);
+                    getRecord(false);
+                } catch (NumberFormatException e) {
+                    finish();
+                }
             }
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setupBeam() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                // setup beam functionality (if NFC is available)
+                NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+                if (mNfcAdapter == null) {
+                    Log.i("MALX", "NFC not available");
+                } else {
+                    // Register NFC callback
+                    String message_str = type.toString() + ":" + String.valueOf(recordID);
+                    NdefMessage message = new NdefMessage(new NdefRecord[]{
+                            new NdefRecord(
+                                    NdefRecord.TNF_MIME_MEDIA,
+                                    "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
+                                    new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))),
+                            NdefRecord.createApplicationRecord(getPackageName())
+                    });
+                    mNfcAdapter.setNdefPushMessage(message, this);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("MALX", "error at setupBeam: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        try {
+            if (type == ListType.ANIME) {
+                animeRecord = (Anime) result;
+                if (isAdded())
+                    animeRecord.setDirty(true);
+            } else {
+                mangaRecord = (Manga) result;
+                if (isAdded())
+                    mangaRecord.setDirty(true);
+            }
+            setRefreshing(false);
+
+            general.setText();
+        } catch (ClassCastException e) {
+            Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+            Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
+        }
+    }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
     }
 
     @Override
     public void onAPIAuthenticationError(ListType type, TaskJob job) {
         showDialog("updatePassword", new UpdatePasswordDialogFragment());
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        actionbar.setSelectedNavigationItem(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    public void setGeneral(DetailViewGeneral igf) {
+        general = igf;
+        getRecord(false);
     }
 }
