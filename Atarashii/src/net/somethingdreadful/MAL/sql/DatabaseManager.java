@@ -58,8 +58,7 @@ public class DatabaseManager {
             userId = 0;
         else
             userId = getUserId(username);
-        if (userId != null)
-            saveAnime(anime, IGF, userId);
+        saveAnime(anime, IGF, userId);
     }
 
     public void saveAnime(Anime anime, boolean IGF, int userId) {
@@ -332,8 +331,7 @@ public class DatabaseManager {
             userId = 0;
         else
             userId = getUserId(username);
-        if (userId != null)
-            saveManga(manga, ignoreSynopsis, userId);
+        saveManga(manga, ignoreSynopsis, userId);
     }
 
     public void saveManga(Manga manga, boolean ignoreSynopsis, int userId) {
@@ -664,7 +662,13 @@ public class DatabaseManager {
     }
 
     private Integer getUserId(String username) {
-        return getRecordId(MALSqlHelper.TABLE_PROFILE, MALSqlHelper.COLUMN_ID, "username", username);
+        if (username.equals(""))
+            return 0;
+        Integer id = getRecordId(MALSqlHelper.TABLE_PROFILE, MALSqlHelper.COLUMN_ID, "username", username);
+        if (id == null) {
+            id = 0;
+        }
+        return id;
     }
 
     private Integer getRecordId(String table, String idField, String searchField, String value) {
@@ -678,9 +682,9 @@ public class DatabaseManager {
         if (result == null) {
             ContentValues cv = new ContentValues();
             cv.put(searchField, value);
-            Long genreAddResult = getDBWrite().insert(table, null, cv);
-            if (genreAddResult > -1) {
-                result = genreAddResult.intValue();
+            Long addResult = getDBWrite().insert(table, null, cv);
+            if (addResult > -1) {
+                result = addResult.intValue();
             }
         }
         return result;

@@ -98,7 +98,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         }
 
         if (animeRecord == null && mangaRecord == null) {
-            getRecord();
+            getRecord(false);
         } else {
             setText();
         }
@@ -106,7 +106,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
 
     @Override
     public void onRefresh() {
-        getRecord();
+        getRecord(true);
     }
 
     @Override
@@ -282,16 +282,26 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      *
      * try to fetch them from the Database first to get reading/watching details
      */
-    public void getRecord() {
+    public void getRecord(boolean forceUpdate) {
         if (MALApi.isNetworkAvailable(context)) {
             swipeRefresh.setRefreshing(true);
-            if (getRecordFromDB()) {
-                setText();
-                swipeRefresh.setRefreshing(false);
-            } else {
+            boolean loaded = false;
+            if (!forceUpdate) {
+                if (getRecordFromDB()) {
+                    setText();
+                    swipeRefresh.setRefreshing(false);
+                    loaded = true;
+                }
+            }
+            if (!loaded) {
                 Bundle data = new Bundle();
-                data.putInt("recordID", recordID);
-                new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+                boolean saveDetails = username != null && !username.equals("") && isAdded();
+                if (saveDetails) {
+                    data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
+                } else {
+                    data.putInt("recordID", recordID);
+                }
+                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, context, data, this, this).execute();
             }
         } else {
             setText();
@@ -303,6 +313,9 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Checks if this record is in our list
      */
     public boolean isAdded() {
+        if (animeRecord == null && mangaRecord == null) {
+            return false;
+        }
         if (ListType.ANIME.equals(type)) {
             return animeRecord.getWatchedStatus() != null;
         } else {
@@ -358,7 +371,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                     type = ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
                     recordID = Integer.parseInt(splitmessage[1]);
                     setCard();
-                    getRecord();
+                    getRecord(false);
                 } catch (NumberFormatException e) {
                     finish();
                 }

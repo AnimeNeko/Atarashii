@@ -117,13 +117,9 @@ public class MALManager {
     public Anime updateWithDetails(int id, Anime anime, String username) {
         Anime anime_api = malApi.getAnime(id);
         if (anime_api != null) {
-            anime.setSynopsis(anime_api.getSynopsis());
-            anime.setMembersScore(anime_api.getMembersScore());
-            // only store anime with user status in database
-            if (anime.getWatchedStatus() != null)
-                dbMan.saveAnime(anime, false, username);
+            dbMan.saveAnime(anime_api, false, username);
+            return anime_api;
         }
-
         return anime;
     }
 
@@ -170,13 +166,9 @@ public class MALManager {
     public Manga updateWithDetails(int id, Manga manga, String username) {
         Manga manga_api = malApi.getManga(id);
         if (manga_api != null) {
-            manga.setSynopsis(manga_api.getSynopsis());
-            manga.setMembersScore(manga_api.getMembersScore());
-            // only store manga with user status in database
-            if (manga.getReadStatus() != null)
-                dbMan.saveManga(manga, false, username);
+            dbMan.saveManga(manga_api, false, username);
+            return manga_api;
         }
-
         return manga;
     }
 
