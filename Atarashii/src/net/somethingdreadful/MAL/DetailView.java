@@ -117,7 +117,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Checks if this record is in our list
      */
     public boolean isAdded() {
-        return (ListType.ANIME.equals(type) ? animeRecord.getWatchedStatus() != null : mangaRecord.getReadStatus() != null);
+        return !isEmpty() && (ListType.ANIME.equals(type) ? animeRecord.getWatchedStatus() != null : mangaRecord.getReadStatus() != null);
     }
 
     /*
