@@ -54,6 +54,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     public String username;
     public PrefManager pref;
     public DetailViewGeneral general;
+    public DetailViewDetails details;
     DetailViewPagerAdapter PageAdapter;
     int recordID;
     private ActionBar actionbar;
@@ -87,16 +88,13 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         }
     }
 
-    @Override
-    public void onRefresh() {
-        getRecord(true);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle State) {
-        super.onSaveInstanceState(State);
-        State.putSerializable("anime", animeRecord);
-        State.putSerializable("manga", mangaRecord);
+    /*
+     * Set text in all fragments
+     */
+    public void setText() {
+        general.setText();
+        if (details != null)
+            details.setText();
     }
 
     /*
@@ -124,6 +122,10 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     public void setRefreshing(Boolean show) {
         general.swipeRefresh.setRefreshing(show);
         general.swipeRefresh.setEnabled(!show);
+        if (details != null) {
+            details.swipeRefresh.setRefreshing(show);
+            details.swipeRefresh.setEnabled(!show);
+        }
     }
 
     /*
@@ -213,7 +215,8 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
 
     /*
      * Check if the database contains the record.
-     * Apply if it does.
+     *
+     * If it does contains the record it will set it.
      */
     private boolean getRecordFromDB() {
         DatabaseManager dbMan = new DatabaseManager(this);
@@ -482,7 +485,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             }
             setRefreshing(false);
 
-            general.setText();
+            setText();
         } catch (ClassCastException e) {
             Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
@@ -529,8 +532,15 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
 
     }
 
-    public void setGeneral(DetailViewGeneral igf) {
-        general = igf;
-        getRecord(false);
+    public void setGeneral(DetailViewGeneral general) {
+        this.general = general;
+        if (isEmpty())
+            getRecord(false);
+        else
+            setText();
+    }
+
+    public void setDetails(DetailViewDetails details) {
+        this.details = details;
     }
 }

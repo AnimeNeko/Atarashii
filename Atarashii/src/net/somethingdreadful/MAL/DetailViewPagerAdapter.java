@@ -17,6 +17,8 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new DetailViewGeneral();
+            case 1:
+                return new DetailViewDetails();
             default:
                 return new DetailViewGeneral();
         }
@@ -24,7 +26,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -33,8 +35,6 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return activity.getString(R.string.tab_name_general);
             case 1:
-                return activity.getString(R.string.tab_name_personal);
-            case 2:
                 return activity.getString(R.string.tab_name_details);
             default:
                 return null;
