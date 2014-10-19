@@ -260,16 +260,47 @@ public class DatabaseManager {
         return result;
     }
 
-    public boolean deleteAnime(int id) {
-        return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, MALSqlHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
+    private boolean deleteAnime(Integer id) {
+        return getDBWrite().delete(MALSqlHelper.TABLE_ANIME, MALSqlHelper.COLUMN_ID + " = ?", new String[]{id.toString()}) == 1;
     }
 
-    public boolean deleteAnimeFromAnimelist(int id, String username) {
+    public boolean deleteAnimeFromAnimelist(Integer id, String username) {
         boolean result = false;
         Integer userId = getUserId(username);
-        if (userId != null)
-            result = getDBWrite().delete(MALSqlHelper.TABLE_ANIMELIST, "profile_id = ? AND anime_id = ?", new String[]{userId.toString(), String.valueOf(id)}) == 1;
+        if (userId != 0) {
+            result = getDBWrite().delete(MALSqlHelper.TABLE_ANIMELIST, "profile_id = ? AND anime_id = ?", new String[]{userId.toString(), id.toString()}) == 1;
+            if (result) {
+                boolean isUsed = false;
+                /* check if this record is used for other relations and delete if it's not to keep the database
+                 * still used relations can be:
+                 * - animelist of other user
+                 * - record is related to other anime or manga (e.g. as sequel or adaptation)
+                 */
+                // used in other animelist?
+                isUsed = recordExists(MALSqlHelper.TABLE_ANIMELIST, "anime_id", id.toString());
+                if (!isUsed) { // no need to check more if its already used
+                    // used as related record of other anime?
+                    isUsed = recordExists(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "related_id", id.toString());
+                }
+                if (!isUsed) { // no need to check more if its already used
+                    // used as related record of an manga?
+                    isUsed = recordExists(MALSqlHelper.TABLE_MANGA_ANIME_RELATIONS, "related_id", id.toString());
+                }
+
+                if (!isUsed) {// its not used anymore, delete it
+                    deleteAnime(id);
+                }
+            }
+        }
         return result;
+    }
+
+    // delete all anime records without relations, because they're "dead" records
+    public void cleanupAnimeTable() {
+        getDBWrite().rawQuery("DELETE FROM anime WHERE " +
+                MALSqlHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT anime_id FROM " + MALSqlHelper.TABLE_ANIMELIST + ") AND " +
+                MALSqlHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT related_id FROM " + MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS + ") AND " +
+                MALSqlHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT related_id FROM " + MALSqlHelper.TABLE_MANGA_ANIME_RELATIONS + ")", null);
     }
 
     public ArrayList<Anime> getAnimeList(String listType, String username) {
@@ -485,16 +516,47 @@ public class DatabaseManager {
         return result;
     }
 
-    public boolean deleteManga(int id) {
-        return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, MALSqlHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
+    private boolean deleteManga(Integer id) {
+        return getDBWrite().delete(MALSqlHelper.TABLE_MANGA, MALSqlHelper.COLUMN_ID + " = ?", new String[]{id.toString()}) == 1;
     }
 
-    public boolean deleteMangaFromMangalist(int id, String username) {
+    public boolean deleteMangaFromMangalist(Integer id, String username) {
         boolean result = false;
         Integer userId = getUserId(username);
-        if (userId != null)
-            result = getDBWrite().delete(MALSqlHelper.TABLE_MANGALIST, "profile_id = ? AND manga_id = ?", new String[]{userId.toString(), String.valueOf(id)}) == 1;
+        if (userId != 0) {
+            result = getDBWrite().delete(MALSqlHelper.TABLE_MANGALIST, "profile_id = ? AND manga_id = ?", new String[]{userId.toString(), id.toString()}) == 1;
+            if (result) {
+                boolean isUsed = false;
+                /* check if this record is used for other relations and delete if it's not to keep the database
+                 * still used relations can be:
+                 * - mangalist of other user
+                 * - record is related to other anime or manga (e.g. as sequel or adaptation)
+                 */
+                // used in other mangalist?
+                isUsed = recordExists(MALSqlHelper.TABLE_MANGALIST, "manga_id", id.toString());
+                if (!isUsed) { // no need to check more if its already used
+                    // used as related record of other manga?
+                    isUsed = recordExists(MALSqlHelper.TABLE_MANGA_MANGA_RELATIONS, "related_id", id.toString());
+                }
+                if (!isUsed) { // no need to check more if its already used
+                    // used as related record of an anime?
+                    isUsed = recordExists(MALSqlHelper.TABLE_ANIME_MANGA_RELATIONS, "related_id", id.toString());
+                }
+
+                if (!isUsed) {// its not used anymore, delete it
+                    deleteManga(id);
+                }
+            }
+        }
         return result;
+    }
+
+    // delete all manga records without relations, because they're "dead" records
+    public void cleanupMangaTable() {
+        getDBWrite().rawQuery("DELETE FROM manga WHERE " +
+                MALSqlHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT manga_id FROM " + MALSqlHelper.TABLE_MANGALIST + ") AND " +
+                MALSqlHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT related_id FROM " + MALSqlHelper.TABLE_MANGA_MANGA_RELATIONS + ") AND " +
+                MALSqlHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT related_id FROM " + MALSqlHelper.TABLE_ANIME_MANGA_RELATIONS + ")", null);
     }
 
     public ArrayList<Manga> getMangaList(String listType, String username) {

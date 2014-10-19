@@ -92,6 +92,7 @@ public class MALManager {
         if (animeList != null) {
             result = animeList.getAnimes();
             dbMan.saveAnimeList(result, username);
+            dbMan.cleanupAnimeTable();
         }
         return result;
     }
@@ -102,6 +103,7 @@ public class MALManager {
         if (mangaList != null) {
             result = mangaList.getManga();
             dbMan.saveMangaList(result, username);
+            dbMan.cleanupMangaTable();
         }
         return result;
     }
@@ -180,16 +182,8 @@ public class MALManager {
         dbMan.saveManga(manga, ignoreSynopsis, username);
     }
 
-    public boolean deleteAnimeFromDatabase(Anime anime) {
-        return dbMan.deleteAnime(anime.getId());
-    }
-
     public boolean deleteAnimeFromAnimelist(Anime anime, String username) {
         return dbMan.deleteAnimeFromAnimelist(anime.getId(), username);
-    }
-
-    public boolean deleteMangaFromDatabase(Manga manga) {
-        return dbMan.deleteManga(manga.getId());
     }
 
     public boolean deleteMangaFromMangalist(Manga manga, String username) {
