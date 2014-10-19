@@ -44,7 +44,7 @@
                 android:layout_below="@id/synopsis"
                 android:layout_marginTop="8dp"
                 custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_stats"
+                custom:header_Title="@string/card_name_info"
                 custom:header_Title_Color="@color/white" />
 
             <!-- Status card -->

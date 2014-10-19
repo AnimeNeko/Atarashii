@@ -158,6 +158,7 @@
     <string name="card_name_synopsis">SYNOPSIS</string>
     <string name="card_name_progress">PROGRESS</string>
     <string name="card_name_stats">MAL STATS</string>
+    <string name="card_name_info">MAL INFO</string>
     <string name="card_name_rating">RATING</string>
     <string name="card_name_status">STATUS</string>
 
