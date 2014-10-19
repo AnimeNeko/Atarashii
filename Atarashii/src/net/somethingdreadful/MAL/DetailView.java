@@ -283,17 +283,17 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * try to fetch them from the Database first to get reading/watching details
      */
     public void getRecord(boolean forceUpdate) {
-        if (MALApi.isNetworkAvailable(context)) {
-            swipeRefresh.setRefreshing(true);
-            boolean loaded = false;
-            if (!forceUpdate) {
-                if (getRecordFromDB()) {
-                    setText();
-                    swipeRefresh.setRefreshing(false);
-                    loaded = true;
-                }
+        swipeRefresh.setRefreshing(true);
+        boolean loaded = false;
+        if (!forceUpdate || !MALApi.isNetworkAvailable(context)) {
+            if (getRecordFromDB()) {
+                setText();
+                swipeRefresh.setRefreshing(false);
+                loaded = true;
             }
-            if (!loaded) {
+        }
+        if (MALApi.isNetworkAvailable(context)) {
+            if (!loaded || forceUpdate) {
                 Bundle data = new Bundle();
                 boolean saveDetails = username != null && !username.equals("") && isAdded();
                 if (saveDetails) {
@@ -304,8 +304,10 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                 new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, context, data, this, this).execute();
             }
         } else {
-            setText();
             swipeRefresh.setRefreshing(false);
+            if (!loaded) {
+                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+            }
         }
     }
 
