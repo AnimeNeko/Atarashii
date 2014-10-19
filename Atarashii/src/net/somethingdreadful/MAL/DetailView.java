@@ -105,6 +105,9 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         }
     }
 
+    /*
+     * Checks if the records are null to prevent nullpointerexceptions
+     */
     public boolean isEmpty() {
         return animeRecord == null && mangaRecord == null;
     }
@@ -545,6 +548,9 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
 
     }
 
+    /*
+     * Set the fragment to future use
+     */
     public void setGeneral(DetailViewGeneral general) {
         this.general = general;
         if (isEmpty())
@@ -553,6 +559,9 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             setText();
     }
 
+    /*
+     * Set the fragment to future use
+     */
     public void setDetails(DetailViewDetails details) {
         this.details = details;
     }
