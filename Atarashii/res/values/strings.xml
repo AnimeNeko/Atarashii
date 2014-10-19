@@ -169,6 +169,13 @@
     <string name="card_content_my_score">My Score</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
+    <string name="card_content_aired">Aired</string>
+    <string name="card_content_genres">Genres</string>
+    <string name="card_content_classification">Classification</string>
+    <string name="card_content_ranked">Rank</string>
+    <string name="card_content_popularity">Popularity</string>
+    <string name="card_content_members">Members</string>
+    <string name="card_content_favorites">Favorites</string>
     <string name="card_content_loading">Loading, just a sec.</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
