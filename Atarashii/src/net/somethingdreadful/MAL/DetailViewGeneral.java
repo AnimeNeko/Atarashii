@@ -24,8 +24,6 @@ import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
-import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.holoeverywhere.widget.TextView;
@@ -69,7 +67,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         activity = ((DetailView) getActivity());
         setViews();
         setListener();
-        setText();
 
         NfcHelper.disableBeam(activity);
 
@@ -238,12 +235,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             }
 
             if (record.getSynopsis() == null) {
-                if (MALApi.isNetworkAvailable(activity)) {
-                    Bundle data = new Bundle();
-                    data.putSerializable("record", activity.type.equals(ListType.ANIME) ? activity.animeRecord : activity.mangaRecord);
-                    activity.setRefreshing(true);
-                    new NetworkTask(TaskJob.GETDETAILS, activity.type, activity, data, activity, activity).execute();
-                } else {
+                if (!MALApi.isNetworkAvailable(activity)) {
                     synopsis.setText(getString(R.string.crouton_error_noConnectivity));
                 }
             } else {

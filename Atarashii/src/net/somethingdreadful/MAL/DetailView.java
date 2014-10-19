@@ -109,6 +109,10 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         }
     }
 
+    public boolean isEmpty() {
+        return animeRecord == null && mangaRecord == null;
+    }
+
     /*
      * Checks if this record is in our list
      */
@@ -230,9 +234,20 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     }
 
     /*
+     * Check if  the record contains all the details.
+     *
+     * Without this function the fragments will call setText while it isn't loaded.
+     * This will cause a nullpointerexception.
+     */
+    public boolean isDone() {
+        return (!isEmpty()) && (type.equals(ListType.ANIME) ? animeRecord.getSynopsis() != null : mangaRecord.getSynopsis() != null);
+    }
+
+    /*
      * Get the records (Anime/Manga)
      *
-     * try to fetch them from the Database first to get reading/watching details
+     * Try to fetch them from the Database first to get reading/watching details.
+     * If the record doesn't contains a synopsis this method will get it.
      */
     public void getRecord(boolean forceUpdate) {
         setRefreshing(true);
@@ -240,8 +255,10 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
                 setText();
-                setRefreshing(false);
-                loaded = true;
+                if (isDone()) {
+                    loaded = true;
+                    setRefreshing(false);
+                }
             }
         }
         if (MALApi.isNetworkAvailable(this)) {
