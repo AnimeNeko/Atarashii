@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -140,7 +139,7 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         record = (activity.type.equals(MALApi.ListType.ANIME) ? activity.animeRecord : activity.mangaRecord);
         activity.setMenu();
 
-        synopsis.setText(Html.fromHtml(record.getSynopsis()));
+        synopsis.setText(record.getSpannedSynopsis());
         synopsis.setMovementMethod(LinkMovementMethod.getInstance());
         genres.setText("\u200F" + TextUtils.join(", ", activity.getGenresString(record.getGenresInt())));
         if (activity.type.equals(MALApi.ListType.ANIME)) {

@@ -241,12 +241,7 @@ public class GenericRecord implements Serializable {
 
     // Use this to get a formatted version of the text suited for display in the application
     public Spanned getSpannedSynopsis() {
-
-        try {
-            return Html.fromHtml(getSynopsis());
-        } catch (NullPointerException npe) {
-            return null;
-        }
+        return (getSynopsis() != null ? Html.fromHtml(getSynopsis()) : null);
     }
 
     public int getUserStatusInt(String statusString) {

@@ -3,7 +3,6 @@ package net.somethingdreadful.MAL;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -203,7 +202,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 }
             } else {
                 synopsis.setMovementMethod(LinkMovementMethod.getInstance());
-                synopsis.setText(Html.fromHtml(record.getSynopsis()));
+                synopsis.setText(record.getSpannedSynopsis());
             }
 
             if (isAdded()) {
