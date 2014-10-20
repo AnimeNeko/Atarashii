@@ -142,18 +142,20 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
 
         synopsis.setText(Html.fromHtml(record.getSynopsis()));
         synopsis.setMovementMethod(LinkMovementMethod.getInstance());
-        type.setText(record.getType());
-        status.setText(record.getStatus());
-        genres.setText("\u200F" + TextUtils.join(", ", record.getGenres()));
+        genres.setText("\u200F" + TextUtils.join(", ", activity.getGenresString(record.getGenresInt())));
         if (activity.type.equals(MALApi.ListType.ANIME)) {
+            type.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
             episodes.setText(activity.animeRecord.getEpisodes() == 0 ? "?" : Integer.toString(activity.animeRecord.getEpisodes()));
             volumes.setVisibility(View.GONE);
             volumesLabel.setVisibility(View.GONE);
-            classification.setText(activity.animeRecord.getClassification());
+            status.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
+            classification.setText(activity.getClassificationString(activity.animeRecord.getClassificationInt()));
         } else {
+            type.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
             episodes.setText(activity.mangaRecord.getChapters() == 0 ? "?" : Integer.toString(activity.mangaRecord.getChapters()));
             episodesLabel.setText(R.string.label_Chapters);
             volumes.setText(activity.mangaRecord.getVolumes() == 0 ? "?" : Integer.toString(activity.mangaRecord.getVolumes()));
+            status.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
             classification.setVisibility(View.GONE);
             classificationLabel.setVisibility(View.GONE);
         }

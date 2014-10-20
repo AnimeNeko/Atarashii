@@ -373,6 +373,7 @@
         <item>2880</item>
     </string-array>
 
+    <!-- Date (Date format output) Items -->
     <string name="dateformat">MM-dd-yy</string>
     <string name="datetimeformat">MM-dd-yy, h:mm a</string>
     <string name="datetimeformat_yesterday">\'Yesterday\', h:mm a</string>
@@ -386,4 +387,59 @@
         <item quantity="one">One hour ago</item>
         <item quantity="other">%d hours ago</item>
     </plurals>
+
+    <string-array name="classificationArray">
+        <item>G - All Ages</item>
+        <item>PG - Children</item>
+        <item>PG-13 - Teens 13 or older</item>
+        <item>R - 17+ (violence \u0026 profanity)</item>
+        <item>R+ - Mild Nudity</item>
+        <item>Rx - Hentai</item>
+    </string-array>
+
+    <string-array name="genresArray">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Cars</item>
+        <item>Comedy</item>
+        <item>Dementia</item>
+        <item>Demons</item>
+        <item>Drama</item>
+        <item>Ecchi</item>
+        <item>Fantasy</item>
+        <item>Game</item>
+        <item>Harem</item>
+        <item>Hentai</item>
+        <item>Historical</item>
+        <item>Horror</item>
+        <item>Josei</item>
+        <item>Kids</item>
+        <item>Magic</item>
+        <item>Martial Arts</item>
+        <item>Mecha</item>
+        <item>Military</item>
+        <item>Music</item>
+        <item>Mystery</item>
+        <item>Parody</item>
+        <item>Police</item>
+        <item>Psychological</item>
+        <item>Romance</item>
+        <item>Samurai</item>
+        <item>School</item>
+        <item>Sci-Fi</item>
+        <item>Seinen</item>
+        <item>Shoujo</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Slice of Life</item>
+        <item>Space</item>
+        <item>Sports</item>
+        <item>Super Power</item>
+        <item>Supernatural</item>
+        <item>Thriller</item>
+        <item>Vampire</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
+    </string-array>
 </resources>

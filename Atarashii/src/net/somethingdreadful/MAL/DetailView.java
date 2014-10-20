@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -240,6 +241,64 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public boolean isDone() {
         return (!isEmpty()) && (type.equals(ListType.ANIME) ? animeRecord.getSynopsis() != null : mangaRecord.getSynopsis() != null);
+    }
+
+    /*
+     * Get the translation from strings.xml
+     */
+    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+        Resources res = getResources();
+        try {
+            String[] types = res.getStringArray(resArrayId);
+            if (index < 0 || index >= types.length) // make sure to have a valid array index
+                return res.getString(notFoundStringId);
+            else
+                return types[index];
+        } catch (Resources.NotFoundException e) {
+            return res.getString(notFoundStringId);
+        }
+    }
+
+    /*
+     * Get the anime or manga mediatype translations
+     */
+    public String getTypeString(int typesInt) {
+        if (type.equals(ListType.ANIME))
+            return getStringFromResourceArray(R.array.mediaType_Anime, R.string.unknown, typesInt);
+        else
+            return getStringFromResourceArray(R.array.mediaType_Manga, R.string.unknown, typesInt);
+    }
+
+    /*
+     * Get the anime or manga status translations
+     */
+    public String getStatusString(int statusInt) {
+        if (type.equals(ListType.ANIME))
+            return getStringFromResourceArray(R.array.mediaStatus_Anime, R.string.unknown, statusInt);
+        else
+            return getStringFromResourceArray(R.array.mediaStatus_Manga, R.string.unknown, statusInt);
+    }
+
+    /*
+     * Get the anime or manga genre translations
+     */
+    public ArrayList<String> getGenresString(ArrayList<Integer> genresInt) {
+        ArrayList<String> genres = new ArrayList<String>();
+        for (Integer genreInt : genresInt) {
+            genres.add(getStringFromResourceArray(R.array.genresArray, R.string.unknown, genreInt));
+        }
+        return genres;
+    }
+
+    /*
+     * Get the anime or manga classification translations
+     */
+    public String getClassificationString(Integer classificationInt) {
+        return getStringFromResourceArray(R.array.classificationArray, R.string.unknown, classificationInt);
+    }
+
+    public String getUserStatusString(int statusInt) {
+        return getStringFromResourceArray(R.array.mediaStatus_User, R.string.unknown, statusInt);
     }
 
     /*

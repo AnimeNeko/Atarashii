@@ -93,6 +93,18 @@ public class Anime extends GenericRecord implements Serializable {
         return classification;
     }
 
+    public Integer getClassificationInt() {
+        String[] classification = {
+                "G - All Ages",
+                "PG - Children",
+                "PG-13 - Teens 13 or older",
+                "R - 17+ (violence \u0026 profanity)",
+                "R+ - Mild Nudity",
+                "Rx - Hentai"
+        };
+        return Arrays.asList(classification).indexOf(getClassification());
+    }
+
     public void setClassification(String classification) {
         this.classification = classification;
     }

@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -167,42 +166,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     }
 
     /*
-     * Get the translation from strings.xml
-     */
-    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
-        Resources res = getResources();
-        try {
-            String[] types = res.getStringArray(resArrayId);
-            if (index < 0 || index >= types.length) // make sure to have a valid array index
-                return res.getString(notFoundStringId);
-            else
-                return types[index];
-        } catch (Resources.NotFoundException e) {
-            return res.getString(notFoundStringId);
-        }
-    }
-
-    private String getAnimeTypeString(int typesInt) {
-        return getStringFromResourceArray(R.array.mediaType_Anime, R.string.unknown, typesInt);
-    }
-
-    private String getAnimeStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_Anime, R.string.unknown, statusInt);
-    }
-
-    private String getMangaTypeString(int typesInt) {
-        return getStringFromResourceArray(R.array.mediaType_Manga, R.string.unknown, typesInt);
-    }
-
-    private String getMangaStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_Manga, R.string.unknown, statusInt);
-    }
-
-    private String getUserStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_User, R.string.unknown, statusInt);
-    }
-
-    /*
      * Place all the text in the right textview
      */
     public void setText() {
@@ -214,24 +177,24 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             if (activity.type.equals(ListType.ANIME)) {
                 record = activity.animeRecord;
                 if (activity.animeRecord.getWatchedStatus() != null) {
-                    status.setText(WordUtils.capitalize(getUserStatusString(activity.animeRecord.getWatchedStatusInt())));
+                    status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt())));
                     cardStatus.setVisibility(View.VISIBLE);
                 } else {
                     cardStatus.setVisibility(View.GONE);
                 }
-                mediaType.setText(getAnimeTypeString(activity.animeRecord.getTypeInt()));
-                mediaStatus.setText(getAnimeStatusString(activity.animeRecord.getStatusInt()));
+                mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
+                mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
             } else {
                 record = activity.mangaRecord;
 
                 if (activity.mangaRecord.getReadStatus() != null) {
-                    status.setText(WordUtils.capitalize(getUserStatusString(activity.mangaRecord.getReadStatusInt())));
+                    status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.mangaRecord.getReadStatusInt())));
                     cardStatus.setVisibility(View.VISIBLE);
                 } else {
                     cardStatus.setVisibility(View.GONE);
                 }
-                mediaType.setText(getMangaTypeString(activity.mangaRecord.getTypeInt()));
-                mediaStatus.setText(getMangaStatusString(activity.mangaRecord.getStatusInt()));
+                mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
+                mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
             }
 
             if (record.getSynopsis() == null) {

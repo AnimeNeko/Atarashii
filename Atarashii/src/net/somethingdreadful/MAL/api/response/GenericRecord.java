@@ -91,6 +91,31 @@ public class GenericRecord implements Serializable {
         this.genres = genres;
     }
 
+    public ArrayList<Integer> getGenresInt() {
+        String[] genres = {
+                "Action", "Adventure", "Cars",
+                "Comedy", "Dementia", "Demons",
+                "Drama", "Ecchi", "Fantasy",
+                "Game", "Harem", "Hentai",
+                "Historical", "Horror", "Josei",
+                "Kids", "Magic", "Martial Arts",
+                "Mecha", "Military", "Music",
+                "Mystery", "Parody", "Police",
+                "Psychological", "Romance", "Samurai",
+                "School", "Sci-Fi", "Seinen",
+                "Shoujo", "Shoujo Ai", "Shounen",
+                "Shounen Ai", "Slice of Life", "Space",
+                "Sports", "Super Power", "Supernatural",
+                "Thriller", "Vampire", "Yaoi",
+                "Yuri"
+        };
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (String genre : getGenres()) {
+            result.add(Arrays.asList(genres).indexOf(genre));
+        }
+        return result;
+    }
+
     public ArrayList<String> getTags() {
         return tags;
     }
