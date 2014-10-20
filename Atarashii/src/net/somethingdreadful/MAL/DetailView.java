@@ -423,6 +423,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             mangaRecord.setDirty(true);
             mangaRecord.setDeleteFlag(true);
         }
+        finish();
     }
 
     @Override
