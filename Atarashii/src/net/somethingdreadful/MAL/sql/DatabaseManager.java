@@ -724,7 +724,7 @@ public class DatabaseManager {
     }
 
     private Integer getUserId(String username) {
-        if (username.equals(""))
+        if (username == null || username.equals(""))
             return 0;
         Integer id = getRecordId(MALSqlHelper.TABLE_PROFILE, MALSqlHelper.COLUMN_ID, "username", username);
         if (id == null) {
