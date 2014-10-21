@@ -21,9 +21,9 @@ public class Manga extends GenericRecord implements Serializable {
     private int chapters_read;
     private int volumes_read;
     private int listed_manga_id;
-    ArrayList<MangaRecordStub> alternative_versions;
-    ArrayList<MangaRecordStub> related_manga;
-    ArrayList<AnimeRecordStub> anime_adaptations;
+    ArrayList<RecordStub> alternative_versions;
+    ArrayList<RecordStub> related_manga;
+    ArrayList<RecordStub> anime_adaptations;
 
 
     public static Manga fromCursor(Cursor c) {
@@ -108,27 +108,27 @@ public class Manga extends GenericRecord implements Serializable {
         this.listed_manga_id = listed_manga_id;
     }
 
-    public ArrayList<MangaRecordStub> getAlternativeVersions() {
+    public ArrayList<RecordStub> getAlternativeVersions() {
         return alternative_versions;
     }
 
-    public void setAlternativeVersions(ArrayList<MangaRecordStub> alternative_versions) {
+    public void setAlternativeVersions(ArrayList<RecordStub> alternative_versions) {
         this.alternative_versions = alternative_versions;
     }
 
-    public ArrayList<MangaRecordStub> getRelatedManga() {
+    public ArrayList<RecordStub> getRelatedManga() {
         return related_manga;
     }
 
-    public void setRelatedManga(ArrayList<MangaRecordStub> related_manga) {
+    public void setRelatedManga(ArrayList<RecordStub> related_manga) {
         this.related_manga = related_manga;
     }
 
-    public ArrayList<AnimeRecordStub> getAnimeAdaptations() {
+    public ArrayList<RecordStub> getAnimeAdaptations() {
         return anime_adaptations;
     }
 
-    public void setAnimeAdaptations(ArrayList<AnimeRecordStub> anime_adaptations) {
+    public void setAnimeAdaptations(ArrayList<RecordStub> anime_adaptations) {
         this.anime_adaptations = anime_adaptations;
     }
 

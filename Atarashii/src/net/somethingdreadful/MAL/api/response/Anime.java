@@ -22,14 +22,14 @@ public class Anime extends GenericRecord implements Serializable {
     private int listed_anime_id;
     /*private Date start_date;
     private Date end_date;*/
-    private ArrayList<AnimeRecordStub> alternative_versions;
-    private ArrayList<AnimeRecordStub> character_anime;
-    private ArrayList<AnimeRecordStub> prequels;
-    private ArrayList<AnimeRecordStub> sequels;
-    private ArrayList<AnimeRecordStub> side_stories;
-    private ArrayList<AnimeRecordStub> summaries;
-    private ArrayList<AnimeRecordStub> spin_offs;
-    private ArrayList<MangaRecordStub> manga_adaptations;
+    private ArrayList<RecordStub> alternative_versions;
+    private ArrayList<RecordStub> character_anime;
+    private ArrayList<RecordStub> prequels;
+    private ArrayList<RecordStub> sequels;
+    private ArrayList<RecordStub> side_stories;
+    private ArrayList<RecordStub> summaries;
+    private ArrayList<RecordStub> spin_offs;
+    private ArrayList<RecordStub> manga_adaptations;
 
     public static Anime fromCursor(Cursor c) {
         Anime result = new Anime();
@@ -120,67 +120,67 @@ public class Anime extends GenericRecord implements Serializable {
         this.end_date = end_date;
     }*/
 
-    public ArrayList<AnimeRecordStub> getAlternativeVersions() {
+    public ArrayList<RecordStub> getAlternativeVersions() {
         return alternative_versions;
     }
 
-    public void setAlternativeVersions(ArrayList<AnimeRecordStub> alternative_versions) {
+    public void setAlternativeVersions(ArrayList<RecordStub> alternative_versions) {
         this.alternative_versions = alternative_versions;
     }
 
-    public ArrayList<AnimeRecordStub> getCharacterAnime() {
+    public ArrayList<RecordStub> getCharacterAnime() {
         return character_anime;
     }
 
-    public void setCharacterAnime(ArrayList<AnimeRecordStub> character_anime) {
+    public void setCharacterAnime(ArrayList<RecordStub> character_anime) {
         this.character_anime = character_anime;
     }
 
-    public ArrayList<AnimeRecordStub> getPrequels() {
+    public ArrayList<RecordStub> getPrequels() {
         return prequels;
     }
 
-    public void setPrequels(ArrayList<AnimeRecordStub> prequels) {
+    public void setPrequels(ArrayList<RecordStub> prequels) {
         this.prequels = prequels;
     }
 
-    public ArrayList<AnimeRecordStub> getSequels() {
+    public ArrayList<RecordStub> getSequels() {
         return sequels;
     }
 
-    public void setSequels(ArrayList<AnimeRecordStub> sequels) {
+    public void setSequels(ArrayList<RecordStub> sequels) {
         this.sequels = sequels;
     }
 
-    public ArrayList<AnimeRecordStub> getSideStories() {
+    public ArrayList<RecordStub> getSideStories() {
         return side_stories;
     }
 
-    public void setSideStories(ArrayList<AnimeRecordStub> side_stories) {
+    public void setSideStories(ArrayList<RecordStub> side_stories) {
         this.side_stories = side_stories;
     }
 
-    public ArrayList<AnimeRecordStub> getSummaries() {
+    public ArrayList<RecordStub> getSummaries() {
         return summaries;
     }
 
-    public void setSummaries(ArrayList<AnimeRecordStub> summaries) {
+    public void setSummaries(ArrayList<RecordStub> summaries) {
         this.summaries = summaries;
     }
 
-    public ArrayList<AnimeRecordStub> getSpinOffs() {
+    public ArrayList<RecordStub> getSpinOffs() {
         return spin_offs;
     }
 
-    public void setSpinOffs(ArrayList<AnimeRecordStub> spin_offs) {
+    public void setSpinOffs(ArrayList<RecordStub> spin_offs) {
         this.spin_offs = spin_offs;
     }
 
-    public ArrayList<MangaRecordStub> getMangaAdaptions() {
+    public ArrayList<RecordStub> getMangaAdaptions() {
         return manga_adaptations;
     }
 
-    public void setMangaAdaptions(ArrayList<MangaRecordStub> manga_adaptations) {
+    public void setMangaAdaptions(ArrayList<RecordStub> manga_adaptations) {
         this.manga_adaptations = manga_adaptations;
     }
 

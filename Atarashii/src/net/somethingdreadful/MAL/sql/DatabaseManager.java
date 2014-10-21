@@ -9,10 +9,9 @@ import android.util.Log;
 
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeRecordStub;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.api.response.MangaRecordStub;
 import net.somethingdreadful.MAL.api.response.OtherTitles;
+import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.api.response.User;
 
 import java.util.ArrayList;
@@ -122,7 +121,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_ALTERNATIVE});
 
-                    for (AnimeRecordStub animeStub : anime.getAlternativeVersions()) {
+                    for (RecordStub animeStub : anime.getAlternativeVersions()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
                     }
                 }
@@ -131,7 +130,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_CHARACTER});
 
-                    for (AnimeRecordStub animeStub : anime.getCharacterAnime()) {
+                    for (RecordStub animeStub : anime.getCharacterAnime()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_CHARACTER);
                     }
                 }
@@ -140,7 +139,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_PREQUEL});
 
-                    for (AnimeRecordStub animeStub : anime.getPrequels()) {
+                    for (RecordStub animeStub : anime.getPrequels()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_PREQUEL);
                     }
                 }
@@ -149,7 +148,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SEQUEL});
 
-                    for (AnimeRecordStub animeStub : anime.getSequels()) {
+                    for (RecordStub animeStub : anime.getSequels()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SEQUEL);
                     }
                 }
@@ -158,7 +157,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SIDE_STORY});
 
-                    for (AnimeRecordStub animeStub : anime.getSideStories()) {
+                    for (RecordStub animeStub : anime.getSideStories()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SIDE_STORY);
                     }
                 }
@@ -167,7 +166,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SPINOFF});
 
-                    for (AnimeRecordStub animeStub : anime.getSpinOffs()) {
+                    for (RecordStub animeStub : anime.getSpinOffs()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SPINOFF);
                     }
                 }
@@ -176,7 +175,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SUMMARY});
 
-                    for (AnimeRecordStub animeStub : anime.getSummaries()) {
+                    for (RecordStub animeStub : anime.getSummaries()) {
                         saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SUMMARY);
                     }
                 }
@@ -185,7 +184,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_ANIME_MANGA_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_ADAPTATION});
 
-                    for (MangaRecordStub mangaStub : anime.getMangaAdaptions()) {
+                    for (RecordStub mangaStub : anime.getMangaAdaptions()) {
                         saveAnimeToMangaRelation(anime.getId(), mangaStub, MALSqlHelper.RELATION_TYPE_ADAPTATION);
                     }
                 }
@@ -427,7 +426,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_MANGA_MANGA_RELATIONS, "manga_id = ? AND relationType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.RELATION_TYPE_ALTERNATIVE});
 
-                    for (MangaRecordStub mangaStub : manga.getAlternativeVersions()) {
+                    for (RecordStub mangaStub : manga.getAlternativeVersions()) {
                         saveMangaToMangaRelation(manga.getId(), mangaStub, MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
                     }
                 }
@@ -436,7 +435,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_MANGA_MANGA_RELATIONS, "manga_id = ? AND relationType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.RELATION_TYPE_RELATED});
 
-                    for (MangaRecordStub mangaStub : manga.getRelatedManga()) {
+                    for (RecordStub mangaStub : manga.getRelatedManga()) {
                         saveMangaToMangaRelation(manga.getId(), mangaStub, MALSqlHelper.RELATION_TYPE_RELATED);
                     }
                 }
@@ -445,7 +444,7 @@ public class DatabaseManager {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_MANGA_ANIME_RELATIONS, "manga_id = ? AND relationType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.RELATION_TYPE_ADAPTATION});
 
-                    for (AnimeRecordStub animeStub : manga.getAnimeAdaptations()) {
+                    for (RecordStub animeStub : manga.getAnimeAdaptations()) {
                         saveMangaToAnimeRelation(manga.getId(), animeStub, MALSqlHelper.RELATION_TYPE_ADAPTATION);
                     }
                 }
@@ -827,7 +826,11 @@ public class DatabaseManager {
      * This record then only has the few informations that are available in the relation object
      * returned by the API (only id and title)
      */
-    private void saveAnimeToAnimeRelation(int animeId, AnimeRecordStub relatedAnime, String relationType) {
+    private void saveAnimeToAnimeRelation(int animeId, RecordStub relatedAnime, String relationType) {
+        if (relatedAnime.getId() == 0) {
+            Log.e("MALX", "error saving relation: anime id must not be 0; title: " + relatedAnime.getTitle());
+            return;
+        }
         boolean relatedRecordExists;
         if (!recordExists(MALSqlHelper.TABLE_ANIME, MALSqlHelper.COLUMN_ID, String.valueOf(relatedAnime.getId()))) {
             ContentValues cv = new ContentValues();
@@ -847,7 +850,11 @@ public class DatabaseManager {
         }
     }
 
-    private void saveAnimeToMangaRelation(int animeId, MangaRecordStub relatedManga, String relationType) {
+    private void saveAnimeToMangaRelation(int animeId, RecordStub relatedManga, String relationType) {
+        if (relatedManga.getId() == 0) {
+            Log.e("MALX", "error saving relation: manga id must not be 0; title: " + relatedManga.getTitle());
+            return;
+        }
         boolean relatedRecordExists;
         if (!recordExists(MALSqlHelper.TABLE_MANGA, MALSqlHelper.COLUMN_ID, String.valueOf(relatedManga.getId()))) {
             ContentValues cv = new ContentValues();
@@ -867,7 +874,11 @@ public class DatabaseManager {
         }
     }
 
-    private void saveMangaToMangaRelation(int mangaId, MangaRecordStub relatedManga, String relationType) {
+    private void saveMangaToMangaRelation(int mangaId, RecordStub relatedManga, String relationType) {
+        if (relatedManga.getId() == 0) {
+            Log.e("MALX", "error saving relation: manga id must not be 0; title: " + relatedManga.getTitle());
+            return;
+        }
         boolean relatedRecordExists;
         if (!recordExists(MALSqlHelper.TABLE_MANGA, MALSqlHelper.COLUMN_ID, String.valueOf(relatedManga.getId()))) {
             ContentValues cv = new ContentValues();
@@ -887,7 +898,11 @@ public class DatabaseManager {
         }
     }
 
-    private void saveMangaToAnimeRelation(int mangaId, AnimeRecordStub relatedAnime, String relationType) {
+    private void saveMangaToAnimeRelation(int mangaId, RecordStub relatedAnime, String relationType) {
+        if (relatedAnime.getId() == 0) {
+            Log.e("MALX", "error saving relation: anime id must not be 0; title: " + relatedAnime.getTitle());
+            return;
+        }
         boolean relatedRecordExists;
         if (!recordExists(MALSqlHelper.TABLE_ANIME, MALSqlHelper.COLUMN_ID, String.valueOf(relatedAnime.getId()))) {
             ContentValues cv = new ContentValues();
@@ -907,15 +922,15 @@ public class DatabaseManager {
         }
     }
 
-    private ArrayList<AnimeRecordStub> getAnimeToAnimeRelations(Integer animeId, String relationType) {
-        ArrayList<AnimeRecordStub> result = null;
+    private ArrayList<RecordStub> getAnimeToAnimeRelations(Integer animeId, String relationType) {
+        ArrayList<RecordStub> result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT a." + MALSqlHelper.COLUMN_ID + ", a.recordName FROM " + MALSqlHelper.TABLE_ANIME + " a " +
                 "INNER JOIN " + MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS + " ar ON a." + MALSqlHelper.COLUMN_ID + " = ar.related_id " +
                 "WHERE ar.anime_id = ? AND ar.relationType = ? ORDER BY a.recordName COLLATE NOCASE", new String[]{animeId.toString(), relationType});
         if (cursor.moveToFirst()) {
-            result = new ArrayList<AnimeRecordStub>();
+            result = new ArrayList<RecordStub>();
             do {
-                AnimeRecordStub animeStub = new AnimeRecordStub();
+                RecordStub animeStub = new RecordStub();
                 animeStub.setId(cursor.getInt(0));
                 animeStub.setTitle(cursor.getString(1));
                 result.add(animeStub);
@@ -925,15 +940,15 @@ public class DatabaseManager {
         return result;
     }
 
-    private ArrayList<MangaRecordStub> getAnimeToMangaRelations(Integer animeId, String relationType) {
-        ArrayList<MangaRecordStub> result = null;
+    private ArrayList<RecordStub> getAnimeToMangaRelations(Integer animeId, String relationType) {
+        ArrayList<RecordStub> result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT m." + MALSqlHelper.COLUMN_ID + ", m.recordName FROM " + MALSqlHelper.TABLE_MANGA + " m " +
                 "INNER JOIN " + MALSqlHelper.TABLE_ANIME_MANGA_RELATIONS + " ar ON m." + MALSqlHelper.COLUMN_ID + " = ar.related_id " +
                 "WHERE ar.anime_id = ? AND ar.relationType = ? ORDER BY m.recordName COLLATE NOCASE", new String[]{animeId.toString(), relationType});
         if (cursor.moveToFirst()) {
-            result = new ArrayList<MangaRecordStub>();
+            result = new ArrayList<RecordStub>();
             do {
-                MangaRecordStub mangaStub = new MangaRecordStub();
+                RecordStub mangaStub = new RecordStub();
                 mangaStub.setId(cursor.getInt(0));
                 mangaStub.setTitle(cursor.getString(1));
                 result.add(mangaStub);
@@ -943,15 +958,15 @@ public class DatabaseManager {
         return result;
     }
 
-    private ArrayList<MangaRecordStub> getMangaToMangaRelations(Integer mangaId, String relationType) {
-        ArrayList<MangaRecordStub> result = null;
+    private ArrayList<RecordStub> getMangaToMangaRelations(Integer mangaId, String relationType) {
+        ArrayList<RecordStub> result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT m." + MALSqlHelper.COLUMN_ID + ", m.recordName FROM " + MALSqlHelper.TABLE_MANGA + " m " +
                 "INNER JOIN " + MALSqlHelper.TABLE_MANGA_MANGA_RELATIONS + " mr ON m." + MALSqlHelper.COLUMN_ID + " = mr.related_id " +
                 "WHERE mr.manga_id = ? AND mr.relationType = ? ORDER BY m.recordName COLLATE NOCASE", new String[]{mangaId.toString(), relationType});
         if (cursor.moveToFirst()) {
-            result = new ArrayList<MangaRecordStub>();
+            result = new ArrayList<RecordStub>();
             do {
-                MangaRecordStub mangaStub = new MangaRecordStub();
+                RecordStub mangaStub = new RecordStub();
                 mangaStub.setId(cursor.getInt(0));
                 mangaStub.setTitle(cursor.getString(1));
                 result.add(mangaStub);
@@ -961,15 +976,15 @@ public class DatabaseManager {
         return result;
     }
 
-    private ArrayList<AnimeRecordStub> getMangaToAnimeRelations(Integer mangaId, String relationType) {
-        ArrayList<AnimeRecordStub> result = null;
+    private ArrayList<RecordStub> getMangaToAnimeRelations(Integer mangaId, String relationType) {
+        ArrayList<RecordStub> result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT a." + MALSqlHelper.COLUMN_ID + ", a.recordName FROM " + MALSqlHelper.TABLE_ANIME + " a " +
                 "INNER JOIN " + MALSqlHelper.TABLE_MANGA_ANIME_RELATIONS + " mr ON a." + MALSqlHelper.COLUMN_ID + " = mr.related_id " +
                 "WHERE mr.manga_id = ? AND mr.relationType = ? ORDER BY a.recordName COLLATE NOCASE", new String[]{mangaId.toString(), relationType});
         if (cursor.moveToFirst()) {
-            result = new ArrayList<AnimeRecordStub>();
+            result = new ArrayList<RecordStub>();
             do {
-                AnimeRecordStub animeStub = new AnimeRecordStub();
+                RecordStub animeStub = new RecordStub();
                 animeStub.setId(cursor.getInt(0));
                 animeStub.setTitle(cursor.getString(1));
                 result.add(animeStub);
