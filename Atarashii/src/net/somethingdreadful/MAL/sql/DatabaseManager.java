@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.OtherTitles;
@@ -931,7 +932,7 @@ public class DatabaseManager {
             result = new ArrayList<RecordStub>();
             do {
                 RecordStub animeStub = new RecordStub();
-                animeStub.setId(cursor.getInt(0));
+                animeStub.setId(cursor.getInt(0), MALApi.ListType.ANIME);
                 animeStub.setTitle(cursor.getString(1));
                 result.add(animeStub);
             } while (cursor.moveToNext());
@@ -949,7 +950,7 @@ public class DatabaseManager {
             result = new ArrayList<RecordStub>();
             do {
                 RecordStub mangaStub = new RecordStub();
-                mangaStub.setId(cursor.getInt(0));
+                mangaStub.setId(cursor.getInt(0), MALApi.ListType.MANGA);
                 mangaStub.setTitle(cursor.getString(1));
                 result.add(mangaStub);
             } while (cursor.moveToNext());
@@ -967,7 +968,7 @@ public class DatabaseManager {
             result = new ArrayList<RecordStub>();
             do {
                 RecordStub mangaStub = new RecordStub();
-                mangaStub.setId(cursor.getInt(0));
+                mangaStub.setId(cursor.getInt(0), MALApi.ListType.MANGA);
                 mangaStub.setTitle(cursor.getString(1));
                 result.add(mangaStub);
             } while (cursor.moveToNext());
@@ -985,7 +986,7 @@ public class DatabaseManager {
             result = new ArrayList<RecordStub>();
             do {
                 RecordStub animeStub = new RecordStub();
-                animeStub.setId(cursor.getInt(0));
+                animeStub.setId(cursor.getInt(0), MALApi.ListType.ANIME);
                 animeStub.setTitle(cursor.getString(1));
                 result.add(animeStub);
             } while (cursor.moveToNext());
