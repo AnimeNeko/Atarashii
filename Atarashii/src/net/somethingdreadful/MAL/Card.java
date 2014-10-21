@@ -10,19 +10,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class Card extends RelativeLayout implements View.OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class Card extends RelativeLayout implements View.OnTouchListener {
     public TextView Header;
     public boolean center;
     public RelativeLayout Card;
     public RelativeLayout Content;
     LayoutInflater inflater;
     boolean click;
-    boolean WrapHeight;
     int CardColor;
     int CardColorPressed;
     onCardClickListener listener;
@@ -41,7 +39,6 @@ public class Card extends RelativeLayout implements View.OnTouchListener, ViewTr
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
         CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
         Boolean TouchEvent = a.getBoolean(R.styleable.Card_card_TouchFeedback, false);
-        WrapHeight = a.getBoolean(R.styleable.Card_card_WrapHeight, false);
 
         /*
          * Setup layout
@@ -71,17 +68,7 @@ public class Card extends RelativeLayout implements View.OnTouchListener, ViewTr
             (this.findViewById(R.id.actionableIcon)).setVisibility(View.GONE);
         }
 
-        if (WrapHeight)
-            Content.getViewTreeObserver().addOnGlobalLayoutListener(this);
         a.recycle();
-    }
-
-    /*
-     * Wrap height if it is enabled in the layout
-     */
-    @Override
-    public void onGlobalLayout() {
-        wrapHeight();
     }
 
     /*
@@ -93,9 +80,13 @@ public class Card extends RelativeLayout implements View.OnTouchListener, ViewTr
 
     /*
      * Add content to the card
+     *
+     * Also checks if the view contains a listview to apply the right paddings
      */
     public void setContent(int res) {
         inflater.inflate(res, Content);
+        if (this.findViewById(R.id.ListView) != null)
+            Content.setPadding(0, 0, 0, Content.getPaddingBottom());
     }
 
     /*
@@ -156,14 +147,6 @@ public class Card extends RelativeLayout implements View.OnTouchListener, ViewTr
         Card.setLayoutParams(new LayoutParams(width, Card.getMeasuredHeight()));
         if (center)
             Header.setGravity(Gravity.CENTER);
-    }
-
-    /*
-     * Wraps the height of a card
-     */
-    public void wrapHeight() {
-        Card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-        Card.setLayoutParams(new LayoutParams(Card.getWidth(), Card.getMeasuredHeight()));
     }
 
     /*

@@ -8,6 +8,5 @@
         <attr name="card_Color" format="reference" />
         <attr name="card_ColorPressed" format="reference" />
         <attr name="card_TouchFeedback" format="boolean" />
-        <attr name="card_WrapHeight" format="boolean" />
     </declare-styleable>
 </resources> 

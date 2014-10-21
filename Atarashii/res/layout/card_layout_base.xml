@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/BaseCard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/card_neutral">
 
     <TextView
@@ -23,21 +23,15 @@
         android:textColor="#0099CC"
         android:textSize="18sp" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/CardTitle"
-        android:paddingBottom="1dp">
-
-        <RelativeLayout
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="6dp" />
-    </ScrollView>
+        android:paddingBottom="12dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp" />
 
     <ImageView
         android:id="@+id/actionableIcon"
