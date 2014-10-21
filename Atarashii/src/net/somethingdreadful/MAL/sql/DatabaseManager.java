@@ -190,6 +190,12 @@ public class DatabaseManager {
                     }
                 }
 
+                if (anime.getParentStory() != null) {
+                    // delete old relations
+                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_MANGA_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_PARENT_STORY});
+                    saveAnimeToAnimeRelation(anime.getId(), anime.getParentStory(), MALSqlHelper.RELATION_TYPE_PARENT_STORY);
+                }
+
                 if (anime.getOtherTitles() != null) {
                     if (anime.getOtherTitles().getEnglish() != null) {
                         // delete old relations
@@ -250,6 +256,10 @@ public class DatabaseManager {
             result.setSpinOffs(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF));
             result.setSummaries(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY));
             result.setMangaAdaptions(getAnimeToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ADAPTATION));
+            ArrayList<RecordStub> parentStory = getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_PARENT_STORY);
+            if (parentStory != null && parentStory.size() > 0) {
+                result.setParentStory(parentStory.get(0));
+            }
             OtherTitles otherTitles = new OtherTitles();
             otherTitles.setEnglish(getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
             otherTitles.setJapanese(getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));

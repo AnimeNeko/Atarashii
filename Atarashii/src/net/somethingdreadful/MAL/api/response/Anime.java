@@ -30,6 +30,7 @@ public class Anime extends GenericRecord implements Serializable {
     private ArrayList<RecordStub> summaries;
     private ArrayList<RecordStub> spin_offs;
     private ArrayList<RecordStub> manga_adaptations;
+    private RecordStub parent_story;
 
     public static Anime fromCursor(Cursor c) {
         Anime result = new Anime();
@@ -182,6 +183,14 @@ public class Anime extends GenericRecord implements Serializable {
 
     public void setMangaAdaptions(ArrayList<RecordStub> manga_adaptations) {
         this.manga_adaptations = manga_adaptations;
+    }
+
+    public RecordStub getParentStory() {
+        return parent_story;
+    }
+
+    public void setParentStory(RecordStub parent_story) {
+        this.parent_story = parent_story;
     }
 
     public int getTypeInt() {
