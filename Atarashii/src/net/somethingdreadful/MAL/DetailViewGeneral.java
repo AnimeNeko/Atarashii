@@ -149,7 +149,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
      */
     public void setMenu() {
         if (menu != null) {
-            if (isAdded()) {
+            if (activity.isAdded()) {
                 menu.findItem(R.id.action_Remove).setVisible(true);
                 menu.findItem(R.id.action_addToList).setVisible(false);
             } else {
@@ -204,7 +204,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             synopsis.setText(record.getSpannedSynopsis());
         }
 
-        if (isAdded()) {
+        if (activity.isAdded()) {
             cardProgress.setVisibility(View.VISIBLE);
         } else {
             cardProgress.setVisibility(View.GONE);
@@ -240,7 +240,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             MALScoreBar.setRating(record.getMembersScore() / 2);
         }
 
-        if (isAdded()) {
+        if (activity.isAdded()) {
             myScore.setVisibility(View.VISIBLE);
             myScoreBar.setVisibility(View.VISIBLE);
             myScoreBar.setRating((float) record.getScore() / 2);
