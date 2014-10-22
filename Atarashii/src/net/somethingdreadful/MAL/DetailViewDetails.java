@@ -1,27 +1,33 @@
 package net.somethingdreadful.MAL;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.RecordStub;
 
 import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class DetailViewDetails extends Fragment implements Serializable, SwipeRefreshLayout.OnRefreshListener {
+public class DetailViewDetails extends Fragment implements Serializable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     public SwipeRefreshLayout swipeRefresh;
-    Menu menu;
     DetailView activity;
 
     View view;
@@ -29,6 +35,7 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
     Card cardSynopsis;
     Card cardMediainfo;
     Card cardMediaStats;
+    Card cardRelations;
 
     TextView synopsis;
     TextView type;
@@ -47,14 +54,11 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
     TextView members;
     TextView favorites;
 
-    TextView adaptations;
-    TextView prequels;
-    TextView sequels;
-    TextView side_stories;
-    TextView parent_story;
-    TextView spin_offs;
-    TextView summaries;
-    TextView alternative_versions;
+    ListView relations;
+
+    ArrayList<RecordStub> relationsList;
+    ListViewAdapter<RecordStub> listadapter;
+    Integer headers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,10 +94,12 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
         cardMediaStats = (Card) view.findViewById(R.id.mediastats);
+        cardRelations = (Card) view.findViewById(R.id.relations);
 
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_details_mediainfo);
         cardMediaStats.setContent(R.layout.card_detailview_details_mediastats);
+        cardRelations.setContent(R.layout.card_detailview_details_relations);
 
         // set all the views
         synopsis = (TextView) view.findViewById(R.id.SynopsisContent);
@@ -113,6 +119,12 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         popularity = (TextView) view.findViewById(R.id.popularity);
         members = (TextView) view.findViewById(R.id.members);
         favorites = (TextView) view.findViewById(R.id.favorites);
+
+        relations = (ListView) view.findViewById(R.id.ListView);
+        relations.setOnItemClickListener(this);
+
+        relationsList = new ArrayList<RecordStub>();
+        listadapter = new ListViewAdapter<RecordStub>(activity.getApplicationContext(), R.layout.record_details_listview);
     }
 
     @Override
@@ -164,5 +176,90 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         popularity.setText(Integer.toString(record.getPopularityRank()));
         members.setText(Integer.toString(record.getMembersCount()));
         favorites.setText(Integer.toString(record.getFavoritedCount()));
+
+        relationsList.clear();
+        headers = 0;
+
+        if (activity.type.equals(MALApi.ListType.ANIME)) {
+            addRelations(activity.animeRecord.getMangaAdaptions(), R.string.card_content_adaptions);
+            addRelations(activity.animeRecord.getParentStory(), R.string.card_content_parentstory);
+            addRelations(activity.animeRecord.getPrequels(), R.string.card_content_prequel);
+            addRelations(activity.animeRecord.getSequels(), R.string.card_content_sequel);
+            addRelations(activity.animeRecord.getSideStories(), R.string.card_content_sidestories);
+            addRelations(activity.animeRecord.getSpinOffs(), R.string.card_content_spinoffs);
+            addRelations(activity.animeRecord.getSummaries(), R.string.card_content_summaries);
+            addRelations(activity.animeRecord.getCharacterAnime(), R.string.card_content_character);
+            addRelations(activity.animeRecord.getAlternativeVersions(), R.string.card_content_alternativeversions);
+        } else {
+            addRelations(activity.mangaRecord.getAnimeAdaptations(), R.string.card_content_adaptions);
+            addRelations(activity.mangaRecord.getRelatedManga(), R.string.card_content_related);
+            addRelations(activity.mangaRecord.getAlternativeVersions(), R.string.card_content_alternativeversions);
+        }
+        relations.setAdapter(listadapter);
+        listadapter.supportAddAll(relationsList);
+        listadapter.notifyDataSetChanged();
+        cardRelations.refreshList(relationsList.size(), 56, headers , 48, 1);
+    }
+
+    public void addRelations(ArrayList<RecordStub> recordStub, Integer header) {
+        if (recordStub != null && recordStub.size() != 0) {
+            RecordStub headerStub = new RecordStub();
+            headerStub.setId(0, MALApi.ListType.ANIME);
+            headerStub.setTitle(getString(header));
+            relationsList.add(headerStub);
+            relationsList.addAll(recordStub);
+            headers = headers + 1;
+        }
+    }
+
+    public void addRelations(RecordStub recordStub, Integer header) {
+        if (recordStub != null) {
+            RecordStub headerStub = new RecordStub();
+            headerStub.setId(0, MALApi.ListType.ANIME);
+            headerStub.setTitle(getString(header));
+            relationsList.add(headerStub);
+            relationsList.add(recordStub);
+            headers = headers + 1;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (relationsList.get(position).getId() != 0) {
+            Intent detailView = new Intent(activity, DetailView.class);
+            detailView.putExtra("recordID", relationsList.get(position).getId());
+            detailView.putExtra("recordType", relationsList.get(position).getType());
+            startActivity(detailView);
+        }
+    }
+
+    public class ListViewAdapter<T> extends ArrayAdapter<T> {
+        Context context;
+
+        public ListViewAdapter(Context context, int resource) {
+            super(context, resource);
+            this.context = context;
+        }
+
+        public View getView(int position, View view, ViewGroup parent) {
+            final RecordStub record = (relationsList.get(position));
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (record.getId() == 0)
+                view = inflater.inflate(R.layout.record_details_listview_header, parent, false);
+            else
+                view = inflater.inflate(R.layout.record_details_listview, parent, false);
+
+            TextView name = (TextView) view.findViewById(R.id.name);
+            name.setText(record.getTitle());
+            return view;
+        }
+
+        public void supportAddAll(Collection<? extends T> collection) {
+            this.clear();
+            for (T record : collection) {
+                this.add(record);
+            }
+        }
     }
 }

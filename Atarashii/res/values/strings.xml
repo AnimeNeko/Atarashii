@@ -161,6 +161,7 @@
     <string name="card_name_info">MAL INFO</string>
     <string name="card_name_rating">RATING</string>
     <string name="card_name_status">STATUS</string>
+    <string name="card_name_relations">RELATIONS</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
@@ -178,6 +179,16 @@
     <string name="card_content_members">Members</string>
     <string name="card_content_favorites">Favorites</string>
     <string name="card_content_loading">Loading, just a sec.</string>
+    <string name="card_content_prequel">Prequels</string>
+    <string name="card_content_sequel">Sequels</string>
+    <string name="card_content_alternativeversions">Alternative Versions</string>
+    <string name="card_content_adaptions">Adaptions</string>
+    <string name="card_content_sidestories">Side Stories</string>
+    <string name="card_content_spinoffs">SpinOffs</string>
+    <string name="card_content_summaries">Summaries</string>
+    <string name="card_content_character">Character</string>
+    <string name="card_content_related">Related</string>
+    <string name="card_content_parentstory">Parent Story</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
