@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
     int CardColor;
     int CardColorPressed;
     onCardClickListener listener;
+    int screenWidth;
+    Float density;
 
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,6 +39,8 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         String TitleText = a.getString(R.styleable.Card_header_Title);
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
         int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.card_content);
+        Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
+        Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
         CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
         Boolean TouchEvent = a.getBoolean(R.styleable.Card_card_TouchFeedback, false);
@@ -56,6 +61,8 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         /*
          * Apply attributes
          */
+        if (divide != 0 || maxWidth!= 0)
+            setWidth(divide, maxWidth);
         Header.setText(TitleText);
         Header.setTextColor(getResources().getColor(TitleColor));
         setHeaderColor(HeaderColor);
@@ -166,6 +173,49 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         Card.setLayoutParams(new LayoutParams(width, Card.getMeasuredHeight()));
         if (center)
             Header.setGravity(Gravity.CENTER);
+    }
+
+    /*
+     * Set the card width
+     *
+     * amount is the amount of cards besides each other
+     * maxWidth is the maximum width in dp
+     */
+    public void setWidth(Integer amount, Integer maxWidth) {
+        if (amount == 0)
+            amount = 1;
+        int divider = amount - 1;
+        divider = (divider * 4) + 16;
+        divider = (int) (divider * getDensity());
+        int card = (getScreenWidth() - divider) / amount;
+        maxWidth = (int) (maxWidth * getDensity());
+
+        if (card > maxWidth && maxWidth != 0)
+            Card.getLayoutParams().width = maxWidth;
+        else
+            Card.getLayoutParams().width = card;
+    }
+
+    @SuppressLint("InlinedApi")
+    public Integer getScreenWidth() {
+        if (screenWidth == 0) {
+            try {
+                screenWidth = (int) (getResources().getConfiguration().screenWidthDp * getDensity());
+            } catch (NoSuchFieldError e) {
+                screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+            }
+        }
+        return screenWidth;
+    }
+
+    /*
+     * Get the display density
+     *
+     */
+    public Float getDensity() {
+        if (density == null)
+            density = (getResources().getDisplayMetrics().densityDpi / 160f);
+        return density;
     }
 
     /*
