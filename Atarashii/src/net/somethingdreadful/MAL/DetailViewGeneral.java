@@ -168,7 +168,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
      * Place all the text in the right textview
      */
     public void setText() {
-        try {
             if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
                 return;
             GenericRecord record;
@@ -270,9 +269,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             cardMain.Header.setText(record.getTitle());
 
             setCard();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

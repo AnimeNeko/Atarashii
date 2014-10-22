@@ -89,9 +89,13 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Set text in all fragments
      */
     public void setText() {
-        general.setText();
-        if (details != null)
-            details.setText();
+        try {
+            general.setText();
+            if (details != null)
+                details.setText();
+        }catch (Exception e){
+            Log.e("MALX", "Error setText() in DetailView: " + e.getMessage());
+        }
     }
 
     /*
