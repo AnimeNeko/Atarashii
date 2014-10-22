@@ -2,4 +2,4 @@
     android:id="@+id/ListView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:horizontalSpacing="1dp"/>
+    android:horizontalSpacing="1dp" />

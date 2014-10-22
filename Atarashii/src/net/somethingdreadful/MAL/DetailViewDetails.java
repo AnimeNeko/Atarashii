@@ -198,7 +198,7 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         relations.setAdapter(listadapter);
         listadapter.supportAddAll(relationsList);
         listadapter.notifyDataSetChanged();
-        cardRelations.refreshList(relationsList.size(), 56, headers , 48, 1);
+        cardRelations.refreshList(relationsList.size(), 56, headers, 48, 1);
     }
 
     public void addRelations(ArrayList<RecordStub> recordStub, Integer header) {

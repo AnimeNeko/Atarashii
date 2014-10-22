@@ -93,7 +93,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             general.setText();
             if (details != null)
                 details.setText();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("MALX", "Error setText() in DetailView: " + e.getMessage());
         }
     }

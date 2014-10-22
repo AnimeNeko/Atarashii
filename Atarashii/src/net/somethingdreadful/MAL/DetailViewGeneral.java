@@ -168,107 +168,107 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
      * Place all the text in the right textview
      */
     public void setText() {
-            if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
-                return;
-            GenericRecord record;
-            setMenu();
-            if (activity.type.equals(ListType.ANIME)) {
-                record = activity.animeRecord;
-                if (activity.animeRecord.getWatchedStatus() != null) {
-                    status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt())));
-                    cardStatus.setVisibility(View.VISIBLE);
-                } else {
-                    cardStatus.setVisibility(View.GONE);
-                }
-                mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
-                mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
+        if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
+            return;
+        GenericRecord record;
+        setMenu();
+        if (activity.type.equals(ListType.ANIME)) {
+            record = activity.animeRecord;
+            if (activity.animeRecord.getWatchedStatus() != null) {
+                status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt())));
+                cardStatus.setVisibility(View.VISIBLE);
             } else {
-                record = activity.mangaRecord;
-
-                if (activity.mangaRecord.getReadStatus() != null) {
-                    status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.mangaRecord.getReadStatusInt())));
-                    cardStatus.setVisibility(View.VISIBLE);
-                } else {
-                    cardStatus.setVisibility(View.GONE);
-                }
-                mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
-                mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
+                cardStatus.setVisibility(View.GONE);
             }
+            mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
+            mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
+        } else {
+            record = activity.mangaRecord;
 
-            if (record.getSynopsis() == null) {
-                if (!MALApi.isNetworkAvailable(activity)) {
-                    synopsis.setText(getString(R.string.crouton_error_noConnectivity));
-                }
+            if (activity.mangaRecord.getReadStatus() != null) {
+                status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.mangaRecord.getReadStatusInt())));
+                cardStatus.setVisibility(View.VISIBLE);
             } else {
-                synopsis.setMovementMethod(LinkMovementMethod.getInstance());
-                synopsis.setText(record.getSpannedSynopsis());
+                cardStatus.setVisibility(View.GONE);
             }
+            mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
+            mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
+        }
 
-            if (isAdded()) {
-                cardProgress.setVisibility(View.VISIBLE);
-            } else {
-                cardProgress.setVisibility(View.GONE);
+        if (record.getSynopsis() == null) {
+            if (!MALApi.isNetworkAvailable(activity)) {
+                synopsis.setText(getString(R.string.crouton_error_noConnectivity));
             }
+        } else {
+            synopsis.setMovementMethod(LinkMovementMethod.getInstance());
+            synopsis.setText(record.getSpannedSynopsis());
+        }
 
-            if (activity.type.equals(ListType.ANIME)) {
-                progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
-                if (activity.animeRecord.getEpisodes() == 0)
-                    progress1Total.setText("/?");
-                else
-                    progress1Total.setText("/" + Integer.toString(activity.animeRecord.getEpisodes()));
-            } else {
-                progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
-                if (activity.mangaRecord.getVolumes() == 0)
-                    progress1Total.setText("/?");
-                else
-                    progress1Total.setText("/" + Integer.toString(activity.mangaRecord.getVolumes()));
+        if (isAdded()) {
+            cardProgress.setVisibility(View.VISIBLE);
+        } else {
+            cardProgress.setVisibility(View.GONE);
+        }
 
-                progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
+        if (activity.type.equals(ListType.ANIME)) {
+            progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
+            if (activity.animeRecord.getEpisodes() == 0)
+                progress1Total.setText("/?");
+            else
+                progress1Total.setText("/" + Integer.toString(activity.animeRecord.getEpisodes()));
+        } else {
+            progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
+            if (activity.mangaRecord.getVolumes() == 0)
+                progress1Total.setText("/?");
+            else
+                progress1Total.setText("/" + Integer.toString(activity.mangaRecord.getVolumes()));
 
-                if (activity.mangaRecord.getChapters() == 0)
-                    progress2Total.setText("/?");
-                else
-                    progress2Total.setText("/" + Integer.toString(activity.mangaRecord.getChapters()));
-            }
+            progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
 
-            if (record.getMembersScore() == 0) {
-                MALScoreBar.setVisibility(View.GONE);
-                MALScore.setVisibility(View.GONE);
-            } else {
-                MALScoreBar.setVisibility(View.VISIBLE);
-                MALScore.setVisibility(View.VISIBLE);
-                MALScoreBar.setRating(record.getMembersScore() / 2);
-            }
+            if (activity.mangaRecord.getChapters() == 0)
+                progress2Total.setText("/?");
+            else
+                progress2Total.setText("/" + Integer.toString(activity.mangaRecord.getChapters()));
+        }
 
-            if (isAdded()) {
-                myScore.setVisibility(View.VISIBLE);
-                myScoreBar.setVisibility(View.VISIBLE);
-                myScoreBar.setRating((float) record.getScore() / 2);
-            } else {
-                myScore.setVisibility(View.GONE);
-                myScoreBar.setVisibility(View.GONE);
-            }
-            image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        if (record.getMembersScore() == 0) {
+            MALScoreBar.setVisibility(View.GONE);
+            MALScore.setVisibility(View.GONE);
+        } else {
+            MALScoreBar.setVisibility(View.VISIBLE);
+            MALScore.setVisibility(View.VISIBLE);
+            MALScoreBar.setRating(record.getMembersScore() / 2);
+        }
 
-            Picasso.with(activity)
-                    .load(record.getImageUrl())
-                    .error(R.drawable.cover_error)
-                    .placeholder(R.drawable.cover_loading)
-                    .centerInside()
-                    .fit()
-                    .into(image, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            cardMain.wrapWidth(false);
-                        }
+        if (isAdded()) {
+            myScore.setVisibility(View.VISIBLE);
+            myScoreBar.setVisibility(View.VISIBLE);
+            myScoreBar.setRating((float) record.getScore() / 2);
+        } else {
+            myScore.setVisibility(View.GONE);
+            myScoreBar.setVisibility(View.GONE);
+        }
+        image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                        @Override
-                        public void onError() {
-                        }
-                    });
-            cardMain.Header.setText(record.getTitle());
+        Picasso.with(activity)
+                .load(record.getImageUrl())
+                .error(R.drawable.cover_error)
+                .placeholder(R.drawable.cover_loading)
+                .centerInside()
+                .fit()
+                .into(image, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        cardMain.wrapWidth(false);
+                    }
 
-            setCard();
+                    @Override
+                    public void onError() {
+                    }
+                });
+        cardMain.Header.setText(record.getTitle());
+
+        setCard();
     }
 
     @Override

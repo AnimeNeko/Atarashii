@@ -14,8 +14,8 @@
         android:id="@+id/scoreLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignBaseline="@id/score"
+        android:layout_alignParentLeft="true"
         android:text="@string/card_content_mal_score"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -34,8 +34,8 @@
         android:id="@+id/rankedLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignBaseline="@id/ranked"
+        android:layout_alignParentLeft="true"
         android:text="@string/card_content_ranked"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -54,8 +54,8 @@
         android:id="@+id/popularityLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignBaseline="@id/popularity"
+        android:layout_alignParentLeft="true"
         android:text="@string/card_content_popularity"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -74,8 +74,8 @@
         android:id="@+id/membersLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignBaseline="@id/members"
+        android:layout_alignParentLeft="true"
         android:text="@string/card_content_members"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -85,8 +85,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/members"
+        android:layout_marginTop="8dp"
         android:text="@string/layout_card_loading"
         android:textSize="16sp" />
 
@@ -94,8 +94,8 @@
         android:id="@+id/favoritesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignBaseline="@id/favorites"
+        android:layout_alignParentLeft="true"
         android:text="@string/card_content_favorites"
         android:textSize="18sp"
         android:textStyle="bold" />
