@@ -86,7 +86,26 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
     public void setContent(int res) {
         inflater.inflate(res, Content);
         if (this.findViewById(R.id.ListView) != null)
-            Content.setPadding(0, 0, 0, Content.getPaddingBottom());
+            Content.setPadding(0, 0, 0, Content.getPaddingBottom() / 12 * 6);
+    }
+
+    /*
+     * Recalculate the required height of a listview and apply it
+     */
+    public void refreshList(Integer total, Integer normalHeight, Integer headers, Integer headerHeight, Integer divider) {
+        if (total == 0) {
+            this.setVisibility(View.GONE);
+        } else {
+            float density = (getResources().getDisplayMetrics().densityDpi / 160f);
+            Integer normal = total - headers;
+
+            float Height = normal * normalHeight * density;
+            Height = Height + (headers * headerHeight * density);
+            Height = Height + ((total - 1) * divider * density);
+
+            if (this.findViewById(R.id.ListView) != null)
+                this.findViewById(R.id.ListView).getLayoutParams().height = (int) Height;
+        }
     }
 
     /*
