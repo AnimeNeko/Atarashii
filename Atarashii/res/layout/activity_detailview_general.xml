@@ -47,28 +47,15 @@
                 custom:header_Title="@string/card_name_info"
                 custom:header_Title_Color="@color/white" />
 
-            <!-- Status card -->
+            <!-- Personal card -->
             <net.somethingdreadful.MAL.Card
-                android:id="@+id/status"
+                android:id="@+id/personal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/mediainfo"
                 android:layout_marginTop="8dp"
-                custom:card_TouchFeedback="true"
                 custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_status"
-                custom:header_Title_Color="@color/white" />
-
-            <!-- Progress card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/progress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/status"
-                android:layout_marginTop="8dp"
-                custom:card_TouchFeedback="true"
-                custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_progress"
+                custom:header_Title="@string/card_name_personal"
                 custom:header_Title_Color="@color/white" />
 
             <!-- rating card -->
@@ -76,7 +63,7 @@
                 android:id="@+id/rating"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/progress"
+                android:layout_below="@id/personal"
                 android:layout_marginTop="8dp"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_rating"

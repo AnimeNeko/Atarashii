@@ -8,14 +8,13 @@ import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class Card extends RelativeLayout implements View.OnTouchListener {
+public class Card extends RelativeLayout {
     public TextView Header;
     public boolean center;
     public RelativeLayout Card;
@@ -43,7 +42,6 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
         CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
-        Boolean TouchEvent = a.getBoolean(R.styleable.Card_card_TouchFeedback, false);
 
         /*
          * Setup layout
@@ -67,22 +65,8 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         Header.setTextColor(getResources().getColor(TitleColor));
         setHeaderColor(HeaderColor);
         setCardColor(CardColor);
-        if (TouchEvent) {
-            Content.setOnTouchListener(this);
-            Header.setOnTouchListener(this);
-            Card.setOnTouchListener(this);
-        } else {
-            (this.findViewById(R.id.actionableIcon)).setVisibility(View.GONE);
-        }
 
         a.recycle();
-    }
-
-    /*
-     * Setup clicklistener
-     */
-    public void setCardClickListener(onCardClickListener listener) {
-        this.listener = listener;
     }
 
     /*
@@ -94,6 +78,13 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         inflater.inflate(res, Content);
         if (this.findViewById(R.id.ListView) != null)
             Content.setPadding(0, 0, 0, Content.getPaddingBottom() / 12 * 6);
+    }
+
+    /*
+     * Change the padding of a card
+     */
+    public void setPadding(int left, int top, int right, int bottom) {
+            Content.setPadding(0, 0, 0, (bottom != -1 ? bottom : (Content.getPaddingBottom() / 12 * 6)));
     }
 
     /*
@@ -132,27 +123,15 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         shape.setColor(getResources().getColor(color));
     }
 
-    /*
-     * Handle the touch feedback
-     */
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public boolean onTouch(View v, MotionEvent e) {
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                click = true;
-
-                setCardColor(CardColorPressed);
-                break;
-            case MotionEvent.ACTION_UP:
-                if (click) {
-                    listener.onCardClickListener(this.getId());
-                    click = false;
-                }
-                setCardColor(CardColor);
-                break;
-        }
-        return true;
+    public void setOnClickListener(int res, onCardClickListener callback) {
+        listener = callback;
+        (this.findViewById(R.id.actionableIcon)).setVisibility(View.VISIBLE);
+        Content.findViewById(res).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCardClickListener(v.getId());
+            }
+        });
     }
 
     /*

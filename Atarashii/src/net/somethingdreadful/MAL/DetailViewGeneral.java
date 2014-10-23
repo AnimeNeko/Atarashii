@@ -39,8 +39,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     Card cardMain;
     Card cardSynopsis;
     Card cardMediainfo;
-    Card cardStatus;
-    Card cardProgress;
+    Card cardPersonal;
     Card cardRating;
 
     TextView synopsis;
@@ -82,30 +81,30 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardMain = (Card) view.findViewById(R.id.detailCoverImage);
         cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
-        cardStatus = (Card) view.findViewById(R.id.status);
-        cardProgress = (Card) view.findViewById(R.id.progress);
+        cardPersonal = (Card) view.findViewById(R.id.personal);
         cardRating = (Card) view.findViewById(R.id.rating);
 
         // add all the card contents
         cardMain.setContent(R.layout.card_detailview_image);
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
-        cardStatus.setContent(R.layout.card_detailview_status);
-        cardProgress.setContent(R.layout.card_detailview_progress);
+        cardPersonal.setContent(R.layout.card_detailview_general_personal);
         cardRating.setContent(R.layout.card_detailview_rating);
+        cardPersonal.setPadding(0, 0, 0 , -1);
+        cardPersonal.setOnClickListener(R.id.status, this);
+        cardPersonal.setOnClickListener(R.id.progress1, this);
+        cardPersonal.setOnClickListener(R.id.progress2, this);
 
         // set all the views
         image = (ImageView) view.findViewById(R.id.Image);
         synopsis = (TextView) view.findViewById(R.id.SynopsisContent);
         mediaType = (TextView) view.findViewById(R.id.mediaType);
         mediaStatus = (TextView) view.findViewById(R.id.mediaStatus);
-        status = (TextView) view.findViewById(R.id.cardStatusLabel);
-        progress1Total = (TextView) view.findViewById(R.id.progresslabel1Total);
-        progress1Current = (TextView) view.findViewById(R.id.progresslabel1Current);
-        progress1Total = (TextView) view.findViewById(R.id.progresslabel1Total);
-        progress2Total = (TextView) view.findViewById(R.id.progresslabel2Total);
-        progress2Current = (TextView) view.findViewById(R.id.progresslabel2Current);
-        progress1Current = (TextView) view.findViewById(R.id.progresslabel1Current);
+        status = (TextView) view.findViewById(R.id.statusText);
+        progress1Total = (TextView) view.findViewById(R.id.progress1Text1);
+        progress1Current = (TextView) view.findViewById(R.id.progress1Text2);
+        progress2Total = (TextView) view.findViewById(R.id.progress2Text1);
+        progress2Current = (TextView) view.findViewById(R.id.progress2Text2);
         myScore = (TextView) view.findViewById(R.id.MyScoreLabel);
         MALScore = (TextView) view.findViewById(R.id.MALScoreLabel);
         myScoreBar = (RatingBar) view.findViewById(R.id.MyScoreBar);
@@ -122,8 +121,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
      */
     public void setListener() {
         myScoreBar.setOnRatingBarChangeListener(this);
-        cardStatus.setCardClickListener(this);
-        cardProgress.setCardClickListener(this);
 
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
@@ -135,12 +132,10 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
      */
     public void setCard() {
         if (activity.type != null && activity.type.equals(ListType.ANIME)) {
-            TextView progress1 = (TextView) view.findViewById(R.id.progresslabel1);
+            TextView progress1 = (TextView) view.findViewById(R.id.progress1Label);
             progress1.setText(getString(R.string.card_content_episodes));
-            TextView progress2 = (TextView) view.findViewById(R.id.progresslabel2);
+            RelativeLayout progress2 = (RelativeLayout) view.findViewById(R.id.progress2);
             progress2.setVisibility(View.GONE);
-            progress2Current.setVisibility(View.GONE);
-            progress2Total.setVisibility(View.GONE);
         }
     }
 
@@ -174,11 +169,11 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         setMenu();
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
-            if (activity.animeRecord.getWatchedStatus() != null) {
+            if (activity.isAdded()) {
                 status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt())));
-                cardStatus.setVisibility(View.VISIBLE);
+                cardPersonal.setVisibility(View.VISIBLE);
             } else {
-                cardStatus.setVisibility(View.GONE);
+                cardPersonal.setVisibility(View.GONE);
             }
             mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
@@ -187,9 +182,9 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
             if (activity.mangaRecord.getReadStatus() != null) {
                 status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.mangaRecord.getReadStatusInt())));
-                cardStatus.setVisibility(View.VISIBLE);
+                cardPersonal.setVisibility(View.VISIBLE);
             } else {
-                cardStatus.setVisibility(View.GONE);
+                cardPersonal.setVisibility(View.GONE);
             }
             mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
@@ -202,12 +197,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         } else {
             synopsis.setMovementMethod(LinkMovementMethod.getInstance());
             synopsis.setText(record.getSpannedSynopsis());
-        }
-
-        if (activity.isAdded()) {
-            cardProgress.setVisibility(View.VISIBLE);
-        } else {
-            cardProgress.setVisibility(View.GONE);
         }
 
         if (activity.type.equals(ListType.ANIME)) {
@@ -290,7 +279,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     public void onCardClickListener(int res) {
         if (res == R.id.status) {
             activity.showDialog("statusPicker", new StatusPickerDialogFragment());
-        } else if (res == R.id.progress) {
+        } else if (res == R.id.progress1 || res == R.id.progress2) {
             if (activity.type.equals(ListType.ANIME)) {
                 activity.showDialog("episodes", new EpisodesPickerDialogFragment());
             } else {
