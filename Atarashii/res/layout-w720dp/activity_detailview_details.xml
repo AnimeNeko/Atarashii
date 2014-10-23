@@ -1,0 +1,79 @@
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/bg_activity">
+
+        <RelativeLayout
+            android:id="@+id/backgroundContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <!-- Synopsis card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                custom:card_maxWidth="850"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_synopsis"
+                custom:header_Title_Color="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/container1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/synopsis"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal">
+
+                <!-- Media Info card -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/mediainfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="4dp"
+                    custom:card_divide="2"
+                    custom:card_maxWidth="421"
+                    custom:header_Color="@color/card_green"
+                    custom:header_Title="@string/card_name_info"
+                    custom:header_Title_Color="@color/white" />
+
+                <!-- Media Stats card -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/mediastats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@id/mediainfo"
+                    custom:card_divide="2"
+                    custom:card_maxWidth="421"
+                    custom:header_Color="@color/card_green"
+                    custom:header_Title="@string/card_name_stats"
+                    custom:header_Title_Color="@color/white" />
+            </RelativeLayout>
+
+            <!-- Relations card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/relations"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/container1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                custom:card_maxWidth="850"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_relations"
+                custom:header_Title_Color="@color/white" />
+        </RelativeLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
