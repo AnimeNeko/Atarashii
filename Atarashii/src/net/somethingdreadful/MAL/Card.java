@@ -41,7 +41,6 @@ public class Card extends RelativeLayout {
         minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
-        CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
 
         // Setup layout
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
