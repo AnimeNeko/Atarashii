@@ -90,6 +90,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public void setText() {
         try {
+            actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
             general.setText();
             if (details != null)
                 details.setText();
