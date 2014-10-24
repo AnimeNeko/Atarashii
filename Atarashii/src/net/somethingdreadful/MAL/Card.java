@@ -82,10 +82,17 @@ public class Card extends RelativeLayout {
     }
 
     /*
+     * Convert dp to pixels
+     */
+    private int convert(int number) {
+        return (int) (getDensity() * number);
+    }
+
+    /*
      * Change the padding of a card
      */
     public void setPadding(int left, int top, int right, int bottom) {
-            Content.setPadding(0, 0, 0, (bottom != -1 ? bottom : (Content.getPaddingBottom() / 12 * 6)));
+        Content.setPadding(convert(left), convert(top), convert(right), (bottom != -1 ? bottom : convert(4)));
     }
 
     /*
@@ -95,15 +102,14 @@ public class Card extends RelativeLayout {
         if (total == 0) {
             this.setVisibility(View.GONE);
         } else {
-            float density = (getResources().getDisplayMetrics().densityDpi / 160f);
             Integer normal = total - headers;
 
-            float Height = normal * normalHeight * density;
-            Height = Height + (headers * headerHeight * density);
-            Height = Height + ((total - 1) * divider * density);
+            int Height = convert(normal * normalHeight);
+            Height = Height + convert(headers * headerHeight);
+            Height = Height + convert((total - 1) * divider);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = (int) Height;
+                this.findViewById(R.id.ListView).getLayoutParams().height = Height;
         }
     }
 
@@ -198,10 +204,10 @@ public class Card extends RelativeLayout {
     }
 
     @SuppressLint("InlinedApi")
-    public Integer getScreenWidth() {
+    private Integer getScreenWidth() {
         if (screenWidth == 0) {
             try {
-                screenWidth = (int) (getResources().getConfiguration().screenWidthDp * getDensity());
+                screenWidth = convert(getResources().getConfiguration().screenWidthDp);
             } catch (NoSuchFieldError e) {
                 screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
             }
