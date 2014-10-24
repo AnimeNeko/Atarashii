@@ -15,17 +15,18 @@ import android.widget.TextView;
 
 
 public class Card extends RelativeLayout {
-    public TextView Header;
     public boolean center;
+    public TextView Header;
     public RelativeLayout Card;
     public RelativeLayout Content;
-    LayoutInflater inflater;
+    
     int CardColor;
-    int CardColorPressed;
-    onCardClickListener listener;
     int screenWidth;
+    int minHeight;
     Float density;
-    Integer minHeight;
+
+    LayoutInflater inflater;
+    onCardClickListener listener;
 
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
