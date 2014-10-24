@@ -25,6 +25,7 @@
                     android:id="@+id/detailCoverImage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/layout_card_loading"
                     custom:header_Title_Color="@color/white"
