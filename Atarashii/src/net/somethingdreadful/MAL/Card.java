@@ -20,12 +20,12 @@ public class Card extends RelativeLayout {
     public RelativeLayout Card;
     public RelativeLayout Content;
     LayoutInflater inflater;
-    boolean click;
     int CardColor;
     int CardColorPressed;
     onCardClickListener listener;
     int screenWidth;
     Float density;
+    Integer minHeight;
 
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,6 +39,7 @@ public class Card extends RelativeLayout {
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
         int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.card_content);
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
+        minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
         CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
@@ -107,6 +108,18 @@ public class Card extends RelativeLayout {
     }
 
     /*
+     * Set the card at the right side of another card
+     */
+    public void setRightof(Card res, int amount, int screen) {
+        if (convert(screen) <= getScreenWidth()) {
+            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
+            card.addRule(RelativeLayout.RIGHT_OF, res.getId());
+            card.setMargins(convert(4), 0, 0, 0);
+            this.setLayoutParams(card);
+        }
+    }
+
+    /*
      * Change the background color
      */
     public void setCardColor(int color) {
@@ -161,18 +174,27 @@ public class Card extends RelativeLayout {
      * maxWidth is the maximum width in dp
      */
     public void setWidth(Integer amount, Integer maxWidth) {
+        Card.getLayoutParams().width = getWidth(amount, maxWidth);
+    }
+
+    /*
+     * get the card width
+     *
+     * amount is the amount of cards besides each other
+     * maxWidth is the maximum width in dp
+     */
+    public int getWidth(Integer amount, Integer maxWidth) {
         if (amount == 0)
             amount = 1;
         int divider = amount - 1;
-        divider = (divider * 4) + 16;
-        divider = (int) (divider * getDensity());
+        divider = convert((divider * 4) + 16);
         int card = (getScreenWidth() - divider) / amount;
-        maxWidth = (int) (maxWidth * getDensity());
+        maxWidth = convert(maxWidth);
 
         if (card > maxWidth && maxWidth != 0)
-            Card.getLayoutParams().width = maxWidth;
+            return maxWidth;
         else
-            Card.getLayoutParams().width = card;
+            return card;
     }
 
     @SuppressLint("InlinedApi")
