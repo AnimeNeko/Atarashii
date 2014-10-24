@@ -31,9 +31,7 @@ public class Card extends RelativeLayout {
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        /*
-         * Get attributes
-         */
+        // Get attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Card, 0, 0);
         center = a.getBoolean(R.styleable.Card_header_Title_center, false);
         String TitleText = a.getString(R.styleable.Card_header_Title);
@@ -45,23 +43,17 @@ public class Card extends RelativeLayout {
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
         CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
 
-        /*
-         * Setup layout
-         */
+        // Setup layout
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.card_layout_base, this);
 
-        /*
-         * Get the views
-         */
+        // Get the views
         Card = (RelativeLayout) findViewById(R.id.BaseCard);
         Content = (RelativeLayout) findViewById(R.id.content);
-        Header = (TextView) this.findViewById(R.id.CardTitle);
+        Header = (TextView) findViewById(R.id.CardTitle);
 
-        /*
-         * Apply attributes
-         */
-        if (divide != 0 || maxWidth!= 0)
+        // Apply attributes
+        if (divide != 0 || maxWidth != 0)
             setWidth(divide, maxWidth);
         Header.setText(TitleText);
         Header.setTextColor(getResources().getColor(TitleColor));
