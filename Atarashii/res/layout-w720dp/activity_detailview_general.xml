@@ -84,6 +84,9 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/mediainfo"
                     custom:card_minHeight="145"
+                    android:layout_marginTop="8dp"
+                    custom:card_divide="2"
+                    custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/card_name_rating"
                     custom:header_Title_Color="@color/white" />
