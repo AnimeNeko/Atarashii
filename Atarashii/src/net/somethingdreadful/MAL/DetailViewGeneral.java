@@ -90,7 +90,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
         cardRating.setContent(R.layout.card_detailview_rating);
-        cardPersonal.setPadding(0, 0, 0 , -1);
+        cardPersonal.setPadding(0, 0, 0, -1);
         cardPersonal.setOnClickListener(R.id.status, this);
         cardPersonal.setOnClickListener(R.id.progress1, this);
         cardPersonal.setOnClickListener(R.id.progress2, this);
@@ -174,6 +174,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 cardPersonal.setVisibility(View.VISIBLE);
             } else {
                 cardPersonal.setVisibility(View.GONE);
+                cardRating.setRightof(cardMediainfo, 2, 720);
             }
             mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
@@ -220,25 +221,30 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 progress2Total.setText("/" + Integer.toString(activity.mangaRecord.getChapters()));
         }
 
-        if (record.getMembersScore() == 0) {
-            MALScoreBar.setVisibility(View.GONE);
-            MALScore.setVisibility(View.GONE);
+        if (!activity.isAdded() && record.getMembersScore() == 0) {
+            cardRating.setVisibility(View.GONE);
+            cardMediainfo.setWidth(1, 850);
         } else {
-            MALScoreBar.setVisibility(View.VISIBLE);
-            MALScore.setVisibility(View.VISIBLE);
-            MALScoreBar.setRating(record.getMembersScore() / 2);
+            if (record.getMembersScore() == 0) {
+                MALScoreBar.setVisibility(View.GONE);
+                MALScore.setVisibility(View.GONE);
+            } else {
+                MALScoreBar.setVisibility(View.VISIBLE);
+                MALScore.setVisibility(View.VISIBLE);
+                MALScoreBar.setRating(record.getMembersScore() / 2);
+            }
+
+            if (activity.isAdded()) {
+                myScore.setVisibility(View.VISIBLE);
+                myScoreBar.setVisibility(View.VISIBLE);
+                myScoreBar.setRating((float) record.getScore() / 2);
+            } else {
+                myScore.setVisibility(View.GONE);
+                myScoreBar.setVisibility(View.GONE);
+            }
         }
 
-        if (activity.isAdded()) {
-            myScore.setVisibility(View.VISIBLE);
-            myScoreBar.setVisibility(View.VISIBLE);
-            myScoreBar.setRating((float) record.getScore() / 2);
-        } else {
-            myScore.setVisibility(View.GONE);
-            myScoreBar.setVisibility(View.GONE);
-        }
         image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
         Picasso.with(activity)
                 .load(record.getImageUrl())
                 .error(R.drawable.cover_error)

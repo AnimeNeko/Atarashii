@@ -58,7 +58,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
-                    android:layout_marginTop="8dp"
                     custom:card_divide="2"
                     custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
@@ -71,26 +70,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginTop="8dp"
                     android:layout_toRightOf="@id/mediainfo"
                     custom:card_divide="2"
                     custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/card_name_personal"
                     custom:header_Title_Color="@color/white" />
+
+                <!-- rating card -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/mediainfo"
+                    custom:card_minHeight="145"
+                    custom:header_Color="@color/card_green"
+                    custom:header_Title="@string/card_name_rating"
+                    custom:header_Title_Color="@color/white" />
             </RelativeLayout>
-
-            <!-- rating card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/rating"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/container2"
-                android:layout_marginTop="8dp"
-                custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_rating"
-                custom:header_Title_Color="@color/white" />
-
         </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
