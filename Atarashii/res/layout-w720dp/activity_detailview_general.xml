@@ -16,7 +16,7 @@
 
             <RelativeLayout
                 android:id="@+id/container1"
-                android:layout_width="match_parent"
+                android:layout_width="850dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal">
