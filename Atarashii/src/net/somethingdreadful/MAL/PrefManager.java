@@ -23,14 +23,6 @@ public class PrefManager {
         return prefs.getString("customShareText", context.getString(R.string.preference_default_customShareText));
     }
 
-    public boolean getUpgradeInit() {
-        return prefs.getBoolean("upgradeInit", false);
-    }
-
-    public void setInit(boolean newInit) {
-        prefeditor.putBoolean("init", newInit);
-    }
-
     public boolean getTraditionalListEnabled() {
         return prefs.getBoolean("traditionalList", false);
     }
