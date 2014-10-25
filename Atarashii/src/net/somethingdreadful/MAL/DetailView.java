@@ -198,6 +198,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             mangaRecord.setDirty(true);
         }
         setMenu();
+        setText();
     }
 
     /*
