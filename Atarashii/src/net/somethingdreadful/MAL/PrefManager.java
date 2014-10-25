@@ -65,7 +65,7 @@ public class PrefManager {
      * @return int The auto synchronisation interval in seconds
      * @see Settings
      */
-    public int getSyncTime() { //Home, get the auto-sync interval
+    public int getSyncTime() {
         return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
@@ -98,46 +98,6 @@ public class PrefManager {
     }
 
     /**
-     * Returns if the app automatically should hide the card if it is empty.
-     *
-     * @return boolean If it should be hidden
-     * @see ProfileActivity
-     */
-    public boolean getHideAnimeManga() { //profile activity, if the card is empty setting
-        return prefs.getBoolean("a_mhide", false);
-    }
-
-    /**
-     * Returns if the app should disable the coloured text and use black.
-     *
-     * @return boolean If it should be black
-     * @see ProfileActivity
-     */
-    public boolean getTextColor() { //profile activity, if the textcolors are turned off
-        return prefs.getBoolean("text_colours", false);
-    }
-
-    /**
-     * Returns if the app should hide the anime stats in all profiles.
-     *
-     * @return boolean If it should be hidden
-     * @see ProfileActivity
-     */
-    public boolean getHideAnime() { //profile activity, if the setting force hide is turned on
-        return prefs.getBoolean("A_hide", false); //anime card
-    }
-
-    /**
-     * Returns if the app should hide the manga stats in all profiles.
-     *
-     * @return boolean If it should be hidden
-     * @see ProfileActivity
-     */
-    public boolean getHideManga() {//profile activity, if the setting force hide is turned on
-        return prefs.getBoolean("M_hide", false); //manga card
-    }
-
-    /**
      * Set the force synchronisation, if true all the records will be synchronised.
      *
      * @param force This will determine if all the records should be synchronised
@@ -149,10 +109,43 @@ public class PrefManager {
     }
 
     /**
-     * Commit all the changed made.
+     * Returns if the app automatically should hide the card if it is empty.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
      */
-    public void commitChanges() {
-        prefeditor.commit();
+    public boolean getHideAnimeManga() {
+        return prefs.getBoolean("a_mhide", false);
+    }
+
+    /**
+     * Returns if the app should disable the coloured text and use black.
+     *
+     * @return boolean If it should be black
+     * @see ProfileActivity
+     */
+    public boolean getTextColor() {
+        return prefs.getBoolean("text_colours", false);
+    }
+
+    /**
+     * Returns if the app should hide the anime stats in all profiles.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public boolean getHideAnime() {
+        return prefs.getBoolean("A_hide", false);
+    }
+
+    /**
+     * Returns if the app should hide the manga stats in all profiles.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public boolean getHideManga() {
+        return prefs.getBoolean("M_hide", false);
     }
 
     /**
@@ -163,5 +156,12 @@ public class PrefManager {
      */
     public int getDefaultList() {
         return Integer.parseInt(prefs.getString("defList", "1"));
+    }
+
+    /**
+     * Commit all the changed made.
+     */
+    public void commitChanges() {
+        prefeditor.commit();
     }
 }
