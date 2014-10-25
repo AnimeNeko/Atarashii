@@ -430,7 +430,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         else
             mf = igf;
         // do forced sync after FirstInit
-        if (mPrefManager.ForceSync()) {
+        if (mPrefManager.getForceSync()) {
             if (af != null && mf != null) {
                 mPrefManager.setForceSync(false);
                 mPrefManager.commitChanges();

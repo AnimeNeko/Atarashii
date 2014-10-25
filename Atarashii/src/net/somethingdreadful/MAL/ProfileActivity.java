@@ -113,16 +113,16 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
     }
 
     public void card() { //settings for hide a card and text userprofile
-        if (prefs.animehide()) {
+        if (prefs.getHideAnime()) {
             animecard.setVisibility(View.GONE);
         }
-        if (prefs.mangahide()) {
+        if (prefs.getHideManga()) {
             mangacard.setVisibility(View.GONE);
         }
-        if (prefs.anime_manga_zero() && record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
+        if (prefs.getHideAnimeManga() && record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
             mangacard.setVisibility(View.GONE);
         }
-        if (prefs.anime_manga_zero() && record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
+        if (prefs.getHideAnimeManga() && record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
             animecard.setVisibility(View.GONE);
         }
         Card namecard = (Card) findViewById(R.id.name_card);
@@ -133,7 +133,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
         String name = record.getName();
         String rank = record.getProfile().getDetails().getAccessRank() != null ? record.getProfile().getDetails().getAccessRank() : "";
-        if (!prefs.Textcolordisable()) {
+        if (!prefs.getTextColor()) {
             setColor(true);
             setColor(false);
             if (rank.contains("Administrator")) {

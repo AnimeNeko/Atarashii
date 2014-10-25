@@ -55,7 +55,7 @@ public class PrefManager {
      * @return boolean This returns true when auto synchronisation is enabled
      * @see Settings
      */
-    public boolean getsynchronisationEnabled() {
+    public boolean getSyncEnabled() {
         return prefs.getBoolean("synchronisation", false);
     }
 
@@ -65,7 +65,7 @@ public class PrefManager {
      * @return int The auto synchronisation interval in seconds
      * @see Settings
      */
-    public int getsync_time() { //Home, get the auto-sync interval
+    public int getSyncTime() { //Home, get the auto-sync interval
         return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
@@ -93,7 +93,7 @@ public class PrefManager {
      * @return boolean If all the records should be synced
      * @see Home
      */
-    public boolean ForceSync() {
+    public boolean getForceSync() {
         return prefs.getBoolean("ForceSync", false);
     }
 
@@ -103,7 +103,7 @@ public class PrefManager {
      * @return boolean If it should be hidden
      * @see ProfileActivity
      */
-    public boolean anime_manga_zero() { //profile activity, if the card is empty setting
+    public boolean getHideAnimeManga() { //profile activity, if the card is empty setting
         return prefs.getBoolean("a_mhide", false);
     }
 
@@ -113,7 +113,7 @@ public class PrefManager {
      * @return boolean If it should be black
      * @see ProfileActivity
      */
-    public boolean Textcolordisable() { //profile activity, if the textcolors are turned off
+    public boolean getTextColor() { //profile activity, if the textcolors are turned off
         return prefs.getBoolean("text_colours", false);
     }
 
@@ -123,7 +123,7 @@ public class PrefManager {
      * @return boolean If it should be hidden
      * @see ProfileActivity
      */
-    public boolean animehide() { //profile activity, if the setting force hide is turned on
+    public boolean getHideAnime() { //profile activity, if the setting force hide is turned on
         return prefs.getBoolean("A_hide", false); //anime card
     }
 
@@ -133,7 +133,7 @@ public class PrefManager {
      * @return boolean If it should be hidden
      * @see ProfileActivity
      */
-    public boolean mangahide() {//profile activity, if the setting force hide is turned on
+    public boolean getHideManga() {//profile activity, if the setting force hide is turned on
         return prefs.getBoolean("M_hide", false); //manga card
     }
 
