@@ -11,11 +11,11 @@ import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.api.response.OtherTitles;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.api.response.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DatabaseManager {
     MALSqlHelper malSqlHelper;
@@ -197,26 +197,26 @@ public class DatabaseManager {
                 }
 
                 if (anime.getOtherTitles() != null) {
-                    if (anime.getOtherTitles().getEnglish() != null) {
+                    if (anime.getOtherTitlesEnglish() != null) {
                         // delete old relations
                         getDBWrite().delete(MALSqlHelper.TABLE_ANIME_OTHER_TITLES, "anime_id = ? and titleType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.TITLE_TYPE_ENGLISH});
-                        for (String title : anime.getOtherTitles().getEnglish()) {
+                        for (String title : anime.getOtherTitlesEnglish()) {
                             saveAnimeOtherTitle(anime.getId(), title, MALSqlHelper.TITLE_TYPE_ENGLISH);
                         }
                     }
 
-                    if (anime.getOtherTitles().getJapanese() != null) {
+                    if (anime.getOtherTitlesJapanese() != null) {
                         // delete old relations
                         getDBWrite().delete(MALSqlHelper.TABLE_ANIME_OTHER_TITLES, "anime_id = ? and titleType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.TITLE_TYPE_JAPANESE});
-                        for (String title : anime.getOtherTitles().getJapanese()) {
+                        for (String title : anime.getOtherTitlesJapanese()) {
                             saveAnimeOtherTitle(anime.getId(), title, MALSqlHelper.TITLE_TYPE_JAPANESE);
                         }
                     }
 
-                    if (anime.getOtherTitles().getSynonyms() != null) {
+                    if (anime.getOtherTitlesSynonyms() != null) {
                         // delete old relations
                         getDBWrite().delete(MALSqlHelper.TABLE_ANIME_OTHER_TITLES, "anime_id = ? and titleType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.TITLE_TYPE_SYNONYM});
-                        for (String title : anime.getOtherTitles().getSynonyms()) {
+                        for (String title : anime.getOtherTitlesSynonyms()) {
                             saveAnimeOtherTitle(anime.getId(), title, MALSqlHelper.TITLE_TYPE_SYNONYM);
                         }
                     }
@@ -260,10 +260,10 @@ public class DatabaseManager {
             if (parentStory != null && parentStory.size() > 0) {
                 result.setParentStory(parentStory.get(0));
             }
-            OtherTitles otherTitles = new OtherTitles();
-            otherTitles.setEnglish(getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
-            otherTitles.setJapanese(getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
-            otherTitles.setSynonyms(getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
+            HashMap<String, ArrayList<String>> otherTitles = new HashMap<String, ArrayList<String>>();
+            otherTitles.put("english", getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
+            otherTitles.put("japanese", getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
+            otherTitles.put("synonyms", getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
             result.setOtherTitles(otherTitles);
         }
         cursor.close();
@@ -461,26 +461,26 @@ public class DatabaseManager {
                 }
 
                 if (manga.getOtherTitles() != null) {
-                    if (manga.getOtherTitles().getEnglish() != null) {
+                    if (manga.getOtherTitlesEnglish() != null) {
                         // delete old relations
                         getDBWrite().delete(MALSqlHelper.TABLE_MANGA_OTHER_TITLES, "manga_id = ? and titleType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.TITLE_TYPE_ENGLISH});
-                        for (String title : manga.getOtherTitles().getEnglish()) {
+                        for (String title : manga.getOtherTitlesEnglish()) {
                             saveMangaOtherTitle(manga.getId(), title, MALSqlHelper.TITLE_TYPE_ENGLISH);
                         }
                     }
 
-                    if (manga.getOtherTitles().getJapanese() != null) {
+                    if (manga.getOtherTitlesJapanese() != null) {
                         // delete old relations
                         getDBWrite().delete(MALSqlHelper.TABLE_MANGA_OTHER_TITLES, "manga_id = ? and titleType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.TITLE_TYPE_JAPANESE});
-                        for (String title : manga.getOtherTitles().getJapanese()) {
+                        for (String title : manga.getOtherTitlesJapanese()) {
                             saveMangaOtherTitle(manga.getId(), title, MALSqlHelper.TITLE_TYPE_JAPANESE);
                         }
                     }
 
-                    if (manga.getOtherTitles().getSynonyms() != null) {
+                    if (manga.getOtherTitlesSynonyms() != null) {
                         // delete old relations
                         getDBWrite().delete(MALSqlHelper.TABLE_MANGA_OTHER_TITLES, "manga_id = ? and titleType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.TITLE_TYPE_SYNONYM});
-                        for (String title : manga.getOtherTitles().getSynonyms()) {
+                        for (String title : manga.getOtherTitlesSynonyms()) {
                             saveMangaOtherTitle(manga.getId(), title, MALSqlHelper.TITLE_TYPE_SYNONYM);
                         }
                     }
@@ -516,10 +516,10 @@ public class DatabaseManager {
             result.setAlternativeVersions(getMangaToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
             result.setRelatedManga(getMangaToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_RELATED));
             result.setAnimeAdaptations(getMangaToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ADAPTATION));
-            OtherTitles otherTitles = new OtherTitles();
-            otherTitles.setEnglish(getMangaOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
-            otherTitles.setJapanese(getMangaOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
-            otherTitles.setSynonyms(getMangaOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
+            HashMap<String, ArrayList<String>> otherTitles = new HashMap<String, ArrayList<String>>();
+            otherTitles.put("english", getMangaOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_ENGLISH));
+            otherTitles.put("japanese", getMangaOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
+            otherTitles.put("synonyms", getMangaOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
             result.setOtherTitles(otherTitles);
         }
         cursor.close();

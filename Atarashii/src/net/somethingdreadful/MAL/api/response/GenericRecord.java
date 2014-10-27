@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 public class GenericRecord implements Serializable {
 
@@ -29,7 +30,7 @@ public class GenericRecord implements Serializable {
     private int favorited_count;
     private int popularity_rank;
     private String synopsis;
-    private OtherTitles other_titles;
+    private HashMap<String, ArrayList<String>> other_titles;
 
     private boolean dirty;
     private Date lastUpdate;
@@ -154,12 +155,31 @@ public class GenericRecord implements Serializable {
         this.synopsis = synopsis;
     }
 
-    public OtherTitles getOtherTitles() {
+    public HashMap<String, ArrayList<String>> getOtherTitles() {
         return other_titles;
     }
 
-    public void setOtherTitles(OtherTitles other_titles) {
+    public void setOtherTitles(HashMap<String, ArrayList<String>> other_titles) {
         this.other_titles = other_titles;
+    }
+
+    private ArrayList<String> getOtherTitlesByLanguage(String lang) {
+        if (other_titles == null) {
+            return null;
+        }
+        return other_titles.get(lang);
+    }
+
+    public ArrayList<String> getOtherTitlesJapanese() {
+        return getOtherTitlesByLanguage("japanese");
+    }
+
+    public ArrayList<String> getOtherTitlesEnglish() {
+        return getOtherTitlesByLanguage("english");
+    }
+
+    public ArrayList<String> getOtherTitlesSynonyms() {
+        return getOtherTitlesByLanguage("synonyms");
     }
 
     public boolean getDirty() {
