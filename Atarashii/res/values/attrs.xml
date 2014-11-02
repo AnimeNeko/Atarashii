@@ -5,7 +5,6 @@
         <attr name="header_Title_Color" format="reference" />
         <attr name="header_Title_center" format="boolean" />
         <attr name="header_Color" format="reference" />
-        <attr name="card_Color" format="reference" />
         <attr name="card_TouchFeedback" format="boolean" />
         <attr name="card_maxWidth" format="integer" />
         <attr name="card_minHeight" format="integer" />

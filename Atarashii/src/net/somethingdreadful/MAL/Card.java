@@ -20,7 +20,6 @@ public class Card extends RelativeLayout {
     public RelativeLayout Card;
     public RelativeLayout Content;
     
-    int CardColor;
     int screenWidth;
     int minHeight;
     Float density;
@@ -40,7 +39,6 @@ public class Card extends RelativeLayout {
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
         minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
-        CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
 
         // Setup layout
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,7 +55,6 @@ public class Card extends RelativeLayout {
         Header.setText(TitleText);
         Header.setTextColor(getResources().getColor(TitleColor));
         setHeaderColor(HeaderColor);
-        setCardColor(CardColor);
 
         a.recycle();
     }
@@ -135,17 +132,6 @@ public class Card extends RelativeLayout {
             card.setMargins(convert(4), 0, 0, 0);
             this.setLayoutParams(card);
         }
-    }
-
-    /**
-     * Change the background color of a card.
-     *
-     * @param color The resource id of the color
-     */
-    public void setCardColor(int color) {
-        LayerDrawable layers = (LayerDrawable) Card.getBackground();
-        GradientDrawable shape = (GradientDrawable) (layers.findDrawableByLayerId(R.id.card_content_drawable));
-        shape.setColor(getResources().getColor(color));
     }
 
     /**
