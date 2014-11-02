@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,9 +17,9 @@ import android.widget.TextView;
 public class Card extends RelativeLayout {
     public boolean center;
     public TextView Header;
-    public RelativeLayout Card;
+    public CardView Card;
     public RelativeLayout Content;
-    
+
     int screenWidth;
     int minHeight;
     Float density;
@@ -45,7 +45,7 @@ public class Card extends RelativeLayout {
         inflater.inflate(R.layout.card_layout_base, this);
 
         // Get the views
-        Card = (RelativeLayout) findViewById(R.id.BaseCard);
+        Card = (CardView) findViewById(R.id.BaseCard);
         Content = (RelativeLayout) findViewById(R.id.content);
         Header = (TextView) findViewById(R.id.CardTitle);
 
@@ -167,6 +167,7 @@ public class Card extends RelativeLayout {
      * @param header This won't cut off the text in the header if it is true
      */
     public void wrapWidth(boolean header) {
+
         int width;
         Header.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
         Card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
@@ -215,13 +216,6 @@ public class Card extends RelativeLayout {
     }
 
     /**
-     * The Interface that will get triggered by the OnClick method.
-     */
-    public interface onCardClickListener {
-        public void onCardClickListener(int id);
-    }
-
-    /**
      * Get the display density.
      *
      * @return Float The display density
@@ -257,5 +251,12 @@ public class Card extends RelativeLayout {
             }
         }
         return screenWidth;
+    }
+
+    /**
+     * The Interface that will get triggered by the OnClick method.
+     */
+    public interface onCardClickListener {
+        public void onCardClickListener(int id);
     }
 }
