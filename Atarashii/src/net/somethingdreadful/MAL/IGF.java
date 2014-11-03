@@ -43,6 +43,7 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -386,6 +387,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     public void cancelNetworkTask() {
         if (networkTask != null)
             networkTask.cancelTask();
+    }
+
+    public void inverse() {
+        Collections.reverse(gl);
+        refresh();
     }
 
     /*
