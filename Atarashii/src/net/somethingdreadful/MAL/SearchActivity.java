@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -11,31 +12,27 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import org.holoeverywhere.app.Activity;
-
-import java.util.ArrayList;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener, IGFCallbackListener {
+    public String query;
     IGF af;
     IGF mf;
-    String query;
-    static boolean animeError = false;
-    static boolean mangaError = false;
-    static int called = 0;
     ViewPager ViewPager;
     SectionsPagerAdapter mSectionsPagerAdapter;
     PrefManager mPrefManager;
-    Context context;
     SearchView searchView;
     ActionBar actionBar;
 
@@ -44,28 +41,27 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     boolean callbackAnimeResultEmpty = false;
     boolean callbackMangaResultEmpty = false;
     int callbackCounter = 0;
-    
-	@Override
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        context = getApplicationContext();
-        mPrefManager = new PrefManager(context);
+        mPrefManager = new PrefManager(getApplicationContext());
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        
+
         ViewPager = (ViewPager) findViewById(R.id.pager);
         ViewPager.setAdapter(mSectionsPagerAdapter);
         ViewPager.setOnPageChangeListener(this);
 
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             actionBar.addTab(actionBar.newTab()
-                .setText(mSectionsPagerAdapter.getPageTitle(i))
-                .setTabListener(this));
+                    .setText(mSectionsPagerAdapter.getPageTitle(i))
+                    .setTabListener(this));
         }
     }
 
@@ -87,12 +83,17 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
-            if (searchView != null) {
-                searchView.setQuery(query, false);
-            }
-            if (af != null && mf != null) {
-                af.searchRecords(query);
-                mf.searchRecords(query);
+            if (TextUtils.isDigitsOnly(query)) {
+                FragmentManager fm = getSupportFragmentManager();
+                (new SearchIdDialogFragment()).show(fm, "fragment_id_search");
+            } else {
+                if (searchView != null) {
+                    searchView.setQuery(query, false);
+                }
+                if (af != null && mf != null) {
+                    af.searchRecords(query);
+                    mf.searchRecords(query);
+                }
             }
         }
     }
@@ -154,7 +155,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
             af = igf;
         else
             mf = igf;
-        if (query != null) // there is already a search to do
+        if (query != null && !TextUtils.isDigitsOnly(query)) // there is already a search to do
             igf.searchRecords(query);
     }
 
@@ -177,9 +178,9 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
         if (callbackCounter >= 2) {
             callbackCounter = 0;
 
-            if ( callbackAnimeError && callbackMangaError ) // the sync failed completely
+            if (callbackAnimeError && callbackMangaError) // the sync failed completely
                 Crouton.makeText(this, R.string.crouton_error_Search, Style.ALERT).show();
-            else if ( callbackAnimeError || callbackMangaError ) // one list failed to sync
+            else if (callbackAnimeError || callbackMangaError) // one list failed to sync
                 Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Search_Anime : R.string.crouton_error_Search_Manga, Style.ALERT).show();
             else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
                 Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();

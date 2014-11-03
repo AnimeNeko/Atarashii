@@ -317,7 +317,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
             builder.setMessage(R.string.dialog_message_view);
         }
 
-        builder.setPositiveButton(R.string.dialog_label_anime, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.dialog_label_animelist, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (share) {
@@ -337,7 +337,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
 
             }
         });
-        builder.setNegativeButton(R.string.dialog_label_manga, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.dialog_label_mangalist, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (share) {
