@@ -13,9 +13,10 @@ public class AboutActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_activity_about);
 
+        ((Card) findViewById(R.id.atarashii_card)).setContent(R.layout.card_about_atarashii);
         ((Card) findViewById(R.id.contributors_card)).setContent(R.layout.card_about_contributors);
         ((Card) findViewById(R.id.community_card)).setContent(R.layout.card_about_community);
         ((Card) findViewById(R.id.acknowledgements_card)).setContent(R.layout.card_about_acknowledgements);
@@ -37,23 +38,11 @@ public class AboutActivity extends Activity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }
-
         return true;
     }
-
 }
