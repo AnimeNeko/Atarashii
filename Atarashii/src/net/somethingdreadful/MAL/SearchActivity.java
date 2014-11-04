@@ -158,7 +158,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
          * details (read/watch status, score). To do this it needs the username to determine the correct
          * anime-/mangalist
          */
-        Account account = AccountService.getAccount(context);
+        Account account = AccountService.getAccount(getApplicationContext());
         if (account != null) {
             igf.setUsername(account.name);
         }
