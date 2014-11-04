@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.dialog.SyncDialogFragment;
 
 import org.holoeverywhere.preference.PreferenceActivity;
 import org.holoeverywhere.preference.PreferenceManager;
@@ -45,12 +43,11 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
             ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
         } else if (key.equals("synchronisation")) {
             if (Prefs.getsynchronisationEnabled()) {
+                ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, true);
                 ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
-                FragmentManager fm = getSupportFragmentManager();
-                SyncDialogFragment sdf = new SyncDialogFragment();
-                sdf.show(fm, "fragment_Sync");
             } else {
                 ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
+                ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, false);
             }
         } else if (key.equals("locale")) {
             sharedPreferences.edit().commit();
