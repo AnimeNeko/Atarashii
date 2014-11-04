@@ -38,6 +38,7 @@ import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
+import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
@@ -63,6 +64,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
     public Manga mangaRecord;
     SwipeRefreshLayout swipeRefresh;
     int recordID;
+    String username;
     Context context;
     PrefManager pref;
     Menu menu;
@@ -82,32 +84,29 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         ((Card) findViewById(R.id.rating)).setContent(R.layout.card_detailview_rating);
 
         type = (ListType) getIntent().getSerializableExtra("recordType");
-        if (type.equals(ListType.ANIME))
-            animeRecord = (Anime) getIntent().getSerializableExtra("record");
-        else
-            mangaRecord = (Manga) getIntent().getSerializableExtra("record");
-        recordID = (type.equals(ListType.ANIME) ? animeRecord.getId() : mangaRecord.getId());
+        recordID = getIntent().getIntExtra("recordID", -1);
+        username = getIntent().getStringExtra("username");
 
         context = getApplicationContext();
         pref = new PrefManager(context);
 
         setCard();
         setListener();
-        if (savedInstanceState == null) {
-            if (type.equals(ListType.ANIME) ? animeRecord.getTitle() == null : mangaRecord.getTitle() == null)
-                getRecord();
-            else
-                setText();
-        } else {
+        if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
+        }
+
+        if (animeRecord == null && mangaRecord == null && type != null) {
+            getRecord(false);
+        } else {
             setText();
         }
     }
 
     @Override
     public void onRefresh() {
-        getRecord();
+        getRecord(true);
     }
 
     @Override
@@ -267,17 +266,48 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
         return shareText;
     }
 
+    private boolean getRecordFromDB() {
+        DatabaseManager dbMan = new DatabaseManager(context);
+        if (type.equals(ListType.ANIME)) {
+            animeRecord = dbMan.getAnime(recordID, username);
+            return animeRecord != null;
+        } else {
+            mangaRecord = dbMan.getManga(recordID, username);
+            return mangaRecord != null;
+        }
+    }
+
     /*
      * Get the records (Anime/Manga)
+     *
+     * try to fetch them from the Database first to get reading/watching details
      */
-    public void getRecord() {
+    public void getRecord(boolean forceUpdate) {
+        swipeRefresh.setRefreshing(true);
+        boolean loaded = false;
+        if (!forceUpdate || !MALApi.isNetworkAvailable(context)) {
+            if (getRecordFromDB()) {
+                setText();
+                swipeRefresh.setRefreshing(false);
+                loaded = true;
+            }
+        }
         if (MALApi.isNetworkAvailable(context)) {
-            Bundle data = new Bundle();
-            data.putInt("recordID", recordID);
-            new NetworkTask(TaskJob.GET, type, context, data, this, this).execute();
+            if (!loaded || forceUpdate) {
+                Bundle data = new Bundle();
+                boolean saveDetails = username != null && !username.equals("") && isAdded();
+                if (saveDetails) {
+                    data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
+                } else {
+                    data.putInt("recordID", recordID);
+                }
+                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, context, data, this, this).execute();
+            }
         } else {
-            setText();
             swipeRefresh.setRefreshing(false);
+            if (!loaded) {
+                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+            }
         }
     }
 
@@ -285,6 +315,9 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
      * Checks if this record is in our list
      */
     public boolean isAdded() {
+        if (animeRecord == null && mangaRecord == null) {
+            return false;
+        }
         if (ListType.ANIME.equals(type)) {
             return animeRecord.getWatchedStatus() != null;
         } else {
@@ -340,7 +373,7 @@ public class DetailView extends Activity implements Serializable, OnRatingBarCha
                     type = ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
                     recordID = Integer.parseInt(splitmessage[1]);
                     setCard();
-                    getRecord();
+                    getRecord(false);
                 } catch (NumberFormatException e) {
                     finish();
                 }

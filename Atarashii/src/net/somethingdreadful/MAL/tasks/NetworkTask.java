@@ -58,24 +58,24 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             switch (job) {
                 case GETLIST:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0]) : mManager.getMangaListFromDB(params[0]);
-                    else
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(Anime.STATUS_WATCHING) : mManager.getMangaListFromDB(Manga.STATUS_READING);
+                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params.length == 2 ? params[1] : Anime.STATUS_WATCHING, params[0]) : mManager.getMangaListFromDB(params.length == 2 ? params[1] : Manga.STATUS_READING, params[0]);
                     break;
                 case FORCESYNC:
-                    /* FORCESYNC may not require authentication if there are no dirty records to update, so a forced sync would even
-                     * work if the password has changed, which would be strange for the user. So do an Auth-Check before syncing
-                     *
-                     * this will throw an RetrofitError-Exception if the credentials are wrong
-                     */
-                    mManager.getAPIObject().verifyAuthentication();
-                    if (isAnimeTask())
-                        mManager.cleanDirtyAnimeRecords();
-                    else
-                        mManager.cleanDirtyMangaRecords();
-                    taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList() : mManager.downloadAndStoreMangaList();
-                    if (taskResult != null && params != null)
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0]) : mManager.getMangaListFromDB(params[0]);
+                    if (params != null) {
+                        /* FORCESYNC may not require authentication if there are no dirty records to update, so a forced sync would even
+                         * work if the password has changed, which would be strange for the user. So do an Auth-Check before syncing
+                         *
+                         * this will throw an RetrofitError-Exception if the credentials are wrong
+                         */
+                        mManager.getAPIObject().verifyAuthentication();
+                        if (isAnimeTask())
+                            mManager.cleanDirtyAnimeRecords(params[0]);
+                        else
+                            mManager.cleanDirtyMangaRecords(params[0]);
+                        taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(params[0]) : mManager.downloadAndStoreMangaList(params[0]);
+                        if (taskResult != null && params.length == 2)
+                            taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1], params[0]) : mManager.getMangaListFromDB(params[1], params[0]);
+                    }
                     break;
                 case GETMOSTPOPULAR:
                     taskResult = isAnimeTask() ? mManager.getAPIObject().getMostPopularAnime(page) : mManager.getAPIObject().getMostPopularManga(page);
@@ -97,10 +97,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     if (data != null && data.containsKey("record")) {
                         if (isAnimeTask()) {
                             Anime record = (Anime) data.getSerializable("record");
-                            taskResult = mManager.updateWithDetails(record.getId(), record);
+                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
                         } else {
                             Manga record = (Manga) data.getSerializable("record");
-                            taskResult = mManager.updateWithDetails(record.getId(), record);
+                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
                         }
                     }
                     break;

@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
@@ -25,6 +28,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.ApacheClient;
 import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 public class MALApi {
     // Use version 1.0 of the API interface
@@ -51,9 +55,14 @@ public class MALApi {
         client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
                 new UsernamePasswordCredentials(username, password));
 
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setClient(new ApacheClient(client))
                 .setServer(API_HOST)
+                .setConverter(new GsonConverter(gson))
                 .build();
         service = restAdapter.create(MALInterface.class);
     }

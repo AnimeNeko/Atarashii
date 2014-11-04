@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -385,7 +386,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
         } else if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
             Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
-            synctask(true, true);
+            synctask(false, true);
         }
         networkAvailable = MALApi.isNetworkAvailable(context);
     }
@@ -422,6 +423,8 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @Override
     public void onIGFReady(IGF igf) {
+        Account account = AccountService.getAccount(context);
+        igf.setUsername(account.name);
         if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else

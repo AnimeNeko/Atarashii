@@ -4,8 +4,10 @@ import android.text.Html;
 import android.text.Spanned;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 public class GenericRecord implements Serializable {
 
@@ -19,9 +21,17 @@ public class GenericRecord implements Serializable {
     private String image_url;
     private String type;
     private String status;
+    private ArrayList<String> genres;
+    private ArrayList<String> tags;
     private int score;
+    private int rank;
     private float members_score;
+    private int members_count;
+    private int favorited_count;
+    private int popularity_rank;
     private String synopsis;
+    private HashMap<String, ArrayList<String>> other_titles;
+
     private boolean dirty;
     private Date lastUpdate;
     private boolean flag_create;
@@ -73,12 +83,36 @@ public class GenericRecord implements Serializable {
         this.status = status;
     }
 
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<String> genres) {
+        this.genres = genres;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
     public int getScore() {
         return score;
     }
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     public float getMembersScore() {
@@ -89,12 +123,63 @@ public class GenericRecord implements Serializable {
         this.members_score = members_score;
     }
 
+    public int getMembersCount() {
+        return members_count;
+    }
+
+    public void setMembersCount(int members_count) {
+        this.members_count = members_count;
+    }
+
+    public int getFavoritedCount() {
+        return favorited_count;
+    }
+
+    public void setFavoritedCount(int favorited_count) {
+        this.favorited_count = favorited_count;
+    }
+
+    public int getPopularityRank() {
+        return popularity_rank;
+    }
+
+    public void setPopularityRank(int popularity_rank) {
+        this.popularity_rank = popularity_rank;
+    }
+
     public String getSynopsis() {
         return synopsis;
     }
 
     public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
+    }
+
+    public HashMap<String, ArrayList<String>> getOtherTitles() {
+        return other_titles;
+    }
+
+    public void setOtherTitles(HashMap<String, ArrayList<String>> other_titles) {
+        this.other_titles = other_titles;
+    }
+
+    private ArrayList<String> getOtherTitlesByLanguage(String lang) {
+        if (other_titles == null) {
+            return null;
+        }
+        return other_titles.get(lang);
+    }
+
+    public ArrayList<String> getOtherTitlesJapanese() {
+        return getOtherTitlesByLanguage("japanese");
+    }
+
+    public ArrayList<String> getOtherTitlesEnglish() {
+        return getOtherTitlesByLanguage("english");
+    }
+
+    public ArrayList<String> getOtherTitlesSynonyms() {
+        return getOtherTitlesByLanguage("synonyms");
     }
 
     public boolean getDirty() {
