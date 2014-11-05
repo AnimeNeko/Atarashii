@@ -149,12 +149,19 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <!-- DetailView (Tab names) Strings -->
+    <string name="tab_name_general">General</string>
+    <string name="tab_name_personal">Personal</string>
+    <string name="tab_name_details">Details</string>
+
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">SYNOPSIS</string>
     <string name="card_name_progress">PROGRESS</string>
     <string name="card_name_stats">MAL STATS</string>
+    <string name="card_name_info">MAL INFO</string>
     <string name="card_name_rating">RATING</string>
     <string name="card_name_status">STATUS</string>
+    <string name="card_name_relations">RELATIONS</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
@@ -164,7 +171,24 @@
     <string name="card_content_my_score">My Score</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
+    <string name="card_content_aired">Aired</string>
+    <string name="card_content_genres">Genres</string>
+    <string name="card_content_classification">Classification</string>
+    <string name="card_content_ranked">Rank</string>
+    <string name="card_content_popularity">Popularity</string>
+    <string name="card_content_members">Members</string>
+    <string name="card_content_favorites">Favorites</string>
     <string name="card_content_loading">Loading, just a sec.</string>
+    <string name="card_content_prequel">Prequels</string>
+    <string name="card_content_sequel">Sequels</string>
+    <string name="card_content_alternativeversions">Alternative Versions</string>
+    <string name="card_content_adaptions">Adaptions</string>
+    <string name="card_content_sidestories">Side Stories</string>
+    <string name="card_content_spinoffs">SpinOffs</string>
+    <string name="card_content_summaries">Summaries</string>
+    <string name="card_content_character">Character</string>
+    <string name="card_content_related">Related</string>
+    <string name="card_content_parentstory">Parent Story</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
@@ -360,6 +384,7 @@
         <item>2880</item>
     </string-array>
 
+    <!-- Date (Date format output) Items -->
     <string name="dateformat">MM-dd-yy</string>
     <string name="datetimeformat">MM-dd-yy, h:mm a</string>
     <string name="datetimeformat_yesterday">\'Yesterday\', h:mm a</string>
@@ -373,4 +398,59 @@
         <item quantity="one">One hour ago</item>
         <item quantity="other">%d hours ago</item>
     </plurals>
+
+    <string-array name="classificationArray">
+        <item>G - All Ages</item>
+        <item>PG - Children</item>
+        <item>PG-13 - Teens 13 or older</item>
+        <item>R - 17+ (violence \u0026 profanity)</item>
+        <item>R+ - Mild Nudity</item>
+        <item>Rx - Hentai</item>
+    </string-array>
+
+    <string-array name="genresArray">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Cars</item>
+        <item>Comedy</item>
+        <item>Dementia</item>
+        <item>Demons</item>
+        <item>Drama</item>
+        <item>Ecchi</item>
+        <item>Fantasy</item>
+        <item>Game</item>
+        <item>Harem</item>
+        <item>Hentai</item>
+        <item>Historical</item>
+        <item>Horror</item>
+        <item>Josei</item>
+        <item>Kids</item>
+        <item>Magic</item>
+        <item>Martial Arts</item>
+        <item>Mecha</item>
+        <item>Military</item>
+        <item>Music</item>
+        <item>Mystery</item>
+        <item>Parody</item>
+        <item>Police</item>
+        <item>Psychological</item>
+        <item>Romance</item>
+        <item>Samurai</item>
+        <item>School</item>
+        <item>Sci-Fi</item>
+        <item>Seinen</item>
+        <item>Shoujo</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Slice of Life</item>
+        <item>Space</item>
+        <item>Sports</item>
+        <item>Super Power</item>
+        <item>Supernatural</item>
+        <item>Thriller</item>
+        <item>Vampire</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
+    </string-array>
 </resources>

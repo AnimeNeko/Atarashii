@@ -8,13 +8,19 @@ import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.SearchActivity;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.Manga;
 
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.DialogFragment;
 
 public class SearchIdDialogFragment extends DialogFragment {
+    int query;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        query = Integer.parseInt(((SearchActivity) activity).query);
+    }
 
     @Override
     public AlertDialog onCreateDialog(Bundle savedInstanceState) {
@@ -22,15 +28,11 @@ public class SearchIdDialogFragment extends DialogFragment {
         builder.setTitle(R.string.dialog_title_id_search);
         builder.setMessage(R.string.dialog_message_id_search);
 
-        final Integer query = Integer.parseInt(((SearchActivity) getActivity()).query);
-
         builder.setPositiveButton(R.string.dialog_label_anime, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Anime record = new Anime();
-                record.setId(query);
                 Intent startDetails = new Intent(getActivity(), DetailView.class);
-                startDetails.putExtra("record", record);
+                startDetails.putExtra("recordID", query);
                 startDetails.putExtra("recordType", MALApi.ListType.ANIME);
                 startActivity(startDetails);
                 dismiss();
@@ -47,10 +49,8 @@ public class SearchIdDialogFragment extends DialogFragment {
         builder.setNegativeButton(R.string.dialog_label_manga, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Manga record = new Manga();
-                record.setId(query);
                 Intent startDetails = new Intent(getActivity(), DetailView.class);
-                startDetails.putExtra("record", record);
+                startDetails.putExtra("recordID", query);
                 startDetails.putExtra("recordType", MALApi.ListType.MANGA);
                 startActivity(startDetails);
                 dismiss();

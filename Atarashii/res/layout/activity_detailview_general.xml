@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <HorizontalScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
+    <ScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/bg_activity">
@@ -16,8 +16,9 @@
 
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/detailCoverImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/layout_card_loading"
@@ -27,10 +28,10 @@
             <!-- Synopsis card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/synopsis"
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@id/detailCoverImage"
+                android:layout_below="@id/detailCoverImage"
+                android:layout_marginTop="8dp"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_synopsis"
                 custom:header_Title_Color="@color/white" />
@@ -38,26 +39,22 @@
             <!-- Media Info card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/mediainfo"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@id/synopsis"
-                custom:card_WrapHeight="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/synopsis"
+                android:layout_marginTop="8dp"
                 custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_stats"
+                custom:header_Title="@string/card_name_info"
                 custom:header_Title_Color="@color/white" />
 
             <!-- Status card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/status"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_below="@id/mediainfo"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/synopsis"
                 custom:card_TouchFeedback="true"
-                custom:card_WrapHeight="true"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_status"
                 custom:header_Title_Color="@color/white" />
@@ -65,10 +62,10 @@
             <!-- Progress card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/progress"
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@id/mediainfo"
+                android:layout_below="@id/status"
+                android:layout_marginTop="8dp"
                 custom:card_TouchFeedback="true"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_progress"
@@ -77,14 +74,14 @@
             <!-- rating card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/rating"
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@id/progress"
+                android:layout_below="@id/progress"
+                android:layout_marginTop="8dp"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_rating"
                 custom:header_Title_Color="@color/white" />
 
         </RelativeLayout>
-    </HorizontalScrollView>
+    </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
