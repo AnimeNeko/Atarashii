@@ -24,6 +24,7 @@ public class AboutActivity extends Activity {
         TextView motokochanMalContent = (TextView) findViewById(R.id.contributor_motokochan_name);
         TextView apkawaMalContent = (TextView) findViewById(R.id.contributor_apkawa_name);
         TextView dskoMalContent = (TextView) findViewById(R.id.contributor_dsko_name);
+        TextView ratan12MalContent = (TextView) findViewById(R.id.contributor_ratan12_name);
         TextView acknowledgementsContent = (TextView) findViewById(R.id.acknowledgements_card_content);
         TextView communityContent = (TextView) findViewById(R.id.community_card_content);
 
@@ -31,6 +32,7 @@ public class AboutActivity extends Activity {
         motokochanMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         apkawaMalContent.setMovementMethod(LinkMovementMethod.getInstance());
         dskoMalContent.setMovementMethod(LinkMovementMethod.getInstance());
+        ratan12MalContent.setMovementMethod(LinkMovementMethod.getInstance());
         communityContent.setMovementMethod(LinkMovementMethod.getInstance());
         acknowledgementsContent.setMovementMethod(LinkMovementMethod.getInstance());
 

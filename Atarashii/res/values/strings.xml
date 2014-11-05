@@ -259,6 +259,8 @@
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
     <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
     <string name="contributor_dsko_summary">Implemented retrofit for API handling.</string>
+    <string name="contributor_ratan12_name">Ratan Dhawtal (<a href="http://myanimelist.net/profile/ratan12">Ratan12</a>)</string>
+    <string name="contributor_ratan12_summary">Managing all translations, creating new features and working on the UI.</string>
     <string name="community_card_title">Atarashii Community</string>
     <string name="customShareText_fromAtarashii">\n\nShared from Atarashii! - Modern MAL for Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Join our Community!</a> The Atarashii! community group on Google+ is a great place to interact with the developers and let us know what you think. Issues, feature requests, status updates, it\'s all there. We don\'t bite, promise.</string>
