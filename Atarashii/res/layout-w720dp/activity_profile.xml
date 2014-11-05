@@ -11,63 +11,52 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <RelativeLayout
-            android:id="@+id/container1"
+        <!-- Profile picture -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/name_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal">
+            custom:header_Color="@color/card_cyan"
+            custom:header_Title="@string/layout_card_title_details"
+            custom:header_Title_Color="@color/white"
+            custom:header_Title_center="true" />
 
-            <!-- Profile picture -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/name_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:card_maxWidth="421"
-                custom:header_Color="@color/card_cyan"
-                custom:header_Title="@string/layout_card_title_details"
-                custom:header_Title_Color="@color/white"
-                custom:header_Title_center="true" />
+        <!-- Details card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/details_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/name_card"
+            custom:header_Color="@color/card_cyan"
+            custom:header_Title="@string/layout_card_title_details"
+            custom:header_Title_Color="@color/white" />
 
-            <!-- Details card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/details_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@id/name_card"
-                custom:header_Color="@color/card_cyan"
-                custom:header_Title="@string/layout_card_title_details"
-                custom:header_Title_Color="@color/white" />
+        <!-- Anime card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/Anime_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_card"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            custom:card_divide="2"
+            custom:header_Color="@color/card_cyan"
+            custom:header_Title="@string/layout_card_anime_details"
+            custom:header_Title_Color="@color/white" />
 
-            <!-- Anime card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/Anime_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/details_card"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="8dp"
-                custom:card_divide="2"
-                custom:card_maxWidth="421"
-                custom:header_Color="@color/card_cyan"
-                custom:header_Title="@string/layout_card_anime_details"
-                custom:header_Title_Color="@color/white" />
-
-            <!-- Manga card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/Manga_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@id/Anime_card"
-                android:layout_below="@id/details_card"
-                custom:card_divide="2"
-                android:layout_marginTop="8dp"
-                custom:card_maxWidth="421"
-                custom:header_Color="@color/card_cyan"
-                custom:header_Title="@string/layout_card_manga_details"
-                custom:header_Title_Color="@color/white" />
-        </RelativeLayout>
+        <!-- Manga card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/Manga_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_card"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/Anime_card"
+            custom:card_divide="2"
+            custom:header_Color="@color/card_cyan"
+            custom:header_Title="@string/layout_card_manga_details"
+            custom:header_Title_Color="@color/white" />
     </RelativeLayout>
 </ScrollView>

@@ -16,7 +16,7 @@
 
             <RelativeLayout
                 android:id="@+id/container1"
-                android:layout_width="850dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal">
@@ -25,7 +25,6 @@
                     android:id="@+id/detailCoverImage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/layout_card_loading"
                     custom:header_Title_Color="@color/white"
@@ -60,7 +59,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
                     custom:card_divide="2"
-                    custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/card_name_info"
                     custom:header_Title_Color="@color/white" />
@@ -73,7 +71,6 @@
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@id/mediainfo"
                     custom:card_divide="2"
-                    custom:card_maxWidth="421"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/card_name_personal"
                     custom:header_Title_Color="@color/white" />
@@ -84,10 +81,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/mediainfo"
-                    custom:card_minHeight="145"
                     android:layout_marginTop="8dp"
                     custom:card_divide="2"
-                    custom:card_maxWidth="421"
+                    custom:card_minHeight="145"
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/card_name_rating"
                     custom:header_Title_Color="@color/white" />
