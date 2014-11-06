@@ -52,12 +52,23 @@
             custom:header_Title="@string/community_card_title"
             custom:header_Title_Color="@color/white" />
 
+        <!-- Translations Card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/translations_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/community_card"
+            android:layout_marginTop="8dp"
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/translations_card_title"
+            custom:header_Title_Color="@color/white" />
+
         <!-- Acknowledgements Card -->
         <net.somethingdreadful.MAL.Card
             android:id="@+id/acknowledgements_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/community_card"
+            android:layout_below="@id/translations_card"
             android:layout_marginTop="8dp"
             custom:header_Color="@color/card_blue"
             custom:header_Title="@string/acknowledgements_card_title"

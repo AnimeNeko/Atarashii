@@ -48,14 +48,28 @@
             custom:header_Title="@string/community_card_title"
             custom:header_Title_Color="@color/white" />
 
-        <!-- Acknowledgements Card -->
+        <!-- Translations Card -->
         <net.somethingdreadful.MAL.Card
-            android:id="@+id/acknowledgements_card"
+            android:id="@+id/translations_card"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@id/community_card"
             android:layout_marginRight="4dp"
             android:layout_marginTop="8dp"
+            custom:card_divide="2"
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/translations_card_title"
+            custom:header_Title_Color="@color/white" />
+
+        <!-- Acknowledgements Card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/acknowledgements_card"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/contributors_card"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/translations_card"
             custom:card_divide="2"
             custom:header_Color="@color/card_blue"
             custom:header_Title="@string/acknowledgements_card_title"
