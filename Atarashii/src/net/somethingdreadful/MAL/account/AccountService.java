@@ -14,33 +14,68 @@ import android.os.IBinder;
 public class AccountService extends Service {
     private Authenticator mAuthenticator;
 
+    /**
+     * Get the provider whose behavior is being controlled.
+     *
+     * @return String The provider
+     */
     public static String getAuth() {
         return ".account.Provider";
     }
 
+    /**
+     * Get the password of an account.
+     *
+     * @param context The activity context
+     * @return String The password
+     */
     public static String GetPassword(Context context) {
         AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount(context);
         return accountManager.getPassword(account);
     }
 
+    /**
+     * Get an Account on the device.
+     *
+     * @param context The activity context
+     * @return Account The account
+     */
     public static Account getAccount(Context context) {
         AccountManager accountManager = AccountManager.get(context);
         Account[] account = accountManager.getAccountsByType(".account.SyncAdapter.account");
         return (account.length > 0 ? account[0] : null);
     }
 
+    /**
+     * Removes an account from the accountmanager.
+     *
+     * @param context The activity context
+     */
     public static void deleteAccount(Context context) {
         AccountManager accountManager = AccountManager.get(context);
         accountManager.removeAccount(getAccount(context), null, null);
     }
 
+    /**
+     * Add an account in the accountmanager.
+     *
+     * @param context The activity context
+     * @param username The username of the account that will be saved
+     * @param password The password of the account that will be saved
+     */
     public static void addAccount(Context context, String username, String password) {
         AccountManager accountManager = AccountManager.get(context);
         final Account account = new Account(username, ".account.SyncAdapter.account");
         accountManager.addAccountExplicitly(account, password, null);
     }
 
+    /**
+     * Update a password of an account.
+     *
+     * @param context The activity context
+     * @param password The new password for an account
+     */
     public static void updatePassword(Context context, String password) {
         AccountManager accountManager = AccountManager.get(context);
         accountManager.setPassword(getAccount(context), password);
