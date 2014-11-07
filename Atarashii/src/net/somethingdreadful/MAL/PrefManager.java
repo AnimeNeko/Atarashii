@@ -19,34 +19,62 @@ public class PrefManager {
         prefeditor = prefs.edit();
     }
 
+    /**
+     * Returns the custom share text.
+     *
+     * @return String The custom share text that the app should use.
+     * @see DetailView
+     */
     public String getCustomShareText() {
         return prefs.getString("customShareText", context.getString(R.string.preference_default_customShareText));
     }
 
-    public boolean getUpgradeInit() {
-        return prefs.getBoolean("upgradeInit", false);
-    }
-
-    public void setInit(boolean newInit) {
-        prefeditor.putBoolean("init", newInit);
-    }
-
+    /**
+     * Returns if we should use a Listview.
+     *
+     * @return boolean If true the app will use a Listview
+     * @see IGF
+     */
     public boolean getTraditionalListEnabled() {
         return prefs.getBoolean("traditionalList", false);
     }
 
+    /**
+     * Returns if the app should use Volumes instead of Chapters.
+     *
+     * @return boolean If it is true the app will use Volumes
+     * @see IGF
+     */
     public boolean getUseSecondaryAmountsEnabled() {
         return prefs.getBoolean("displayVolumes", false);
     }
 
-    public boolean getsynchronisationEnabled() {
+    /**
+     * Returns if auto synchronisation is enabled.
+     *
+     * @return boolean This returns true when auto synchronisation is enabled
+     * @see Settings
+     */
+    public boolean getSyncEnabled() {
         return prefs.getBoolean("synchronisation", false);
     }
 
-    public Integer getsync_time() { //Home, get the auto-sync interval
+    /**
+     * Returns the auto synchronisation interval.
+     *
+     * @return int The auto synchronisation interval in seconds
+     * @see Settings
+     */
+    public int getSyncTime() {
         return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
+    /**
+     * Returns the locale of the language that this app should use.
+     *
+     * @return Locale The locale of the language that the app should use
+     * @see Theme
+     */
     public Locale getLocale() {
         String localeName = prefs.getString("locale", Locale.getDefault().toString());
         Locale locale;
@@ -59,35 +87,81 @@ public class PrefManager {
         return locale;
     }
 
-    public boolean ForceSync() {
+    /**
+     * Returns if the app should synchronise the Anime/Manga records.
+     *
+     * @return boolean If all the records should be synced
+     * @see Home
+     */
+    public boolean getForceSync() {
         return prefs.getBoolean("ForceSync", false);
     }
 
-    public boolean anime_manga_zero() { //profile activity, if the card is empty setting
-        return prefs.getBoolean("a_mhide", false);
-    }
-
-    public boolean Textcolordisable() { //profile activity, if the textcolors are turned off
-        return prefs.getBoolean("text_colours", false);
-    }
-
-    public boolean animehide() { //profile activity, if the setting force hide is turned on
-        return prefs.getBoolean("A_hide", false); //anime card
-    }
-
-    public boolean mangahide() {//profile activity, if the setting force hide is turned on
-        return prefs.getBoolean("M_hide", false); //manga card
-    }
-
+    /**
+     * Set the force synchronisation, if true all the records will be synchronised.
+     *
+     * @param force This will determine if all the records should be synchronised
+     * @see FirstTimeInit
+     * @see Home
+     */
     public void setForceSync(boolean force) {
         prefeditor.putBoolean("ForceSync", force);
     }
 
-    public void commitChanges() {
-        prefeditor.commit();
+    /**
+     * Returns if the app automatically should hide the card if it is empty.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public boolean getHideAnimeManga() {
+        return prefs.getBoolean("a_mhide", false);
     }
 
+    /**
+     * Returns if the app should disable the coloured text and use black.
+     *
+     * @return boolean If it should be black
+     * @see ProfileActivity
+     */
+    public boolean getTextColor() {
+        return prefs.getBoolean("text_colours", false);
+    }
+
+    /**
+     * Returns if the app should hide the anime stats in all profiles.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public boolean getHideAnime() {
+        return prefs.getBoolean("A_hide", false);
+    }
+
+    /**
+     * Returns if the app should hide the manga stats in all profiles.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public boolean getHideManga() {
+        return prefs.getBoolean("M_hide", false);
+    }
+
+    /**
+     * Returns the default list that will open on start.
+     *
+     * @return int The number of the list that should get loaded.
+     * @see Home
+     */
     public int getDefaultList() {
         return Integer.parseInt(prefs.getString("defList", "1"));
+    }
+
+    /**
+     * Commit all the changed made.
+     */
+    public void commitChanges() {
+        prefeditor.commit();
     }
 }

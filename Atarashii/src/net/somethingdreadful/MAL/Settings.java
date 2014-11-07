@@ -37,12 +37,12 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         String Auth = AccountService.getauth(context);
         Bundle bundle = new Bundle();
-        int interval = Prefs.getsync_time() * 60;
+        int interval = Prefs.getSyncTime() * 60;
         if (key.equals("synchronisation_time")) {
             ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
             ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
         } else if (key.equals("synchronisation")) {
-            if (Prefs.getsynchronisationEnabled()) {
+            if (Prefs.getSyncEnabled()) {
                 ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, true);
                 ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
             } else {
