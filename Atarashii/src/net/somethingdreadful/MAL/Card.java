@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,24 +15,22 @@ import android.widget.TextView;
 
 
 public class Card extends RelativeLayout {
-    public TextView Header;
     public boolean center;
-    public RelativeLayout Card;
+    public TextView Header;
+    public CardView Card;
     public RelativeLayout Content;
-    LayoutInflater inflater;
-    int CardColor;
-    int CardColorPressed;
-    onCardClickListener listener;
+
     int screenWidth;
+    int minHeight;
     Float density;
-    Integer minHeight;
+
+    LayoutInflater inflater;
+    onCardClickListener listener;
 
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        /*
-         * Get attributes
-         */
+        // Get attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Card, 0, 0);
         center = a.getBoolean(R.styleable.Card_header_Title_center, false);
         String TitleText = a.getString(R.styleable.Card_header_Title);
@@ -41,80 +39,91 @@ public class Card extends RelativeLayout {
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
         minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
-        CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
-        CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
 
-        /*
-         * Setup layout
-         */
+        // Setup layout
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.card_layout_base, this);
 
-        /*
-         * Get the views
-         */
-        Card = (RelativeLayout) findViewById(R.id.BaseCard);
+        // Get the views
+        Card = (CardView) findViewById(R.id.BaseCard);
         Content = (RelativeLayout) findViewById(R.id.content);
-        Header = (TextView) this.findViewById(R.id.CardTitle);
+        Header = (TextView) findViewById(R.id.CardTitle);
 
-        /*
-         * Apply attributes
-         */
-        if (divide != 0 || maxWidth!= 0)
+        // Apply attributes
+        if (divide != 0 || maxWidth != 0)
             setWidth(divide, maxWidth);
         Header.setText(TitleText);
         Header.setTextColor(getResources().getColor(TitleColor));
         setHeaderColor(HeaderColor);
-        setCardColor(CardColor);
 
         a.recycle();
     }
 
-    /*
-     * Add content to the card
+    /**
+     * Add content to the card.
      *
-     * Also checks if the view contains a listview to apply the right paddings
+     * @param resource The resource id that you want to appear in the card
      */
-    public void setContent(int res) {
-        inflater.inflate(res, Content);
+    public void setContent(int resource) {
+        inflater.inflate(resource, Content);
         if (this.findViewById(R.id.ListView) != null)
             Content.setPadding(0, 0, 0, Content.getPaddingBottom() / 12 * 6);
     }
 
-    /*
-     * Convert dp to pixels
-     */
-    private int convert(int number) {
-        return (int) (getDensity() * number);
-    }
-
-    /*
-     * Change the padding of a card
+    /**
+     * Change the content padding of a card.
+     *
+     * @param left   The padding of the left side in dp
+     * @param top    The padding of the top in dp
+     * @param right  The padding of the right side in dp
+     * @param bottom The padding of the bottom in dp
      */
     public void setPadding(int left, int top, int right, int bottom) {
         Content.setPadding(convert(left), convert(top), convert(right), (bottom != -1 ? bottom : convert(4)));
     }
 
-    /*
-     * Recalculate the required height of a listview and apply it
+    /**
+     * Change the content padding of a card.
+     *
+     * @param all The padding of all the sides
      */
-    public void refreshList(Integer total, Integer normalHeight, Integer headers, Integer headerHeight, Integer divider) {
+    public void setPadding(int all) {
+        all = convert(all);
+        Content.setPadding(all, all, all, all);
+    }
+
+    /**
+     * Recalculate the required height of a listview and apply it.
+     *
+     * @param total        The total number of items
+     * @param normalHeight The default height of headers in dp
+     * @param headers      The number of headers
+     * @param headerHeight The height of a header in dp
+     * @param divider      The thickness of the divider in dp
+     */
+    public void refreshList(int total, int normalHeight, int headers, int headerHeight, int divider) {
         if (total == 0) {
             this.setVisibility(View.GONE);
         } else {
             Integer normal = total - headers;
 
-            int Height = convert(normal * normalHeight);
-            Height = Height + convert(headers * headerHeight);
-            Height = Height + convert((total - 1) * divider);
+            int Height = normal * normalHeight;
+            Height = Height + (headers * headerHeight);
+            Height = Height + ((total - 1) * divider);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = Height;
+                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height);
         }
     }
 
-    /*
-     * Set the card at the right side of another card
+    /**
+     * Set the card at the right side of another card.
+     *
+     * @param res    The card at the left side of your desired point
+     * @param amount The amount of cards that will be at the left & right sides of your desired point
+     *               Note: This also includes this card it self
+     * @param screen The minimum amount of dp when the card will be placed at the right side
+     *               Note: Use 0 if you don't want any
      */
     public void setRightof(Card res, int amount, int screen) {
         if (convert(screen) <= getScreenWidth()) {
@@ -125,27 +134,26 @@ public class Card extends RelativeLayout {
         }
     }
 
-    /*
-     * Change the background color
-     */
-    public void setCardColor(int color) {
-        LayerDrawable layers = (LayerDrawable) Card.getBackground();
-        GradientDrawable shape = (GradientDrawable) (layers.findDrawableByLayerId(R.id.card_content_drawable));
-        shape.setColor(getResources().getColor(color));
-    }
-
-    /*
-     * Change the header color
+    /**
+     * Change the header color.
+     *
+     * @param color The resource id of the color
      */
     public void setHeaderColor(int color) {
         GradientDrawable shape = (GradientDrawable) Header.getBackground();
         shape.setColor(getResources().getColor(color));
     }
 
-    public void setOnClickListener(int res, onCardClickListener callback) {
+    /**
+     * Create an onClick event for listening for clicks.
+     *
+     * @param view     The view id that will trigger the interface method
+     * @param callback The activity that contains the interface method
+     */
+    public void setOnClickListener(int view, onCardClickListener callback) {
         listener = callback;
         (this.findViewById(R.id.actionableIcon)).setVisibility(View.VISIBLE);
-        Content.findViewById(res).setOnClickListener(new OnClickListener() {
+        Content.findViewById(view).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onCardClickListener(v.getId());
@@ -153,10 +161,13 @@ public class Card extends RelativeLayout {
         });
     }
 
-    /*
+    /**
      * Wraps the width of a card
+     *
+     * @param header This won't cut off the text in the header if it is true
      */
     public void wrapWidth(boolean header) {
+
         int width;
         Header.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
         Card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
@@ -173,21 +184,22 @@ public class Card extends RelativeLayout {
             Header.setGravity(Gravity.CENTER);
     }
 
-    /*
-     * Set the card width
+    /**
+     * Set the card width.
      *
-     * amount is the amount of cards besides each other
-     * maxWidth is the maximum width in dp
+     * @param amount   The amount of cards besides each other
+     * @param maxWidth The maximum width in dp
      */
     public void setWidth(Integer amount, Integer maxWidth) {
         Card.getLayoutParams().width = getWidth(amount, maxWidth);
     }
 
-    /*
-     * get the card width
+    /**
+     * Get the card width.
      *
-     * amount is the amount of cards besides each other
-     * maxWidth is the maximum width in dp
+     * @param amount   The amount of cards besides each other
+     * @param maxWidth The maximum width in dp
+     * @return int The width that the card should be
      */
     public int getWidth(Integer amount, Integer maxWidth) {
         if (amount == 0)
@@ -203,8 +215,34 @@ public class Card extends RelativeLayout {
             return card;
     }
 
+    /**
+     * Get the display density.
+     *
+     * @return Float The display density
+     */
+    private Float getDensity() {
+        if (density == null)
+            density = (getResources().getDisplayMetrics().densityDpi / 160f);
+        return density;
+    }
+
+    /**
+     * Convert dp to pixels.
+     *
+     * @param number The number in dp to convert in pixels
+     * @return int The converted dp in pixels
+     */
+    private int convert(int number) {
+        return (int) (getDensity() * number);
+    }
+
+    /**
+     * Get the screen width.
+     *
+     * @return int The screen width in pixels
+     */
     @SuppressLint("InlinedApi")
-    private Integer getScreenWidth() {
+    private int getScreenWidth() {
         if (screenWidth == 0) {
             try {
                 screenWidth = convert(getResources().getConfiguration().screenWidthDp);
@@ -215,18 +253,8 @@ public class Card extends RelativeLayout {
         return screenWidth;
     }
 
-    /*
-     * Get the display density
-     *
-     */
-    public Float getDensity() {
-        if (density == null)
-            density = (getResources().getDisplayMetrics().densityDpi / 160f);
-        return density;
-    }
-
-    /*
-     * Interface for clicklistener
+    /**
+     * The Interface that will get triggered by the OnClick method.
      */
     public interface onCardClickListener {
         public void onCardClickListener(int id);
