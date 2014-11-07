@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -56,6 +57,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     int recordID;
     private ActionBar actionbar;
     private ViewPager viewPager;
+    private ViewFlipper viewFlipper;
     private Menu menu;
     private ArrayList<String> tabs = new ArrayList<String>();
 
@@ -73,6 +75,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         viewPager = (ViewPager) findViewById(R.id.pager);
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         PageAdapter = new DetailViewPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(PageAdapter);
         viewPager.setOnPageChangeListener(this);
@@ -315,6 +318,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public void getRecord(boolean forceUpdate) {
         setRefreshing(true);
+        toggleLoadingIndicator(isEmpty());
         boolean loaded = false;
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
@@ -322,6 +326,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 if (isDone()) {
                     loaded = true;
                     setRefreshing(false);
+                    toggleLoadingIndicator(false);
                 }
             }
         }
@@ -566,6 +571,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                     mangaRecord.setDirty(true);
             }
             setRefreshing(false);
+            toggleLoadingIndicator(false);
 
             setText();
         } catch (ClassCastException e) {
@@ -630,5 +636,14 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public void setDetails(DetailViewDetails details) {
         this.details = details;
+    }
+
+    /*
+     * handle the loading indicator
+     */
+    private void toggleLoadingIndicator(boolean show) {
+        if (viewFlipper != null) {
+            viewFlipper.setDisplayedChild(show ? 1 : 0);
+        }
     }
 }
