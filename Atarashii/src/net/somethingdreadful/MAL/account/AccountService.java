@@ -72,7 +72,7 @@ public class AccountService extends Service {
 
         @Override
         public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse, String s, String s2, String[] strings, Bundle bundle) throws NetworkErrorException {
-            return null;
+            throw new UnsupportedOperationException();
         }
 
         @Override
