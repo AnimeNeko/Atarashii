@@ -65,8 +65,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         setViews();
         setListener();
 
-        NfcHelper.disableBeam(activity);
-
         activity.setGeneral(this);
         return view;
     }

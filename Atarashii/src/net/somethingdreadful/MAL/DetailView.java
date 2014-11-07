@@ -92,13 +92,15 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Set text in all fragments
      */
     public void setText() {
-        try {
-            actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+        actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+        if (general != null) {
             general.setText();
-            if (details != null)
-                details.setText();
-        } catch (Exception e) {
-            Log.e("MALX", "Error setText() in DetailView: " + e.getMessage());
+        }
+        if (details != null) {
+            details.setText();
+        }
+        if (!isEmpty()) {
+            setupBeam();
         }
     }
 
@@ -132,8 +134,10 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Set refreshing on all SwipeRefreshViews
      */
     public void setRefreshing(Boolean show) {
-        general.swipeRefresh.setRefreshing(show);
-        general.swipeRefresh.setEnabled(!show);
+        if (general != null) {
+            general.swipeRefresh.setRefreshing(show);
+            general.swipeRefresh.setEnabled(!show);
+        }
         if (details != null) {
             details.swipeRefresh.setRefreshing(show);
             details.swipeRefresh.setEnabled(!show);

@@ -68,7 +68,6 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         setViews();
         setListener();
 
-        NfcHelper.disableBeam(activity);
         activity.setDetails(this);
 
         if (activity.isDone())
