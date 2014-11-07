@@ -35,7 +35,7 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        String Auth = AccountService.getauth(context);
+        String Auth = AccountService.getAuth();
         Bundle bundle = new Bundle();
         int interval = Prefs.getSyncTime() * 60;
         if (key.equals("synchronisation_time")) {

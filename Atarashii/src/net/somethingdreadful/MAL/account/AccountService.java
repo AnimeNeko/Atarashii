@@ -14,7 +14,7 @@ import android.os.IBinder;
 public class AccountService extends Service {
     private Authenticator mAuthenticator;
 
-    public static String getauth(Context context) {
+    public static String getAuth() {
         return ".account.Provider";
     }
 
