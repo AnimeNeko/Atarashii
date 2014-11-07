@@ -41,9 +41,9 @@ public class AccountService extends Service {
         accountManager.addAccountExplicitly(account, password, null);
     }
 
-    public static void updatePassword(Context context, String newPassword) {
+    public static void updatePassword(Context context, String password) {
         AccountManager accountManager = AccountManager.get(context);
-        accountManager.setPassword(getAccount(context), newPassword);
+        accountManager.setPassword(getAccount(context), password);
     }
 
     @Override
