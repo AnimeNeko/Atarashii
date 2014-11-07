@@ -160,13 +160,14 @@
     <string name="card_name_stats">MAL STATS</string>
     <string name="card_name_info">MAL INFO</string>
     <string name="card_name_rating">RATING</string>
-    <string name="card_name_status">STATUS</string>
+    <string name="card_name_personal">PERSONAL</string>
     <string name="card_name_relations">RELATIONS</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_chapters">Chapters</string>
     <string name="card_content_episodes">Episodes</string>
+    <string name="card_content_status">Status</string>
     <string name="card_content_mal_score">MAL Score</string>
     <string name="card_content_my_score">My Score</string>
     <string name="card_content_media_type">Media Type</string>

@@ -8,22 +8,24 @@ import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class Card extends RelativeLayout implements View.OnTouchListener {
+public class Card extends RelativeLayout {
     public TextView Header;
     public boolean center;
     public RelativeLayout Card;
     public RelativeLayout Content;
     LayoutInflater inflater;
-    boolean click;
     int CardColor;
     int CardColorPressed;
     onCardClickListener listener;
+    int screenWidth;
+    Float density;
+    Integer minHeight;
 
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,9 +38,11 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         String TitleText = a.getString(R.styleable.Card_header_Title);
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
         int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.card_content);
+        Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
+        minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
+        Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         CardColor = a.getResourceId(R.styleable.Card_card_Color, R.color.card_content);
         CardColorPressed = a.getResourceId(R.styleable.Card_card_ColorPressed, R.color.card_content_pressed);
-        Boolean TouchEvent = a.getBoolean(R.styleable.Card_card_TouchFeedback, false);
 
         /*
          * Setup layout
@@ -56,26 +60,14 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         /*
          * Apply attributes
          */
+        if (divide != 0 || maxWidth!= 0)
+            setWidth(divide, maxWidth);
         Header.setText(TitleText);
         Header.setTextColor(getResources().getColor(TitleColor));
         setHeaderColor(HeaderColor);
         setCardColor(CardColor);
-        if (TouchEvent) {
-            Content.setOnTouchListener(this);
-            Header.setOnTouchListener(this);
-            Card.setOnTouchListener(this);
-        } else {
-            (this.findViewById(R.id.actionableIcon)).setVisibility(View.GONE);
-        }
 
         a.recycle();
-    }
-
-    /*
-     * Setup clicklistener
-     */
-    public void setCardClickListener(onCardClickListener listener) {
-        this.listener = listener;
     }
 
     /*
@@ -90,21 +82,46 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
     }
 
     /*
+     * Convert dp to pixels
+     */
+    private int convert(int number) {
+        return (int) (getDensity() * number);
+    }
+
+    /*
+     * Change the padding of a card
+     */
+    public void setPadding(int left, int top, int right, int bottom) {
+        Content.setPadding(convert(left), convert(top), convert(right), (bottom != -1 ? bottom : convert(4)));
+    }
+
+    /*
      * Recalculate the required height of a listview and apply it
      */
     public void refreshList(Integer total, Integer normalHeight, Integer headers, Integer headerHeight, Integer divider) {
         if (total == 0) {
             this.setVisibility(View.GONE);
         } else {
-            float density = (getResources().getDisplayMetrics().densityDpi / 160f);
             Integer normal = total - headers;
 
-            float Height = normal * normalHeight * density;
-            Height = Height + (headers * headerHeight * density);
-            Height = Height + ((total - 1) * divider * density);
+            int Height = convert(normal * normalHeight);
+            Height = Height + convert(headers * headerHeight);
+            Height = Height + convert((total - 1) * divider);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = (int) Height;
+                this.findViewById(R.id.ListView).getLayoutParams().height = Height;
+        }
+    }
+
+    /*
+     * Set the card at the right side of another card
+     */
+    public void setRightof(Card res, int amount, int screen) {
+        if (convert(screen) <= getScreenWidth()) {
+            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
+            card.addRule(RelativeLayout.RIGHT_OF, res.getId());
+            card.setMargins(convert(4), 0, 0, 0);
+            this.setLayoutParams(card);
         }
     }
 
@@ -125,27 +142,15 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         shape.setColor(getResources().getColor(color));
     }
 
-    /*
-     * Handle the touch feedback
-     */
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public boolean onTouch(View v, MotionEvent e) {
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                click = true;
-
-                setCardColor(CardColorPressed);
-                break;
-            case MotionEvent.ACTION_UP:
-                if (click) {
-                    listener.onCardClickListener(this.getId());
-                    click = false;
-                }
-                setCardColor(CardColor);
-                break;
-        }
-        return true;
+    public void setOnClickListener(int res, onCardClickListener callback) {
+        listener = callback;
+        (this.findViewById(R.id.actionableIcon)).setVisibility(View.VISIBLE);
+        Content.findViewById(res).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCardClickListener(v.getId());
+            }
+        });
     }
 
     /*
@@ -166,6 +171,58 @@ public class Card extends RelativeLayout implements View.OnTouchListener {
         Card.setLayoutParams(new LayoutParams(width, Card.getMeasuredHeight()));
         if (center)
             Header.setGravity(Gravity.CENTER);
+    }
+
+    /*
+     * Set the card width
+     *
+     * amount is the amount of cards besides each other
+     * maxWidth is the maximum width in dp
+     */
+    public void setWidth(Integer amount, Integer maxWidth) {
+        Card.getLayoutParams().width = getWidth(amount, maxWidth);
+    }
+
+    /*
+     * get the card width
+     *
+     * amount is the amount of cards besides each other
+     * maxWidth is the maximum width in dp
+     */
+    public int getWidth(Integer amount, Integer maxWidth) {
+        if (amount == 0)
+            amount = 1;
+        int divider = amount - 1;
+        divider = convert((divider * 4) + 16);
+        int card = (getScreenWidth() - divider) / amount;
+        maxWidth = convert(maxWidth);
+
+        if (card > maxWidth && maxWidth != 0)
+            return maxWidth;
+        else
+            return card;
+    }
+
+    @SuppressLint("InlinedApi")
+    private Integer getScreenWidth() {
+        if (screenWidth == 0) {
+            try {
+                screenWidth = convert(getResources().getConfiguration().screenWidthDp);
+            } catch (NoSuchFieldError e) {
+                screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+            }
+        }
+        return screenWidth;
+    }
+
+    /*
+     * Get the display density
+     *
+     */
+    public Float getDensity() {
+        if (density == null)
+            density = (getResources().getDisplayMetrics().densityDpi / 160f);
+        return density;
     }
 
     /*

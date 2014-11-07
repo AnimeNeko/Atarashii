@@ -8,5 +8,8 @@
         <attr name="card_Color" format="reference" />
         <attr name="card_ColorPressed" format="reference" />
         <attr name="card_TouchFeedback" format="boolean" />
+        <attr name="card_maxWidth" format="integer" />
+        <attr name="card_minHeight" format="integer" />
+        <attr name="card_divide" format="integer" />
     </declare-styleable>
 </resources> 

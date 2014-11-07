@@ -28,9 +28,9 @@
 
             <TextView
                 android:id="@+id/textblurb"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:padding="8dp"
                 android:text="@string/form_hint_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -62,27 +62,30 @@
                 android:inputType="textPassword"
                 android:padding="8dp" />
 
-            <Button
-                android:id="@+id/button_connectToMal"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edittext_malPass"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="@string/form_action_connect" />
+                android:layout_marginTop="8dp">
 
-            <Button
-                android:id="@+id/registerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/button_connectToMal"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="24dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="@string/form_action_create" />
+                <Button
+                    android:id="@+id/registerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:text="@string/form_action_create" />
+
+                <Button
+                    android:id="@+id/button_connectToMal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/registerButton"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:text="@string/form_action_connect" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 

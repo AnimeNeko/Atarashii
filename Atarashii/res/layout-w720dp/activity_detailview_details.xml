@@ -14,24 +14,13 @@
             android:layout_height="wrap_content"
             android:padding="8dp">
 
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/detailCoverImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                custom:header_Color="@color/card_green"
-                custom:header_Title="@string/layout_card_loading"
-                custom:header_Title_Color="@color/white"
-                custom:header_Title_center="true" />
-
             <!-- Synopsis card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/detailCoverImage"
-                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_synopsis"
                 custom:header_Title_Color="@color/white" />
@@ -39,36 +28,41 @@
             <!-- Media Info card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/mediainfo"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_below="@id/synopsis"
+                android:layout_marginRight="4dp"
                 android:layout_marginTop="8dp"
+                custom:card_divide="2"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_info"
                 custom:header_Title_Color="@color/white" />
 
-            <!-- Personal card -->
+            <!-- Media Stats card -->
             <net.somethingdreadful.MAL.Card
-                android:id="@+id/personal"
+                android:id="@+id/mediastats"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@id/synopsis"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/mediainfo"
+                custom:card_divide="2"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_stats"
+                custom:header_Title_Color="@color/white" />
+
+            <!-- Relations card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/relations"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/mediainfo"
                 android:layout_marginTop="8dp"
+                custom:card_divide="2"
                 custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_personal"
+                custom:header_Title="@string/card_name_relations"
                 custom:header_Title_Color="@color/white" />
-
-            <!-- rating card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/rating"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/personal"
-                android:layout_marginTop="8dp"
-                custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_rating"
-                custom:header_Title_Color="@color/white" />
-
         </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
