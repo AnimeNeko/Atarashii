@@ -27,11 +27,7 @@ public class AccountService extends Service {
     public static Account getAccount(Context context) {
         AccountManager accountManager = AccountManager.get(context);
         Account[] account = accountManager.getAccountsByType(".account.SyncAdapter.account");
-        if (account.length > 0) {
-            return account[0];
-        } else {
-            return null;
-        }
+        return (account.length > 0 ? account[0] : null);
     }
 
     public static void deleteAccount(Context context) {
