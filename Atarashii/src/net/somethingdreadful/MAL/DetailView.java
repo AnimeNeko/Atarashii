@@ -191,17 +191,19 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Add record to list
      */
     public void addToList() {
-        if (type.equals(ListType.ANIME)) {
-            animeRecord.setCreateFlag(true);
-            animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-            animeRecord.setDirty(true);
-        } else {
-            mangaRecord.setCreateFlag(true);
-            mangaRecord.setReadStatus(Manga.STATUS_READING);
-            mangaRecord.setDirty(true);
+        if (!isEmpty()) {
+            if (type.equals(ListType.ANIME)) {
+                animeRecord.setCreateFlag(true);
+                animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
+                animeRecord.setDirty(true);
+            } else {
+                mangaRecord.setCreateFlag(true);
+                mangaRecord.setReadStatus(Manga.STATUS_READING);
+                mangaRecord.setDirty(true);
+            }
+            setMenu();
+            setText();
         }
-        setMenu();
-        setText();
     }
 
     /*
