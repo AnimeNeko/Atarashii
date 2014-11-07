@@ -60,7 +60,7 @@ public class AccountService extends Service {
     /**
      * Add an account in the accountmanager.
      *
-     * @param context The activity context
+     * @param context  The activity context
      * @param username The username of the account that will be saved
      * @param password The password of the account that will be saved
      */
@@ -73,7 +73,7 @@ public class AccountService extends Service {
     /**
      * Update a password of an account.
      *
-     * @param context The activity context
+     * @param context  The activity context
      * @param password The new password for an account
      */
     public static void updatePassword(Context context, String password) {
