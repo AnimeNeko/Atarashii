@@ -274,7 +274,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 activity.animeRecord.setDirty(true);
             }
         } else {
-            if (activity.animeRecord != null) {
+            if (activity.mangaRecord != null) {
                 activity.mangaRecord.setScore((int) (rating * 2));
                 activity.mangaRecord.setDirty(true);
             }
