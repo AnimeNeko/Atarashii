@@ -40,6 +40,7 @@ public class FirstTimeInit extends Activity implements AuthenticationCheckFinish
         context = getApplicationContext();
 
         prefManager = new PrefManager(context);
+        prefManager.deleteAccount();
 
         connectButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {

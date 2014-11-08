@@ -20,6 +20,21 @@ public class PrefManager {
     }
 
     /**
+     * Remove the old account info.
+     *
+     * The username & password were saved in Atarashii! < 2.0.
+     * Currently we are using this to remove the old username and password.
+     *
+     * @see net.somethingdreadful.MAL.account.AccountService
+     */
+    public void deleteAccount() {
+        if (prefs.getString("user", null) != null) {
+            prefeditor.remove("user");
+            prefeditor.remove("pass");
+        }
+    }
+
+    /**
      * Returns the custom share text.
      *
      * @return String The custom share text that the app should use.
