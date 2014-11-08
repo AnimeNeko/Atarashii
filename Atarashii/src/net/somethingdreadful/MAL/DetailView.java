@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
@@ -44,7 +45,7 @@ import java.util.Locale;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener {
+public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener, SwipeRefreshLayout.OnRefreshListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -651,5 +652,10 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         if (viewFlipper != null) {
             viewFlipper.setDisplayedChild(show ? 1 : 0);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getRecord(true);
     }
 }
