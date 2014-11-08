@@ -8,9 +8,9 @@ import org.holoeverywhere.preference.SharedPreferences;
 import java.util.Locale;
 
 public class PrefManager {
-    private static SharedPreferences prefs;
-    private static SharedPreferences.Editor prefeditor;
-    private static Context context;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor prefeditor;
+    private Context context;
 
 
     public PrefManager(Context mContext) {
