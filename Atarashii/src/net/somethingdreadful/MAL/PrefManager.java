@@ -8,15 +8,30 @@ import org.holoeverywhere.preference.SharedPreferences;
 import java.util.Locale;
 
 public class PrefManager {
-    private static SharedPreferences prefs;
-    private static SharedPreferences.Editor prefeditor;
-    private static Context context;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor prefeditor;
+    private Context context;
 
 
     public PrefManager(Context mContext) {
         context = mContext;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefeditor = prefs.edit();
+    }
+
+    /**
+     * Remove the old account info.
+     *
+     * The username & password were saved in Atarashii! < 2.0.
+     * Currently we are using this to remove the old username and password.
+     *
+     * @see net.somethingdreadful.MAL.account.AccountService
+     */
+    public void deleteAccount() {
+        if (prefs.getString("user", null) != null) {
+            prefeditor.remove("user");
+            prefeditor.remove("pass");
+        }
     }
 
     /**
