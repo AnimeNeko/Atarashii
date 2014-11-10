@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import com.crashlytics.android.Crashlytics;
+
 public class AccountService extends Service {
     private Authenticator mAuthenticator;
 
@@ -24,12 +26,24 @@ public class AccountService extends Service {
     }
 
     /**
+     * Get the username of an account.
+     *
+     * @param context The activity context
+     * @return String The username
+     */
+    public static String getUsername(Context context) {
+        String username = getAccount(context).name;
+        Crashlytics.setUserName(username);
+        return username;
+    }
+
+    /**
      * Get the password of an account.
      *
      * @param context The activity context
      * @return String The password
      */
-    public static String GetPassword(Context context) {
+    public static String getPassword(Context context) {
         AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount(context);
         return accountManager.getPassword(account);

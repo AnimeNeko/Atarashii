@@ -425,8 +425,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @Override
     public void onIGFReady(IGF igf) {
-        Account account = AccountService.getAccount(context);
-        igf.setUsername(account.name);
+        igf.setUsername(AccountService.getUsername(context));
         if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else
@@ -506,7 +505,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             switch (position) {
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                    Profile.putExtra("username", AccountService.getAccount(context).name);
+                    Profile.putExtra("username", AccountService.getUsername(context));
                     startActivity(Profile);
                     break;
                 case 1:

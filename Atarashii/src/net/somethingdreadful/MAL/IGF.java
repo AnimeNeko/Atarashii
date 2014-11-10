@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -560,16 +559,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     public void setUsername(String username) {
         this.username = username;
-        if (username == null || username.equals("")) {
-            ownList = false;
-        } else {
-            Account account = AccountService.getAccount(context);
-            if (account != null) {
-                ownList = account.name.equals(username);
-            } else {
-                ownList = false;
-            }
-        }
+        ownList = !(username == null || username.equals("")) && AccountService.getUsername(context).equals(username);
     }
 
     static class ViewHolder {

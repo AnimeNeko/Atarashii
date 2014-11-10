@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL.tasks;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -64,18 +63,18 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
         // only update if everything went well!
         if (!error) {
-            Account account = AccountService.getAccount(context);
+            String account = AccountService.getUsername(context);
             if (!job.equals(TaskJob.UPDATE)) {
                 if (ListType.ANIME.equals(type)) {
-                    manager.deleteAnimeFromAnimelist((Anime) gr[0], account.name);
+                    manager.deleteAnimeFromAnimelist((Anime) gr[0], account);
                 } else {
-                    manager.deleteMangaFromMangalist((Manga) gr[0], account.name);
+                    manager.deleteMangaFromMangalist((Manga) gr[0], account);
                 }
             } else {
                 if (type.equals(ListType.ANIME)) {
-                    manager.saveAnimeToDatabase((Anime) gr[0], false, account.name);
+                    manager.saveAnimeToDatabase((Anime) gr[0], false, account);
                 } else {
-                    manager.saveMangaToDatabase((Manga) gr[0], false, account.name);
+                    manager.saveMangaToDatabase((Manga) gr[0], false, account);
                 }
             }
         }

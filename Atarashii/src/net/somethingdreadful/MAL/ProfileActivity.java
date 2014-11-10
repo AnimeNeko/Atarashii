@@ -323,7 +323,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
                 if (share) {
                     sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_animelist)
                             .replace("$name;", record.getName())
-                            .replace("$username;", AccountService.getAccount(context).name));
+                            .replace("$username;", AccountService.getUsername(context)));
                     startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
                 } else {
                     Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + record.getName());
@@ -343,7 +343,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
                 if (share) {
                     sharingIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_mangalist)
                             .replace("$name;", record.getName())
-                            .replace("$username;", AccountService.getAccount(context).name));
+                            .replace("$username;", AccountService.getUsername(context)));
                     startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
                 } else {
                     Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + record.getName());

@@ -54,7 +54,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
         Gridview = (GridView) findViewById(R.id.listview);
         listadapter = new ListViewAdapter<User>(context, R.layout.record_friends_gridview);
 
-        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getAccount(context).name);
+        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
         refresh(false);
 
         Gridview.setOnItemClickListener(new OnItemClickListener() { //start the profile with your friend
@@ -134,7 +134,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
             if (!swipe)
                 Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
             forcesync = true;
-            new FriendsNetworkTask(context, true, this).execute(AccountService.getAccount(context).name);
+            new FriendsNetworkTask(context, true, this).execute(AccountService.getUsername(context));
         } else {
             swipeRefresh.setRefreshing(false);
             Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
