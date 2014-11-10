@@ -3,6 +3,8 @@ package net.somethingdreadful.MAL;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.holoeverywhere.ThemeManager;
 import org.holoeverywhere.app.Application;
 
@@ -16,6 +18,7 @@ public class Theme extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Crashlytics.start(this);
         locale = (new PrefManager(getApplicationContext())).getLocale();
         config = new Configuration();
         config.locale = locale;
