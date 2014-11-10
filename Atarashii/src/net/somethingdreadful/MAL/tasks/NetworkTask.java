@@ -49,9 +49,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         }
         int page = 1;
 
-        if (data != null) {
-            if (data.containsKey("page"))
-                page = data.getInt("page", 1);
+        if (data != null && data.containsKey("page")) {
+            page = data.getInt("page", 1);
+            Crashlytics.setInt("Page", page);
         }
 
         taskResult = null;
@@ -92,17 +92,21 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     taskResult = isAnimeTask() ? mManager.getAPIObject().getUpcomingAnime(page) : mManager.getAPIObject().getUpcomingManga(page);
                     break;
                 case GET:
-                    if (data != null && data.containsKey("recordID"))
+                    if (data != null && data.containsKey("recordID")) {
                         taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
+                        Crashlytics.setInt(type + " ID", data.getInt("recordID", -1));
+                    }
                     break;
                 case GETDETAILS:
                     if (data != null && data.containsKey("record")) {
                         if (isAnimeTask()) {
                             Anime record = (Anime) data.getSerializable("record");
                             taskResult = mManager.updateWithDetails(record.getId(), record, "");
+                            Crashlytics.setInt(type + " ID", record.getId());
                         } else {
                             Manga record = (Manga) data.getSerializable("record");
                             taskResult = mManager.updateWithDetails(record.getId(), record, "");
+                            Crashlytics.setInt(type + " ID", record.getId());
                         }
                     }
                     break;

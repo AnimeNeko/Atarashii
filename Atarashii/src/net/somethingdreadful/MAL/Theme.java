@@ -23,6 +23,7 @@ public class Theme extends Application {
         config = new Configuration();
         config.locale = locale;
         setLanguage(); //Change language when it is started
+        Crashlytics.setString("Language", locale.toString());
     }
 
     @Override
