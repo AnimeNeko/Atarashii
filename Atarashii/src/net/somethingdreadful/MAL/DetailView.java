@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -93,15 +95,19 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Set text in all fragments
      */
     public void setText() {
-        actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
-        if (general != null) {
-            general.setText();
-        }
-        if (details != null) {
-            details.setText();
-        }
-        if (!isEmpty()) {
-            setupBeam();
+        try {
+            actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+            if (general != null) {
+                general.setText();
+            }
+            if (details != null) {
+                details.setText();
+            }
+            if (!isEmpty()) {
+                setupBeam();
+            }
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "DetailView.setText(): " + e.getMessage());
         }
     }
 
@@ -506,7 +512,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 }
             }
         } catch (Exception e) {
-            Log.e("MALX", "Error updating record: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DetailView.onPause(): " + e.getMessage());
         }
     }
 
@@ -545,7 +551,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 // setup beam functionality (if NFC is available)
                 NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
                 if (mNfcAdapter == null) {
-                    Log.i("MALX", "NFC not available");
+                    Crashlytics.log(Log.INFO, "MALX", "DetailView.setupBeam(): NFC not available");
                 } else {
                     // Register NFC callback
                     String message_str = type.toString() + ":" + String.valueOf(recordID);
@@ -560,7 +566,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 }
             }
         } catch (Exception e) {
-            Log.e("MALX", "error at setupBeam: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DetailView.setupBeam(): " + e.getMessage());
         }
     }
 
@@ -582,7 +588,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
 
             setText();
         } catch (ClassCastException e) {
-            Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+            Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
         }
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -189,7 +191,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                         .placeholder(R.drawable.cover_loading)
                         .into(viewHolder.avatar);
             } catch (Exception e) {
-                e.printStackTrace();
+                Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
             }
             return view;
         }

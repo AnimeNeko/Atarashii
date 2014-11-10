@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -87,9 +88,9 @@ public class MALApi {
             return response.getStatus() == 200;
         } catch (RetrofitError e) {
             if (e.getResponse() != null)
-                Log.e("MALX", "caught retrofit error: " + e.getResponse().getStatus());
+                Crashlytics.log(Log.ERROR, "MALX", "MALApi.getListTypeString: " + e.getResponse().getStatus());
             else
-                Log.e("MALX", "caught retrofit error: " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "MALX", "MALApi.getListTypeString: " + e.getMessage());
             return false;
         }
     }

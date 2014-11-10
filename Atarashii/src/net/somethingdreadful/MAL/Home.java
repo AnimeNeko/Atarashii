@@ -600,13 +600,9 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
                 if (mIcon != null) {
                     mIcon.setImageResource(item.icon);
-                } else {
-                    Log.d("LISTITEM", "Null");
                 }
                 if (mTitle != null) {
                     mTitle.setText(item.title);
-                } else {
-                    Log.d("LISTITEM", "Null");
                 }
             }
 

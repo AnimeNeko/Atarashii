@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class MALSqlHelper extends SQLiteOpenHelper {
@@ -310,7 +312,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w("MALX", "Upgrading database from version " + oldVersion + " to " + newVersion);
+        Crashlytics.log(Log.VERBOSE, "MALX", "MALSQLHelper.OnUpgrade: Upgrading database from version " + oldVersion + " to " + newVersion);
 
         if ((oldVersion < 3)) {
             db.execSQL(CREATE_MANGA_TABLE);
@@ -433,7 +435,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
                     }
                     acursor.close();
                 } catch (Exception e) {
-                    Log.e("MALX", "error building animelist after database upgrade: " + e.getMessage());
+                    Crashlytics.log(Log.ERROR, "MALX", "MALSQLHelper.OnUpgrade: <8: building animelist after database upgrade: " + e.getMessage());
                 }
             }
             db.execSQL("drop table temp_table;");
@@ -466,7 +468,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
                     }
                     mcursor.close();
                 } catch (Exception e) {
-                    Log.e("MALX", "error building mangalist after database upgrade: " + e.getMessage());
+                    Crashlytics.log(Log.ERROR, "MALX", "MALSQLHelper.OnUpgrade: <8: building mangalist after database upgrade: " + e.getMessage());
                 }
             }
             db.execSQL("drop table temp_table;");

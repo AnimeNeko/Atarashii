@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -42,7 +44,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     @Override
     protected Object doInBackground(String... params) {
         if (job == null) {
-            Log.e("MALX", "no job identifier, don't know what to do");
+            Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): No job identifier, don't know what to do");
             return null;
         }
         int page = 1;
@@ -109,7 +111,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         taskResult = isAnimeTask() ? mManager.getAPIObject().searchAnime(params[0], page) : mManager.getAPIObject().searchManga(params[0], page);
                     break;
                 default:
-                    Log.e("MALX", String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
+                    Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }
             /* if result is still null at this point there was no error but the API returned an empty result
              * (e. g. an empty anime-/mangalist), so create an empty list to let the callback know that
@@ -127,7 +129,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         job.equals(TaskJob.GETMOSTPOPULAR) || job.equals(TaskJob.GETTOPRATED) || job.equals(TaskJob.GETUPCOMING))) {
                     taskResult = new ArrayList<Anime>();
                 } else {
-                    Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                    Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
                     // Authentication failed, fire callback!
                     if (re.getResponse().getStatus() == 401) {
                         if (authErrorCallback != null)
@@ -135,10 +137,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                 }
             } else {
-                Log.e("MALX", String.format("%s-task unknown API error on job %s", type.toString(), job.name()));
+                Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s", type.toString(), job.name()));
             }
         } catch (Exception e) {
-            Log.e("MALX", String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
+            Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
             taskResult = null;
         }
         return taskResult;

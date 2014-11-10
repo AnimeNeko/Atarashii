@@ -3,6 +3,8 @@ package net.somethingdreadful.MAL;
 import android.content.Context;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
@@ -72,7 +74,7 @@ public class MALManager {
         try {
             return malApi.getAnime(id);
         } catch (RetrofitError e) {
-            Log.e("MALX", "error downloading anime details: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getAnimeRecord(): " + e.getMessage());
         }
         return null;
     }
@@ -81,7 +83,7 @@ public class MALManager {
         try {
             return malApi.getManga(id);
         } catch (RetrofitError e) {
-            Log.e("MALX", "error downloading manga details: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getMangaRecord(): " + e.getMessage());
         }
         return null;
     }
@@ -128,13 +130,13 @@ public class MALManager {
     public ArrayList<User> downloadAndStoreFriendList(String user) {
         ArrayList<User> result;
         try {
-            Log.d("MALX", "downloading friendlist of " + user);
+            Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
             result = malApi.getFriends(user);
             if (result.size() > 0) {
                 dbMan.saveFriendList(result, user);
             }
         } catch (Exception e) {
-            Log.e("MALX", "error downloading friendlist: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
         }
         return dbMan.getFriendList(user);
     }
@@ -146,7 +148,7 @@ public class MALManager {
     public User downloadAndStoreProfile(String name) {
         User result = null;
         try {
-            Log.d("MALX", "downloading profile of " + name);
+            Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreProfile(): Downloading profile of " + name);
             Profile profile = malApi.getProfile(name);
             if (profile != null) {
                 result = new User();
@@ -155,7 +157,7 @@ public class MALManager {
                 dbMan.saveUser(result, true);
             }
         } catch (Exception e) {
-            Log.e("MALX", e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreProfile(): " + e.getMessage());
             result = null;
         }
         return result;
@@ -214,7 +216,7 @@ public class MALManager {
         ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList(username);
 
         if (dirtyAnimes != null) {
-            Log.v("MALX", "Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
+            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
 
             for (Anime anime : dirtyAnimes) {
                 totalSuccess = writeAnimeDetailsToMAL(anime);
@@ -226,7 +228,7 @@ public class MALManager {
                 if (!totalSuccess)
                     break;
             }
-            Log.v("MALX", "Cleaned dirty anime records, status: " + totalSuccess);
+            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Cleaned dirty anime records, status: " + totalSuccess);
         }
         return totalSuccess;
     }
@@ -237,7 +239,7 @@ public class MALManager {
         ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList(username);
 
         if (dirtyMangas != null) {
-            Log.v("MALX", "Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
+            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
 
             for (Manga manga : dirtyMangas) {
                 totalSuccess = writeMangaDetailsToMAL(manga);
@@ -249,7 +251,7 @@ public class MALManager {
                 if (!totalSuccess)
                     break;
             }
-            Log.v("MALX", "Cleaned dirty manga records, status: " + totalSuccess);
+            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Cleaned dirty manga records, status: " + totalSuccess);
         }
         return totalSuccess;
     }

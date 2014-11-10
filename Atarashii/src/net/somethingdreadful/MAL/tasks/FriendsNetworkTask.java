@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
@@ -25,7 +27,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
     protected ArrayList<User> doInBackground(String... params) {
         ArrayList<User> result;
         if (params == null) {
-            Log.e("MALX", "FriendsNetworkTask: no username to fetch friendlist");
+            Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
         }
         MALManager mManager = new MALManager(context);
@@ -45,7 +47,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
             if (result == null)
                 result = new ArrayList<User>();
         } catch (Exception e) {
-            Log.e("MALX", "error getting friendlist: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(): " + e.getMessage());
             result = null;
         }
 
