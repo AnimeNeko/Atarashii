@@ -13,10 +13,12 @@ import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -43,7 +45,7 @@ import java.util.Locale;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener {
+public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener, SwipeRefreshLayout.OnRefreshListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -56,6 +58,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     int recordID;
     private ActionBar actionbar;
     private ViewPager viewPager;
+    private ViewFlipper viewFlipper;
     private Menu menu;
     private ArrayList<String> tabs = new ArrayList<String>();
 
@@ -73,6 +76,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         viewPager = (ViewPager) findViewById(R.id.pager);
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         PageAdapter = new DetailViewPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(PageAdapter);
         viewPager.setOnPageChangeListener(this);
@@ -89,13 +93,15 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Set text in all fragments
      */
     public void setText() {
-        try {
-            actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+        actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+        if (general != null) {
             general.setText();
-            if (details != null)
-                details.setText();
-        } catch (Exception e) {
-            Log.e("MALX", "Error setText() in DetailView: " + e.getMessage());
+        }
+        if (details != null) {
+            details.setText();
+        }
+        if (!isEmpty()) {
+            setupBeam();
         }
     }
 
@@ -129,8 +135,10 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Set refreshing on all SwipeRefreshViews
      */
     public void setRefreshing(Boolean show) {
-        general.swipeRefresh.setRefreshing(show);
-        general.swipeRefresh.setEnabled(!show);
+        if (general != null) {
+            general.swipeRefresh.setRefreshing(show);
+            general.swipeRefresh.setEnabled(!show);
+        }
         if (details != null) {
             details.swipeRefresh.setRefreshing(show);
             details.swipeRefresh.setEnabled(!show);
@@ -188,17 +196,19 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Add record to list
      */
     public void addToList() {
-        if (type.equals(ListType.ANIME)) {
-            animeRecord.setCreateFlag(true);
-            animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-            animeRecord.setDirty(true);
-        } else {
-            mangaRecord.setCreateFlag(true);
-            mangaRecord.setReadStatus(Manga.STATUS_READING);
-            mangaRecord.setDirty(true);
+        if (!isEmpty()) {
+            if (type.equals(ListType.ANIME)) {
+                animeRecord.setCreateFlag(true);
+                animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
+                animeRecord.setDirty(true);
+            } else {
+                mangaRecord.setCreateFlag(true);
+                mangaRecord.setReadStatus(Manga.STATUS_READING);
+                mangaRecord.setDirty(true);
+            }
+            setMenu();
+            setText();
         }
-        setMenu();
-        setText();
     }
 
     /*
@@ -315,6 +325,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public void getRecord(boolean forceUpdate) {
         setRefreshing(true);
+        toggleLoadingIndicator(isEmpty());
         boolean loaded = false;
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
@@ -322,6 +333,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 if (isDone()) {
                     loaded = true;
                     setRefreshing(false);
+                    toggleLoadingIndicator(false);
                 }
             }
         }
@@ -566,6 +578,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                     mangaRecord.setDirty(true);
             }
             setRefreshing(false);
+            toggleLoadingIndicator(false);
 
             setText();
         } catch (ClassCastException e) {
@@ -630,5 +643,19 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public void setDetails(DetailViewDetails details) {
         this.details = details;
+    }
+
+    /*
+     * handle the loading indicator
+     */
+    private void toggleLoadingIndicator(boolean show) {
+        if (viewFlipper != null) {
+            viewFlipper.setDisplayedChild(show ? 1 : 0);
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        getRecord(true);
     }
 }

@@ -28,7 +28,7 @@ import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
 
-public class DetailViewGeneral extends Fragment implements Serializable, OnRatingBarChangeListener, Card.onCardClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailViewGeneral extends Fragment implements Serializable, OnRatingBarChangeListener, Card.onCardClickListener {
 
     public SwipeRefreshLayout swipeRefresh;
     Menu menu;
@@ -64,8 +64,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         activity = ((DetailView) getActivity());
         setViews();
         setListener();
-
-        NfcHelper.disableBeam(activity);
 
         activity.setGeneral(this);
         return view;
@@ -111,18 +109,13 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         MALScoreBar = (RatingBar) view.findViewById(R.id.MALScoreBar);
     }
 
-    @Override
-    public void onRefresh() {
-        activity.getRecord(true);
-    }
-
     /*
      * set all the ClickListeners
      */
     public void setListener() {
         myScoreBar.setOnRatingBarChangeListener(this);
 
-        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setOnRefreshListener(activity);
         swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
@@ -274,7 +267,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 activity.animeRecord.setDirty(true);
             }
         } else {
-            if (activity.animeRecord != null) {
+            if (activity.mangaRecord != null) {
                 activity.mangaRecord.setScore((int) (rating * 2));
                 activity.mangaRecord.setDirty(true);
             }

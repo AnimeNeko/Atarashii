@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DetailViewDetails extends Fragment implements Serializable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class DetailViewDetails extends Fragment implements Serializable, AdapterView.OnItemClickListener {
 
     public SwipeRefreshLayout swipeRefresh;
     DetailView activity;
@@ -68,7 +68,6 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         setViews();
         setListener();
 
-        NfcHelper.disableBeam(activity);
         activity.setDetails(this);
 
         if (activity.isDone())
@@ -127,16 +126,11 @@ public class DetailViewDetails extends Fragment implements Serializable, SwipeRe
         listadapter = new ListViewAdapter<RecordStub>(activity.getApplicationContext(), R.layout.record_details_listview);
     }
 
-    @Override
-    public void onRefresh() {
-        activity.getRecord(true);
-    }
-
     /*
      * set all the ClickListeners
      */
     public void setListener() {
-        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setOnRefreshListener(activity);
         swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
