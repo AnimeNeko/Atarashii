@@ -75,6 +75,7 @@ public class MALManager {
             return malApi.getAnime(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getAnimeRecord(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
         return null;
     }
@@ -84,6 +85,7 @@ public class MALManager {
             return malApi.getManga(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getMangaRecord(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
         return null;
     }
@@ -137,6 +139,7 @@ public class MALManager {
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
         return dbMan.getFriendList(user);
     }
@@ -158,6 +161,7 @@ public class MALManager {
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreProfile(): " + e.getMessage());
+            Crashlytics.logException(e);
             result = null;
         }
         return result;

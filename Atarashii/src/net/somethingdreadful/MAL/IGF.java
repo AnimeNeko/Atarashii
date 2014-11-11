@@ -316,6 +316,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             networkTask.execute(args.toArray(new String[args.size()]));
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "IGF.getRecords(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -370,7 +371,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 Gridview.setAdapter(ga);
         } catch (Exception e) {
             if (MALApi.isNetworkAvailable(context)) {
-                e.printStackTrace();
+                Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
+                Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Crouton.makeText(activity, R.string.crouton_error_Search, Style.ALERT).show();
                 } else {
@@ -380,7 +382,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                         Crouton.makeText(activity, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
                     }
                 }
-                Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
             } else {
                 Crouton.makeText(activity, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
@@ -449,6 +450,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 }
             } catch (ClassCastException e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
+                Crashlytics.logException(e);
                 resultList = null;
             }
             if (resultList != null) {
@@ -665,6 +667,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 viewHolder.bar.setAlpha(175);
             } catch (Exception e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.ListViewAdapter(): " + e.getMessage());
+                Crashlytics.logException(e);
             }
             return view;
         }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -178,6 +179,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
             else
                 return types[index];
         } catch (Resources.NotFoundException e) {
+            Crashlytics.logException(e);
             return res.getString(notFoundStringId);
         }
     }

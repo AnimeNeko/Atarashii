@@ -192,6 +192,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
                         .into(viewHolder.avatar);
             } catch (Exception e) {
                 Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
+                Crashlytics.logException(e);
             }
             return view;
         }

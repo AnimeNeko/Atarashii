@@ -59,6 +59,7 @@ public class MALDateTools {
                             return result;
                         } catch (ParseException e) {
                             Crashlytics.log(Log.ERROR, "MALX", "MALDateTools.parseMALDate(): case 0: " + e.getMessage());
+                            Crashlytics.logException(e);
                         }
                         break;
                     case 1: // MM-dd-yy, h:m a
@@ -69,6 +70,7 @@ public class MALDateTools {
                             return result;
                         } catch (ParseException e) {
                             Crashlytics.log(Log.ERROR, "MALX", "MALDateTools.parseMALDate(): case 1: " + e.getMessage());
+                            Crashlytics.logException(e);
                         }
                         break;
                     case 2: // EEEE, h:m a
@@ -102,6 +104,7 @@ public class MALDateTools {
                             return result;
                         } catch (ParseException e) {
                             Crashlytics.log(Log.ERROR, "MALX", "MALDateTools.parseMALDate(): case 3: " + e.getMessage());
+                            Crashlytics.logException(e);
                         }
                         break;
                     case 4: // Yesterday, h:m a
@@ -188,6 +191,7 @@ public class MALDateTools {
             Date result = sdf.parse(date);
             return formatDate(result, context, withtime);
         } catch (ParseException e) {
+            Crashlytics.logException(e);
             Date result = parseMALDate(date);
             if (result != null)
                 return formatDate(result, context, withtime);

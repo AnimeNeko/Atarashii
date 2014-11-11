@@ -108,6 +108,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.setText(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -277,6 +278,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             else
                 return types[index];
         } catch (Resources.NotFoundException e) {
+            Crashlytics.logException(e);
             return res.getString(notFoundStringId);
         }
     }
@@ -513,6 +515,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onPause(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -538,6 +541,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                     recordID = Integer.parseInt(splitmessage[1]);
                     getRecord(false);
                 } catch (NumberFormatException e) {
+                    Crashlytics.logException(e);
                     finish();
                 }
             }
@@ -567,6 +571,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.setupBeam(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -589,6 +594,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             setText();
         } catch (ClassCastException e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
+            Crashlytics.logException(e);
             Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
         }
     }
