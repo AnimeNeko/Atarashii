@@ -76,7 +76,7 @@ public class Card extends RelativeLayout {
     public void setContent(int resource) {
         inflater.inflate(resource, Content);
         if (this.findViewById(R.id.ListView) != null)
-            Content.setPadding(0, 0, 0, Content.getPaddingBottom() / 12 * 6);
+            setPadding(0);
     }
 
     /**
@@ -88,7 +88,7 @@ public class Card extends RelativeLayout {
      * @param bottom The padding of the bottom in dp
      */
     public void setPadding(int left, int top, int right, int bottom) {
-        Content.setPadding(convert(left), convert(top), convert(right), (bottom != -1 ? bottom : convert(4)));
+        Content.setPadding(convert(left), convert(top), convert(right), convert(bottom));
     }
 
     /**
@@ -121,7 +121,7 @@ public class Card extends RelativeLayout {
             Height = Height + ((total - 1) * divider);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height);
+                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height + 8);
         }
     }
 
