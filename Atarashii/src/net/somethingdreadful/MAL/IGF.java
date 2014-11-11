@@ -87,8 +87,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     private String username;
     private boolean ownList = false; // not set directly, is set by setUsername()
 
-    /*
-     * set the watched/read count & status on the covers.
+    /**
+     * Set the watched/read count & status on the covers.
      */
     public static void setStatus(String myStatus, TextView textview, TextView progressCount, ImageView actionButton) {
         actionButton.setVisibility(View.GONE);
@@ -181,8 +181,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         super.onDetach();
     }
 
-    /*
-     * set the height of the gridview items & the number of columns
+    /**
+     * Set the numbers columns for the best overview.
      */
     @SuppressLint("InlinedApi")
     public void setColumns() {
@@ -200,12 +200,22 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         Gridview.setNumColumns(columns);
     }
 
+    /**
+     * Check if the parent activity is Home.
+     *
+     * @return boolean If true then the parent activity is home
+     */
     private boolean isOnHomeActivity() {
         return getActivity() != null && getActivity().getClass() == Home.class;
     }
 
-    /*
-     * add +1 episode/volume/chapters to the anime/manga.
+    /**
+     * Add +1 episode/volume/chapters to the anime/manga.
+     *
+     * Use null if the other record isn't available
+     *
+     * @param anime The Anime record that should increase by one
+     * @param manga The manga record that should increase by one
      */
     public void setProgressPlusOne(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
@@ -222,8 +232,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         refresh();
     }
 
-    /*
-     * mark the anime/manga as completed.
+    /**
+     * Mark the anime/manga as completed.
+     *
+     * Use null if the other record isn't available
+     *
+     * @param anime The Anime record that should be marked as complete
+     * @param manga The manga record that should be marked as complete
      */
     public void setMarkAsComplete(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
@@ -242,8 +257,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         refresh();
     }
 
-    /*
-     * handle the loading indicator
+    /**
+     * Handle the loading indicator.
+     *
+     * @param show If true then the IGF will show the indiacator
      */
     private void toggleLoadingIndicator(boolean show) {
         if (viewflipper != null) {
@@ -251,12 +268,22 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
+    /**
+     * Handle the SwipeRefresh animantion.
+     *
+     * @param show If true then the IGF will show the animation
+     */
     public void toggleSwipeRefreshAnimation(boolean show) {
         if (swipeRefresh != null) {
             swipeRefresh.setRefreshing(show);
         }
     }
 
+    /**
+     * Handle the SwipeRefreshView.
+     *
+     * @param enabled If true then the SwipeRefreshView will be enabled
+     */
     public void setSwipeRefreshEnabled(boolean enabled) {
         swipeRefreshEnabled = enabled;
         if (swipeRefresh != null) {
@@ -271,10 +298,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             return null;
     }
 
-    /*
-     * get the anime/manga lists.
-	 * (if clear is true the whole list will be cleared and loaded)
-	 */
+    /**
+     * Get the anime/manga lists.
+     *
+     * @param clear If true then the whole list will be cleared and loaded
+     * @param task Which list should be shown (top, popular, upcoming...)
+     * @param list Which list type should be shown (completed, dropped, in progress...)
+     */
     public void getRecords(boolean clear, TaskJob task, int list) {
         if (task != null) {
             taskjob = task;
@@ -324,6 +354,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
+    /**
+     * Get the search results of the query.
+     *
+     * @param search The query that should be searched for
+     */
     public void searchRecords(String search) {
         if (search != null && !search.equals(query) && !search.equals("")) { // no need for searching the same again or empty string
             query = search;
@@ -333,8 +368,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
-    /*
-     * reset the page number of anime/manga lists.
+    /**
+     * Reset the page number of anime/manga lists.
      */
     public void resetPage() {
         page = 1;
@@ -349,16 +384,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
-    /*
-     * set the adapter anime/manga
+    /**
+     * Set the adapter anime/manga.
      */
     public void setAdapter() {
         ga = new ListViewAdapter<GenericRecord>(context, resource);
         ga.setNotifyOnChange(true);
     }
 
-    /*
-     * refresh the covers.
+    /**
+     * Refresh all the covers.
      */
     public void refresh() {
         try {
@@ -388,33 +423,53 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         loading = false;
     }
 
-    /*
-     * check if the taskjob is my personal anime/manga list
+    /**
+     * Check if the taskjob is my personal anime/manga list.
+     *
+     * @param job The current taskjob to compare with
+     * @return boolean If true then the list is of the logged in user
      */
     public boolean isList(TaskJob job) {
         return job != null && (job.equals(TaskJob.GETLIST) || job.equals(TaskJob.FORCESYNC));
     }
 
+    /**
+     * Check if the taskjob is my personal anime/manga list.
+     *
+     * @return boolean If true then the list is of the logged in user
+     */
     public boolean isList() {
         return isList(taskjob);
     }
 
+    /**
+     * Check if the taskjob will return paged results
+     *
+     * @param job The current taskjob to compare with
+     * @return boolean If true then it will return paged results
+     */
     private boolean jobReturnsPagedResults(TaskJob job) {
         return !isList(job);
     }
 
+    /**
+     * Cancel the networktask.
+     */
     public void cancelNetworkTask() {
         if (networkTask != null)
             networkTask.cancelTask();
     }
 
+    /**
+     * Inverse the list and refresh it.
+     */
     public void inverse() {
         Collections.reverse(gl);
         refresh();
     }
 
-    /*
-     * set the list with the new page/list.
+    /**
+     * Set the list with the new page/list.
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
@@ -465,13 +520,22 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         toggleLoadingIndicator(false);
     }
 
+    /**
+     * Trigger to the parent activity that the records are loaded.
+     *
+     * @param type The ListType
+     * @param job Which list should be shown (top, popular, upcoming...)
+     * @param error If true then there was an error
+     * @param resultEmpty If true then the result we got is empty
+     * @param cancelled If true then the user/activity canceled the request
+     */
     private void doRecordsLoadedCallback(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
         if (callback != null)
             callback.onRecordsLoadingFinished(type, job, error, resultEmpty, cancelled);
     }
 
-    /*
-     * handle the gridview click by navigating to the detailview.
+    /**
+     * Handle the gridview click by navigating to the detailview.
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -486,8 +550,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     public void onScrollStateChanged(AbsListView view, int scrollState) {
     }
 
-    /*
-     * load more pages if we are almost on the bottom.
+    /**
+     * Load more pages if we are almost on the bottom.
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -503,8 +567,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         }
     }
 
-    /*
-     * corpy the anime title to the clipboard on long click.
+    /**
+     * Copy the anime title to the clipboard on long click.
      */
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
@@ -523,6 +587,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         return false;
     }
 
+    /**
+     * Set the username.
+     *
+     * @param username The username
+     */
     public void setUsername(String username) {
         this.username = username;
         if (username == null || username.equals("")) {
@@ -546,8 +615,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         ImageView actionButton;
     }
 
-    /*
-     * the custom adapter for the covers anime/manga.
+    /**
+     * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
 
