@@ -87,38 +87,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     private String username;
     private boolean ownList = false; // not set directly, is set by setUsername()
 
-    /**
-     * Set the watched/read count & status on the covers.
-     */
-    public static void setStatus(String myStatus, TextView textview, TextView progressCount, ImageView actionButton) {
-        actionButton.setVisibility(View.GONE);
-        progressCount.setVisibility(View.GONE);
-        if (myStatus == null) {
-            textview.setText("");
-        } else if (myStatus.equals("watching")) {
-            textview.setText(R.string.cover_Watching);
-            progressCount.setVisibility(View.VISIBLE);
-            actionButton.setVisibility(View.VISIBLE);
-        } else if (myStatus.equals("reading")) {
-            textview.setText(R.string.cover_Reading);
-            progressCount.setVisibility(View.VISIBLE);
-            actionButton.setVisibility(View.VISIBLE);
-        } else if (myStatus.equals("completed")) {
-            textview.setText(R.string.cover_Completed);
-        } else if (myStatus.equals("on-hold")) {
-            textview.setText(R.string.cover_OnHold);
-            progressCount.setVisibility(View.VISIBLE);
-        } else if (myStatus.equals("dropped")) {
-            textview.setText(R.string.cover_Dropped);
-        } else if (myStatus.equals("plan to watch")) {
-            textview.setText(R.string.cover_PlanningToWatch);
-        } else if (myStatus.equals("plan to read")) {
-            textview.setText(R.string.cover_PlanningToRead);
-        } else {
-            textview.setText("");
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         setRetainInstance(true);
@@ -724,6 +692,38 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         if (type != null && type.equals(listType) && isList()) {
             clearAfterLoading = true;
             getRecords(false, TaskJob.GETLIST, list);
+        }
+    }
+
+    /**
+     * Set the watched/read count & status on the covers.
+     */
+    public static void setStatus(String myStatus, TextView textview, TextView progressCount, ImageView actionButton) {
+        actionButton.setVisibility(View.GONE);
+        progressCount.setVisibility(View.GONE);
+        if (myStatus == null) {
+            textview.setText("");
+        } else if (myStatus.equals("watching")) {
+            textview.setText(R.string.cover_Watching);
+            progressCount.setVisibility(View.VISIBLE);
+            actionButton.setVisibility(View.VISIBLE);
+        } else if (myStatus.equals("reading")) {
+            textview.setText(R.string.cover_Reading);
+            progressCount.setVisibility(View.VISIBLE);
+            actionButton.setVisibility(View.VISIBLE);
+        } else if (myStatus.equals("completed")) {
+            textview.setText(R.string.cover_Completed);
+        } else if (myStatus.equals("on-hold")) {
+            textview.setText(R.string.cover_OnHold);
+            progressCount.setVisibility(View.VISIBLE);
+        } else if (myStatus.equals("dropped")) {
+            textview.setText(R.string.cover_Dropped);
+        } else if (myStatus.equals("plan to watch")) {
+            textview.setText(R.string.cover_PlanningToWatch);
+        } else if (myStatus.equals("plan to read")) {
+            textview.setText(R.string.cover_PlanningToRead);
+        } else {
+            textview.setText("");
         }
     }
 }
