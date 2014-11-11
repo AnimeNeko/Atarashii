@@ -292,10 +292,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     private APIAuthenticationErrorListener getAuthErrorCallback() {
-        if (APIAuthenticationErrorListener.class.isInstance(getActivity()))
-            return (APIAuthenticationErrorListener) getActivity();
-        else
-            return null;
+        return (APIAuthenticationErrorListener.class.isInstance(getActivity()) ? ((APIAuthenticationErrorListener) getActivity()) : null);
     }
 
     /**
@@ -340,7 +337,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
-            if (username != "" && isList()) {
+            if (!username.equals("") && isList()) {
                 args.add(username);
                 if (isList()) {
                     args.add(MALManager.listSortFromInt(list, listType));
@@ -474,7 +471,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (!cancelled || (cancelled && job.equals(TaskJob.FORCESYNC))) { // forced sync tasks are completed even after cancellation
+        if (!cancelled || job.equals(TaskJob.FORCESYNC)) { // forced sync tasks are completed even after cancellation
             ArrayList resultList;
             try {
                 if (type == ListType.ANIME) {
