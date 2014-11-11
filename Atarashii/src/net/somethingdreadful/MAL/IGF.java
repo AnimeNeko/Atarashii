@@ -267,8 +267,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      * Get the anime/manga lists.
      *
      * @param clear If true then the whole list will be cleared and loaded
-     * @param task Which list should be shown (top, popular, upcoming...)
-     * @param list Which list type should be shown (completed, dropped, in progress...)
+     * @param task  Which list should be shown (top, popular, upcoming...)
+     * @param list  Which list type should be shown (completed, dropped, in progress...)
      */
     public void getRecords(boolean clear, TaskJob task, int list) {
         if (task != null) {
@@ -488,11 +488,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     /**
      * Trigger to the parent activity that the records are loaded.
      *
-     * @param type The ListType
-     * @param job Which list should be shown (top, popular, upcoming...)
-     * @param error If true then there was an error
+     * @param type        The ListType
+     * @param job         Which list should be shown (top, popular, upcoming...)
+     * @param error       If true then there was an error
      * @param resultEmpty If true then the result we got is empty
-     * @param cancelled If true then the user/activity canceled the request
+     * @param cancelled   If true then the user/activity canceled the request
      */
     private void doRecordsLoadedCallback(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
         if (callback != null)
