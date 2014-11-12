@@ -9,13 +9,13 @@
     <color name="bg_listview_pressed">#D9D9D9</color>
 
     <!-- Card: Header colors -->
-    <color name="card_green">#259b24</color>
-    <color name="card_light_green">#d0f8ce</color>
     <color name="card_red">#a93f53</color>
     <color name="card_blue">#3f53a9</color>
     <color name="card_purple">#953fa9</color>
     <color name="card_yellow">#a9953f</color>
     <color name="card_cyan">#3fa995</color>
+    <color name="card_green">#43A047</color>
+    <color name="card_light_green">#E8F5E9</color>
 
     <!-- Card: layout components -->
     <color name="card_shadow">#dbdbdb</color>
