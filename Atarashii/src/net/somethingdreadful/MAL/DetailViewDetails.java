@@ -255,8 +255,13 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         return false;
     }
 
+    static class ViewHolder {
+        TextView name;
+    }
+
     public class ExpandListAdapter extends BaseExpandableListAdapter {
         Context context;
+        ViewHolder viewHolder;
 
         public ExpandListAdapter(Context context) {
             this.context = context;
@@ -271,14 +276,19 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         }
 
         public View getChildView(final int groupPos, final int childPos, boolean isLastChild, View convertView, ViewGroup parent) {
+            viewHolder = new ViewHolder();
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.record_details_listview, parent, false);
+
+                viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
             }
 
-            TextView name = (TextView) convertView.findViewById(R.id.name);
-            name.setText(getRecordStub(groupPos, childPos).getTitle());
+            viewHolder.name.setText(getRecordStub(groupPos, childPos).getTitle());
             return convertView;
         }
 
