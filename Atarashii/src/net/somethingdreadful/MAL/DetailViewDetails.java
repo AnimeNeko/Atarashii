@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener {
+public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupClickListener {
 
     public SwipeRefreshLayout swipeRefresh;
     DetailView activity;
@@ -123,6 +124,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         relations.setOnChildClickListener(this);
         relations.setOnGroupExpandListener(this);
         relations.setOnGroupCollapseListener(this);
+        relations.setOnGroupClickListener(this);
 
         listadapter = new ExpandListAdapter(activity.getApplicationContext());
         headers = new ArrayList<String>();
@@ -238,6 +240,19 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     public void onGroupCollapse(int i) {
         totalRecords = totalRecords - relationsList.get(headers.get(i)).size();
         cardRelations.refreshList(totalRecords, 56, headers.size() + 1, 48, 1);
+    }
+
+    @Override
+    public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+        ImageView image = (ImageView) view.findViewById(R.id.indicator);
+        if (image.getTag() == "max") {
+            image.setImageResource(R.drawable.expander_ic_minimized);
+            image.setTag("min");
+        } else {
+            image.setImageResource(R.drawable.expander_ic_maximized);
+            image.setTag("max");
+        }
+        return false;
     }
 
     public class ExpandListAdapter extends BaseExpandableListAdapter {
