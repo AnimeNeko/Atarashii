@@ -18,6 +18,8 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
@@ -81,6 +83,14 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         viewPager.setAdapter(PageAdapter);
         viewPager.setOnPageChangeListener(this);
 
+        Button retryButton = (Button) findViewById(R.id.retry_button);
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getRecord(true);
+            }
+        });
+
         setTabs();
 
         if (savedInstanceState != null) {
@@ -103,6 +113,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         if (!isEmpty()) {
             setupBeam();
         }
+        setMenu();
     }
 
     /*
@@ -168,7 +179,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             animeRecord.setWatchedEpisodes(newValue);
             animeRecord.setDirty(true);
             setText();
-            setMenu();
         }
     }
 
@@ -178,17 +188,14 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     public void setMenu() {
         if (menu != null) {
             if (isAdded()) {
-                menu.findItem(R.id.action_Remove).setVisible(true);
+                menu.findItem(R.id.action_Remove).setVisible(!isEmpty() && MALApi.isNetworkAvailable(this));
                 menu.findItem(R.id.action_addToList).setVisible(false);
             } else {
                 menu.findItem(R.id.action_Remove).setVisible(false);
-                menu.findItem(R.id.action_addToList).setVisible(true);
+                menu.findItem(R.id.action_addToList).setVisible(!isEmpty());
             }
-            if (MALApi.isNetworkAvailable(this) && menu.findItem(R.id.action_Remove).isVisible()) {
-                menu.findItem(R.id.action_Remove).setVisible(true);
-            } else {
-                menu.findItem(R.id.action_Remove).setVisible(false);
-            }
+            menu.findItem(R.id.action_Share).setVisible(!isEmpty());
+            menu.findItem(R.id.action_ViewMALPage).setVisible(!isEmpty());
         }
     }
 
@@ -206,7 +213,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 mangaRecord.setReadStatus(Manga.STATUS_READING);
                 mangaRecord.setDirty(true);
             }
-            setMenu();
             setText();
         }
     }
@@ -326,13 +332,14 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     public void getRecord(boolean forceUpdate) {
         setRefreshing(true);
         toggleLoadingIndicator(isEmpty());
+        actionbar.setTitle(R.string.loading);
         boolean loaded = false;
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
                 setText();
+                setRefreshing(false);
                 if (isDone()) {
                     loaded = true;
-                    setRefreshing(false);
                     toggleLoadingIndicator(false);
                 }
             }
@@ -349,8 +356,12 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, this, data, this, this).execute();
             }
         } else {
+            toggleLoadingIndicator(false);
             setRefreshing(false);
-            if (!loaded) {
+            if (isEmpty()) {
+                actionbar.setTitle("");
+                toggleNoNetworkCard(true);
+            } else {
                 Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
         }
@@ -490,6 +501,9 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     @Override
     public void onPause() {
         super.onPause();
+
+        if (animeRecord == null && mangaRecord == null)
+            return; // nothing to do
 
         try {
             if (type.equals(ListType.ANIME)) {
@@ -651,6 +665,15 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     private void toggleLoadingIndicator(boolean show) {
         if (viewFlipper != null) {
             viewFlipper.setDisplayedChild(show ? 1 : 0);
+        }
+    }
+
+    /*
+     * handle the offline card
+     */
+    private void toggleNoNetworkCard(boolean show) {
+        if (viewFlipper != null) {
+            viewFlipper.setDisplayedChild(show ? 2 : 0);
         }
     }
 

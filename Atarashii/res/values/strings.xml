@@ -190,6 +190,9 @@
     <string name="card_content_character">Character</string>
     <string name="card_content_related">Related</string>
     <string name="card_content_parentstory">Parent Story</string>
+    <string name="card_offline_error">No network connection available.</string>
+    <string name="card_offline_button_caption">Try again</string>
+    <string name="card_offline_title">You\'re offline!</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
