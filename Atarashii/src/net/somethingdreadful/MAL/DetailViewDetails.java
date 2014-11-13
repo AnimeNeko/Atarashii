@@ -72,8 +72,6 @@ public class DetailViewDetails extends Fragment implements Serializable, Adapter
 
         if (activity.isDone())
             setText();
-        else
-            activity.setRefreshing(true);
         return view;
     }
 

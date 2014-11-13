@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,8 +28,16 @@ public class Card extends RelativeLayout {
     LayoutInflater inflater;
     onCardClickListener listener;
 
+    public Card(Context context) {
+        this(context, null);
+    }
+
     public Card(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public Card(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
 
         // Get attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Card, 0, 0);
@@ -258,5 +267,14 @@ public class Card extends RelativeLayout {
      */
     public interface onCardClickListener {
         public void onCardClickListener(int id);
+    }
+
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        if (Content != null) {
+            Content.addView(child, index, params);
+        } else {
+            super.addView(child, index, params);
+        }
     }
 }
