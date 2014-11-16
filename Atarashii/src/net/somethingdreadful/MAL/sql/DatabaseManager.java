@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
@@ -45,7 +47,7 @@ public class DatabaseManager {
                     saveAnime(anime, true, userId);
                 getDBWrite().setTransactionSuccessful();
             } catch (Exception e) {
-                Log.e("MALX", "error saving animelist to db");
+                Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnimeList(): " + e.getMessage());
             } finally {
                 getDBWrite().endTransaction();
             }
@@ -344,7 +346,7 @@ public class DatabaseManager {
             }
             cursor.close();
         } catch (SQLException e) {
-            Log.e("MALX", "DatabaseManager.getAnimeList exception: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.getAnimeList(): " + e.getMessage());
         }
 
         return result;
@@ -359,7 +361,7 @@ public class DatabaseManager {
                     saveManga(manga, true, userId);
                 getDBWrite().setTransactionSuccessful();
             } catch (Exception e) {
-                Log.e("MALX", "error saving mangalist to db: " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveMangaList(): " + e.getMessage());
             } finally {
                 getDBWrite().endTransaction();
             }
@@ -600,7 +602,7 @@ public class DatabaseManager {
             }
             cursor.close();
         } catch (SQLException e) {
-            Log.e("MALX", "DatabaseManager.getMangaList exception: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.getMangaList(): " + e.getMessage());
         }
 
         return result;
@@ -696,7 +698,7 @@ public class DatabaseManager {
                 result = User.fromCursor(cursor);
             cursor.close();
         } catch (SQLException e) {
-            Log.e("MALX", "DatabaseManager.getProfile exception: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.getProfile(): " + e.getMessage());
         }
         return result;
     }
@@ -839,7 +841,7 @@ public class DatabaseManager {
      */
     private void saveAnimeToAnimeRelation(int animeId, RecordStub relatedAnime, String relationType) {
         if (relatedAnime.getId() == 0) {
-            Log.e("MALX", "error saving relation: anime id must not be 0; title: " + relatedAnime.getTitle());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnimeToAnimeRelation(): error saving relation: anime id must not be 0; title: " + relatedAnime.getTitle());
             return;
         }
         boolean relatedRecordExists;
@@ -863,7 +865,7 @@ public class DatabaseManager {
 
     private void saveAnimeToMangaRelation(int animeId, RecordStub relatedManga, String relationType) {
         if (relatedManga.getId() == 0) {
-            Log.e("MALX", "error saving relation: manga id must not be 0; title: " + relatedManga.getTitle());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnimeToMangaRelation(): error saving relation: manga id must not be 0; title: " + relatedManga.getTitle());
             return;
         }
         boolean relatedRecordExists;
@@ -887,7 +889,7 @@ public class DatabaseManager {
 
     private void saveMangaToMangaRelation(int mangaId, RecordStub relatedManga, String relationType) {
         if (relatedManga.getId() == 0) {
-            Log.e("MALX", "error saving relation: manga id must not be 0; title: " + relatedManga.getTitle());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveMangaToMangaRelation(): error saving relation: manga id must not be 0; title: " + relatedManga.getTitle());
             return;
         }
         boolean relatedRecordExists;
@@ -911,7 +913,7 @@ public class DatabaseManager {
 
     private void saveMangaToAnimeRelation(int mangaId, RecordStub relatedAnime, String relationType) {
         if (relatedAnime.getId() == 0) {
-            Log.e("MALX", "error saving relation: anime id must not be 0; title: " + relatedAnime.getTitle());
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveMangaToAnimeRelation(): error saving relation: anime id must not be 0; title: " + relatedAnime.getTitle());
             return;
         }
         boolean relatedRecordExists;

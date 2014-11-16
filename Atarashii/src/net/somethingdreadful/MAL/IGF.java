@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -29,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -315,7 +315,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             }
             networkTask.execute(args.toArray(new String[args.size()]));
         } catch (Exception e) {
-            Log.e("MALX", "error getting records: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "IGF.getRecords(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -370,7 +371,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 Gridview.setAdapter(ga);
         } catch (Exception e) {
             if (MALApi.isNetworkAvailable(context)) {
-                e.printStackTrace();
+                Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
+                Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Crouton.makeText(activity, R.string.crouton_error_Search, Style.ALERT).show();
                 } else {
@@ -380,7 +382,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                         Crouton.makeText(activity, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
                     }
                 }
-                Log.e("MALX", "error on refresh: " + e.getMessage());
             } else {
                 Crouton.makeText(activity, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
@@ -448,7 +449,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                     resultList = (ArrayList<Manga>) result;
                 }
             } catch (ClassCastException e) {
-                Log.e("MALX", "error reading result because of invalid result class: " + result.getClass().toString());
+                Crashlytics.log(Log.ERROR, "MALX", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
+                Crashlytics.logException(e);
                 resultList = null;
             }
             if (resultList != null) {
@@ -559,16 +561,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      */
     public void setUsername(String username) {
         this.username = username;
-        if (username == null || username.equals("")) {
-            ownList = false;
-        } else {
-            Account account = AccountService.getAccount(context);
-            if (account != null) {
-                ownList = account.name.equals(username);
-            } else {
-                ownList = false;
-            }
-        }
+        ownList = !(username == null || username.equals("")) && AccountService.getUsername(context).equals(username);
     }
 
     static class ViewHolder {
@@ -673,7 +666,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                 }
                 viewHolder.bar.setAlpha(175);
             } catch (Exception e) {
-                Log.e("MALX", "error on the ListViewAdapter: " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "MALX", "IGF.ListViewAdapter(): " + e.getMessage());
+                Crashlytics.logException(e);
             }
             return view;
         }

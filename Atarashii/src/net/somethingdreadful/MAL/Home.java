@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -25,7 +24,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.NavigationItems.NavItem;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -92,7 +89,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             mPrefManager = new PrefManager(context);
@@ -425,8 +421,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
     @Override
     public void onIGFReady(IGF igf) {
-        Account account = AccountService.getAccount(context);
-        igf.setUsername(account.name);
+        igf.setUsername(AccountService.getUsername(context));
         if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else
@@ -506,7 +501,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             switch (position) {
                 case 0:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                    Profile.putExtra("username", AccountService.getAccount(context).name);
+                    Profile.putExtra("username", AccountService.getUsername(context));
                     startActivity(Profile);
                     break;
                 case 1:
@@ -600,13 +595,9 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
                 if (mIcon != null) {
                     mIcon.setImageResource(item.icon);
-                } else {
-                    Log.d("LISTITEM", "Null");
                 }
                 if (mTitle != null) {
                     mTitle.setText(item.title);
-                } else {
-                    Log.d("LISTITEM", "Null");
                 }
             }
 
