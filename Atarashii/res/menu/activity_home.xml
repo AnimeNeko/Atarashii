@@ -50,10 +50,10 @@
         res-auto:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"
-        android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_menu_search"
         android:title="@string/search_prompt"
-        res-auto:showAsAction="always|collapseActionView" />
+        res-auto:actionViewClass="android.support.v7.widget.SearchView"
+        res-auto:showAsAction="collapseActionView|always" />
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_menu_settings"

@@ -1,18 +1,19 @@
 package net.somethingdreadful.MAL;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -22,7 +23,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class SearchActivity extends Activity implements ActionBar.TabListener, IGFCallbackListener {
+public class SearchActivity extends ActionBarActivity implements IGFCallbackListener {
     public String query;
     IGF af;
     IGF mf;
@@ -44,7 +45,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener, I
         setContentView(R.layout.activity_search);
 
         mPrefManager = new PrefManager(getApplicationContext());
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -53,12 +54,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener, I
 
         ViewPager = (ViewPager) findViewById(R.id.pager);
         ViewPager.setAdapter(mSectionsPagerAdapter);
-
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            actionBar.addTab(actionBar.newTab()
-                    .setText(mSectionsPagerAdapter.getPageTitle(i))
-                    .setTabListener(this));
-        }
     }
 
     @Override
@@ -101,7 +96,8 @@ public class SearchActivity extends Activity implements ActionBar.TabListener, I
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setQuery(query, false);
@@ -157,20 +153,5 @@ public class SearchActivity extends Activity implements ActionBar.TabListener, I
             else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
                 Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
         }
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-        ViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-
     }
 }
