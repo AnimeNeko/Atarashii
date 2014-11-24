@@ -1,16 +1,14 @@
 package net.somethingdreadful.MAL;
 
+import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBar.TabListener;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -22,12 +20,10 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-import org.holoeverywhere.app.Activity;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class SearchActivity extends Activity implements TabListener, ViewPager.OnPageChangeListener, IGFCallbackListener {
+public class SearchActivity extends ActionBarActivity implements IGFCallbackListener {
     public String query;
     IGF af;
     IGF mf;
@@ -50,20 +46,14 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
 
         mPrefManager = new PrefManager(getApplicationContext());
         actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         ViewPager = (ViewPager) findViewById(R.id.pager);
         ViewPager.setAdapter(mSectionsPagerAdapter);
-        ViewPager.setOnPageChangeListener(this);
-
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            actionBar.addTab(actionBar.newTab()
-                    .setText(mSectionsPagerAdapter.getPageTitle(i))
-                    .setTabListener(this));
-        }
     }
 
     @Override
@@ -85,7 +75,7 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
             if (TextUtils.isDigitsOnly(query)) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();
                 (new SearchIdDialogFragment()).show(fm, "fragment_id_search");
             } else {
                 if (searchView != null) {
@@ -100,43 +90,14 @@ public class SearchActivity extends Activity implements TabListener, ViewPager.O
     }
 
     @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        ViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int arg0) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        actionBar.setSelectedNavigationItem(position);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_search_view, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setQuery(query, false);

@@ -8,6 +8,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,12 +25,11 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.holoeverywhere.app.Activity;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class ProfileActivity extends Activity implements UserNetworkTaskFinishedListener {
+public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
     Context context;
     PrefManager prefs;
     Card imagecard;
@@ -43,7 +44,9 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
         prefs = new PrefManager(context);
 
@@ -59,7 +62,7 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
             refresh(forcesync);
-        }else {
+        } else {
             new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
         }
 

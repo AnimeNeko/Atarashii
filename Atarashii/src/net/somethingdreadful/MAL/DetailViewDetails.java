@@ -1,10 +1,10 @@
 package net.somethingdreadful.MAL;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -12,14 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.RecordStub;
-
-import org.holoeverywhere.widget.ExpandableListView;
-import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -136,7 +134,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
      */
     public void setListener() {
         swipeRefresh.setOnRefreshListener(activity);
-        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
 
@@ -203,7 +201,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
     public void addRelations(RecordStub recordStub, String header) {
         if (recordStub != null) {
-            ArrayList<RecordStub> record = new  ArrayList<RecordStub>();
+            ArrayList<RecordStub> record = new ArrayList<RecordStub>();
             record.add(recordStub);
             addRelations(record, header);
         }
@@ -244,14 +242,6 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-        ImageView image = (ImageView) view.findViewById(R.id.indicator);
-        if (image.getTag() == "max") {
-            image.setImageResource(R.drawable.expander_ic_minimized);
-            image.setTag("min");
-        } else {
-            image.setImageResource(R.drawable.expander_ic_maximized);
-            image.setTag("max");
-        }
         return false;
     }
 

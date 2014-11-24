@@ -1,12 +1,10 @@
 package net.somethingdreadful.MAL;
 
+import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
 import com.crashlytics.android.Crashlytics;
-
-import org.holoeverywhere.ThemeManager;
-import org.holoeverywhere.app.Application;
 
 import java.util.Locale;
 
@@ -35,9 +33,5 @@ public class Theme extends Application {
     public void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
-    }
-
-    static {
-        ThemeManager.setDefaultTheme(ThemeManager.MIXED);
     }
 }

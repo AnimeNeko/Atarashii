@@ -88,7 +88,8 @@ public class Card extends RelativeLayout {
      * @param bottom The padding of the bottom in dp
      */
     public void setPadding(int left, int top, int right, int bottom) {
-        Content.setPadding(convert(left), convert(top), convert(right), convert(bottom));
+        if (Content != null)
+            Content.setPadding(convert(left), convert(top), convert(right), convert(bottom));
     }
 
     /**

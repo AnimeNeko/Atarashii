@@ -1,5 +1,8 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +12,6 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.SearchActivity;
 import net.somethingdreadful.MAL.api.MALApi;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.DialogFragment;
 
 public class SearchIdDialogFragment extends DialogFragment {
     int query;

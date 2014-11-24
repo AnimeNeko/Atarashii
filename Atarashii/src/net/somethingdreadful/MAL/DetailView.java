@@ -1,20 +1,19 @@
 package net.somethingdreadful.MAL;
 
-import android.annotation.TargetApi;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,9 +37,6 @@ import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.DialogFragment;
-
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -49,7 +45,7 @@ import java.util.Locale;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -60,7 +56,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     public DetailViewDetails details;
     DetailViewPagerAdapter PageAdapter;
     int recordID;
-    private ActionBar actionbar;
+    private ActionBar actionBar;
     private ViewPager viewPager;
     private ViewFlipper viewFlipper;
     private Menu menu;
@@ -71,19 +67,19 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detailview);
-        actionbar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         username = getIntent().getStringExtra("username");
         pref = new PrefManager(this);
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
 
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        PageAdapter = new DetailViewPagerAdapter(getSupportFragmentManager(), this);
+        PageAdapter = new DetailViewPagerAdapter(getFragmentManager(), this);
         viewPager.setAdapter(PageAdapter);
-        viewPager.setOnPageChangeListener(this);
 
         Button retryButton = (Button) findViewById(R.id.retry_button);
         retryButton.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +88,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 getRecord(true);
             }
         });
-
-        setTabs();
 
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
@@ -106,7 +100,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public void setText() {
         try {
-            actionbar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+            actionBar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
             if (general != null) {
                 general.setText();
             }
@@ -121,18 +115,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             Crashlytics.logException(e);
         }
         setMenu();
-    }
-
-    /*
-     * Create tabs in the actionbar
-     */
-    public void setTabs() {
-        for (int i = 0; i < PageAdapter.getCount(); i++) {
-            tabs.add(PageAdapter.getPageTitle(i));
-        }
-        for (String tab : tabs) {
-            actionbar.addTab(actionbar.newTab().setText(tab).setTabListener(this));
-        }
     }
 
     /*
@@ -167,7 +149,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      * Show the dialog with the tag
      */
     public void showDialog(String tag, DialogFragment dialog) {
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         dialog.show(fm, "fragment_" + tag);
     }
 
@@ -240,7 +222,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
      */
     public String makeShareText() {
         String shareText = pref.getCustomShareText();
-        shareText = shareText.replace("$title;", getSupportActionBar().getTitle());
+        shareText = shareText.replace("$title;", actionBar.getTitle());
         shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
         return shareText;
@@ -340,7 +322,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     public void getRecord(boolean forceUpdate) {
         setRefreshing(true);
         toggleLoadingIndicator(isEmpty());
-        actionbar.setTitle(R.string.loading);
+        actionBar.setTitle(R.string.layout_card_loading);
         boolean loaded = false;
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
@@ -367,7 +349,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             toggleLoadingIndicator(false);
             setRefreshing(false);
             if (isEmpty()) {
-                actionbar.setTitle("");
+                actionBar.setTitle("");
                 toggleNoNetworkCard(true);
             } else {
                 Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
@@ -541,47 +523,41 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             processIntent(getIntent());
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void processIntent(Intent intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            // only one message sent during the beam
-            NdefMessage msg = (NdefMessage) rawMsgs[0];
-            String message = new String(msg.getRecords()[0].getPayload());
-            String[] splitmessage = message.split(":", 2);
-            if (splitmessage.length == 2) {
-                try {
-                    type = ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
-                    recordID = Integer.parseInt(splitmessage[1]);
-                    getRecord(false);
-                } catch (NumberFormatException e) {
-                    Crashlytics.logException(e);
-                    finish();
-                }
+        Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        // only one message sent during the beam
+        NdefMessage msg = (NdefMessage) rawMsgs[0];
+        String message = new String(msg.getRecords()[0].getPayload());
+        String[] splitmessage = message.split(":", 2);
+        if (splitmessage.length == 2) {
+            try {
+                type = ListType.valueOf(splitmessage[0].toUpperCase(Locale.US));
+                recordID = Integer.parseInt(splitmessage[1]);
+                getRecord(false);
+            } catch (NumberFormatException e) {
+                Crashlytics.logException(e);
+                finish();
             }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void setupBeam() {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                // setup beam functionality (if NFC is available)
-                NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-                if (mNfcAdapter == null) {
-                    Crashlytics.log(Log.INFO, "MALX", "DetailView.setupBeam(): NFC not available");
-                } else {
-                    // Register NFC callback
-                    String message_str = type.toString() + ":" + String.valueOf(recordID);
-                    NdefMessage message = new NdefMessage(new NdefRecord[]{
-                            new NdefRecord(
-                                    NdefRecord.TNF_MIME_MEDIA,
-                                    "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
-                                    new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))),
-                            NdefRecord.createApplicationRecord(getPackageName())
-                    });
-                    mNfcAdapter.setNdefPushMessage(message, this);
-                }
+            // setup beam functionality (if NFC is available)
+            NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            if (mNfcAdapter == null) {
+                Crashlytics.log(Log.INFO, "MALX", "DetailView.setupBeam(): NFC not available");
+            } else {
+                // Register NFC callback
+                String message_str = type.toString() + ":" + String.valueOf(recordID);
+                NdefMessage message = new NdefMessage(new NdefRecord[]{
+                        new NdefRecord(
+                                NdefRecord.TNF_MIME_MEDIA,
+                                "application/net.somethingdreadful.MAL".getBytes(Charset.forName("US-ASCII")),
+                                new byte[0], message_str.getBytes(Charset.forName("US-ASCII"))),
+                        NdefRecord.createApplicationRecord(getPackageName())
+                });
+                mNfcAdapter.setNdefPushMessage(message, this);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.setupBeam(): " + e.getMessage());
@@ -621,36 +597,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     @Override
     public void onAPIAuthenticationError(ListType type, TaskJob job) {
         showDialog("updatePassword", new UpdatePasswordDialogFragment());
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        actionbar.setSelectedNavigationItem(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     /*

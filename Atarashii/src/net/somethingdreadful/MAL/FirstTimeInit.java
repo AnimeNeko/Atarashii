@@ -1,9 +1,11 @@
 package net.somethingdreadful.MAL;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,13 +15,10 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.ProgressDialog;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FirstTimeInit extends Activity implements AuthenticationCheckFinishedListener {
+public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener {
     EditText malUser;
     EditText malPass;
     String MalUser;

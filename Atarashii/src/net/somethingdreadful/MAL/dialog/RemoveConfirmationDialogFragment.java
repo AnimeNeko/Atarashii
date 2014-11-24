@@ -1,13 +1,12 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
-
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.DialogFragment;
 
 public class RemoveConfirmationDialogFragment extends DialogFragment {
 

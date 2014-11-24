@@ -1,5 +1,8 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +15,6 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-
 public class UpdatePasswordDialogFragment extends DialogFragment implements AuthenticationCheckFinishedListener {
     EditText passwordEdit;
     TextView passwordWrongText;
@@ -23,7 +22,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
     AlertDialog dialog;
 
     private View createView() {
-        View result = getLayoutInflater().inflate(R.layout.dialog_update_password);
+        View result = getActivity().getLayoutInflater().inflate(R.layout.dialog_update_password, null);
         passwordEdit = (EditText) result.findViewById(R.id.edittext_malPass);
         viewFlipper = (ViewFlipper) result.findViewById(R.id.viewFlipper);
         passwordWrongText = (TextView) result.findViewById(R.id.passwordWrongText);
@@ -46,7 +45,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity(), getTheme());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setTitle(R.string.dialog_title_update_password);
 
         builder.setView(createView());

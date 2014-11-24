@@ -62,7 +62,7 @@ public class MALApi {
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setClient(new ApacheClient(client))
-                .setServer(API_HOST)
+                .setEndpoint(API_HOST)
                 .setConverter(new GsonConverter(gson))
                 .build();
         service = restAdapter.create(MALInterface.class);
