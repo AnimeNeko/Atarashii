@@ -3,5 +3,6 @@
 
     <style name="AtarashiiLightBg" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/bg_light</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 </resources>
