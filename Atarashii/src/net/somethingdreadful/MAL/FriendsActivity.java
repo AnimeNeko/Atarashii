@@ -1,12 +1,12 @@
 package net.somethingdreadful.MAL;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +35,7 @@ import java.util.Collection;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends Activity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
+public class FriendsActivity extends ActionBarActivity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
 
     Context context;
     ArrayList<User> listarray = new ArrayList<User>();
@@ -48,7 +48,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_friends);

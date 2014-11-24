@@ -22,7 +22,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class SearchActivity extends Activity implements ActionBar.TabListener, ViewPager.OnPageChangeListener, IGFCallbackListener {
+public class SearchActivity extends Activity implements ActionBar.TabListener, IGFCallbackListener {
     public String query;
     IGF af;
     IGF mf;
@@ -47,14 +47,12 @@ public class SearchActivity extends Activity implements ActionBar.TabListener, V
         actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         }
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         ViewPager = (ViewPager) findViewById(R.id.pager);
         ViewPager.setAdapter(mSectionsPagerAdapter);
-        ViewPager.setOnPageChangeListener(this);
 
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             actionBar.addTab(actionBar.newTab()
@@ -94,21 +92,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener, V
                 }
             }
         }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int arg0) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        actionBar.setSelectedNavigationItem(position);
     }
 
     @Override

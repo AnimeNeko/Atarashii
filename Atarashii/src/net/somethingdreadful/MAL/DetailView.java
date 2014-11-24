@@ -1,7 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -14,6 +12,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +45,7 @@ import java.util.Locale;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class DetailView extends Activity implements Serializable, NetworkTaskCallbackListener, ViewPager.OnPageChangeListener, APIAuthenticationErrorListener, ActionBar.TabListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -67,7 +67,7 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detailview);
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         username = getIntent().getStringExtra("username");
         pref = new PrefManager(this);
         type = (ListType) getIntent().getSerializableExtra("recordType");
@@ -75,13 +75,11 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         }
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         PageAdapter = new DetailViewPagerAdapter(getFragmentManager(), this);
         viewPager.setAdapter(PageAdapter);
-        viewPager.setOnPageChangeListener(this);
 
         Button retryButton = (Button) findViewById(R.id.retry_button);
         retryButton.setOnClickListener(new View.OnClickListener() {
@@ -90,8 +88,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
                 getRecord(true);
             }
         });
-
-        setTabs();
 
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
@@ -119,18 +115,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
             Crashlytics.logException(e);
         }
         setMenu();
-    }
-
-    /*
-     * Create tabs in the actionbar
-     */
-    public void setTabs() {
-        for (int i = 0; i < PageAdapter.getCount(); i++) {
-            tabs.add(PageAdapter.getPageTitle(i));
-        }
-        for (String tab : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab).setTabListener(this));
-        }
     }
 
     /*
@@ -615,21 +599,6 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
         showDialog("updatePassword", new UpdatePasswordDialogFragment());
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        actionBar.setSelectedNavigationItem(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
     /*
      * Set the fragment to future use
      */
@@ -669,20 +638,5 @@ public class DetailView extends Activity implements Serializable, NetworkTaskCal
     @Override
     public void onRefresh() {
         getRecord(true);
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-
     }
 }

@@ -1,8 +1,6 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,6 +15,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements ActionBar.TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
+public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
 
     IGF af;
     IGF mf;
@@ -86,10 +86,12 @@ public class Home extends Activity implements ActionBar.TabListener, SwipeRefres
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             mPrefManager = new PrefManager(context);
-            actionBar = getActionBar();
+            actionBar = getSupportActionBar();
+            //setSupportActionBar(toolbar);
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+
+                //actionBar.setHomeButtonEnabled(true);
             }
             //The following is state handling code
             instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
@@ -121,42 +123,10 @@ public class Home extends Activity implements ActionBar.TabListener, SwipeRefres
             mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
 
-            // Set up the action bar.
-            final ActionBar actionBar = getActionBar();
-            if (actionBar != null)
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
             // Set up the ViewPager with the sections adapter.
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.setPageMargin(32);
-
-            // When swiping between different sections, select the corresponding
-            // tab.
-            // We can also use ActionBar.Tab#select() to do this if we have a
-            // reference to the
-            // Tab.
-            mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    if (actionBar != null)
-                        actionBar.setSelectedNavigationItem(position);
-                }
-            });
-
-            // Add tabs for the anime and manga lists
-            for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-                // Create a tab with text corresponding to the page title
-                // defined by the adapter.
-                // Also specify this Activity object, which implements the
-                // TabListener interface, as the
-                // listener for when this tab is selected.
-                if (actionBar != null) {
-                    actionBar.addTab(actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-                }
-            }
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -178,7 +148,8 @@ public class Home extends Activity implements ActionBar.TabListener, SwipeRefres
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        if (searchView != null)
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -473,21 +444,6 @@ public class Home extends Activity implements ActionBar.TabListener, SwipeRefres
             UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
             passwordFragment.show(fm, "fragment_updatePassword");
         }
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {

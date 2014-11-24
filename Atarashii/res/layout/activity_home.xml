@@ -9,7 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_dark"
-        tools:context=".Home" />
+        tools:context=".Home">
+
+        <android.support.v4.view.PagerTabStrip
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/bg_pager_tab_strip"
+            android:textColor="@android:color/white" />
+    </android.support.v4.view.ViewPager>
 
     <ListView
         android:id="@+id/left_drawer"
