@@ -1,11 +1,11 @@
 package net.somethingdreadful.MAL;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import org.holoeverywhere.app.Activity;
 
 public class AboutActivity extends Activity {
 
@@ -13,7 +13,9 @@ public class AboutActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_activity_about);
 
         ((Card) findViewById(R.id.atarashii_card)).setContent(R.layout.card_about_atarashii);

@@ -1,9 +1,8 @@
 package net.somethingdreadful.MAL;
 
 import android.content.Context;
-
-import org.holoeverywhere.preference.PreferenceManager;
-import org.holoeverywhere.preference.SharedPreferences;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.util.Locale;
 

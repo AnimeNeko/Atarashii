@@ -9,8 +9,8 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 
 import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.MALManager;
@@ -30,11 +30,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification syncNotification = new NotificationCompat.Builder(context).setOngoing(true)
+        Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(context.getString(R.string.crouton_info_SyncMessage)).build();
+                .setContentText(context.getString(R.string.crouton_info_SyncMessage));
+        Notification syncNotification;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                syncNotificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            }
+            syncNotification = syncNotificationBuilder.build();
+        } else {
+            syncNotification = syncNotificationBuilder.getNotification();
+        }
         nm.notify(R.id.notification_sync, syncNotification);
 
         MALManager mManager = new MALManager(context);

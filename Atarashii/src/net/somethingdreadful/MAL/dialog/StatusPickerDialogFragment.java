@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +14,6 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
-
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.DialogFragment;
 
 public class StatusPickerDialogFragment extends DialogFragment implements OnCheckedChangeListener {
 
@@ -45,7 +44,7 @@ public class StatusPickerDialogFragment extends DialogFragment implements OnChec
     }
 
     public View makeRatiobutton() {
-        View view = getLayoutInflater().inflate(R.layout.dialog_status_picker);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_status_picker, null);
         radio = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
         type = ((DetailView) getActivity()).type;
 

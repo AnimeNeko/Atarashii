@@ -2,14 +2,13 @@ package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,6 +24,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -114,10 +114,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
             swipeRefresh.setOnRefreshListener((Home) getActivity());
         }
         swipeRefresh.setColorScheme(
-                R.color.holo_blue_bright,
-                R.color.holo_green_light,
-                R.color.holo_orange_light,
-                R.color.holo_red_light
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
         );
         swipeRefresh.setEnabled(swipeRefreshEnabled);
 
@@ -138,7 +138,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         if (IGFCallbackListener.class.isInstance(activity))
             callback = (IGFCallbackListener) activity;
         recordStatusReceiver = new RecordStatusUpdatedReceiver(this);
-        IntentFilter filter = new IntentFilter(recordStatusReceiver.RECV_IDENT);
+        IntentFilter filter = new IntentFilter(RecordStatusUpdatedReceiver.RECV_IDENT);
         LocalBroadcastManager.getInstance(activity).registerReceiver(recordStatusReceiver, filter);
     }
 
@@ -326,7 +326,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
      * @param search The query that should be searched for
      */
     public void searchRecords(String search) {
-        if (search != null && !search.equals(query) && !search.equals("")) { // no need for searching the same again or empty string
+        if (search != null && !search.equals(query) && !search.isEmpty()) { // no need for searching the same again or empty string
             query = search;
             page = 1;
             setSwipeRefreshEnabled(false);

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AtarashiiLightBg" parent="Holo.Base.Theme.Light.DarkActionBar">
+    <style name="AtarashiiLightBg" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowBackground">@color/bg_light</item>
     </style>
 
-    <style name="AtarashiiDarkBg" parent="Holo.Base.Theme.Light.DarkActionBar">
+    <style name="AtarashiiDarkBg" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowBackground">@color/bg_dark</item>
     </style>
-
-    <style name="AlertDialog" parent="@android:style/Theme.Dialog"></style>
-
 </resources>

@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +25,6 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.holoeverywhere.app.Activity;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -43,7 +44,9 @@ public class ProfileActivity extends Activity implements UserNetworkTaskFinished
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
         prefs = new PrefManager(context);
 

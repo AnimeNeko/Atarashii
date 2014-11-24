@@ -1,23 +1,22 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.NumberPicker;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
-
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.NumberPicker;
 
 public class EpisodesPickerDialogFragment extends DialogFragment {
 
     NumberPicker numberPicker;
 
     private View makeNumberPicker() {
-        View view = getLayoutInflater().inflate(R.layout.dialog_episode_picker);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
         int totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
         int watchedEpisodes = ((DetailView) getActivity()).animeRecord.getWatchedEpisodes();
 
@@ -34,7 +33,7 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getSupportActivity(), getTheme());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setView(makeNumberPicker());
         builder.setTitle(R.string.dialog_title_watched_update);
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {

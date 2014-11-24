@@ -1,10 +1,8 @@
 package net.somethingdreadful.MAL;
 
-import net.somethingdreadful.MAL.tasks.TaskJob;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.api.MALApi;
 

@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,7 +28,6 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.holoeverywhere.app.Activity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,9 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_friends);
         setTitle(R.string.title_activity_friends); //set title
 
@@ -71,7 +74,7 @@ public class FriendsActivity extends Activity implements FriendsNetworkTaskFinis
 
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
         NfcHelper.disableBeam(this);

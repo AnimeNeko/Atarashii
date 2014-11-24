@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,9 +14,6 @@ import android.widget.EditText;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
-
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.ProgressDialog;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;

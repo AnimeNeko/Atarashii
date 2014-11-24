@@ -1,6 +1,9 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,21 +12,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBar.TabListener;
-import android.support.v7.widget.SearchView;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.NavigationItems.NavItem;
@@ -44,14 +40,12 @@ import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-import org.holoeverywhere.app.Activity;
-
 import java.util.ArrayList;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class Home extends Activity implements TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
+public class Home extends Activity implements ActionBar.TabListener, SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
 
     IGF af;
     IGF mf;
@@ -74,7 +68,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     ListView DrawerList;
     ActionBarDrawerToggle mDrawerToggle;
     View mPreviousView;
-    ActionBar actionbar;
+    ActionBar actionBar;
     NavigationItemAdapter mNavigationItemAdapter;
     SearchView searchView;
 
@@ -92,10 +86,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             mPrefManager = new PrefManager(context);
-            actionbar = getSupportActionBar();
-            actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setHomeButtonEnabled(true);
-
+            actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
             //The following is state handling code
             instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
             networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
@@ -105,11 +100,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
 
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
             DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             DrawerLayout.setDrawerListener(new DemoDrawerListener());
-            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
             DrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -123,12 +118,13 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             DrawerList.setFastScrollEnabled(true);
             DrawerList.setSmoothScrollbarEnabled(true);
 
-            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
 
             // Set up the action bar.
-            final ActionBar actionBar = getSupportActionBar();
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            final ActionBar actionBar = getActionBar();
+            if (actionBar != null)
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
             // Set up the ViewPager with the sections adapter.
             mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -143,7 +139,8 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
-                    actionBar.setSelectedNavigationItem(position);
+                    if (actionBar != null)
+                        actionBar.setSelectedNavigationItem(position);
                 }
             });
 
@@ -154,9 +151,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
                 // Also specify this Activity object, which implements the
                 // TabListener interface, as the
                 // listener for when this tab is selected.
-                actionBar.addTab(actionBar.newTab()
-                        .setText(mSectionsPagerAdapter.getPageTitle(i))
-                        .setTabListener(this));
+                if (actionBar != null) {
+                    actionBar.addTab(actionBar.newTab()
+                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+                            .setTabListener(this));
+                }
             }
 
             networkReceiver = new BroadcastReceiver() {
@@ -174,11 +173,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_home, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
@@ -265,7 +264,7 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     public void onPause() {
         super.onPause();
         if (menu != null)
-            MenuItemCompat.collapseActionView(menu.findItem(R.id.action_search));
+            menu.findItem(R.id.action_search).collapseActionView();
         instanceExists = true;
         unregisterReceiver(networkReceiver);
     }
@@ -364,17 +363,25 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification syncNotification = new NotificationCompat.Builder(context).setOngoing(true)
+        Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.crouton_info_SyncMessage))
-                .build();
+                .setContentText(getString(R.string.crouton_info_SyncMessage));
+        Notification syncNotification;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                syncNotificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            }
+            syncNotification = syncNotificationBuilder.build();
+        } else {
+            syncNotification = syncNotificationBuilder.getNotification();
+        }
         nm.notify(R.id.notification_sync, syncNotification);
     }
 
     private void showLogoutDialog() {
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         LogoutConfirmationDialogFragment lcdf = new LogoutConfirmationDialogFragment();
         lcdf.show(fm, "fragment_LogoutConfirmationDialog");
     }
@@ -400,23 +407,6 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
             }
             Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
         }
-    }
-
-    @Override
-    public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
-        mViewPager.setCurrentItem(arg0.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -478,11 +468,26 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
     @Override
     public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
         // check if it is already showing
-        if (getSupportFragmentManager().findFragmentByTag("fragment_updatePassword") == null) {
-            FragmentManager fm = getSupportFragmentManager();
+        if (getFragmentManager().findFragmentByTag("fragment_updatePassword") == null) {
+            FragmentManager fm = getFragmentManager();
             UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
             passwordFragment.show(fm, "fragment_updatePassword");
         }
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -535,11 +540,11 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
              */
             if (position != 0 && position != 2) {
                 if (mPreviousView != null)
-                    mPreviousView.setBackgroundColor(Color.parseColor("#333333")); //normal color
-                view.setBackgroundColor(getResources().getColor(R.color.background_dark)); // dark color
+                    mPreviousView.setBackgroundColor(getResources().getColor(R.color.bg_dark)); //normal color
+                view.setBackgroundColor(getResources().getColor(android.R.color.black)); // dark color
                 mPreviousView = view;
             } else {
-                view.setBackgroundColor(Color.parseColor("#333333"));
+                view.setBackgroundColor(getResources().getColor(R.color.bg_dark));
             }
 
             DrawerLayout.closeDrawer(DrawerList);
@@ -550,13 +555,13 @@ public class Home extends Activity implements TabListener, SwipeRefreshLayout.On
         @Override
         public void onDrawerOpened(View drawerView) {
             mDrawerToggle.onDrawerOpened(drawerView);
-            actionbar.setTitle(getTitle());
+            actionBar.setTitle(getTitle());
         }
 
         @Override
         public void onDrawerClosed(View drawerView) {
             mDrawerToggle.onDrawerClosed(drawerView);
-            actionbar.setTitle(getTitle());
+            actionBar.setTitle(getTitle());
         }
 
         @Override

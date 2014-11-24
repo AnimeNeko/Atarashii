@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -24,7 +25,6 @@ import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.holoeverywhere.widget.TextView;
 
 import java.io.Serializable;
 
@@ -116,7 +116,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         myScoreBar.setOnRatingBarChangeListener(this);
 
         swipeRefresh.setOnRefreshListener(activity);
-        swipeRefresh.setColorScheme(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
 

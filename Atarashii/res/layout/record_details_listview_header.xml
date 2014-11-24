@@ -11,11 +11,10 @@
         android:id="@+id/indicator"
         android:layout_width="22dp"
         android:layout_height="22dp"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/expander_ic_minimized"
-        android:tag="min"/>
+        android:tag="min" />
 
     <TextView
         android:id="@+id/name"
