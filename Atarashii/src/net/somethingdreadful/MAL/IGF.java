@@ -613,7 +613,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 viewHolder.label = (TextView) view.findViewById(R.id.animeName);
                 viewHolder.progressCount = (TextView) view.findViewById(R.id.watchedCount);
                 viewHolder.cover = (ImageView) view.findViewById(R.id.coverImage);
-                viewHolder.bar = (ImageView) view.findViewById(R.id.textOverlayPanel);
                 viewHolder.actionButton = (ImageView) view.findViewById(R.id.popUpButton);
                 viewHolder.flavourText = (TextView) view.findViewById(R.id.stringWatched);
 
@@ -688,7 +687,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         }
                     });
                 }
-                viewHolder.bar.setAlpha(175);
             } catch (Exception e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.ListViewAdapter(): " + e.getMessage());
                 Crashlytics.logException(e);
