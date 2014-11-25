@@ -2,35 +2,23 @@ package net.somethingdreadful.MAL;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.crashlytics.android.Crashlytics;
-import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import java.util.ArrayList;
-import java.util.Collection;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -39,7 +27,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
 
     Context context;
     ArrayList<User> listarray = new ArrayList<User>();
-    ListViewAdapter<User> listadapter;
+    FriendsGridviewAdapter<User> listadapter;
     GridView Gridview;
     SwipeRefreshLayout swipeRefresh;
     boolean forcesync = false;
@@ -55,7 +43,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
         setTitle(R.string.title_activity_friends); //set title
 
         Gridview = (GridView) findViewById(R.id.listview);
-        listadapter = new ListViewAdapter<User>(context, R.layout.record_friends_gridview);
+        listadapter = new FriendsGridviewAdapter<User>(context, listarray);
 
         new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
         refresh(false);
@@ -85,7 +73,6 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
             Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
         }
         Gridview.setAdapter(listadapter);
-        listadapter.clear();
         try {
             listadapter.supportAddAll(listarray);
         } catch (Exception e) {
@@ -147,63 +134,5 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     @Override
     public void onRefresh() {
         sync(true);
-    }
-
-    static class ViewHolder {
-        TextView username;
-        TextView last_online;
-        ImageView avatar;
-    }
-
-    public class ListViewAdapter<T> extends ArrayAdapter<T> {
-
-        public ListViewAdapter(Context context, int resource) {
-            super(context, resource);
-        }
-
-        public View getView(int position, View view, ViewGroup parent) {
-            final User record = (listarray.get(position));
-            ViewHolder viewHolder;
-
-            if (view == null) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.record_friends_gridview, parent, false);
-
-                viewHolder = new ViewHolder();
-                viewHolder.username = (TextView) view.findViewById(R.id.userName);
-                viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
-                viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
-
-                view.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-
-            try {
-                String username = record.getName();
-                viewHolder.username.setText(WordUtils.capitalize(username));
-                if (User.isDeveloperRecord(username))
-                    viewHolder.username.setTextColor(Color.parseColor("#008583")); //Developer
-
-                String last_online = record.getProfile().getDetails().getLastOnline();
-                last_online = MALDateTools.formatDateString(last_online, context, true);
-                viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
-                Picasso picasso = Picasso.with(context);
-                picasso.load(record.getProfile().getAvatarUrl())
-                        .error(R.drawable.cover_error)
-                        .placeholder(R.drawable.cover_loading)
-                        .into(viewHolder.avatar);
-            } catch (Exception e) {
-                Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
-                Crashlytics.logException(e);
-            }
-            return view;
-        }
-
-        public void supportAddAll(Collection<? extends T> collection) {
-            for (T record : collection) {
-                this.add(record);
-            }
-        }
     }
 }
