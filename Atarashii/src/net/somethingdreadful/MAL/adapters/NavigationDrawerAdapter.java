@@ -23,28 +23,36 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationItems.NavIte
         this.home = home;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public View getView(int position, View v, ViewGroup parent) {
+        ViewHolder viewHolder;
 
         if (v == null) {
             LayoutInflater vi = home.getLayoutInflater();
-            v = vi.inflate(R.layout.record_home_navigation, null);
+            v = vi.inflate(R.layout.record_home_navigation, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.mIcon = (ImageView) v.findViewById(R.id.nav_item_icon);
+            viewHolder.mTitle = (TextView) v.findViewById(R.id.nav_item_text);
+            v.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) v.getTag();
         }
 
         NavigationItems.NavItem item = items.get(position);
-
         if (item != null) {
-            ImageView mIcon = (ImageView) v.findViewById(R.id.nav_item_icon);
-            TextView mTitle = (TextView) v.findViewById(R.id.nav_item_text);
-
-            if (mIcon != null) {
-                mIcon.setImageResource(item.icon);
+            if (viewHolder.mIcon != null) {
+                viewHolder.mIcon.setImageResource(item.icon);
             }
-            if (mTitle != null) {
-                mTitle.setText(item.title);
+            if (viewHolder.mTitle != null) {
+                viewHolder.mTitle.setText(item.title);
             }
         }
 
         return v;
+    }
+
+    static class ViewHolder {
+        ImageView mIcon;
+        TextView mTitle;
     }
 }
