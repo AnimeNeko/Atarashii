@@ -264,7 +264,7 @@
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
     <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
     <string name="contributor_dsko_summary">Implemented retrofit for API handling.</string>
-    <string name="contributor_ratan12_name">Ratan Dhawtal (<a href="http://myanimelist.net/profile/ratan12">Ratan12</a>)</string>
+    <string name="contributor_ratan12_name">Ratan Dhawtal (<a href="http://myanimelist.net/profile/ratan12">ratan12</a>)</string>
     <string name="contributor_ratan12_summary">Managing all translations, creating new features and working on the UI.</string>
     <string name="translations">Atarashii! started to support different languages since version 1.4! Everyone can <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">join the translation project</a> to contribute.</string>
     <string name="translations_notListed">My language is not listed on oneskyapp?</string>
