@@ -21,27 +21,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import net.somethingdreadful.MAL.NavigationItems.NavItem;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
+import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
-
-import java.util.ArrayList;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -56,7 +50,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
      * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
      * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    IGFPagerAdapter mIGFPagerAdapter;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -70,7 +64,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     ActionBarDrawerToggle mDrawerToggle;
     View mPreviousView;
     ActionBar actionBar;
-    NavigationItemAdapter mNavigationItemAdapter;
+    NavigationDrawerAdapter mNavigationDrawerAdapter;
     SearchView searchView;
 
     boolean instanceExists;
@@ -103,7 +97,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
 
             DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             DrawerLayout.setDrawerListener(new DemoDrawerListener());
@@ -112,8 +106,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             DrawerList = (ListView) findViewById(R.id.left_drawer);
 
             NavigationItems mNavigationContent = new NavigationItems();
-            mNavigationItemAdapter = new NavigationItemAdapter(this, R.layout.record_home_navigation, mNavigationContent.ITEMS);
-            DrawerList.setAdapter(mNavigationItemAdapter);
+            mNavigationDrawerAdapter = new NavigationDrawerAdapter(this, mNavigationContent.ITEMS);
+            DrawerList.setAdapter(mNavigationDrawerAdapter);
             DrawerList.setOnItemClickListener(new DrawerItemClickListener());
             DrawerList.setCacheColorHint(0);
             DrawerList.setScrollingCacheEnabled(false);
@@ -126,7 +120,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
             // Set up the ViewPager with the sections adapter.
             mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
 
             networkReceiver = new BroadcastReceiver() {
@@ -529,41 +523,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         @Override
         public void onDrawerStateChanged(int newState) {
             mDrawerToggle.onDrawerStateChanged(newState);
-        }
-    }
-
-    private class NavigationItemAdapter extends ArrayAdapter<NavItem> {
-        private ArrayList<NavItem> items;
-
-        public NavigationItemAdapter(Context context, int textViewResourceId,
-                                     ArrayList<NavItem> objects) {
-            super(context, textViewResourceId, objects);
-            this.items = objects;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-
-            if (v == null) {
-                LayoutInflater vi = getLayoutInflater();
-                v = vi.inflate(R.layout.record_home_navigation, null);
-            }
-
-            NavItem item = items.get(position);
-
-            if (item != null) {
-                ImageView mIcon = (ImageView) v.findViewById(R.id.nav_item_icon);
-                TextView mTitle = (TextView) v.findViewById(R.id.nav_item_text);
-
-                if (mIcon != null) {
-                    mIcon.setImageResource(item.icon);
-                }
-                if (mTitle != null) {
-                    mTitle.setText(item.title);
-                }
-            }
-
-            return v;
         }
     }
 }

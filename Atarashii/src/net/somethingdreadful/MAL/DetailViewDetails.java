@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,10 +10,10 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.RecordStub;
@@ -56,7 +55,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
     ExpandableListView relations;
 
-    ExpandListAdapter listadapter;
+    DetailViewRelationsAdapter listadapter;
     Map<String, ArrayList<RecordStub>> relationsList;
     ArrayList<String> headers;
     public int totalRecords;
@@ -124,9 +123,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         relations.setOnGroupCollapseListener(this);
         relations.setOnGroupClickListener(this);
 
-        listadapter = new ExpandListAdapter(activity.getApplicationContext());
         headers = new ArrayList<String>();
         relationsList = new LinkedHashMap<String, ArrayList<RecordStub>>();
+        listadapter = new DetailViewRelationsAdapter(activity.getApplicationContext(), relationsList, headers);
     }
 
     /*
@@ -243,78 +242,5 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
         return false;
-    }
-
-    static class ViewHolder {
-        TextView name;
-    }
-
-    public class ExpandListAdapter extends BaseExpandableListAdapter {
-        Context context;
-        ViewHolder viewHolder;
-
-        public ExpandListAdapter(Context context) {
-            this.context = context;
-        }
-
-        public Object getChild(int groupPos, int childPos) {
-            return relationsList.get(headers.get(groupPos)).get(childPos);
-        }
-
-        public long getChildId(int groupPos, int childPos) {
-            return childPos;
-        }
-
-        public View getChildView(final int groupPos, final int childPos, boolean isLastChild, View convertView, ViewGroup parent) {
-            viewHolder = new ViewHolder();
-
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.record_details_listview, parent, false);
-
-                viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-                view.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-
-            viewHolder.name.setText(getRecordStub(groupPos, childPos).getTitle());
-            return convertView;
-        }
-
-        public int getChildrenCount(int groupPos) {
-            return relationsList.get(headers.get(groupPos)).size();
-        }
-
-        public Object getGroup(int groupPos) {
-            return headers.get(groupPos);
-        }
-
-        public int getGroupCount() {
-            return headers.size();
-        }
-
-        public long getGroupId(int groupPos) {
-            return groupPos;
-        }
-
-        public View getGroupView(int groupPos, boolean isExpanded, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.record_details_listview_header, parent, false);
-            }
-
-            TextView name = (TextView) convertView.findViewById(R.id.name);
-            name.setText(headers.get(groupPos));
-            return convertView;
-        }
-
-        public boolean hasStableIds() {
-            return true;
-        }
-
-        public boolean isChildSelectable(int groupPos, int childPos) {
-            return true;
-        }
     }
 }

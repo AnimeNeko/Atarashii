@@ -53,7 +53,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
 
     Context context;
-    ListType listType = ListType.ANIME; // just to have it proper initialized
+    public ListType listType = ListType.ANIME; // just to have it proper initialized
     TaskJob taskjob;
 
     GridView Gridview;
