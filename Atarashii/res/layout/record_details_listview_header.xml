@@ -7,22 +7,13 @@
     android:background="@color/card_light_green"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/indicator"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:tag="min" />
-
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
         android:ellipsize="end"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:singleLine="true"
         android:text="@string/layout_card_loading"
         android:textColor="#000000"
