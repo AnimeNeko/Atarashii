@@ -1,14 +1,15 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import net.somethingdreadful.MAL.IGF;
 import net.somethingdreadful.MAL.api.MALApi;
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class IGFPagerAdapter extends FragmentPagerAdapter {
 
-    public SectionsPagerAdapter(FragmentManager fm) {
+    public IGFPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

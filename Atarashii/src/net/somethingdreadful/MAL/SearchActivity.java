@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -28,7 +29,7 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
     IGF af;
     IGF mf;
     ViewPager ViewPager;
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    IGFPagerAdapter mIGFPagerAdapter;
     PrefManager mPrefManager;
     SearchView searchView;
     ActionBar actionBar;
@@ -50,10 +51,10 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
 
         ViewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager.setAdapter(mSectionsPagerAdapter);
+        ViewPager.setAdapter(mIGFPagerAdapter);
     }
 
     @Override

@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.NavigationItems.NavItem;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
@@ -103,7 +104,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
 
             DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             DrawerLayout.setDrawerListener(new DemoDrawerListener());
@@ -126,7 +127,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
             // Set up the ViewPager with the sections adapter.
             mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
 
             networkReceiver = new BroadcastReceiver() {
