@@ -4,7 +4,8 @@
     android:id="@+id/BaseCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="2dp">
+    card_view:cardCornerRadius="2dp"
+    card_view:cardPreventCornerOverlap="false" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
