@@ -19,7 +19,7 @@ import net.somethingdreadful.MAL.api.response.GenericRecord;
 
 import java.io.Serializable;
 
-public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupClickListener {
+public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
 
     public SwipeRefreshLayout swipeRefresh;
     DetailView activity;
@@ -50,8 +50,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     TextView favorites;
 
     ExpandableListView relations;
-
-    DetailViewRelationsAdapter listadapter;
+    DetailViewRelationsAdapter relation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,14 +109,10 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         members = (TextView) view.findViewById(R.id.members);
         favorites = (TextView) view.findViewById(R.id.favorites);
 
-        listadapter = new DetailViewRelationsAdapter(activity.getApplicationContext());
-
-        relations = (ExpandableListView) view.findViewById(R.id.ListView);
+        relation = new DetailViewRelationsAdapter(activity.getApplicationContext());
+        relations = (ExpandableListView) cardRelations.findViewById(R.id.ListView);
         relations.setOnChildClickListener(this);
-        relations.setOnGroupExpandListener(this);
-        relations.setOnGroupCollapseListener(this);
-        relations.setOnGroupClickListener(this);
-        relations.setAdapter(listadapter);
+        relations.setAdapter(relation);
     }
 
     /*
@@ -166,50 +161,51 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         favorites.setText(Integer.toString(record.getFavoritedCount()));
 
         listadapter.clear();
+        relation.clear();
 
         if (activity.type.equals(MALApi.ListType.ANIME)) {
-            listadapter.addRelations(activity.animeRecord.getMangaAdaptions(), getString(R.string.card_content_adaptions));
-            listadapter.addRelations(activity.animeRecord.getParentStory(), getString(R.string.card_content_parentstory));
-            listadapter.addRelations(activity.animeRecord.getPrequels(), getString(R.string.card_content_prequel));
-            listadapter.addRelations(activity.animeRecord.getSequels(), getString(R.string.card_content_sequel));
-            listadapter.addRelations(activity.animeRecord.getSideStories(), getString(R.string.card_content_sidestories));
-            listadapter.addRelations(activity.animeRecord.getSpinOffs(), getString(R.string.card_content_spinoffs));
-            listadapter.addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
-            listadapter.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
-            listadapter.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+            relation.addRelations(activity.animeRecord.getMangaAdaptions(), getString(R.string.card_content_adaptions));
+            relation.addRelations(activity.animeRecord.getParentStory(), getString(R.string.card_content_parentstory));
+            relation.addRelations(activity.animeRecord.getPrequels(), getString(R.string.card_content_prequel));
+            relation.addRelations(activity.animeRecord.getSequels(), getString(R.string.card_content_sequel));
+            relation.addRelations(activity.animeRecord.getSideStories(), getString(R.string.card_content_sidestories));
+            relation.addRelations(activity.animeRecord.getSpinOffs(), getString(R.string.card_content_spinoffs));
+            relation.addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
+            relation.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
+            relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
         } else {
-            listadapter.addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
-            listadapter.addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
-            listadapter.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+            relation.addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
+            relation.addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
+            relation.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
         }
 
-        listadapter.notifyDataSetChanged();
-        cardRelations.refreshList(listadapter);
+        relation.notifyDataSetChanged();
     }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPos, int childPos, long id) {
         Intent detailView = new Intent(activity, DetailView.class);
-        detailView.putExtra("recordID", listadapter.getRecordStub(groupPos, childPos).getId());
-        detailView.putExtra("recordType", listadapter.getRecordStub(groupPos, childPos).getType());
+        detailView.putExtra("recordID", relation.getRecordStub(groupPos, childPos).getId());
+        detailView.putExtra("recordType", relation.getRecordStub(groupPos, childPos).getType());
         startActivity(detailView);
         return true;
     }
 
-    @Override
-    public void onGroupExpand(int i) {
-        listadapter.expand(i);
-        cardRelations.refreshList(listadapter);
-    }
+    public void clickListeners(){
 
-    @Override
-    public void onGroupCollapse(int i) {
-        listadapter.collapse(i);
-        cardRelations.refreshList(listadapter);
-    }
-
-    @Override
-    public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-        return false;
+        relations.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+                relation.expand(i);
+                cardRelations.refreshList(relation);
+            }
+        });
+        relations.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int i) {
+                relation.collapse(i);
+                cardRelations.refreshList(relation);
+            }
+        });
     }
 }
