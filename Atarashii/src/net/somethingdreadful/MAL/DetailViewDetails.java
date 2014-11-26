@@ -31,6 +31,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     Card cardMediainfo;
     Card cardMediaStats;
     Card cardRelations;
+    Card cardTitles;
 
     TextView synopsis;
     TextView type;
@@ -50,7 +51,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     TextView favorites;
 
     ExpandableListView relations;
+    ExpandableListView titles;
     DetailViewRelationsAdapter relation;
+    DetailViewRelationsAdapter title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,11 +87,13 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
         cardMediaStats = (Card) view.findViewById(R.id.mediastats);
         cardRelations = (Card) view.findViewById(R.id.relations);
+        cardTitles = (Card) view.findViewById(R.id.titles);
 
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_details_mediainfo);
         cardMediaStats.setContent(R.layout.card_detailview_details_mediastats);
         cardRelations.setContent(R.layout.card_detailview_details_relations);
+        cardTitles.setContent(R.layout.card_detailview_details_relations);
 
         // set all the views
         synopsis = (TextView) view.findViewById(R.id.SynopsisContent);
@@ -113,6 +118,12 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         relations = (ExpandableListView) cardRelations.findViewById(R.id.ListView);
         relations.setOnChildClickListener(this);
         relations.setAdapter(relation);
+
+        title = new DetailViewRelationsAdapter(activity.getApplicationContext());
+        titles = (ExpandableListView) cardTitles.findViewById(R.id.ListView);
+        titles.setAdapter(title);
+
+        clickListeners();
     }
 
     /*
@@ -160,7 +171,6 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         members.setText(Integer.toString(record.getMembersCount()));
         favorites.setText(Integer.toString(record.getFavoritedCount()));
 
-        listadapter.clear();
         relation.clear();
 
         if (activity.type.equals(MALApi.ListType.ANIME)) {
@@ -179,7 +189,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
         }
 
+        title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
+        title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
+        title.addTitles(activity.animeRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
+
         relation.notifyDataSetChanged();
+        title.notifyDataSetChanged();
+        cardRelations.refreshList(relation);
+        cardTitles.refreshList(title);
     }
 
     @Override
@@ -192,6 +209,20 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     }
 
     public void clickListeners(){
+        titles.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+                title.expand(i);
+                cardTitles.refreshList(title);
+            }
+        });
+        titles.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int i) {
+                title.collapse(i);
+                cardTitles.refreshList(title);
+            }
+        });
 
         relations.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
