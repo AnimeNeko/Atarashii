@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
+
 
 public class Card extends RelativeLayout {
     public boolean center;
@@ -105,21 +107,18 @@ public class Card extends RelativeLayout {
     /**
      * Recalculate the required height of a listview and apply it.
      *
-     * @param total        The total number of items
-     * @param normalHeight The default height of headers in dp
-     * @param headers      The number of headers
-     * @param headerHeight The height of a header in dp
-     * @param divider      The thickness of the divider in dp
+     * @param adapter      The listadapter
      */
-    public void refreshList(int total, int normalHeight, int headers, int headerHeight, int divider) {
-        if (total == 0) {
+    public void refreshList(DetailViewRelationsAdapter adapter) {
+        if (adapter.totalRecords == 0) {
             this.setVisibility(View.GONE);
         } else {
-            Integer normal = total - headers;
+            Integer headers = (adapter.headers.size() + 1);
+            Integer normal = adapter.totalRecords - headers;
 
-            int Height = normal * normalHeight;
-            Height = Height + (headers * headerHeight);
-            Height = Height + ((total - 1) * divider);
+            int Height = normal * 56;
+            Height = Height + (headers * 48);
+            Height = Height + (adapter.totalRecords - 1);
 
             if (this.findViewById(R.id.ListView) != null)
                 this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height + 8);
