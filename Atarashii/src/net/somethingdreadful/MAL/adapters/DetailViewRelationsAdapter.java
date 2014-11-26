@@ -11,20 +11,93 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
-    Context context;
+    private Context context;
     ViewHolder viewHolder;
-    Map<String, ArrayList<RecordStub>> list;
-    ArrayList<String> headers;
+    public Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<String, ArrayList<RecordStub>>();
+    public ArrayList<String> headers = new ArrayList<String>();
+    public int totalRecords;
 
-    public DetailViewRelationsAdapter(Context context, Map<String, ArrayList<RecordStub>> list, ArrayList<String> headers) {
+    public DetailViewRelationsAdapter(Context context) {
         this.context = context;
-        this.list = list;
-        this.headers = headers;
     }
 
+    /**
+     * Clear all the lists.
+     */
+    public void clear(){
+        list.clear();
+        headers.clear();
+        totalRecords = 0;
+    }
+
+    /**
+     * Recalculate the total records amount.
+     *
+     * @param pos The position of the header that should collapse
+     */
+    public void collapse(int pos){
+        totalRecords = totalRecords - list.get(headers.get(pos)).size();
+    }
+
+    /**
+     * Recalculate the total records amount.
+     *
+     * @param pos The position of the header that should expand
+     */
+    public void expand(int pos){
+        totalRecords = totalRecords + list.get(headers.get(pos)).size();
+    }
+
+    /**
+     * Get the recordStub of a child.
+     *
+     * @param groupPos The header position
+     * @param childPos The child position
+     * @return RecordStub the child
+     */
+    public RecordStub getRecordStub(int groupPos, int childPos) {
+        return list.get(headers.get(groupPos)).get(childPos);
+    }
+
+    /**
+     * Add an item to the list.
+     *
+     * @param recordStub The record item
+     * @param header The text that the headers should use
+     */
+    public void addRelations(RecordStub recordStub, String header) {
+        if (recordStub != null) {
+            ArrayList<RecordStub> record = new ArrayList<RecordStub>();
+            record.add(recordStub);
+            addRelations(record, header);
+        }
+    }
+
+    /**
+     * Add an arraylist of items to the list.
+     *
+     * @param recordStub The arraylist record items
+     * @param header The text that the headers should use
+     */
+    public void addRelations(ArrayList<RecordStub> recordStub, String header) {
+        if (recordStub != null && recordStub.size() != 0) {
+            headers.add(header);
+            list.put(header, recordStub);
+            totalRecords = totalRecords + 1;
+        }
+    }
+
+    /**
+     * Get the object of a child.
+     *
+     * @param groupPos The header position
+     * @param childPos The child position
+     * @return Object the child
+     */
     public Object getChild(int groupPos, int childPos) {
         return list.get(headers.get(groupPos)).get(childPos);
     }
@@ -83,10 +156,6 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
 
     public boolean isChildSelectable(int groupPos, int childPos) {
         return true;
-    }
-
-    public RecordStub getRecordStub(int groupPos, int childPos) {
-        return list.get(headers.get(groupPos)).get(childPos);
     }
 
     static class ViewHolder {

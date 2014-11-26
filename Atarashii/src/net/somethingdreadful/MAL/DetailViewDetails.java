@@ -16,12 +16,8 @@ import android.widget.TextView;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.api.response.RecordStub;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupClickListener {
 
@@ -56,9 +52,6 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     ExpandableListView relations;
 
     DetailViewRelationsAdapter listadapter;
-    Map<String, ArrayList<RecordStub>> relationsList;
-    ArrayList<String> headers;
-    public int totalRecords;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,15 +110,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         members = (TextView) view.findViewById(R.id.members);
         favorites = (TextView) view.findViewById(R.id.favorites);
 
+        listadapter = new DetailViewRelationsAdapter(activity.getApplicationContext());
+
         relations = (ExpandableListView) view.findViewById(R.id.ListView);
         relations.setOnChildClickListener(this);
         relations.setOnGroupExpandListener(this);
         relations.setOnGroupCollapseListener(this);
         relations.setOnGroupClickListener(this);
-
-        headers = new ArrayList<String>();
-        relationsList = new LinkedHashMap<String, ArrayList<RecordStub>>();
-        listadapter = new DetailViewRelationsAdapter(activity.getApplicationContext(), relationsList, headers);
+        relations.setAdapter(listadapter);
     }
 
     /*
@@ -133,7 +125,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
      */
     public void setListener() {
         swipeRefresh.setOnRefreshListener(activity);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
 
@@ -173,70 +165,47 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         members.setText(Integer.toString(record.getMembersCount()));
         favorites.setText(Integer.toString(record.getFavoritedCount()));
 
-        relationsList.clear();
-        headers.clear();
-        totalRecords = 0;
+        listadapter.clear();
 
         if (activity.type.equals(MALApi.ListType.ANIME)) {
-            addRelations(activity.animeRecord.getMangaAdaptions(), getString(R.string.card_content_adaptions));
-            addRelations(activity.animeRecord.getParentStory(), getString(R.string.card_content_parentstory));
-            addRelations(activity.animeRecord.getPrequels(), getString(R.string.card_content_prequel));
-            addRelations(activity.animeRecord.getSequels(), getString(R.string.card_content_sequel));
-            addRelations(activity.animeRecord.getSideStories(), getString(R.string.card_content_sidestories));
-            addRelations(activity.animeRecord.getSpinOffs(), getString(R.string.card_content_spinoffs));
-            addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
-            addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
-            addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+            listadapter.addRelations(activity.animeRecord.getMangaAdaptions(), getString(R.string.card_content_adaptions));
+            listadapter.addRelations(activity.animeRecord.getParentStory(), getString(R.string.card_content_parentstory));
+            listadapter.addRelations(activity.animeRecord.getPrequels(), getString(R.string.card_content_prequel));
+            listadapter.addRelations(activity.animeRecord.getSequels(), getString(R.string.card_content_sequel));
+            listadapter.addRelations(activity.animeRecord.getSideStories(), getString(R.string.card_content_sidestories));
+            listadapter.addRelations(activity.animeRecord.getSpinOffs(), getString(R.string.card_content_spinoffs));
+            listadapter.addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
+            listadapter.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
+            listadapter.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
         } else {
-            addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
-            addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
-            addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+            listadapter.addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
+            listadapter.addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
+            listadapter.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
         }
 
-        relations.setAdapter(listadapter);
         listadapter.notifyDataSetChanged();
-        cardRelations.refreshList(totalRecords, 56, headers.size() + 1, 48, 1);
-    }
-
-    public void addRelations(RecordStub recordStub, String header) {
-        if (recordStub != null) {
-            ArrayList<RecordStub> record = new ArrayList<RecordStub>();
-            record.add(recordStub);
-            addRelations(record, header);
-        }
-    }
-
-    public void addRelations(ArrayList<RecordStub> recordStub, String header) {
-        if (recordStub != null && recordStub.size() != 0) {
-            headers.add(header);
-            relationsList.put(header, recordStub);
-            totalRecords = totalRecords + 1;
-        }
+        cardRelations.refreshList(listadapter);
     }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPos, int childPos, long id) {
         Intent detailView = new Intent(activity, DetailView.class);
-        detailView.putExtra("recordID", getRecordStub(groupPos, childPos).getId());
-        detailView.putExtra("recordType", getRecordStub(groupPos, childPos).getType());
+        detailView.putExtra("recordID", listadapter.getRecordStub(groupPos, childPos).getId());
+        detailView.putExtra("recordType", listadapter.getRecordStub(groupPos, childPos).getType());
         startActivity(detailView);
         return true;
     }
 
-    public RecordStub getRecordStub(int groupPos, int childPos) {
-        return relationsList.get(headers.get(groupPos)).get(childPos);
-    }
-
     @Override
     public void onGroupExpand(int i) {
-        totalRecords = totalRecords + relationsList.get(headers.get(i)).size();
-        cardRelations.refreshList(totalRecords, 56, headers.size() + 1, 48, 1);
+        listadapter.expand(i);
+        cardRelations.refreshList(listadapter);
     }
 
     @Override
     public void onGroupCollapse(int i) {
-        totalRecords = totalRecords - relationsList.get(headers.get(i)).size();
-        cardRelations.refreshList(totalRecords, 56, headers.size() + 1, 48, 1);
+        listadapter.collapse(i);
+        cardRelations.refreshList(listadapter);
     }
 
     @Override
