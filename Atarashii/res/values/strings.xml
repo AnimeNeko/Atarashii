@@ -162,6 +162,7 @@
     <string name="card_name_rating">RATING</string>
     <string name="card_name_personal">PERSONAL</string>
     <string name="card_name_relations">RELATIONS</string>
+    <string name="card_name_titles">ALTERNATIVE TITLES</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
@@ -190,6 +191,9 @@
     <string name="card_content_character">Character</string>
     <string name="card_content_related">Related</string>
     <string name="card_content_parentstory">Parent Story</string>
+    <string name="card_content_japanese">Japanese</string>
+    <string name="card_content_english">English</string>
+    <string name="card_content_synonyms">Synonyms</string>
     <string name="card_offline_error">No network connection available.</string>
     <string name="card_offline_button_caption">Try again</string>
     <string name="card_offline_title">You\'re offline!</string>
