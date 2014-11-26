@@ -66,6 +66,24 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     /**
      * Add an item to the list.
      *
+     * @param strings The arraylist of other titles
+     * @param header The text that the headers should use
+     */
+    public void addTitles(ArrayList<String> strings, String header) {
+        if (strings != null) {
+            ArrayList<RecordStub> records = new ArrayList<RecordStub>();
+            for (String stub : strings) {
+                RecordStub record = new RecordStub();
+                record.setTitle(stub);
+                records.add(record);
+            }
+            addRelations(records, header);
+        }
+    }
+
+    /**
+     * Add an item to the list.
+     *
      * @param recordStub The record item
      * @param header The text that the headers should use
      */
