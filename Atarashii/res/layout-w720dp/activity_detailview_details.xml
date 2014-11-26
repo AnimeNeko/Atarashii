@@ -55,13 +55,28 @@
             <!-- Relations card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/relations"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_below="@id/mediainfo"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="4dp"
                 custom:card_divide="2"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_relations"
+                custom:header_Title_Color="@color/white" />
+
+            <!-- Titles card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/titles"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/relations"
+                android:layout_below="@id/mediastats"
+                android:layout_marginTop="8dp"
+                custom:card_divide="2"
+                android:layout_marginLeft="4dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_titles"
                 custom:header_Title_Color="@color/white" />
         </RelativeLayout>
     </ScrollView>
