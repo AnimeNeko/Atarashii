@@ -2,6 +2,3 @@
 	path = third-party/Crouton
 	url = https://github.com/keyboardsurfer/Crouton.git
 	ignore = dirty
-[submodule "third-party/Holoeverywhere"]
-	path = third-party/Holoeverywhere
-	url = https://github.com/Prototik/HoloEverywhere.git
