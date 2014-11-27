@@ -113,15 +113,12 @@ public class Card extends RelativeLayout {
         if (adapter.totalRecords == 0) {
             this.setVisibility(View.GONE);
         } else {
-            Integer headers = (adapter.headers.size() + 1);
-            Integer normal = adapter.totalRecords - headers;
-
-            int Height = normal * 56;
-            Height = Height + (headers * 48);
+            int Height = (adapter.totalRecords - adapter.headers.size()) * 56;
+            Height = Height + (adapter.headers.size() * 48);
             Height = Height + (adapter.totalRecords - 1);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height + 8);
+                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height);
         }
     }
 

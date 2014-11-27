@@ -105,7 +105,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
         if (recordStub != null && recordStub.size() != 0) {
             headers.add(header);
             list.put(header, recordStub);
-            totalRecords = totalRecords + 1;
+            totalRecords = totalRecords + recordStub.size();
         }
     }
 
