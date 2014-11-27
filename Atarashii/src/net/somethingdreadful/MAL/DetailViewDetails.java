@@ -172,6 +172,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         favorites.setText(Integer.toString(record.getFavoritedCount()));
 
         relation.clear();
+        title.clear();
 
         if (activity.type.equals(MALApi.ListType.ANIME)) {
             relation.addRelations(activity.animeRecord.getMangaAdaptions(), getString(R.string.card_content_adaptions));
@@ -183,15 +184,19 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
             relation.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
             relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+
+            title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
+            title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
+            title.addTitles(activity.animeRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
         } else {
             relation.addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
             relation.addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
             relation.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
-        }
 
-        title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
-        title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
-        title.addTitles(activity.animeRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
+            title.addTitles(activity.mangaRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
+            title.addTitles(activity.mangaRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
+            title.addTitles(activity.mangaRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
+        }
 
         relation.notifyDataSetChanged();
         title.notifyDataSetChanged();
