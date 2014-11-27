@@ -110,12 +110,12 @@ public class Card extends RelativeLayout {
      * @param adapter      The listadapter
      */
     public void refreshList(DetailViewRelationsAdapter adapter) {
-        if (adapter.totalRecords == 0) {
+        if (adapter.visable == 0) {
             this.setVisibility(View.GONE);
         } else {
-            int Height = (adapter.totalRecords - adapter.headers.size()) * 56;
+            int Height = ((adapter.visable - adapter.headers.size()) * 56);
             Height = Height + (adapter.headers.size() * 48);
-            Height = Height + (adapter.totalRecords - 1);
+            Height = Height + (adapter.visable - 1);
 
             if (this.findViewById(R.id.ListView) != null)
                 this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height);
