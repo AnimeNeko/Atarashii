@@ -55,7 +55,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         prefs = new PrefManager(context);
 
         imagecard = ((Card) findViewById(R.id.name_card));
-        imagecard.setContent(R.layout.card_profile_image);
+        imagecard.setContent(R.layout.card_image);
         ((Card) findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
         animecard = (Card) findViewById(R.id.Anime_card);
         animecard.setContent(R.layout.card_profile_anime);

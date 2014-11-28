@@ -85,7 +85,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardRating = (Card) view.findViewById(R.id.rating);
 
         // add all the card contents
-        cardMain.setContent(R.layout.card_detailview_image);
+        cardMain.setContent(R.layout.card_image);
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
