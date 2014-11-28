@@ -30,11 +30,6 @@
             android:title="@string/preference_profileTextColors" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="a_mhide"
-            android:summary="@string/preference_summary_profileBothHide"
-            android:title="@string/preference_profileBothHide" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="A_hide"
             android:summary="@string/preference_summary_profileAnimeHide"
             android:title="@string/preference_profileAnimeHide" />

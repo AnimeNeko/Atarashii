@@ -123,16 +123,6 @@ public class PrefManager {
     }
 
     /**
-     * Returns if the app automatically should hide the card if it is empty.
-     *
-     * @return boolean If it should be hidden
-     * @see ProfileActivity
-     */
-    public boolean getHideAnimeManga() {
-        return prefs.getBoolean("a_mhide", false);
-    }
-
-    /**
      * Returns if the app should disable the coloured text and use black.
      *
      * @return boolean If it should be black

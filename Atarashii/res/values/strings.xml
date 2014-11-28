@@ -295,7 +295,6 @@
     <string name="preference_profileTextColors">Disable text colours</string>
     <string name="preference_profileAnimeHide">Hide always anime details</string>
     <string name="preference_profileMangaHide">Hide always manga details</string>
-    <string name="preference_profileBothHide">Hide automatic anime/manga details</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync in the background.</string>
     <string name="preference_summary_Language">Change the default language into your desired one. Requires restart to take effect.</string>
@@ -305,7 +304,6 @@
     <string name="preference_summary_profileTextColors">Force the profile page to use black text colour.</string>
     <string name="preference_summary_profileAnimeHide">Hide the anime details on all profiles.</string>
     <string name="preference_summary_profileMangaHide">Hide the manga details on all profiles.</string>
-    <string name="preference_summary_profileBothHide">Hide anime/manga details on all profiles when the Total Entries are zero.</string>
     <string name="preference_android_synchronisation">Anime/Manga records</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
 
