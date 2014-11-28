@@ -17,8 +17,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -81,14 +79,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         PageAdapter = new DetailViewPagerAdapter(getFragmentManager(), this);
         viewPager.setAdapter(PageAdapter);
-
-        Button retryButton = (Button) findViewById(R.id.retry_button);
-        retryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getRecord(true);
-            }
-        });
 
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
