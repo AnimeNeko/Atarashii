@@ -9,5 +9,6 @@
         <attr name="card_maxWidth" format="integer" />
         <attr name="card_minHeight" format="integer" />
         <attr name="card_divide" format="integer" />
+        <attr name="card_content" format="reference" />
     </declare-styleable>
 </resources> 
