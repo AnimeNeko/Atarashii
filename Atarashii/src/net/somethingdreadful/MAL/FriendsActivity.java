@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class FriendsActivity extends ActionBarActivity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
+public class FriendsActivity extends ActionBarActivity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
 
     Context context;
     ArrayList<User> listarray = new ArrayList<User>();
@@ -48,6 +48,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
         setTitle(R.string.title_activity_friends); //set title
 
         Gridview = (GridView) findViewById(R.id.listview);
+        Gridview.setOnItemClickListener(this);
         listadapter = new FriendsGridviewAdapter<User>(context, listarray);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
@@ -57,18 +58,6 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
 
         toggleLoadingIndicator(true);
         sync(true);
-
-        Gridview.setOnItemClickListener(new OnItemClickListener() { //start the profile with your friend
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                if (listarray.get(position).getProfile().getDetails().getAccessRank() == null) {
-                    profile.putExtra("username", listarray.get(position).getName());
-                } else
-                    profile.putExtra("user", listarray.get(position));
-                startActivity(profile);
-            }
-        });
 
         NfcHelper.disableBeam(this);
     }
@@ -160,5 +149,15 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     public void onRefresh() {
         forcesync = true;
         sync(true);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+        if (listarray.get(position).getProfile().getDetails().getAccessRank() == null) {
+            profile.putExtra("username", listarray.get(position).getName());
+        } else
+            profile.putExtra("user", listarray.get(position));
+        startActivity(profile);
     }
 }
