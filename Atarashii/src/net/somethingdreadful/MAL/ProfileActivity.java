@@ -123,10 +123,10 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         if (prefs.getHideManga()) {
             mangacard.setVisibility(View.GONE);
         }
-        if (prefs.getHideAnimeManga() && record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
+        if (record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
             mangacard.setVisibility(View.GONE);
         }
-        if (prefs.getHideAnimeManga() && record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
+        if (record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
             animecard.setVisibility(View.GONE);
         }
         Card namecard = (Card) findViewById(R.id.name_card);
