@@ -1,6 +1,8 @@
 package net.somethingdreadful.MAL;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.method.LinkMovementMethod;
@@ -14,8 +16,8 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -237,23 +239,27 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             }
         }
 
-        image.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         Picasso.with(activity)
                 .load(record.getImageUrl())
                 .error(R.drawable.cover_error)
                 .placeholder(R.drawable.cover_loading)
-                .centerInside()
-                .fit()
-                .into(image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        cardMain.wrapWidth(false);
-                    }
+                .into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                cardMain.wrapWidth(bitmap.getWidth(), bitmap.getHeight());
+                image.setImageBitmap(bitmap);
+            }
 
-                    @Override
-                    public void onError() {
-                    }
-                });
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
         cardMain.Header.setText(record.getTitle());
 
         setCard();
