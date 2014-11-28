@@ -50,6 +50,7 @@ public class Card extends RelativeLayout {
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
         minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
+        int content = a.getResourceId(R.styleable.Card_card_content, 0);
 
         // Setup layout
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -66,6 +67,8 @@ public class Card extends RelativeLayout {
         Header.setText(TitleText);
         Header.setTextColor(getResources().getColor(TitleColor));
         setHeaderColor(HeaderColor);
+        if (content != 0)
+            setContent(content);
 
         a.recycle();
     }

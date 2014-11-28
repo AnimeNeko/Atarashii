@@ -29,34 +29,6 @@
         android:layout_margin="8dp"
         custom:header_Color="@color/card_red"
         custom:header_Title="@string/card_offline_title"
-        custom:header_Title_Color="@color/white">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- ignore lint here, its useless to put the text of this into a string resource -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text=":("
-                android:textSize="60sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="@string/card_offline_error" />
-
-            <Button
-                android:id="@+id/retry_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/card_offline_button_caption" />
-        </LinearLayout>
-    </net.somethingdreadful.MAL.Card>
+        custom:header_Title_Color="@color/white"
+        custom:card_content="@layout/card_network_connection" />
 </ViewFlipper>

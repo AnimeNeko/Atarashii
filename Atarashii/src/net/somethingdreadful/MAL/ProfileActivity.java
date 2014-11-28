@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Callback;
@@ -36,6 +37,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     Card animecard;
     Card mangacard;
     User record;
+    ViewFlipper viewFlipper;
 
     boolean forcesync = false;
 
@@ -57,12 +59,14 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         animecard.setContent(R.layout.card_profile_anime);
         mangacard = (Card) findViewById(R.id.Manga_card);
         mangacard.setContent(R.layout.card_profile_manga);
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         setTitle(R.string.title_activity_profile); //set title
 
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
             refresh(forcesync);
         } else {
+            toggleLoadingIndicator(true);
             new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
         }
 
@@ -187,6 +191,24 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         }
     }
 
+    /*
+     * handle the loading indicator
+     */
+    private void toggleLoadingIndicator(boolean show) {
+        if (viewFlipper != null) {
+            viewFlipper.setDisplayedChild(show ? 1 : 0);
+        }
+    }
+
+    /*
+     * handle the offline card
+     */
+    private void toggleNoNetworkCard(boolean show) {
+        if (viewFlipper != null) {
+            viewFlipper.setDisplayedChild(show ? 2 : 0);
+        }
+    }
+
     public void Settext() {
         TextView tv1 = (TextView) findViewById(R.id.birthdaysmall);
         if (record.getProfile().getDetails().getBirthday() == null) {
@@ -284,15 +306,17 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             Crouton.makeText(this, R.string.crouton_info_UserRecord_updated, Style.CONFIRM).show();
         }
         if (record == null) {
-            if (!MALApi.isNetworkAvailable(context)) {
-                Crouton.makeText(this, R.string.crouton_error_noUserRecord, Style.ALERT).show();
-            } else {
+            if (MALApi.isNetworkAvailable(context)) {
                 Crouton.makeText(this, R.string.crouton_error_UserRecord, Style.ALERT).show();
+            } else {
+                toggleNoNetworkCard(true);
+                Crouton.makeText(this, R.string.crouton_error_noUserRecord, Style.ALERT).show();
             }
         } else {
             card();
             Settext();
             setcolor();
+            toggleLoadingIndicator(false);
             Picasso.with(context).load(record.getProfile().getAvatarUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
