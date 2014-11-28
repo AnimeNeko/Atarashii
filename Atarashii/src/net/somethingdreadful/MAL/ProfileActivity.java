@@ -316,6 +316,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             card();
             Settext();
             setcolor();
+            toggleLoadingIndicator(false);
             Picasso.with(context).load(record.getProfile().getAvatarUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
@@ -329,7 +330,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                         public void onError() {
                         }
                     });
-            toggleLoadingIndicator(false);
         }
     }
 
