@@ -19,7 +19,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     ViewHolder viewHolder;
     public Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<String, ArrayList<RecordStub>>();
     public ArrayList<String> headers = new ArrayList<String>();
-    public int totalRecords;
+    public int visable;
 
     public DetailViewRelationsAdapter(Context context) {
         this.context = context;
@@ -31,7 +31,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     public void clear(){
         list.clear();
         headers.clear();
-        totalRecords = 0;
+        visable = 0;
     }
 
     /**
@@ -40,7 +40,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      * @param pos The position of the header that should collapse
      */
     public void collapse(int pos){
-        totalRecords = totalRecords - list.get(headers.get(pos)).size();
+        visable = visable - list.get(headers.get(pos)).size();
     }
 
     /**
@@ -49,7 +49,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      * @param pos The position of the header that should expand
      */
     public void expand(int pos){
-        totalRecords = totalRecords + list.get(headers.get(pos)).size();
+        visable = visable + list.get(headers.get(pos)).size();
     }
 
     /**
@@ -61,6 +61,24 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      */
     public RecordStub getRecordStub(int groupPos, int childPos) {
         return list.get(headers.get(groupPos)).get(childPos);
+    }
+
+    /**
+     * Add an item to the list.
+     *
+     * @param strings The arraylist of other titles
+     * @param header The text that the headers should use
+     */
+    public void addTitles(ArrayList<String> strings, String header) {
+        if (strings != null) {
+            ArrayList<RecordStub> records = new ArrayList<RecordStub>();
+            for (String stub : strings) {
+                RecordStub record = new RecordStub();
+                record.setTitle(stub);
+                records.add(record);
+            }
+            addRelations(records, header);
+        }
     }
 
     /**
@@ -87,7 +105,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
         if (recordStub != null && recordStub.size() != 0) {
             headers.add(header);
             list.put(header, recordStub);
-            totalRecords = totalRecords + 1;
+            visable = visable + 1;
         }
     }
 
