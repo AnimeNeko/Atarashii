@@ -173,22 +173,23 @@ public class Card extends RelativeLayout {
     /**
      * Wraps the width of a card
      *
-     * @param header This won't cut off the text in the header if it is true
+     * @param width  The width of the image in dp
+     * @param height The height of the image in dp
      */
-    public void wrapWidth(boolean header) {
+    public void wrapWidth(int width, int height) {
+        width = convert(width);
+        height = convert(height);
 
-        int width;
         Header.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
         Card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
         Content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 
-        if (Content.getMeasuredWidth() >= Header.getMeasuredWidth() || !header)
-            width = Content.getMeasuredWidth();
-        else
-            width = Header.getMeasuredWidth();
+        Header.getLayoutParams().width = width;
+        Card.getLayoutParams().width = width;
+        Card.getLayoutParams().height = height + convert(72);
+        Content.getLayoutParams().width = width;
+        Content.getLayoutParams().height = height;
 
-        Header.setLayoutParams(new LayoutParams(width, Header.getLayoutParams().height));
-        Card.setLayoutParams(new LayoutParams(width, Card.getMeasuredHeight()));
         if (center)
             Header.setGravity(Gravity.CENTER);
     }
