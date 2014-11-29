@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- Theme -->
     <style name="AtarashiiLightBg" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/bg_light</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
+    </style>
+
+    <!-- ActionBar Color -->
+    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/atarashii_blue</item>
     </style>
 </resources>
