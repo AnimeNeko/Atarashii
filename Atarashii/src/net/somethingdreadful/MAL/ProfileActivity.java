@@ -74,7 +74,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
 
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
-            refresh(forcesync);
+            refresh();
         } else {
             swipeRefresh.setEnabled(false);
             toggleLoadingIndicator(true);
@@ -106,8 +106,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 break;
             case R.id.forceSync:
                 if (MALApi.isNetworkAvailable(context)) {
-                    Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
-                    forcesync = true;
                     swipeRefresh.setEnabled(false);
                     swipeRefresh.setRefreshing(true);
                     String username;
@@ -115,7 +113,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                         username = record.getName();
                     else
                         username = getIntent().getStringExtra("username");
-                    new UserNetworkTask(context, forcesync, this).execute(username);
+                    new UserNetworkTask(context, true, this).execute(username);
                 } else {
                     Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
                 }
@@ -314,10 +312,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         }
     }
 
-    public void refresh(Boolean crouton) {
-        if (crouton) {
-            Crouton.makeText(this, R.string.crouton_info_UserRecord_updated, Style.CONFIRM).show();
-        }
+    public void refresh() {
         if (record == null) {
             if (MALApi.isNetworkAvailable(context)) {
                 Crouton.makeText(this, R.string.crouton_error_UserRecord, Style.ALERT).show();
@@ -407,7 +402,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     @Override
     public void onUserNetworkTaskFinished(User result) {
         record = result;
-        refresh(forcesync);
+        refresh();
         swipeRefresh.setEnabled(true);
         swipeRefresh.setRefreshing(false);
     }
