@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -32,7 +33,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
+public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
     Context context;
     PrefManager prefs;
     Card imagecard;
@@ -40,6 +41,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     Card mangacard;
     User record;
     ViewFlipper viewFlipper;
+    SwipeRefreshLayout swipeRefresh;
 
     boolean forcesync = false;
 
@@ -64,10 +66,17 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         setTitle(R.string.title_activity_profile); //set title
 
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
+
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
             refresh(forcesync);
         } else {
+            swipeRefresh.setEnabled(false);
             toggleLoadingIndicator(true);
             new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
         }
@@ -99,6 +108,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 if (MALApi.isNetworkAvailable(context)) {
                     Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
                     forcesync = true;
+                    swipeRefresh.setEnabled(false);
+                    swipeRefresh.setRefreshing(true);
                     String username;
                     if (record != null)
                         username = record.getName();
@@ -397,5 +408,18 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     public void onUserNetworkTaskFinished(User result) {
         record = result;
         refresh(forcesync);
+        swipeRefresh.setEnabled(true);
+        swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefresh.setEnabled(false);
+        String username;
+        if (record != null)
+            username = record.getName();
+        else
+            username = getIntent().getStringExtra("username");
+        new UserNetworkTask(context, true, this).execute(username);
     }
 }
