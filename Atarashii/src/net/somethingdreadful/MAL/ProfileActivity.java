@@ -288,19 +288,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         tv23.setText(String.valueOf(record.getProfile().getMangaStats().getPlanToRead()));
         TextView tv24 = (TextView) findViewById(R.id.mtotalentriessmall);
         tv24.setText(String.valueOf(record.getProfile().getMangaStats().getTotalEntries()));
-
-        if (tv36.getWidth() - tv25.getWidth() - tv25.getWidth() < 265) {
-            tv25.setTextSize(14);
-        }
-        if (tv36.getWidth() - tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 14) {
-            tv25.setTextSize(12);
-        }
-        if (tv36.getWidth() - tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 12) {
-            tv25.setTextSize(10);
-        }
-        if (tv36.getWidth() - tv25.getWidth() - tv25.getWidth() < 265 && tv25.getTextSize() == 10) {
-            tv25.setTextSize(8);
-        }
     }
 
     public void refresh(Boolean crouton) {
