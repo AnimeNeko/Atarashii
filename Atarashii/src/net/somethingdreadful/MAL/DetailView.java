@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -474,6 +475,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             case R.id.action_ViewMALPage:
                 Uri malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));
+                break;
+            case R.id.action_copy:
+                android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+                clipBoard.setPrimaryClip(clipData);
                 break;
         }
         return true;
