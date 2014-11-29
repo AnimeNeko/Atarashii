@@ -20,7 +20,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -50,7 +49,7 @@ import java.util.Collections;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemLongClickListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
+public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
 
     Context context;
     public ListType listType = ListType.ANIME; // just to have it proper initialized
@@ -94,7 +93,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
         viewflipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
         Gridview = (GridView) view.findViewById(R.id.gridview);
         Gridview.setOnItemClickListener(this);
-        Gridview.setOnItemLongClickListener(this);
         Gridview.setOnScrollListener(this);
 
         context = getActivity();
@@ -535,26 +533,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
     }
 
     /**
-     * Copy the anime title to the clipboard on long click.
-     */
-    @SuppressLint("NewApi")
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        Crouton.makeText(activity, R.string.crouton_info_Copied, Style.CONFIRM).show();
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-            android.text.ClipboardManager c = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            c.setText(gl.get(position).getTitle());
-        } else {
-            android.content.ClipboardManager c1 = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            android.content.ClipData c2;
-            c2 = android.content.ClipData.newPlainText("Atarashii", gl.get(position).getTitle());
-            c1.setPrimaryClip(c2);
-        }
-        return false;
-    }
-
-    /**
      * Set the username.
      *
      * @param username The username
@@ -655,6 +633,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemLongClickLi
                                                 setMarkAsComplete((Anime) record, null);
                                             else
                                                 setMarkAsComplete(null, (Manga) record);
+                                            break;
+                                        case R.id.action_copy:
+                                            android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                            android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", record.getTitle());
+                                            clipBoard.setPrimaryClip(clipData);
                                             break;
                                     }
                                     return true;

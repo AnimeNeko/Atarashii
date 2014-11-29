@@ -15,6 +15,10 @@
         android:title="@string/action_Remove"
         res-auto:showAsAction="never" />
     <item
+        android:id="@+id/action_copy"
+        android:title="@string/action_Copy"
+        res-auto:showAsAction="never" />
+    <item
         android:id="@+id/action_addToList"
         android:icon="@drawable/ic_action_add_to_list"
         android:title="@string/action_AddToList"
