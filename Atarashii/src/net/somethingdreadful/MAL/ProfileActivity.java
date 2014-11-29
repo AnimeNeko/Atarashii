@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -16,8 +18,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -53,7 +55,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         prefs = new PrefManager(context);
 
         imagecard = ((Card) findViewById(R.id.name_card));
-        imagecard.setContent(R.layout.card_profile_image);
+        imagecard.setContent(R.layout.card_image);
         ((Card) findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
         animecard = (Card) findViewById(R.id.Anime_card);
         animecard.setContent(R.layout.card_profile_anime);
@@ -317,19 +319,27 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             Settext();
             setcolor();
             toggleLoadingIndicator(false);
-            Picasso.with(context).load(record.getProfile().getAvatarUrl())
-                    .error(R.drawable.cover_error)
-                    .placeholder(R.drawable.cover_loading)
-                    .into((ImageView) findViewById(R.id.Image), new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            imagecard.wrapWidth(true);
-                        }
 
-                        @Override
-                        public void onError() {
-                        }
-                    });
+            Picasso.with(context)
+                    .load(record.getProfile()
+                    .getAvatarUrl())
+                    .into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    imagecard.wrapWidth(bitmap.getWidth(), bitmap.getHeight());
+                    ((ImageView) findViewById(R.id.Image)).setImageBitmap(bitmap);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
         }
     }
 
