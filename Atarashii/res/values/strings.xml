@@ -202,6 +202,7 @@
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
     <string name="action_Share">Share</string>
     <string name="action_Remove">Remove from list</string>
+    <string name="action_Copy">Copy title</string>
     <string name="action_AddToList">Add to list</string>
 
     <!-- DetailView (Media info) Strings -->

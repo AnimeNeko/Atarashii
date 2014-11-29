@@ -634,6 +634,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                                             else
                                                 setMarkAsComplete(null, (Manga) record);
                                             break;
+                                        case R.id.action_copy:
+                                            android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                            android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", record.getTitle());
+                                            clipBoard.setPrimaryClip(clipData);
+                                            break;
                                     }
                                     return true;
                                 }
