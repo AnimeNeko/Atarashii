@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -42,9 +43,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
-
 public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
     public ListType type;
@@ -60,6 +58,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     private ViewPager viewPager;
     private ViewFlipper viewFlipper;
     private Menu menu;
+    private Context context;
     private ArrayList<String> tabs = new ArrayList<String>();
 
     @Override
@@ -68,6 +67,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
         setContentView(R.layout.activity_detailview);
         actionBar = getSupportActionBar();
+        context = getApplicationContext();
         username = getIntent().getStringExtra("username");
         pref = new PrefManager(this);
         type = (ListType) getIntent().getSerializableExtra("recordType");
@@ -343,8 +343,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             if (isEmpty()) {
                 actionBar.setTitle("");
                 toggleNoNetworkCard(true);
-            } else {
-                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
         }
     }
@@ -416,10 +414,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             }
             mangaRecord.setVolumesRead(value2);
             mangaRecord.setDirty(true);
-        }
-
-        if (value2 == 9001 || value == 9001) {
-            Crouton.makeText(this, getString(R.string.crouton_info_Max_Counter), Style.INFO).show();
         }
 
         setText();
@@ -582,13 +576,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         } catch (ClassCastException e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             Crashlytics.logException(e);
-            Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
+            Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        Crouton.makeText(this, R.string.crouton_error_DetailsError, Style.ALERT).show();
+        Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
     }
 
     @Override

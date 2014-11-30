@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -36,9 +37,6 @@ import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
 
@@ -206,7 +204,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 }
                 break;
             case R.id.forceSync:
-                synctask(true, true);
+                synctask(true);
                 break;
             case R.id.menu_inverse:
                 if (af != null && mf != null) {
@@ -235,11 +233,11 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         unregisterReceiver(networkReceiver);
     }
 
-    public void synctask(boolean clear, boolean notify) {
+    public void synctask(boolean clear) {
         if (af != null && mf != null) {
             af.getRecords(clear, TaskJob.FORCESYNC, af.list);
             mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
-            syncNotify(notify);
+            syncNotify();
         }
     }
 
@@ -321,10 +319,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         finish();
     }
 
-    private void syncNotify(boolean showCrouton) {
-        if (showCrouton)
-            Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
-
+    private void syncNotify() {
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -333,7 +328,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.crouton_info_SyncMessage));
+                .setContentText(getString(R.string.toast_info_SyncMessage));
         Notification syncNotification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -353,11 +348,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     public void checkNetworkAndDisplayCrouton() {
-        if (!MALApi.isNetworkAvailable(context) && networkAvailable) {
-            Crouton.makeText(this, R.string.crouton_error_noConnectivityOnRun, Style.ALERT).show();
-        } else if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
-            Crouton.makeText(this, R.string.crouton_info_connectionRestored, Style.INFO).show();
-            synctask(false, true);
+        if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
+            synctask(false);
         }
         networkAvailable = MALApi.isNetworkAvailable(context);
     }
@@ -365,13 +357,13 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public void onRefresh() {
         if (networkAvailable)
-            synctask(false, false);
+            synctask(false);
         else {
             if (af != null && mf != null) {
                 af.toggleSwipeRefreshAnimation(false);
                 mf.toggleSwipeRefreshAnimation(false);
             }
-            Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+            Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -387,7 +379,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             if (af != null && mf != null) {
                 mPrefManager.setForceSync(false);
                 mPrefManager.commitChanges();
-                synctask(true, true);
+                synctask(true);
             }
         } else {
             if (igf.taskjob == null) {
@@ -416,16 +408,14 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Crouton.makeText(this, R.string.crouton_error_SyncFailed, Style.ALERT).show();
+                    Toast.makeText(context, R.string.toast_error_SyncFailed, Toast.LENGTH_SHORT).show();
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-                else // everything went well
-                    Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
+                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
             } else {
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Crouton.makeText(this, R.string.crouton_error_Records, Style.ALERT).show();
+                    Toast.makeText(context, R.string.toast_error_Records, Toast.LENGTH_SHORT).show();
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Crouton.makeText(this, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Style.ALERT).show();
+                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records, Toast.LENGTH_SHORT).show();
                 // no else here, there is nothing to be shown when everything went well
             }
         }
@@ -447,7 +437,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (!networkAvailable && position > 2) {
                 position = 1;
-                Crouton.makeText(Home.this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+                Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
             myList = ((position <= 2 && myList) || position == 1);
             myListChanged();

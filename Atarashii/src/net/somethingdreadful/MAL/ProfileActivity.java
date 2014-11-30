@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -30,9 +31,6 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import org.apache.commons.lang3.text.WordUtils;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
     Context context;
@@ -119,7 +117,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                         username = getIntent().getStringExtra("username");
                     new UserNetworkTask(context, true, this).execute(username);
                 } else {
-                    Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+                    Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.action_ViewMALPage:
@@ -294,10 +292,9 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     public void refresh() {
         if (record == null) {
             if (MALApi.isNetworkAvailable(context)) {
-                Crouton.makeText(this, R.string.crouton_error_UserRecord, Style.ALERT).show();
+                Toast.makeText(context, R.string.toast_error_UserRecord, Toast.LENGTH_SHORT).show();
             } else {
                 toggle(2);
-                Crouton.makeText(this, R.string.crouton_error_noUserRecord, Style.ALERT).show();
             }
         } else {
             card();

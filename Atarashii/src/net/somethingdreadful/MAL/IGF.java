@@ -25,6 +25,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -45,9 +46,6 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
 
@@ -372,16 +370,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
                 Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
-                    Crouton.makeText(activity, R.string.crouton_error_Search, Style.ALERT).show();
+                    Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
                 } else {
                     if (listType.equals(ListType.ANIME)) {
-                        Crouton.makeText(activity, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
+                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Anime_Sync, Toast.LENGTH_SHORT).show();
                     } else {
-                        Crouton.makeText(activity, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
+                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
-                Crouton.makeText(activity, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+                Toast.makeText(activity.getApplicationContext(), R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
         }
         loading = false;

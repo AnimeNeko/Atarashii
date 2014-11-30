@@ -188,7 +188,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
         if (record.getSynopsis() == null) {
             if (!MALApi.isNetworkAvailable(activity)) {
-                synopsis.setText(getString(R.string.crouton_error_noConnectivity));
+                synopsis.setText(getString(R.string.toast_error_noConnectivity));
             }
         } else {
             synopsis.setMovementMethod(LinkMovementMethod.getInstance());

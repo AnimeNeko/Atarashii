@@ -10,13 +10,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener {
     EditText malUser;
@@ -82,7 +80,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
             finish();
         } else {
             dialog.dismiss();
-            Crouton.makeText(this, R.string.crouton_error_VerifyProblem, Style.ALERT).show();
+            Toast.makeText(getApplicationContext(), R.string.toast_error_VerifyProblem, Toast.LENGTH_SHORT).show();
         }
     }
 }
