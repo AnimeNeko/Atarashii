@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -23,9 +24,6 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
 import java.util.ArrayList;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class FriendsActivity extends ActionBarActivity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
 
@@ -41,7 +39,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this.getApplicationContext();
+        context = getApplicationContext();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -59,7 +57,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
         swipeRefresh.setEnabled(true);
 
         toggle(1);
-        sync(true);
+        sync();
 
         NfcHelper.disableBeam(this);
     }
@@ -70,10 +68,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
         networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
-    public void refresh(Boolean crouton) {
-        if (crouton) {
-            Crouton.makeText(this, R.string.crouton_info_SyncDone, Style.CONFIRM).show();
-        }
+    public void refresh() {
         Gridview.setAdapter(listadapter);
         try {
             listadapter.supportAddAll(listarray);
@@ -99,7 +94,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
                 break;
             case R.id.forceSync:
                 forcesync = true;
-                sync(false);
+                sync();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -111,28 +106,25 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
             listarray = result;
             if (result.size() == 0 && !MALApi.isNetworkAvailable(context)) {
                 toggle(2);
-                Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             } else {
-                refresh(forcesync); // show crouton only if sync was forced
+                refresh(); // show crouton only if sync was forced
             }
         } else {
-            Crouton.makeText(this, R.string.crouton_error_Friends, Style.ALERT).show();
+            Toast.makeText(context, R.string.crouton_error_Friends, Toast.LENGTH_SHORT).show();
         }
         swipeRefresh.setEnabled(true);
         swipeRefresh.setRefreshing(false);
     }
 
-    public void sync(Boolean swipe) {
+    public void sync() {
         swipeRefresh.setEnabled(false);
-        if (!swipe)
-            Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
         new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
     }
 
     @Override
     public void onRefresh() {
         forcesync = true;
-        sync(true);
+        sync();
     }
 
     @Override
