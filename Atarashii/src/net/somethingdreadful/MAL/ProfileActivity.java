@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -42,6 +43,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     User record;
     ViewFlipper viewFlipper;
     SwipeRefreshLayout swipeRefresh;
+    ProgressBar progressBar;
+    Card networkCard;
 
     boolean forcesync = false;
 
@@ -63,7 +66,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         animecard.setContent(R.layout.card_profile_anime);
         mangacard = (Card) findViewById(R.id.Manga_card);
         mangacard.setContent(R.layout.card_profile_manga);
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        networkCard = (Card) findViewById(R.id.network_Card);
         setTitle(R.string.title_activity_profile); //set title
 
 
@@ -77,7 +81,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             refresh();
         } else {
             swipeRefresh.setEnabled(false);
-            toggleLoadingIndicator(true);
+            toggle(1);
             new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
         }
 
@@ -202,22 +206,10 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         }
     }
 
-    /*
-     * handle the loading indicator
-     */
-    private void toggleLoadingIndicator(boolean show) {
-        if (viewFlipper != null) {
-            viewFlipper.setDisplayedChild(show ? 1 : 0);
-        }
-    }
-
-    /*
-     * handle the offline card
-     */
-    private void toggleNoNetworkCard(boolean show) {
-        if (viewFlipper != null) {
-            viewFlipper.setDisplayedChild(show ? 2 : 0);
-        }
+    private void toggle(int number) {
+        swipeRefresh.setVisibility(number == 0 ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(number == 1 ? View.VISIBLE : View.GONE);
+        networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
     public void Settext() {
@@ -304,14 +296,14 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             if (MALApi.isNetworkAvailable(context)) {
                 Crouton.makeText(this, R.string.crouton_error_UserRecord, Style.ALERT).show();
             } else {
-                toggleNoNetworkCard(true);
+                toggle(2);
                 Crouton.makeText(this, R.string.crouton_error_noUserRecord, Style.ALERT).show();
             }
         } else {
             card();
             Settext();
             setcolor();
-            toggleLoadingIndicator(false);
+            toggle(0);
 
             Picasso.with(context)
                     .load(record.getProfile()
