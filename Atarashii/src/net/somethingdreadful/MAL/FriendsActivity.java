@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ViewFlipper;
+import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -33,8 +33,9 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     ArrayList<User> listarray = new ArrayList<User>();
     FriendsGridviewAdapter<User> listadapter;
     GridView Gridview;
-    ViewFlipper viewFlipper;
     SwipeRefreshLayout swipeRefresh;
+    ProgressBar progressBar;
+    Card networkCard;
     boolean forcesync = false;
 
     @Override
@@ -49,35 +50,24 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
 
         Gridview = (GridView) findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        networkCard = (Card) findViewById(R.id.network_Card);
         listadapter = new FriendsGridviewAdapter<User>(context, listarray);
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
-        toggleLoadingIndicator(true);
+        toggle(1);
         sync(true);
 
         NfcHelper.disableBeam(this);
     }
 
-    /*
-     * handle the loading indicator
-     */
-    private void toggleLoadingIndicator(boolean show) {
-        if (viewFlipper != null) {
-            viewFlipper.setDisplayedChild(show ? 1 : 0);
-        }
-    }
-
-    /*
-     * handle the offline card
-     */
-    private void toggleNoNetworkCard(boolean show) {
-        if (viewFlipper != null) {
-            viewFlipper.setDisplayedChild(show ? 2 : 0);
-        }
+    private void toggle(int number) {
+        swipeRefresh.setVisibility(number == 0 ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(number == 1 ? View.VISIBLE : View.GONE);
+        networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
     public void refresh(Boolean crouton) {
@@ -92,7 +82,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
             Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.refresh(): " + e.getMessage());
         }
         listadapter.notifyDataSetChanged();
-        toggleLoadingIndicator(false);
+        toggle(0);
     }
 
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -119,11 +109,12 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {
             listarray = result;
-            if (listarray.size() == 0) {
-                toggleNoNetworkCard(true);
+            if (result.size() == 0 && !MALApi.isNetworkAvailable(context)) {
+                toggle(2);
                 Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
+            } else {
+                refresh(forcesync); // show crouton only if sync was forced
             }
-            refresh(forcesync); // show crouton only if sync was forced
         } else {
             Crouton.makeText(this, R.string.crouton_error_Friends, Style.ALERT).show();
         }
@@ -133,16 +124,9 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
 
     public void sync(Boolean swipe) {
         swipeRefresh.setEnabled(false);
-        if (MALApi.isNetworkAvailable(context)) {
-            if (!swipe)
-                Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
-            new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
-        } else {
-            swipeRefresh.setRefreshing(false);
-            Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
-            toggleNoNetworkCard(true);
-            swipeRefresh.setEnabled(true);
-        }
+        if (!swipe)
+            Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
+        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
     }
 
     @Override
