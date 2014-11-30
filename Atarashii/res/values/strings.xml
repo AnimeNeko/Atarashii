@@ -94,8 +94,8 @@
     <string name="access_rank_atarashii_developer">Atarashii developer</string>
     <string name="layout_card_anime_views">Animelist views</string>
     <string name="layout_card_manga_views">Mangalist views</string>
-    <string name="layout_card_anime_details">Anime details</string>
-    <string name="layout_card_manga_details">Manga details</string>
+    <string name="layout_card_anime_details">Anime Details</string>
+    <string name="layout_card_manga_details">Manga Details</string>
     <string name="layout_card_anime_time">Time days</string>
     <string name="layout_card_anime_watching">Watching</string>
     <string name="layout_card_anime_completed">Completed</string>
@@ -155,14 +155,14 @@
     <string name="tab_name_details">Details</string>
 
     <!-- DetailView (Card names) Strings -->
-    <string name="card_name_synopsis">SYNOPSIS</string>
-    <string name="card_name_progress">PROGRESS</string>
-    <string name="card_name_stats">MAL STATS</string>
-    <string name="card_name_info">MAL INFO</string>
-    <string name="card_name_rating">RATING</string>
-    <string name="card_name_personal">PERSONAL</string>
-    <string name="card_name_relations">RELATIONS</string>
-    <string name="card_name_titles">ALTERNATIVE TITLES</string>
+    <string name="card_name_synopsis">Synopsis</string>
+    <string name="card_name_progress">Progress</string>
+    <string name="card_name_stats">MAL Stats</string>
+    <string name="card_name_info">MAL Info</string>
+    <string name="card_name_rating">Rating</string>
+    <string name="card_name_personal">Personal</string>
+    <string name="card_name_relations">Relations</string>
+    <string name="card_name_titles">Alternative Titles</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
