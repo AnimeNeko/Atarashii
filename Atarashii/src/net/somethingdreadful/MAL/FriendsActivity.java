@@ -119,7 +119,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {
             listarray = result;
-            if (listarray.size() == 0) {
+            if (result.size() == 0 && !MALApi.isNetworkAvailable(context)) {
                 toggleNoNetworkCard(true);
                 Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
             }
@@ -133,16 +133,9 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
 
     public void sync(Boolean swipe) {
         swipeRefresh.setEnabled(false);
-        if (MALApi.isNetworkAvailable(context)) {
-            if (!swipe)
-                Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
-            new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
-        } else {
-            swipeRefresh.setRefreshing(false);
-            Crouton.makeText(this, R.string.crouton_error_noConnectivity, Style.ALERT).show();
-            toggleNoNetworkCard(true);
-            swipeRefresh.setEnabled(true);
-        }
+        if (!swipe)
+            Crouton.makeText(this, R.string.crouton_info_SyncMessage, Style.INFO).show();
+        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
     }
 
     @Override
