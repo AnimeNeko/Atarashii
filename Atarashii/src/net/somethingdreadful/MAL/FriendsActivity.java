@@ -107,10 +107,10 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
             if (result.size() == 0 && !MALApi.isNetworkAvailable(context)) {
                 toggle(2);
             } else {
-                refresh(); // show crouton only if sync was forced
+                refresh(); // show toast only if sync was forced
             }
         } else {
-            Toast.makeText(context, R.string.crouton_error_Friends, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.toast_error_Friends, Toast.LENGTH_SHORT).show();
         }
         swipeRefresh.setEnabled(true);
         swipeRefresh.setRefreshing(false);

@@ -80,7 +80,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
             finish();
         } else {
             dialog.dismiss();
-            Toast.makeText(getApplicationContext(), R.string.crouton_error_VerifyProblem, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.toast_error_VerifyProblem, Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -328,7 +328,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.crouton_info_SyncMessage));
+                .setContentText(getString(R.string.toast_info_SyncMessage));
         Notification syncNotification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -363,7 +363,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 af.toggleSwipeRefreshAnimation(false);
                 mf.toggleSwipeRefreshAnimation(false);
             }
-            Toast.makeText(context, R.string.crouton_error_noConnectivity, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -408,14 +408,14 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Toast.makeText(context, R.string.crouton_error_SyncFailed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.toast_error_SyncFailed, Toast.LENGTH_SHORT).show();
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Toast.makeText(context, callbackAnimeError ? R.string.crouton_error_Anime_Sync : R.string.crouton_error_Manga_Sync, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
             } else {
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Toast.makeText(context, R.string.crouton_error_Records, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.toast_error_Records, Toast.LENGTH_SHORT).show();
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Toast.makeText(context, callbackAnimeError ? R.string.crouton_error_Anime_Records : R.string.crouton_error_Manga_Records, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records, Toast.LENGTH_SHORT).show();
                 // no else here, there is nothing to be shown when everything went well
             }
         }
@@ -437,7 +437,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (!networkAvailable && position > 2) {
                 position = 1;
-                Toast.makeText(context, R.string.crouton_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
             myList = ((position <= 2 && myList) || position == 1);
             myListChanged();

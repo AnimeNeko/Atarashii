@@ -576,13 +576,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         } catch (ClassCastException e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             Crashlytics.logException(e);
-            Toast.makeText(context, R.string.crouton_error_DetailsError, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        Toast.makeText(context, R.string.crouton_error_DetailsError, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
     }
 
     @Override

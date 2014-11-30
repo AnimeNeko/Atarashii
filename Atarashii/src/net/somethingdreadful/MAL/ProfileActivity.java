@@ -117,7 +117,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                         username = getIntent().getStringExtra("username");
                     new UserNetworkTask(context, true, this).execute(username);
                 } else {
-                    Toast.makeText(context, R.string.crouton_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.action_ViewMALPage:
@@ -292,7 +292,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     public void refresh() {
         if (record == null) {
             if (MALApi.isNetworkAvailable(context)) {
-                Toast.makeText(context, R.string.crouton_error_UserRecord, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.toast_error_UserRecord, Toast.LENGTH_SHORT).show();
             } else {
                 toggle(2);
             }

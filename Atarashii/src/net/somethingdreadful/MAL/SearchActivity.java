@@ -146,11 +146,11 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
             callbackCounter = 0;
 
             if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                Toast.makeText(getApplicationContext(), R.string.crouton_error_Search, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
             else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                Toast.makeText(getApplicationContext(), callbackAnimeError ? R.string.crouton_error_Search_Anime : R.string.crouton_error_Search_Manga, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), callbackAnimeError ? R.string.toast_error_Search_Anime : R.string.toast_error_Search_Manga, Toast.LENGTH_SHORT).show();
             else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
-                Toast.makeText(getApplicationContext(), R.string.crouton_error_nothingFound, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_error_nothingFound, Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -370,16 +370,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
                 Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
-                    Toast.makeText(activity.getApplicationContext(), R.string.crouton_error_Search, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
                 } else {
                     if (listType.equals(ListType.ANIME)) {
-                        Toast.makeText(activity.getApplicationContext(), R.string.crouton_error_Anime_Sync, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Anime_Sync, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(activity.getApplicationContext(), R.string.crouton_error_Manga_Sync, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
-                Toast.makeText(activity.getApplicationContext(), R.string.crouton_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getApplicationContext(), R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
         }
         loading = false;
