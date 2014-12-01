@@ -308,7 +308,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                     .into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    imagecard.wrapWidth(bitmap.getWidth(), bitmap.getHeight());
+                    imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
                     ((ImageView) findViewById(R.id.Image)).setImageBitmap(bitmap);
                 }
 

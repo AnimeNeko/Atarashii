@@ -178,7 +178,7 @@ public class Card extends RelativeLayout {
      * @param width  The width of the image in dp
      * @param height The height of the image in dp
      */
-    public void wrapWidth(int width, int height) {
+    public void wrapImage(int width, int height) {
         width = convert(width);
         height = convert(height);
 
