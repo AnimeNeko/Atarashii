@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,14 +21,15 @@ import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 public class Card extends RelativeLayout {
     public boolean center;
     public TextView Header;
+    public ImageView Image;
     public CardView Card;
     public RelativeLayout Content;
 
-    int screenWidth;
-    int minHeight;
-    Float density;
+    private int screenWidth;
+    private int minHeight;
+    private Float density;
+    private LayoutInflater inflater;
 
-    LayoutInflater inflater;
     onCardClickListener listener;
 
     public Card(Context context) {
@@ -176,19 +178,21 @@ public class Card extends RelativeLayout {
      * @param width  The width of the image in dp
      * @param height The height of the image in dp
      */
-    public void wrapWidth(int width, int height) {
+    public void wrapImage(int width, int height) {
         width = convert(width);
         height = convert(height);
 
-        Header.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-        Card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-        Content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+        setPadding(16);
 
-        Header.getLayoutParams().width = width;
-        Card.getLayoutParams().width = width;
-        Card.getLayoutParams().height = height + convert(72);
-        Content.getLayoutParams().width = width;
-        Content.getLayoutParams().height = height;
+        Header.getLayoutParams().width = width  + convert(32);
+        Card.getLayoutParams().width = width  + convert(36) - 1;
+        Card.getLayoutParams().height = height + convert(98) - 1;
+
+        if (Image == null)
+            Image = (ImageView) findViewById(R.id.Image);
+
+        Image.getLayoutParams().height = height;
+        Image.getLayoutParams().width = width;
 
         if (center)
             Header.setGravity(Gravity.CENTER);

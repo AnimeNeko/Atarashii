@@ -246,7 +246,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 .into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                cardMain.wrapWidth(bitmap.getWidth(), bitmap.getHeight());
+                cardMain.wrapImage(bitmap.getWidth(), bitmap.getHeight());
                 image.setImageBitmap(bitmap);
             }
 
