@@ -182,17 +182,17 @@ public class Card extends RelativeLayout {
         width = convert(width);
         height = convert(height);
 
-        Header.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-        Card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-        Content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+        setPadding(16);
 
-        Header.getLayoutParams().width = width;
-        Card.getLayoutParams().width = width;
-        Card.getLayoutParams().height = height + convert(72);
-        Content.getLayoutParams().width = width;
-        Content.getLayoutParams().height = height;
+        Header.getLayoutParams().width = width  + convert(32);
+        Card.getLayoutParams().width = width  + convert(36) - 1;
+        Card.getLayoutParams().height = height + convert(98) - 1;
+
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
+
+        Image.getLayoutParams().height = height;
+        Image.getLayoutParams().width = width;
 
         if (center)
             Header.setGravity(Gravity.CENTER);
