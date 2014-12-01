@@ -25,11 +25,11 @@ public class Card extends RelativeLayout {
     public CardView Card;
     public RelativeLayout Content;
 
-    int screenWidth;
-    int minHeight;
-    Float density;
+    private int screenWidth;
+    private int minHeight;
+    private Float density;
+    private LayoutInflater inflater;
 
-    LayoutInflater inflater;
     onCardClickListener listener;
 
     public Card(Context context) {
