@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 public class Card extends RelativeLayout {
     public boolean center;
     public TextView Header;
+    public ImageView Image;
     public CardView Card;
     public RelativeLayout Content;
 
@@ -189,6 +191,8 @@ public class Card extends RelativeLayout {
         Card.getLayoutParams().height = height + convert(72);
         Content.getLayoutParams().width = width;
         Content.getLayoutParams().height = height;
+        if (Image == null)
+            Image = (ImageView) findViewById(R.id.Image);
 
         if (center)
             Header.setGravity(Gravity.CENTER);
