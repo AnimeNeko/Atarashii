@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen
-        android:id="@+id/Listsettings"
-        android:title="@string/preference_category_list">
+    <PreferenceCategory android:title="@string/preference_category_list">
         <ListPreference
             android:dialogTitle="@string/dialog_DefaultList"
             android:entries="@array/listTypeArray"
@@ -19,8 +17,8 @@
             android:key="displayVolumes"
             android:summary="@string/preference_summary_displayVolumes"
             android:title="@string/preference_displayVolumes" />
-    </PreferenceScreen>
-    <PreferenceScreen
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="Profile settings"
         android:title="@string/preference_category_profile">
         <CheckBoxPreference
@@ -38,8 +36,8 @@
             android:key="M_hide"
             android:summary="@string/preference_summary_profileMangaHide"
             android:title="@string/preference_profileMangaHide" />
-    </PreferenceScreen>
-    <PreferenceScreen
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="Synchronisation settings"
         android:title="@string/preference_category_synchronisation">
         <CheckBoxPreference
@@ -56,7 +54,7 @@
             android:key="synchronisation_time"
             android:summary="@string/preference_summary_autosync"
             android:title="@string/preference_autosync" />
-    </PreferenceScreen>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_sharing">
         <EditTextPreference
             android:defaultValue="@string/preference_default_customShareText"
@@ -64,11 +62,13 @@
             android:summary="@string/preference_summary_customShareText"
             android:title="@string/preference_customShareText" />
     </PreferenceCategory>
-    <ListPreference
-        android:dialogTitle="@string/preference_language"
-        android:entries="@array/localeArray"
-        android:entryValues="@array/localeValuesArray"
-        android:key="locale"
-        android:summary="@string/preference_summary_Language"
-        android:title="@string/preference_title_language" />
+    <PreferenceCategory android:title="@string/preference_category_language_title">
+        <ListPreference
+            android:dialogTitle="@string/preference_language"
+            android:entries="@array/localeArray"
+            android:entryValues="@array/localeValuesArray"
+            android:key="locale"
+            android:summary="@string/preference_summary_Language"
+            android:title="@string/preference_title_language" />
+    </PreferenceCategory>
 </PreferenceScreen>

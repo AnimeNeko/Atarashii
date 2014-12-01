@@ -285,6 +285,7 @@
     <string name="preference_displayVolumes">Use Volumes on Covers</string>
     <string name="preference_autosync">Auto-sync interval</string>
     <string name="preference_language">Change the language into</string>
+    <string name="preference_category_language_title">Language</string>
     <string name="preference_title_language">Change the language</string>
     <string name="preference_profileTextColors">Disable text colours</string>
     <string name="preference_profileAnimeHide">Hide always anime details</string>
