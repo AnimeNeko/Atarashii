@@ -27,8 +27,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        custom:card_content="@layout/card_network_connection"
         custom:header_Color="@color/card_red"
         custom:header_Title="@string/card_offline_title"
-        custom:header_Title_Color="@color/white"
-        custom:card_content="@layout/card_network_connection" />
+        custom:header_Title_Color="@color/white" />
 </ViewFlipper>
