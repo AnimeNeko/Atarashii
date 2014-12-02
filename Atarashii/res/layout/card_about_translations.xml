@@ -6,8 +6,8 @@
         android:id="@+id/translations_card_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/translations"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:text="@string/translations" />
 
     <TextView
         android:id="@+id/notlisted"

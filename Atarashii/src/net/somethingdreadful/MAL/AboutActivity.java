@@ -36,7 +36,7 @@ public class AboutActivity extends ActionBarActivity {
         NfcHelper.disableBeam(this);
     }
 
-    public void createLinks(TextView textView){
+    public void createLinks(TextView textView) {
         textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

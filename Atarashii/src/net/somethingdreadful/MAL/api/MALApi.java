@@ -50,6 +50,20 @@ public class MALApi {
         setupRESTService(username, password);
     }
 
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static String getListTypeString(ListType type) {
+        return type.name().toLowerCase();
+    }
+
     private void setupRESTService(String username, String password) {
         DefaultHttpClient client = new DefaultHttpClient();
         HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
@@ -66,20 +80,6 @@ public class MALApi {
                 .setConverter(new GsonConverter(gson))
                 .build();
         service = restAdapter.create(MALInterface.class);
-    }
-
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static String getListTypeString(ListType type) {
-        return type.name().toLowerCase();
     }
 
     public boolean isAuth() {

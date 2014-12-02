@@ -244,22 +244,22 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 .error(R.drawable.cover_error)
                 .placeholder(R.drawable.cover_loading)
                 .into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                cardMain.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                image.setImageBitmap(bitmap);
-            }
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        cardMain.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                        image.setImageBitmap(bitmap);
+                    }
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
 
-            }
+                    }
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-            }
-        });
+                    }
+                });
         cardMain.Header.setText(record.getTitle());
 
         setCard();

@@ -12,8 +12,8 @@ import android.preference.PreferenceManager;
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private Context context;
     PrefManager Prefs;
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
