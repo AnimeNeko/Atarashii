@@ -93,6 +93,10 @@ public class Anime extends GenericRecord implements Serializable {
         return classification;
     }
 
+    public void setClassification(String classification) {
+        this.classification = classification;
+    }
+
     public Integer getClassificationInt() {
         String[] classification = {
                 "G - All Ages",
@@ -103,10 +107,6 @@ public class Anime extends GenericRecord implements Serializable {
                 "Rx - Hentai"
         };
         return Arrays.asList(classification).indexOf(getClassification());
-    }
-
-    public void setClassification(String classification) {
-        this.classification = classification;
     }
 
     public int getListedId() {

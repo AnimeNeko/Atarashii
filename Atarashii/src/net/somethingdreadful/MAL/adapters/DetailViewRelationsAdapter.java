@@ -15,11 +15,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
-    private Context context;
-    ViewHolder viewHolder;
     public Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<String, ArrayList<RecordStub>>();
     public ArrayList<String> headers = new ArrayList<String>();
     public int visable;
+    ViewHolder viewHolder;
+    private Context context;
 
     public DetailViewRelationsAdapter(Context context) {
         this.context = context;
@@ -28,7 +28,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     /**
      * Clear all the lists.
      */
-    public void clear(){
+    public void clear() {
         list.clear();
         headers.clear();
         visable = 0;
@@ -39,7 +39,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      *
      * @param pos The position of the header that should collapse
      */
-    public void collapse(int pos){
+    public void collapse(int pos) {
         visable = visable - list.get(headers.get(pos)).size();
     }
 
@@ -48,7 +48,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      *
      * @param pos The position of the header that should expand
      */
-    public void expand(int pos){
+    public void expand(int pos) {
         visable = visable + list.get(headers.get(pos)).size();
     }
 
@@ -67,7 +67,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      * Add an item to the list.
      *
      * @param strings The arraylist of other titles
-     * @param header The text that the headers should use
+     * @param header  The text that the headers should use
      */
     public void addTitles(ArrayList<String> strings, String header) {
         if (strings != null) {
@@ -85,7 +85,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      * Add an item to the list.
      *
      * @param recordStub The record item
-     * @param header The text that the headers should use
+     * @param header     The text that the headers should use
      */
     public void addRelations(RecordStub recordStub, String header) {
         if (recordStub != null) {
@@ -99,7 +99,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      * Add an arraylist of items to the list.
      *
      * @param recordStub The arraylist record items
-     * @param header The text that the headers should use
+     * @param header     The text that the headers should use
      */
     public void addRelations(ArrayList<RecordStub> recordStub, String header) {
         if (recordStub != null && recordStub.size() != 0) {

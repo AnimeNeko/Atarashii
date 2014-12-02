@@ -25,12 +25,11 @@ public class Card extends RelativeLayout {
     public CardView Card;
     public RelativeLayout Content;
 
+    onCardClickListener listener;
     private int screenWidth;
     private int minHeight;
     private Float density;
     private LayoutInflater inflater;
-
-    onCardClickListener listener;
 
     public Card(Context context) {
         this(context, null);
@@ -112,7 +111,7 @@ public class Card extends RelativeLayout {
     /**
      * Recalculate the required height of a listview and apply it.
      *
-     * @param adapter      The listadapter
+     * @param adapter The listadapter
      */
     public void refreshList(DetailViewRelationsAdapter adapter) {
         if (adapter.visable == 0) {
@@ -184,8 +183,8 @@ public class Card extends RelativeLayout {
 
         setPadding(16);
 
-        Header.getLayoutParams().width = width  + convert(32);
-        Card.getLayoutParams().width = width  + convert(36) - 1;
+        Header.getLayoutParams().width = width + convert(32);
+        Card.getLayoutParams().width = width + convert(36) - 1;
         Card.getLayoutParams().height = height + convert(98) - 1;
 
         if (Image == null)
@@ -267,13 +266,6 @@ public class Card extends RelativeLayout {
         return screenWidth;
     }
 
-    /**
-     * The Interface that will get triggered by the OnClick method.
-     */
-    public interface onCardClickListener {
-        public void onCardClickListener(int id);
-    }
-
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         if (Content != null) {
@@ -281,5 +273,12 @@ public class Card extends RelativeLayout {
         } else {
             super.addView(child, index, params);
         }
+    }
+
+    /**
+     * The Interface that will get triggered by the OnClick method.
+     */
+    public interface onCardClickListener {
+        public void onCardClickListener(int id);
     }
 }

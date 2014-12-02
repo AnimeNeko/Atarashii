@@ -15,16 +15,15 @@ public class Manga extends GenericRecord implements Serializable {
     public static final String STATUS_READING = "reading";
     public static final String STATUS_PLANTOREAD = "plan to read";
 
+    ArrayList<RecordStub> alternative_versions;
+    ArrayList<RecordStub> related_manga;
+    ArrayList<RecordStub> anime_adaptations;
     private int chapters;
     private int volumes;
     private String read_status;
     private int chapters_read;
     private int volumes_read;
     private int listed_manga_id;
-    ArrayList<RecordStub> alternative_versions;
-    ArrayList<RecordStub> related_manga;
-    ArrayList<RecordStub> anime_adaptations;
-
 
     public static Manga fromCursor(Cursor c) {
         Manga result = new Manga();

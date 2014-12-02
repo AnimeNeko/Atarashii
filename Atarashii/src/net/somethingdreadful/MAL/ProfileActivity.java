@@ -306,22 +306,22 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                     .load(record.getProfile()
                     .getAvatarUrl())
                     .into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                    ((ImageView) findViewById(R.id.Image)).setImageBitmap(bitmap);
-                }
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                            ((ImageView) findViewById(R.id.Image)).setImageBitmap(bitmap);
+                        }
 
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
 
-                }
+                        }
 
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                }
-            });
+                        }
+                    });
         }
     }
 

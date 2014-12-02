@@ -213,7 +213,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         return true;
     }
 
-    public void clickListeners(){
+    public void clickListeners() {
         titles.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int i) {
