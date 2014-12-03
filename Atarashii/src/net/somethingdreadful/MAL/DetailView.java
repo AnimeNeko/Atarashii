@@ -96,7 +96,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             if (general != null) {
                 general.setText();
             }
-            if (details != null) {
+            if (details != null && !isEmpty()) {
                 details.setText();
             }
             if (!isEmpty()) {
