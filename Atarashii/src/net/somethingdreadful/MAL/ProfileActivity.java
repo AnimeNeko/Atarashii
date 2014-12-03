@@ -300,7 +300,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             card();
             Settext();
             setcolor();
-            toggle(0);
 
             Picasso.with(context)
                     .load(record.getProfile()
@@ -310,11 +309,12 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                             imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
                             ((ImageView) findViewById(R.id.Image)).setImageBitmap(bitmap);
+                            toggle(0);
                         }
 
                         @Override
                         public void onBitmapFailed(Drawable errorDrawable) {
-
+                            toggle(0);
                         }
 
                         @Override

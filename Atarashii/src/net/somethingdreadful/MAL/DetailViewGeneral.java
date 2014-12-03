@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -241,8 +242,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
         Picasso.with(activity)
                 .load(record.getImageUrl())
-                .error(R.drawable.cover_error)
-                .placeholder(R.drawable.cover_loading)
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -252,12 +251,16 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
-
+                        BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.cover_error);
+                        cardMain.wrapImage(225, 320);
+                        image.setImageBitmap(bitmap.getBitmap());
                     }
 
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+                        BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.cover_loading);
+                        cardMain.wrapImage(225, 320);
+                        image.setImageBitmap(bitmap.getBitmap());
                     }
                 });
         cardMain.Header.setText(record.getTitle());
