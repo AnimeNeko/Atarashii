@@ -23,15 +23,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
     public SwipeRefreshLayout swipeRefresh;
     DetailView activity;
-
     View view;
 
     Card cardSynopsis;
-
     Card cardMediainfo;
     Card cardMediaStats;
     Card cardRelations;
     Card cardTitles;
+    Card cardNetwork;
 
     TextView synopsis;
     TextView type;
@@ -67,7 +66,30 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
         if (activity.isDone())
             setText();
+        else if (!MALApi.isNetworkAvailable(activity))
+            toggleView(false);
         return view;
+    }
+
+    /*
+     * The scrollview bugs when you use viewflipper in it!
+     */
+    public void toggleView(Boolean show) {
+        if (show) {
+            cardSynopsis.setVisibility(View.VISIBLE);
+            cardMediainfo.setVisibility(View.VISIBLE);
+            cardMediaStats.setVisibility(View.VISIBLE);
+            cardRelations.setVisibility(View.VISIBLE);
+            cardTitles.setVisibility(View.VISIBLE);
+            cardNetwork.setVisibility(View.GONE);
+        } else {
+            cardSynopsis.setVisibility(View.GONE);
+            cardMediainfo.setVisibility(View.GONE);
+            cardMediaStats.setVisibility(View.GONE);
+            cardRelations.setVisibility(View.GONE);
+            cardTitles.setVisibility(View.GONE);
+            cardNetwork.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -88,6 +110,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardMediaStats = (Card) view.findViewById(R.id.mediastats);
         cardRelations = (Card) view.findViewById(R.id.relations);
         cardTitles = (Card) view.findViewById(R.id.titles);
+        cardNetwork = (Card) view.findViewById(R.id.network_Card);
 
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_details_mediainfo);
@@ -141,6 +164,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     public void setText() {
         if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
             return;
+        else
+            toggleView(true);
+
         GenericRecord record;
         record = (activity.type.equals(MALApi.ListType.ANIME) ? activity.animeRecord : activity.mangaRecord);
         activity.setMenu();
