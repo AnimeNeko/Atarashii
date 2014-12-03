@@ -162,13 +162,11 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
      * Place all the text in the right textview
      */
     public void setText() {
-        if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
+        GenericRecord record = (activity.type.equals(MALApi.ListType.ANIME) ? activity.animeRecord : activity.mangaRecord);
+        if (record.getSynopsis() == null)
             return;
-        else
-            toggleView(true);
 
-        GenericRecord record;
-        record = (activity.type.equals(MALApi.ListType.ANIME) ? activity.animeRecord : activity.mangaRecord);
+        toggleView(true);
         activity.setMenu();
 
         synopsis.setText(record.getSpannedSynopsis());
