@@ -498,8 +498,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     mf.getRecords(true, TaskJob.GETLIST, mf.list);
                     break;
                 case 1:
-                    Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                    Profile.putExtra("username", AccountService.getUsername(context));
+                    Intent Profile = new Intent(context, ProfileActivity.class);
+                    Profile.putExtra("username", username);
                     startActivity(Profile);
                     break;
                 case 2:
