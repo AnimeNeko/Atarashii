@@ -113,9 +113,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             // Creates the adapter to return the Animu and Mango fragments
             mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
 
-            DrawerLayout.setDrawerListener(new DemoDrawerListener());
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
             username = AccountService.getUsername(context);
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
@@ -535,7 +535,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         }
     }
 
-    private class DemoDrawerListener implements DrawerLayout.DrawerListener {
+    private class DrawerListener implements DrawerLayout.DrawerListener {
         @Override
         public void onDrawerOpened(View drawerView) {
             mDrawerToggle.onDrawerOpened(drawerView);
