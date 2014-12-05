@@ -473,7 +473,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onUserNetworkTaskFinished(User result) {
-        Picasso.with(context).load(result.getProfile().getAvatarUrl()).into((ImageView) findViewById(R.id.Image));
+        Picasso.with(context)
+                .load(result.getProfile().getAvatarUrl())
+                .transform(new RoundedTransformation(128, result.getName()))
+                .into((ImageView) findViewById(R.id.Image));
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
