@@ -457,7 +457,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onClick(View v) {
-        DrawerLayout.closeDrawers();
         switch (v.getId()) {
             case R.id.logout:
                 showLogoutDialog();
@@ -469,6 +468,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
         }
+        DrawerLayout.closeDrawers();
     }
 
     @Override
