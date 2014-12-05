@@ -131,7 +131,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         pref = new PrefManager(context);
         useSecondaryAmounts = pref.getUseSecondaryAmountsEnabled();
         if (pref.getTraditionalListEnabled()) {
-            Gridview.setColumnWidth((int) Math.pow(9999, 9999)); //remain in the listview mode
+            Gridview.setNumColumns(1); //remain in the listview mode
             resource = R.layout.record_igf_listview;
         } else {
             resource = R.layout.record_igf_gridview;
