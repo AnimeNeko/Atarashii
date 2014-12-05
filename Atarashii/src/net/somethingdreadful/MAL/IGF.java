@@ -618,7 +618,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 viewHolder.flavourText = (TextView) view.findViewById(R.id.stringWatched);
 
                 view.setTag(viewHolder);
-                view.getLayoutParams().height = height;
+                if (resource != R.layout.record_igf_listview)
+                    view.getLayoutParams().height = height;
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
