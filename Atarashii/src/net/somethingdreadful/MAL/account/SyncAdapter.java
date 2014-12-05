@@ -34,7 +34,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(context.getString(R.string.crouton_info_SyncMessage));
+                .setContentText(context.getString(R.string.toast_info_SyncMessage));
         Notification syncNotification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
