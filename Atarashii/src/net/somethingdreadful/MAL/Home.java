@@ -481,23 +481,23 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (!networkAvailable && position > 2) {
-                position = 1;
+                position = 0;
                 Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
-            myList = ((position <= 2 && myList) || position == 1);
+            myList = ((position <= 2 && myList) || position == 0);
             myListChanged();
             // disable swipeRefresh for other lists
             af.setSwipeRefreshEnabled(myList);
             mf.setSwipeRefreshEnabled(myList);
             switch (position) {
                 case 0:
+                    af.getRecords(true, TaskJob.GETLIST, af.list);
+                    mf.getRecords(true, TaskJob.GETLIST, mf.list);
+                    break;
+                case 1:
                     Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
                     Profile.putExtra("username", AccountService.getUsername(context));
                     startActivity(Profile);
-                    break;
-                case 1:
-                    af.getRecords(true, TaskJob.GETLIST, af.list);
-                    mf.getRecords(true, TaskJob.GETLIST, mf.list);
                     break;
                 case 2:
                     Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
@@ -524,7 +524,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
              */
-            if (position != 0 && position != 2) {
+            if (position != 1 && position != 2) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#FAFAFA"));
                 view.setBackgroundColor(Color.parseColor("#E8E8E8"));
