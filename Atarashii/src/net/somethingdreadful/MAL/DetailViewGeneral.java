@@ -166,7 +166,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
             if (activity.isAdded()) {
-                status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt())));
+                status.setText(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
             } else {
                 cardPersonal.setVisibility(View.GONE);
@@ -178,7 +178,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             record = activity.mangaRecord;
 
             if (activity.mangaRecord.getReadStatus() != null) {
-                status.setText(WordUtils.capitalize(activity.getUserStatusString(activity.mangaRecord.getReadStatusInt())));
+                status.setText(activity.getUserStatusString(activity.mangaRecord.getReadStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
             } else {
                 cardPersonal.setVisibility(View.GONE);
