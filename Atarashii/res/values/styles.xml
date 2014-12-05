@@ -4,11 +4,7 @@
     <style name="AtarashiiLightBg" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/bg_light</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="actionBarStyle">@style/ActionBar</item>
-    </style>
-
-    <!-- ActionBar Color -->
-    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/atarashii_blue</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
     </style>
 </resources>
