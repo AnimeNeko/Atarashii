@@ -466,7 +466,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     public void onUserNetworkTaskFinished(User result) {
         Picasso.with(context)
                 .load(result.getProfile().getAvatarUrl())
-                .transform(new RoundedTransformation(128, result.getName()))
+                .transform(new RoundedTransformation(result.getName()))
                 .into((ImageView) findViewById(R.id.Image));
     }
 
