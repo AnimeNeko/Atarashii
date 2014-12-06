@@ -3,7 +3,7 @@
     android:layout_width="320dp"
     android:layout_height="match_parent"
     android:layout_gravity="left"
-    android:background="#FAFAFA">
+    android:background="@color/bg_light">
 
     <ScrollView
         android:layout_width="match_parent"

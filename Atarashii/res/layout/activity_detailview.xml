@@ -8,7 +8,7 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_activity">
+        android:background="@color/bg_light">
 
         <android.support.v4.view.PagerTabStrip
             android:layout_width="match_parent"
