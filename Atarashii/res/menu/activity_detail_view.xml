@@ -2,12 +2,12 @@
     xmlns:res-auto="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_Share"
-        android:icon="@drawable/ic_action_share"
+        android:icon="@drawable/ic_share"
         android:title="@string/action_Share"
         res-auto:showAsAction="always" />
     <item
         android:id="@+id/action_ViewMALPage"
-        android:icon="@drawable/ic_location_web_site"
+        android:icon="@drawable/ic_language"
         android:title="@string/action_viewMALPage"
         res-auto:showAsAction="ifRoom" />
     <item
@@ -20,7 +20,7 @@
         res-auto:showAsAction="never" />
     <item
         android:id="@+id/action_addToList"
-        android:icon="@drawable/ic_action_add_to_list"
+        android:icon="@drawable/ic_add"
         android:title="@string/action_AddToList"
         res-auto:showAsAction="always" />
 </menu>

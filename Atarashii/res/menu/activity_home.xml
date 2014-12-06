@@ -3,9 +3,9 @@
     xmlns:res-auto="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_listType"
-        android:icon="@drawable/ic_menu_switchlist"
+        android:icon="@drawable/ic_filter"
         android:title="@string/menu_listType"
-        res-auto:showAsAction="ifRoom|withText">
+        res-auto:showAsAction="always">
 
         <menu>
             <group android:checkableBehavior="single">
@@ -39,18 +39,18 @@
 
     <item
         android:id="@+id/menu_inverse"
-        android:icon="@drawable/ic_action_sort_by_size"
+        android:icon="@drawable/ic_sort"
         android:title="@string/menu_inverse"
         res-auto:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/forceSync"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_autorenew"
         android:title="@string/menu_sync"
         res-auto:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
         android:title="@string/search_prompt"
         res-auto:actionViewClass="android.support.v7.widget.SearchView"
         res-auto:showAsAction="collapseActionView|always" />

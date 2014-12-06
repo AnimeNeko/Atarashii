@@ -33,7 +33,7 @@
             android:focusable="false"
             android:paddingRight="22dp"
             android:scaleType="center"
-            android:src="@drawable/cover_action" />
+            android:src="@drawable/ic_more" />
 
         <TextView
             android:id="@+id/stringWatched"

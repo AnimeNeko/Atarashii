@@ -3,24 +3,24 @@
     xmlns:res-auto="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/forceSync"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_autorenew"
         android:title="@string/menu_sync"
         res-auto:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_ViewMALPage"
-        android:icon="@drawable/ic_location_web_site"
+        android:icon="@drawable/ic_language"
         android:title="@string/action_viewMALPage"
         res-auto:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/Share"
-        android:icon="@drawable/ic_action_share"
+        android:icon="@drawable/ic_share"
         android:orderInCategory="9001"
         android:title="@string/action_Share"
         res-auto:showAsAction="never" />
     <item
         android:id="@+id/View"
-        android:icon="@drawable/ic_location_web_site"
+        android:icon="@drawable/ic_language"
         android:orderInCategory="9002"
         android:title="@string/action_viewListOnMAL"
         res-auto:showAsAction="never" />
