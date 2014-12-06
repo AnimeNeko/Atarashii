@@ -26,4 +26,7 @@
     <color name="card_content">#ffffff</color>
     <color name="card_content_pressed">#f8f8f8</color>
 
+    <!-- IGF grid colors -->
+    <color name="panel_griditem">#AF000000</color>
+    <color name="griditem_selected">#40ffffff</color>
 </resources>
