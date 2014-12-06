@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <resources>
-    <string name="app_name">!Atarashii</string>
     <!-- All (Actionbar Title) Strings -->
     <string name="title_activity_firstRun">الإعدادات الاولية</string>
     <string name="title_activity_settings">الإعدادات</string>
@@ -50,8 +49,6 @@
     <string name="dialog_message_Verifying">نتأكد من أن حسابك بخير. أنتظر لحظة.</string>
     <string name="dialog_label_cancel">إلغاء الأمر</string>
     <string name="dialog_label_update">تحديث</string>
-    <string name="dialog_label_anime">قائمة الــ Anime خاصتى</string>
-    <string name="dialog_label_manga">قائمة الــ Manga خاصتى</string>
     <string name="dialog_title_remove">أزل من القائمة</string>
     <string name="dialog_label_logout">تسجيل الخروج</string>
     <!-- ProfileActivity (Contents) Strings -->
@@ -72,8 +69,6 @@
     <string name="access_rank_atarashii_developer">مطور Atarashii</string>
     <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
     <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
-    <string name="layout_card_anime_details">تفاصيل الــ Anime</string>
-    <string name="layout_card_manga_details">تفاصيل الــ Manga</string>
     <string name="layout_card_anime_time">الوقت بالأيام</string>
     <string name="layout_card_anime_watching">يشاهـَـد</string>
     <string name="layout_card_anime_completed">أكتمل</string>
@@ -98,7 +93,7 @@
     <string name="form_hint_info">ادخل بيانات دخولك على MyAnimeList ادناه:</string>
     <string name="form_action_create">أنشئ حسابا ً</string>
     <string name="form_action_connect">أدخل MAL</string>
-    <!-- CoverAdapter (MyList Cover) Strings -->
+    <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">لقد شاهدت:</string>
     <string name="cover_Completed">شوهد كاملا ً</string>
     <string name="cover_Reading">لقد قرأت:</string>
@@ -121,15 +116,8 @@
     <string name="nav_item_upcoming">سيصدر لاحقا</string>
     <string name="drawer_open">افتح درج التصفح</string>
     <string name="drawer_close">اغلق درج التصفح</string>
-    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
-    <string name="title_Stats">الإحصائيات</string>
-    <string name="title_BasicStuff">الغلاف</string>
+    <!-- DetailView (Tab names) Strings -->
     <!-- DetailView (Card names) Strings -->
-    <string name="card_name_synopsis">لمحة</string>
-    <string name="card_name_progress">التقدم</string>
-    <string name="card_name_stats">بيانات MAL</string>
-    <string name="card_name_rating">التقييم</string>
-    <string name="card_name_status">الحالة</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">المجلدات</string>
     <string name="card_content_chapters">الفصول</string>
@@ -146,17 +134,17 @@
     <string name="action_AddToList">أضف للقائمة</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>تلفازى</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>فيلم</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>خاصة</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>موسيقى</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -180,19 +168,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>أكتمل</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>معلق</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>أسقط</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>يشاهـَـد</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>مخطط للمشاهدة</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>يـُـقرأ</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>مخطط للقراءة</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -204,47 +192,33 @@
     <string name="search_prompt">ابحث على MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">أهم المساهمين</string>
-    <string name="acknowledgements_card_title">المكتبات مفتوحة المصدر</string>
-    <string name="acknowledgements">Atarashii! implements Jake Wharton\'s <a href="http://actionbarsherlock.com">ActionBarSherlock</a>, SimonVT\'s <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a>, Nicolas Jafelle\'s <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> by Square Inc. and <a href="https://code.google.com/p/google-gson/">google-gson</a> by Google Inc. which is used by Retrofit, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.</string>
-    <string name="app_description">! Atarashii هو أفضل طريقة للوصول لــ MyAnimeList من هاتفك. التطبيق يتباهى بواجهة Android عصرية، مصنوعة بجمال، و مصحوبة بكل الوظائف التى يمكن أن تحتاجها.</string>
-    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
-    <string name="contributor_anima_summary">\"!كل التطبيقات الأخرى أى كلام!\"\n\n\nالمؤسس و كاتب الكودِ الرئيسيُ. مل من واجهات المستخدم UI البائسة فى التطبيقات الأخرى و افتقارها العام للإصلاحات و الصيانة، فأنشأ هذا البرنامج.</string>
-    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
-    <string name="contributor_motokochan_summary">يركز على ترتيب الكود و العمل على الخواص الصغيرة. عمل على التوسع لدعم الــ Manga.</string>
-    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">وضع خاصية البحث.</string>
-    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
-    <string name="contributor_dsko_summary">عمل على retrofit للتعامل مع الـ API.</string>
     <string name="community_card_title">منتدى Atarashii على +G</string>
-    <string name="customShareText_fromAtarashii">\n\nتمت مشاركته بواسطة Atarashii! - تطبيق MAL العصرى للـ Android</string>
+    <string name="app_description">! Atarashii هو أفضل طريقة للوصول لــ MyAnimeList من هاتفك. التطبيق يتباهى بواجهة Android عصرية، مصنوعة بجمال، و مصحوبة بكل الوظائف التى يمكن أن تحتاجها.</string>
+    <string name="contributor_anima_summary">\"!كل التطبيقات الأخرى أى كلام!\"\n\n\nالمؤسس و كاتب الكودِ الرئيسيُ. مل من واجهات المستخدم UI البائسة فى التطبيقات الأخرى و افتقارها العام للإصلاحات و الصيانة، فأنشأ هذا البرنامج.</string>
+    <string name="contributor_motokochan_summary">يركز على ترتيب الكود و العمل على الخواص الصغيرة. عمل على التوسع لدعم الــ Manga.</string>
+    <string name="contributor_apkawa_summary">وضع خاصية البحث.</string>
+    <string name="contributor_dsko_summary">عمل على retrofit للتعامل مع الـ API.</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">اشترك بمنتدانا</a> منتدى !Atarashii على Google+ هو مكان رائع للتواصل مع المطورين و إعلامنا عن رأيك. مشاكل التطبيق، طلبات الخواص، حالة التطبيق، ستجد كل هذا فيه. نحن لا نعض، نعدك بذلك.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">القائمة الافتراضية</string>
     <string name="summary_DefaultList">أى قائمة تريد التطبيق أن يحملها عندما يفتح؟</string>
     <string name="preference_category_list">القائمة</string>
     <string name="preference_category_synchronisation">التزامن</string>
-    <string name="preference_category_sharing">المشاركة</string>
     <string name="preference_category_profile">الملف الشخصى</string>
     <string name="preference_synchronisation">التزامن الذاتى</string>
     <string name="preference_TraditionalList">استخدم القائمة التقليدية</string>
-    <string name="preference_Only_wifi">زامن باستخدام Wi-Fi فقط</string>
     <string name="preference_customShareText">نص مشاركة مخصص</string>
     <string name="preference_displayVolumes">استخدم المجلدات على الأغلفة</string>
     <string name="preference_autosync">الفترة حتى التزامن الذاتى</string>
     <string name="preference_profileTextColors">عطل النص الملون</string>
     <string name="preference_profileAnimeHide">اخف تفاصيل الـ Anime دائما</string>
     <string name="preference_profileMangaHide">اخف تفاصيل الـ Manga دائما</string>
-    <string name="preference_profileBothHide">اخف تفاصيل الـ Anime و/أو الـ Manga </string>
     <string name="preference_summary_TraditionList">استخدم القائمة التقليدية بدلا من الأغلفة. يحتاج اعادة التشغيل ليبدأ بالعمل.</string>
-    <string name="preference_summary_synchronisation">إذا علم بـ (✓)، Atarashii سيقوم بالتزامن مع بداية التشغيل.</string>
-    <string name="preference_summary_Only_wifi">Atarashii سيقوم بالتزامن الذاتى باستخدام Wi-Fi فقط.</string>
     <string name="preference_summary_customShareText">ألم يعجبك نص المشاركة الافتراضى؟ أكتب نصك المخصص! استخدم $title; و $link; مكان اسم و رابط MAL، و سنقوم بالباقى.</string>
-    <string name="preference_summary_autosync">الوقت حتى بدأ التزامن الذاتى بالعمل بعد بداية التشغيل.</string>
     <string name="preference_summary_displayVolumes">يظهر المجلدات بدلا من الفصول على الأغلفة، و أمر (+1 إلى ما قرئ) سيطبق على المجلدات بدلا من الفصول. يحتاج لاعادة التشغيل ليبدأ العمل.</string>
     <string name="preference_summary_profileTextColors">اجبر صفحة الملف الشخصى باستخدام لون نص أسود.</string>
     <string name="preference_summary_profileAnimeHide">اخف تفاصيل الـ Anime من كل الملفات الشخصية.</string>
     <string name="preference_summary_profileMangaHide">اخف تفاصيل الـ Manga من كل الملفات الشخصية.</string>
-    <string name="preference_summary_profileBothHide">اخف تفاصيل الـ Anime / الـ Manga من الملفات الشخصية عندما لا يكون هناك مدخلات.</string>
     <string name="preference_default_customShareText">تفقد $title; على MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">كل شى</string>
@@ -255,114 +229,65 @@
     <string name="listType_InProgress">يشاهـَد / يقرئ</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>غير مقيم</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: مروع</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>2: فظيع</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>3: سئ جدا</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: سئ</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>5: متوسط</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: لا بأس به</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: جيد</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>8: جيد جدا</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: عظيم</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>10: تحفة</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>كل شئ</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>يشاهـَد / يقرئ</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>أكتمل</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>معلق</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>أسقط</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>مخطط</item>
     </string-array>
-    <string-array name="listTypeValuesArray">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </string-array>
+    <!-- Settings (LocalePreference Entries) Items -->
     <!-- Settings (ListPreference Entries) Items -->
-    <string-array name="syncArray">
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>5 دقائق</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 دقائق</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>15 دقيقة</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>30 دقيقة</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>60 دقيقة</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>ساعتان</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>4 ساعات</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>6 ساعات</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>8 ساعات</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 ساعات</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>12 ساعة</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>24 ساعة</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>48 ساعة</item>
-    </string-array>
-    <string-array name="syncValuesArray">
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
-        <item>240</item>
-        <item>360</item>
-        <item>480</item>
-        <item>600</item>
-        <item>720</item>
-        <item>1440</item>
-        <item>2880</item>
-    </string-array>
+    <!-- Date (Date format output) Items -->
     <string name="dateformat">yy-MM-dd</string>
     <string name="datetimeformat">yy-MM-dd, h:mm a</string>
     <string name="datetimeformat_yesterday">\'أمس\', h:mm a</string>
     <string name="datetimeformat_dayname">EEEE, h:mm a</string>
     <plurals name="minutes_ago">
-        <item quantity="zero">الآن</item>
         <item quantity="one">منذ دقيقة</item>
         <item quantity="other">منذ %d دقائق</item>
-        <item quantity="two">منذ دقيقتان</item>
+        <item quantity="zero">الآن</item>
         <item quantity="few">منذ %d دقائق</item>
         <item quantity="many">منذ %d دقائق</item>
+        <item quantity="two">منذ دقيقتان</item>
     </plurals>
     <plurals name="hours_ago">
         <item quantity="one">منذ ساعة</item>
         <item quantity="other">منذ %d ساعات</item>
-        <item quantity="zero">منذ %d ساعات</item>
-        <item quantity="two">منذ ساعتان</item>
         <item quantity="few">منذ %d ساعات</item>
         <item quantity="many">منذ %d ساعات</item>
+        <item quantity="two">منذ ساعتان</item>
+        <item quantity="zero">منذ %d ساعات</item>
     </plurals>
 </resources>

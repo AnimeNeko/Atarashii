@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <resources>
-    <string name="app_name">Atarashii!</string>
     <!-- All (Actionbar Title) Strings -->
     <string name="title_activity_firstRun">Configuração Inicial</string>
     <string name="title_activity_settings">Definições</string>
@@ -50,8 +49,6 @@
     <string name="dialog_message_Verifying">A certificar se a tua conta está OK. Espera um pouco.</string>
     <string name="dialog_label_cancel">Cancelar</string>
     <string name="dialog_label_update">Actualizar</string>
-    <string name="dialog_label_anime">A minha lista de animes</string>
-    <string name="dialog_label_manga">A minha lista de mangas</string>
     <string name="dialog_title_remove">Remover da lista</string>
     <string name="dialog_label_logout">Sair</string>
     <!-- ProfileActivity (Contents) Strings -->
@@ -72,8 +69,6 @@
     <string name="access_rank_atarashii_developer">Programador Atarashii!</string>
     <string name="layout_card_anime_views">Visualizações da lista de animes</string>
     <string name="layout_card_manga_views">Visualizações da lista de mangas</string>
-    <string name="layout_card_anime_details">Detalhes de animes</string>
-    <string name="layout_card_manga_details">Detalhes de mangas</string>
     <string name="layout_card_anime_time">Dias</string>
     <string name="layout_card_anime_watching">A ver</string>
     <string name="layout_card_anime_completed">Completos</string>
@@ -98,7 +93,7 @@
     <string name="form_hint_info">Insere as tuas credenciais MyAnimeList:</string>
     <string name="form_action_create">Criar uma Conta</string>
     <string name="form_action_connect">Ligar ao MAL</string>
-    <!-- CoverAdapter (MyList Cover) Strings -->
+    <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">Já vi o:</string>
     <string name="cover_Completed">Completos</string>
     <string name="cover_Reading">Já li o:</string>
@@ -121,15 +116,12 @@
     <string name="nav_item_upcoming">Em Estreia</string>
     <string name="drawer_open">Abrir gaveta de navegação</string>
     <string name="drawer_close">Fechar gaveta de navegação</string>
-    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
-    <string name="title_Stats">Estatísticas</string>
-    <string name="title_BasicStuff">Capa</string>
+    <!-- DetailView (Tab names) Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Sinopse</string>
     <string name="card_name_progress">Progresso</string>
     <string name="card_name_stats">Estatísticas MAL</string>
     <string name="card_name_rating">Classificação</string>
-    <string name="card_name_status">Estado</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_chapters">Capítulos</string>
@@ -146,17 +138,17 @@
     <string name="action_AddToList">Adicionar à lista</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Episódio TV</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Filme</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Especial</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Música</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -180,19 +172,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Completos</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Em espera</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Desistido</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>A ver</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Planeio Ver</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>A Ler</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Planeio Ler</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -204,47 +196,35 @@
     <string name="search_prompt">Procurar no MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Maiores contribuintes</string>
-    <string name="acknowledgements_card_title">Livrarias Open Source</string>
-    <string name="acknowledgements">O Atarashii! implementa a <a href="http://actionbarsherlock.com">ActionBarSherlock</a> de Jake Wharton, <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> de SimonVT, <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a> de Nicolas Jafelle, <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> de Keyboardsurfer, <a href="http://square.github.io/retrofit/">Retrofit</a> da Square Inc. e <a href="https://code.google.com/p/google-gson/">google-gson</a> da Google Inc. que é usada pela Retrofit, e são todos licenciados pela licença <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.</string>
-    <string name="app_description">O Atarashii! é a melhor maneira de aceder ao MyAnimeList através do seu telemóvel. Possuí uma interface Android moderna e maravilhosa, criada de forma a conter todas as funcionalidades que se poderia querer.</string>
-    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
-    <string name="contributor_anima_summary">\"Todas as outras aplicações são uma bosta!\" \n\nFundador e principal programador. Cansado da pobre interface de outras aplicações e sua falta de manutenção, ele resolveu criar a sua.</string>
-    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
-    <string name="contributor_motokochan_summary">Foca-se na limpeza de código e implementação de pequenas melhorias. Trabalhou na expansão do suporte para mangas.</string>
-    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">Implementou a procura.</string>
-    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
-    <string name="contributor_dsko_summary">Implementou a remodelação do manuseamento da API.</string>
     <string name="community_card_title">Comunidade Atarashii!</string>
-    <string name="customShareText_fromAtarashii">\n\nPartilhado com Atarashii! - O MAL moderno para Android</string>
+    <string name="app_description">O Atarashii! é a melhor maneira de aceder ao MyAnimeList através do seu telemóvel. Possuí uma interface Android moderna e maravilhosa, criada de forma a conter todas as funcionalidades que se poderia querer.</string>
+    <string name="contributor_anima_summary">\"Todas as outras aplicações são uma bosta!\" \n\nFundador e principal programador. Cansado da pobre interface de outras aplicações e sua falta de manutenção, ele resolveu criar a sua.</string>
+    <string name="contributor_motokochan_summary">Foca-se na limpeza de código e implementação de pequenas melhorias. Trabalhou na expansão do suporte para mangas.</string>
+    <string name="contributor_apkawa_summary">Implementou a procura.</string>
+    <string name="contributor_dsko_summary">Implementou a remodelação do manuseamento da API.</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Adere à nossa Comunidade!</a> A Comunidade Atarashii! no Google+ é um excelente lugar para interagir com os programadores e também para deixar a tua opinião. Problemas, pedidos de melhorias, actualização de estados, está lá tudo. Não mordemos, prometo.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Lista Padrão</string>
     <string name="summary_DefaultList">Que lista queres abrir no início da aplicação?</string>
     <string name="preference_category_list">Lista</string>
     <string name="preference_category_synchronisation">Sincronização</string>
-    <string name="preference_category_sharing">Partilha</string>
     <string name="preference_category_profile">Perfil</string>
     <string name="preference_synchronisation">Auto-Sincronização</string>
     <string name="preference_TraditionalList">Usar Lista Tradicional</string>
-    <string name="preference_Only_wifi">Sincronizar apenas em Wi-Fi</string>
     <string name="preference_customShareText">Partilha com texto personalizado</string>
     <string name="preference_displayVolumes">Usar Volumes nas Capas</string>
     <string name="preference_autosync">Intervalo de Auto-Sincronização</string>
     <string name="preference_profileTextColors">Não mostrar texto a cores</string>
     <string name="preference_profileAnimeHide">Esconder sempre detalhes de animes</string>
     <string name="preference_profileMangaHide">Esconder sempre detalhes de mangas</string>
-    <string name="preference_profileBothHide">Esconder automaticamente detalhes de animes/mangas</string>
     <string name="preference_summary_TraditionList">Usar a antiga lista à prova de bala em vez do estilo de capas. É preciso reiniciar para aplicar o efeito.</string>
-    <string name="preference_summary_synchronisation">Se seleccionado, o Atarashii! sincronizará no início.</string>
-    <string name="preference_summary_Only_wifi">O Atarashii! sincronizará apenas por Wi-Fi.</string>
+    <string name="preference_summary_synchronisation">Se seleccionado, o Atarashii! sincronizará em 2º plano.</string>
     <string name="preference_summary_customShareText">Não gostas do texto padrão? Cria o teu! Usa $title; e $link em vez do título e link para o MAL, nós trataremos do resto.</string>
-    <string name="preference_summary_autosync">Intervalo de tempo para a aplicação correr a auto-sincronização.</string>
+    <string name="preference_summary_autosync">Tempo para auto-sincronização em 2º plano.</string>
     <string name="preference_summary_displayVolumes">Mostra volumes em vez de capítulos nas capas. A opção Li +1 também acrescentará volumes em vez de capítulos. É preciso reiniciar para aplicar o efeito.</string>
     <string name="preference_summary_profileTextColors">Força a página do utilizador a usar texto preto</string>
     <string name="preference_summary_profileAnimeHide">Esconde os detalhes do animes em todos os perfis.</string>
     <string name="preference_summary_profileMangaHide">Esconde os detalhes do mangas em todos os perfis.</string>
-    <string name="preference_summary_profileBothHide">Esconde detalhes de animes/mangas quando o Total é zero.</string>
     <string name="preference_default_customShareText">Dá um olho em $title; em MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">Tudo</string>
@@ -255,96 +235,63 @@
     <string name="listType_InProgress">A Ver</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Sem Classificação</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Aterrador</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Horrível</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Muito Mau</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Mau</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Mediano</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Ok</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Bom</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Muito Bom</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Excelente</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Obra-prima</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Tudo</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>A ver</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Completos</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Em espera</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Desistido</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Planeado</item>
     </string-array>
-    <string-array name="listTypeValuesArray">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </string-array>
+    <!-- Settings (LocalePreference Entries) Items -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>5 minutos</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 minutos</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>15 minutos</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>30 minutos</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>60 minutos</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>2 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>4 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>6 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>8 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>12 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Horas</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 Horas</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>8 Horas</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 Horas</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>12 Horas</item>
+    <!-- Settings (ListPreference Entries) Items -->
         <item>24 horas</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>48 horas</item>
     </string-array>
-    <string-array name="syncValuesArray">
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
-        <item>240</item>
-        <item>360</item>
-        <item>480</item>
-        <item>600</item>
-        <item>720</item>
-        <item>1440</item>
-        <item>2880</item>
-    </string-array>
+    <!-- Date (Date format output) Items -->
     <string name="dateformat">dd-MM-yy</string>
     <string name="datetimeformat">dd-MM-yy, HH:mm</string>
     <string name="datetimeformat_yesterday">\'Ontem\', HH:mm</string>
