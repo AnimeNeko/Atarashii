@@ -176,15 +176,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.menu_settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-            case R.id.menu_logout:
-                showLogoutDialog();
-                break;
-            case R.id.menu_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
             case R.id.listType_all:
                 if (af != null && mf != null) {
                     af.getRecords(true, TaskJob.GETLIST, 0);
