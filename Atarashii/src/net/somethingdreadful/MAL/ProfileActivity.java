@@ -75,6 +75,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         swipeRefresh.setEnabled(true);
 
         if (getIntent().getExtras().containsKey("user")) {
+            toggle(1);
             record = (User) getIntent().getExtras().get("user");
             refresh();
         } else {
