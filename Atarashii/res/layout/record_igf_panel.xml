@@ -29,6 +29,7 @@
             android:id="@+id/popUpButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:background="@drawable/igf_grid_selector"
             android:focusable="false"
             android:paddingRight="22dp"
             android:scaleType="center"
