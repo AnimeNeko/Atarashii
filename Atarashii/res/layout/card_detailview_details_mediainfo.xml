@@ -1,124 +1,130 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+    <TableRow>
 
-    <TextView
-        android:id="@+id/typeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/type"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_media_type"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/typeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_media_type"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/episodes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/type"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/episodesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/episodes"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_episodes"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    </TableRow>
 
-    <TextView
-        android:id="@+id/volumes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/episodes"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+    <TableRow>
 
-    <TextView
-        android:id="@+id/volumesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/volumes"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_volumes"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/episodesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/card_content_episodes"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/volumes"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/episodes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/statusLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/status"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_media_status"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    </TableRow>
 
-    <TextView
-        android:id="@+id/genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/status"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textDirection="anyRtl"
-        android:textSize="16sp" />
+    <TableRow>
 
-    <TextView
-        android:id="@+id/genresLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/genres"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_genres"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/volumesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/card_content_volumes"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/classification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/genres"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/volumes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+    </TableRow>
 
-    <TextView
-        android:id="@+id/classificationLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/classification"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_classification"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-</RelativeLayout>
+    <TableRow android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/statusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_media_status"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/genresLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_genres"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/classificationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_classification"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/classification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+    </TableRow>
+</TableLayout>
