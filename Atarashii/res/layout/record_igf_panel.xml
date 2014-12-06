@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:baselineAlignedChildIndex="2"
+        android:baselineAligned="false"
         android:clipChildren="false"
         android:orientation="horizontal">
 
