@@ -4,6 +4,7 @@
     <color name="bg_dark">#333333</color>
     <color name="bg_pager_tab_strip">#222222</color>
     <color name="bg_light">#FAFAFA</color>
+    <color name="bg_light_card">#DCDCDC</color>
     <color name="white">#FFFFFF</color>
     <color name="bg_listview_pressed">#D9D9D9</color>
     <color name="primary">#0096C8</color>
