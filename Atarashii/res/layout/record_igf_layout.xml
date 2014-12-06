@@ -13,11 +13,12 @@
             android:id="@+id/gridview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:drawSelectorOnTop="true"
             android:fadingEdge="none"
             android:fastScrollEnabled="true"
             android:gravity="center"
             android:horizontalSpacing="1dp"
-            android:listSelector="#00343434"
+            android:listSelector="@drawable/igf_grid_selector"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
             android:verticalSpacing="1dp" />

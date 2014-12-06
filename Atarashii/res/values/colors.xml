@@ -10,7 +10,6 @@
     <color name="bg_listview_pressed">#D9D9D9</color>
     <color name="primary">#0096C8</color>
     <color name="primaryDark">#0078a0</color>
-    <color name="panel_griditem">#AF000000</color>
 
     <!-- Card: Header colors -->
     <color name="card_red">#a93f53</color>
@@ -27,4 +26,7 @@
     <color name="card_content">#ffffff</color>
     <color name="card_content_pressed">#f8f8f8</color>
 
+    <!-- IGF grid colors -->
+    <color name="panel_griditem">#AF000000</color>
+    <color name="griditem_selected">#40ffffff</color>
 </resources>
