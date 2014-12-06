@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <resources>
-    <string name="app_name">Atarashii!</string>
     <!-- All (Actionbar Title) Strings -->
     <string name="title_activity_firstRun">Установка при первом запуске</string>
     <string name="title_activity_settings">Настройки</string>
@@ -11,6 +10,7 @@
     <string name="title_activity_logout">Выйти из учетной записи</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Переключить список</string>
+    <string name="menu_inverse">Инвертировать список</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_sync">Полная синхронизация</string>
     <string name="menu_sortType">Сортировка</string>
@@ -24,6 +24,10 @@
     <string name="crouton_error_noUserRecord">У этого пользователя нет автономной записи!</string>
     <string name="crouton_error_Anime_Sync">Ошибка синхронизации при загрузке списка аниме!</string>
     <string name="crouton_error_Manga_Sync">Ошибка синхронизации при загрузке списка манги!</string>
+    <string name="crouton_error_SyncFailed">Синхронизация не удалась! Пожалуйста, повторите попытку позже.</string>
+    <string name="crouton_error_Anime_Records">Ошибка при загрузке записей аниме.</string>
+    <string name="crouton_error_Manga_Records">Ошибка при загрузке записей манги.</string>
+    <string name="crouton_error_Records">Ошибка при загрузке записей. Пожалуйста, повторите попытку позже.</string>
     <string name="crouton_error_noFriends">У вас нет друзей на MAL!</string>
     <string name="crouton_error_DetailsError">Невозможно загрузить подробности, пожалуйста, проверьте ваше соединение с интернетом.</string>
     <string name="crouton_error_VerifyProblem">Ничего себе! Что-то не сработало. Проверьте данные учетной записи, соединение с сетью и повторите попытку.</string>
@@ -32,7 +36,9 @@
     <string name="crouton_info_SyncMessage">Полная синхронизация. Это может занять одну-две секунды в зависимости от скорости вашего интернета.</string>
     <string name="crouton_info_connectionRestored">Соединение восстановлено. Синхронизация отложенных изменений.</string>
     <string name="crouton_info_UserRecord_updated">Пользовательский профиль обновлен!</string>
+    <string name="crouton_info_Max_Counter">Свыше 9999!</string>
     <string name="crouton_info_SyncDone">Синхронизация завершена!</string>
+    <string name="crouton_info_Copied">Название успешно скопировано в буфер обмена!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Вид</string>
     <string name="dialog_title_share">Поделиться</string>
@@ -42,18 +48,28 @@
     <string name="dialog_title_logout">Подтвердить выход из учетной записи</string>
     <string name="dialog_title_watched_update">Я посмотрел</string>
     <string name="dialog_title_read_update">Я прочел</string>
-    <string name="dialog_title_status">Статус</string>
+    <string name="dialog_title_status">Состояние</string>
+    <string name="dialog_title_sync">Синхронизация</string>
+    <string name="dialog_title_id_search">Поиск ID</string>
+    <string name="dialog_title_update_password">Обновить пароль</string>
     <string name="dialog_message_view">Какой из списков вы хотите просмотреть?</string>
     <string name="dialog_message_logout">Вы уверены, что хотите выйти из учетной записи? Это удалит все сохраненные данные и изображения.</string>
+    <string name="dialog_message_id_search">Пожалуйста, нажмите на кнопку Аниме или Манга для поиска. Помните, что ID аниме и манги различаются!</string>
     <string name="dialog_message_remove">Абсолютно уверены? То, что пропало, уже не вернешь. Не так легко, во всяком случае.</string>
     <string name="dialog_message_share">Каким списком вы хотели бы поделиться?</string>
     <string name="dialog_message_Verifying">Удостоверяемся, что ваша учетная запись в порядке. Крепитесь.</string>
+    <string name="dialog_message_update_password">Похоже, ваш пароль изменился. Пожалуйста, введите новый ниже.</string>
+    <string name="dialog_message_new_password_wrong">Новый пароль был введен неправильно.</string>
     <string name="dialog_label_cancel">Отмена</string>
     <string name="dialog_label_update">Обновить</string>
-    <string name="dialog_label_anime">Мой список аниме</string>
-    <string name="dialog_label_manga">Мой список манги</string>
+    <string name="dialog_label_anime">Аниме</string>
+    <string name="dialog_label_manga">Манга</string>
+    <string name="dialog_label_animelist">Мой список аниме</string>
+    <string name="dialog_label_mangalist">Мой список манги</string>
     <string name="dialog_title_remove">Удалить из списка</string>
     <string name="dialog_label_logout">Выйти из учетной записи</string>
+    <string name="dialog_label_remove">Удалить</string>
+    <string name="dialog_label_confirm">Подтвердить</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; поделился списком аниме с помощью Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">$username; поделился списком манги с помощью Atarashii: http://myanimelist.net/mangalist/$name;!</string>
@@ -72,17 +88,15 @@
     <string name="access_rank_atarashii_developer">Создатель Atarashii</string>
     <string name="layout_card_anime_views">Просм. спис. аниме</string>
     <string name="layout_card_manga_views">Просм. спис. манги</string>
-    <string name="layout_card_anime_details">Подробно об аниме</string>
-    <string name="layout_card_manga_details">Подробно о манге</string>
     <string name="layout_card_anime_time">Время в днях</string>
     <string name="layout_card_anime_watching">Смотрит</string>
     <string name="layout_card_anime_completed">Завершено</string>
     <string name="layout_card_anime_on">В ожидании</string>
     <string name="layout_card_anime_dropped">Заброшено</string>
-    <string name="layout_card_anime_plan">К просмотру</string>
+    <string name="layout_card_anime_plan">Планирует посмотреть</string>
     <string name="layout_card_anime_total">Всего записей</string>
     <string name="layout_card_manga_reading">Читает</string>
-    <string name="layout_card_manga_plan">Планируется прочитать</string>
+    <string name="layout_card_manga_plan">Планирует прочитать</string>
     <string name="action_viewListOnMAL">Посмотреть список на MAL</string>
     <string name="not_specified">не указано</string>
     <string-array name="gender">
@@ -98,7 +112,7 @@
     <string name="form_hint_info">Введите ваши данные MyAnimeList ниже:</string>
     <string name="form_action_create">Создать учетную запись</string>
     <string name="form_action_connect">Соединить с MAL</string>
-    <!-- CoverAdapter (MyList Cover) Strings -->
+    <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">Я посмотрел:</string>
     <string name="cover_Completed">Завершено</string>
     <string name="cover_Reading">Я прочел:</string>
@@ -111,6 +125,7 @@
     <string name="action_MarkAsComplete">Отметить как завершенное</string>
     <string name="label_Chapters">Глав:</string>
     <string name="label_Volumes">Томов:</string>
+    <string name="label_Number">Номер:</string>
     <!-- Navigation drawer (item & action) Strings -->
     <string name="nav_item_my_profile">Мой профиль</string>
     <string name="nav_item_my_list">Мой список</string>
@@ -121,24 +136,38 @@
     <string name="nav_item_upcoming">Новые</string>
     <string name="drawer_open">Открыть панель навигации</string>
     <string name="drawer_close">Закрыть панель навигации</string>
-    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
-    <string name="title_Stats">Статистика</string>
-    <string name="title_BasicStuff">Обложка</string>
+    <!-- DetailView (Tab names) Strings -->
+    <string name="tab_name_general">Общие</string>
+    <string name="tab_name_personal">Персональные</string>
+    <string name="tab_name_details">Подробности</string>
     <!-- DetailView (Card names) Strings -->
-    <string name="card_name_synopsis">СИНОПСИС</string>
-    <string name="card_name_progress">ПРОГРЕСС</string>
-    <string name="card_name_stats">СТАТИСТИКА MAL</string>
-    <string name="card_name_rating">РЕЙТИНГ</string>
-    <string name="card_name_status">СОСТОЯНИЕ</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Томов</string>
     <string name="card_content_chapters">Глав</string>
     <string name="card_content_episodes">Эпизодов</string>
+    <string name="card_content_status">Состояние</string>
     <string name="card_content_mal_score">Оценка MAL</string>
     <string name="card_content_my_score">Моя оценка</string>
     <string name="card_content_media_type">Тип</string>
     <string name="card_content_media_status">Состояние</string>
+    <string name="card_content_aired">Трансляция</string>
+    <string name="card_content_genres">Жанры</string>
+    <string name="card_content_classification">Классификация</string>
+    <string name="card_content_ranked">Позиция</string>
+    <string name="card_content_popularity">Популярность</string>
+    <string name="card_content_members">Зрители</string>
+    <string name="card_content_favorites">Поклонники</string>
     <string name="card_content_loading">Загрузка, секундочку.</string>
+    <string name="card_content_prequel">Приквелы</string>
+    <string name="card_content_sequel">Сиквелы</string>
+    <string name="card_content_alternativeversions">Альтернативные версии</string>
+    <string name="card_content_adaptions">Адаптации</string>
+    <string name="card_content_sidestories">Побочные истории</string>
+    <string name="card_content_spinoffs">Спин-оффы</string>
+    <string name="card_content_summaries">Краткие изложения</string>
+    <string name="card_content_character">Персонажи</string>
+    <string name="card_content_related">Связанные</string>
+    <string name="card_content_parentstory">Родительская история</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Посмотреть подробности на MyAnimeList</string>
     <string name="action_Share">Поделиться</string>
@@ -146,17 +175,17 @@
     <string name="action_AddToList">Добавить в список</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>TV</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Фильм</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Спецвыпуск</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Музыка</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -180,19 +209,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Завершено</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>В ожидании</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Заброшено</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Смотрю</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Планируется посмотреть</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Читаю</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Планируется прочитать</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -204,18 +233,12 @@
     <string name="search_prompt">Поиск на MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Основные разработчики</string>
-    <string name="acknowledgements_card_title">Библиотеки с открытым исходным кодом</string>
-    <string name="acknowledgements">Atarashii! использует <a href="http://actionbarsherlock.com">ActionBarSherlock</a> от Jake Wharton, <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> от SimonVT, <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a> от Nicolas Jafelle, <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> от Keyboardsurfer, <a href="http://square.github.io/retrofit/">Retrofit</a> от Square Inc. и <a href="https://code.google.com/p/google-gson/">google-gson</a> от Google Inc., используемый Retrofit, которые распространяются под лицензией <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.</string>
-    <string name="app_description">Atarashii! - лучший способ для получения доступа к MyAnimeList с вашего телефона. Оно сочетает современный, красиво оформленный интерфейс Android на пару с функционалом, который вам мог бы потребоваться.</string>
-    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
-    <string name="contributor_anima_summary">\"Все остальные приложения - отстой!\" \n\nОснователь и главный разработчик. Устав от скудного UI и общей заброшенности других приложений, он взял и создал это.</string>
-    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
-    <string name="contributor_motokochan_summary">Ориентирован на чистку кода и реализацию небольших нововведений. Работал над расширением приложения для поддержки манги.</string>
-    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">Реализовал функционал поиска. </string>
-    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
-    <string name="contributor_dsko_summary">Реализовал модернизации для обработки API.</string>
     <string name="community_card_title">Сообщество Atarashii</string>
+    <string name="app_description">Atarashii! - лучший способ для получения доступа к MyAnimeList с вашего телефона. Оно сочетает современный, красиво оформленный интерфейс Android на пару с функционалом, который вам мог бы потребоваться.</string>
+    <string name="contributor_anima_summary">\"Все остальные приложения - отстой!\" \n\nОснователь и главный разработчик. Устав от скудного UI и общей заброшенности других приложений, он взял и создал это.</string>
+    <string name="contributor_motokochan_summary">Ориентирован на чистку кода и реализацию небольших нововведений. Работал над расширением приложения для поддержки манги.</string>
+    <string name="contributor_apkawa_summary">Реализовал функционал поиска.</string>
+    <string name="contributor_dsko_summary">Реализовал модернизации для обработки API.</string>
     <string name="customShareText_fromAtarashii">\n\nПоделился при помощи Atarashii! - Современного MAL для Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Join our Community!</a> Сообщество Atarashii! в Google+ - отличное место для взаимодействия с разработчиками и высказывания своих мыслей. Проблемы, просьбы о реализации функций, обновления - все там есть. Мы не кусаемся, честно.</string>
     <!-- Preferences (contents) Strings -->
@@ -223,28 +246,28 @@
     <string name="summary_DefaultList">Какой список вы бы хотели видеть при запуске приложения?</string>
     <string name="preference_category_list">Список</string>
     <string name="preference_category_synchronisation">Синхронизация</string>
-    <string name="preference_category_sharing">Поделиться</string>
+    <string name="preference_category_sharing">Другие настройки</string>
     <string name="preference_category_profile">Профиль</string>
     <string name="preference_synchronisation">Авто-синхронизация</string>
     <string name="preference_TraditionalList">Использовать традиционный список</string>
-    <string name="preference_Only_wifi">Синхронизировать только при помощи Wi-Fi</string>
-    <string name="preference_customShareText">Настроить текст для функции "Поделиться"</string>
+    <string name="preference_customShareText">Настроить текст для функции \"Поделиться\"</string>
     <string name="preference_displayVolumes">Использовать тома на обложках</string>
     <string name="preference_autosync">Интервал авто-синхронизации</string>
+    <string name="preference_language">Сменить язык на</string>
+    <string name="preference_title_language">Изменить язык</string>
     <string name="preference_profileTextColors">Выключить цвета текста</string>
     <string name="preference_profileAnimeHide">Всегда скрывать подробности об аниме</string>
     <string name="preference_profileMangaHide">Всегда скрывать подробности о манге</string>
-    <string name="preference_profileBothHide">Автоматически скрывать подробности об аниме/манге</string>
     <string name="preference_summary_TraditionList">Использовать компактный список вместо обложек. Требует перезапуска программы.</string>
-    <string name="preference_summary_synchronisation">Если включено, Atarashii будет синхронизироваться при каждом старте.</string>
-    <string name="preference_summary_Only_wifi">Atarashii будет синхронизироваться только с помощью Wi-Fi.</string>
-    <string name="preference_summary_customShareText">Не нравится текст для функции "Поделиться" по умолчанию? Создайте свой собственный! Используйте $title; и $link; там, где расположены название и ссылка на MAL, а мы сделаем все остальное.</string>
-    <string name="preference_summary_autosync">Задержка перед автосинхронизацией при старте приложения.</string>
-    <string name="preference_summary_displayVolumes">Отображать тома вместо глав на обложках. Действие "+1 прочитано" будет так же применяться к томам вместо глав. Требует перезапуск приложения.</string>
+    <string name="preference_summary_synchronisation">Если отмечено, Atarashii будет синхронизироваться в фоновом режиме.</string>
+    <string name="preference_summary_Language">Меняет язык по умолчанию на желаемый. Требует перезапуска программы.</string>
+    <string name="preference_summary_customShareText">Не нравится текст для функции \"Поделиться\" по умолчанию? Создайте свой собственный! Используйте $title; и $link; там, где расположены название и ссылка на MAL, а мы сделаем все остальное.</string>
+    <string name="preference_summary_autosync">Время до запуска фоновой автоматической синхронизации.</string>
+    <string name="preference_summary_displayVolumes">Отображать тома вместо глав на обложках. Действие \"+1 прочитано\" будет так же применяться к томам вместо глав. Требует перезапуск приложения.</string>
     <string name="preference_summary_profileTextColors">Принудительно использовать черный цвет текста на странице профиля.</string>
     <string name="preference_summary_profileAnimeHide">Скрывать подробности об аниме во всех профилях.</string>
     <string name="preference_summary_profileMangaHide">Скрывать подробности о манге во всех профилях.</string>
-    <string name="preference_summary_profileBothHide">Скрывать подробности об аниме/манге во всех профилях, когда количество записей равно нулю.</string>
+    <string name="preference_android_synchronisation">Записи аниме/манги</string>
     <string name="preference_default_customShareText">Взгляните на $title; на MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">Все</string>
@@ -255,96 +278,89 @@
     <string name="listType_InProgress">В процессе</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Без оценки</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: Ужасающе</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>2: Кошмарно</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>3: Очень плохо</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: Плохо</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>5: Средне</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: Неплохо</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: Хорошо</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>8: Очень хорошо</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: Отлично</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>10: Шедевр</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Все</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>В состоянии просмотра</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Завершено</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>В ожидании</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Заброшено</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Планируется посмотреть</item>
     </string-array>
-    <string-array name="listTypeValuesArray">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+    <string-array name="localeArray">
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Арабский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Голландский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Английский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Французский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Немецкий</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Греческий</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Польский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Португальский (Бразилия)</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Португальский (Португалия)</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Русский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Испанский</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Турецкий</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>5 минут</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 минут</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>15 минут</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>30 минут</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>60 минут</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>2 часа</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>4 часа</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>6 часов</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>8 часов</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>10 часов</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>12 часов</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>24 часа</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>48 часов</item>
     </string-array>
-    <string-array name="syncValuesArray">
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
-        <item>240</item>
-        <item>360</item>
-        <item>480</item>
-        <item>600</item>
-        <item>720</item>
-        <item>1440</item>
-        <item>2880</item>
-    </string-array>
+    <!-- Date (Date format output) Items -->
     <string name="dateformat">dd.MM.yy</string>
     <string name="datetimeformat">dd.MM.yy, HH:mm</string>
     <string name="datetimeformat_yesterday">\'Вчера\', HH:mm</string>
@@ -352,11 +368,66 @@
     <plurals name="minutes_ago">
         <item quantity="one">Минуту назад</item>
         <item quantity="other">%d минут назад</item>
+        <item quantity="few">%d минут назад</item>
         <item quantity="many">%d минут назад</item>
     </plurals>
     <plurals name="hours_ago">
         <item quantity="one">Час назад</item>
         <item quantity="other">%d ч. назад</item>
+        <item quantity="few">%d ч. назад</item>
         <item quantity="many">%d ч. назад</item>
     </plurals>
+    <string-array name="classificationArray">
+        <item>G - Для всех возрастов</item>
+        <item>PG - Для детей</item>
+        <item>PG-13 - От 13 и старше</item>
+        <item>R - 17+ (\u043d\u0430\u0441\u0438\u043b\u0438\u0435 \u0438 \u043d\u0435\u043d\u043e\u0440\u043c\u0430\u0442\u0438\u0432\u043d\u0430\u044f \u043b\u0435\u043a\u0441\u0438\u043a\u0430)</item>
+        <item>R+ - Частичная нагота</item>
+        <item>Rx - Хентай</item>
+    </string-array>
+    <string-array name="genresArray">
+        <item>Боевик</item>
+        <item>Приключения</item>
+        <item>Автомобили</item>
+        <item>Комедия</item>
+        <item>Мозговыносящее</item>
+        <item>Демоны</item>
+        <item>Драма</item>
+        <item>Этти</item>
+        <item>Фэнтези</item>
+        <item>Игры</item>
+        <item>Гарем</item>
+        <item>Хентай</item>
+        <item>Историческое</item>
+        <item>Ужасы</item>
+        <item>Дзёсэй</item>
+        <item>Для детей</item>
+        <item>Магия</item>
+        <item>Боевые искусства</item>
+        <item>Меха</item>
+        <item>Военное</item>
+        <item>Музыка</item>
+        <item>Детектив</item>
+        <item>Пародия</item>
+        <item>Полиция</item>
+        <item>Психологическое</item>
+        <item>Мелодрама</item>
+        <item>Самураи</item>
+        <item>Школа</item>
+        <item>Научная фантастика</item>
+        <item>Сэйнэн</item>
+        <item>Сёдзё</item>
+        <item>Сёдзё-ай</item>
+        <item>Сёнэн</item>
+        <item>Сёнэн-ай</item>
+        <item>Повседневность</item>
+        <item>Космос</item>
+        <item>Спорт</item>
+        <item>Суперсила</item>
+        <item>Сверхъестественное</item>
+        <item>Триллер</item>
+        <item>Вампиры</item>
+        <item>Яой</item>
+        <item>Юри</item>
+    </string-array>
 </resources>

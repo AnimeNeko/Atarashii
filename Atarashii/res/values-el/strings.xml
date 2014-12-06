@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <resources>
-    <string name="app_name">Atarashii!</string>
     <!-- All (Actionbar Title) Strings -->
     <string name="title_activity_firstRun">Αρχικές Ρυθμίσεις</string>
     <string name="title_activity_settings">Ρυθμίσεις</string>
@@ -11,6 +10,7 @@
     <string name="title_activity_logout">Έξοδος</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Εναλλαγή λίστας</string>
+    <string name="menu_inverse">Αντίστροφη λίστα</string>
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_sync">Πλήρης συγχρονισμός</string>
     <string name="menu_sortType">Ταξινόμηση</string>
@@ -24,6 +24,10 @@
     <string name="crouton_error_noUserRecord">Δεν υπάρχουν δεδομένα για αυτό το χρήστη!</string>
     <string name="crouton_error_Anime_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας anime!</string>
     <string name="crouton_error_Manga_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας manga!</string>
+    <string name="crouton_error_SyncFailed">Ο συγχρονισμός απέτυχε! Παρακαλώ, προσπάθηστε ξανά αργότερα.</string>
+    <string name="crouton_error_Anime_Records">Λάθος κατά την λήψη αρχείων anime.</string>
+    <string name="crouton_error_Manga_Records">Λάθος κατά την λήψη αρχείων manga.</string>
+    <string name="crouton_error_Records">Λάθος κατά την λήψη αρχείων. Παρακαλώ προσπαθήστε ξανά αργότερα.</string>
     <string name="crouton_error_noFriends">Δεν έχετε φίλους στο MAL!</string>
     <string name="crouton_error_DetailsError">Δεν ήταν δυνατή η φόρτωση λεπτομερειών, παρακαλώ ελέγξτε τη σύνδεση σας στο Internet.</string>
     <string name="crouton_error_VerifyProblem">Να πάρει! Κάτι πήγε στραβά. Παρακαλώ ελέγξτε τα στοιχεία σύνδεσης σας στο MAL και τη σύνδεση σας στο Internet και δοκιμάστε ξανά.</string>
@@ -32,7 +36,9 @@
     <string name="crouton_info_SyncMessage">Ολικώς συγχρονισμός. Αυτό θα διαρκέσει λίγο, αναλόγως και της ταχύτητας σας στο Internet.</string>
     <string name="crouton_info_connectionRestored">Η σύνδεση επανήλθε. Συγχρονισμός αλλαγών.</string>
     <string name="crouton_info_UserRecord_updated">Το προφίλ χρήστη ενημερώθηκε!</string>
+    <string name="crouton_info_Max_Counter">Είναι πάνω από 9999!</string>
     <string name="crouton_info_SyncDone">Ο συγχρονισμός ολοκληρώθηκε!</string>
+    <string name="crouton_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Προβολή</string>
     <string name="dialog_title_share">Διαμοιρασμός</string>
@@ -43,17 +49,27 @@
     <string name="dialog_title_watched_update">Έχω δει</string>
     <string name="dialog_title_read_update">Έχω διαβάσει</string>
     <string name="dialog_title_status">Κατάσταση</string>
+    <string name="dialog_title_sync">Συγχρονισμός</string>
+    <string name="dialog_title_id_search">Αναζήτηση με ID</string>
+    <string name="dialog_title_update_password">Αλλαγή κωδικού</string>
     <string name="dialog_message_view">Ποια λίστα θέλετε να δείτε;</string>
     <string name="dialog_message_logout">Είστε σίγουροι πως θέλετε να βγείτε; Αυτό θα έχει ως αποτέλεσμα να διαγραφούν όλα τα αποθηκευμένα δεδομένα και εικόνες.</string>
+    <string name="dialog_message_id_search">Παρακαλώ πατήστε πάνω στο κουμπί Manga ή Anime για αναζήτηση. Να θυμάστε ότι τα ID των Manga και των Anime δεν είναι ίδια!</string>
     <string name="dialog_message_remove">Είστε απολύτως σίγουροι; Αν το πράξετε, τα δεδομένα θα διαγραφούν και δεν θα μπορούν να επανέλθουν. Όχι εύκολα τουλάχιστον.</string>
     <string name="dialog_message_share">Ποια λίστα θέλετε να μοιραστείτε;</string>
     <string name="dialog_message_Verifying">Διασφάλιση ότι ο λογαριασμός σας είναι εντάξει. Περιμένετε λίγα δευτερόλεπτα.</string>
+    <string name="dialog_message_update_password">Φαίνεται πως ο κωδικός σας έχει αλλάξει. Παρακαλώ εισάγετε τον καινούργιο.</string>
+    <string name="dialog_message_new_password_wrong">Ο νέος κωδικός που εισάχθηκε είναι λάθος.</string>
     <string name="dialog_label_cancel">Άκυρο</string>
     <string name="dialog_label_update">Αναβάθμιση</string>
-    <string name="dialog_label_anime">Η λίστα των Anime μου</string>
-    <string name="dialog_label_manga">Η λίστα των Manga μου</string>
+    <string name="dialog_label_anime">Anime</string>
+    <string name="dialog_label_manga">Manga</string>
+    <string name="dialog_label_animelist">H λίστα anime μου</string>
+    <string name="dialog_label_mangalist">Η λίστα manga μου</string>
     <string name="dialog_title_remove">Αφαίρεση από τη λίστα</string>
     <string name="dialog_label_logout">Έξοδος</string>
+    <string name="dialog_label_remove">Αφαίρεση</string>
+    <string name="dialog_label_confirm">Επιβεβαίωση</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">Ο/Η $username; μοιράστηκε ένα anime μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">Ο/Η $username; μοιράστηκε ένα manga μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -67,13 +83,11 @@
     <string name="layout_card_forum">Απαντήσεις στο Forum</string>
     <string name="layout_card_last">Τελευταία σύνδεση</string>
     <string name="layout_card_gender">Φύλο</string>
-    <string name="layout_card_join">Εγγραφή  </string>
+    <string name="layout_card_join">"Εγγραφή  "</string>
     <string name="layout_card_acces">Βαθμός</string>
     <string name="access_rank_atarashii_developer">Προγραμματιστές του Atarashii</string>
     <string name="layout_card_anime_views">Προβολές λίστας Anime</string>
     <string name="layout_card_manga_views">Προβολές λίστας Manga</string>
-    <string name="layout_card_anime_details">Λεπτομέρειες Anime</string>
-    <string name="layout_card_manga_details">Λεπτομέρειες Manga</string>
     <string name="layout_card_anime_time">Χρόνος σε μέρες</string>
     <string name="layout_card_anime_watching">Παρακαλούθηση</string>
     <string name="layout_card_anime_completed">Ολοκληρωμένα</string>
@@ -98,7 +112,7 @@
     <string name="form_hint_info">Εισάγετε τα στοιχεία του λογαριασμού σας, από το MyAnimeList παρακάτω:</string>
     <string name="form_action_create">Δημιουργία λογαριασμού</string>
     <string name="form_action_connect">Σύνδεση στο MAL</string>
-    <!-- CoverAdapter (MyList Cover) Strings -->
+    <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">Έχω δει:</string>
     <string name="cover_Completed">Ολοκληρωμένα</string>
     <string name="cover_Reading">Έχω διαβάσει:</string>
@@ -111,6 +125,7 @@
     <string name="action_MarkAsComplete">Σημείωση ως ολοκληρωμένο</string>
     <string name="label_Chapters">Κεφάλαια:</string>
     <string name="label_Volumes">Τόμοι:</string>
+    <string name="label_Number">Νούμερο:</string>
     <!-- Navigation drawer (item & action) Strings -->
     <string name="nav_item_my_profile">Το προφίλ μου</string>
     <string name="nav_item_my_list">Η λίστα μου</string>
@@ -121,23 +136,38 @@
     <string name="nav_item_upcoming">Αναμενόμενα</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <!-- DetailSectionsPagerAdapter (Unknown) Strings -->
-    <string name="title_Stats">Στατιστικά</string>
-    <string name="title_BasicStuff">Εξώφυλλο</string>
+    <!-- DetailView (Tab names) Strings -->
+    <string name="tab_name_general">Γενικές Πληροφορίες</string>
+    <string name="tab_name_personal">Προσωπικά</string>
+    <string name="tab_name_details">Λεπτομέρειες</string>
     <!-- DetailView (Card names) Strings -->
-    <string name="card_name_synopsis">ΠΕΡΙΛΗΨΗ</string>
-    <string name="card_name_progress">ΠΡΟΟΔΟΣ</string>
-    <string name="card_name_stats">ΠΛΗΡΟΦΟΡΙΕΣ MAL</string>
-    <string name="card_name_rating">ΒΑΘΜΟΛΟΓΗΣΗ</string>
-    <string name="card_name_status">ΚΑΤΑΣΤΑΣΗ</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Τόμοι</string>
     <string name="card_content_chapters">Κεφάλαια</string>
     <string name="card_content_episodes">Επεισόδια</string>
+    <string name="card_content_status">Κατάσταση</string>
     <string name="card_content_mal_score">Βαθμολόγηση MAL</string>
     <string name="card_content_my_score">Ο δικός μου βαθμός</string>
     <string name="card_content_media_type">Είδος</string>
     <string name="card_content_media_status">Κατάσταση</string>
+    <string name="card_content_aired">Προβλήθηκε</string>
+    <string name="card_content_genres">Είδη</string>
+    <string name="card_content_classification">Καταλληλότητα</string>
+    <string name="card_content_ranked">Θέση</string>
+    <string name="card_content_popularity">Δημοτικότητα</string>
+    <string name="card_content_members">Μέλη</string>
+    <string name="card_content_favorites">Αγαπημένο</string>
+    <string name="card_content_loading">Φορτώνει. Παρακαλώ περιμένετε.</string>
+    <string name="card_content_prequel">Πριν την σειρά</string>
+    <string name="card_content_sequel">Μετά την σειρά</string>
+    <string name="card_content_alternativeversions">Άλλες εκδοχές</string>
+    <string name="card_content_adaptions">Αποδόσεις</string>
+    <string name="card_content_sidestories">Παράλληλες Ιστορίες</string>
+    <string name="card_content_spinoffs">Προερχόμενα από την σειρά</string>
+    <string name="card_content_summaries">Περιλήψεις</string>
+    <string name="card_content_character">Χαρακτήρας</string>
+    <string name="card_content_related">Σχετικό</string>
+    <string name="card_content_parentstory">Μητρική Ιστορία</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Προβολή λεπτομερειών στο MyAnimeList</string>
     <string name="action_Share">Διαμοιρασμός</string>
@@ -145,17 +175,17 @@
     <string name="action_AddToList">Προσθήκη στη λίστα</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Σειρά</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Ταινία</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>OVA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>ONA</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Ειδικό επεισόδιο</item>
-        <!-- DetailView (Media info) Strings -->
+    <!-- DetailView (Media info) Strings -->
         <item>Μουσική</item>
     </string-array>
     <string-array name="mediaType_Manga">
@@ -179,19 +209,19 @@
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Ολοκληρωμένα</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Σε αναμονή</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Παρατημένα</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Σε παρακαλούθηση</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Μελλοντική παρακολούθηση</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Σε ανάγνωση</item>
-        <!-- Anime/Manga progress status strings -->
+    <!-- Anime/Manga progress status strings -->
         <item>Μελλοντική ανάγνωση</item>
     </string-array>
     <!-- AndroidManifest (Unknown) Strings -->
@@ -203,47 +233,41 @@
     <string name="search_prompt">Αναζήτηση στο MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Σημαντικοί Συντελεστές</string>
-    <string name="acknowledgements_card_title">Βιβλιοθήκες Ανοιχτού Κώδικα</string>
-    <string name="acknowledgements">Το Atarashii! χρησιμοποιεί το <a href="http://actionbarsherlock.com">ActionBarSherlock</a> του Jake Wharton, το <a href="https://github.com/SimonVT/android-numberpicker">NumberPicker backport</a> του SimonVT, το <a href="https://github.com/nicolasjafelle/SherlockNavigationDrawer">Sherlock Navigation Drawer</a> του Nicolas Jafelle, το <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> του Keyboardsurfer, το <a href="http://square.github.io/retrofit/">Retrofit</a> από την Square Inc. και το <a href="https://code.google.com/p/google-gson/">google-gson</a> από τη Google, που χρησιμοποιείται από το Retrofit, όλες οι βιβλιοθήκες είναι σύμφωνες με την άδεια <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.</string>
-    <string name="app_description">Το Atarashii! είναι ο καλύτερος τρόπος πρόσβασης του MyAnimeList από το κινητό σας. Έχει ένα όμορφο και μοντέρνο σχεδιασμό μαζί με ότι άλλο θα χρειαζόταν κάποιος χρήστης του MyAnimeList.</string>
-    <string name="contributor_anima_name">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
-    <string name="contributor_anima_summary">\"All the other apps suck!\"\n\nΙδρυτής και κύριος προγραμματιστής. Βαρέθηκε το κακό σχεδιασμό των άλλων εφαρμογών και τη μη υποστήριξη τους και έτσι δημιούργησε το Atarashii!</string>
-    <string name="contributor_motokochan_name">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
-    <string name="contributor_motokochan_summary">Εστιάζει στη αναμόρφωση του κώδικα και προσθήκη μικρών χαρακτηριστικών. Δούλεψε πάνω στην επέκταση της εφαρμογής για την υποστήριξη των Manga.</string>
-    <string name="contributor_apkawa_name">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
-    <string name="contributor_apkawa_summary">Λειτουργία αναζήτησης μέσω της εφαρμογής. </string>
-    <string name="contributor_dsko_name">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
-    <string name="contributor_dsko_summary">Τροποποίησε το Retrofit για χειρισμό του API</string>
     <string name="community_card_title">Η Κοινότητα του Atarashii</string>
-    <string name="customShareText_fromAtarashii">\n\nΜοιράστηκε μέσω του Atarashii! - Σύγχρονο MAL για το Android</string>
+    <string name="app_description">Το Atarashii! είναι ο καλύτερος τρόπος πρόσβασης του MyAnimeList από το κινητό σας. Έχει ένα όμορφο και μοντέρνο σχεδιασμό μαζί με ότι άλλο θα χρειαζόταν κάποιος χρήστης του MyAnimeList.</string>
+    <string name="contributor_anima_summary">\"All the other apps suck!\"\n\nΙδρυτής και κύριος προγραμματιστής. Βαρέθηκε το κακό σχεδιασμό των άλλων εφαρμογών και τη μη υποστήριξη τους και έτσι δημιούργησε το Atarashii!</string>
+    <string name="contributor_motokochan_summary">Εστιάζει στη αναμόρφωση του κώδικα και προσθήκη μικρών χαρακτηριστικών. Δούλεψε πάνω στην επέκταση της εφαρμογής για την υποστήριξη των Manga.</string>
+    <string name="contributor_apkawa_summary">Λειτουργία αναζήτησης μέσω της εφαρμογής.</string>
+    <string name="contributor_dsko_summary">Τροποποίησε το Retrofit για χειρισμό του API</string>
+    <string name="customShareText_fromAtarashii">\n\nΚοινοποιημένο από το Atarashii! - Modern MAL for Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Μπείτε στη κοινότητα μας!</a> Η κοινότητα του Atarashii! στο Google+ είναι ένα ενδιαφέρον μέρος για να επικοινωνήσετε με τους προγραμματιστές και να τους πείτε τι σκέφτεστε. Προβλήματα, αιτήματα για νέα χαρακτηριστικά, ενημερώσεις, όλα είναι εκεί. Δεν δαγκώνουμε, δοκιμάστε μας.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Προκαθορισμένη Λίστα</string>
     <string name="summary_DefaultList">Ποια λίστα θέλετε να φορτώνει η εφαρμογή όταν ανοίγει;</string>
     <string name="preference_category_list">Λίστα</string>
     <string name="preference_category_synchronisation">Συγχρονισμός</string>
-    <string name="preference_category_sharing">Διαμοιρασμός</string>
+    <string name="preference_category_sharing">Άλλες ρυθμίσεις</string>
     <string name="preference_category_profile">Συγχρονισμός Προφίλ</string>
     <string name="preference_synchronisation">Αυτόματος Συγχρονισμός</string>
     <string name="preference_TraditionalList">Χρήση Παλαιάς Λίστας</string>
-    <string name="preference_Only_wifi">Συγχρονισμός μόνο μέσω Wi-Fi</string>
     <string name="preference_customShareText">Κείμενο διαμοιρασμού</string>
     <string name="preference_displayVolumes">Τόμοι στα Πλακίδια</string>
     <string name="preference_autosync">Ρυθμός Αυτόματου Συγχρονισμού</string>
+    <string name="preference_language">Αλλαγή της γλώσσας σε</string>
+    <string name="preference_title_language">Αλλαγή γλώσσας</string>
     <string name="preference_profileTextColors">Απενεργοποιήστε τα χρώματα κειμένου</string>
     <string name="preference_profileAnimeHide">Μόνιμη απόκρυψη των λεπτομερειών των anime</string>
     <string name="preference_profileMangaHide">Μόνιμη απόκρυψη των λεπτομερειών των manga</string>
-    <string name="preference_profileBothHide">Αυτόματη απόκρυψη λεπτομερειών anime/manga</string>
     <string name="preference_summary_TraditionList">Χρησιμοποιήστε το δοκιμασμένο τρόπο προβολής λίστας αντί για αυτόν με τη χρήση πλακιδίων. Χρειάζεται επανεκκίνηση της εφαρμογής για να λειτουργήσει.</string>
-    <string name="preference_summary_synchronisation">Αν είναι επιλεγμένο, το Atarashii θα συγχρονίζεται στην έναρξη.</string>
-    <string name="preference_summary_Only_wifi">Το Atarashii θα συγχρονίζεται αυτόματα μόνο μέσω Wi-Fi.</string>
+    <string name="preference_summary_synchronisation">Αν τσεκαριστεί, το Atarashii θα συχγρονίζει στο παρασκήνιο.</string>
+    <string name="preference_summary_Language">Αλλάξτε την προεπιλεγμένη γλώσσας σε όποια που επιθυμείτε. Για την εφαρμογή της νέας γλώσσας απαιτείται επανεκκίνηση της εφαρμογής.</string>
     <string name="preference_summary_customShareText">Δεν σας αρέσει το κείμενο κοινοποίησης; Δημιουργήστε το δικό σας! Χρησιμοποιήστε το $tittle; και $link; στη θέση του τίτλου και του συνδέσμου στο MAL αντίστοιχα, τα υπόλοιπα θα τα κάνουμε εμείς.</string>
-    <string name="preference_summary_autosync">Μέγιστος χρόνος όπου ο αυτόματος συγχρονισμός θα τρέξει στην εκκίνηση</string>
-    <string name="preference_summary_displayVolumes">Εμφάνιση τόμων αντί για κεφαλαίων στα εξώφυλλα. Η ενέργεια "+1 Διάβασα" θα αντιστοιχεί επίσης σε τόμους αντί για κεφάλαια. Χρειάζεται επανεκκίνηση της εφαρμογής για ενεργοποίηση.</string>
+    <string name="preference_summary_autosync">Χρόνος μέχρι να γίνει συγχρονισμός αυτόματα στο παρασκήνιο.</string>
+    <string name="preference_summary_displayVolumes">Εμφάνιση τόμων αντί για κεφαλαίων στα εξώφυλλα. Η ενέργεια \"+1 Διάβασα\" θα αντιστοιχεί επίσης σε τόμους αντί για κεφάλαια. Χρειάζεται επανεκκίνηση της εφαρμογής για ενεργοποίηση.</string>
     <string name="preference_summary_profileTextColors">Εξαναγκάστε τη σελίδα προφίλ να χρησιμοποιεί μαύρο χρώμα κειμένου.</string>
     <string name="preference_summary_profileAnimeHide">Απόκρυψη λεπτομερειών anime σε όλα τα προφίλ.</string>
     <string name="preference_summary_profileMangaHide">Απόκρυψη λεπτομερειών manga σε όλα τα προφίλ.</string>
-    <string name="preference_summary_profileBothHide">Απόκρυψη λεπτομερειών anime/manga σε όλα τα προφίλ, όταν το Σύνολο καταχωρήσεων είναι μηδέν.</string>
+    <string name="preference_android_synchronisation">Αρχεία Anime/Manga</string>
     <string name="preference_default_customShareText">Δείτε το $title; στο MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">Όλα</string>
@@ -254,94 +278,152 @@
     <string name="listType_InProgress">Σε εξέλιξη</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>Χωρίς βαθμολογία</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>1: Άθλιο</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>2: Φρικτό</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>3: Πολύ κακό</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>4: Κακό</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>5: Μέτριο</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>6: Καλούτσικο</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>7: Καλό</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>8: Πολύ καλό</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>9: Σπουδαίο</item>
-        <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- RatingPickerDialogFragment (Rating) Items -->
         <item>10: Αριστούργημα</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Όλα</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Παρακαλούθηση</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Ολοκληρωμένα</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Σε αναμονή</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Παρατημένα</item>
-        <!-- Settings (ListPreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
         <item>Σε αναμονή για παρακολούθηση</item>
     </string-array>
-    <string-array name="listTypeValuesArray">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+    <string-array name="localeArray">
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Αραβικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Ολλανδικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Αγγλικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Γαλλικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Γερμανικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Ελληνικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Πολωνικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Πορτογαλικά Βραζιλίας</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Πορτογαλικά Πορτογαλίας</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Ρωσσικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Ισπανικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Τουρκικά</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>5 λεπτά</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 λεπτά</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>15 λεπτά</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>30 λεπτά</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>60 λεπτά</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>2 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>4 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>6 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>8 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>10 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>12 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>24 ώρες</item>
-        <!-- Settings (ListPreference Entries) Items -->
-        <item>48 ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 Ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>8 Ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>10 Ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>12 Ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>24 Ώρες</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>48 Ώρες</item>
     </string-array>
-    <string-array name="syncValuesArray">
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
-        <item>240</item>
-        <item>360</item>
-        <item>480</item>
-        <item>600</item>
-        <item>720</item>
-        <item>1440</item>
-        <item>2880</item>
+    <!-- Date (Date format output) Items -->
+    <string name="dateformat">dd-MM-yy</string>
+    <string name="datetimeformat">dd-MM-yy, h:mm a</string>
+    <string name="datetimeformat_yesterday">\'Χτες\', h:mm a</string>
+    <string name="datetimeformat_dayname">EEEE, h:mm a</string>
+    <plurals name="minutes_ago">
+        <item quantity="one">Ένα λεπτό πριν</item>
+        <item quantity="other">%d λεπτά πριν</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">Μια ώρα πριν</item>
+        <item quantity="other">%d ώρες πριν</item>
+    </plurals>
+    <string-array name="classificationArray">
+        <item>G - Όλες οι ηλικές</item>
+        <item>PG - Για παιδιά</item>
+        <item>PG - 13 - Από 13 χρονών και άνω</item>
+        <item>R - 17+ (\u03b2\u03af\u03b1 &amp; \u03b2\u03bb\u03b1\u03c3\u03c6\u03b7\u03bc\u03af\u03b5\u03c2)</item>
+        <item>R+ - Ήπια Γυμνότητα</item>
+        <item>Rx - Hentai</item>
+    </string-array>
+    <string-array name="genresArray">
+        <item>Δράση</item>
+        <item>Περιπέτεια</item>
+        <item>Αυτοκίνητα</item>
+        <item>Κομωδία</item>
+        <item>Dementia</item>
+        <item>Δαιμονικά</item>
+        <item>Δράμα</item>
+        <item>Ecchi</item>
+        <item>Φαντασία</item>
+        <item>Παιχνίδι</item>
+        <item>Χαρέμι</item>
+        <item>Hentai</item>
+        <item>Ιστορικά</item>
+        <item>Ανατριχιαστικά</item>
+        <item>Josei</item>
+        <item>Παιδικά</item>
+        <item>Μαγεία</item>
+        <item>Πολεμικές Τέχνες</item>
+        <item>Με ρομπότ</item>
+        <item>Στρατιωτικά</item>
+        <item>Μουσικά</item>
+        <item>Μυστηρίου</item>
+        <item>Παρωδία</item>
+        <item>Αστυνομικά</item>
+        <item>Ψυχολογικά</item>
+        <item>Ρομαντικά</item>
+        <item>Με Σαμουράϊ</item>
+        <item>Σχολικά</item>
+        <item>Επιστημονικής Φαντασίας</item>
+        <item>Seinen</item>
+        <item>Shoujo</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Slice of Life</item>
+        <item>Διάστημα</item>
+        <item>Αθλήματα</item>
+        <item>Υπερδυνάμεις</item>
+        <item>Υπερφυσικά</item>
+        <item>Θρίλερ</item>
+        <item>Βαμπιρ</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
     </string-array>
 </resources>
