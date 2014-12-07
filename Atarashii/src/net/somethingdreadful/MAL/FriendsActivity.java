@@ -118,6 +118,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
 
     public void sync() {
         swipeRefresh.setEnabled(false);
+        swipeRefresh.setRefreshing(true);
         new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
     }
 
