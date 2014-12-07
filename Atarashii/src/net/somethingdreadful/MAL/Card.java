@@ -47,7 +47,7 @@ public class Card extends RelativeLayout {
         center = a.getBoolean(R.styleable.Card_header_Title_center, false);
         String TitleText = a.getString(R.styleable.Card_header_Title);
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
-        int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.card_content);
+        int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.bg_light);
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
         minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
