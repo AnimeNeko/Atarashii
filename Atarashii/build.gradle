@@ -42,6 +42,13 @@ android {
             }
         }
     }
+    productFlavors {
+        Production {
+        }
+        Beta {
+            applicationId 'net.somethingdreadful.MAL.beta'
+        }
+    }
 }
 
 repositories {

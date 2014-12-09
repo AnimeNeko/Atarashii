@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">Atarashii!</string>
+    <string name="app_name_beta">Atarashii! β</string>
 
     <!-- All (Actionbar Title) Strings -->
     <string name="title_activity_firstRun">First Run Setup</string>
