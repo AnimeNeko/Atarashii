@@ -110,9 +110,10 @@ public class GenericRecord implements Serializable {
                 "Yuri"
         };
         ArrayList<Integer> result = new ArrayList<Integer>();
-        for (String genre : getGenres()) {
-            result.add(Arrays.asList(genres).indexOf(genre));
-        }
+        if (getGenres() != null)
+            for (String genre : getGenres())
+                result.add(Arrays.asList(genres).indexOf(genre));
+        
         return result;
     }
 
