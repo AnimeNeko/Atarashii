@@ -349,43 +349,19 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
     public void onStatusDialogDismissed(String currentStatus) {
         if (type.equals(ListType.ANIME)) {
-            if (Anime.STATUS_WATCHING.equals(currentStatus)) {
-                animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-            }
+            animeRecord.setWatchedStatus(currentStatus);
             if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
-                animeRecord.setWatchedStatus(Anime.STATUS_COMPLETED);
                 if (animeRecord.getEpisodes() != 0)
                     animeRecord.setWatchedEpisodes(animeRecord.getEpisodes());
             }
-            if (GenericRecord.STATUS_ONHOLD.equals(currentStatus)) {
-                animeRecord.setWatchedStatus(Anime.STATUS_ONHOLD);
-            }
-            if (GenericRecord.STATUS_DROPPED.equals(currentStatus)) {
-                animeRecord.setWatchedStatus(Anime.STATUS_DROPPED);
-            }
-            if ((Anime.STATUS_PLANTOWATCH.equals(currentStatus))) {
-                animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
-            }
             animeRecord.setDirty(true);
         } else {
-            if (Manga.STATUS_READING.equals(currentStatus)) {
-                mangaRecord.setReadStatus(Manga.STATUS_READING);
-            }
+            mangaRecord.setReadStatus(currentStatus);
             if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
-                mangaRecord.setReadStatus(Manga.STATUS_COMPLETED);
                 if (mangaRecord.getChapters() != 0)
                     mangaRecord.setChaptersRead(mangaRecord.getChapters());
                 if (mangaRecord.getVolumes() != 0)
                     mangaRecord.setVolumesRead(mangaRecord.getVolumes());
-            }
-            if (GenericRecord.STATUS_ONHOLD.equals(currentStatus)) {
-                mangaRecord.setReadStatus(Manga.STATUS_ONHOLD);
-            }
-            if (GenericRecord.STATUS_DROPPED.equals(currentStatus)) {
-                mangaRecord.setReadStatus(Manga.STATUS_DROPPED);
-            }
-            if (Manga.STATUS_PLANTOREAD.equals(currentStatus)) {
-                mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
             }
             mangaRecord.setDirty(true);
         }
