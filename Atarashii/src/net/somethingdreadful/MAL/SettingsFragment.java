@@ -33,7 +33,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         try {
-            String Auth = AccountService.getAuth();
+            String Auth = AccountService.getAuth(context);
             Bundle bundle = new Bundle();
             int interval = Prefs.getSyncTime() * 60;
             if (key.equals("synchronisation_time")) {
