@@ -38,6 +38,7 @@ public class MALDateTools {
         String[] date_regex = {
                 "\\d{4}-\\d{2}-\\d{2}, \\d{1,2}:\\d{2} (AM|PM)", // yyyy-MM-dd, h:m a
                 "\\d{2}-\\d{2}-\\d{2}, \\d{1,2}:\\d{2} (AM|PM)", // MM-dd-yy, h:m a
+                "\\d{4}-\\d{2}-\\d{2}",                          // yyyy-MM-dd
                 "(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (\\d{1,2}):(\\d{2}) (AM|PM)", // EEEE, h:m a
                 "(January|February|March|April|May|June|July|August|September|October|November|December) +\\d{1,2}, \\d{4}", // MMMM dd, yyyy
                 "Yesterday, (\\d{1,2}):(\\d{2}) (AM|PM)", // Yesterday, h:m a
@@ -73,7 +74,18 @@ public class MALDateTools {
                             Crashlytics.logException(e);
                         }
                         break;
-                    case 2: // EEEE, h:m a
+                    case 2: // yyyy-MM-dd
+                        sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                        sdf.setTimeZone(TimeZone.getTimeZone(MALTIMEZONE));
+                        try {
+                            Date result = sdf.parse(maldate);
+                            return result;
+                        } catch (ParseException e) {
+                            Crashlytics.log(Log.ERROR, "MALX", "MALDateTools.parseMALDate(): case 2: " + e.getMessage());
+                            Crashlytics.logException(e);
+                        }
+                        break;
+                    case 3: // EEEE, h:m a
                         String[] week_days = {
                                 "Sunday",
                                 "Monday",
@@ -96,18 +108,18 @@ public class MALDateTools {
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.AM_PM, matcher.group(4).equals("AM") ? Calendar.AM : Calendar.PM);
                         return cal.getTime();
-                    case 3: //MMMM dd, yyyy
+                    case 4: //MMMM dd, yyyy
                         sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
                         sdf.setTimeZone(TimeZone.getTimeZone(MALTIMEZONE));
                         try {
                             Date result = sdf.parse(maldate);
                             return result;
                         } catch (ParseException e) {
-                            Crashlytics.log(Log.ERROR, "MALX", "MALDateTools.parseMALDate(): case 3: " + e.getMessage());
+                            Crashlytics.log(Log.ERROR, "MALX", "MALDateTools.parseMALDate(): case 4: " + e.getMessage());
                             Crashlytics.logException(e);
                         }
                         break;
-                    case 4: // Yesterday, h:m a
+                    case 5: // Yesterday, h:m a
                         cal = Calendar.getInstance(TimeZone.getTimeZone(MALTIMEZONE));
                         cal.add(Calendar.DATE, -1);
                         cal.set(Calendar.HOUR, Integer.parseInt(matcher.group(1)));
@@ -115,7 +127,7 @@ public class MALDateTools {
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.AM_PM, matcher.group(3).equals("AM") ? Calendar.AM : Calendar.PM);
                         return cal.getTime();
-                    case 5:
+                    case 6:
                         Date result = new Date();
                         int count = Integer.parseInt(matcher.group(1));
                         String unit = matcher.group(2);
@@ -185,17 +197,38 @@ public class MALDateTools {
         }
     }
 
-    public static String formatDateString(String date, Context context, boolean withtime) {
-        SimpleDateFormat sdf = new SimpleDateFormat(ISO8601DATESTRING);
-        try {
-            Date result = sdf.parse(date);
-            return formatDate(result, context, withtime);
-        } catch (ParseException e) {
-            Crashlytics.logException(e);
-            Date result = parseMALDate(date);
-            if (result != null)
-                return formatDate(result, context, withtime);
+    private static Date parseISODate(String date) {
+        Date result = null;
+        String[] isoFormats = {
+                ISO8601DATESTRING,
+                "yyyy-MM-dd'T'HH:mmZ",
+                "yyyy-MM-dd'T'HHZ"
+        };
+        int i = 0;
+
+        while (i < isoFormats.length && result == null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(isoFormats[i], Locale.US);
+            i++;
+            try {
+                result = sdf.parse(date);
+            } catch (ParseException e) {
+                // really nothing to do here
+            }
         }
+
+        return result;
+    }
+
+    public static String formatDateString(String date, Context context, boolean withtime) {
+        Date result = parseISODate(date);
+        if (result == null) {
+            result = parseMALDate(date);
+        }
+
+        if (result != null) {
+            return formatDate(result, context, withtime);
+        }
+
         // return empty string if parsing failed
         return "";
     }
