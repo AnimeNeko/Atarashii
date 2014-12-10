@@ -178,20 +178,17 @@ public class Card extends RelativeLayout {
      * @param height The height of the image in dp
      */
     public void wrapImage(int width, int height) {
-        width = convert(width);
-        height = convert(height);
-
         setPadding(16);
 
-        Header.getLayoutParams().width = width + convert(32);
-        Card.getLayoutParams().width = width + convert(36) - 1;
-        Card.getLayoutParams().height = height + convert(98) - 1;
+        Header.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().width = convert(width + 36 - 2);
+        Card.getLayoutParams().height = convert(height + 98 - 2);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
 
-        Image.getLayoutParams().height = height;
-        Image.getLayoutParams().width = width;
+        Image.getLayoutParams().height = convert(height);
+        Image.getLayoutParams().width = convert(width);
 
         if (center)
             Header.setGravity(Gravity.CENTER);
@@ -246,7 +243,7 @@ public class Card extends RelativeLayout {
      * @return int The converted dp in pixels
      */
     private int convert(int number) {
-        return (int) (getDensity() * number);
+        return Math.round(getDensity() * number);
     }
 
     /**
