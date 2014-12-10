@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -26,8 +28,6 @@ import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
-
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.Serializable;
 
@@ -251,9 +251,13 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
-                        BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.cover_error);
-                        cardMain.wrapImage(225, 320);
-                        image.setImageBitmap(bitmap.getBitmap());
+                        try {
+                            BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.cover_error);
+                            cardMain.wrapImage(225, 320);
+                            image.setImageBitmap(bitmap.getBitmap());
+                        } catch (Exception e) {
+                            Crashlytics.log(Log.ERROR, "MALX", "DetailViewGeneral.setText(): " + e.getMessage());
+                        }
                     }
 
                     @Override

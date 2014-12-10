@@ -122,8 +122,10 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 }
                 break;
             case R.id.action_ViewMALPage:
-                Uri malurl = Uri.parse("http://myanimelist.net/profile/" + record.getName());
-                startActivity(new Intent(Intent.ACTION_VIEW, malurl));
+                if (record == null)
+                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT);
+                else
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/profile/" + record.getName())));
                 break;
             case R.id.View:
                 choosedialog(false);

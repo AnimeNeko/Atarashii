@@ -8,8 +8,11 @@ import android.accounts.NetworkErrorException;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -21,8 +24,12 @@ public class AccountService extends Service {
      *
      * @return String The provider
      */
-    public static String getAuth() {
-        return ".account.Provider";
+    public static String getAuth(Context context) throws PackageManager.NameNotFoundException {
+        PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        if (TextUtils.isDigitsOnly(pInfo.versionName.replace(".", "")))
+            return ".account.Provider";
+        else
+            return ".beta.account.Provider";
     }
 
     /**
