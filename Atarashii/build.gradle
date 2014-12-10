@@ -8,15 +8,15 @@ buildscript {
     }
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
+    gradleVersion = '2.21'
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.0.2"
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         minSdkVersion 14
@@ -54,12 +54,6 @@ android {
 }
 
 repositories {
-    maven {
-        url 'https://github.com/toxbee/mvn-repo/raw/master/maven-deploy'
-    }
-    maven {
-        url 'https://raw.github.com/nicolasjafelle/maven-repo/master/'
-    }
     maven { url 'http://download.crashlytics.com/maven' }
 }
 
