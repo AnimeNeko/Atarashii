@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -142,7 +143,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        ComponentName cn = new ComponentName(this, SearchActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
         return true;
     }
 
