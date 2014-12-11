@@ -58,6 +58,8 @@ public class MangaPickerDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
+                chapterPicker.clearFocus();
+                volumePicker.clearFocus();
                 ((DetailView) getActivity()).onMangaDialogDismissed(chapterPicker.getValue(), volumePicker.getValue());
                 dismiss();
             }
