@@ -39,6 +39,7 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
+                numberPicker.clearFocus();
                 ((DetailView) getActivity()).onDialogDismissed(numberPicker.getValue());
                 dismiss();
             }
