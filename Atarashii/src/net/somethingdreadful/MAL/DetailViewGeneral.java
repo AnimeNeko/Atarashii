@@ -274,15 +274,17 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        if (activity.type.equals(ListType.ANIME)) {
-            if (activity.animeRecord != null) {
-                activity.animeRecord.setScore((int) (rating * 2));
-                activity.animeRecord.setDirty(true);
-            }
-        } else {
-            if (activity.mangaRecord != null) {
-                activity.mangaRecord.setScore((int) (rating * 2));
-                activity.mangaRecord.setDirty(true);
+        if (fromUser) {
+            if (activity.type.equals(ListType.ANIME)) {
+                if (activity.animeRecord != null) {
+                    activity.animeRecord.setScore((int) (rating * 2));
+                    activity.animeRecord.setDirty(true);
+                }
+            } else {
+                if (activity.mangaRecord != null) {
+                    activity.mangaRecord.setScore((int) (rating * 2));
+                    activity.mangaRecord.setDirty(true);
+                }
             }
         }
     }
