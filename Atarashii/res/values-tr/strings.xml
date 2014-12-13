@@ -13,25 +13,7 @@
     <string name="menu_settings">Ayarlar</string>
     <string name="menu_sync">Tam Senkronizasyon</string>
     <string name="menu_sortType">Sırala</string>
-    <!-- All (Crouton) Strings -->
-    <string name="crouton_error_noConnectivityOnRun">İnternet bağlantısı bulunamadı. Değişiklikler daha sonra senkronize edilmek üzere saklanacaktır.</string>
-    <string name="crouton_error_noConnectivity">İnternet bağlantısı bulunamadı.</string>
-    <string name="crouton_error_UserRecord">Kullanıcı profili boş!</string>
-    <string name="crouton_error_Search_Anime">Anime kayıtlarını ararken bir sorun ile karşılaşıldı.</string>
-    <string name="crouton_error_Search_Manga">Manga kayıtlarını ararken bir sorun ile karşılaşıldı.</string>
-    <string name="crouton_error_Search">Arama yaparken bir sorun ile karşılaşıldı. Lütfen sonra tekrar deneyin.</string>
-    <string name="crouton_error_noUserRecord">Bu kullanıcının çevrimdışı kaydı bulunmamaktadır!</string>
-    <string name="crouton_error_Anime_Sync">Anime listesi indirilemedi!</string>
-    <string name="crouton_error_Manga_Sync">Manga listesi indirilemedi!</string>
-    <string name="crouton_error_noFriends">MAL\'da hiç arkadaşınız yok!</string>
-    <string name="crouton_error_DetailsError">Detaylar yüklenemedi. Lütfen internet bağlantınızı kontrol edin.</string>
-    <string name="crouton_error_VerifyProblem">Ah! Birşey çalışmadı. Kullanıcı bilgilerinizi ve internet bağlantınızı kontrol ettikten sonra tekrar deneyin.</string>
-    <string name="crouton_error_Friends">Arkadaş listesini indirirken bir hata oluştu.</string>
-    <string name="crouton_error_nothingFound">Böyle bir anime veya manga bulunamadı. Ya API bozuk, ya da siz bir yazım hatası yaptınız.</string>
-    <string name="crouton_info_SyncMessage">Herşey senkronize ediliyor. Bu işlem internet bağlantınıza göre birkaç saniye sürebilir.</string>
-    <string name="crouton_info_connectionRestored">İnternet bağlantısı onarıldı. Bekleyen değişiklikler senkronize ediliyor.</string>
-    <string name="crouton_info_UserRecord_updated">Kullanıcı profili güncellendi!</string>
-    <string name="crouton_info_SyncDone">Senkronizasyon tamamlandı!</string>
+    <!-- All (Toast) Strings -->
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Göster</string>
     <string name="dialog_title_share">Paylaş</string>

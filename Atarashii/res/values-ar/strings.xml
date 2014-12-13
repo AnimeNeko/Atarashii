@@ -13,25 +13,7 @@
     <string name="menu_settings">الإعدادات</string>
     <string name="menu_sync">تزامن كامل</string>
     <string name="menu_sortType">رتب</string>
-    <!-- All (Crouton) Strings -->
-    <string name="crouton_error_noConnectivityOnRun">لم يتم العثور على اتصال. التغيرات ستحفظ حتى تزامن لاحق.</string>
-    <string name="crouton_error_noConnectivity">لم يتم العثور على اتصال بالشبكة.</string>
-    <string name="crouton_error_UserRecord">الملف الشخصي فارغ!</string>
-    <string name="crouton_error_Search_Anime">خطأ أثناء البحث عن سجلات الـ Anime.</string>
-    <string name="crouton_error_Search_Manga">خطأ أثناء البحث عن سجلات الـ Manga.</string>
-    <string name="crouton_error_Search">خطأ أثناء البحث! من فضلك اعد المحاولة لاحقا ً.</string>
-    <string name="crouton_error_noUserRecord">هذا المستخدم ليس له معلومات مسجلة أثناء عدم الاتصال!</string>
-    <string name="crouton_error_Anime_Sync">خطأ فى التزامن أثناء الحصول على قائمة الـ Anime!</string>
-    <string name="crouton_error_Manga_Sync">خطأ فى التزامن أثناء الحصول على قائمة الـ Manga!</string>
-    <string name="crouton_error_noFriends">أنت لا تمتلك أصدقاء على MAL!</string>
-    <string name="crouton_error_DetailsError">لم نستطع تحميل التفاصيل، من فضلك تأكد من اتصالك بالإنترنت.</string>
-    <string name="crouton_error_VerifyProblem">شئ ما لم يعمل. تحقق من بياناتك و اتصالك بالشبكة و حاول مجددا ً.</string>
-    <string name="crouton_error_Friends">خطأ فى التزامن أثناء الحصول على قائمة الأصدقاء!</string>
-    <string name="crouton_error_nothingFound">لم نجد نتائج من الـ Anime أو الـ Manga. يمكن أن يكون هناك مشاكل فى واجهة برمجة التطبيق API أو أنك لم تتهج بشكل صحيح.</string>
-    <string name="crouton_info_SyncMessage">يتزامن كل شئ الآن. هذا قد يتطلب ثانية أو اثنتان حسب سرعة اتصالك بالإنترنت</string>
-    <string name="crouton_info_connectionRestored">أُعيد الاتصال. تتزامن الآن التغييرات التى كانت بالانتظار.</string>
-    <string name="crouton_info_UserRecord_updated">تم تحديث الملف الشخصى!</string>
-    <string name="crouton_info_SyncDone">اكتمل التزامن!</string>
+    <!-- All (Toast) Strings -->
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">العرض</string>
     <string name="dialog_title_share">المشاركة</string>

@@ -14,31 +14,25 @@
     <string name="menu_settings">Paramètres</string>
     <string name="menu_sync">Synchronisation réussie</string>
     <string name="menu_sortType">Trier</string>
-    <!-- All (Crouton) Strings -->
-    <string name="crouton_error_noConnectivityOnRun">Pas de connexion détectée. Les modifications seront enregistrées lors de la prochaine synchronisation.</string>
-    <string name="crouton_error_noConnectivity">Pas de connexion détectée.</string>
-    <string name="crouton_error_UserRecord">Le profil est vide !</string>
-    <string name="crouton_error_Search_Anime">Erreur lors de la recherche d\'une entrée d\'animes.</string>
-    <string name="crouton_error_Search_Manga">Erreur lors de la recherche d\'une entrée de mangas.</string>
-    <string name="crouton_error_Search">Erreur lors de la recherche ! Merci de réessayer plus tard.</string>
-    <string name="crouton_error_noUserRecord">Cet utilisateur ne dispose pas d\'enregistrements en mode hors connexion !</string>
-    <string name="crouton_error_Anime_Sync">Erreur de synchronisation lors de la récupération de la liste d\'animes !</string>
-    <string name="crouton_error_Manga_Sync">Erreur de synchronisation lors de la récupération de la liste de mangas !</string>
-    <string name="crouton_error_SyncFailed">La synchronisation a échoué ! Veuillez réessayer plus tard.</string>
-    <string name="crouton_error_Anime_Records">Erreur lors de l\'obtention des entrées d\'animes.</string>
-    <string name="crouton_error_Manga_Records">Erreur lors de l\'obtention des entrées de mangas.</string>
-    <string name="crouton_error_Records">Erreur lors de l\'obtention des entrées. Réessaie ultérieurement.</string>
-    <string name="crouton_error_noFriends">Tu n\'as pas d\'amis sur MAL !</string>
-    <string name="crouton_error_DetailsError">Impossible de charger les détails, merci de vérifier ta connexion Internet.</string>
-    <string name="crouton_error_VerifyProblem">Oups ! Une erreur s\'est produite. Vérifie tes informations d\'identification ainsi que ta connexion réseau et réessaie.</string>
-    <string name="crouton_error_Friends">Erreur de synchronisation lors de la récupération de la liste d\'amis !</string>
-    <string name="crouton_error_nothingFound">Pas de résultats d\'animes ou de mangas trouvés. Soit l\'API ne fonctionne plus, soit l\'orthographe est incorrecte.</string>
-    <string name="crouton_info_SyncMessage">Synchronisation. Cela peut prendre une seconde ou deux, en fonction de ta connection Internet.</string>
-    <string name="crouton_info_connectionRestored">Connexion rétablie. Synchronisation des modifications en attente.</string>
-    <string name="crouton_info_UserRecord_updated">Profil mis à jour !</string>
-    <string name="crouton_info_Max_Counter">Ça dépasse les 9999 !</string>
-    <string name="crouton_info_SyncDone">Synchronisation réussie !</string>
-    <string name="crouton_info_Copied">Titre copié avec succès dans le presse-papiers !</string>
+    <!-- All (Toast) Strings -->
+    <string name="toast_error_noConnectivity">Pas de connexion détectée.</string>
+    <string name="toast_error_UserRecord">Le profil est vide !</string>
+    <string name="toast_error_Search_Anime">Erreur lors de la recherche d\'une entrée d\'animes.</string>
+    <string name="toast_error_Search_Manga">Erreur lors de la recherche d\'une entrée de mangas.</string>
+    <string name="toast_error_Search">Erreur lors de la recherche ! Merci de réessayer plus tard.</string>
+    <string name="toast_error_Anime_Sync">Erreur de synchronisation lors de la récupération de la liste d\'animes !</string>
+    <string name="toast_error_Manga_Sync">Erreur de synchronisation lors de la récupération de la liste de mangas !</string>
+    <string name="toast_error_SyncFailed">La synchronisation a échoué ! Veuillez réessayer plus tard.</string>
+    <string name="toast_error_Anime_Records">Erreur lors de l\'obtention des entrées d\'animes.</string>
+    <string name="toast_error_Manga_Records">Erreur lors de l\'obtention des entrées de mangas.</string>
+    <string name="toast_error_Records">Erreur lors de l\'obtention des entrées. Réessaie ultérieurement.</string>
+    <string name="toast_error_DetailsError">Impossible de charger les détails, merci de vérifier ta connexion Internet.</string>
+    <string name="toast_error_VerifyProblem">Oups ! Une erreur s\'est produite. Vérifie tes informations d\'identification ainsi que ta connexion réseau et réessaie.</string>
+    <string name="toast_error_Friends">Erreur de synchronisation lors de la récupération de la liste d\'amis !</string>
+    <string name="toast_error_nothingFound">Pas de résultats d\'animes ou de mangas trouvés. Soit l\'API ne fonctionne plus, soit l\'orthographe est incorrecte.</string>
+    <string name="toast_info_SyncMessage">Synchronisation. Cela peut prendre une seconde ou deux, en fonction de ta connection Internet.</string>
+    <string name="toast_info_Copied">Titre copié avec succès dans le presse-papiers !</string>
+    <string name="toast_info_hold_on">Un instant, nous chargeons encore quelque chose !</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Vue</string>
     <string name="dialog_title_share">Partager</string>
@@ -88,6 +82,8 @@
     <string name="access_rank_atarashii_developer">Développeur d\'Atarashii</string>
     <string name="layout_card_anime_views">Vues de la liste d\'animes</string>
     <string name="layout_card_manga_views">Vues de la liste de mangas</string>
+    <string name="layout_card_anime_details">Détails de l\'Anime</string>
+    <string name="layout_card_manga_details">Détails du Manga</string>
     <string name="layout_card_anime_time">Temps (jours)</string>
     <string name="layout_card_anime_watching">En visionnage</string>
     <string name="layout_card_anime_completed">Terminés</string>
@@ -148,6 +144,7 @@
     <string name="card_name_rating">Note</string>
     <string name="card_name_personal">Personnel</string>
     <string name="card_name_relations">Relations</string>
+    <string name="card_name_titles">Titres alternatifs</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_chapters">Chapitres</string>
@@ -175,10 +172,17 @@
     <string name="card_content_character">Personnage</string>
     <string name="card_content_related">Lié</string>
     <string name="card_content_parentstory">Histoire Principale</string>
+    <string name="card_content_japanese">Japonais</string>
+    <string name="card_content_english">Anglais</string>
+    <string name="card_content_synonyms">Synonymes</string>
+    <string name="card_offline_error">Pas de connexion disponible</string>
+    <string name="card_offline_button_caption">Essaie encore</string>
+    <string name="card_offline_title">Tu es hors-ligne !</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Voir les détails sur MyAnimeList</string>
     <string name="action_Share">Partager</string>
     <string name="action_Remove">Supprimer de la liste</string>
+    <string name="action_Copy">Copier le titre</string>
     <string name="action_AddToList">Ajouter à la liste</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
@@ -240,12 +244,22 @@
     <string name="search_prompt">Chercher sur MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Contributeurs principaux</string>
+    <string name="acknowledgements_card_title">Information</string>
     <string name="community_card_title">Communauté Atarashii</string>
+    <string name="translations_card_title">Traductions</string>
+    <string name="acknowledgements">Atarashii! implémente l\'<a href="https://bitbucket.org/ratan12/atarashii-api/">API MAL pour Atarashii</a> de Michael Johnson et Ratan Dhawtal, <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> de Keyboardsurfer, <a href="http://square.github.io/retrofit/">Retrofit</a> et <a href="http://square.github.io/picasso/">Picasso</a> de Square Inc. et <a href="https://code.google.com/p/google-gson/">google-gson</a> de Google Inc. utilisé par Retrofit, lesquels sont licenciés sous la licence <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Comment nous utilisons vos données</a>.</string>
     <string name="app_description">Atarashii! est le meilleur moyen d\'accéder à MyAnimeList à partir de ton téléphone. Il arbore une belle interface Android, qui nous promet d\'être moderne, couplée avec toutes les fonctionnalités que tu peux espérer.</string>
     <string name="contributor_anima_summary">\« Toutes les autres applications sont mauvaises ! \»\n\nFondateur et principal développeur. Fatigué des piètres interfaces proposées par d\'autres applications et leur manque général de mises à jour, il a décidé de créer sa propre application.</string>
     <string name="contributor_motokochan_summary">Se concentre sur l\'esthétique du code et de la mise en œuvre de petites fonctionnalités. A travaillé  sur l\'extention d\'application pour aider à la création de manga.</string>
     <string name="contributor_apkawa_summary">A implémenté la fonctionnalité de recherche.</string>
     <string name="contributor_dsko_summary">A mis en œuvre une modernisation de la gestion de l\'API.</string>
+    <string name="contributor_ratan12_summary">Gérer toutes les traductions, la création de nouvelles fonctions et le travail sur l\'interface utilisateur.</string>
+    <string name="translations">Atarashii! a commencé à supporter le multi-langue depuis la version 1.4 ! 
+Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">rejoindre le projet de traduction</a> afin d\'y contribuer.</string>
+    <string name="translations_notListed">Mon langage n\'est pas répertorié sur oneskyapp ?</string>
+    <string name="translations_notListed_summary">Si ta langue n\'est pas répertoriée, nous te recommandons de demander à Ratan Dhawtal de l\'ajouter ou d\'ajouter un commentaire sur <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">ce post Google+</a>. Nous l\'ajouterons dès que possible et te tiendrons au courant.</string>
+    <string name="translations_notApproved">Pourquoi mes phases traduites ne sont-elles toujours pas approuvées ?</string>
+    <string name="translations_notApproved_summary">Le collaborateur est très probablement occupé par le développement de l\'application. Tu peux ré-envoyer un rappel au développeur d\'ici un mois, mais n\'en envoie pas trop.</string>
     <string name="customShareText_fromAtarashii">\n\n Partagé depuis Atarashii! - un MAL moderne pour Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Rejoins notre communauté !</a> Le groupe communautaire Atarashii! sur Google+ est un endroit idéal pour interagir avec les développeurs et nous laisser savoir ce que vous en pensez. Questions, demandes de fonctionnalités, mises à jour de statut, tout est là. Nous ne mordons pas, promis.</string>
     <!-- Preferences (contents) Strings -->
@@ -261,6 +275,7 @@
     <string name="preference_displayVolumes">Utiliser des volumes sur les couvertures</string>
     <string name="preference_autosync">Intervalle pour la synchro. auto.</string>
     <string name="preference_language">Changer la langue en</string>
+    <string name="preference_category_language_title">Langage</string>
     <string name="preference_title_language">Changer la langue</string>
     <string name="preference_profileTextColors">Désactiver la couleur du texte</string>
     <string name="preference_profileAnimeHide">Toujours cacher les détails de l\'anime</string>

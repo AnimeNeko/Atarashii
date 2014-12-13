@@ -14,31 +14,25 @@
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_sync">Πλήρης συγχρονισμός</string>
     <string name="menu_sortType">Ταξινόμηση</string>
-    <!-- All (Crouton) Strings -->
-    <string name="crouton_error_noConnectivityOnRun">Δεν εντοπίστηκε ενεργή σύνδεση δεδομένων. Οι αλλαγές θα αποθηκευτούν και θα συγχρονιστούν αργότερα.</string>
-    <string name="crouton_error_noConnectivity">Δεν εντοπίστηκε ενεργή σύνδεση δικτύου.</string>
-    <string name="crouton_error_UserRecord">Το προφίλ χρήση είναι άδειο!</string>
-    <string name="crouton_error_Search_Anime">Σφάλμα κατά την αναζήτηση anime.</string>
-    <string name="crouton_error_Search_Manga">Σφάλμα κατά την αναζήτηση manga.</string>
-    <string name="crouton_error_Search">Σφάλμα κατά την αναζήτηση. Παρακαλώ δοκιμάστε αργότερα.</string>
-    <string name="crouton_error_noUserRecord">Δεν υπάρχουν δεδομένα για αυτό το χρήστη!</string>
-    <string name="crouton_error_Anime_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας anime!</string>
-    <string name="crouton_error_Manga_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας manga!</string>
-    <string name="crouton_error_SyncFailed">Ο συγχρονισμός απέτυχε! Παρακαλώ, προσπάθηστε ξανά αργότερα.</string>
-    <string name="crouton_error_Anime_Records">Λάθος κατά την λήψη αρχείων anime.</string>
-    <string name="crouton_error_Manga_Records">Λάθος κατά την λήψη αρχείων manga.</string>
-    <string name="crouton_error_Records">Λάθος κατά την λήψη αρχείων. Παρακαλώ προσπαθήστε ξανά αργότερα.</string>
-    <string name="crouton_error_noFriends">Δεν έχετε φίλους στο MAL!</string>
-    <string name="crouton_error_DetailsError">Δεν ήταν δυνατή η φόρτωση λεπτομερειών, παρακαλώ ελέγξτε τη σύνδεση σας στο Internet.</string>
-    <string name="crouton_error_VerifyProblem">Να πάρει! Κάτι πήγε στραβά. Παρακαλώ ελέγξτε τα στοιχεία σύνδεσης σας στο MAL και τη σύνδεση σας στο Internet και δοκιμάστε ξανά.</string>
-    <string name="crouton_error_Friends">Σφάλμα κατά τη λήψη της λίστας των φίλων!</string>
-    <string name="crouton_error_nothingFound">Δεν βρέθηκαν αποτελέσματα σε anime ή manga. Η υπάρχει πρόβλημα με το API ή δεν ξέρετε να γράφετε.</string>
-    <string name="crouton_info_SyncMessage">Ολικώς συγχρονισμός. Αυτό θα διαρκέσει λίγο, αναλόγως και της ταχύτητας σας στο Internet.</string>
-    <string name="crouton_info_connectionRestored">Η σύνδεση επανήλθε. Συγχρονισμός αλλαγών.</string>
-    <string name="crouton_info_UserRecord_updated">Το προφίλ χρήστη ενημερώθηκε!</string>
-    <string name="crouton_info_Max_Counter">Είναι πάνω από 9999!</string>
-    <string name="crouton_info_SyncDone">Ο συγχρονισμός ολοκληρώθηκε!</string>
-    <string name="crouton_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
+    <!-- All (Toast) Strings -->
+    <string name="toast_error_noConnectivity">Δεν εντοπίστηκε ενεργή σύνδεση δικτύου.</string>
+    <string name="toast_error_UserRecord">Το προφίλ χρήση είναι άδειο!</string>
+    <string name="toast_error_Search_Anime">Σφάλμα κατά την αναζήτηση anime.</string>
+    <string name="toast_error_Search_Manga">Σφάλμα κατά την αναζήτηση manga.</string>
+    <string name="toast_error_Search">Σφάλμα κατά την αναζήτηση. Παρακαλώ δοκιμάστε αργότερα.</string>
+    <string name="toast_error_Anime_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας anime!</string>
+    <string name="toast_error_Manga_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας manga!</string>
+    <string name="toast_error_SyncFailed">Ο συγχρονισμός απέτυχε! Παρακαλώ, προσπάθηστε ξανά αργότερα.</string>
+    <string name="toast_error_Anime_Records">Λάθος κατά την λήψη αρχείων anime.</string>
+    <string name="toast_error_Manga_Records">Λάθος κατά την λήψη αρχείων manga.</string>
+    <string name="toast_error_Records">Λάθος κατά την λήψη αρχείων. Παρακαλώ προσπαθήστε ξανά αργότερα.</string>
+    <string name="toast_error_DetailsError">Δεν ήταν δυνατή η φόρτωση λεπτομερειών, παρακαλώ ελέγξτε τη σύνδεση σας στο Internet.</string>
+    <string name="toast_error_VerifyProblem">Να πάρει! Κάτι πήγε στραβά. Παρακαλώ ελέγξτε τα στοιχεία σύνδεσης σας στο MAL και τη σύνδεση σας στο Internet και δοκιμάστε ξανά.</string>
+    <string name="toast_error_Friends">Σφάλμα κατά τη λήψη της λίστας των φίλων!</string>
+    <string name="toast_error_nothingFound">Δεν βρέθηκαν αποτελέσματα σε anime ή manga. Η υπάρχει πρόβλημα με το API ή δεν ξέρετε να γράφετε.</string>
+    <string name="toast_info_SyncMessage">Ολικώς συγχρονισμός. Αυτό θα διαρκέσει λίγο, αναλόγως και της ταχύτητας σας στο Internet.</string>
+    <string name="toast_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
+    <string name="toast_info_hold_on">Περιμένε ένα λεπτό, φορτώνουμε κάποιες πληροφορίες!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Προβολή</string>
     <string name="dialog_title_share">Διαμοιρασμός</string>
@@ -88,6 +82,8 @@
     <string name="access_rank_atarashii_developer">Προγραμματιστές του Atarashii</string>
     <string name="layout_card_anime_views">Προβολές λίστας Anime</string>
     <string name="layout_card_manga_views">Προβολές λίστας Manga</string>
+    <string name="layout_card_anime_details">Λεπτομέρειες Anime</string>
+    <string name="layout_card_manga_details">Λεπτομέρειες Manga</string>
     <string name="layout_card_anime_time">Χρόνος σε μέρες</string>
     <string name="layout_card_anime_watching">Παρακαλούθηση</string>
     <string name="layout_card_anime_completed">Ολοκληρωμένα</string>
@@ -141,6 +137,14 @@
     <string name="tab_name_personal">Προσωπικά</string>
     <string name="tab_name_details">Λεπτομέρειες</string>
     <!-- DetailView (Card names) Strings -->
+    <string name="card_name_synopsis">Περίληψη</string>
+    <string name="card_name_progress">Πρόοδος</string>
+    <string name="card_name_stats">Στατιστικά MAL</string>
+    <string name="card_name_info">Πληοροφίες MAL</string>
+    <string name="card_name_rating">Βαθμολογία</string>
+    <string name="card_name_personal">Προσωπικό</string>
+    <string name="card_name_relations">Σχέσεις</string>
+    <string name="card_name_titles">Εναλλακτικοί Τίτλοι</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Τόμοι</string>
     <string name="card_content_chapters">Κεφάλαια</string>
@@ -168,10 +172,17 @@
     <string name="card_content_character">Χαρακτήρας</string>
     <string name="card_content_related">Σχετικό</string>
     <string name="card_content_parentstory">Μητρική Ιστορία</string>
+    <string name="card_content_japanese">Γιαπωνέζικος</string>
+    <string name="card_content_english">Αγγλικός</string>
+    <string name="card_content_synonyms">Συνώνυμα</string>
+    <string name="card_offline_error">Δεν υπάρχει κάποια ενεργή σύνδεση δικτύου.</string>
+    <string name="card_offline_button_caption">Δοκιμάστε ξανά</string>
+    <string name="card_offline_title">Είστε εκτός σύνδεσης!</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Προβολή λεπτομερειών στο MyAnimeList</string>
     <string name="action_Share">Διαμοιρασμός</string>
     <string name="action_Remove">Αφαίρεση από τη λίστα</string>
+    <string name="action_Copy">Αντιγραφή τίτλου</string>
     <string name="action_AddToList">Προσθήκη στη λίστα</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
@@ -233,12 +244,19 @@
     <string name="search_prompt">Αναζήτηση στο MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Σημαντικοί Συντελεστές</string>
+    <string name="acknowledgements_card_title">Πληροφορίες</string>
     <string name="community_card_title">Η Κοινότητα του Atarashii</string>
+    <string name="translations_card_title">Μεταφράσεις</string>
+    <string name="acknowledgements">Το Atarashii! χρησιμοποιεί το <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> που δημιουργήθηκε από τον Michael Johnson και τον Ratan Dhawtal. Επίσης χρησιμοποιεί την βιβιλοθήκη <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> που δημιουργήθηκε από τον Keyboardsurfer, την βιβιλοθήκη <a href="http://square.github.io/retrofit/">Retrofit</a> και <a href="http://square.github.io/picasso/">Picasso</a>  της Square Inc. και την βιβιλοθήκη <a href="https://code.google.com/p/google-gson/">google-gson</a> της Google Inc.που χρησιμοποείτε από την βιβιλοθήκη Retrofit. Όλες οι βιβλιοθήκες είναι αδειδοτημένες υπό την άδεια  <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Πως χρησιμοποιούμε τα δεδομένα σας</a>.</string>
     <string name="app_description">Το Atarashii! είναι ο καλύτερος τρόπος πρόσβασης του MyAnimeList από το κινητό σας. Έχει ένα όμορφο και μοντέρνο σχεδιασμό μαζί με ότι άλλο θα χρειαζόταν κάποιος χρήστης του MyAnimeList.</string>
     <string name="contributor_anima_summary">\"All the other apps suck!\"\n\nΙδρυτής και κύριος προγραμματιστής. Βαρέθηκε το κακό σχεδιασμό των άλλων εφαρμογών και τη μη υποστήριξη τους και έτσι δημιούργησε το Atarashii!</string>
     <string name="contributor_motokochan_summary">Εστιάζει στη αναμόρφωση του κώδικα και προσθήκη μικρών χαρακτηριστικών. Δούλεψε πάνω στην επέκταση της εφαρμογής για την υποστήριξη των Manga.</string>
     <string name="contributor_apkawa_summary">Λειτουργία αναζήτησης μέσω της εφαρμογής.</string>
     <string name="contributor_dsko_summary">Τροποποίησε το Retrofit για χειρισμό του API</string>
+    <string name="contributor_ratan12_summary">Διαχείρηση των μεταφράσεων, δημιουργία νέων χαρακτηριστικών και εργασία πάνω στο περιβάλλον χρήσης.</string>
+    <string name="translations">Το Atarashii! υποστηρήζει διαφορετικές γλώσσες από την έκδοση 1.4 και μετά! Ο καθένας μπορεί <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">να βοηθήσει</a> στην μετάφραση της εφαρμογής.</string>
+    <string name="translations_notApproved">Γιατί οι μεταφράσεις μου δεν έχουμε ακόμη εγκριθεί;</string>
+    <string name="translations_notApproved_summary">Πιθανότατα ο υπεύθυνος είναι απασχολημένος με την ανάπτυξη της εφαρμογής. Μπορείτε να στείλειτε μία υπενθύμιση στον προγραμματιστή, ένα μήνα μετά, απλά μην στείλετε πολλές.</string>
     <string name="customShareText_fromAtarashii">\n\nΚοινοποιημένο από το Atarashii! - Modern MAL for Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Μπείτε στη κοινότητα μας!</a> Η κοινότητα του Atarashii! στο Google+ είναι ένα ενδιαφέρον μέρος για να επικοινωνήσετε με τους προγραμματιστές και να τους πείτε τι σκέφτεστε. Προβλήματα, αιτήματα για νέα χαρακτηριστικά, ενημερώσεις, όλα είναι εκεί. Δεν δαγκώνουμε, δοκιμάστε μας.</string>
     <!-- Preferences (contents) Strings -->
@@ -254,6 +272,7 @@
     <string name="preference_displayVolumes">Τόμοι στα Πλακίδια</string>
     <string name="preference_autosync">Ρυθμός Αυτόματου Συγχρονισμού</string>
     <string name="preference_language">Αλλαγή της γλώσσας σε</string>
+    <string name="preference_category_language_title">Γλώσσα</string>
     <string name="preference_title_language">Αλλαγή γλώσσας</string>
     <string name="preference_profileTextColors">Απενεργοποιήστε τα χρώματα κειμένου</string>
     <string name="preference_profileAnimeHide">Μόνιμη απόκρυψη των λεπτομερειών των anime</string>
