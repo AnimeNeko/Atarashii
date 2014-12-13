@@ -13,25 +13,7 @@
     <string name="menu_settings">Definições</string>
     <string name="menu_sync">Sincronização Completa</string>
     <string name="menu_sortType">Ordenar</string>
-    <!-- All (Crouton) Strings -->
-    <string name="crouton_error_noConnectivityOnRun">Nenhuma ligação detectada. As alterações serão guardadas para posterior sincronização.</string>
-    <string name="crouton_error_noConnectivity">Nenhuma ligação detectada.</string>
-    <string name="crouton_error_UserRecord">Perfil de Utilizador está vazio!</string>
-    <string name="crouton_error_Search_Anime">Erro na procura de registos de animes.</string>
-    <string name="crouton_error_Search_Manga">Erro na procura de registos de mangas.</string>
-    <string name="crouton_error_Search">Erro na procura! Por favor, tente mais tarde.</string>
-    <string name="crouton_error_noUserRecord">Este utilizador não tem um registo offline!</string>
-    <string name="crouton_error_Anime_Sync">Erro de sincronização ao obter lista de anime!</string>
-    <string name="crouton_error_Manga_Sync">Erro de sincronização ao obter lista de manga!</string>
-    <string name="crouton_error_noFriends">Não tens amigos no MAL!</string>
-    <string name="crouton_error_DetailsError">Não foi possível carregar os detalhes, verifique a sua ligação por favor.</string>
-    <string name="crouton_error_VerifyProblem">Epá, alguma coisa não funcionou. Verifica as tuas credenciais ou ligação e tenta novamente.</string>
-    <string name="crouton_error_Friends">Erro de sincronização ao obter lista de amigos!</string>
-    <string name="crouton_error_nothingFound">Sem resultados de animes ou de mangas. Ou a API falhou, ou não sabes escrever.</string>
-    <string name="crouton_info_SyncMessage">A sincronizar tudo. Isto pode demorar algum tempo, dependendo da velocidade da tua ligação.</string>
-    <string name="crouton_info_connectionRestored">Ligação restaurada. A sincronizar alterações pendentes.</string>
-    <string name="crouton_info_UserRecord_updated">Perfil de Utilizador actualizado!</string>
-    <string name="crouton_info_SyncDone">Sincronização Terminada!</string>
+    <!-- All (Toast) Strings -->
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Vista</string>
     <string name="dialog_title_share">Partilhar</string>

@@ -14,31 +14,25 @@
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_sync">Pełna Synchronizacja</string>
     <string name="menu_sortType">Sortowanie</string>
-    <!-- All (Crouton) Strings -->
-    <string name="crouton_error_noConnectivityOnRun">Nie wykryto połączenia. Zmiany będą przechowywane do późniejszej synchronizacji.</string>
-    <string name="crouton_error_noConnectivity">Nie wykryto połączenia sieciowego.</string>
-    <string name="crouton_error_UserRecord">Profil użytkownika jest pusty!</string>
-    <string name="crouton_error_Search_Anime">Błąd podczas szukania rekordów anime.</string>
-    <string name="crouton_error_Search_Manga">Błąd podczas szukania rekordów mangi.</string>
-    <string name="crouton_error_Search">Błąd podczas szukania! Proszę spróbować później.</string>
-    <string name="crouton_error_noUserRecord">Ten użytkownik nie ma rekordu w trybie offline!</string>
-    <string name="crouton_error_Anime_Sync">Wystąpił błąd podczas pobierania listy anime!</string>
-    <string name="crouton_error_Manga_Sync">Wystąpił błąd podczas pobierania listy mang!</string>
-    <string name="crouton_error_SyncFailed">Synchronizacja nie powiodła się. Proszę spróbować później.</string>
-    <string name="crouton_error_Anime_Records">Wystąpił błąd podczas pobierania wpisów anime.</string>
-    <string name="crouton_error_Manga_Records">Wystąpił błąd podczas pobierania wpisów mangi.</string>
-    <string name="crouton_error_Records">Wystąpił błąd podczas pobierania wpisów. Proszę spróbować później.</string>
-    <string name="crouton_error_noFriends">Nie masz znajomych na MAL!</string>
-    <string name="crouton_error_DetailsError">Nie można załadować szczegółów, proszę sprawdzić swoje połączenie z internetem.</string>
-    <string name="crouton_error_VerifyProblem">Ups, coś nie działa. Sprawdź czy wpisałeś poprawny login i hasło oraz czy masz połączenie z internetem i spróbuj ponownie.</string>
-    <string name="crouton_error_Friends">Wystąpił błąd podczas pobierania listy znajomych!</string>
-    <string name="crouton_error_nothingFound">Nie znaleziono wyników dla anime lub mangi. Albo API jest zepsute albo popełniłeś błąd w tytule.</string>
-    <string name="crouton_info_SyncMessage">Synchronizacja w toku. W zależności od prędkości połączenia może to zająć chwilę lub dwie.</string>
-    <string name="crouton_info_connectionRestored">Połączenie przywrócone. Synchronizowanie oczekujących zmian.</string>
-    <string name="crouton_info_UserRecord_updated">Profil użytkownika zaktualizowany!</string>
-    <string name="crouton_info_Max_Counter">It\'v over 9999!</string>
-    <string name="crouton_info_SyncDone">Synchronizacja ukończona</string>
-    <string name="crouton_info_Copied">Tytuł skopiowano do schowka.</string>
+    <!-- All (Toast) Strings -->
+    <string name="toast_error_noConnectivity">Nie wykryto połączenia sieciowego.</string>
+    <string name="toast_error_UserRecord">Profil użytkownika jest pusty!</string>
+    <string name="toast_error_Search_Anime">Błąd podczas szukania rekordów anime.</string>
+    <string name="toast_error_Search_Manga">Błąd podczas szukania rekordów mangi.</string>
+    <string name="toast_error_Search">Błąd podczas szukania! Proszę spróbować później.</string>
+    <string name="toast_error_Anime_Sync">Wystąpił błąd podczas pobierania listy anime!</string>
+    <string name="toast_error_Manga_Sync">Wystąpił błąd podczas pobierania listy mang!</string>
+    <string name="toast_error_SyncFailed">Synchronizacja nie powiodła się. Proszę spróbować później.</string>
+    <string name="toast_error_Anime_Records">Wystąpił błąd podczas pobierania wpisów anime.</string>
+    <string name="toast_error_Manga_Records">Wystąpił błąd podczas pobierania wpisów mangi.</string>
+    <string name="toast_error_Records">Wystąpił błąd podczas pobierania wpisów. Proszę spróbować później.</string>
+    <string name="toast_error_DetailsError">Nie można załadować szczegółów, proszę sprawdzić swoje połączenie z internetem.</string>
+    <string name="toast_error_VerifyProblem">Ups, coś nie działa. Sprawdź czy wpisałeś poprawny login i hasło oraz czy masz połączenie z internetem i spróbuj ponownie.</string>
+    <string name="toast_error_Friends">Wystąpił błąd podczas pobierania listy znajomych!</string>
+    <string name="toast_error_nothingFound">Nie znaleziono wyników dla anime lub mangi. Albo API jest zepsute albo popełniłeś błąd w tytule.</string>
+    <string name="toast_info_SyncMessage">Synchronizacja w toku. W zależności od prędkości połączenia może to zająć chwilę lub dwie.</string>
+    <string name="toast_info_Copied">Tytuł skopiowano do schowka.</string>
+    <string name="toast_info_hold_on">Chwileczkę, wciąż ładuje informacje!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Widok</string>
     <string name="dialog_title_share">Podziel się</string>
@@ -120,7 +114,7 @@
     <string name="cover_Reading">Przeczytałem:</string>
     <string name="cover_OnHold">Wstrzymane na:</string>
     <string name="cover_Dropped">Porzucone</string>
-    <string name="cover_PlanningToWatch">Planuje oglądać</string>
+    <string name="cover_PlanningToWatch">Planuje obejrzeć</string>
     <string name="cover_PlanningToRead">Planuje przeczytać</string>
     <string name="action_PlusOneWatched">+1 Oglądnięty</string>
     <string name="action_PlusOneRead">+1 Przeczytany</string>
@@ -280,6 +274,7 @@
     <string name="preference_displayVolumes">Użyj Tomów na Okładki</string>
     <string name="preference_autosync">Interwał Auto-synchronizacji</string>
     <string name="preference_language">Zmień język na</string>
+    <string name="preference_category_language_title">Język</string>
     <string name="preference_title_language">Zmień język</string>
     <string name="preference_profileTextColors">Wyłącz kolory tekstu</string>
     <string name="preference_profileAnimeHide">Zawsze ukrywaj szczegóły anime</string>
@@ -301,7 +296,7 @@
     <string name="listType_dropped">Porzucone</string>
     <string name="listType_planned">Zaplanowane</string>
     <string name="listType_Completed">Zakończone</string>
-    <string name="listType_InProgress">Oglądane</string>
+    <string name="listType_InProgress">Oglądam</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
     <!-- RatingPickerDialogFragment (Rating) Items -->
@@ -340,7 +335,7 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>Porzucone</item>
     <!-- Settings (ListPreference Entries) Items -->
-        <item>Planuje Oglądnąć</item>
+        <item>Zaplanowane</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
     <string-array name="localeArray">
