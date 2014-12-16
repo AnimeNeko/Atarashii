@@ -11,6 +11,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -22,24 +23,33 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
+import net.somethingdreadful.MAL.tasks.UserNetworkTask;
+import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener {
+public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener {
 
     IGF af;
     IGF mf;
@@ -65,6 +75,11 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     ActionBar actionBar;
     NavigationDrawerAdapter mNavigationDrawerAdapter;
     SearchView searchView;
+    RelativeLayout logout;
+    RelativeLayout settings;
+    RelativeLayout about;
+    String username;
+
 
     boolean instanceExists;
     boolean networkAvailable;
@@ -98,21 +113,28 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             // Creates the adapter to return the Animu and Mango fragments
             mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
 
-            DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            DrawerLayout.setDrawerListener(new DemoDrawerListener());
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+            username = AccountService.getUsername(context);
+            ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
+            new UserNetworkTask(context, false, this).execute(username);
 
-            DrawerList = (ListView) findViewById(R.id.left_drawer);
+            logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);
+            settings = (RelativeLayout) DrawerLayout.findViewById(R.id.settings);
+            about = (RelativeLayout) DrawerLayout.findViewById(R.id.about);
+            logout.setOnClickListener(this);
+            settings.setOnClickListener(this);
+            about.setOnClickListener(this);
 
-            NavigationItems mNavigationContent = new NavigationItems();
+            DrawerList = (ListView) DrawerLayout.findViewById(R.id.listview);
+
+            NavigationItems mNavigationContent = new NavigationItems(DrawerList, context);
             mNavigationDrawerAdapter = new NavigationDrawerAdapter(this, mNavigationContent.ITEMS);
             DrawerList.setAdapter(mNavigationDrawerAdapter);
             DrawerList.setOnItemClickListener(new DrawerItemClickListener());
-            DrawerList.setCacheColorHint(0);
-            DrawerList.setScrollingCacheEnabled(false);
-            DrawerList.setScrollContainer(false);
-            DrawerList.setFastScrollEnabled(true);
-            DrawerList.setSmoothScrollbarEnabled(true);
+            DrawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
             mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
@@ -154,15 +176,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.menu_settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-            case R.id.menu_logout:
-                showLogoutDialog();
-                break;
-            case R.id.menu_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
             case R.id.listType_all:
                 if (af != null && mf != null) {
                     af.getRecords(true, TaskJob.GETLIST, 0);
@@ -433,28 +446,52 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.logout:
+                showLogoutDialog();
+                break;
+            case R.id.settings:
+                startActivity(new Intent(this, Settings.class));
+                break;
+            case R.id.about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+        }
+        DrawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void onUserNetworkTaskFinished(User result) {
+        Picasso.with(context)
+                .load(result.getProfile().getAvatarUrl())
+                .transform(new RoundedTransformation(result.getName()))
+                .into((ImageView) findViewById(R.id.Image));
+    }
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (!networkAvailable && position > 2) {
-                position = 1;
+                position = 0;
                 Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
-            myList = ((position <= 2 && myList) || position == 1);
+            myList = ((position <= 2 && myList) || position == 0);
             myListChanged();
             // disable swipeRefresh for other lists
             af.setSwipeRefreshEnabled(myList);
             mf.setSwipeRefreshEnabled(myList);
             switch (position) {
                 case 0:
-                    Intent Profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
-                    Profile.putExtra("username", AccountService.getUsername(context));
-                    startActivity(Profile);
-                    break;
-                case 1:
                     af.getRecords(true, TaskJob.GETLIST, af.list);
                     mf.getRecords(true, TaskJob.GETLIST, mf.list);
+                    break;
+                case 1:
+                    Intent Profile = new Intent(context, ProfileActivity.class);
+                    Profile.putExtra("username", username);
+                    startActivity(Profile);
                     break;
                 case 2:
                     Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
@@ -481,20 +518,18 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
              */
-            if (position != 0 && position != 2) {
+            if (position != 1 && position != 2) {
                 if (mPreviousView != null)
-                    mPreviousView.setBackgroundColor(getResources().getColor(R.color.bg_dark)); //normal color
-                view.setBackgroundColor(getResources().getColor(android.R.color.black)); // dark color
+                    mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
+                view.setBackgroundColor(Color.parseColor("#E8E8E8"));
                 mPreviousView = view;
-            } else {
-                view.setBackgroundColor(getResources().getColor(R.color.bg_dark));
             }
 
-            DrawerLayout.closeDrawer(DrawerList);
+            DrawerLayout.closeDrawers();
         }
     }
 
-    private class DemoDrawerListener implements DrawerLayout.DrawerListener {
+    private class DrawerListener implements DrawerLayout.DrawerListener {
         @Override
         public void onDrawerOpened(View drawerView) {
             mDrawerToggle.onDrawerOpened(drawerView);

@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -183,12 +182,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @SuppressLint("InlinedApi")
     public void setColumns() {
         float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
-        int screenWidth;
-        try {
-            screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
-        } catch (NoSuchFieldError e) {
-            screenWidth = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
-        }
+        int screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
         float minWidth = 225 * density;
         int columns = (int) Math.ceil(screenWidth / minWidth);
         int width = screenWidth / columns;

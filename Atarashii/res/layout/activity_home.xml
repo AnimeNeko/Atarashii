@@ -18,14 +18,5 @@
             android:background="@color/bg_pager_tab_strip"
             android:textColor="@android:color/white" />
     </android.support.v4.view.ViewPager>
-
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:background="#333333"
-        android:choiceMode="singleChoice"
-        android:listSelector="@android:color/white" />
 </android.support.v4.widget.DrawerLayout>
 

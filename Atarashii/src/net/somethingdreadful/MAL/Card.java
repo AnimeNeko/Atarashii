@@ -47,7 +47,7 @@ public class Card extends RelativeLayout {
         center = a.getBoolean(R.styleable.Card_header_Title_center, false);
         String TitleText = a.getString(R.styleable.Card_header_Title);
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
-        int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.card_content);
+        int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.bg_light);
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
         minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
@@ -145,6 +145,24 @@ public class Card extends RelativeLayout {
     }
 
     /**
+     * Set the card below of another card.
+     *
+     * @param res    The card at the left side of your desired point
+     * @param amount The amount of cards that will be at the left & right sides of your desired point
+     *               Note: This also includes this card it self
+     * @param screen The minimum amount of dp when the card will be placed below
+     *               Note: Use 0 if you don't want any
+     */
+    public void setBelowof(Card res, int amount, int screen) {
+        if (convert(screen) <= getScreenWidth()) {
+            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
+            card.addRule(RelativeLayout.BELOW, res.getId());
+            card.setMargins(0, convert(8), 0, 0);
+            this.setLayoutParams(card);
+        }
+    }
+
+    /**
      * Change the header color.
      *
      * @param color The resource id of the color
@@ -180,9 +198,9 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 32);
-        Card.getLayoutParams().width = convert(width + 36 - 2);
-        Card.getLayoutParams().height = convert(height + 98 - 2);
+        Header.getLayoutParams().width = convert(width + 34);
+        Card.getLayoutParams().width = convert(width + 34);
+        Card.getLayoutParams().height = convert(height + 96);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);

@@ -26,12 +26,13 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="3dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@string/layout_card_loading"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 
         <TextView
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/userName"
             android:text="@string/layout_card_last"
-            android:textColor="#000000"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#757575"
             android:textSize="14sp" />
 
         <TextView
@@ -50,7 +52,8 @@
             android:layout_below="@id/userName"
             android:layout_toRightOf="@id/friends_last"
             android:text=": "
-            android:textColor="#000000"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#757575"
             android:textSize="14sp" />
 
         <TextView
@@ -60,7 +63,8 @@
             android:layout_below="@id/userName"
             android:layout_toRightOf="@id/friends_divider"
             android:text="@string/layout_card_loading"
-            android:textColor="#000000"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#757575"
             android:textSize="14sp" />
     </RelativeLayout>
 

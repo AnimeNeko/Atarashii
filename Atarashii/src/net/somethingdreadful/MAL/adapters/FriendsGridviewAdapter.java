@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -63,6 +64,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             picasso.load(record.getProfile().getAvatarUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
+                    .transform(new RoundedTransformation(record.getName()))
                     .into(viewHolder.avatar);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
