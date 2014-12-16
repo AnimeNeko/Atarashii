@@ -145,6 +145,24 @@ public class Card extends RelativeLayout {
     }
 
     /**
+     * Set the card below of another card.
+     *
+     * @param res    The card at the left side of your desired point
+     * @param amount The amount of cards that will be at the left & right sides of your desired point
+     *               Note: This also includes this card it self
+     * @param screen The minimum amount of dp when the card will be placed below
+     *               Note: Use 0 if you don't want any
+     */
+    public void setBelowof(Card res, int amount, int screen) {
+        if (convert(screen) <= getScreenWidth()) {
+            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
+            card.addRule(RelativeLayout.BELOW, res.getId());
+            card.setMargins(0, convert(8), 0, 0);
+            this.setLayoutParams(card);
+        }
+    }
+
+    /**
      * Change the header color.
      *
      * @param color The resource id of the color
