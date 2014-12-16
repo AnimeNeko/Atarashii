@@ -180,9 +180,9 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 32);
-        Card.getLayoutParams().width = convert(width + 36 - 2);
-        Card.getLayoutParams().height = convert(height + 98 - 2);
+        Header.getLayoutParams().width = convert(width + 34);
+        Card.getLayoutParams().width = convert(width + 34);
+        Card.getLayoutParams().height = convert(height + 96);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
