@@ -6,9 +6,7 @@
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_gravity="center"
-        android:background="@drawable/highlite_details"
-        android:orientation="horizontal">
+        android:background="@drawable/highlite_details">
 
         <TextView
             android:id="@+id/statusLabel"
@@ -44,9 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_below="@id/divider1"
-        android:layout_gravity="center"
-        android:background="@drawable/highlite_details"
-        android:orientation="horizontal">
+        android:background="@drawable/highlite_details">
 
         <TextView
             android:id="@+id/progress1Label"
@@ -85,9 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:layout_below="@id/progress1"
-        android:layout_gravity="center"
-        android:background="@drawable/highlite_details"
-        android:orientation="horizontal">
+        android:background="@drawable/highlite_details">
 
         <View
             android:id="@+id/divider2"
