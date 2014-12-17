@@ -42,6 +42,7 @@ import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
+import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
@@ -463,6 +464,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 Profile.putExtra("username", username);
                 startActivity(Profile);
                 break;
+            case R.id.NDimage:
+                UpdateImageDialogFragment lcdf = new UpdateImageDialogFragment();
+                lcdf.show(getFragmentManager(), "fragment_NDImage");
+                break;
         }
         DrawerLayout.closeDrawers();
     }
@@ -470,11 +475,17 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public void onUserNetworkTaskFinished(User result) {
         ImageView image = (ImageView) findViewById(R.id.Image);
+        ImageView image2 = (ImageView) findViewById(R.id.NDimage);
         Picasso.with(context)
                 .load(result.getProfile().getAvatarUrl())
                 .transform(new RoundedTransformation(result.getName()))
                 .into(image);
+        if (mPrefManager.getNavigationBackground() != null)
+            Picasso.with(context)
+                    .load(mPrefManager.getNavigationBackground())
+                    .into(image2);
         image.setOnClickListener(this);
+        image2.setOnClickListener(this);
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
