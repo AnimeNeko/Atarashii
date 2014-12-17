@@ -65,6 +65,7 @@
     <string name="dialog_message_update_navigation">Enter the Image URL below.</string>
     <string name="dialog_message_created_by">Created by</string>
     <string name="dialog_message_last_post">Last post by</string>
+    <string name="dialog_message_forum_child">Do you want to view the $child1; or $child2; category?</string>
     <string name="dialog_message_on">on </string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_update">Update</string>

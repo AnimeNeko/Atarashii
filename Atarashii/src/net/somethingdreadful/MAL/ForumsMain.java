@@ -15,6 +15,7 @@ import net.somethingdreadful.MAL.adapters.ForumMainAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -86,21 +87,35 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         myAnimeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.getTopics(((Forum) myanimelistAdapter.getItem(position)).getId());
+                requestTopic((Forum) myanimelistAdapter.getItem(position));
             }
         });
         animeManga.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.getTopics(((Forum) animemangaAdapter.getItem(position)).getId());
+                requestTopic((Forum) animemangaAdapter.getItem(position));
             }
         });
         general.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.getTopics(((Forum) generalAdapter.getItem(position)).getId());
+                requestTopic((Forum) generalAdapter.getItem(position));
             }
         });
+    }
+
+    private void requestTopic(Forum item) {
+        if (item.getId() == 0) {
+            ForumChildDialogFragment info = new ForumChildDialogFragment();
+            Bundle args = new Bundle();
+            args.putString("title", item.getName());
+            args.putString("message", getString(R.string.dialog_message_forum_child));
+            args.putSerializable("child", item.getChildren());
+            info.setArguments(args);
+            info.show(getFragmentManager(), "fragment_forum");
+        } else {
+            activity.getTopics(item.getId());
+        }
     }
 
     private void toggle(int number) {
