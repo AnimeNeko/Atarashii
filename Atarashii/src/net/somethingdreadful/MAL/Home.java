@@ -341,7 +341,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
                 .setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.toast_info_SyncMessage));
         Notification syncNotification;

@@ -32,7 +32,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
                 .setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.toast_info_SyncMessage));
         Notification syncNotification;
