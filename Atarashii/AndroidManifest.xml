@@ -78,7 +78,9 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
-
+        <activity
+            android:name=".ForumActivity"
+            android:label="@string/title_activity_forum" />
         <activity
             android:name=".SearchActivity"
             android:label="Search"
