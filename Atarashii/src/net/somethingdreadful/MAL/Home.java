@@ -458,16 +458,23 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             case R.id.about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
+            case R.id.Image:
+                Intent Profile = new Intent(context, ProfileActivity.class);
+                Profile.putExtra("username", username);
+                startActivity(Profile);
+                break;
         }
         DrawerLayout.closeDrawers();
     }
 
     @Override
     public void onUserNetworkTaskFinished(User result) {
+        ImageView image = (ImageView) findViewById(R.id.Image);
         Picasso.with(context)
                 .load(result.getProfile().getAvatarUrl())
                 .transform(new RoundedTransformation(result.getName()))
-                .into((ImageView) findViewById(R.id.Image));
+                .into(image);
+        image.setOnClickListener(this);
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
