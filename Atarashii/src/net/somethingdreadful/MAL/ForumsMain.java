@@ -48,7 +48,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         networkCard = (Card) view.findViewById(R.id.network_Card);
-        content = (ScrollView) view.findViewById(R.id.content);
+        content = (ScrollView) view.findViewById(R.id.scrollView);
 
         toggle(1);
         setListener();
