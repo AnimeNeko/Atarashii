@@ -104,6 +104,10 @@ public class MALManager {
         return malApi.getPosts(id, page);
     }
 
+    public ArrayList<Forum> getSubBoards(int id, int page) {
+        return malApi.getSubBoards(id, page);
+    }
+
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
         ArrayList<Anime> result = null;
         AnimeList animeList = malApi.getAnimeList();

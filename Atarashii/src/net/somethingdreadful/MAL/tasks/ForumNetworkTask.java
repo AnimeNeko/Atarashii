@@ -33,6 +33,9 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
             case POSTS:
                 result.setList(mManager.getPosts(id, Integer.parseInt(params[0])));
                 break;
+            case SUBBOARD:
+                result.setList(mManager.getSubBoards(id, Integer.parseInt(params[0])));
+                break;
         }
         return result;
     }

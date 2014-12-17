@@ -107,4 +107,7 @@ public interface MALInterface {
 
     @GET("/forum/topic/{id}")
     ArrayList<Forum> getPosts(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/board/{id}")
+    ArrayList<Forum> getSubBoards(@Path("id") int id, @Query("page") int page);
 }

@@ -199,6 +199,10 @@ public class MALApi {
         return service.getPosts(id, page);
     }
 
+    public ArrayList<Forum> getSubBoards(int id, int page) {
+        return service.getSubBoards(id, page);
+    }
+
     public enum ListType {
         ANIME,
         MANGA

@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import net.somethingdreadful.MAL.tasks.TaskJob;
+
 public class ForumActivity extends ActionBarActivity {
 
     ForumsMain main;
@@ -31,7 +33,12 @@ public class ForumActivity extends ActionBarActivity {
 
     public void getTopics(int id) {
         viewFlipper.setDisplayedChild(1);
-        topics.setId(id);
+        topics.setId(id, TaskJob.TOPICS);
+    }
+
+    public void getSubBoard(int id) {
+        viewFlipper.setDisplayedChild(1);
+        topics.setId(id, TaskJob.SUBBOARD);
     }
 
     public void getPosts(int id) {

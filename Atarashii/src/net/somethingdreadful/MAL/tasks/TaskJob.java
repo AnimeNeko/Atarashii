@@ -12,6 +12,7 @@ public enum TaskJob {
     UPDATE,
     SEARCH,
     BOARD,
+    SUBBOARD,
     TOPICS,
     POSTS
 }

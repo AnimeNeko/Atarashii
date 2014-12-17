@@ -34,14 +34,14 @@ public class ForumChildDialogFragment extends DialogFragment {
         builder.setPositiveButton(child.get(0).getName(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((ForumActivity) getActivity()).getTopics(child.get(0).getId());
+                ((ForumActivity) getActivity()).getSubBoard(child.get(0).getId());
                 dismiss();
             }
         });
         builder.setNeutralButton(child.get(1).getName(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((ForumActivity) getActivity()).getTopics(child.get(1).getId());
+                ((ForumActivity) getActivity()).getSubBoard(child.get(1).getId());
                 dismiss();
             }
         });
@@ -49,7 +49,7 @@ public class ForumChildDialogFragment extends DialogFragment {
             builder.setNegativeButton(child.get(2).getName(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ((ForumActivity) getActivity()).getTopics(child.get(2).getId());
+                    ((ForumActivity) getActivity()).getSubBoard(child.get(2).getId());
                     dismiss();
                 }
             });

@@ -53,20 +53,20 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         return view;
     }
 
-    public void setId(int id) {
+    public void setId(int id, TaskJob task) {
         if (this.id != id) {
             this.id = id;
-            getRecords(1);
+            getRecords(1, task);
         }
     }
 
-    private void getRecords(int page) {
+    private void getRecords(int page, TaskJob task) {
         toggle(1);
         this.page = page;
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, TaskJob.TOPICS, id).execute(Integer.toString(page));
+            new ForumNetworkTask(activity, this, task, id).execute(Integer.toString(page));
         else
             toggle(2);
     }
@@ -102,7 +102,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
             return;
         if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading) {
             loading = true;
-            getRecords(page + 1);
+            getRecords(page + 1, TaskJob.TOPICS);
             activity.setTitle(getString(R.string.layout_card_loading));
         }
     }
