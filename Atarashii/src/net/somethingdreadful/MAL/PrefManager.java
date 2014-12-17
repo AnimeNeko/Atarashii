@@ -163,6 +163,25 @@ public class PrefManager {
     }
 
     /**
+     * Returns the url of the navigation drawer background.
+     *
+     * @return string The url of the image.
+     * @see Home
+     */
+    public String getNavigationBackground() {
+        return prefs.getString("navigationDrawer_image", null);
+    }
+
+    /**
+     * Set the navigation drawer background.
+     *
+     * @param image The URL
+     */
+    public void setNavigationBackground(String image) {
+        prefeditor.putString("navigationDrawer_image", image);
+    }
+
+    /**
      * Commit all the changed made.
      */
     public void commitChanges() {
