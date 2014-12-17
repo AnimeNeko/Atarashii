@@ -11,6 +11,7 @@
     <string name="title_activity_profile">User profile</string>
     <string name="title_activity_friends">My friends</string>
     <string name="title_activity_logout">Logout</string>
+    <string name="title_activity_forum">Forum</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
@@ -62,6 +63,9 @@
     <string name="dialog_message_update_password">It looks like your password has changed. Please enter the new one below.</string>
     <string name="dialog_message_new_password_wrong">The new password you have entered is wrong.</string>
     <string name="dialog_message_update_navigation">Enter the Image URL below.</string>
+    <string name="dialog_message_created_by">Created by</string>
+    <string name="dialog_message_last_post">Last post by</string>
+    <string name="dialog_message_on">on </string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_update">Update</string>
     <string name="dialog_label_anime">Anime</string>
@@ -139,6 +143,7 @@
     <string name="nav_item_my_profile">My Profile</string>
     <string name="nav_item_my_list">My List</string>
     <string name="nav_item_my_friends">My Friends</string>
+    <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
     <string name="nav_item_most_popular">Most Popular</string>
     <string name="nav_item_just_added">Just Added</string>

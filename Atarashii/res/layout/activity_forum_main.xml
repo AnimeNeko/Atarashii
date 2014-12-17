@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/myanimelistHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:text="MyAnimeList"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/primary"
+                android:textSize="14sp" />
+
+            <ListView
+                android:id="@+id/myanimelist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myanimelistHeader"
+                android:divider="@color/bg_light"
+                android:headerDividersEnabled="false" />
+
+            <TextView
+                android:id="@+id/animemangaHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/myanimelist"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:text="Anime &amp; Manga"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/primary"
+                android:textSize="14sp" />
+
+            <ListView
+                android:id="@+id/animemanga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/animemangaHeader"
+                android:divider="@color/bg_light" />
+
+            <TextView
+                android:id="@+id/generalHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/animemanga"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:text="General"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/primary"
+                android:textSize="14sp" />
+
+            <ListView
+                android:id="@+id/general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/generalHeader"
+                android:divider="@color/bg_light" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
+
+    <net.somethingdreadful.MAL.Card xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/network_Card"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        custom:card_content="@layout/card_network_connection"
+        custom:header_Color="@color/card_red"
+        custom:header_Title="@string/card_offline_title"
+        custom:header_Title_Color="@color/white" />
+</RelativeLayout>
