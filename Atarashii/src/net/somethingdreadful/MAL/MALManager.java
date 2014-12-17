@@ -8,6 +8,8 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.Forum;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -88,6 +90,18 @@ public class MALManager {
             Crashlytics.logException(e);
         }
         return null;
+    }
+
+    public ForumMain getForum() {
+        return malApi.getForum();
+    }
+
+    public ArrayList<Forum> getTopics(int id, int page) {
+        return malApi.getTopics(id, page);
+    }
+
+    public ArrayList<Forum> getPosts(int id, int page) {
+        return malApi.getPosts(id, page);
     }
 
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {

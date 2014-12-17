@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api;
 
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.Forum;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -96,4 +98,13 @@ public interface MALInterface {
 
     @GET("/friends/{username}")
     ArrayList<User> getFriends(@Path("username") String username);
+
+    @GET("/forum")
+    ForumMain getForum();
+
+    @GET("/forum/{id}")
+    ArrayList<Forum> getTopics(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/topic/{id}")
+    ArrayList<Forum> getPosts(@Path("id") int id, @Query("page") int page);
 }
