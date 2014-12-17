@@ -13,6 +13,7 @@ public class NavigationItems {
         addItem(new NavItem(R.drawable.ic_format_list, R.string.nav_item_my_list));
         addItem(new NavItem(R.drawable.ic_person, R.string.nav_item_my_profile));
         addItem(new NavItem(R.drawable.ic_group, R.string.nav_item_my_friends));
+        addItem(new NavItem(R.drawable.ic_group, R.string.nav_item_my_forum));
         addItem(new NavItem(R.drawable.ic_star, R.string.nav_item_top_rated));
         addItem(new NavItem(R.drawable.ic_insert_chart, R.string.nav_item_most_popular));
         addItem(new NavItem(R.drawable.ic_access_time, R.string.nav_item_just_added));

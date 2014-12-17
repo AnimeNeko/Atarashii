@@ -489,15 +489,19 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     startActivity(Friends);
                     break;
                 case 3:
-                    getRecords(true, TaskJob.GETTOPRATED, af.list);
+                    Intent Forum = new Intent(context, ForumActivity.class);
+                    startActivity(Forum);
                     break;
                 case 4:
-                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
+                    getRecords(true, TaskJob.GETTOPRATED, af.list);
                     break;
                 case 5:
-                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
+                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
                     break;
                 case 6:
+                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
+                    break;
+                case 7:
                     getRecords(true, TaskJob.GETUPCOMING, af.list);
                     break;
             }
