@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,7 +8,7 @@ import android.widget.ViewFlipper;
 
 public class ForumActivity extends ActionBarActivity {
 
-    Fragment main;
+    ForumsMain main;
     ForumsTopics topics;
     ForumsPosts posts;
     FragmentManager manager;
@@ -23,7 +22,7 @@ public class ForumActivity extends ActionBarActivity {
 
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         manager = getFragmentManager();
-        main = manager.findFragmentById(R.id.main);
+        main = (ForumsMain) manager.findFragmentById(R.id.main);
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
 

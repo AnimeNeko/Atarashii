@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Forum implements Serializable {
-    private int id;
+    private int id = 0;
     private String name;
     private String username;
-    private int replies;
+    private int replies = 0;
     private String description;
     private Forum reply;
     private ArrayList<Forum> children;
