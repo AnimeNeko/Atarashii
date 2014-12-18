@@ -118,6 +118,9 @@
     <string name="layout_card_friends_since">Friends since</string>
     <string name="unknown">unknown</string>
 
+    <!-- ForumActivity Strings -->
+    <string name="action_add">Add a comment or topic</string>
+
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">MAL Username</string>
     <string name="form_hint_pass">MAL Password</string>

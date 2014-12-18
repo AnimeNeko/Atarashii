@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:res-auto="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_ViewMALPage"
+        android:icon="@drawable/ic_language"
+        android:title="@string/action_viewMALPage"
+        res-auto:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_add"
+        android:title="@string/action_add"
+        res-auto:showAsAction="always" />
+</menu>
