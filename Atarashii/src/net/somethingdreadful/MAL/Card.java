@@ -155,7 +155,7 @@ public class Card extends RelativeLayout {
      */
     public void setBelowof(Card res, int amount, int screen) {
         if (convert(screen) <= getScreenWidth()) {
-            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
+            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), ViewGroup.LayoutParams.WRAP_CONTENT);
             card.addRule(RelativeLayout.BELOW, res.getId());
             card.setMargins(0, convert(8), 0, 0);
             this.setLayoutParams(card);
