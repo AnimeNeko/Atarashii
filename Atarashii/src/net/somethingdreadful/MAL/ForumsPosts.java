@@ -91,10 +91,12 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob job) {
         if (job == ForumJob.POSTS) {
             apply(result);
+            send.setEnabled(true);
+            input.setEnabled(true);
         } else {
             Toast.makeText(activity.getApplicationContext(), R.string.toast_info_comment_add, Toast.LENGTH_SHORT).show();
             input.setText("");
-            toggleComments();
+            getRecords(page);
         }
     }
 
@@ -108,6 +110,9 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     @Override
     public void onClick(View v) {
         input.clearFocus();
+        toggleComments();
+        send.setEnabled(false);
+        input.setEnabled(false);
         new ForumNetworkTask(activity, this, ForumJob.ADDCOMMENT, id).execute(input.getText().toString());
     }
 }
