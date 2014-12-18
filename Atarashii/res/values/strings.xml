@@ -39,6 +39,7 @@
     <string name="toast_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
     <string name="toast_info_hold_on">Hold on a second, we are still loading some information!</string>
+    <string name="toast_info_comment_add">The comment was successfully send!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>

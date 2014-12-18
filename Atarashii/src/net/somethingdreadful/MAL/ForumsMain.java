@@ -16,9 +16,9 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
-import net.somethingdreadful.MAL.tasks.TaskJob;
 
 public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedListener {
     ForumActivity activity;
@@ -43,9 +43,9 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         animeManga = (ListView) view.findViewById(R.id.animemanga);
         general = (ListView) view.findViewById(R.id.general);
 
-        myanimelistAdapter = new ForumMainAdapter(activity, myAnimeList, getFragmentManager(), TaskJob.BOARD);
-        animemangaAdapter = new ForumMainAdapter(activity, animeManga, getFragmentManager(), TaskJob.BOARD);
-        generalAdapter = new ForumMainAdapter(activity, general, getFragmentManager(), TaskJob.BOARD);
+        myanimelistAdapter = new ForumMainAdapter(activity, myAnimeList, getFragmentManager(), ForumJob.BOARD);
+        animemangaAdapter = new ForumMainAdapter(activity, animeManga, getFragmentManager(), ForumJob.BOARD);
+        generalAdapter = new ForumMainAdapter(activity, general, getFragmentManager(), ForumJob.BOARD);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         networkCard = (Card) view.findViewById(R.id.network_Card);
@@ -70,7 +70,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
 
     private void getRecords() {
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, TaskJob.BOARD, 0).execute();
+            new ForumNetworkTask(activity, this, ForumJob.BOARD, 0).execute();
         else
             toggle(2);
     }
@@ -82,7 +82,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
     }
 
     @Override
-    public void onForumNetworkTaskFinished(ForumMain result) {
+    public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
         apply(result);
     }
 

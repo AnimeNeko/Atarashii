@@ -4,15 +4,18 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
+
+import java.util.ArrayList;
 
 public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
     Context context;
     ForumNetworkTaskFinishedListener callback;
-    TaskJob type;
+    ForumJob type;
     int id;
 
-    public ForumNetworkTask(Context context, ForumNetworkTaskFinishedListener callback, TaskJob type, int id) {
+    public ForumNetworkTask(Context context, ForumNetworkTaskFinishedListener callback, ForumJob type, int id) {
         this.context = context;
         this.callback = callback;
         this.type = type;
@@ -36,6 +39,9 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
             case SUBBOARD:
                 result.setList(mManager.getSubBoards(id, Integer.parseInt(params[0])));
                 break;
+            case ADDCOMMENT:
+                result.setList(mManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null);
+                break;
         }
         return result;
     }
@@ -43,6 +49,6 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
     @Override
     protected void onPostExecute(ForumMain result) {
         if (callback != null)
-            callback.onForumNetworkTaskFinished(result);
+            callback.onForumNetworkTaskFinished(result, type);
     }
 }

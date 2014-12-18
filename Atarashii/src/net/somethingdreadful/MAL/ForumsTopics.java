@@ -16,9 +16,9 @@ import net.somethingdreadful.MAL.adapters.ForumMainAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
-import net.somethingdreadful.MAL.tasks.TaskJob;
 
 public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     ForumActivity activity;
@@ -39,7 +39,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         view = inflater.inflate(R.layout.activity_forum_topics, container, false);
 
         topics = (ListView) view.findViewById(R.id.list);
-        topicsAdapter = new ForumMainAdapter(activity, topics, getFragmentManager(), TaskJob.TOPICS);
+        topicsAdapter = new ForumMainAdapter(activity, topics, getFragmentManager(), ForumJob.TOPICS);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         networkCard = (Card) view.findViewById(R.id.network_Card);
@@ -68,7 +68,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         super.onSaveInstanceState(state);
     }
 
-    public TaskJob setId(int id, TaskJob task) {
+    public ForumJob setId(int id, ForumJob task) {
         if (this.id != id) {
             this.id = id;
             getRecords(1, task);
@@ -76,7 +76,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         return task;
     }
 
-    private void getRecords(int page, TaskJob task) {
+    private void getRecords(int page, ForumJob task) {
         toggle(1);
         this.page = page;
         if (page == 1)
@@ -94,7 +94,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     }
 
     @Override
-    public void onForumNetworkTaskFinished(ForumMain result) {
+    public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
         apply(result);
     }
 
@@ -123,7 +123,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
             return;
         if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading) {
             loading = true;
-            getRecords(page + 1, TaskJob.TOPICS);
+            getRecords(page + 1, ForumJob.TOPICS);
             activity.setTitle(getString(R.string.layout_card_loading));
         }
     }

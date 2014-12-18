@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
-import net.somethingdreadful.MAL.tasks.TaskJob;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class ForumActivity extends ActionBarActivity {
 
@@ -18,7 +18,7 @@ public class ForumActivity extends ActionBarActivity {
     ForumsPosts posts;
     FragmentManager manager;
     ViewFlipper viewFlipper;
-    TaskJob task = TaskJob.BOARD;
+    ForumJob task;
     Menu menu;
 
     @Override
@@ -33,10 +33,7 @@ public class ForumActivity extends ActionBarActivity {
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
 
-        if (savedInstanceState == null)
-            viewFlipper.setDisplayedChild(0);
-        else
-            viewFlipper.setDisplayedChild(savedInstanceState.getInt("child"));
+        viewFlipper.setDisplayedChild(savedInstanceState == null ? 0 : savedInstanceState.getInt("child"));
     }
 
     @Override
@@ -47,17 +44,17 @@ public class ForumActivity extends ActionBarActivity {
 
     public void getTopics(int id) {
         viewFlipper.setDisplayedChild(1);
-        task = topics.setId(id, TaskJob.TOPICS);
+        setTask(topics.setId(id, ForumJob.TOPICS));
     }
 
     public void getSubBoard(int id) {
         viewFlipper.setDisplayedChild(1);
-        task = topics.setId(id, TaskJob.SUBBOARD);
+        setTask(topics.setId(id, ForumJob.SUBBOARD));
     }
 
     public void getPosts(int id) {
         viewFlipper.setDisplayedChild(2);
-        task = posts.setId(id);
+        setTask(posts.setId(id));
     }
 
     private void back() {
@@ -66,7 +63,12 @@ public class ForumActivity extends ActionBarActivity {
         else
             finish();
         if (viewFlipper.getDisplayedChild() == 0)
-            task = TaskJob.BOARD;
+            setTask(ForumJob.BOARD);
+    }
+
+    public void setTask(ForumJob task) {
+        this.task = task;
+        menu.findItem(R.id.action_add).setVisible(task == ForumJob.POSTS);
     }
 
     @Override
@@ -78,6 +80,7 @@ public class ForumActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_forum, menu);
         this.menu = menu;
+        setTask(ForumJob.BOARD);
         return true;
     }
 
@@ -91,6 +94,8 @@ public class ForumActivity extends ActionBarActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, getUri()));
                 break;
             case R.id.action_add:
+                if (task == ForumJob.POSTS)
+                    posts.toggleComments();
                 break;
         }
         return super.onOptionsItemSelected(item);

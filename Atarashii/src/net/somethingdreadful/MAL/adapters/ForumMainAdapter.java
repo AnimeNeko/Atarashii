@@ -19,7 +19,7 @@ import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
-import net.somethingdreadful.MAL.tasks.TaskJob;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 
 import java.util.Collection;
 
@@ -27,9 +27,9 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
     private Context context;
     private FragmentManager fm;
     private ListView listview;
-    private TaskJob task;
+    private ForumJob task;
 
-    public ForumMainAdapter(Activity context, ListView listview, FragmentManager fm, TaskJob task) {
+    public ForumMainAdapter(Activity context, ListView listview, FragmentManager fm, ForumJob task) {
         super(context, R.layout.record_forum_listview);
         this.context = context;
         this.listview = listview;
@@ -62,7 +62,7 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
                     InformationDialogFragment info = new InformationDialogFragment();
                     Bundle args = new Bundle();
                     args.putString("title", record.getName());
-                    if (task == TaskJob.BOARD)
+                    if (task == ForumJob.BOARD)
                         args.putString("message", record.getDescription());
                     else
                         args.putString("message", context.getString(R.string.dialog_message_created_by)
@@ -85,7 +85,7 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void supportAddAll(Collection<? extends T> collection) {
-        if (task == TaskJob.BOARD)
+        if (task == ForumJob.BOARD)
             listview.getLayoutParams().height = (int) (((48 + 1) * collection.size() - 1) * (context.getResources().getDisplayMetrics().densityDpi / 160f));
         for (T record : collection) {
             this.add(record);
