@@ -93,19 +93,43 @@ public class MALManager {
     }
 
     public ForumMain getForum() {
-        return malApi.getForum();
+        try {
+            return malApi.getForum();
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getForum(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
     }
 
     public ArrayList<Forum> getTopics(int id, int page) {
-        return malApi.getTopics(id, page);
+        try {
+            return malApi.getTopics(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getTopics(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
     }
 
     public ArrayList<Forum> getPosts(int id, int page) {
-        return malApi.getPosts(id, page);
+        try {
+            return malApi.getPosts(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getPosts(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
     }
 
     public ArrayList<Forum> getSubBoards(int id, int page) {
-        return malApi.getSubBoards(id, page);
+        try {
+            return malApi.getSubBoards(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getSubBoards(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
     }
 
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
