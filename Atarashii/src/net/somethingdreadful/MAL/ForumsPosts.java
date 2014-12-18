@@ -22,23 +22,37 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     int id;
     int page = 0;
     ViewFlipper viewFlipper;
+    ForumMain record;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        super.onCreate(bundle);
         view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
         webview = (WebView) view.findViewById(R.id.webview);
         viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
 
+        if (bundle != null && bundle.getSerializable("posts") != null) {
+            apply((ForumMain) bundle.getSerializable("posts"));
+            id = bundle.getInt("id");
+        }
+
         return view;
     }
 
-    public void setId(int id) {
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putSerializable("posts", record);
+        state.putInt("id", id);
+        super.onSaveInstanceState(state);
+    }
+
+    public TaskJob setId(int id) {
         if (this.id != id) {
             this.id = id;
             toggle(true);
             getRecords(1);
         }
+        return TaskJob.POSTS;
     }
 
     private void getRecords(int page) {
@@ -59,8 +73,13 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result) {
+        apply(result);
+    }
+
+    public void apply(ForumMain result) {
         activity.setTitle(getString(R.string.title_activity_forum));
         webview.loadDataWithBaseURL(null, HtmlList.HtmlList(result.getList(), activity), "text/html", "utf-8", null);
         toggle(false);
+        record = result;
     }
 }

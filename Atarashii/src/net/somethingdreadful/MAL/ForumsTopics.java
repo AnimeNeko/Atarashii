@@ -29,12 +29,13 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     Card networkCard;
     ListView topics;
     Boolean loading = true;
+    ForumMain record;
     int id;
     int page = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_topics, container, false);
 
         topics = (ListView) view.findViewById(R.id.list);
@@ -49,15 +50,30 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         topics.setAdapter(topicsAdapter);
         topicsAdapter.setNotifyOnChange(true);
 
+
         toggle(1);
+
+        if (bundle != null && bundle.getSerializable("topics") != null) {
+            apply((ForumMain) bundle.getSerializable("topics"));
+            id = bundle.getInt("id");
+        }
+
         return view;
     }
 
-    public void setId(int id, TaskJob task) {
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putSerializable("topics", record);
+        state.putInt("id", id);
+        super.onSaveInstanceState(state);
+    }
+
+    public TaskJob setId(int id, TaskJob task) {
         if (this.id != id) {
             this.id = id;
             getRecords(1, task);
         }
+        return task;
     }
 
     private void getRecords(int page, TaskJob task) {
@@ -79,10 +95,15 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result) {
+        apply(result);
+    }
+
+    public void apply(ForumMain result) {
         topicsAdapter.supportAddAll(result.getList());
         toggle(0);
         loading = false;
         activity.setTitle(getString(R.string.title_activity_forum));
+        record = result;
     }
 
     private void toggle(int number) {

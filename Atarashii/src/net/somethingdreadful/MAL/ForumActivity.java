@@ -28,7 +28,16 @@ public class ForumActivity extends ActionBarActivity {
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
 
-        viewFlipper.setDisplayedChild(0);
+        if (savedInstanceState == null)
+            viewFlipper.setDisplayedChild(0);
+        else
+            viewFlipper.setDisplayedChild(savedInstanceState.getInt("child"));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putInt("child", viewFlipper.getDisplayedChild());
+        super.onSaveInstanceState(state);
     }
 
     public void getTopics(int id) {

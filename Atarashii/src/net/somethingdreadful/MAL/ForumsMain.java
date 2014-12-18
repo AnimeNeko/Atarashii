@@ -35,8 +35,8 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
     ListView general;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_main, container, false);
 
         myAnimeList = (ListView) view.findViewById(R.id.myanimelist);
@@ -53,8 +53,19 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
 
         toggle(1);
         setListener();
-        getRecords();
+
+        if (bundle != null && bundle.getSerializable("main") != null)
+            apply((ForumMain) bundle.getSerializable("main"));
+        else
+            getRecords();
+
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putSerializable("main", record);
+        super.onSaveInstanceState(state);
     }
 
     private void getRecords() {
@@ -72,6 +83,10 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result) {
+        apply(result);
+    }
+
+    public void apply(ForumMain result) {
         myAnimeList.setAdapter(myanimelistAdapter);
         animeManga.setAdapter(animemangaAdapter);
         general.setAdapter(generalAdapter);
