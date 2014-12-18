@@ -203,6 +203,18 @@ public class MALApi {
         return service.getSubBoards(id, page);
     }
 
+    public boolean addComment(int id, String message) {
+        return service.addComment(id, message).getStatus() == 200;
+    }
+
+    public boolean updateComment(int id, String message) {
+        return service.updateComment(id, message).getStatus() == 200;
+    }
+
+    public boolean addTopic(int id, String title, String message) {
+        return service.addTopic(id, title, message).getStatus() == 200;
+    }
+
     public enum ListType {
         ANIME,
         MANGA

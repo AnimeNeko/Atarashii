@@ -110,4 +110,16 @@ public interface MALInterface {
 
     @GET("/forum/board/{id}")
     ArrayList<Forum> getSubBoards(@Path("id") int id, @Query("page") int page);
+
+    @FormUrlEncoded
+    @POST("/forum/topic/{id}")
+    Response addComment(@Path("id") int id, @Field("message") String message);
+
+    @FormUrlEncoded
+    @PUT("/forum/topic/{id}")
+    Response updateComment(@Path("id") int id, @Field("message") String message);
+
+    @FormUrlEncoded
+    @POST("/forum/{id}")
+    Response addTopic(@Path("id") int id, @Field("title") String title, @Field("message") String message);
 }

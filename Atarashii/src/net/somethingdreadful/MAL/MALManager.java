@@ -132,6 +132,18 @@ public class MALManager {
         return null;
     }
 
+    public Boolean addComment(int id, String message) {
+        return malApi.addComment(id, message);
+    }
+
+    public Boolean updateComment(int id, String message) {
+        return malApi.updateComment(id, message);
+    }
+
+    public Boolean addTopic(int id, String title, String message) {
+        return malApi.addTopic(id, title, message);
+    }
+
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
         ArrayList<Anime> result = null;
         AnimeList animeList = malApi.getAnimeList();
