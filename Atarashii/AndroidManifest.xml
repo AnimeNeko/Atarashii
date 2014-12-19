@@ -80,7 +80,8 @@
             android:label="@string/title_activity_about" />
         <activity
             android:name=".ForumActivity"
-            android:label="@string/title_activity_forum" />
+            android:label="@string/title_activity_forum"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".SearchActivity"
             android:label="Search"
