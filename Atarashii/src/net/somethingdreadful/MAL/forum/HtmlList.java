@@ -103,8 +103,9 @@ public class HtmlList {
 
     public static String convertComment(String comment) {
         comment = comment.replace("\">", "]");
+        comment = comment.replace("\n", "");
 
-        comment = comment.replace("<br>", System.getProperty("line.separator"));                                                            // Empty line
+        comment = comment.replace("<br>", "\n");                                                                                            // Empty line
         comment = comment.replace("data-src=", "src=").replace(" class=\"userimg\"", "");                                                   // Image
         comment = comment.replace("<img src=\"", "[img]").replace("\" border=\"0\" />", "[/img]");
         comment = comment.replace(".png]", ".png[/img]").replace(".jpg]", ".jpg[/img]").replace(".gif]", ".gif[/img]");
@@ -117,10 +118,15 @@ public class HtmlList {
         comment = comment.replace("<!--link--><a href=\"", "[url=").replace(" rel=\"nofollow]", "\"]").replace("</a>", "[/url]");           // Hyperlink
         comment = comment.replace("<!--quote--><div class=\"quotetext]\n[b]", "[quote=").replace(" said:[/b]<!--quotesaid-->", "]");        // Quote
         comment = comment.replace("<!--quote-->", "[/quote]");
+        comment = comment.replace("<ol>", "[list]").replace("</ol>", "[/list]").replace("<li>", "[*]");                                     // List
+        comment = comment.replace("<span style=\"text-decoration:line-through;]", "[s]").replace("<!--strike-->", "[/s]");                  // Text strike
+        comment = comment.replace("<em>", "[i]").replace("</em>", "[/i]");                                                                  // Text Italic
 
         comment = comment.replace("\n&#13;", "");
+        comment = comment.replace("&amp;", "&");
         comment = comment.replace("</div>", "");
         comment = comment.replace("</span>", "");
+        comment = comment.replace("</li>", "");
 
         return comment;
     }
