@@ -77,6 +77,8 @@ public class ForumActivity extends ActionBarActivity {
             setTask(ForumJob.BOARD);
         else if (viewFlipper.getDisplayedChild() == 1)
             setTask(ForumJob.TOPICS);
+        else if (viewFlipper.getDisplayedChild() == 2)
+            setTask(ForumJob.POSTS);
     }
 
     public void setTask(ForumJob task) {
