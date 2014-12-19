@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.forum;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -11,6 +11,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.ForumActivity;
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.adapters.ForumMainAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Forum;

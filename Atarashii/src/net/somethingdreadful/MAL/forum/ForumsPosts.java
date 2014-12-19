@@ -1,5 +1,6 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.forum;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,24 +14,27 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import net.somethingdreadful.MAL.ForumActivity;
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
-import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener, View.OnClickListener {
     ForumActivity activity;
     View view;
     WebView webview;
-    int id;
+    public int id;
     int page = 0;
     ViewFlipper viewFlipper;
-    ForumMain record;
+    public ForumMain record;
     RelativeLayout comment;
     ImageView send;
     EditText input;
 
+    @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
@@ -47,8 +51,14 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         }
 
         send.setOnClickListener(this);
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(new PostsInterface(this), "Posts");
 
         return view;
+    }
+
+    public void getComments(int id, String comment) {
+        activity.getComments(id, comment);
     }
 
     public void toggleComments(){
@@ -102,7 +112,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
 
     public void apply(ForumMain result) {
         activity.setTitle(getString(R.string.title_activity_forum));
-        webview.loadDataWithBaseURL(null, HtmlList.HtmlList(result.getList(), activity), "text/html", "utf-8", null);
+        webview.loadDataWithBaseURL(null, HtmlList.convertList(result.getList(), activity), "text/html", "utf-8", null);
         toggle(false);
         record = result;
     }

@@ -9,13 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import net.somethingdreadful.MAL.forum.ForumsComment;
+import net.somethingdreadful.MAL.forum.ForumsMain;
+import net.somethingdreadful.MAL.forum.ForumsPosts;
+import net.somethingdreadful.MAL.forum.ForumsTopics;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class ForumActivity extends ActionBarActivity {
 
-    ForumsMain main;
-    ForumsTopics topics;
-    ForumsPosts posts;
+    public ForumsMain main;
+    public ForumsTopics topics;
+    public ForumsPosts posts;
+    public ForumsComment comments;
     FragmentManager manager;
     ViewFlipper viewFlipper;
     ForumJob task;
@@ -32,6 +37,7 @@ public class ForumActivity extends ActionBarActivity {
         main = (ForumsMain) manager.findFragmentById(R.id.main);
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
+        comments = (ForumsComment) manager.findFragmentById(R.id.comment);
 
         viewFlipper.setDisplayedChild(savedInstanceState == null ? 0 : savedInstanceState.getInt("child"));
     }
@@ -57,6 +63,11 @@ public class ForumActivity extends ActionBarActivity {
         setTask(posts.setId(id));
     }
 
+    public void getComments(int id, String comment) {
+        viewFlipper.setDisplayedChild(3);
+        setTask(comments.setId(id, comment));
+    }
+
     private void back() {
         if (viewFlipper.getDisplayedChild() - 1 != -1)
             viewFlipper.setDisplayedChild(viewFlipper.getDisplayedChild() - 1);
@@ -64,11 +75,15 @@ public class ForumActivity extends ActionBarActivity {
             finish();
         if (viewFlipper.getDisplayedChild() == 0)
             setTask(ForumJob.BOARD);
+        else if (viewFlipper.getDisplayedChild() == 1)
+            setTask(ForumJob.TOPICS);
     }
 
     public void setTask(ForumJob task) {
         this.task = task;
-        menu.findItem(R.id.action_add).setVisible(task == ForumJob.POSTS);
+        menu.findItem(R.id.action_add).setVisible(task == ForumJob.POSTS && viewFlipper.getDisplayedChild() != 3);
+        menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
+        menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
     }
 
     @Override
@@ -96,6 +111,9 @@ public class ForumActivity extends ActionBarActivity {
             case R.id.action_add:
                 if (task == ForumJob.POSTS)
                     posts.toggleComments();
+                break;
+            case R.id.action_send:
+                comments.send();
                 break;
         }
         return super.onOptionsItemSelected(item);

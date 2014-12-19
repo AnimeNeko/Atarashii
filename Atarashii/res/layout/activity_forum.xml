@@ -6,20 +6,26 @@
     android:background="@color/bg_light">
 
     <fragment
-        android:name="net.somethingdreadful.MAL.ForumsMain"
+        android:name="net.somethingdreadful.MAL.forum.ForumsMain"
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <fragment
-        android:name="net.somethingdreadful.MAL.ForumsTopics"
+        android:name="net.somethingdreadful.MAL.forum.ForumsTopics"
         android:id="@+id/topics"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <fragment
-        android:name="net.somethingdreadful.MAL.ForumsPosts"
+        android:name="net.somethingdreadful.MAL.forum.ForumsPosts"
         android:id="@+id/posts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:name="net.somethingdreadful.MAL.forum.ForumsComment"
+        android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </ViewFlipper>
