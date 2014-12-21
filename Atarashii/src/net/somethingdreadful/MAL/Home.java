@@ -509,7 +509,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
              */
-            if (position != 1 && position != 2) {
+            if (position != 1 && position != 2&& position != 3) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
                 view.setBackgroundColor(Color.parseColor("#E8E8E8"));
