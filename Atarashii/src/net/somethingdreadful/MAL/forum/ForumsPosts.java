@@ -57,10 +57,9 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         return view;
     }
 
-    public void getComments(int id, String comment) {
-        activity.getComments(id, comment);
-    }
-
+    /**
+     * Toggle the fast reply input.
+     */
     public void toggleComments(){
         comment.setVisibility(!(comment.getVisibility() == View.VISIBLE) ? View.VISIBLE : View.GONE);
     }
@@ -72,6 +71,12 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         super.onSaveInstanceState(state);
     }
 
+    /**
+     * Change the records in this fragment.
+     *
+     * @param id The new id of the record
+     * @return ForumJob The task of this fragment
+     */
     public ForumJob setId(int id) {
         if (this.id != id) {
             this.id = id;
@@ -81,12 +86,22 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         return ForumJob.POSTS;
     }
 
+    /**
+     * Get the requested records.
+     *
+     * @param page The page number
+     */
     private void getRecords(int page) {
         this.page = page;
         if (MALApi.isNetworkAvailable(activity))
             new ForumNetworkTask(activity, this, ForumJob.POSTS, id).execute(Integer.toString(page));
     }
 
+    /**
+     * Show or hide the progress indicator.
+     *
+     * @param loading True if the indicator should be shown
+     */
     private void toggle(boolean loading){
         viewFlipper.setDisplayedChild(loading ? 1 : 0);
     }
@@ -110,6 +125,11 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         }
     }
 
+    /**
+     * Refresh the UI for changes.
+     *
+     * @param result The new record
+     */
     public void apply(ForumMain result) {
         activity.setTitle(getString(R.string.title_activity_forum));
         webview.loadDataWithBaseURL(null, HtmlList.convertList(result.getList(), activity), "text/html", "utf-8", null);

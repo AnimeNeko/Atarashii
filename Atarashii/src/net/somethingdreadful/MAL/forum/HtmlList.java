@@ -79,6 +79,13 @@ public class HtmlList {
             "  </body>" +
             "</html>";
 
+    /**
+     * Convert a forum array into a HTML list.
+     *
+     * @param list The list that should be converted in a HTML list
+     * @param context The application context to format the dates
+     * @return String The HTML source
+     */
     public static String convertList(ArrayList<Forum> list, Context context) {
         String result = "";
         for (int i = 0; i < list.size(); i++) {
@@ -101,6 +108,12 @@ public class HtmlList {
         return begin + result + end;
     }
 
+    /**
+     * convert a HTML comment into a BBCode comment.
+     *
+     * @param comment The HTML comment
+     * @return String The BBCode comment
+     */
     public static String convertComment(String comment) {
         comment = comment.replace("\">", "]");
         comment = comment.replace("\n", "");
@@ -131,6 +144,12 @@ public class HtmlList {
         return comment;
     }
 
+    /**
+     * Converts the spoiler HTML code into the BBCode.
+     *
+     * @param text The text to search for a spoiler
+     * @return String The text with the BBCode spoiler
+     */
     public static String convertSpoiler(String text) {
         text = text.replace("<div class=\"spoiler]", "");
         text = text.replace("<input type=\"button\" class=\"button\"", "");

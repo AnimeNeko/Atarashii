@@ -45,6 +45,9 @@ public class ForumsComment extends Fragment implements ForumNetworkTaskFinishedL
         return view;
     }
 
+    /**
+     * Sends the message.
+     */
     public void send() {
         new ForumNetworkTask(activity, this, update ? ForumJob.UPDATECOMMENT : ForumJob.ADDCOMMENT, id).execute(input.getText().toString());
         input.setEnabled(false);
@@ -57,6 +60,13 @@ public class ForumsComment extends Fragment implements ForumNetworkTaskFinishedL
         super.onSaveInstanceState(state);
     }
 
+    /**
+     * Changes the ID and applies the provided message.
+     *
+     * @param id The post id
+     * @param message The message that should be modified
+     * @return ForumJob The task that will be used to send the message
+     */
     public ForumJob setId(int id, String message) {
         if (this.id != id) {
             this.id = id;

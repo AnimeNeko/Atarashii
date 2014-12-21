@@ -71,6 +71,12 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         super.onSaveInstanceState(state);
     }
 
+    /**
+     * Change the records in this fragment.
+     *
+     * @param id The new id of the record
+     * @return ForumJob The task of this fragment
+     */
     public ForumJob setId(int id, ForumJob task) {
         if (this.id != id) {
             this.id = id;
@@ -79,6 +85,12 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         return task;
     }
 
+    /**
+     * Get the requested records.
+     *
+     * @param page The page number
+     * @param task The task that should be performed
+     */
     private void getRecords(int page, ForumJob task) {
         toggle(1);
         this.page = page;
@@ -109,6 +121,15 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         record = result;
     }
 
+    /**
+     * Handle the viewFlipper.
+     *
+     * 0 = The real content
+     * 1 = The progress indicator
+     * 2 = The network not available card
+     *
+     * @param number The number of the desired content
+     */
     private void toggle(int number) {
         content.setVisibility(number == 0 ? View.VISIBLE : View.GONE);
         progressBar.setVisibility(number == 1 ? View.VISIBLE : View.GONE);

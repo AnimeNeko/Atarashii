@@ -48,26 +48,50 @@ public class ForumActivity extends ActionBarActivity {
         super.onSaveInstanceState(state);
     }
 
+    /**
+     * Switch the view to the topics fragment.
+     *
+     * @param id The board|subBoard id
+     */
     public void getTopics(int id) {
         viewFlipper.setDisplayedChild(1);
         setTask(topics.setId(id, ForumJob.TOPICS));
     }
 
+    /**
+     * Switch the view to the topics fragment to show subBoards.
+     *
+     * @param id The subBoard id
+     */
     public void getSubBoard(int id) {
         viewFlipper.setDisplayedChild(1);
         setTask(topics.setId(id, ForumJob.SUBBOARD));
     }
 
+    /**
+     * Switch the view to the topics posts.
+     *
+     * @param id The id of the topic
+     */
     public void getPosts(int id) {
         viewFlipper.setDisplayedChild(2);
         setTask(posts.setId(id));
     }
 
+    /**
+     * Switch the view to the comment editor.
+     *
+     * @param id The comment id
+     * @param comment The comment text
+     */
     public void getComments(int id, String comment) {
         viewFlipper.setDisplayedChild(3);
         setTask(comments.setId(id, comment));
     }
 
+    /**
+     * Handle the back and home buttons
+     */
     private void back() {
         if (viewFlipper.getDisplayedChild() - 1 != -1)
             viewFlipper.setDisplayedChild(viewFlipper.getDisplayedChild() - 1);
@@ -81,6 +105,11 @@ public class ForumActivity extends ActionBarActivity {
             setTask(ForumJob.POSTS);
     }
 
+    /**
+     * Change the task & change the menuitems.
+     *
+     * @param task The new ForumTask
+     */
     public void setTask(ForumJob task) {
         this.task = task;
         menu.findItem(R.id.action_add).setVisible(task == ForumJob.POSTS && viewFlipper.getDisplayedChild() != 3);
@@ -121,6 +150,11 @@ public class ForumActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Get the Uri depending on the ForumTask.
+     *
+     * @return Uri The uri of the desired URL to launch
+     */
     public Uri getUri() {
         Uri url = Uri.EMPTY;
         switch (task) {

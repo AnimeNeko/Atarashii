@@ -71,6 +71,9 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         super.onSaveInstanceState(state);
     }
 
+    /**
+     * Request new records.
+     */
     private void getRecords() {
         if (MALApi.isNetworkAvailable(activity))
             new ForumNetworkTask(activity, this, ForumJob.BOARD, 0).execute();
@@ -89,6 +92,11 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         apply(result);
     }
 
+    /**
+     * Refresh the UI for changes.
+     *
+     * @param result The new record that should be applied.
+     */
     public void apply(ForumMain result) {
         myAnimeList.setAdapter(myanimelistAdapter);
         animeManga.setAdapter(animemangaAdapter);
@@ -101,6 +109,9 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         toggle(0);
     }
 
+    /**
+     * Set all the clicklisteners.
+     */
     private void setListener() {
         myAnimeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,6 +133,11 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         });
     }
 
+    /**
+     * Create a dialog to ask which subBoard you want to view.
+     *
+     * @param item The forum item with the subBoards
+     */
     private void requestTopic(Forum item) {
         if (item.getId() == 0) {
             ForumChildDialogFragment info = new ForumChildDialogFragment();
@@ -136,6 +152,15 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
         }
     }
 
+    /**
+     * Handle the viewFlipper.
+     *
+     * 0 = The real content
+     * 1 = The progress indicator
+     * 2 = The network not available card
+     *
+     * @param number The number of the desired content
+     */
     private void toggle(int number) {
         content.setVisibility(number == 0 ? View.VISIBLE : View.GONE);
         progressBar.setVisibility(number == 1 ? View.VISIBLE : View.GONE);
