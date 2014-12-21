@@ -23,15 +23,16 @@ import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener, View.OnClickListener {
+    public int id;
+    public ForumMain record;
     ForumActivity activity;
     View view;
     WebView webview;
-    public int id;
     int page = 0;
     ViewFlipper viewFlipper;
-    public ForumMain record;
     RelativeLayout comment;
     ImageView send;
+    ImageView expand;
     EditText input;
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
@@ -43,6 +44,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
         comment = (RelativeLayout) view.findViewById(R.id.commentbar);
         send = (ImageView) view.findViewById(R.id.commentImage);
+        expand = (ImageView) view.findViewById(R.id.expandImage);
         input = (EditText) view.findViewById(R.id.editText);
 
         if (bundle != null && bundle.getSerializable("posts") != null) {
@@ -50,6 +52,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
             id = bundle.getInt("id");
         }
 
+        expand.setOnClickListener(this);
         send.setOnClickListener(this);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.addJavascriptInterface(new PostsInterface(this), "Posts");
@@ -60,7 +63,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     /**
      * Toggle the fast reply input.
      */
-    public void toggleComments(){
+    public void toggleComments() {
         comment.setVisibility(!(comment.getVisibility() == View.VISIBLE) ? View.VISIBLE : View.GONE);
     }
 
@@ -102,7 +105,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      *
      * @param loading True if the indicator should be shown
      */
-    private void toggle(boolean loading){
+    private void toggle(boolean loading) {
         viewFlipper.setDisplayedChild(loading ? 1 : 0);
     }
 
@@ -139,10 +142,20 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
 
     @Override
     public void onClick(View v) {
-        input.clearFocus();
-        toggleComments();
-        send.setEnabled(false);
-        input.setEnabled(false);
-        new ForumNetworkTask(activity, this, ForumJob.ADDCOMMENT, id).execute(input.getText().toString());
+        switch (v.getId()) {
+            case R.id.commentImage:
+                input.clearFocus();
+                send.setEnabled(false);
+                input.setEnabled(false);
+                new ForumNetworkTask(activity, this, ForumJob.ADDCOMMENT, id).execute(input.getText().toString());
+                toggleComments();
+                break;
+            case R.id.expandImage:
+                input.clearFocus();
+                activity.getComments(id, input.getText().toString());
+                activity.comments.update = false;
+                toggleComments();
+                break;
+        }
     }
 }

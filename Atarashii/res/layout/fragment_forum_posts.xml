@@ -29,14 +29,25 @@
             android:layout_alignParentBottom="true"
             android:visibility="gone">
 
+            <ImageView
+                android:id="@+id/expandImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_expand_less" />
+
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/commentImage"
-                android:layout_toStartOf="@+id/commentImage"
                 android:inputType="textMultiLine"
-                android:maxHeight="100dp" />
+                android:maxHeight="100dp"
+                android:layout_toRightOf="@+id/expandImage"
+                android:layout_toEndOf="@+id/expandImage" />
 
             <ImageView
                 android:id="@+id/commentImage"

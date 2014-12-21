@@ -22,7 +22,7 @@ public class ForumsComment extends Fragment implements ForumNetworkTaskFinishedL
     ForumActivity activity;
     View view;
     public int id;
-    boolean update = false;
+    public boolean update = false;
     String message;
     RelativeLayout comment;
     ImageView send;
