@@ -491,6 +491,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
             myList = ((position <= 3 && myList) || position == 0);
+            myListChanged();
             // disable swipeRefresh for other lists
             if (af == null || mf == null) {
                 af = mIGFPagerAdapter.getIGF(0);
