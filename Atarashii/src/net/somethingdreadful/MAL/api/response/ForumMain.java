@@ -9,6 +9,8 @@ public class ForumMain implements Serializable {
     private ArrayList<Forum> MyAnimeList;
     @SerializedName("Anime & Manga") private ArrayList<Forum> AnimeManga;
     private ArrayList<Forum> General;
+    private ArrayList<Forum> list;
+    private int pages;
 
 
     public void setMyAnimeList(ArrayList<Forum> MyAnimeList) {
@@ -35,11 +37,19 @@ public class ForumMain implements Serializable {
         return General;
     }
 
-    public void setList(ArrayList<Forum> MyAnimeList) {
-        this.MyAnimeList = MyAnimeList;
+    public void setList(ArrayList<Forum> list) {
+        this.list = list;
     }
 
     public ArrayList<Forum> getList() {
-        return MyAnimeList;
+        return list;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public int getPages() {
+        return pages;
     }
 }

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.forum.ForumsComment;
 import net.somethingdreadful.MAL.forum.ForumsMain;
 import net.somethingdreadful.MAL.forum.ForumsPosts;
@@ -65,6 +66,7 @@ public class ForumActivity extends ActionBarActivity {
      */
     public void getSubBoard(int id) {
         viewFlipper.setDisplayedChild(1);
+        topics.type = (id == 1 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA);
         setTask(topics.setId(id, ForumJob.SUBBOARD));
     }
 
@@ -87,6 +89,16 @@ public class ForumActivity extends ActionBarActivity {
     public void getComments(int id, String comment) {
         viewFlipper.setDisplayedChild(3);
         setTask(comments.setId(id, comment));
+    }
+
+    /**
+     * Switch the view to the discussion view.
+     *
+     * @param id The comment id
+     */
+    public void getDiscussion(int id) {
+        viewFlipper.setDisplayedChild(1);
+        setTask(topics.setId(id, ForumJob.DISCUSSION));
     }
 
     /**

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 
@@ -31,13 +32,19 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
                 result = mManager.getForum();
                 break;
             case TOPICS:
-                result.setList(mManager.getTopics(id, Integer.parseInt(params[0])));
+                result = mManager.getTopics(id, Integer.parseInt(params[0]));
+                break;
+            case DISCUSSION:
+                if (params[1].equals(MALApi.ListType.ANIME.toString()))
+                    result = mManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.ANIME);
+                else
+                    result = mManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.MANGA);
                 break;
             case POSTS:
-                result.setList(mManager.getPosts(id, Integer.parseInt(params[0])));
+                result = mManager.getPosts(id, Integer.parseInt(params[0]));
                 break;
             case SUBBOARD:
-                result.setList(mManager.getSubBoards(id, Integer.parseInt(params[0])));
+                result = mManager.getSubBoards(id, Integer.parseInt(params[0]));
                 break;
             case ADDCOMMENT:
                 result.setList(mManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null);

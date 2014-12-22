@@ -4,6 +4,7 @@ public enum ForumJob {
     BOARD,
     SUBBOARD,
     TOPICS,
+    DISCUSSION,
     POSTS,
     ADDCOMMENT,
     ADDTOPIC,

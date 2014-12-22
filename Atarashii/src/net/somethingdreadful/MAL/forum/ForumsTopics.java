@@ -35,6 +35,8 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     ForumMain record;
     public int id;
     int page = 0;
+    ForumJob task;
+    public MALApi.ListType type = MALApi.ListType.MANGA;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -59,6 +61,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         if (bundle != null && bundle.getSerializable("topics") != null) {
             apply((ForumMain) bundle.getSerializable("topics"));
             id = bundle.getInt("id");
+            task = (ForumJob) bundle.getSerializable("task");
         }
 
         return view;
@@ -68,6 +71,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     public void onSaveInstanceState(Bundle state) {
         state.putSerializable("topics", record);
         state.putInt("id", id);
+        state.putSerializable("task", task);
         super.onSaveInstanceState(state);
     }
 
@@ -78,8 +82,9 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
      * @return ForumJob The task of this fragment
      */
     public ForumJob setId(int id, ForumJob task) {
-        if (this.id != id) {
+        if (this.id != id || this.task != task) {
             this.id = id;
+            this.task = task;
             getRecords(1, task);
         }
         return task;
@@ -97,7 +102,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, task, id).execute(Integer.toString(page));
+            new ForumNetworkTask(activity, this, task, id).execute(Integer.toString(page), type.toString());
         else
             toggle(2);
     }
@@ -145,15 +150,19 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         // don't do anything if there is nothing in the list
         if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
             return;
-        if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading) {
+        if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading && page < record.getPages()) {
             loading = true;
-            getRecords(page + 1, ForumJob.TOPICS);
+            getRecords(page + 1, task);
             activity.setTitle(getString(R.string.layout_card_loading));
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        activity.getPosts(((Forum) topicsAdapter.getItem(position)).getId());
+        int itemID = ((Forum) topicsAdapter.getItem(position)).getId();
+        if (task == ForumJob.SUBBOARD)
+            activity.getDiscussion(itemID);
+        else
+            activity.getPosts(itemID);
     }
 }

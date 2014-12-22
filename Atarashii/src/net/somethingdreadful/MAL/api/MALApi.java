@@ -13,7 +13,6 @@ import com.google.gson.GsonBuilder;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
-import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
@@ -191,15 +190,23 @@ public class MALApi {
         return service.getForum();
     }
 
-    public ArrayList<Forum> getTopics(int id, int page) {
+    public ForumMain getTopics(int id, int page) {
         return service.getTopics(id, page);
     }
 
-    public ArrayList<Forum> getPosts(int id, int page) {
+    public ForumMain getAnime(int id, int page) {
+        return service.getAnime(id, page);
+    }
+
+    public ForumMain getManga(int id, int page) {
+        return service.getManga(id, page);
+    }
+
+    public ForumMain getPosts(int id, int page) {
         return service.getPosts(id, page);
     }
 
-    public ArrayList<Forum> getSubBoards(int id, int page) {
+    public ForumMain getSubBoards(int id, int page) {
         return service.getSubBoards(id, page);
     }
 

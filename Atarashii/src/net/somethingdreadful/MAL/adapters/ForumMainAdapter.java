@@ -56,27 +56,32 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
 
         try {
             viewHolder.title.setText(record.getName());
-            viewHolder.image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    InformationDialogFragment info = new InformationDialogFragment();
-                    Bundle args = new Bundle();
-                    args.putString("title", record.getName());
-                    if (task == ForumJob.BOARD)
-                        args.putString("message", record.getDescription());
-                    else
-                        args.putString("message", context.getString(R.string.dialog_message_created_by)
-                                + " " + record.getUsername()
-                                + "\n"
-                                + context.getString(R.string.dialog_message_last_post)
-                                + " " + record.getReply().getUsername()
-                                + " " + context.getString(R.string.dialog_message_on)
-                                + " " + MALDateTools.formatDateString(record.getReply().getTime(), context, true));
-                    info.setArguments(args);
-                    info.show(fm, "fragment_forum");
+            if (record.getReply() != null || record.getDescription() != null) {
+                viewHolder.image.setVisibility(View.VISIBLE);
+                viewHolder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        InformationDialogFragment info = new InformationDialogFragment();
+                        Bundle args = new Bundle();
+                        args.putString("title", record.getName());
+                        if (task == ForumJob.BOARD)
+                            args.putString("message", record.getDescription());
+                        else
+                            args.putString("message", context.getString(R.string.dialog_message_created_by)
+                                    + " " + record.getUsername()
+                                    + "\n"
+                                    + context.getString(R.string.dialog_message_last_post)
+                                    + " " + record.getReply().getUsername()
+                                    + " " + context.getString(R.string.dialog_message_on)
+                                    + " " + MALDateTools.formatDateString(record.getReply().getTime(), context, true));
+                        info.setArguments(args);
+                        info.show(fm, "fragment_forum");
 
-                }
-            });
+                    }
+                });
+            } else {
+                viewHolder.image.setVisibility(View.GONE);
+            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "ForumActivity.ListViewAdapter(): " + e.getMessage());
             Crashlytics.logException(e);

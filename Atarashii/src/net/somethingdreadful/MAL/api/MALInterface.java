@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL.api;
 
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
-import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
@@ -103,13 +102,19 @@ public interface MALInterface {
     ForumMain getForum();
 
     @GET("/forum/{id}")
-    ArrayList<Forum> getTopics(@Path("id") int id, @Query("page") int page);
+    ForumMain getTopics(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/anime/{id}")
+    ForumMain getAnime(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/manga/{id}")
+    ForumMain getManga(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/topic/{id}")
-    ArrayList<Forum> getPosts(@Path("id") int id, @Query("page") int page);
+    ForumMain getPosts(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/board/{id}")
-    ArrayList<Forum> getSubBoards(@Path("id") int id, @Query("page") int page);
+    ForumMain getSubBoards(@Path("id") int id, @Query("page") int page);
 
     @FormUrlEncoded
     @POST("/forum/topic/{id}")

@@ -8,7 +8,6 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
-import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
@@ -102,7 +101,7 @@ public class MALManager {
         return null;
     }
 
-    public ArrayList<Forum> getTopics(int id, int page) {
+    public ForumMain getTopics(int id, int page) {
         try {
             return malApi.getTopics(id, page);
         } catch (RetrofitError e) {
@@ -112,7 +111,20 @@ public class MALManager {
         return null;
     }
 
-    public ArrayList<Forum> getPosts(int id, int page) {
+    public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
+        try {
+            if (type.equals(MALApi.ListType.ANIME))
+                return malApi.getAnime(id, page);
+            else
+                return malApi.getManga(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getDiscussion(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getPosts(int id, int page) {
         try {
             return malApi.getPosts(id, page);
         } catch (RetrofitError e) {
@@ -122,7 +134,7 @@ public class MALManager {
         return null;
     }
 
-    public ArrayList<Forum> getSubBoards(int id, int page) {
+    public ForumMain getSubBoards(int id, int page) {
         try {
             return malApi.getSubBoards(id, page);
         } catch (RetrofitError e) {
