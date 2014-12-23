@@ -14,9 +14,8 @@ public class HtmlList {
                     "  <head>" +
                     "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
                     "    <script type=\"text/javascript\">\n" +
-                    "      function clicked(id, position) {" +
-                    "        Posts.clicked(id, position);" +
-                    "      }" +
+                    "      function clicked(id, position) {Posts.clicked(id, position);}" +
+                    "      function viewProfile(position) {Posts.viewProfile(position);}" +
                     "    </script>" +
                     "    <style type=\"text/css\">" +
                     "      html, body {" +
@@ -66,7 +65,7 @@ public class HtmlList {
             "<!-- begin post html -->" +
                     "    <div class=\"post\" onClick=\"clicked('itemID', 'position')\" >" +
                     "      <div class=\"head\">" +
-                    "        <img class=\"avatar\" src=\"image\"/>" +
+                    "        <img class=\"avatar\" onClick=\"viewProfile('position')\" src=\"image\"/>" +
                     "        <div class=\"title\">Title</div>" +
                     "        <div class=\"subheader\">Subhead</div>" +
                     "      </div>" +
