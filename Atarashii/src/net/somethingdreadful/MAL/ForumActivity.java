@@ -201,6 +201,9 @@ public class ForumActivity extends ActionBarActivity {
             case SUBBOARD:
                 url = Uri.parse("http://myanimelist.net/forum/?subboard=" + topics.id);
                 break;
+            case DISCUSSION:
+                url = Uri.parse("http://myanimelist.net/forum/?" + (topics.type == MALApi.ListType.ANIME ? "anime" : "manga") + "id=" + topics.id);
+                break;
             case TOPICS:
                 url = Uri.parse("http://myanimelist.net/forum/?board=" + topics.id);
                 break;
