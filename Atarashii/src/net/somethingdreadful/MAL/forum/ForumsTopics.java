@@ -24,19 +24,22 @@ import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+    public int id;
+    public MALApi.ListType type = MALApi.ListType.MANGA;
+    public ForumMain subBoard;
+    public ForumMain topic;
+    public ForumJob task;
+
     ForumActivity activity;
     View view;
-    ForumMainAdapter topicsAdapter;
+    public ForumMainAdapter topicsAdapter;
     ProgressBar progressBar;
     RelativeLayout content;
     Card networkCard;
     ListView topics;
+
     Boolean loading = true;
-    ForumMain record;
-    public int id;
     int page = 0;
-    ForumJob task;
-    public MALApi.ListType type = MALApi.ListType.MANGA;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -58,10 +61,13 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
 
         toggle(1);
 
-        if (bundle != null && bundle.getSerializable("topics") != null) {
-            apply((ForumMain) bundle.getSerializable("topics"));
+        if (bundle != null && bundle.getSerializable("task") != null) {
+            topic = (ForumMain) bundle.getSerializable("topic");
+            subBoard = (ForumMain) bundle.getSerializable("subBoard");
             id = bundle.getInt("id");
             task = (ForumJob) bundle.getSerializable("task");
+            type = (MALApi.ListType) bundle.getSerializable("type");
+            apply(task == ForumJob.SUBBOARD ? subBoard : topic);
         }
 
         return view;
@@ -69,9 +75,11 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
 
     @Override
     public void onSaveInstanceState(Bundle state) {
-        state.putSerializable("topics", record);
+        state.putSerializable("topic", topic);
+        state.putSerializable("subBoard", subBoard);
         state.putInt("id", id);
         state.putSerializable("task", task);
+        state.putSerializable("type", type);
         super.onSaveInstanceState(state);
     }
 
@@ -115,7 +123,8 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
-        apply(result);
+        if (result != null && result.getList() != null)
+            apply(result);
     }
 
     public void apply(ForumMain result) {
@@ -123,7 +132,11 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         toggle(0);
         loading = false;
         activity.setTitle(getString(R.string.title_activity_forum));
-        record = result;
+        if (task == ForumJob.SUBBOARD) {
+            subBoard = result;
+        } else {
+            topic = result;
+        }
     }
 
     /**
@@ -150,7 +163,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         // don't do anything if there is nothing in the list
         if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
             return;
-        if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading && page < record.getPages()) {
+        if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading && page < (task == ForumJob.SUBBOARD ? subBoard.getPages() : topic.getPages())) {
             loading = true;
             getRecords(page + 1, task);
             activity.setTitle(getString(R.string.layout_card_loading));

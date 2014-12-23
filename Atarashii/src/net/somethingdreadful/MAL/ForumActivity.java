@@ -22,14 +22,15 @@ public class ForumActivity extends ActionBarActivity {
     public ForumsTopics topics;
     public ForumsPosts posts;
     public ForumsComment comments;
+    public boolean discussion = false;
     FragmentManager manager;
     ViewFlipper viewFlipper;
-    ForumJob task;
+    public ForumJob task;
     Menu menu;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_forum);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -40,19 +41,25 @@ public class ForumActivity extends ActionBarActivity {
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
         comments = (ForumsComment) manager.findFragmentById(R.id.comment);
 
-        viewFlipper.setDisplayedChild(savedInstanceState == null ? 0 : savedInstanceState.getInt("child"));
+        if (bundle != null) {
+            viewFlipper.setDisplayedChild(bundle.getInt("child"));
+            task = (ForumJob) bundle.getSerializable("task");
+            discussion = bundle.getBoolean("discussion");
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
         state.putInt("child", viewFlipper.getDisplayedChild());
+        state.putSerializable("task", task);
+        state.putBoolean("discussion", discussion);
         super.onSaveInstanceState(state);
     }
 
     /**
      * Switch the view to the topics fragment.
      *
-     * @param id The board|subBoard id
+     * @param id The board id
      */
     public void getTopics(int id) {
         viewFlipper.setDisplayedChild(1);
@@ -99,26 +106,44 @@ public class ForumActivity extends ActionBarActivity {
     public void getDiscussion(int id) {
         viewFlipper.setDisplayedChild(1);
         setTask(topics.setId(id, ForumJob.DISCUSSION));
+        discussion = true;
     }
 
     /**
-     * Handle the back and home buttons
+     * Handle the back and home buttons.
      */
     private void back() {
-        if (viewFlipper.getDisplayedChild() - 1 != -1)
-            viewFlipper.setDisplayedChild(viewFlipper.getDisplayedChild() - 1);
-        else
-            finish();
-        if (viewFlipper.getDisplayedChild() == 0)
-            setTask(ForumJob.BOARD);
-        else if (viewFlipper.getDisplayedChild() == 1)
-            setTask(ForumJob.TOPICS);
-        else if (viewFlipper.getDisplayedChild() == 2)
-            setTask(ForumJob.POSTS);
+        switch (task) {
+            case BOARD:
+                finish();
+                break;
+            case SUBBOARD:
+                setTask(ForumJob.BOARD);
+                viewFlipper.setDisplayedChild(0);
+                break;
+            case DISCUSSION:
+                setTask(ForumJob.SUBBOARD);
+                topics.task = ForumJob.SUBBOARD;
+                topics.topicsAdapter.clear();
+                topics.apply(topics.subBoard);
+                discussion = false;
+                break;
+            case TOPICS:
+                setTask(ForumJob.BOARD);
+                viewFlipper.setDisplayedChild(0);
+                break;
+            case POSTS:
+                if (discussion) {
+                    setTask(ForumJob.DISCUSSION);
+                } else
+                    setTask(ForumJob.TOPICS);
+                viewFlipper.setDisplayedChild(1);
+                break;
+        }
     }
 
     /**
-     * Change the task & change the menuitems.
+     * Change the task & change the menu items.
      *
      * @param task The new ForumTask
      */
