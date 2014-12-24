@@ -121,6 +121,8 @@
 
     <!-- ForumActivity Strings -->
     <string name="action_add">Add a comment or topic</string>
+    <string name="form_hint_title">Enter here the topic title.</string>
+    <string name="form_hint_message">Enter here the message. </string>
 
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">MAL Username</string>

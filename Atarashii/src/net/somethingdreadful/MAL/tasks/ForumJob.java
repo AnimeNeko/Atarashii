@@ -8,5 +8,6 @@ public enum ForumJob {
     POSTS,
     ADDCOMMENT,
     ADDTOPIC,
+    COMMENT,
     UPDATECOMMENT
 }

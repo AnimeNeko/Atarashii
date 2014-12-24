@@ -1,12 +1,15 @@
 package net.somethingdreadful.MAL;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
@@ -26,6 +29,7 @@ public class ForumActivity extends ActionBarActivity {
     FragmentManager manager;
     ViewFlipper viewFlipper;
     public ForumJob task;
+    public ForumJob prevTask;
     Menu menu;
 
     @Override
@@ -92,10 +96,12 @@ public class ForumActivity extends ActionBarActivity {
      *
      * @param id The comment id
      * @param comment The comment text
+     * @param task The task to peform
      */
-    public void getComments(int id, String comment) {
+    public void getComments(int id, String comment, ForumJob task) {
         viewFlipper.setDisplayedChild(3);
-        setTask(comments.setId(id, comment));
+        prevTask = this.task;
+        setTask(comments.setId(id, comment, task));
     }
 
     /**
@@ -112,7 +118,7 @@ public class ForumActivity extends ActionBarActivity {
     /**
      * Handle the back and home buttons.
      */
-    private void back() {
+    public void back() {
         switch (task) {
             case BOARD:
                 finish();
@@ -139,7 +145,25 @@ public class ForumActivity extends ActionBarActivity {
                     setTask(ForumJob.TOPICS);
                 viewFlipper.setDisplayedChild(1);
                 break;
+            case COMMENT:
+                if (prevTask == ForumJob.POSTS)
+                    viewFlipper.setDisplayedChild(2);
+                else
+                    viewFlipper.setDisplayedChild(1);
+                setTask(prevTask);
+                break;
         }
+    }
+
+    /**
+     * Force android to hide the keyboard
+     *
+     * @param text The EditText view
+     */
+    public void hideKeyboard(EditText text) {
+        text.clearFocus();
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
     }
 
     /**
@@ -149,7 +173,7 @@ public class ForumActivity extends ActionBarActivity {
      */
     public void setTask(ForumJob task) {
         this.task = task;
-        menu.findItem(R.id.action_add).setVisible(task == ForumJob.POSTS && viewFlipper.getDisplayedChild() != 3);
+        menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && viewFlipper.getDisplayedChild() != 3);
         menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
         menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
     }
@@ -179,6 +203,8 @@ public class ForumActivity extends ActionBarActivity {
             case R.id.action_add:
                 if (task == ForumJob.POSTS)
                     posts.toggleComments();
+                else if (task == ForumJob.TOPICS)
+                    getComments(topics.id, null, ForumJob.ADDTOPIC);
                 break;
             case R.id.action_send:
                 comments.send();
