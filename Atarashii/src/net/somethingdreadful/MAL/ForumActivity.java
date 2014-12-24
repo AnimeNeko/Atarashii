@@ -77,7 +77,7 @@ public class ForumActivity extends ActionBarActivity {
      */
     public void getSubBoard(int id) {
         viewFlipper.setDisplayedChild(1);
-        topics.type = (id == 1 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA);
+        topics.type = ((id == 1 || id == 2) ? MALApi.ListType.ANIME : MALApi.ListType.MANGA);
         setTask(topics.setId(id, ForumJob.SUBBOARD));
     }
 
@@ -173,9 +173,18 @@ public class ForumActivity extends ActionBarActivity {
      */
     public void setTask(ForumJob task) {
         this.task = task;
-        menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && viewFlipper.getDisplayedChild() != 3);
+        menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && getTopicStatus() && viewFlipper.getDisplayedChild() != 3);
         menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
         menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
+    }
+
+    /**
+     * Checks if the ID allows to add a topics
+     *
+     * @return boolean If true then the ID allows to add comments
+     */
+    public boolean getTopicStatus() {
+        return task != ForumJob.TOPICS || (topics.id != 5 && topics.id != 14 && topics.id != 15 && topics.id != 17);
     }
 
     @Override
