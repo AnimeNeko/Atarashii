@@ -3,7 +3,7 @@ package net.somethingdreadful.MAL.forum;
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
-import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class PostsInterface {
     ForumsPosts posts;
@@ -19,17 +19,15 @@ public class PostsInterface {
      * @param position The array position of the post
      */
     @JavascriptInterface
-    public void clicked(final String id, String position) {
-        String username = posts.record.getList().get(Integer.parseInt(position)).getUsername();
+    public void edit(final String id, String position) {
         final String comment = posts.record.getList().get(Integer.parseInt(position)).getComment();
 
-        if (username.equals(AccountService.getUsername(posts.activity)))
-            posts.activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    posts.activity.getComments(Integer.parseInt(id), comment);
-                }
-            });
+        posts.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                posts.activity.getComments(Integer.parseInt(id), comment, ForumJob.UPDATECOMMENT);
+            }
+        });
     }
 
     /**

@@ -16,6 +16,7 @@ import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.tasks.ForumJob;
@@ -136,7 +137,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      */
     public void apply(ForumMain result) {
         activity.setTitle(getString(R.string.title_activity_forum));
-        webview.loadDataWithBaseURL(null, HtmlList.convertList(result.getList(), activity), "text/html", "utf-8", null);
+        webview.loadDataWithBaseURL(null, HtmlList.convertList(result.getList(), activity, AccountService.getUsername(activity)), "text/html", "utf-8", null);
         toggle(false);
         record = result;
     }

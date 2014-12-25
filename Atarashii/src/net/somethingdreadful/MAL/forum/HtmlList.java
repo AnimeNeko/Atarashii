@@ -4,6 +4,7 @@ import android.content.Context;
 
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.api.response.Forum;
+import net.somethingdreadful.MAL.api.response.User;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class HtmlList {
                     "  <head>" +
                     "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
                     "    <script type=\"text/javascript\">\n" +
-                    "      function clicked(id, position) {Posts.clicked(id, position);}" +
+                    "      function edit(id, position) {Posts.edit(id, position);}" +
                     "      function viewProfile(position) {Posts.viewProfile(position);}" +
                     "    </script>" +
                     "    <style type=\"text/css\">" +
@@ -29,9 +30,7 @@ public class HtmlList {
                     "        border-bottom: 1px solid #D2D2D2;" +
                     "        padding: 0 16px;" +
                     "      }" +
-                    "      div.post:active {" +
-                    "        background-color: #D9D9D9;" +
-                    "      }" +
+                    "      div.post:active {background-color: #D9D9D9;}" +
                     "      div.head {" +
                     "        width: 100%;" +
                     "        height: 72px;" +
@@ -47,25 +46,26 @@ public class HtmlList {
                     "        background-color: #999999;" +
                     "        margin-right: 12px;" +
                     "      }" +
-                    "      div.head div.title {" +
-                    "        color: #444444;" +
-                    "        margin-top: 5px;" +
+                    "      div.head div.title {color: #444444; margin-top: 5px;}" +
+                    "      div.head div.developer {color: #0096C8; margin-top: 5px;}" +
+                    "      div.head div.staff {color: #F44336; margin-top: 5px;}" +
+                    "      div.head img.edit {" +
+                    "        float: right;" +
+                    "        height: 36px;" +
+                    "        width: 36px;" +
+                    "        margin-top: 2px;" +
                     "      }" +
-                    "      div.head div.subheader {" +
-                    "        color: #999999;" +
-                    "        margin-top: 1px;" +
-                    "      }" +
-                    "      div.content {" +
-                    "        padding-bottom: 16px;" +
-                    "      }" +
+                    "      div.head div.subheader {color: #999999; margin-top: 1px;}" +
+                    "      div.content {padding-bottom: 16px;}" +
                     "    </style>" +
                     "  </head>" +
                     "  <body>";
     static String postLayout =
             "<!-- begin post html -->" +
-                    "    <div class=\"post\" onClick=\"clicked('itemID', 'position')\" >" +
+                    "    <div class=\"post\" >" +
                     "      <div class=\"head\">" +
                     "        <img class=\"avatar\" onClick=\"viewProfile('position')\" src=\"image\"/>" +
+                    "        <!-- special right methods -->" +
                     "        <div class=\"title\">Title</div>" +
                     "        <div class=\"subheader\">Subhead</div>" +
                     "      </div>" +
@@ -83,9 +83,10 @@ public class HtmlList {
      *
      * @param list The list that should be converted in a HTML list
      * @param context The application context to format the dates
+     * @param username The username of the user, this is used for special rights
      * @return String The HTML source
      */
-    public static String convertList(ArrayList<Forum> list, Context context) {
+    public static String convertList(ArrayList<Forum> list, Context context, String username) {
         String result = "";
         for (int i = 0; i < list.size(); i++) {
             Forum post = list.get(i);
@@ -95,6 +96,12 @@ public class HtmlList {
             comment = comment.replace("data-src=", "width=\"100%\" src=");
             comment = comment.replace("img src=", "img width=\"100%\" src=");
 
+            if (post.getUsername().equals(username))
+                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"edit('itemID', 'position')\" src=\"http://i.imgur.com/uZ0TbNv.png\"/>");
+            if (User.isDeveloperRecord(post.getUsername()))
+                postreal = postreal.replace("=\"title\">", "=\"developer\">");
+            if (!post.getProfile().getDetails().getAccessRank().equals("Member"))
+                postreal = postreal.replace("=\"title\">", "=\"staff\">");
             postreal = postreal.replace("image", post.getProfile().getAvatarUrl() != null ? post.getProfile().getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
             postreal = postreal.replace("Title", post.getUsername());
             postreal = postreal.replace("itemID", Integer.toString(post.getId()));
