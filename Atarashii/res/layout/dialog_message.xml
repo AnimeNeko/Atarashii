@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light">
+
+    <TextView
+        android:id="@+id/dialog_message_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/card_content_loading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/dialog_message_close"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/highlite_friendlist"
+        android:padding="16dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_close_grey" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/dialog_message_header"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#E5E5E5" />
+
+    <EditText
+        android:id="@+id/dialog_message_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_message_header"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/form_hint_title" />
+
+    <EditText
+        android:id="@+id/dialog_message_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_message_title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/form_hint_message"
+        android:inputType="textMultiLine" />
+
+    <LinearLayout
+        android:id="@+id/dialog_message_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_below="@id/dialog_message_message"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/dialog_message_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/highlite_friendlist"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_format_bold_grey" />
+
+        <ImageView
+            android:id="@+id/dialog_message_italic"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@drawable/highlite_friendlist"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_format_italic_grey" />
+
+        <ImageView
+            android:id="@+id/dialog_message_underlined"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@drawable/highlite_friendlist"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_format_underline_grey" />
+
+        <ImageView
+            android:id="@+id/dialog_message_striped"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@drawable/highlite_friendlist"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_format_strikethrough_grey" />
+
+        <ImageView
+            android:id="@+id/dialog_message_spoiler"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@drawable/highlite_friendlist"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_vertical_align_center_grey" />
+
+        <ImageView
+            android:id="@+id/dialog_message_center"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@drawable/highlite_friendlist"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_format_align_center_grey" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialog_message_send"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/dialog_message_message"
+        android:layout_alignRight="@+id/dialog_message_message"
+        android:layout_alignTop="@+id/dialog_message_bar"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/dialog_label_send"
+        android:background="@drawable/highlite_friendlist"
+        android:textColor="@color/primary" />
+
+</RelativeLayout>

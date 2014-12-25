@@ -1,19 +1,16 @@
 package net.somethingdreadful.MAL;
 
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.forum.ForumsComment;
+import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumsMain;
 import net.somethingdreadful.MAL.forum.ForumsPosts;
 import net.somethingdreadful.MAL.forum.ForumsTopics;
@@ -24,12 +21,10 @@ public class ForumActivity extends ActionBarActivity {
     public ForumsMain main;
     public ForumsTopics topics;
     public ForumsPosts posts;
-    public ForumsComment comments;
     public boolean discussion = false;
     FragmentManager manager;
     ViewFlipper viewFlipper;
-    public ForumJob task;
-    public ForumJob prevTask;
+    public ForumJob task = ForumJob.BOARD;
     Menu menu;
 
     @Override
@@ -43,7 +38,6 @@ public class ForumActivity extends ActionBarActivity {
         main = (ForumsMain) manager.findFragmentById(R.id.main);
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
-        comments = (ForumsComment) manager.findFragmentById(R.id.comment);
 
         if (bundle != null) {
             viewFlipper.setDisplayedChild(bundle.getInt("child"));
@@ -92,16 +86,20 @@ public class ForumActivity extends ActionBarActivity {
     }
 
     /**
-     * Switch the view to the comment editor.
+     * Create the edithor dialog.
      *
      * @param id The comment id
-     * @param comment The comment text
+     * @param message The comment text
      * @param task The task to peform
      */
-    public void getComments(int id, String comment, ForumJob task) {
-        viewFlipper.setDisplayedChild(3);
-        prevTask = this.task;
-        setTask(comments.setId(id, comment, task));
+    public void getComments(int id, String message, ForumJob task) {
+        MessageDialogFragment info = new MessageDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt("id", id);
+        args.putString("message", message);
+        args.putSerializable("task", task);
+        info.setArguments(args);
+        info.show(getFragmentManager(), "fragment_forum");
     }
 
     /**
@@ -145,25 +143,7 @@ public class ForumActivity extends ActionBarActivity {
                     setTask(ForumJob.TOPICS);
                 viewFlipper.setDisplayedChild(1);
                 break;
-            case COMMENT:
-                if (prevTask == ForumJob.POSTS)
-                    viewFlipper.setDisplayedChild(2);
-                else
-                    viewFlipper.setDisplayedChild(1);
-                setTask(prevTask);
-                break;
         }
-    }
-
-    /**
-     * Force android to hide the keyboard
-     *
-     * @param text The EditText view
-     */
-    public void hideKeyboard(EditText text) {
-        text.clearFocus();
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
     }
 
     /**
@@ -196,7 +176,7 @@ public class ForumActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_forum, menu);
         this.menu = menu;
-        setTask(ForumJob.BOARD);
+        setTask(task);
         return true;
     }
 
@@ -211,12 +191,9 @@ public class ForumActivity extends ActionBarActivity {
                 break;
             case R.id.action_add:
                 if (task == ForumJob.POSTS)
-                    posts.toggleComments();
+                    getComments(topics.id, null, ForumJob.ADDCOMMENT);
                 else if (task == ForumJob.TOPICS)
                     getComments(topics.id, null, ForumJob.ADDTOPIC);
-                break;
-            case R.id.action_send:
-                comments.send();
                 break;
         }
         return super.onOptionsItemSelected(item);

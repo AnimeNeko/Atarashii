@@ -8,10 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.ForumActivity;
@@ -23,7 +19,7 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
-public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener, View.OnClickListener {
+public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener {
     public int id;
     public ForumMain record;
     ForumActivity activity;
@@ -31,10 +27,6 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     WebView webview;
     int page = 0;
     ViewFlipper viewFlipper;
-    RelativeLayout comment;
-    ImageView send;
-    ImageView expand;
-    EditText input;
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
@@ -43,29 +35,16 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
         webview = (WebView) view.findViewById(R.id.webview);
         viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
-        comment = (RelativeLayout) view.findViewById(R.id.commentbar);
-        send = (ImageView) view.findViewById(R.id.commentImage);
-        expand = (ImageView) view.findViewById(R.id.expandImage);
-        input = (EditText) view.findViewById(R.id.editText);
 
         if (bundle != null && bundle.getSerializable("posts") != null) {
             apply((ForumMain) bundle.getSerializable("posts"));
             id = bundle.getInt("id");
         }
 
-        expand.setOnClickListener(this);
-        send.setOnClickListener(this);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.addJavascriptInterface(new PostsInterface(this), "Posts");
 
         return view;
-    }
-
-    /**
-     * Toggle the fast reply input.
-     */
-    public void toggleComments() {
-        comment.setVisibility(!(comment.getVisibility() == View.VISIBLE) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -118,16 +97,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob job) {
-        if (job == ForumJob.POSTS) {
             apply(result);
-            send.setEnabled(true);
-            input.setEnabled(true);
-        } else {
-            Toast.makeText(activity, R.string.toast_info_comment_add, Toast.LENGTH_SHORT).show();
-            input.setText("");
-            toggleComments();
-            getRecords(page);
-        }
     }
 
     /**
@@ -140,23 +110,5 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         webview.loadDataWithBaseURL(null, HtmlList.convertList(result.getList(), activity, AccountService.getUsername(activity)), "text/html", "utf-8", null);
         toggle(false);
         record = result;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.commentImage:
-                input.clearFocus();
-                send.setEnabled(false);
-                input.setEnabled(false);
-                new ForumNetworkTask(activity, this, ForumJob.ADDCOMMENT, id).execute(input.getText().toString());
-                activity.hideKeyboard(input);
-                break;
-            case R.id.expandImage:
-                input.clearFocus();
-                activity.getComments(id, input.getText().toString(), ForumJob.ADDCOMMENT);
-                toggleComments();
-                break;
-        }
     }
 }

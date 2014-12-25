@@ -22,10 +22,4 @@
         android:id="@+id/posts"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <fragment
-        android:name="net.somethingdreadful.MAL.forum.ForumsComment"
-        android:id="@+id/comment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </ViewFlipper>

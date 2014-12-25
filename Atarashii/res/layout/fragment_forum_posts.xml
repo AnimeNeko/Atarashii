@@ -4,64 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <WebView
-            android:id="@+id/webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/commentbar" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignBottom="@+id/webview"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="#E5E5E5" />
-
-        <RelativeLayout
-            android:id="@+id/commentbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/expandImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_expand_less" />
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/commentImage"
-                android:inputType="textMultiLine"
-                android:maxHeight="100dp"
-                android:layout_toRightOf="@+id/expandImage"
-                android:layout_toEndOf="@+id/expandImage" />
-
-            <ImageView
-                android:id="@+id/commentImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_send" />
-
-        </RelativeLayout>
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -52,6 +52,9 @@
     <string name="dialog_title_read_update">I\'ve read</string>
     <string name="dialog_title_status">Status</string>
     <string name="dialog_title_sync">Synchronization</string>
+    <string name="dialog_title_edit_comment">Edit comment</string>
+    <string name="dialog_title_add_comment">Add comment</string>
+    <string name="dialog_title_add_topic">Create topic</string>
     <string name="dialog_title_id_search">ID search</string>
     <string name="dialog_title_update_password">Update password</string>
     <string name="dialog_title_update_navigation">Update background</string>
@@ -78,6 +81,7 @@
     <string name="dialog_label_logout">Logout</string>
     <string name="dialog_label_remove">Remove</string>
     <string name="dialog_label_confirm">Confirm</string>
+    <string name="dialog_label_send">Send</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -121,8 +125,8 @@
 
     <!-- ForumActivity Strings -->
     <string name="action_add">Add a comment or topic</string>
-    <string name="form_hint_title">Enter here the topic title.</string>
-    <string name="form_hint_message">Enter here the message. </string>
+    <string name="form_hint_title">Topic title</string>
+    <string name="form_hint_message">Message</string>
 
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">MAL Username</string>
