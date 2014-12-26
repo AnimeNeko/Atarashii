@@ -44,7 +44,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/form_hint_title" />
+        android:hint="@string/form_hint_title"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/dialog_message_message"
@@ -55,14 +56,16 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:hint="@string/form_hint_message"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:textSize="14sp"
+        android:layout_above="@+id/dialog_message_bar" />
 
     <LinearLayout
         android:id="@+id/dialog_message_bar"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_below="@id/dialog_message_message"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:layout_alignParentBottom="true">
 
         <ImageView
             android:id="@+id/dialog_message_bold"
