@@ -55,6 +55,9 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
             case UPDATECOMMENT:
                 result.setList(mManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null);
                 break;
+            case SEARCH:
+                result = mManager.search(params[0]);
+                break;
         }
         return result;
     }

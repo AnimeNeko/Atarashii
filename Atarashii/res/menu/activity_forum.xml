@@ -17,4 +17,11 @@
         android:icon="@drawable/ic_send"
         android:title="@string/action_add"
         res-auto:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_prompt"
+        res-auto:actionViewClass="android.support.v7.widget.SearchView"
+        res-auto:showAsAction="collapseActionView|always" />
 </menu>

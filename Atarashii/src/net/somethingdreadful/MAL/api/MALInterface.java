@@ -116,6 +116,9 @@ public interface MALInterface {
     @GET("/forum/board/{id}")
     ForumMain getSubBoards(@Path("id") int id, @Query("page") int page);
 
+    @GET("/forum/search")
+    ForumMain search(@Query("query") String query);
+
     @FormUrlEncoded
     @POST("/forum/topic/{id}")
     Response addComment(@Path("id") int id, @Field("message") String message);

@@ -99,6 +99,20 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     }
 
     /**
+     * Change the records in this fragment (search).
+     *
+     * @param query The topic title query
+     * @return ForumJob The task of this fragment
+     */
+    public ForumJob setId(String query) {
+        if (MALApi.isNetworkAvailable(activity))
+            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).execute(query);
+        else
+            toggle(2);
+        return ForumJob.SEARCH;
+    }
+
+    /**
      * Get the requested records.
      *
      * @param page The page number

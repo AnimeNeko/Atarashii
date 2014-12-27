@@ -222,6 +222,10 @@ public class MALApi {
         return service.addTopic(id, title, message).getStatus() == 200;
     }
 
+    public ForumMain search(String query) {
+        return service.search(query);
+    }
+
     public enum ListType {
         ANIME,
         MANGA

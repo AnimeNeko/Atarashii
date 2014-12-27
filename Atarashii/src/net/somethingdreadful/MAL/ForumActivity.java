@@ -1,10 +1,15 @@
 package net.somethingdreadful.MAL;
 
 import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
@@ -25,6 +30,7 @@ public class ForumActivity extends ActionBarActivity {
     FragmentManager manager;
     ViewFlipper viewFlipper;
     public ForumJob task = ForumJob.BOARD;
+    MenuItem search;
     Menu menu;
 
     @Override
@@ -32,6 +38,7 @@ public class ForumActivity extends ActionBarActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_forum);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        handleIntent(getIntent());
 
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         manager = getFragmentManager();
@@ -62,6 +69,16 @@ public class ForumActivity extends ActionBarActivity {
     public void getTopics(int id) {
         viewFlipper.setDisplayedChild(1);
         setTask(topics.setId(id, ForumJob.TOPICS));
+    }
+
+    /**
+     * Switch the view to the topics fragment.
+     *
+     * @param query The query
+     */
+    public void getTopics(String query) {
+        viewFlipper.setDisplayedChild(1);
+        setTask(topics.setId(query));
     }
 
     /**
@@ -133,6 +150,7 @@ public class ForumActivity extends ActionBarActivity {
                 discussion = false;
                 break;
             case TOPICS:
+            case SEARCH:
                 setTask(ForumJob.BOARD);
                 viewFlipper.setDisplayedChild(0);
                 break;
@@ -146,6 +164,9 @@ public class ForumActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Refresh the displayed view.
+     */
     public void refresh() {
         if (task == ForumJob.TOPICS)
             topics.getRecords(topics.page, topics.task);
@@ -163,6 +184,7 @@ public class ForumActivity extends ActionBarActivity {
         menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && getTopicStatus() && viewFlipper.getDisplayedChild() != 3);
         menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
         menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
+        search.setVisible(task == ForumJob.BOARD);
     }
 
     /**
@@ -183,8 +205,34 @@ public class ForumActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_forum, menu);
         this.menu = menu;
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        ComponentName cn = new ComponentName(this, ForumActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+        search = searchItem;
+
         setTask(task);
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    /**
+     * Handle the intent for the searchView
+     *
+     * @param intent The intent given by android
+     */
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            getTopics(query);
+            search.collapseActionView();
+        }
     }
 
     @Override

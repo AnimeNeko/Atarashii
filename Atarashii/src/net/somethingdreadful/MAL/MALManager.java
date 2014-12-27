@@ -156,6 +156,16 @@ public class MALManager {
         return malApi.addTopic(id, title, message);
     }
 
+    public ForumMain search(String query) {
+        try {
+            return malApi.search(query);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.search(" + query + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
         ArrayList<Anime> result = null;
         AnimeList animeList = malApi.getAnimeList();
