@@ -39,7 +39,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     ListView topics;
 
     Boolean loading = true;
-    int page = 0;
+    public int page = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -104,7 +104,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
      * @param page The page number
      * @param task The task that should be performed
      */
-    private void getRecords(int page, ForumJob task) {
+    public void getRecords(int page, ForumJob task) {
         toggle(1);
         this.page = page;
         if (page == 1)

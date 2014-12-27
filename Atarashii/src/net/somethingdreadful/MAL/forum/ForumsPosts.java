@@ -25,7 +25,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     ForumActivity activity;
     View view;
     WebView webview;
-    int page = 0;
+    public int page = 0;
     ViewFlipper viewFlipper;
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
@@ -74,7 +74,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      *
      * @param page The page number
      */
-    private void getRecords(int page) {
+    public void getRecords(int page) {
         this.page = page;
         if (MALApi.isNetworkAvailable(activity))
             new ForumNetworkTask(activity, this, ForumJob.POSTS, id).execute(Integer.toString(page));

@@ -146,6 +146,13 @@ public class ForumActivity extends ActionBarActivity {
         }
     }
 
+    public void refresh() {
+        if (task == ForumJob.TOPICS)
+            topics.getRecords(topics.page, topics.task);
+        else
+            posts.getRecords(posts.page);
+    }
+
     /**
      * Change the task & change the menu items.
      *
@@ -191,7 +198,7 @@ public class ForumActivity extends ActionBarActivity {
                 break;
             case R.id.action_add:
                 if (task == ForumJob.POSTS)
-                    getComments(topics.id, null, ForumJob.ADDCOMMENT);
+                    getComments(posts.id, null, ForumJob.ADDCOMMENT);
                 else if (task == ForumJob.TOPICS)
                     getComments(topics.id, null, ForumJob.ADDTOPIC);
                 break;

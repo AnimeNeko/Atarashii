@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.forum.HtmlList;
@@ -132,5 +133,6 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         message.setEnabled(true);
         title.setEnabled(true);
         dismiss();
+        ((ForumActivity) getActivity()).refresh();
     }
 }
