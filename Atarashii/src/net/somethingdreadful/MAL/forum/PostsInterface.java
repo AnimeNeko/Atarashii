@@ -42,4 +42,56 @@ public class PostsInterface {
         profile.putExtra("username", username);
         posts.startActivity(profile);
     }
+
+    /**
+     * Go the the previous page.
+     */
+    @JavascriptInterface
+    public void previous() {
+        posts.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                posts.activity.posts.getRecords(posts.activity.posts.page - 1);
+            }
+        });
+    }
+
+    /**
+     * Go to the next page.
+     */
+    @JavascriptInterface
+    public void next() {
+        posts.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                posts.activity.posts.getRecords(posts.activity.posts.page + 1);
+            }
+        });
+    }
+
+    /**
+     * Go to the first page.
+     */
+    @JavascriptInterface
+    public void first() {
+        posts.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                posts.activity.posts.getRecords(1);
+            }
+        });
+    }
+
+    /**
+     * Go to the last page.
+     */
+    @JavascriptInterface
+    public void last() {
+        posts.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                posts.activity.posts.getRecords(posts.activity.posts.record.getPages());
+            }
+        });
+    }
 }
