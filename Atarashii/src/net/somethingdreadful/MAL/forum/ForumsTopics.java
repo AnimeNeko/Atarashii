@@ -105,6 +105,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
      * @return ForumJob The task of this fragment
      */
     public ForumJob setId(String query) {
+        topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
             new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).execute(query);
         else
