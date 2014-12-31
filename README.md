@@ -2,7 +2,7 @@ Atarashii! - A Modern MAL for Android
 =====================================
 
 The goal of Atarashii! is to be a modern Holo-themed client for the
-MyAnimeList.net website. It supports Android 2.3 and newer. While still in
+MyAnimeList.net website. It supports Android 4.0 and newer. While still in
 active development, it already is fully featured and polished. You can download
 it from [the Google Play store](https://play.google.com/store/search?q=net.somethingdreadful.MAL&c=apps).
 
@@ -26,8 +26,6 @@ Third-Party Components
 ----------------------
 Atarashii! makes use of several third-party components and services:
 
-* [Crouton](https://github.com/keyboardsurfer/Crouton) by Benjamin Weiss
 * [Atarashii MAL API](https://bitbucket.org/ratan12/atarashii-api) by Ratan Dhawtal & Michael Johnson
-* [HoloEverywhere] (https://github.com/Prototik/HoloEverywhere) by Sergey Shatunov
 * [Retrofit](http://square.github.io/retrofit/) by Square Inc.
 * [Gson](https://code.google.com/p/google-gson/) by Google Inc.
