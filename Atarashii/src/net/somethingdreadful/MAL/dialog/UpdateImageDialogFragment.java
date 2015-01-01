@@ -33,12 +33,14 @@ public class UpdateImageDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 input.clearFocus();
-                Picasso.with(getActivity())
-                        .load(input.getText().toString())
-                        .into((ImageView) getActivity().findViewById(R.id.NDimage));
-                PrefManager pref = new PrefManager(getActivity());
-                pref.setNavigationBackground(input.getText().toString());
-                pref.commitChanges();
+                if (!input.getText().toString().equals("")) {
+                    Picasso.with(getActivity())
+                            .load(input.getText().toString())
+                            .into((ImageView) getActivity().findViewById(R.id.NDimage));
+                    PrefManager pref = new PrefManager(getActivity());
+                    pref.setNavigationBackground(input.getText().toString());
+                    pref.commitChanges();
+                }
                 dismiss();
             }
         });
