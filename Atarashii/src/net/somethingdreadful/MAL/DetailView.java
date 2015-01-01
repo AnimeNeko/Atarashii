@@ -104,7 +104,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.setText(): " + e.getMessage());
-            Crashlytics.logException(e);
+            if (!(e instanceof IllegalStateException))
+                Crashlytics.logException(e);
         }
         setMenu();
     }
