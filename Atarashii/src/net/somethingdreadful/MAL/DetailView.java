@@ -448,9 +448,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
             case R.id.action_copy:
-                android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
-                clipBoard.setPrimaryClip(clipData);
+                if (animeRecord != null || mangaRecord != null) {
+                    android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+                    clipBoard.setPrimaryClip(clipData);
+                } else {
+                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return true;
