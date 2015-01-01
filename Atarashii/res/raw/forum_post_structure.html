@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+      function edit(id, position) {Posts.edit(id, position);}
+      function viewProfile(position) {Posts.viewProfile(position);}
+      function first() {Posts.first();}
+      function previous() {Posts.previous();}
+      function next() {Posts.next();}
+      function last() {Posts.last();}
+
+    </script>
+    <style type="text/css">
+        html, body {
+            background-color: #FAFAFA;
+            margin: 0;
+            padding: 0;
+            font-family: "Roboto Medium", sans-serif;
+            font-size: 10.5pt;
+        }
+        div.post {
+            border-bottom: 1px solid #D2D2D2;
+            padding: 0 16px;
+        }
+            div.head {
+            width: 100%;
+            height: 72px;
+            padding: 16px 0;
+            box-sizing: border-box;
+            font-weight: bolder;
+        }
+        div.head img.avatar{
+            float: left;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: #999999;
+            margin-right: 12px;
+        }
+        div.head div.title {color: #444444; margin-top: 5px;}
+        div.head div.developer {color: #0096C8; margin-top: 5px;}
+        div.head div.staff {color: #F44336; margin-top: 5px;}
+        div.head img.edit {
+            float: right;
+            height: 36px;
+            width: 36px;
+            margin-top: 2px;
+        }
+        div.head div.subheader {color: #999999; margin-top: 1px;}
+        div.content {padding-bottom: 16px;}
+        div.content div.quotetext {
+            background-color: rgba(0,150,200,0.1);
+            padding:5px;
+            padding-left:10px;
+            padding-right:10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        div.content input.spoilerbutton {display:block;margin:5px 0;}
+        div.content input.spoilerbutton[value="Show spoiler"] + .spoiler {display: none;}
+        div.content input.spoilerbutton[value="Hide spoiler"] + .spoiler {display: show;}
+        div.content input.spoilerbutton {
+            outline:none;
+            display: block;
+            background-color: #0096C8;
+            border: none;
+            border-radius: 3px;
+            color: #FFFFFF;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px 0px;
+            box-sizing: border-box;
+            height: 36px;
+            padding: 0px 8px;
+            margin: 6px 4px;
+            text-transform: uppercase;
+        }
+        input.spoilerbutton:active {background-color: #1976D2;}
+        div.footer {display: inline-block; margin-top: 4px;}
+        div.footer img.item:active {background-color: #D9D9D9;}
+        div.footer img.item {
+            max-height: 48px;
+            padding-left: 4px;
+            padding-right: 4px;
+            float:left;
+        }
+        div.footer img.hidden {visibility: hidden;}
+        div.footer div.title {
+            color: #757575;
+            font-size:1.9em;
+            margin-top: 5px;
+            float:left;
+            padding-right: 4px;
+            float:left;
+        }
+    </style>
+</head>
+<body>
+<!-- insert here the posts -->
+<center>
+    <div class="footer">
+        <img class="item" value="1" onClick="first()" src="http://i.imgur.com/hBB2zQG.png"/>
+        <img class="item" value="1" onClick="previous()" src="http://i.imgur.com/YTiJFJz.png"/>
+
+        <div class="title">(page/pages)</div>
+        <img class="item" value="2" onClick="next()" src="http://i.imgur.com/fPDlVme.png"/>
+        <img class="item" value="2" onClick="last()" src="http://i.imgur.com/AqtBsCO.png"/>
+    </div>
+</center>
+</body>
+</html>

@@ -23,6 +23,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     public int id;
     public ForumMain record;
     ForumActivity activity;
+    HtmlUtil htmlUtil;
     View view;
     WebView webview;
     public int page = 0;
@@ -35,6 +36,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
         webview = (WebView) view.findViewById(R.id.webview);
         viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
+        htmlUtil = new HtmlUtil(activity);
 
         if (bundle != null && bundle.getSerializable("posts") != null) {
             apply((ForumMain) bundle.getSerializable("posts"));
@@ -109,7 +111,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      */
     public void apply(ForumMain result) {
         activity.setTitle(getString(R.string.title_activity_forum));
-        webview.loadDataWithBaseURL(null, HtmlList.convertList(result, activity, AccountService.getUsername(activity), page), "text/html", "utf-8", null);
+        webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(activity), page), "text/html", "utf-8", null);
         toggle(false);
         record = result;
     }

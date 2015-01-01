@@ -13,7 +13,7 @@ import android.widget.TextView;
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.forum.HtmlList;
+import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
@@ -47,7 +47,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
 
         String message = getArguments().getString("message");
         if (message != null)
-            this.message.setText(HtmlList.convertComment(message));
+            this.message.setText((new HtmlUtil(getActivity())).convertComment(message));
 
         id = getArguments().getInt("id");
 
