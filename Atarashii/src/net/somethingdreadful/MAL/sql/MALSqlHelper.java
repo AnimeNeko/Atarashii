@@ -150,6 +150,21 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "PRIMARY KEY(profile_id, manga_id)"
             + ");";
 
+    public static final String TABLE_PRODUCER = "producer";
+    private static final String CREATE_PRODUCER_TABLE = "CREATE TABLE "
+            + TABLE_PRODUCER + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + "recordName varchar UNIQUE"
+            + ");";
+
+    public static final String TABLE_ANIME_PRODUCER = "anime_producer";
+    private static final String CREATE_ANIME_PRODUCER_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_PRODUCER + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "producer_id integer NOT NULL REFERENCES " + TABLE_PRODUCER + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(anime_id, producer_id)"
+            + ");";
+
     /*
      * Anime-/Manga-relation tables
      *
@@ -243,9 +258,23 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "PRIMARY KEY(anime_id, tag_id)"
             + ");";
+    public static final String TABLE_ANIME_PERSONALTAGS = "anime_personaltags";
+    private static final String CREATE_ANIME_PERSONALTAGS_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_PERSONALTAGS + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(anime_id, tag_id)"
+            + ");";
     public static final String TABLE_MANGA_TAGS = "manga_tags";
     private static final String CREATE_MANGA_TAGS_TABLE = "CREATE TABLE "
             + TABLE_MANGA_TAGS + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(manga_id, tag_id)"
+            + ");";
+    public static final String TABLE_MANGA_PERSONALTAGS = "manga_personaltags";
+    private static final String CREATE_MANGA_PERSONALTAGS_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_PERSONALTAGS + "("
             + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "PRIMARY KEY(manga_id, tag_id)"
@@ -319,6 +348,10 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MANGA_TAGS_TABLE);
         db.execSQL(CREATE_ANIME_OTHER_TITLES_TABLE);
         db.execSQL(CREATE_MANGA_OTHER_TITLES_TABLE);
+        db.execSQL(CREATE_PRODUCER_TABLE);
+        db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
+        db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
+        db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
     }
 
     @Override
@@ -533,8 +566,14 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
-            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, dirty, lastUpdate) select * from temp_table;");
+            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, watchedStart, dirty, lastUpdate) select * from temp_table;");
             db.execSQL("drop table temp_table;");
+
+            // add new tables
+            db.execSQL(CREATE_PRODUCER_TABLE);
+            db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
+            db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
+            db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
         }
     }
 }

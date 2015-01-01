@@ -29,6 +29,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
     @Setter @Getter @SerializedName("fansub_group") private String fansubGroup;
     @Setter @Getter private int priority;
+    @Setter @Getter private ArrayList<String> producers;
     @Setter @Getter @SerializedName("eps_downloaded") private int epsDownloaded;
     @Setter @Getter @SerializedName("rewatch_count") private int rewatchCount;
     @Setter @Getter @SerializedName("rewatch_value") private int rewatchValue;
