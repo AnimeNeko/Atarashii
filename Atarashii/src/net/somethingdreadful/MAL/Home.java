@@ -197,6 +197,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             case R.id.listType_planned:
                 getRecords(true, TaskJob.GETLIST, 5);
                 setChecked(item);
+            case R.id.listType_rewatching:
+                getRecords(true, TaskJob.GETLIST, 6);
+                setChecked(item);
                 break;
             case R.id.forceSync:
                 synctask(true);
@@ -277,6 +280,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     break;
                 case 5:
                     setChecked(menu.findItem(R.id.listType_planned));
+                    break;
+                case 6:
+                    setChecked(menu.findItem(R.id.listType_rewatching));
+                    break;
             }
         }
         return true;

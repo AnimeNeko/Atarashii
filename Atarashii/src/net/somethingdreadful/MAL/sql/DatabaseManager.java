@@ -339,13 +339,19 @@ public class DatabaseManager {
         try {
             ArrayList<String> selArgs = new ArrayList<String>();
             selArgs.add(String.valueOf(userId));
-            if (listType != "") {
+            if (listType != "" && !listType.equals(Anime.STATUS_REWATCHING))
                 selArgs.add(listType);
-            }
-            cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                    " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.rewatchCount, al.rewatchValue, al.comments" +
-                    " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                    " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+
+            if (listType.equals(Anime.STATUS_REWATCHING))
+                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
+                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                        " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+            else
+                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
+                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                        " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Anime>();
                 do {

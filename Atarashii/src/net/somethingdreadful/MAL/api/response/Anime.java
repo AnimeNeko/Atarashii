@@ -18,6 +18,7 @@ import lombok.Setter;
 public class Anime extends GenericRecord implements Serializable {
 
     public static final String STATUS_WATCHING = "watching";
+    public static final String STATUS_REWATCHING = "rewatching";
     public static final String STATUS_PLANTOWATCH = "plan to watch";
 
     // MyAnimeList
