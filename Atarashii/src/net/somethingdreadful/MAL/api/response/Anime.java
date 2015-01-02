@@ -38,6 +38,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("end_date") private String endDate;
     @Setter @Getter @SerializedName("watching_start") private String watchingStart;
     @Setter @Getter @SerializedName("watching_end") private String watchingEnd;
+    @Setter @Getter private boolean rewatching;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
     @Setter @Getter @SerializedName("character_anime") private ArrayList<RecordStub> characterAnime;
     @Setter @Getter private ArrayList<RecordStub> prequels;
@@ -122,6 +123,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")));
         result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")));
         result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")));
+        result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) == 1);
         result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
         result.setStartDate(c.getString(columnNames.indexOf("startDate")));
         result.setEndDate(c.getString(columnNames.indexOf("endDate")));

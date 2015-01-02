@@ -221,6 +221,7 @@ public class DatabaseManager {
                 alcv.put("fansub", anime.getFansubGroup());
                 alcv.put("priority", anime.getPriority());
                 alcv.put("downloaded", anime.getEpsDownloaded());
+                alcv.put("rewatch", (anime.getRewatching() ? 1 : 0));
                 alcv.put("rewatchCount", anime.getRewatchCount());
                 alcv.put("rewatchValue", anime.getRewatchValue());
                 alcv.put("comments", anime.getPersonalComments());

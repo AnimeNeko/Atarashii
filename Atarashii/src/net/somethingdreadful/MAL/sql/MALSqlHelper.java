@@ -126,6 +126,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "fansub varchar, "
             + "priority integer, "
             + "downloaded integer, "
+            + "rewatch integer, "
             + "rewatchCount integer, "
             + "rewatchValue integer, "
             + "comments varchar, "
