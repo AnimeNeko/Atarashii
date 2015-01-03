@@ -342,6 +342,7 @@
     <string name="listType_Completed">Completed</string>
     <string name="listType_InProgress">In Progress</string>
     <string name="listType_rewatching">Rewatching</string>
+    <string name="listType_rereading">Re-reading</string>
 
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
