@@ -45,8 +45,8 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchedStatus(c.getString(columnNames.indexOf("myStatus")));
         result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")));
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
-        result.setWatchingStart(c.getString(columnNames.indexOf("watchingStart")));
-        result.setWatchingEnd(c.getString(columnNames.indexOf("watchingEnd")));
+        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
+        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
