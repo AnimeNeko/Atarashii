@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent">
+    <include
+        android:id="@+id/container"
+        layout="@layout/card_detailview_general_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:id="@+id/startDatePanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/highlite_details"
+        android:layout_below="@+id/container">
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_listview_pressed" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="@string/card_content_my_start"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/myStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:text="@string/layout_card_loading"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/endDatePanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/startDatePanel"
+        android:background="@drawable/highlite_details">
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_listview_pressed" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="@string/card_content_my_end"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/myEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:text="@string/layout_card_loading"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
