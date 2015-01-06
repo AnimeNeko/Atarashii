@@ -51,6 +51,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public String username;
     public DetailViewGeneral general;
     public DetailViewDetails details;
+    public DetailViewPersonal personal;
     DetailViewPagerAdapter PageAdapter;
     int recordID;
     private ActionBar actionBar;
@@ -96,6 +97,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             if (details != null && !isEmpty()) {
                 details.setText();
             }
+            if (personal != null && !isEmpty()) {
+                personal.setText();
+            }
             if (!isEmpty()) {
                 setupBeam();
             }
@@ -132,6 +136,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         if (details != null) {
             details.swipeRefresh.setRefreshing(show);
             details.swipeRefresh.setEnabled(!show);
+        }
+        if (personal != null) {
+            personal.swipeRefresh.setRefreshing(show);
+            personal.swipeRefresh.setEnabled(!show);
         }
     }
 
@@ -584,6 +592,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      */
     public void setDetails(DetailViewDetails details) {
         this.details = details;
+    }
+
+    public void setPersonal(DetailViewPersonal personal) {
+        this.personal = personal;
     }
 
     /*
