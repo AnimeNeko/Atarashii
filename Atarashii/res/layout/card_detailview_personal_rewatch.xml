@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/rewatchPriorityPanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/highlite_details">
+
+        <TextView
+            android:id="@+id/statusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="@string/card_content_rewatch_priority"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:text="@string/layout_card_loading"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/rewatchPriorityPanel"
+        android:background="@color/bg_listview_pressed" />
+
+    <RelativeLayout
+        android:id="@+id/countPanel"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:background="@drawable/highlite_details"
+        android:layout_below="@id/divider1">
+
+        <TextView
+            android:id="@+id/progress2Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="@string/card_content_count"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/count2Text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:text="@string/layout_card_loading"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/count2Text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/count2Text1"
+            android:text="@string/layout_card_loading"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</RelativeLayout>
