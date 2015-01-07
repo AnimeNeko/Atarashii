@@ -202,7 +202,7 @@ public class DatabaseManager {
 
     public Anime getAnime(Integer id, String username) {
         Anime result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.watchedStart, al.WatchedEnd, al.dirty, al.lastUpdate" +
+        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.watchedStart, al.watchedEnd, al.dirty, al.lastUpdate" +
                 " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
                 " WHERE al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
@@ -294,7 +294,7 @@ public class DatabaseManager {
             if (listType != "") {
                 selArgs.add(listType);
             }
-            cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.watchedStart, al.WatchedEnd, al.dirty, al.lastUpdate" +
+            cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.watchedStart, al.watchedEnd, al.dirty, al.lastUpdate" +
                     " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
                     " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
