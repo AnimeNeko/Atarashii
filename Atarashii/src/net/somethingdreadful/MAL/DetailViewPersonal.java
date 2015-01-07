@@ -140,8 +140,14 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("manga", new MangaPickerDialogFragment());
                 break;
             case R.id.startDatePanel:
+                Bundle args1 = new Bundle();
+                args1.putBoolean("startDate", true);
+                activity.showDialog("startDate", new DatePickerDialogFragment(), args1);
                 break;
             case R.id.endDatePanel:
+                Bundle args2 = new Bundle();
+                args2.putBoolean("startDate", false);
+                activity.showDialog("endDate", new DatePickerDialogFragment(), args2);
                 break;
         }
     }

@@ -152,6 +152,15 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     }
 
     /*
+     * Show the dialog with the tag
+     */
+    public void showDialog(String tag, DialogFragment dialog, Bundle args) {
+        FragmentManager fm = getFragmentManager();
+        dialog.setArguments(args);
+        dialog.show(fm, "fragment_" + tag);
+    }
+
+    /*
      * Episode picker dialog
      */
     public void onDialogDismissed(int newValue) {
@@ -167,6 +176,26 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             animeRecord.setDirty(true);
             setText();
         }
+    }
+
+    /*
+     * Date picker dialog
+     */
+    public void onDialogDismissed(boolean startDate, int year, int month, int day) {
+        String monthString = Integer.toString(month);
+        if (monthString.length() == 1)
+            monthString = "0" + monthString;
+
+        String dayString = Integer.toString(day);
+        if (dayString.length() == 1)
+            dayString = "0" + dayString;
+
+        if (startDate)
+            animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+        else
+            animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+        animeRecord.setDirty(true);
+        setText();
     }
 
     /*
