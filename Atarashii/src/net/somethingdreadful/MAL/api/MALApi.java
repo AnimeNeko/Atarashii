@@ -33,7 +33,7 @@ import retrofit.converter.GsonConverter;
 
 public class MALApi {
     // Use version 1.0 of the API interface
-    private static final String API_HOST = "https://beta.api.atarashiiapp.com/1";
+    private static final String API_HOST = "https://beta.api.atarashiiapp.com/2";
     private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
 
     private MALInterface service;
@@ -124,7 +124,7 @@ public class MALApi {
         if (anime.getCreateFlag())
             result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
         else
-            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
+            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getWatchingStart(), anime.getWatchingEnd()).getStatus() == 200;
         return result;
     }
 

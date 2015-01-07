@@ -55,7 +55,7 @@ public interface MALInterface {
     @FormUrlEncoded
     @PUT("/animelist/anime/{anime_id}")
     Response updateAnime(@Path("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes,
-                         @Field("score") int score);
+                         @Field("score") int score, @Field("start") String start, @Field("end") String end);
 
     @GET("/manga/{manga_id}?mine=1")
     Manga getManga(@Path("manga_id") int manga_id);
