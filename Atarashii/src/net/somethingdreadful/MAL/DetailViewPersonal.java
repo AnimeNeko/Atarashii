@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
@@ -103,22 +104,18 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             progress2Total.setText(nullCheckOf(activity.mangaRecord.getChapters()));
         }
 
-        myStartDate.setText(getDate(activity.animeRecord.getWatchingStart()));
-        myEndDate.setText(getDate(activity.animeRecord.getWatchingEnd()));
+        myStartDate.setText(nullCheck(activity.animeRecord.getWatchingStart()));
+        myEndDate.setText(nullCheck(activity.animeRecord.getWatchingEnd()));
 
         setCard();
     }
 
     private String nullCheck(String string) {
-        return ((string == null || string.equals("")) ? getString(R.string.card_content_none) : string);
+        return ((string == null || string.equals("") || string.equals("0-00-00")) ? getString(R.string.card_content_none) : string);
     }
 
     private String nullCheckOf(int number) {
         return "/" + (number == 0 ? "?" : Integer.toString(number));
-    }
-
-    private String getDate(String string) {
-        return nullCheck((string == null || string.equals("")) ? getString(R.string.card_content_none) : MALDateTools.formatDateString(string, activity, true));
     }
 
     @Override
