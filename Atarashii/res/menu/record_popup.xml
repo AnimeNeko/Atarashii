@@ -5,7 +5,4 @@
     <item
         android:id="@+id/markCompleted"
         android:title="@string/action_MarkAsComplete" />
-    <item
-        android:id="@+id/action_copy"
-        android:title="@string/action_Copy" />
 </menu>
