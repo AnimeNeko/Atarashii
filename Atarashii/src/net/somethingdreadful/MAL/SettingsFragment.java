@@ -36,21 +36,24 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             String Auth = AccountService.getAuth(context);
             Bundle bundle = new Bundle();
             int interval = Prefs.getSyncTime() * 60;
-            if (key.equals("synchronisation_time")) {
-                ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
-                ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
-            } else if (key.equals("synchronisation")) {
-                if (Prefs.getSyncEnabled()) {
-                    ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, true);
-                    ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
-                } else {
+            switch (key) {
+                case "synchronisation_time":
                     ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
-                    ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, false);
-                }
-            } else if (key.equals("locale")) {
-                sharedPreferences.edit().commit();
-                startActivity(new Intent(context, Home.class));
-                System.exit(0);
+                    ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
+                    break;
+                case "synchronisation":
+                    if (Prefs.getSyncEnabled()) {
+                        ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, true);
+                        ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
+                    } else {
+                        ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
+                        ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, false);
+                    }
+                    break;
+                case "locale":
+                    sharedPreferences.edit().commit();
+                    startActivity(new Intent(context, Home.class));
+                    System.exit(0);
             }
         }catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());

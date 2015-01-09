@@ -92,12 +92,17 @@ public class PrefManager {
     public Locale getLocale() {
         String localeName = prefs.getString("locale", Locale.getDefault().toString());
         Locale locale;
-        if (localeName.equals("pt-br"))
-            locale = new Locale("pt", "PT");
-        else if (localeName.equals("pt-pt"))
-            locale = new Locale("pt", "BR");
-        else
-            locale = new Locale(localeName);
+        switch (localeName) {
+            case "pt-br":
+                locale = new Locale("pt", "PT");
+                break;
+            case "pt-pt":
+                locale = new Locale("pt", "BR");
+                break;
+            default:
+                locale = new Locale(localeName);
+                break;
+        }
         return locale;
     }
 
