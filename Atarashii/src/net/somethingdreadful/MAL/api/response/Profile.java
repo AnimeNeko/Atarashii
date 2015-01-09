@@ -14,7 +14,7 @@ public class Profile implements Serializable {
     private ProfileAnimeStats anime_stats;
     private ProfileMangaStats manga_stats;
 
-    public static Profile fromCursor(Cursor c, boolean friendDetails) {
+    public static Profile fromCursor(Cursor c) {
         Profile result = new Profile();
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
