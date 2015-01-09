@@ -6,6 +6,4 @@
     <item
         android:id="@+id/action_MarkAsComplete"
         android:title="@string/action_MarkAsComplete"/>
-
-
 </menu>
