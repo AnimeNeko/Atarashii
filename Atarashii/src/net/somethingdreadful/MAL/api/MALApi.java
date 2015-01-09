@@ -120,7 +120,7 @@ public class MALApi {
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
-        boolean result = false;
+        boolean result;
         if (anime.getCreateFlag())
             result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
         else
@@ -129,7 +129,7 @@ public class MALApi {
     }
 
     public boolean addOrUpdateManga(Manga manga) {
-        boolean result = false;
+        boolean result;
         if (manga.getCreateFlag())
             result = service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
         else
