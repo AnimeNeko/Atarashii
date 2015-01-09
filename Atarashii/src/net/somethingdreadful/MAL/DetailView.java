@@ -59,7 +59,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     private ViewFlipper viewFlipper;
     private Menu menu;
     private Context context;
-    private ArrayList<String> tabs = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
