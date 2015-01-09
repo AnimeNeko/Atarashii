@@ -166,10 +166,12 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
             if (activity.isAdded()) {
+                activity.hidePersonal(false);
                 status.setText(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
                 cardRating.setBelowof(cardMediainfo, 2, 720);
             } else {
+                activity.hidePersonal(true);
                 cardPersonal.setVisibility(View.GONE);
                 cardRating.setRightof(cardMediainfo, 2, 720);
             }

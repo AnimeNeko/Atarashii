@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.R;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     DetailView activity;
+    public int count = 3;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
@@ -34,7 +35,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return count;
     }
 
     @Override
