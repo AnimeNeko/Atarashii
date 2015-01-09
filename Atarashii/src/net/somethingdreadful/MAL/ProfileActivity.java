@@ -123,7 +123,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 break;
             case R.id.action_ViewMALPage:
                 if (record == null)
-                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
                 else
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/profile/" + record.getName())));
                 break;
