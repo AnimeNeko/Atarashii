@@ -60,11 +60,12 @@
         android:layout_height="36dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_gravity="right"
         android:background="@drawable/igf_grid_selector"
         android:focusable="false"
         android:paddingLeft="8dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_more" />
+        android:src="@drawable/ic_more"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
