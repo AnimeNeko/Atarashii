@@ -120,68 +120,14 @@ public class DatabaseManager {
                         }
                     }
                 }
-                if (anime.getAlternativeVersions() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_ALTERNATIVE});
 
-                    for (RecordStub animeStub : anime.getAlternativeVersions()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
-                    }
-                }
-
-                if (anime.getCharacterAnime() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_CHARACTER});
-
-                    for (RecordStub animeStub : anime.getCharacterAnime()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_CHARACTER);
-                    }
-                }
-
-                if (anime.getPrequels() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_PREQUEL});
-
-                    for (RecordStub animeStub : anime.getPrequels()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_PREQUEL);
-                    }
-                }
-
-                if (anime.getSequels() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SEQUEL});
-
-                    for (RecordStub animeStub : anime.getSequels()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SEQUEL);
-                    }
-                }
-
-                if (anime.getSideStories() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SIDE_STORY});
-
-                    for (RecordStub animeStub : anime.getSideStories()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SIDE_STORY);
-                    }
-                }
-
-                if (anime.getSpinOffs() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SPINOFF});
-
-                    for (RecordStub animeStub : anime.getSpinOffs()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SPINOFF);
-                    }
-                }
-
-                if (anime.getSummaries() != null) {
-                    // delete old relations
-                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(anime.getId()), MALSqlHelper.RELATION_TYPE_SUMMARY});
-
-                    for (RecordStub animeStub : anime.getSummaries()) {
-                        saveAnimeToAnimeRelation(anime.getId(), animeStub, MALSqlHelper.RELATION_TYPE_SUMMARY);
-                    }
-                }
+                saveAnimeAnimeRelation(anime.getAlternativeVersions(), anime.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
+                saveAnimeAnimeRelation(anime.getCharacterAnime(), anime.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER);
+                saveAnimeAnimeRelation(anime.getPrequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL);
+                saveAnimeAnimeRelation(anime.getSequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL);
+                saveAnimeAnimeRelation(anime.getSideStories(), anime.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY);
+                saveAnimeAnimeRelation(anime.getSpinOffs(), anime.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF);
+                saveAnimeAnimeRelation(anime.getSummaries(), anime.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY);
 
                 if (anime.getMangaAdaptions() != null) {
                     // delete old relations
@@ -237,6 +183,17 @@ public class DatabaseManager {
                 if (anime.getLastUpdate() != null)
                     alcv.put("lastUpdate", anime.getLastUpdate().getTime());
                 getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
+            }
+        }
+    }
+
+    public void saveAnimeAnimeRelation(ArrayList<RecordStub> record, int id, String type) {
+        if (record != null) {
+            // delete old relations
+            getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(id), type});
+
+            for (RecordStub stub : record) {
+                saveAnimeToAnimeRelation(id, stub, type);
             }
         }
     }
