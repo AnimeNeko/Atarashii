@@ -74,7 +74,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     View mPreviousView;
     ActionBar actionBar;
     NavigationDrawerAdapter mNavigationDrawerAdapter;
-    SearchView searchView;
     RelativeLayout logout;
     RelativeLayout settings;
     RelativeLayout about;
@@ -95,11 +94,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             actionBar = getSupportActionBar();
-            //setSupportActionBar(toolbar);
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
-
-                //actionBar.setHomeButtonEnabled(true);
             }
             //The following is state handling code
             instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
@@ -176,46 +172,28 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         }
         switch (item.getItemId()) {
             case R.id.listType_all:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.GETLIST, 0);
-                    mf.getRecords(true, TaskJob.GETLIST, 0);
-                    setChecked(item);
-                }
+                getRecords(true, TaskJob.GETLIST, 0);
+                setChecked(item);
                 break;
             case R.id.listType_inprogress:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.GETLIST, 1);
-                    mf.getRecords(true, TaskJob.GETLIST, 1);
-                    setChecked(item);
-                }
+                getRecords(true, TaskJob.GETLIST, 1);
+                setChecked(item);
                 break;
             case R.id.listType_completed:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.GETLIST, 2);
-                    mf.getRecords(true, TaskJob.GETLIST, 2);
-                    setChecked(item);
-                }
+                getRecords(true, TaskJob.GETLIST, 2);
+                setChecked(item);
                 break;
             case R.id.listType_onhold:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.GETLIST, 3);
-                    mf.getRecords(true, TaskJob.GETLIST, 3);
-                    setChecked(item);
-                }
+                getRecords(true, TaskJob.GETLIST, 3);
+                setChecked(item);
                 break;
             case R.id.listType_dropped:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.GETLIST, 4);
-                    mf.getRecords(true, TaskJob.GETLIST, 4);
-                    setChecked(item);
-                }
+                getRecords(true, TaskJob.GETLIST, 4);
+                setChecked(item);
                 break;
             case R.id.listType_planned:
-                if (af != null && mf != null) {
-                    af.getRecords(true, TaskJob.GETLIST, 5);
-                    mf.getRecords(true, TaskJob.GETLIST, 5);
-                    setChecked(item);
-                }
+                getRecords(true, TaskJob.GETLIST, 5);
+                setChecked(item);
                 break;
             case R.id.forceSync:
                 synctask(true);
@@ -228,6 +206,15 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getRecords(boolean clear, TaskJob task, int list) {
+        if (af != null && mf != null) {
+            af.getRecords(clear, task, list);
+            mf.getRecords(clear, task, list);
+            if (task == TaskJob.FORCESYNC)
+                syncNotify();
+        }
     }
 
     @Override
@@ -248,11 +235,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     public void synctask(boolean clear) {
-        if (af != null && mf != null) {
-            af.getRecords(clear, TaskJob.FORCESYNC, af.list);
-            mf.getRecords(clear, TaskJob.FORCESYNC, mf.list);
-            syncNotify();
-        }
+        getRecords(clear, TaskJob.FORCESYNC, af.list);
     }
 
     @Override
@@ -298,27 +281,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     public void myListChanged() {
-        MenuItem item = menu.findItem(R.id.menu_listType);
-        if (!myList) {//if not on my list then disable menu items like listType, etc
-            item.setEnabled(false);
-            item.setVisible(false);
-        } else {
-            item.setEnabled(true);
-            item.setVisible(true);
-        }
-        if (networkAvailable) {
-            if (myList) {
-                menu.findItem(R.id.menu_inverse).setVisible(true);
-                menu.findItem(R.id.forceSync).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_inverse).setVisible(false);
-                menu.findItem(R.id.forceSync).setVisible(false);
-            }
-            menu.findItem(R.id.action_search).setVisible(true);
-        } else {
-            menu.findItem(R.id.forceSync).setVisible(false);
-            menu.findItem(R.id.action_search).setVisible(false);
-        }
+        menu.findItem(R.id.menu_listType).setVisible(myList);
+        menu.findItem(R.id.menu_inverse).setVisible(myList);
+        menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
+        menu.findItem(R.id.action_search).setVisible(networkAvailable);
     }
 
     @SuppressLint("NewApi")
@@ -501,8 +467,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             mf.setSwipeRefreshEnabled(myList);
             switch (position) {
                 case 0:
-                    af.getRecords(true, TaskJob.GETLIST, af.list);
-                    mf.getRecords(true, TaskJob.GETLIST, mf.list);
+                    getRecords(true, TaskJob.GETLIST, af.list);
                     break;
                 case 1:
                     Intent Profile = new Intent(context, ProfileActivity.class);
@@ -514,20 +479,16 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     startActivity(Friends);
                     break;
                 case 3:
-                    af.getRecords(true, TaskJob.GETTOPRATED, af.list);
-                    mf.getRecords(true, TaskJob.GETTOPRATED, mf.list);
+                    getRecords(true, TaskJob.GETTOPRATED, af.list);
                     break;
                 case 4:
-                    af.getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
-                    mf.getRecords(true, TaskJob.GETMOSTPOPULAR, mf.list);
+                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
                     break;
                 case 5:
-                    af.getRecords(true, TaskJob.GETJUSTADDED, af.list);
-                    mf.getRecords(true, TaskJob.GETJUSTADDED, mf.list);
+                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
                     break;
                 case 6:
-                    af.getRecords(true, TaskJob.GETUPCOMING, af.list);
-                    mf.getRecords(true, TaskJob.GETUPCOMING, mf.list);
+                    getRecords(true, TaskJob.GETUPCOMING, af.list);
                     break;
             }
 

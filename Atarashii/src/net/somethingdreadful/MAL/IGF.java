@@ -579,7 +579,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         TextView progressCount;
         TextView flavourText;
         ImageView cover;
-        ImageView bar;
         ImageView actionButton;
     }
 
