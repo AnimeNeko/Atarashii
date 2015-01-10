@@ -74,7 +74,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     View mPreviousView;
     ActionBar actionBar;
     NavigationDrawerAdapter mNavigationDrawerAdapter;
-    SearchView searchView;
     RelativeLayout logout;
     RelativeLayout settings;
     RelativeLayout about;
@@ -95,11 +94,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
             actionBar = getSupportActionBar();
-            //setSupportActionBar(toolbar);
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
-
-                //actionBar.setHomeButtonEnabled(true);
             }
             //The following is state handling code
             instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
