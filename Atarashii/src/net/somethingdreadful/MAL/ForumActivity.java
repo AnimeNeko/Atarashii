@@ -231,6 +231,7 @@ public class ForumActivity extends ActionBarActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             getTopics(query);
+            topics.task = ForumJob.SEARCH;
             search.collapseActionView();
         }
     }

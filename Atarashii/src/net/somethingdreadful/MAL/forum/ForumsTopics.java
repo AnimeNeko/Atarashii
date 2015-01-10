@@ -67,6 +67,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
             id = bundle.getInt("id");
             task = (ForumJob) bundle.getSerializable("task");
             type = (MALApi.ListType) bundle.getSerializable("type");
+            page = bundle.getInt("page");
             apply(task == ForumJob.SUBBOARD ? subBoard : topic);
         }
 
@@ -80,6 +81,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         state.putInt("id", id);
         state.putSerializable("task", task);
         state.putSerializable("type", type);
+        state.putSerializable("page", page);
         super.onSaveInstanceState(state);
     }
 

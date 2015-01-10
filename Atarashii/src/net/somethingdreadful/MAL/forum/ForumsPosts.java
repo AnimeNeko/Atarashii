@@ -39,8 +39,9 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         htmlUtil = new HtmlUtil(activity);
 
         if (bundle != null && bundle.getSerializable("posts") != null) {
-            apply((ForumMain) bundle.getSerializable("posts"));
             id = bundle.getInt("id");
+            page = bundle.getInt("page");
+            apply((ForumMain) bundle.getSerializable("posts"));
         }
 
         webview.getSettings().setJavaScriptEnabled(true);
@@ -53,6 +54,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     public void onSaveInstanceState(Bundle state) {
         state.putSerializable("posts", record);
         state.putInt("id", id);
+        state.putInt("page", page);
         super.onSaveInstanceState(state);
     }
 
