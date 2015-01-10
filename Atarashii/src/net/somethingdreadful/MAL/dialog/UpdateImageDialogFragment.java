@@ -37,9 +37,8 @@ public class UpdateImageDialogFragment extends DialogFragment {
                     Picasso.with(getActivity())
                             .load(input.getText().toString())
                             .into((ImageView) getActivity().findViewById(R.id.NDimage));
-                    PrefManager pref = new PrefManager(getActivity());
-                    pref.setNavigationBackground(input.getText().toString());
-                    pref.commitChanges();
+                    PrefManager.setNavigationBackground(input.getText().toString());
+                    PrefManager.commitChanges();
                 }
                 dismiss();
             }
@@ -50,9 +49,8 @@ public class UpdateImageDialogFragment extends DialogFragment {
                 Picasso.with(getActivity())
                         .load(R.drawable.atarashii_background)
                         .into((ImageView) getActivity().findViewById(R.id.NDimage));
-                PrefManager pref = new PrefManager(getActivity());
-                pref.setNavigationBackground(null);
-                pref.commitChanges();
+                PrefManager.setNavigationBackground(null);
+                PrefManager.commitChanges();
                 dismiss();
             }
         });

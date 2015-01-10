@@ -17,7 +17,9 @@ public class Theme extends Application {
     public void onCreate() {
         super.onCreate();
         Crashlytics.start(this);
-        locale = (new PrefManager(getApplicationContext())).getLocale();
+        PrefManager.create(getApplicationContext());
+        
+        locale = PrefManager.getLocale();
         config = new Configuration();
         config.locale = locale;
         setLanguage(); //Change language when it is started

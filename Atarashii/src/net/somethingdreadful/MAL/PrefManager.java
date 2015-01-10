@@ -7,15 +7,15 @@ import android.preference.PreferenceManager;
 import java.util.Locale;
 
 public class PrefManager {
-    private SharedPreferences prefs;
-    private SharedPreferences.Editor prefeditor;
-    private Context context;
+    private static SharedPreferences prefs;
+    private static SharedPreferences.Editor prefEditor;
+    private static Context context;
 
 
-    public PrefManager(Context mContext) {
+    public static void create(Context mContext) {
         context = mContext;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefeditor = prefs.edit();
+        prefEditor = prefs.edit();
     }
 
     /**
@@ -26,10 +26,10 @@ public class PrefManager {
      *
      * @see net.somethingdreadful.MAL.account.AccountService
      */
-    public void deleteAccount() {
+    public static void deleteAccount() {
         if (prefs.getString("user", null) != null) {
-            prefeditor.remove("user");
-            prefeditor.remove("pass");
+            prefEditor.remove("user");
+            prefEditor.remove("pass");
         }
     }
 
@@ -39,7 +39,7 @@ public class PrefManager {
      * @return String The custom share text that the app should use.
      * @see DetailView
      */
-    public String getCustomShareText() {
+    public static String getCustomShareText() {
         return prefs.getString("customShareText", context.getString(R.string.preference_default_customShareText));
     }
 
@@ -49,7 +49,7 @@ public class PrefManager {
      * @return boolean If true the app will use a Listview
      * @see IGF
      */
-    public boolean getTraditionalListEnabled() {
+    public static boolean getTraditionalListEnabled() {
         return prefs.getBoolean("traditionalList", false);
     }
 
@@ -59,7 +59,7 @@ public class PrefManager {
      * @return boolean If it is true the app will use Volumes
      * @see IGF
      */
-    public boolean getUseSecondaryAmountsEnabled() {
+    public static boolean getUseSecondaryAmountsEnabled() {
         return prefs.getBoolean("displayVolumes", false);
     }
 
@@ -69,7 +69,7 @@ public class PrefManager {
      * @return boolean This returns true when auto synchronisation is enabled
      * @see Settings
      */
-    public boolean getSyncEnabled() {
+    public static boolean getSyncEnabled() {
         return prefs.getBoolean("synchronisation", false);
     }
 
@@ -79,7 +79,7 @@ public class PrefManager {
      * @return int The auto synchronisation interval in seconds
      * @see Settings
      */
-    public int getSyncTime() {
+    public static int getSyncTime() {
         return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
@@ -89,7 +89,7 @@ public class PrefManager {
      * @return Locale The locale of the language that the app should use
      * @see Theme
      */
-    public Locale getLocale() {
+    public static Locale getLocale() {
         String localeName = prefs.getString("locale", Locale.getDefault().toString());
         Locale locale;
         switch (localeName) {
@@ -112,7 +112,7 @@ public class PrefManager {
      * @return boolean If all the records should be synced
      * @see Home
      */
-    public boolean getForceSync() {
+    public static boolean getForceSync() {
         return prefs.getBoolean("ForceSync", false);
     }
 
@@ -123,8 +123,8 @@ public class PrefManager {
      * @see FirstTimeInit
      * @see Home
      */
-    public void setForceSync(boolean force) {
-        prefeditor.putBoolean("ForceSync", force);
+    public static void setForceSync(boolean force) {
+        prefEditor.putBoolean("ForceSync", force);
     }
 
     /**
@@ -133,7 +133,7 @@ public class PrefManager {
      * @return boolean If it should be black
      * @see ProfileActivity
      */
-    public boolean getTextColor() {
+    public static boolean getTextColor() {
         return prefs.getBoolean("text_colours", false);
     }
 
@@ -143,7 +143,7 @@ public class PrefManager {
      * @return boolean If it should be hidden
      * @see ProfileActivity
      */
-    public boolean getHideAnime() {
+    public static boolean getHideAnime() {
         return prefs.getBoolean("A_hide", false);
     }
 
@@ -153,7 +153,7 @@ public class PrefManager {
      * @return boolean If it should be hidden
      * @see ProfileActivity
      */
-    public boolean getHideManga() {
+    public static boolean getHideManga() {
         return prefs.getBoolean("M_hide", false);
     }
 
@@ -163,7 +163,7 @@ public class PrefManager {
      * @return int The number of the list that should get loaded.
      * @see Home
      */
-    public int getDefaultList() {
+    public static int getDefaultList() {
         return Integer.parseInt(prefs.getString("defList", "1"));
     }
 
@@ -173,7 +173,7 @@ public class PrefManager {
      * @return string The url of the image.
      * @see Home
      */
-    public String getNavigationBackground() {
+    public static String getNavigationBackground() {
         return prefs.getString("navigationDrawer_image", null);
     }
 
@@ -182,14 +182,14 @@ public class PrefManager {
      *
      * @param image The URL
      */
-    public void setNavigationBackground(String image) {
-        prefeditor.putString("navigationDrawer_image", image);
+    public static void setNavigationBackground(String image) {
+        prefEditor.putString("navigationDrawer_image", image);
     }
 
     /**
      * Commit all the changed made.
      */
-    public void commitChanges() {
-        prefeditor.commit();
+    public static void commitChanges() {
+        prefEditor.commit();
     }
 }

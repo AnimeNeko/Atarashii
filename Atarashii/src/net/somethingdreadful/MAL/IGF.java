@@ -53,7 +53,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     TaskJob taskjob;
 
     GridView Gridview;
-    PrefManager pref;
     ViewFlipper viewflipper;
     SwipeRefreshLayout swipeRefresh;
     Activity activity;
@@ -127,9 +126,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         context = getActivity();
         activity = getActivity();
         setColumns();
-        pref = new PrefManager(context);
-        useSecondaryAmounts = pref.getUseSecondaryAmountsEnabled();
-        if (pref.getTraditionalListEnabled()) {
+        useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
+        if (PrefManager.getTraditionalListEnabled()) {
             Gridview.setNumColumns(1); //remain in the listview mode
             resource = R.layout.record_igf_listview;
         } else {
