@@ -298,27 +298,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     public void myListChanged() {
-        MenuItem item = menu.findItem(R.id.menu_listType);
-        if (!myList) {//if not on my list then disable menu items like listType, etc
-            item.setEnabled(false);
-            item.setVisible(false);
-        } else {
-            item.setEnabled(true);
-            item.setVisible(true);
-        }
-        if (networkAvailable) {
-            if (myList) {
-                menu.findItem(R.id.menu_inverse).setVisible(true);
-                menu.findItem(R.id.forceSync).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_inverse).setVisible(false);
-                menu.findItem(R.id.forceSync).setVisible(false);
-            }
-            menu.findItem(R.id.action_search).setVisible(true);
-        } else {
-            menu.findItem(R.id.forceSync).setVisible(false);
-            menu.findItem(R.id.action_search).setVisible(false);
-        }
+        menu.findItem(R.id.menu_listType).setVisible(myList);
+        menu.findItem(R.id.menu_inverse).setVisible(myList);
+        menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
+        menu.findItem(R.id.action_search).setVisible(networkAvailable);
     }
 
     @SuppressLint("NewApi")
