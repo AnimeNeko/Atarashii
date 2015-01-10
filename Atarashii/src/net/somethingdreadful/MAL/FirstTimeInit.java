@@ -23,7 +23,6 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
     String MalPass;
     ProgressDialog dialog;
     Context context;
-    PrefManager prefManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         Button registerButton = (Button) findViewById(R.id.registerButton);
         context = getApplicationContext();
 
-        prefManager = new PrefManager(context);
-        prefManager.deleteAccount();
+        PrefManager.deleteAccount();
 
         connectButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -72,8 +70,8 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
     public void onAuthenticationCheckFinished(boolean result) {
         if (result) {
             AccountService.addAccount(context, MalUser, MalPass);
-            prefManager.setForceSync(true);
-            prefManager.commitChanges();
+            PrefManager.setForceSync(true);
+            PrefManager.commitChanges();
             dialog.dismiss();
             Intent goHome = new Intent(context, Home.class);
             startActivity(goHome);

@@ -34,7 +34,6 @@ import org.apache.commons.lang3.text.WordUtils;
 
 public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener {
     Context context;
-    PrefManager prefs;
     Card imagecard;
     Card animecard;
     Card mangacard;
@@ -55,7 +54,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
-        prefs = new PrefManager(context);
 
         imagecard = ((Card) findViewById(R.id.name_card));
         imagecard.setContent(R.layout.card_image);
@@ -137,10 +135,10 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     }
 
     public void card() { //settings for hide a card and text userprofile
-        if (prefs.getHideAnime()) {
+        if (PrefManager.getHideAnime()) {
             animecard.setVisibility(View.GONE);
         }
-        if (prefs.getHideManga()) {
+        if (PrefManager.getHideManga()) {
             mangacard.setVisibility(View.GONE);
         }
         if (record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
@@ -157,7 +155,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         TextView tv8 = (TextView) findViewById(R.id.accessranksmall);
         String name = record.getName();
         String rank = record.getProfile().getDetails().getAccessRank() != null ? record.getProfile().getDetails().getAccessRank() : "";
-        if (!prefs.getTextColor()) {
+        if (!PrefManager.getTextColor()) {
             setColor(true);
             setColor(false);
             if (rank.contains("Administrator")) {

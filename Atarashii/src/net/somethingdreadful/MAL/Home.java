@@ -66,7 +66,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
      */
     ViewPager mViewPager;
     Context context;
-    PrefManager mPrefManager;
     Menu menu;
     BroadcastReceiver networkReceiver;
     DrawerLayout DrawerLayout;
@@ -95,7 +94,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         if (AccountService.getAccount(context) != null) {
-            mPrefManager = new PrefManager(context);
             actionBar = getSupportActionBar();
             //setSupportActionBar(toolbar);
             if (actionBar != null) {
@@ -391,15 +389,15 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         else
             mf = igf;
         // do forced sync after FirstInit
-        if (mPrefManager.getForceSync()) {
+        if (PrefManager.getForceSync()) {
             if (af != null && mf != null) {
-                mPrefManager.setForceSync(false);
-                mPrefManager.commitChanges();
+                PrefManager.setForceSync(false);
+                PrefManager.commitChanges();
                 synctask(true);
             }
         } else {
             if (igf.taskjob == null) {
-                igf.getRecords(true, TaskJob.GETLIST, mPrefManager.getDefaultList());
+                igf.getRecords(true, TaskJob.GETLIST, PrefManager.getDefaultList());
             }
         }
     }
@@ -480,9 +478,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 .load(result.getProfile().getAvatarUrl())
                 .transform(new RoundedTransformation(result.getName()))
                 .into(image);
-        if (mPrefManager.getNavigationBackground() != null)
+        if (PrefManager.getNavigationBackground() != null)
             Picasso.with(context)
-                    .load(mPrefManager.getNavigationBackground())
+                    .load(PrefManager.getNavigationBackground())
                     .into(image2);
         image.setOnClickListener(this);
         image2.setOnClickListener(this);

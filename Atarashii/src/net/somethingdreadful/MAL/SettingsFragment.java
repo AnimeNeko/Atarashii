@@ -15,7 +15,6 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-    PrefManager Prefs;
     private Context context;
 
     @Override
@@ -25,7 +24,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         addPreferencesFromResource(R.xml.settings);
 
         context = getActivity().getApplicationContext();
-        Prefs = new PrefManager(context);
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -35,14 +33,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         try {
             String Auth = AccountService.getAuth(context);
             Bundle bundle = new Bundle();
-            int interval = Prefs.getSyncTime() * 60;
+            int interval = PrefManager.getSyncTime() * 60;
             switch (key) {
                 case "synchronisation_time":
                     ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
                     ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
                     break;
                 case "synchronisation":
-                    if (Prefs.getSyncEnabled()) {
+                    if (PrefManager.getSyncEnabled()) {
                         ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, true);
                         ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
                     } else {

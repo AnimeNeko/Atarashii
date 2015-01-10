@@ -28,7 +28,6 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
     IGF mf;
     ViewPager ViewPager;
     IGFPagerAdapter mIGFPagerAdapter;
-    PrefManager mPrefManager;
     SearchView searchView;
     ActionBar actionBar;
 
@@ -43,7 +42,6 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        mPrefManager = new PrefManager(getApplicationContext());
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

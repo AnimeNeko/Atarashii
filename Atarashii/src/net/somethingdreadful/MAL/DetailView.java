@@ -49,7 +49,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public Anime animeRecord;
     public Manga mangaRecord;
     public String username;
-    public PrefManager pref;
     public DetailViewGeneral general;
     public DetailViewDetails details;
     DetailViewPagerAdapter PageAdapter;
@@ -68,7 +67,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         actionBar = getSupportActionBar();
         context = getApplicationContext();
         username = getIntent().getStringExtra("username");
-        pref = new PrefManager(this);
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
 
@@ -213,7 +211,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * Make the share text for the share dialog
      */
     public String makeShareText() {
-        String shareText = pref.getCustomShareText();
+        String shareText = PrefManager.getCustomShareText();
         shareText = shareText.replace("$title;", actionBar.getTitle());
         shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
