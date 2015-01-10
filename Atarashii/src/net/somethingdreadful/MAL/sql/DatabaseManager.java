@@ -121,13 +121,13 @@ public class DatabaseManager {
                     }
                 }
 
-                saveAnimeAnimeRelation(anime.getAlternativeVersions(), anime.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
-                saveAnimeAnimeRelation(anime.getCharacterAnime(), anime.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER);
-                saveAnimeAnimeRelation(anime.getPrequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL);
-                saveAnimeAnimeRelation(anime.getSequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL);
-                saveAnimeAnimeRelation(anime.getSideStories(), anime.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY);
-                saveAnimeAnimeRelation(anime.getSpinOffs(), anime.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF);
-                saveAnimeAnimeRelation(anime.getSummaries(), anime.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY);
+                saveAnimeToAnimeRelation(anime.getAlternativeVersions(), anime.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
+                saveAnimeToAnimeRelation(anime.getCharacterAnime(), anime.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER);
+                saveAnimeToAnimeRelation(anime.getPrequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL);
+                saveAnimeToAnimeRelation(anime.getSequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL);
+                saveAnimeToAnimeRelation(anime.getSideStories(), anime.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY);
+                saveAnimeToAnimeRelation(anime.getSpinOffs(), anime.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF);
+                saveAnimeToAnimeRelation(anime.getSummaries(), anime.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY);
 
                 if (anime.getMangaAdaptions() != null) {
                     // delete old relations
@@ -187,13 +187,13 @@ public class DatabaseManager {
         }
     }
 
-    public void saveAnimeAnimeRelation(ArrayList<RecordStub> record, int id, String type) {
+    public void saveAnimeToAnimeRelation(ArrayList<RecordStub> record, int id, String relationType) {
         if (record != null) {
             // delete old relations
-            getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(id), type});
+            getDBWrite().delete(MALSqlHelper.TABLE_ANIME_ANIME_RELATIONS, "anime_id = ? AND relationType = ?", new String[]{String.valueOf(id), relationType});
 
             for (RecordStub stub : record) {
-                saveAnimeToAnimeRelation(id, stub, type);
+                saveAnimeToAnimeRelation(id, stub, relationType);
             }
         }
     }
