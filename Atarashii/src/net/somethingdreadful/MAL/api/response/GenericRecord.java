@@ -37,19 +37,34 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String synopsis;
     @Setter @Getter @SerializedName("other_titles") private HashMap<String, ArrayList<String>> otherTitles;
 
-    @Setter @Getter private boolean dirty;
+    @Setter private boolean dirty;
     @Setter @Getter private Date lastUpdate;
-    @Setter @Getter @SerializedName("flag_create") private boolean createFlag;
-    @Setter @Getter @SerializedName("flag_delete") private boolean deleteFlag;
+    @Setter private boolean createFlag;
+    @Setter private boolean deleteFlag;
 
     @Setter @Getter private transient boolean fromCursor = false;
 
     public String getImageUrl() {
         // if not loaded from cursor the image might point to an thumbnail
-        if (fromcursor)
+        if (fromCursor)
             return imageUrl;
         else
             return imageUrl.replaceFirst("t.jpg$", ".jpg");
+    }
+
+    // Note: @Getter is not working on booleans
+    public boolean getCreateFlag() {
+        return createFlag;
+    }
+
+    // Note: @Getter is not working on booleans
+    public boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    // Note: @Getter is not working on booleans
+    public boolean getDirty() {
+        return dirty;
     }
 
     public ArrayList<Integer> getGenresInt() {
