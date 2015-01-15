@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
@@ -10,26 +12,29 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Manga extends GenericRecord implements Serializable {
 
     public static final String STATUS_READING = "reading";
     public static final String STATUS_PLANTOREAD = "plan to read";
 
-    ArrayList<RecordStub> alternative_versions;
-    ArrayList<RecordStub> related_manga;
-    ArrayList<RecordStub> anime_adaptations;
-    private int chapters;
-    private int volumes;
-    private String read_status;
-    private int chapters_read;
-    private int volumes_read;
-    private int listed_manga_id;
-    private String reading_start;
-    private String reading_end;
+    @Setter @Getter @SerializedName("alternative_versions") ArrayList<RecordStub> alternativeVersions;
+    @Setter @Getter @SerializedName("related_manga") ArrayList<RecordStub> relatedManga;
+    @Setter @Getter @SerializedName("anime_adaptations") ArrayList<RecordStub> animeAdaptations;
+    @Setter @Getter private int chapters;
+    @Setter @Getter private int volumes;
+    @Setter @Getter @SerializedName("read_status") private String readStatus;
+    @Setter @Getter @SerializedName("chapters_read") private int chaptersRead;
+    @Setter @Getter @SerializedName("volumes_read") private int volumesRead;
+    @Setter @Getter @SerializedName("listed_manga_id") private int listedId;
+    @Setter @Getter @SerializedName("reading_start") private String readingStart;
+    @Setter @Getter @SerializedName("reading_end") private String readingEnd;
 
     public static Manga fromCursor(Cursor c) {
         Manga result = new Manga();
-        result.setCreatedFromCursor(true);
+        result.setFromCursor(true);
         List<String> columnNames = Arrays.asList(c.getColumnNames());
         result.setId(c.getInt(columnNames.indexOf(MALSqlHelper.COLUMN_ID)));
         result.setTitle(c.getString(columnNames.indexOf("recordName")));
@@ -61,78 +66,6 @@ public class Manga extends GenericRecord implements Serializable {
         }
         result.setLastUpdate(lastUpdateDate);
         return result;
-    }
-
-    public int getChapters() {
-        return chapters;
-    }
-
-    public void setChapters(int chapters) {
-        this.chapters = chapters;
-    }
-
-    public int getVolumes() {
-        return volumes;
-    }
-
-    public void setVolumes(int volumes) {
-        this.volumes = volumes;
-    }
-
-    public String getReadStatus() {
-        return read_status;
-    }
-
-    public void setReadStatus(String read_status) {
-        this.read_status = read_status;
-    }
-
-    public int getChaptersRead() {
-        return chapters_read;
-    }
-
-    public void setChaptersRead(int chapters_read) {
-        this.chapters_read = chapters_read;
-    }
-
-    public int getVolumesRead() {
-        return volumes_read;
-    }
-
-    public void setVolumesRead(int volumes_read) {
-        this.volumes_read = volumes_read;
-    }
-
-    public int getListedId() {
-        return listed_manga_id;
-    }
-
-    public void setListedId(int listed_manga_id) {
-        this.listed_manga_id = listed_manga_id;
-    }
-
-    public ArrayList<RecordStub> getAlternativeVersions() {
-        return alternative_versions;
-    }
-
-    public void setAlternativeVersions(ArrayList<RecordStub> alternative_versions) {
-        this.alternative_versions = alternative_versions;
-    }
-
-    public ArrayList<RecordStub> getRelatedManga() {
-        return related_manga;
-    }
-
-    public void setRelatedManga(ArrayList<RecordStub> related_manga) {
-        this.related_manga = related_manga;
-    }
-
-    public ArrayList<RecordStub> getAnimeAdaptations() {
-        return anime_adaptations;
-    }
-
-    public void setAnimeAdaptations(ArrayList<RecordStub> anime_adaptations) {
-        this.anime_adaptations = anime_adaptations;
     }
 
     public int getTypeInt() {
@@ -174,21 +107,5 @@ public class Manga extends GenericRecord implements Serializable {
 
     public int getTotal(boolean useSecondaryAmount) {
         return useSecondaryAmount ? getVolumes() : getChapters();
-    }
-
-    public String getReadingStart() {
-        return reading_start;
-    }
-
-    public String getReadingEnd() {
-        return reading_end;
-    }
-
-    public void setReadingStart(String reading_start) {
-        this.reading_start = reading_start;
-    }
-
-    public void setReadingEnd(String reading_end) {
-        this.reading_end = reading_end;
     }
 }

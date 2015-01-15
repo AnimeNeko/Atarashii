@@ -2,10 +2,9 @@ package net.somethingdreadful.MAL.api.response;
 
 import java.util.ArrayList;
 
-public class MangaList {
-    private ArrayList<Manga> manga;
+import lombok.Getter;
+import lombok.Setter;
 
-    public ArrayList<Manga> getManga() {
-        return manga;
-    }
+public class MangaList {
+    @Getter @Setter private ArrayList<Manga> manga;
 }

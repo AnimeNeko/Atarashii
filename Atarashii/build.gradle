@@ -67,4 +67,5 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.2.1'
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.crashlytics.android:crashlytics:1.+'
+    provided 'org.projectlombok:lombok:1.14.8'
 }

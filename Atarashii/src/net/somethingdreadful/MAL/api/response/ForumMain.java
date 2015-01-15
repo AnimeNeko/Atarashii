@@ -5,51 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ForumMain implements Serializable {
-    private ArrayList<Forum> MyAnimeList;
-    @SerializedName("Anime & Manga") private ArrayList<Forum> AnimeManga;
-    private ArrayList<Forum> General;
-    private ArrayList<Forum> list;
-    private int pages;
-
-
-    public void setMyAnimeList(ArrayList<Forum> MyAnimeList) {
-        this.MyAnimeList = MyAnimeList;
-    }
-
-    public ArrayList<Forum> getMyAnimeList() {
-        return MyAnimeList;
-    }
-
-    public void setAnimeManga(ArrayList<Forum> AnimeManga) {
-        this.AnimeManga = AnimeManga;
-    }
-
-    public ArrayList<Forum> getAnimeManga() {
-        return AnimeManga;
-    }
-
-    public void setGeneral(ArrayList<Forum> General) {
-        this.General = General;
-    }
-
-    public ArrayList<Forum> getGeneral() {
-        return General;
-    }
-
-    public void setList(ArrayList<Forum> list) {
-        this.list = list;
-    }
-
-    public ArrayList<Forum> getList() {
-        return list;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
-
-    public int getPages() {
-        return pages;
-    }
+    @Setter @Getter private ArrayList<Forum> MyAnimeList;
+    @Setter @Getter @SerializedName("Anime & Manga") private ArrayList<Forum> AnimeManga;
+    @Setter @Getter private ArrayList<Forum> General;
+    @Setter @Getter private ArrayList<Forum> list;
+    @Setter @Getter private int pages;
 }
