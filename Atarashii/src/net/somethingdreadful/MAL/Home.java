@@ -94,7 +94,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        if (AccountService.getAccount(context) != null) {
+        if (AccountService.getAccount() != null) {
             actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
@@ -114,7 +114,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
-            username = AccountService.getUsername(context);
+            username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
             new UserNetworkTask(context, false, this).execute(username);
 
@@ -296,7 +296,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         if (mf != null)
             mf.cancelNetworkTask();
         MALSqlHelper.getHelper(context).deleteDatabase(context);
-        AccountService.deleteAccount(context);
+        AccountService.deleteAccount();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
@@ -351,7 +351,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onIGFReady(IGF igf) {
-        igf.setUsername(AccountService.getUsername(context));
+        igf.setUsername(AccountService.getUsername());
         if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else

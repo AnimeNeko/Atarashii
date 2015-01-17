@@ -561,7 +561,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void setUsername(String username) {
         this.username = username;
-        ownList = !(username == null || username.equals("")) && AccountService.getUsername(context).equals(username);
+        ownList = !(username == null || username.equals("")) && AccountService.getUsername().equals(username);
     }
 
     // user updated record on DetailsView, so update the list if necessary

@@ -6,6 +6,8 @@ import android.content.res.Resources;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.account.AccountService;
+
 import java.util.Locale;
 
 public class Theme extends Application {
@@ -18,6 +20,7 @@ public class Theme extends Application {
         super.onCreate();
         Crashlytics.start(this);
         PrefManager.create(getApplicationContext());
+        AccountService.create(getApplicationContext());
         
         locale = PrefManager.getLocale();
         config = new Configuration();

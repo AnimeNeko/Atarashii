@@ -47,7 +47,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         nm.notify(R.id.notification_sync, syncNotification);
 
         MALManager mManager = new MALManager(context);
-        String account = AccountService.getUsername(context);
+        String account = AccountService.getUsername();
         mManager.cleanDirtyAnimeRecords(account);
         mManager.downloadAndStoreAnimeList(account);
         mManager.cleanDirtyMangaRecords(account);

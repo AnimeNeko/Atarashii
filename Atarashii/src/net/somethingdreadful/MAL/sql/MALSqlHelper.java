@@ -394,7 +394,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              */
             // we need the username for building the relation tables, so get the account here
             Integer userId = null;
-            Account account = AccountService.getAccount(context);
+            Account account = AccountService.getAccount();
             if (account != null) {
                 Cursor userCursor = db.query(TABLE_PROFILE, new String[]{COLUMN_ID}, "username = ?", new String[]{account.name}, null, null, null);
                 if (userCursor.moveToFirst()) {

@@ -69,7 +69,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
     @Override
     public void onAuthenticationCheckFinished(boolean result) {
         if (result) {
-            AccountService.addAccount(context, MalUser, MalPass);
+                AccountService.addAccount(MalUser, MalPass, AccountType.MyAnimeList);
             PrefManager.setForceSync(true);
             PrefManager.commitChanges();
             dialog.dismiss();

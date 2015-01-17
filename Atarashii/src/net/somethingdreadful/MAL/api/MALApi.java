@@ -42,8 +42,8 @@ public class MALApi {
 
 
     public MALApi(Context context) {
-        username = AccountService.getUsername(context);
-        setupRESTService(username, AccountService.getPassword(context));
+        username = AccountService.getUsername();
+        setupRESTService(username, AccountService.getPassword());
     }
 
     public MALApi(String username, String password) {
