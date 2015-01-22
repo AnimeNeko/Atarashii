@@ -58,10 +58,11 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
                 viewHolder.username.setTextColor(Color.parseColor("#008583")); //Developer
 
             String last_online = record.getProfile().getDetails().getLastOnline();
-            last_online = MALDateTools.formatDateString(last_online, context, true);
-            viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
-            Picasso picasso = Picasso.with(context);
-            picasso.load(record.getProfile().getAvatarUrl())
+            if (last_online != null) {
+                last_online = MALDateTools.formatDateString(last_online, context, true);
+                viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
+            }
+            Picasso.with(context).load(record.getProfile().getAvatarUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
                     .transform(new RoundedTransformation(record.getName()))
