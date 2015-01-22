@@ -490,8 +490,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     startActivity(Friends);
                     break;
                 case 3:
-                    Intent Forum = new Intent(context, ForumActivity.class);
-                    startActivity(Forum);
+                    if (AccountService.isMAL()) {
+                        Intent Forum = new Intent(context, ForumActivity.class);
+                        startActivity(Forum);
+                    } else {
+                        Toast.makeText(context, getString(R.string.toast_info_disabled), Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case 4:
                     getRecords(true, TaskJob.GETTOPRATED, af.list);
