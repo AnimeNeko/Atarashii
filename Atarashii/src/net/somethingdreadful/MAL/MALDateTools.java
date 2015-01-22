@@ -165,26 +165,51 @@ public class MALDateTools {
             final int HOUR = MINUTE * 60;
             final int DAY = HOUR * 24;
 
-            if (diffHoursToNow < HOUR) {
-                int minutes = (int) diffHoursToNow / MINUTE;
-                return res.getQuantityString(R.plurals.minutes_ago, minutes, minutes);
-            }
+            if (diffHoursToNow > 0) {
+                if (diffHoursToNow < HOUR) {
+                    int minutes = (int) diffHoursToNow / MINUTE;
+                    return res.getQuantityString(R.plurals.minutes_ago, minutes, minutes);
+                }
 
-            if (diffHoursToNow < DAY) {
-                int hours = (int) diffHoursToNow / HOUR;
-                return res.getQuantityString(R.plurals.hours_ago, hours, hours);
-            }
+                if (diffHoursToNow < DAY) {
+                    int hours = (int) diffHoursToNow / HOUR;
+                    return res.getQuantityString(R.plurals.hours_ago, hours, hours);
+                }
 
-            if (diffHoursToNow < DAY * 2) {
-                String dateformat_yesterday = res.getString(R.string.datetimeformat_yesterday);
-                formatSdf = new SimpleDateFormat(dateformat_yesterday);
-                return formatSdf.format(date);
-            }
+                if (diffHoursToNow < DAY * 2) {
+                    String dateformat_yesterday = res.getString(R.string.datetimeformat_yesterday);
+                    formatSdf = new SimpleDateFormat(dateformat_yesterday);
+                    return formatSdf.format(date);
+                }
 
-            if (diffHoursToNow < DAY * 5) {
-                String dateformat_dayname = res.getString(R.string.datetimeformat_dayname);
-                formatSdf = new SimpleDateFormat(dateformat_dayname);
-                return formatSdf.format(date);
+                if (diffHoursToNow < DAY * 5) {
+                    String dateformat_dayname = res.getString(R.string.datetimeformat_dayname);
+                    formatSdf = new SimpleDateFormat(dateformat_dayname);
+                    return formatSdf.format(date);
+                }
+            } else {
+                diffHoursToNow = date.getTime() - new Date().getTime();
+                if (diffHoursToNow < HOUR) {
+                    int minutes = (int) diffHoursToNow / MINUTE;
+                    return res.getQuantityString(R.plurals.minutes_left, minutes, minutes);
+                }
+
+                if (diffHoursToNow < DAY) {
+                    int hours = (int) diffHoursToNow / HOUR;
+                    return res.getQuantityString(R.plurals.hours_left, hours, hours);
+                }
+
+                if (diffHoursToNow < DAY * 2) {
+                    String dateformat_yesterday = res.getString(R.string.datetimeformat_tomorrow);
+                    formatSdf = new SimpleDateFormat(dateformat_yesterday);
+                    return formatSdf.format(date);
+                }
+
+                if (diffHoursToNow < DAY * 5) {
+                    String dateformat_dayname = res.getString(R.string.datetimeformat_dayname);
+                    formatSdf = new SimpleDateFormat(dateformat_dayname);
+                    return formatSdf.format(date);
+                }
             }
 
             String dateformat = res.getString(R.string.datetimeformat);
