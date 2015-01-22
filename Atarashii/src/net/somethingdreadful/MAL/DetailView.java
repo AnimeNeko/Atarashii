@@ -23,6 +23,7 @@ import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -592,11 +593,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         try {
             if (type == ListType.ANIME) {
                 animeRecord = (Anime) result;
-                if (isAdded())
+                if (isAdded() && AccountService.isMAL())
                     animeRecord.setDirty(true);
             } else {
                 mangaRecord = (Manga) result;
-                if (isAdded())
+                if (isAdded() && AccountService.isMAL())
                     mangaRecord.setDirty(true);
             }
             setRefreshing(false);
