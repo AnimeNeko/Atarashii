@@ -35,6 +35,9 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         boolean error = false;
         MALManager manager = new MALManager(context);
 
+        if (!AccountService.isMAL())
+            manager.verifyAuthentication();
+
         try {
             if (MALApi.isNetworkAvailable(context)) {
                 if (type.equals(ListType.ANIME)) {

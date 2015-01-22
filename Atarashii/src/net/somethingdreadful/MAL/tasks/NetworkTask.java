@@ -8,6 +8,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -57,6 +58,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
         taskResult = null;
         MALManager mManager = new MALManager(context);
+
+        if (!AccountService.isMAL())
+            mManager.verifyAuthentication();
+
         try {
             switch (job) {
                 case GETLIST:
@@ -70,7 +75,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                          *
                          * this will throw an RetrofitError-Exception if the credentials are wrong
                          */
-                        mManager.getAPIObject().verifyAuthentication();
+                        if (AccountService.isMAL())
+                            mManager.verifyAuthentication();
+
                         if (isAnimeTask())
                             mManager.cleanDirtyAnimeRecords(params[0]);
                         else
@@ -81,21 +88,24 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                     break;
                 case GETMOSTPOPULAR:
-                    taskResult = isAnimeTask() ? mManager.getAPIObject().getMostPopularAnime(page) : mManager.getAPIObject().getMostPopularManga(page);
+                    taskResult = isAnimeTask() ? mManager.getMostPopularAnime(page) : mManager.getMostPopularManga(page);
                     break;
                 case GETTOPRATED:
-                    taskResult = isAnimeTask() ? mManager.getAPIObject().getTopRatedAnime(page) : mManager.getAPIObject().getTopRatedManga(page);
+                    taskResult = isAnimeTask() ? mManager.getTopRatedAnime(page) : mManager.getTopRatedManga(page);
                     break;
                 case GETJUSTADDED:
-                    taskResult = isAnimeTask() ? mManager.getAPIObject().getJustAddedAnime(page) : mManager.getAPIObject().getJustAddedManga(page);
+                    taskResult = isAnimeTask() ? mManager.getJustAddedAnime(page) : mManager.getJustAddedManga(page);
                     break;
                 case GETUPCOMING:
-                    taskResult = isAnimeTask() ? mManager.getAPIObject().getUpcomingAnime(page) : mManager.getAPIObject().getUpcomingManga(page);
+                    taskResult = isAnimeTask() ? mManager.getUpcomingAnime(page) : mManager.getUpcomingManga(page);
                     break;
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
                         Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
-                        taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
+                        if (AccountService.isMAL())
+                            taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
+                        else
+                            taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)).createBaseModel() : mManager.getMangaRecord(data.getInt("recordID", -1)).createBaseModel();
                     }
                     break;
                 case GETDETAILS:
@@ -104,6 +114,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             Anime record = (Anime) data.getSerializable("record");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                             taskResult = mManager.updateWithDetails(record.getId(), record, "");
+                            if (!AccountService.isMAL())
+                                mManager.getAnime(record.getId(), AccountService.getUsername());
                         } else {
                             Manga record = (Manga) data.getSerializable("record");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
@@ -113,7 +125,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     break;
                 case SEARCH:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.getAPIObject().searchAnime(params[0], page) : mManager.getAPIObject().searchManga(params[0], page);
+                        taskResult = isAnimeTask() ? mManager.searchAnime(params[0], page) : mManager.searchManga(params[0], page);
                     break;
                 default:
                     Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
@@ -142,10 +154,13 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                 }
             } else {
-                Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s", type.toString(), job.name()));
+                Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));
             }
+            re.printStackTrace();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
+            Crashlytics.logException(e);
+            e.printStackTrace();
             taskResult = null;
         }
         return taskResult;

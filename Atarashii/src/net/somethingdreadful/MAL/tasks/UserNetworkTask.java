@@ -7,6 +7,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 
@@ -29,6 +30,9 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
             return null;
         }
         MALManager mManager = new MALManager(context);
+
+        if (!AccountService.isMAL())
+            mManager.verifyAuthentication();
 
         if (forcesync && MALApi.isNetworkAvailable(context)) {
             result = mManager.downloadAndStoreProfile(params[0]);
