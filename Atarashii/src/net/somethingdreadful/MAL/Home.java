@@ -257,7 +257,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
-        myListChanged();
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.list) {
@@ -472,7 +471,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
             myList = ((position <= 3 && myList) || position == 0);
-            myListChanged();
             // disable swipeRefresh for other lists
             if (af == null || mf == null) {
                 af = mIGFPagerAdapter.getIGF(0);
@@ -514,11 +512,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     getRecords(true, TaskJob.GETUPCOMING, af.list);
                     break;
             }
+            myListChanged();
 
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
              */
-            if (position != 1 && position != 2&& position != 3) {
+            if (position != 1 && position != 2 && position != 3) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
                 view.setBackgroundColor(Color.parseColor("#E8E8E8"));
