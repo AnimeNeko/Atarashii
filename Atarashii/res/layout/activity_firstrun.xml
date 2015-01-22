@@ -1,8 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewFlipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/Icon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerHorizontal="true"
+            android:padding="8dp"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/Icon"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="@string/init_hint_choose"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/textView"
+            android:layout_marginTop="8dp"
+            android:background="@color/bg_listview_pressed" />
+
+        <TextView
+            android:id="@+id/myanimelist"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignEnd="@+id/Icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/Icon"
+            android:layout_below="@+id/divider1"
+            android:layout_marginRight="48dp"
+            android:layout_toStartOf="@+id/anilist"
+            android:background="@drawable/highlite_friendlist"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/init_hint_myanimelist"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/anilist"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignLeft="@+id/Icon"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/Icon"
+            android:layout_below="@+id/divider1"
+            android:layout_marginLeft="48dp"
+            android:background="@drawable/highlite_friendlist"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/init_hint_anilist"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/loginForm"
@@ -71,8 +151,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/button_connectToMal"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="@string/form_action_create" />
     </RelativeLayout>
 
-</ScrollView>
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</ViewFlipper>

@@ -43,7 +43,7 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if (callback != null) {
-            callback.onAuthenticationCheckFinished(result);
+            callback.onAuthenticationCheckFinished(result, username);
         }
     }
 }

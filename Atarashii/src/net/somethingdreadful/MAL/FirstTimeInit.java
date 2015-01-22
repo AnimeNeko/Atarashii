@@ -3,56 +3,88 @@ package net.somethingdreadful.MAL;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
+
+import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.account.AccountType;
+import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener {
+public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
     EditText malUser;
     EditText malPass;
     String MalUser;
     String MalPass;
     ProgressDialog dialog;
     Context context;
+    ViewFlipper viewFlipper;
+    Button connectButton;
+    Button registerButton;
+    WebView webview;
+    TextView myanimelist;
+    TextView anilist;
+
+    boolean loading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
 
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         malUser = (EditText) findViewById(R.id.edittext_malUser);
         malPass = (EditText) findViewById(R.id.edittext_malPass);
-        Button connectButton = (Button) findViewById(R.id.button_connectToMal);
-        Button registerButton = (Button) findViewById(R.id.registerButton);
+        connectButton = (Button) findViewById(R.id.button_connectToMal);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        webview = (WebView) findViewById(R.id.webview);
+        myanimelist = (TextView) findViewById(R.id.myanimelist);
+        anilist = (TextView) findViewById(R.id.anilist);
+
         context = getApplicationContext();
 
+        connectButton.setOnClickListener(this);
+        registerButton.setOnClickListener(this);
+        myanimelist.setOnClickListener(this);
+        anilist.setOnClickListener(this);
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                webview.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (url.contains("trigger.atarashiiapp?code")) {
+                    webview.stopLoading();
+                    if (!loading) {
+                        loading = true;
+                        MalUser = ALApi.getCode(url);
+                        tryConnection();
+                    }
+                }
+            }
+        });
+        webview.loadUrl(ALApi.getAnilistURL());
+
         PrefManager.deleteAccount();
-
-        connectButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                MalUser = malUser.getText().toString().trim();
-                MalPass = malPass.getText().toString().trim();
-                tryConnection();
-            }
-        });
-
-        registerButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View arg0) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/register.php"));
-                startActivity(browserIntent);
-
-            }
-        });
-
         NfcHelper.disableBeam(this);
     }
 
@@ -63,13 +95,18 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         dialog.setTitle(getString(R.string.dialog_title_Verifying));
         dialog.setMessage(getString(R.string.dialog_message_Verifying));
         dialog.show();
-        new AuthenticationCheckTask(this).execute(MalUser, MalPass);
+        if (MalPass != null)
+            new AuthenticationCheckTask(this).execute(MalUser, MalPass);
+        else
+            new AuthenticationCheckTask(this).execute(MalUser);
     }
 
     @Override
-    public void onAuthenticationCheckFinished(boolean result) {
+    public void onAuthenticationCheckFinished(boolean result, String username) {
         if (result) {
+            if (username == null)
                 AccountService.addAccount(MalUser, MalPass, AccountType.MyAnimeList);
+            Crashlytics.setString("site", AccountService.accountType.toString());
             PrefManager.setForceSync(true);
             PrefManager.commitChanges();
             dialog.dismiss();
@@ -79,6 +116,35 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         } else {
             dialog.dismiss();
             Toast.makeText(getApplicationContext(), R.string.toast_error_VerifyProblem, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewFlipper.getDisplayedChild() == 1 || viewFlipper.getDisplayedChild() == 2)
+            viewFlipper.setDisplayedChild(0);
+        else
+            finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_connectToMal:
+                MalUser = malUser.getText().toString().trim();
+                MalPass = malPass.getText().toString().trim();
+                tryConnection();
+                break;
+            case R.id.registerButton:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/register.php"));
+                startActivity(browserIntent);
+                break;
+            case R.id.myanimelist:
+                viewFlipper.setDisplayedChild(1);
+                break;
+            case R.id.anilist:
+                viewFlipper.setDisplayedChild(2);
+                break;
         }
     }
 }

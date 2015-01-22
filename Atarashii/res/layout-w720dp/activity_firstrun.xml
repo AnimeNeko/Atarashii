@@ -1,92 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewFlipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
 
     <RelativeLayout
-        android:id="@+id/loginScreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/loginIcon"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:padding="8dp"
-            android:src="@drawable/icon" />
-
-        <RelativeLayout
-            android:id="@+id/loginForm"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/loginIcon"
-            android:padding="8dp">
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/Icon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:padding="8dp"
+                android:src="@drawable/icon" />
 
             <TextView
-                android:id="@+id/textblurb"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/Icon"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="@string/init_hint_choose"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/anilist"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:layout_toRightOf="@+id/linearLayout"
+            android:background="@drawable/highlite_friendlist"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/init_hint_anilist"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/anilist"
+            android:layout_toRightOf="@+id/linearLayout"
+            android:background="@color/bg_listview_pressed" />
+
+        <TextView
+            android:id="@+id/myanimelist"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/divider1"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:layout_toRightOf="@+id/linearLayout"
+            android:background="@drawable/highlite_friendlist"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/init_hint_myanimelist"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loginForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/loginIcon"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="8dp"
+            android:id="@+id/linearLayout2">
+
+            <ImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:padding="8dp"
+                android:src="@drawable/icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/Icon"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
                 android:padding="8dp"
                 android:text="@string/form_hint_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/edittext_malUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textblurb"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:hint="@string/form_hint_user"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:padding="8dp">
+        </LinearLayout>
 
-                <requestFocus />
-            </EditText>
+        <EditText
+            android:id="@+id/edittext_malUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textblurb"
+            android:layout_marginRight="24dp"
+            android:hint="@string/form_hint_user"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:padding="8dp"
+            android:layout_toRightOf="@+id/linearLayout2"
+            android:layout_toEndOf="@+id/linearLayout2">
 
-            <EditText
-                android:id="@+id/edittext_malPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edittext_malUser"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:hint="@string/form_hint_pass"
-                android:inputType="textPassword"
-                android:padding="8dp" />
+            <requestFocus />
+        </EditText>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edittext_malPass"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp">
+        <EditText
+            android:id="@+id/edittext_malPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edittext_malUser"
+            android:layout_marginRight="24dp"
+            android:hint="@string/form_hint_pass"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:layout_toRightOf="@+id/linearLayout2"
+            android:layout_toEndOf="@+id/linearLayout2" />
 
-                <Button
-                    android:id="@+id/registerButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:text="@string/form_action_create" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edittext_malPass"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp">
 
-                <Button
-                    android:id="@+id/button_connectToMal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/registerButton"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:text="@string/form_action_connect" />
-            </RelativeLayout>
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/button_connectToMal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="@string/form_action_connect"
+            android:layout_below="@+id/edittext_malPass"
+            android:layout_alignRight="@+id/edittext_malPass"
+            android:layout_alignEnd="@+id/edittext_malPass"
+            android:layout_marginLeft="8dp" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="@string/form_action_create"
+            android:layout_below="@+id/edittext_malPass"
+            android:layout_toLeftOf="@+id/button_connectToMal"
+            android:layout_toStartOf="@+id/button_connectToMal" />
     </RelativeLayout>
 
-</ScrollView>
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</ViewFlipper>
