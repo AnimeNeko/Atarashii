@@ -383,6 +383,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void refresh() {
         try {
+            filterTime();
             if (ga == null)
                 setAdapter();
             ga.clear();
@@ -451,6 +452,29 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void inverse() {
         Collections.reverse(gl);
+        refresh();
+    }
+
+    /**
+     * Hide airing dates for anilist airing list.
+     */
+    private void filterTime() {
+        if (!AccountService.isMAL() && taskjob == TaskJob.GETMOSTPOPULAR && PrefManager.getAiringOnly() && listType == ListType.ANIME) {
+            ArrayList<GenericRecord> record = new ArrayList<GenericRecord>();
+            for (GenericRecord gr : gl)
+                if (((Anime) gr).getAiring() != null)
+                    record.add(gr);
+            gl = record;
+        }
+    }
+
+    /**
+     * Set and hide airing dates for anilist airing list.
+     */
+    public void toggleAiringTime() {
+        PrefManager.setAiringOnly(!PrefManager.getAiringOnly());
+        PrefManager.commitChanges();
+        filterTime();
         refresh();
     }
 
@@ -616,10 +640,18 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             try {
 
                 if (taskjob.equals(TaskJob.GETMOSTPOPULAR) || taskjob.equals(TaskJob.GETTOPRATED)) {
-                    viewHolder.progressCount.setVisibility(View.VISIBLE);
-                    viewHolder.progressCount.setText(Integer.toString(position + 1));
                     viewHolder.actionButton.setVisibility(View.GONE);
-                    viewHolder.flavourText.setText(R.string.label_Number);
+                    if (AccountService.isMAL()) {
+                        viewHolder.progressCount.setVisibility(View.VISIBLE);
+                        viewHolder.progressCount.setText(Integer.toString(position + 1));
+                        viewHolder.flavourText.setText(R.string.label_Number);
+                    } else if (listType.equals(ListType.ANIME) && ((Anime) record).getAiring() != null) {
+                        viewHolder.progressCount.setVisibility(View.GONE);
+                        viewHolder.flavourText.setText(MALDateTools.formatDateString(((Anime) record).getAiring().getTime(), context, true));
+                    } else {
+                        viewHolder.progressCount.setVisibility(View.GONE);
+                        viewHolder.flavourText.setText(getString(R.string.unknown));
+                    }
                 } else {
                     // only show actionbutton on own list
                     viewHolder.actionButton.setVisibility(ownList ? View.VISIBLE : View.GONE);

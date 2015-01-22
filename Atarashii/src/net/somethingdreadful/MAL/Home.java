@@ -203,8 +203,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 break;
             case R.id.menu_inverse:
                 if (af != null && mf != null) {
-                    af.inverse();
-                    mf.inverse();
+                    if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
+                        af.toggleAiringTime();
+                    } else {
+                        af.inverse();
+                        mf.inverse();
+                    }
                 }
                 break;
         }
@@ -285,7 +289,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     public void myListChanged() {
         menu.findItem(R.id.menu_listType).setVisible(myList);
-        menu.findItem(R.id.menu_inverse).setVisible(myList);
+        menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
         menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
         menu.findItem(R.id.action_search).setVisible(networkAvailable);
     }

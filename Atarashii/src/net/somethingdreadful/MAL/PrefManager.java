@@ -187,6 +187,25 @@ public class PrefManager {
     }
 
     /**
+     * Returns if the IGF to show airing records only.
+     *
+     * @return boolean If true than hide all the null airing dates.
+     * @see Home
+     */
+    public static boolean getAiringOnly() {
+        return prefs.getBoolean("IGF_airingOnly", false);
+    }
+
+    /**
+     * Set toggle the IGF to show airing records only.
+     *
+     * @param airing If true than the airing records should only be shown
+     */
+    public static void setAiringOnly(boolean airing) {
+        prefEditor.putBoolean("IGF_airingOnly", airing);
+    }
+
+    /**
      * Commit all the changed made.
      */
     public static void commitChanges() {
