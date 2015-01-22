@@ -116,6 +116,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
             username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
+            ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
             new UserNetworkTask(context, false, this).execute(username);
 
             logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);

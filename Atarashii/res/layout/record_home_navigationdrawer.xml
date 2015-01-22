@@ -63,7 +63,8 @@
                         android:text="MyAnimeList"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                         android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:id="@+id/siteName" />
                 </RelativeLayout>
             </RelativeLayout>
 
