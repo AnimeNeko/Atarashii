@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
@@ -13,9 +15,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class User implements Serializable {
+    // MyAnimeList
     @Getter @Setter private String name;
     @Getter @Setter private Profile profile;
     @Getter @Setter private Integer id;
+
+    // Anilist
+    @Getter @SerializedName("display_name") private String displayName;
+    @Getter @SerializedName("image_url_lge") private String imageUrl;
 
     public static User fromCursor(Cursor c) {
         User result = new User();

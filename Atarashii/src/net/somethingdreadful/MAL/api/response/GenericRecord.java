@@ -5,6 +5,8 @@ import android.text.Spanned;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.account.AccountService;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +23,7 @@ public class GenericRecord implements Serializable {
     public static final String STATUS_ONHOLD = "on-hold";
     public static final String STATUS_DROPPED = "dropped";
 
+    // MyAnimeList
     @Setter @Getter private int id;
     @Setter @Getter private String title;
     @Setter @SerializedName("image_url") private String imageUrl;
@@ -46,7 +49,7 @@ public class GenericRecord implements Serializable {
 
     public String getImageUrl() {
         // if not loaded from cursor the image might point to an thumbnail
-        if (fromCursor)
+        if (fromCursor || !AccountService.isMAL())
             return imageUrl;
         else
             return imageUrl.replaceFirst("t.jpg$", ".jpg");
