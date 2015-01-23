@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light_card">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <RelativeLayout
+                android:id="@+id/profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <!-- Profile picture -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/name_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    custom:header_Color="@color/card_cyan"
+                    custom:header_Title="@string/layout_card_title_details"
+                    custom:header_Title_Color="@color/white"
+                    custom:header_Title_center="true" />
+
+                <!-- Details card -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/details_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/name_card"
+                    android:layout_marginTop="8dp"
+                    custom:header_Color="@color/card_cyan"
+                    custom:header_Title="@string/layout_card_title_details"
+                    custom:header_Title_Color="@color/white" />
+
+                <!-- Anime card -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/Anime_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/details_card"
+                    android:layout_marginTop="8dp"
+                    custom:header_Color="@color/card_cyan"
+                    custom:header_Title="@string/layout_card_anime_details"
+                    custom:header_Title_Color="@color/white" />
+
+                <!-- Manga card -->
+                <net.somethingdreadful.MAL.Card
+                    android:id="@+id/Manga_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/Anime_card"
+                    android:layout_marginTop="8dp"
+                    custom:header_Color="@color/card_cyan"
+                    custom:header_Title="@string/layout_card_manga_details"
+                    custom:header_Title_Color="@color/white" />
+            </RelativeLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
+
+    <net.somethingdreadful.MAL.Card xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/network_Card"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        custom:card_content="@layout/card_network_connection"
+        custom:header_Color="@color/card_red"
+        custom:header_Title="@string/card_offline_title"
+        custom:header_Title_Color="@color/white" />
+</RelativeLayout>
