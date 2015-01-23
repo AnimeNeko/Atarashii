@@ -20,10 +20,11 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     Context context;
     User record;
     ProfileDetails details;
+    ProfileFriends friends;
 
     boolean forcesync = false;
     private ViewPager viewPager;
-    private ProfilePagerAdapter PageAdapter;
+    private ProfilePagerAdapter pageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         setTitle(R.string.title_activity_profile); //set title
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        PageAdapter = new ProfilePagerAdapter(getFragmentManager(), this);
-        viewPager.setAdapter(PageAdapter);
+        pageAdapter = new ProfilePagerAdapter(getFragmentManager(), this);
+        viewPager.setAdapter(pageAdapter);
 
         if (getIntent().getExtras().containsKey("user")) {
             toggle(1);
@@ -106,7 +107,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         }
     }
 
-    private void showShareDialog(boolean type){
+    private void showShareDialog(boolean type) {
         ShareDialogFragment share = new ShareDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", record.getName());
@@ -125,12 +126,18 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     public void setText() {
         if (details != null)
             details.refresh();
+        if (friends != null)
+            friends.getRecords();
     }
 
     public void refreshing(boolean loading) {
         if (details != null) {
             details.swipeRefresh.setRefreshing(loading);
             details.swipeRefresh.setEnabled(!loading);
+        }
+        if (friends != null) {
+            friends.swipeRefresh.setRefreshing(loading);
+            friends.swipeRefresh.setEnabled(!loading);
         }
     }
 
@@ -145,6 +152,12 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
 
     public void setDetails(ProfileDetails details) {
         this.details = details;
+    }
+
+    public void setFriends(ProfileFriends friends) {
+        this.friends = friends;
+        if (getIntent().getExtras().containsKey("friends"))
+            viewPager.setCurrentItem(1);
     }
 
     public void toggle(int number) {

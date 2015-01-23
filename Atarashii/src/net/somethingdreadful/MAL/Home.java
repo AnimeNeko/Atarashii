@@ -488,7 +488,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     startActivity(Profile);
                     break;
                 case 2:
-                    Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
+                    Intent Friends = new Intent(context, ProfileActivity.class);
+                    Friends.putExtra("username", username);
+                    Friends.putExtra("friends", username);
                     startActivity(Friends);
                     break;
                 case 3:

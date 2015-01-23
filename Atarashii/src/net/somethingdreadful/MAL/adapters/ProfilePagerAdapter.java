@@ -6,6 +6,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.ProfileDetails;
+import net.somethingdreadful.MAL.ProfileFriends;
 import net.somethingdreadful.MAL.R;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
@@ -21,6 +22,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new ProfileDetails();
+            case 1:
+                return new ProfileFriends();
             default:
                 return new ProfileDetails();
         }
@@ -28,7 +31,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -36,6 +39,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return activity.getString(R.string.tab_name_details);
+            case 1:
+                return activity.getString(R.string.tab_name_friends);
             default:
                 return null;
         }

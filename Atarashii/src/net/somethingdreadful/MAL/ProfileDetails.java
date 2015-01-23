@@ -75,7 +75,6 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
         return view;
     }
 
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
