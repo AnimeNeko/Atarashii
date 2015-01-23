@@ -120,6 +120,13 @@ public class AccountService extends Service {
         AccountService.accountType = accountType;
     }
 
+    /**
+     * Add an accesToken to the Account data.
+     *
+     * @param token The AccesToken which should be stored
+     * @param time The time till the token will expire
+     * @return String The token
+     */
     public static String setAccesToken(String token, Long time) {
         AccountManager accountManager = AccountManager.get(context);
         accountManager.setUserData(getAccount(), "accesToken", token);
@@ -127,6 +134,13 @@ public class AccountService extends Service {
         return token;
     }
 
+    /**
+     * Get the accesToken.
+     *
+     * Note: this method will return null if the accesToken is expired!
+     *
+     * @return String accesToken
+     */
     public static String getAccesToken() {
         AccountManager accountManager = AccountManager.get(context);
         String token = accountManager.getUserData(getAccount(), "accesToken");
