@@ -197,12 +197,19 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         String dayString = Integer.toString(day);
         if (dayString.length() == 1)
             dayString = "0" + dayString;
-
-        if (startDate)
-            animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
-        else
-            animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
-        animeRecord.setDirty(true);
+        if (type.equals(ListType.ANIME)) {
+            if (startDate)
+                animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            else
+                animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            animeRecord.setDirty(true);
+        } else {
+            if (startDate)
+                mangaRecord.setReadingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            else
+                mangaRecord.setReadingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            mangaRecord.setDirty(true);
+        }
         setText();
     }
 
