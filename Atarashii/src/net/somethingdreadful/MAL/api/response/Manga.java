@@ -24,8 +24,8 @@ public class Manga extends GenericRecord implements Serializable {
     private int chapters_read;
     private int volumes_read;
     private int listed_manga_id;
-    private String readingStart;
-    private String readingEnd;
+    private String reading_start;
+    private String reading_end;
 
     public static Manga fromCursor(Cursor c) {
         Manga result = new Manga();
@@ -177,18 +177,18 @@ public class Manga extends GenericRecord implements Serializable {
     }
 
     public String getReadingStart() {
-        return readingStart;
+        return reading_start;
     }
 
     public String getReadingEnd() {
-        return readingEnd;
+        return reading_end;
     }
 
-    public void setReadingStart(String readingStart) {
-        this.readingStart = readingStart;
+    public void setReadingStart(String reading_start) {
+        this.reading_start = reading_start;
     }
 
-    public void setReadingEnd(String readingEnd) {
-        this.readingEnd = readingEnd;
+    public void setReadingEnd(String reading_end) {
+        this.reading_end = reading_end;
     }
 }
