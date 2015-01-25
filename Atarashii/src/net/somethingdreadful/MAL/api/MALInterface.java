@@ -89,7 +89,7 @@ public interface MALInterface {
     @FormUrlEncoded
     @PUT("/mangalist/manga/{manga_id}")
     Response updateManga(@Path("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters,
-                         @Field("volumes") int volumes, @Field("score") int score);
+                         @Field("volumes") int volumes, @Field("score") int score, @Field("start") String readingStart, @Field("end") String readingEnd);
 
     @GET("/profile/{username}")
     Profile getProfile(@Path("username") String username);
