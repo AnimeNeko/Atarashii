@@ -457,6 +457,8 @@ public class DatabaseManager {
                 mlcv.put("score", manga.getScore());
                 mlcv.put("volumesRead", manga.getVolumesRead());
                 mlcv.put("chaptersRead", manga.getChaptersRead());
+                mlcv.put("readStart", manga.getReadingStart());
+                mlcv.put("readEnd", manga.getReadingEnd());
                 mlcv.put("dirty", manga.getDirty());
                 if (manga.getLastUpdate() != null)
                     mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
@@ -467,8 +469,8 @@ public class DatabaseManager {
 
     public Manga getManga(Integer id, String username) {
         Manga result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.dirty, ml.lastUpdate" +
-                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+        Cursor cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
+                " ml.dirty, ml.lastUpdate FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
                 " WHERE ml.profile_id = ? and m." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
@@ -550,8 +552,8 @@ public class DatabaseManager {
             if (listType != "") {
                 selArgs.add(listType);
             }
-            cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.dirty, ml.lastUpdate" +
-                    " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+            cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
+                    " ml.dirty, ml.lastUpdate FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
                     " WHERE ml.profile_id = ? " + (listType != "" ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty = 1 " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Manga>();

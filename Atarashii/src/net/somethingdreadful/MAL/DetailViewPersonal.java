@@ -96,16 +96,19 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         if (activity.type.equals(MALApi.ListType.ANIME)) {
             progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
             progress1Total.setText(nullCheckOf(activity.animeRecord.getEpisodes()));
+
+            myStartDate.setText(nullCheck(activity.animeRecord.getWatchingStart()));
+            myEndDate.setText(nullCheck(activity.animeRecord.getWatchingEnd()));
         } else {
             progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
             progress1Total.setText(nullCheckOf(activity.mangaRecord.getVolumes()));
 
             progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
             progress2Total.setText(nullCheckOf(activity.mangaRecord.getChapters()));
-        }
 
-        myStartDate.setText(nullCheck(activity.animeRecord.getWatchingStart()));
-        myEndDate.setText(nullCheck(activity.animeRecord.getWatchingEnd()));
+            myStartDate.setText(nullCheck(activity.mangaRecord.getReadingStart()));
+            myEndDate.setText(nullCheck(activity.mangaRecord.getReadingEnd()));
+        }
 
         setCard();
     }
