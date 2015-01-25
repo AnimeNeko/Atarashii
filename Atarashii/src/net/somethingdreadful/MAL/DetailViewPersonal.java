@@ -114,7 +114,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     }
 
     private String nullCheck(String string) {
-        return ((string == null || string.equals("") || string.equals("0-00-00")) ? getString(R.string.card_content_none) : string);
+        return ((string == null || string.equals("") || string.equals("0-00-00")) ? getString(R.string.unknown) : string);
     }
 
     private String nullCheckOf(int number) {
