@@ -51,6 +51,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public String username;
     public DetailViewGeneral general;
     public DetailViewDetails details;
+    public DetailViewPersonal personal;
     DetailViewPagerAdapter PageAdapter;
     int recordID;
     private ActionBar actionBar;
@@ -96,6 +97,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             if (details != null && !isEmpty()) {
                 details.setText();
             }
+            if (personal != null && !isEmpty()) {
+                personal.setText();
+            }
             if (!isEmpty()) {
                 setupBeam();
             }
@@ -105,6 +109,14 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 Crashlytics.logException(e);
         }
         setMenu();
+    }
+
+    /*
+     * show or hide the personal card
+     */
+    public void hidePersonal(boolean hide) {
+        PageAdapter.count = hide ? 2 : 3;
+        PageAdapter.notifyDataSetChanged();
     }
 
     /*
@@ -133,6 +145,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             details.swipeRefresh.setRefreshing(show);
             details.swipeRefresh.setEnabled(!show);
         }
+        if (personal != null) {
+            personal.swipeRefresh.setRefreshing(show);
+            personal.swipeRefresh.setEnabled(!show);
+        }
     }
 
     /*
@@ -140,6 +156,15 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      */
     public void showDialog(String tag, DialogFragment dialog) {
         FragmentManager fm = getFragmentManager();
+        dialog.show(fm, "fragment_" + tag);
+    }
+
+    /*
+     * Show the dialog with the tag
+     */
+    public void showDialog(String tag, DialogFragment dialog, Bundle args) {
+        FragmentManager fm = getFragmentManager();
+        dialog.setArguments(args);
         dialog.show(fm, "fragment_" + tag);
     }
 
@@ -159,6 +184,33 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             animeRecord.setDirty(true);
             setText();
         }
+    }
+
+    /*
+     * Date picker dialog
+     */
+    public void onDialogDismissed(boolean startDate, int year, int month, int day) {
+        String monthString = Integer.toString(month);
+        if (monthString.length() == 1)
+            monthString = "0" + monthString;
+
+        String dayString = Integer.toString(day);
+        if (dayString.length() == 1)
+            dayString = "0" + dayString;
+        if (type.equals(ListType.ANIME)) {
+            if (startDate)
+                animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            else
+                animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            animeRecord.setDirty(true);
+        } else {
+            if (startDate)
+                mangaRecord.setReadingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            else
+                mangaRecord.setReadingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+            mangaRecord.setDirty(true);
+        }
+        setText();
     }
 
     /*
@@ -584,6 +636,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      */
     public void setDetails(DetailViewDetails details) {
         this.details = details;
+    }
+
+    public void setPersonal(DetailViewPersonal personal) {
+        this.personal = personal;
     }
 
     /*

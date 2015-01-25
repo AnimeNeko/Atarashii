@@ -24,6 +24,8 @@ public class Manga extends GenericRecord implements Serializable {
     private int chapters_read;
     private int volumes_read;
     private int listed_manga_id;
+    private String readingStart;
+    private String readingEnd;
 
     public static Manga fromCursor(Cursor c) {
         Manga result = new Manga();
@@ -36,6 +38,8 @@ public class Manga extends GenericRecord implements Serializable {
         result.setReadStatus(c.getString(columnNames.indexOf("myStatus")));
         result.setVolumesRead(c.getInt(columnNames.indexOf("volumesRead")));
         result.setChaptersRead(c.getInt(columnNames.indexOf("chaptersRead")));
+        result.setReadingStart(c.getString(columnNames.indexOf("readStart")));
+        result.setReadingEnd(c.getString(columnNames.indexOf("readEnd")));
         result.setVolumes(c.getInt(columnNames.indexOf("volumesTotal")));
         result.setChapters(c.getInt(columnNames.indexOf("chaptersTotal")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
@@ -170,5 +174,21 @@ public class Manga extends GenericRecord implements Serializable {
 
     public int getTotal(boolean useSecondaryAmount) {
         return useSecondaryAmount ? getVolumes() : getChapters();
+    }
+
+    public String getReadingStart() {
+        return readingStart;
+    }
+
+    public String getReadingEnd() {
+        return readingEnd;
+    }
+
+    public void setReadingStart(String readingStart) {
+        this.readingStart = readingStart;
+    }
+
+    public void setReadingEnd(String readingEnd) {
+        this.readingEnd = readingEnd;
     }
 }

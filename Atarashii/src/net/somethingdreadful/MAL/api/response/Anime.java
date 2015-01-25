@@ -22,6 +22,8 @@ public class Anime extends GenericRecord implements Serializable {
     private int listed_anime_id;
     /*private Date start_date;
     private Date end_date;*/
+    private String watching_start;
+    private String watching_end;
     private ArrayList<RecordStub> alternative_versions;
     private ArrayList<RecordStub> character_anime;
     private ArrayList<RecordStub> prequels;
@@ -43,6 +45,8 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchedStatus(c.getString(columnNames.indexOf("myStatus")));
         result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")));
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
+        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
+        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
@@ -87,6 +91,22 @@ public class Anime extends GenericRecord implements Serializable {
 
     public void setWatchedEpisodes(int watched_episodes) {
         this.watched_episodes = watched_episodes;
+    }
+
+    public String getWatchingStart() {
+        return watching_start;
+    }
+
+    public void setWatchingStart(String watching_start) {
+        this.watching_start = watching_start;
+    }
+
+    public String getWatchingEnd() {
+        return watching_end;
+    }
+
+    public void setWatchingEnd(String watching_end) {
+        this.watching_end = watching_end;
     }
 
     public String getClassification() {

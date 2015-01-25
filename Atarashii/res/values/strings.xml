@@ -160,9 +160,13 @@
     <string name="card_name_personal">Personal</string>
     <string name="card_name_relations">Relations</string>
     <string name="card_name_titles">Alternative Titles</string>
+    <string name="card_name_basic">Basic</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
+    <string name="card_content_my_start">My Start Date</string>
+    <string name="card_content_my_end">My End Date</string>
+    <string name="card_content_none">None</string>
     <string name="card_content_chapters">Chapters</string>
     <string name="card_content_episodes">Episodes</string>
     <string name="card_content_status">Status</string>

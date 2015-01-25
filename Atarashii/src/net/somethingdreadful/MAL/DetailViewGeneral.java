@@ -165,6 +165,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         setMenu();
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
+            
             if (activity.isAdded()) {
                 status.setText(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
@@ -187,6 +188,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
         }
+        activity.hidePersonal(!activity.isAdded());
 
         if (record.getSynopsis() == null) {
             if (!MALApi.isNetworkAvailable(activity)) {

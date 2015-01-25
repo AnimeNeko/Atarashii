@@ -7,10 +7,12 @@ import android.support.v13.app.FragmentPagerAdapter;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.DetailViewDetails;
 import net.somethingdreadful.MAL.DetailViewGeneral;
+import net.somethingdreadful.MAL.DetailViewPersonal;
 import net.somethingdreadful.MAL.R;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     DetailView activity;
+    public int count = 3;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
@@ -24,6 +26,8 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
                 return new DetailViewGeneral();
             case 1:
                 return new DetailViewDetails();
+            case 2:
+                return new DetailViewPersonal();
             default:
                 return new DetailViewGeneral();
         }
@@ -31,7 +35,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return count;
     }
 
     @Override
@@ -41,6 +45,8 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
                 return activity.getString(R.string.tab_name_general);
             case 1:
                 return activity.getString(R.string.tab_name_details);
+            case 2:
+                return activity.getString(R.string.tab_name_personal);
             default:
                 return null;
         }
