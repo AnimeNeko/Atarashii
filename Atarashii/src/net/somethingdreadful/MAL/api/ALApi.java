@@ -1,8 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
+import android.net.Uri;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
@@ -23,10 +26,7 @@ import retrofit.converter.GsonConverter;
 
 public class ALApi {
     // Anilist
-    private static String clientId = "ratan12-cyl6a";
-    private static String redirectWebsite = "trigger.atarashiiapp";
     private static String anilistURL = "http://anilist.co/api";
-    private static String secretClientId = "fd0jk2y1KBqdaOa4ulsp";
     private static String accesToken;
 
     ALInterface service;
@@ -36,15 +36,20 @@ public class ALApi {
     }
 
     public static String getAnilistURL() {
-        return anilistURL + "/auth/authorize?grant_type=authorization_code&client_id=" + clientId + "&redirect_uri=" + redirectWebsite + "&response_type=code";
+        return anilistURL + "/auth/authorize?grant_type=authorization_code&client_id=" + BuildConfig.ANILIST_CLIENT_ID + "&redirect_uri=" + BuildConfig.ANILIST_CLIENT_REDIRECT_URI + "&response_type=code";
     }
 
     public static String getCode(String url) {
-        return url.replace("http://anilist.co/trigger.atarashiiapp?code=", "").replace("&state=", "");
+        try {
+            Uri uri = Uri.parse(url);
+            return uri.getQueryParameter("code");
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
     private void setupRESTService() {
-        if (accesToken == null &&  AccountService.getAccount() != null)
+        if (accesToken == null && AccountService.getAccount() != null)
             accesToken = AccountService.getAccesToken();
 
         Gson gson = new GsonBuilder()
@@ -65,14 +70,14 @@ public class ALApi {
         service = restAdapter.create(ALInterface.class);
     }
 
-    public OAuth getAuthCode(String code){
-        OAuth auth = service.getAuthCode("authorization_code", clientId, secretClientId, redirectWebsite, code);
+    public OAuth getAuthCode(String code) {
+        OAuth auth = service.getAuthCode("authorization_code", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, BuildConfig.ANILIST_CLIENT_REDIRECT_URI, code);
         accesToken = auth.access_token;
         setupRESTService();
         return auth;
     }
 
-    public Profile getCurrentUser(){
+    public Profile getCurrentUser() {
         return service.getCurrentUser();
     }
 
@@ -85,7 +90,7 @@ public class ALApi {
     }
 
     public void getAccesToken() {
-        OAuth auth = service.getAccesToken("refresh_token", clientId, secretClientId, AccountService.getRefreshToken());
+        OAuth auth = service.getAccesToken("refresh_token", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, AccountService.getRefreshToken());
         accesToken = AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
         setupRESTService();
     }

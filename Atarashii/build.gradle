@@ -53,6 +53,8 @@ android {
     }
 }
 
+apply from: 'local.gradle'
+
 repositories {
     maven { url 'http://download.crashlytics.com/maven' }
 }

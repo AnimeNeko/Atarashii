@@ -3,7 +3,6 @@ package net.somethingdreadful.MAL;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -39,8 +38,6 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
     TextView myanimelist;
     TextView anilist;
 
-    boolean loading = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,22 +60,17 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         anilist.setOnClickListener(this);
 
         webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                webview.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (url.contains("trigger.atarashiiapp?code")) {
-                    webview.stopLoading();
-                    if (!loading) {
-                        loading = true;
-                        MalUser = ALApi.getCode(url);
-                        tryConnection();
-                    }
+                String code = ALApi.getCode(url);
+                if (code != null) {
+                    MalUser = code;
+                    tryConnection();
+                    return true;
+                } else {
+                    return false;
                 }
             }
         });
