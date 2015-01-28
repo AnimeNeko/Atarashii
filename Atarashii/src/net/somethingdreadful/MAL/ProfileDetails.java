@@ -69,7 +69,9 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
         });
 
         activity.setDetails(this);
-        toggle(1);
+
+        if (activity.record == null)
+            toggle(1);
 
         NfcHelper.disableBeam(activity);
         return view;
@@ -270,6 +272,7 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
                             toggle(0);
                         }
                     });
+            toggle(0);
         }
     }
 

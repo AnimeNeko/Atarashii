@@ -43,12 +43,9 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         viewPager.setAdapter(pageAdapter);
 
         if (getIntent().getExtras().containsKey("user")) {
-            toggle(1);
             record = (User) getIntent().getExtras().get("user");
-            refresh();
         } else {
             refreshing(true);
-            toggle(1);
             new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
         }
 
@@ -152,10 +149,14 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
 
     public void setDetails(ProfileDetails details) {
         this.details = details;
+        if (record != null)
+            details.refresh();
     }
 
     public void setFriends(ProfileFriends friends) {
         this.friends = friends;
+        if (record != null)
+            friends.getRecords();
         if (getIntent().getExtras().containsKey("friends"))
             viewPager.setCurrentItem(1);
     }
