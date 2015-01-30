@@ -289,6 +289,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                     activity.mangaRecord.setDirty(true);
                 }
             }
+            activity.setText();
         }
     }
 

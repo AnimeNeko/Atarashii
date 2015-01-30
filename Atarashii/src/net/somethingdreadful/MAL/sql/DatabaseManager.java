@@ -222,6 +222,8 @@ public class DatabaseManager {
                 alcv.put("priority", anime.getPriority());
                 alcv.put("downloaded", anime.getEpsDownloaded());
                 alcv.put("rewatch", (anime.getRewatching() ? 1 : 0));
+                alcv.put("storage", anime.getStorage());
+                alcv.put("storageValue", anime.getStorageValue());
                 alcv.put("rewatchCount", anime.getRewatchCount());
                 alcv.put("rewatchValue", anime.getRewatchValue());
                 alcv.put("comments", anime.getPersonalComments());
@@ -247,7 +249,7 @@ public class DatabaseManager {
     public Anime getAnime(Integer id, String username) {
         Anime result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate, " +
-                " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.rewatchCount, al.rewatchValue, al.comments" +
+                " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
                 " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
                 " WHERE al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
@@ -344,12 +346,12 @@ public class DatabaseManager {
 
             if (listType.equals(Anime.STATUS_REWATCHING))
                 cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
                         " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
                         " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             else
                 cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
                         " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
                         " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {

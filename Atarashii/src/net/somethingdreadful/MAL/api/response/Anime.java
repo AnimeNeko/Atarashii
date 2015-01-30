@@ -39,7 +39,9 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("end_date") private String endDate;
     @Setter @Getter @SerializedName("watching_start") private String watchingStart;
     @Setter @Getter @SerializedName("watching_end") private String watchingEnd;
-    @Setter @Getter private boolean rewatching;
+    @Setter private boolean rewatching;
+    @Setter @Getter @SerializedName("storage_value") private int storageValue;
+    @Setter @Getter private int storage;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
     @Setter @Getter @SerializedName("character_anime") private ArrayList<RecordStub> characterAnime;
     @Setter @Getter private ArrayList<RecordStub> prequels;
@@ -107,6 +109,8 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")));
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
         result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
+        result.setStorage(c.getInt(columnNames.indexOf("storage")));
+        result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")));
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
@@ -151,6 +155,10 @@ public class Anime extends GenericRecord implements Serializable {
                 "Rx - Hentai"
         };
         return Arrays.asList(classification).indexOf(getClassification());
+    }
+
+    public boolean getRewatching() {
+        return rewatching;
     }
 
     public int getTypeInt() {

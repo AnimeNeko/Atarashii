@@ -127,6 +127,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "priority integer, "
             + "downloaded integer, "
             + "rewatch integer, "
+            + "storage integer, "
+            + "storageValue integer, "
             + "rewatchCount integer, "
             + "rewatchValue integer, "
             + "comments varchar, "
@@ -567,7 +569,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
-            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, watchedStart, dirty, lastUpdate) select * from temp_table;");
+            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, watchedStart, watchedEnd, dirty, lastUpdate) select * from temp_table;");
             db.execSQL("drop table temp_table;");
 
             // add new tables
