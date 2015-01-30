@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class ForumChildDialogFragment extends DialogFragment {
     ArrayList<Forum> child;
     String message;
+    public static boolean DBModificationRequest;
 
     @Override
     public AlertDialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class ForumChildDialogFragment extends DialogFragment {
         builder.setPositiveButton(child.get(0).getName(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                DBModificationRequest = !(child.get(0).getId() == 1 || child.get(0).getId() == 4);
                 ((ForumActivity) getActivity()).getSubBoard(child.get(0).getId());
                 dismiss();
             }
@@ -41,6 +43,7 @@ public class ForumChildDialogFragment extends DialogFragment {
         builder.setNeutralButton(child.get(1).getName(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                DBModificationRequest = !(child.get(1).getId() == 1 || child.get(1).getId() == 4);
                 ((ForumActivity) getActivity()).getSubBoard(child.get(1).getId());
                 dismiss();
             }
@@ -49,6 +52,7 @@ public class ForumChildDialogFragment extends DialogFragment {
             builder.setNegativeButton(child.get(2).getName(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    DBModificationRequest = !(child.get(2).getId() == 1 || child.get(2).getId() == 4);
                     ((ForumActivity) getActivity()).getSubBoard(child.get(2).getId());
                     dismiss();
                 }
