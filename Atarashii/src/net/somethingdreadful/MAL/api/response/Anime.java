@@ -26,8 +26,15 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
     @Setter @Getter private String classification;
     @Setter @Getter @SerializedName("listed_anime_id") private int listedId;
-    /*private Date start_date;
-    private Date end_date;*/
+    @Setter @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
+    @Setter @Getter @SerializedName("fansub_group") private String fansubGroup;
+    @Setter @Getter private int priority;
+    @Setter @Getter @SerializedName("eps_downloaded") private int epsDownloaded;
+    @Setter @Getter @SerializedName("rewatch_count") private int rewatchCount;
+    @Setter @Getter @SerializedName("rewatch_value") private int rewatchValue;
+    @Setter @Getter @SerializedName("personal_comments") private String personalComments;
+    @Setter @Getter @SerializedName("start_date") private String startDate;
+    @Setter @Getter @SerializedName("end_date") private String endDate;
     @Setter @Getter @SerializedName("watching_start") private String watchingStart;
     @Setter @Getter @SerializedName("watching_end") private String watchingEnd;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
@@ -39,6 +46,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("spin_offs") private ArrayList<RecordStub> spinOffs;
     @Setter @Getter @SerializedName("manga_adaptations") private ArrayList<RecordStub> mangaAdaptions;
     @Setter @Getter @SerializedName("parent_story") private RecordStub parentStory;
+    @Setter @Getter private ArrayList<RecordStub> other;
 
     // AniList
     public Anime anime;
@@ -106,6 +114,16 @@ public class Anime extends GenericRecord implements Serializable {
         result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
         result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
+        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
+        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
+        result.setFansubGroup(c.getString(columnNames.indexOf("fansub")));
+        result.setPriority(c.getInt(columnNames.indexOf("priority")));
+        result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")));
+        result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")));
+        result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")));
+        result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
+        result.setStartDate(c.getString(columnNames.indexOf("startDate")));
+        result.setEndDate(c.getString(columnNames.indexOf("endDate")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));
         result.setListedId(c.getInt(columnNames.indexOf("listedId")));
         Date lastUpdateDate;
