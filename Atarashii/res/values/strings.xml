@@ -185,6 +185,8 @@
     <string name="card_name_relations">Relations</string>
     <string name="card_name_titles">Alternative Titles</string>
     <string name="card_name_basic">Basic</string>
+    <string name="card_name_other">Other</string>
+    <string name="card_name_rewatch">Rewatch/Re-read</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
@@ -192,10 +194,19 @@
     <string name="card_content_my_end">My End Date</string>
     <string name="card_content_none">None</string>
     <string name="card_content_chapters">Chapters</string>
+    <string name="card_content_rewatch_priority">Rewatch Priority</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_storage">Storage</string>
+    <string name="card_content_storage_amount">Storage capacity (GB)</string>
+    <string name="card_content_downloaded">Downloaded</string>
+    <string name="card_content_count">Count</string>
     <string name="card_content_episodes">Episodes</string>
     <string name="card_content_status">Status</string>
     <string name="card_content_mal_score">Score</string>
     <string name="card_content_my_score">My Score</string>
+    <string name="card_content_my_priority">My Priority</string>
+    <string name="card_content_my_tags">My Tags</string>
+    <string name="card_content_comments">Comments</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
     <string name="card_content_aired">Aired</string>
@@ -453,6 +464,31 @@
         <item>R - 17+ (violence \u0026 profanity)</item>
         <item>R+ - Mild Nudity</item>
         <item>Rx - Hentai</item>
+    </string-array>
+
+    <string-array name="priorityArray">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+
+    <string-array name="priorityRewatchArray">
+        <item>None</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Very High</item>
+    </string-array>
+
+    <string-array name="storageArray">
+        <item>None</item>
+        <item>Hard Drive</item>
+        <item>DVD / CD</item>
+        <item>None</item>
+        <item>Retail DVD</item>
+        <item>VHS</item>
+        <item>External HD</item>
+        <item>NAS</item>
     </string-array>
 
     <string-array name="genresArray">
