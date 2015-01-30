@@ -123,6 +123,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "score integer, "
             + "watchedStart varchar, "
             + "watchedEnd varchar, "
+            + "fansub varchar, "
+            + "priority integer, "
+            + "downloaded integer, "
+            + "rewatchCount integer, "
+            + "rewatchValue integer, "
+            + "comments varchar, "
             + "dirty boolean DEFAULT false, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, anime_id)"
@@ -167,6 +173,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     public static final String RELATION_TYPE_PREQUEL = "7";
     public static final String RELATION_TYPE_SEQUEL = "8";
     public static final String RELATION_TYPE_PARENT_STORY = "9";
+    public static final String RELATION_TYPE_OTHER = "10";
 
     public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
     private static final String CREATE_ANIME_ANIME_RELATIONS_TABLE = "CREATE TABLE "
@@ -266,7 +273,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -517,6 +524,16 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("drop table " + TABLE_MANGALIST);
             db.execSQL(CREATE_MANGALIST_TABLE);
             db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
+            db.execSQL("drop table temp_table;");
+        }
+
+
+        if (oldVersion < 10) {
+            // update animelist table
+            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("drop table " + TABLE_ANIMELIST);
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, dirty, lastUpdate) select * from temp_table;");
             db.execSQL("drop table temp_table;");
         }
     }
