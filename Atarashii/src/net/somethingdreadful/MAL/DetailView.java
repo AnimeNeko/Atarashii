@@ -175,18 +175,28 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      */
     @Override
     public void onUpdated(int number, int id) {
-        if (number != animeRecord.getWatchedEpisodes()) {
-            if (number == animeRecord.getEpisodes()) {
-                animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            }
-            if (number == 0) {
-                animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
-            }
-
-            animeRecord.setWatchedEpisodes(number);
-            animeRecord.setDirty(true);
-            setText();
+        switch (id) {
+            case R.id.progress1:
+                if (number != animeRecord.getWatchedEpisodes()) {
+                    if (number == animeRecord.getEpisodes())
+                        animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                    if (number == 0)
+                        animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
+                    animeRecord.setWatchedEpisodes(number);
+                }
+                break;
+            case R.id.scorePanel:
+                animeRecord.setScore(number);
+                break;
+            case R.id.capacityPanel:
+                animeRecord.setStorageValue(number);
+                break;
+            case R.id.downloadPanel:
+                animeRecord.setEpsDownloaded(number);
+                break;
         }
+        animeRecord.setDirty(true);
+        setText();
     }
 
     /*

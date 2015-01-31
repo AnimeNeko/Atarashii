@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
-import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
@@ -187,7 +187,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     }
 
     private String nullCheckOf(int number) {
-        return "/" + (number == 0 ? "?" : Integer.toString(number));
+        return "/" + nullCheck(number);
     }
 
     private String getDate(String string) {
@@ -211,7 +211,12 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("statusPicker", new StatusPickerDialogFragment());
                 break;
             case R.id.progress1:
-                activity.showDialog("episodes", new EpisodesPickerDialogFragment());
+                Bundle args = new Bundle();
+                args.putInt("id", R.id.progress1);
+                args.putInt("current", activity.animeRecord.getWatchedEpisodes());
+                args.putInt("max", activity.animeRecord.getEpisodes());
+                args.putString("title", getString(R.string.dialog_title_watched_update));
+                activity.showDialog("episodes", new NumberPickerDialogFragment().setOnSendClickListener(activity), args);
                 break;
             case R.id.progress2:
                 activity.showDialog("manga", new MangaPickerDialogFragment());
@@ -225,46 +230,71 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 Bundle args2 = new Bundle();
                 args2.putBoolean("startDate", false);
                 activity.showDialog("endDate", new DatePickerDialogFragment(), args2);
+                break;
             case R.id.scorePanel:
+                Bundle args3 = new Bundle();
+                args3.putInt("id", R.id.scorePanel);
+                args3.putInt("current", activity.animeRecord.getScore());
+                args3.putInt("max", 10);
+                args3.putString("title", getString(R.string.dialog_title_rating));
+                activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
                 break;
             case R.id.priorityPanel:
                 break;
             case R.id.tagsPanel:
-                Bundle args3 = new Bundle();
-                args3.putBoolean("BBCode", false);
-                args3.putString("message", activity.animeRecord.getPersonalTagsString());
-                args3.putString("title", getString(R.string.dialog_title_tags));
-                args3.putString("hint", getString(R.string.dialog_hint_tags));
-                args3.putInt("id", R.id.tagsPanel);
-                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args3);
-                break;
-            case R.id.commentspanel:
-                Bundle args4 = new Bundle();
-                args4.putBoolean("BBCode", false);
-                args4.putString("message", activity.animeRecord.getPersonalComments());
-                args4.putString("title", getString(R.string.dialog_title_comment));
-                args4.putString("hint", getString(R.string.dialog_hint_comment));
-                args4.putInt("id", R.id.commentspanel);
-                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args4);
-                break;
-            case R.id.fansubPanel:
                 Bundle args5 = new Bundle();
                 args5.putBoolean("BBCode", false);
-                args5.putString("message", activity.animeRecord.getFansubGroup());
-                args5.putString("title", getString(R.string.dialog_title_fansub));
-                args5.putString("hint", getString(R.string.dialog_hint_fansub));
-                args5.putInt("id", R.id.fansubPanel);
+                args5.putString("message", activity.animeRecord.getPersonalTagsString());
+                args5.putString("title", getString(R.string.dialog_title_tags));
+                args5.putString("hint", getString(R.string.dialog_hint_tags));
+                args5.putInt("id", R.id.tagsPanel);
                 activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args5);
+                break;
+            case R.id.commentspanel:
+                Bundle args6 = new Bundle();
+                args6.putBoolean("BBCode", false);
+                args6.putString("message", activity.animeRecord.getPersonalComments());
+                args6.putString("title", getString(R.string.dialog_title_comment));
+                args6.putString("hint", getString(R.string.dialog_hint_comment));
+                args6.putInt("id", R.id.commentspanel);
+                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args6);
+                break;
+            case R.id.fansubPanel:
+                Bundle args7 = new Bundle();
+                args7.putBoolean("BBCode", false);
+                args7.putString("message", activity.animeRecord.getFansubGroup());
+                args7.putString("title", getString(R.string.dialog_title_fansub));
+                args7.putString("hint", getString(R.string.dialog_hint_fansub));
+                args7.putInt("id", R.id.fansubPanel);
+                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args7);
                 break;
             case R.id.storagePanel:
                 break;
             case R.id.capacityPanel:
+                Bundle args9 = new Bundle();
+                args9.putInt("id", R.id.capacityPanel);
+                args9.putInt("current", activity.animeRecord.getStorageValue());
+                args9.putInt("max", 10);
+                args9.putString("title", getString(R.string.dialog_title_storage_value));
+                activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args9);
                 break;
             case R.id.downloadPanel:
+                Bundle args10 = new Bundle();
+                args10.putInt("id", R.id.downloadPanel);
+                args10.putInt("current", activity.animeRecord.getEpsDownloaded());
+                args10.putInt("max", activity.animeRecord.getEpisodes());
+                args10.putString("title", getString(R.string.dialog_title_downloaded));
+                activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args10);
                 break;
             case R.id.rewatchPriorityPanel:
                 break;
             case R.id.countPanel:
+                Bundle args12 = new Bundle();
+                args12.putInt("id", R.id.countPanel);
+                args12.putInt("current", activity.animeRecord.getRewatchCount());
+                args12.putInt("max", 0); // will be set to 999 in the dialog
+                args12.putString("title", getString(R.string.dialog_title_rewatched_times));
+                activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args12);
                 break;
         }
     }

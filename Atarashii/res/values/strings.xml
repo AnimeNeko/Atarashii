@@ -45,6 +45,9 @@
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
     <string name="dialog_title_tags">My tags</string>
+    <string name="dialog_title_storage_value">Storage value</string>
+    <string name="dialog_title_downloaded">Episodes downloaded</string>
+    <string name="dialog_title_rewatched_times">Times rewatched</string>
     <string name="dialog_title_comment">My comments</string>
     <string name="dialog_title_fansub">My fansubgroup</string>
     <string name="dialog_title_share">Share</string>
