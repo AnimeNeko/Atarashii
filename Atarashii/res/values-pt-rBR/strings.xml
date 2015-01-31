@@ -46,6 +46,7 @@
     <string name="dialog_title_sync">Sincronização</string>
     <string name="dialog_title_id_search">Pesquisar pelo ID</string>
     <string name="dialog_title_update_password">Atualizar senha</string>
+    <string name="dialog_title_update_navigation">Atualizar fundo</string>
     <string name="dialog_message_view">Qual lista você quer ver?</string>
     <string name="dialog_message_logout">Tem certeza de que deseja sair? Isto irá apagar todos os dados e as imagens armazenadas.</string>
     <string name="dialog_message_id_search">Por favor, pressione o botão de Anime ou Mangá para pesquisar. Lembre-se que os IDs de Anime e Mangá não sao os mesmos!</string>
@@ -54,6 +55,7 @@
     <string name="dialog_message_Verifying">Verificando se a sua conta está OK. Espere um segundo.</string>
     <string name="dialog_message_update_password">Parece que sua senha foi alterada. Por favor, digite a nova abaixo.</string>
     <string name="dialog_message_new_password_wrong">A nova senha que você digitou está errada.</string>
+    <string name="dialog_message_update_navigation">Coloque a URL da imagem abaixo.</string>
     <string name="dialog_label_cancel">Cancelar</string>
     <string name="dialog_label_update">Atualizar</string>
     <string name="dialog_label_anime">Anime</string>
@@ -145,8 +147,12 @@
     <string name="card_name_personal">Pessoal</string>
     <string name="card_name_relations">Relações</string>
     <string name="card_name_titles">Títulos alternativos</string>
+    <string name="card_name_basic">Básico</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
+    <string name="card_content_my_start">Minha data inicial</string>
+    <string name="card_content_my_end">Minha data final</string>
+    <string name="card_content_none">Nenhum</string>
     <string name="card_content_chapters">Capítulos</string>
     <string name="card_content_episodes">Episódios</string>
     <string name="card_content_status">Estado</string>

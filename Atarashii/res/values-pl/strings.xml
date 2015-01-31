@@ -46,6 +46,7 @@
     <string name="dialog_title_sync">Synchronizacja</string>
     <string name="dialog_title_id_search">Wyszukiwanie po ID</string>
     <string name="dialog_title_update_password">Aktualizuj hasło</string>
+    <string name="dialog_title_update_navigation">Zmień tło</string>
     <string name="dialog_message_view">Którą listę chcesz wyświetlić?</string>
     <string name="dialog_message_logout">Czy na pewno chcesz się wylogować? Spowoduje to usunięcie wszystkich zapisanych danych i obrazów.</string>
     <string name="dialog_message_id_search">Proszę nacisnąć na przycisk Anime lub Manga aby szukać. Pamiętaj, że identyfikatory (ID) anime albo mangi nie są takie same!</string>
@@ -54,6 +55,7 @@
     <string name="dialog_message_Verifying">Upewniam się, że konto jest OK. Wytrzymaj przez chwilę.</string>
     <string name="dialog_message_update_password">Wygląda na to że twoje hasło się zmieniło. Proszę wprowadzić nowe poniżej.</string>
     <string name="dialog_message_new_password_wrong">Nowe hasło które wprowadziłeś jest błędne.</string>
+    <string name="dialog_message_update_navigation">Wpisz poniżej adres URL obrazu.</string>
     <string name="dialog_label_cancel">Anuluj</string>
     <string name="dialog_label_update">Aktualizuj</string>
     <string name="dialog_label_anime">Anime</string>
@@ -145,8 +147,12 @@
     <string name="card_name_personal">Osobiste</string>
     <string name="card_name_relations">Relacje</string>
     <string name="card_name_titles">Alternatywne tytuły</string>
+    <string name="card_name_basic">Podstawowy</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Tomy</string>
+    <string name="card_content_my_start">Moja data rozpoczęcia</string>
+    <string name="card_content_my_end">Moja data zakończenia</string>
+    <string name="card_content_none">Żaden</string>
     <string name="card_content_chapters">Rozdziały</string>
     <string name="card_content_episodes">Odcinki</string>
     <string name="card_content_status">Status</string>
