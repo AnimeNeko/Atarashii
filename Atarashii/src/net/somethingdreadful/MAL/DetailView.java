@@ -30,6 +30,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
@@ -44,7 +45,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -172,16 +173,17 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     /*
      * Episode picker dialog
      */
-    public void onDialogDismissed(int newValue) {
-        if (newValue != animeRecord.getWatchedEpisodes()) {
-            if (newValue == animeRecord.getEpisodes()) {
+    @Override
+    public void onUpdated(int number, int id) {
+        if (number != animeRecord.getWatchedEpisodes()) {
+            if (number == animeRecord.getEpisodes()) {
                 animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             }
-            if (newValue == 0) {
+            if (number == 0) {
                 animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
             }
 
-            animeRecord.setWatchedEpisodes(newValue);
+            animeRecord.setWatchedEpisodes(number);
             animeRecord.setDirty(true);
             setText();
         }
