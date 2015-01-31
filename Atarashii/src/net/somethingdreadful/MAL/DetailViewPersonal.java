@@ -17,13 +17,11 @@ import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-import retrofit.http.HEAD;
-
-public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
+public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener, MessageDialogFragment.onSendClickListener {
     public SwipeRefreshLayout swipeRefresh;
 
     DetailView activity;
@@ -163,7 +161,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         myStartDate.setText(getDate(activity.animeRecord.getStartDate()));
         myEndDate.setText(getDate(activity.animeRecord.getEndDate()));
         myPriority.setText(getString(R.array.priorityArray, activity.animeRecord.getPriority()));
-        myTags.setText(activity.animeRecord.getTags() != null ? TextUtils.join(", ", activity.animeRecord.getTags()) : getString(R.string.card_content_none));
+        myTags.setText(activity.animeRecord.getTags() != null && activity.animeRecord.getTags().size() > 0 ? TextUtils.join(", ", activity.animeRecord.getTags()) : getString(R.string.card_content_none));
         comments.setText(nullCheck(activity.animeRecord.getPersonalComments()));
 
         fansubs.setText(nullCheck(activity.animeRecord.getFansubGroup()));
@@ -234,13 +232,29 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             case R.id.tagsPanel:
                 Bundle args3 = new Bundle();
                 args3.putBoolean("BBCode", false);
-                args3.putString("message", TextUtils.join(", ", activity.animeRecord.getTags() != null ? activity.animeRecord.getTags() : new ArrayList()));
-                args3.putString("title", "test");
-                activity.showDialog("tags", new MessageDialogFragment(), args3);
+                args3.putString("message", activity.animeRecord.getPersonalTagsString());
+                args3.putString("title", getString(R.string.dialog_title_tags));
+                args3.putString("hint", getString(R.string.dialog_hint_tags));
+                args3.putInt("id", R.id.tagsPanel);
+                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args3);
                 break;
             case R.id.commentspanel:
+                Bundle args4 = new Bundle();
+                args4.putBoolean("BBCode", false);
+                args4.putString("message", activity.animeRecord.getPersonalComments());
+                args4.putString("title", getString(R.string.dialog_title_comment));
+                args4.putString("hint", getString(R.string.dialog_hint_comment));
+                args4.putInt("id", R.id.commentspanel);
+                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args4);
                 break;
             case R.id.fansubPanel:
+                Bundle args5 = new Bundle();
+                args5.putBoolean("BBCode", false);
+                args5.putString("message", activity.animeRecord.getFansubGroup());
+                args5.putString("title", getString(R.string.dialog_title_fansub));
+                args5.putString("hint", getString(R.string.dialog_hint_fansub));
+                args5.putInt("id", R.id.fansubPanel);
+                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args5);
                 break;
             case R.id.storagePanel:
                 break;
@@ -253,5 +267,22 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             case R.id.countPanel:
                 break;
         }
+    }
+
+    @Override
+    public void onSendClicked(String message, String subject, ForumJob task, int id) {
+        switch (id) {
+            case R.id.tagsPanel:
+                activity.animeRecord.setPersonalTags(message);
+                break;
+            case R.id.commentspanel:
+                activity.animeRecord.setPersonalComments(message);
+                break;
+            case R.id.fansubPanel:
+                activity.animeRecord.setFansubGroup(message);
+                break;
+        }
+        activity.animeRecord.setDirty(true);
+        setText();
     }
 }

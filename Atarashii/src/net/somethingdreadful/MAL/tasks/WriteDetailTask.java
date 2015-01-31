@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -61,6 +63,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
             error = true;
         } catch (Exception e) {
             Log.e("MALX", "error on response WriteDetailTask: " + e.getMessage());
+            Crashlytics.logException(e);
             error = true;
         }
 

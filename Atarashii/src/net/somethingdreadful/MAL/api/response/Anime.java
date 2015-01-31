@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,6 +10,7 @@ import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
     @Setter @Getter private String classification;
     @Setter @Getter @SerializedName("listed_anime_id") private int listedId;
-    @Setter @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
+    @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
     @Setter @Getter @SerializedName("fansub_group") private String fansubGroup;
     @Setter @Getter private int priority;
     @Setter @Getter private ArrayList<String> producers;
@@ -180,6 +182,20 @@ public class Anime extends GenericRecord implements Serializable {
                 "not yet aired"
         };
         return Arrays.asList(status).indexOf(getStatus());
+    }
+
+    public void setPersonalTags(String tag) {
+        ArrayList<String> tags = new ArrayList<String>();
+        Collections.addAll(tags, TextUtils.split(tag, ","));
+        setPersonalTags(tags);
+    }
+
+    public void setPersonalTags(ArrayList<String> tags) {
+        personalTags = tags;
+    }
+
+    public String getPersonalTagsString() {
+        return getTags() != null ? TextUtils.join(",", getTags()) : "";
     }
 
     public int getWatchedStatusInt() {

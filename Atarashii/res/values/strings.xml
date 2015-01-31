@@ -44,6 +44,9 @@
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
+    <string name="dialog_title_tags">My tags</string>
+    <string name="dialog_title_comment">My comments</string>
+    <string name="dialog_title_fansub">My fansubgroup</string>
     <string name="dialog_title_share">Share</string>
     <string name="dialog_title_share_via">Share via</string>
     <string name="dialog_title_Verifying">Verifying</string>
@@ -59,6 +62,9 @@
     <string name="dialog_title_id_search">ID search</string>
     <string name="dialog_title_update_password">Update password</string>
     <string name="dialog_title_update_navigation">Update background</string>
+    <string name="dialog_hint_tags">Separate your tags with a comma</string>
+    <string name="dialog_hint_comment">Enter you comment</string>
+    <string name="dialog_hint_fansub">Enter you fansubgroup</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_id_search">Please press on the Anime or Manga button to search. Remember that Anime and Manga IDs aren\'t the same!</string>
