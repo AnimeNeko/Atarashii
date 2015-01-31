@@ -57,15 +57,15 @@
         android:layout_marginTop="8dp"
         android:hint="@string/form_hint_message"
         android:inputType="textMultiLine"
-        android:textSize="14sp"
-        android:layout_above="@+id/dialog_message_bar" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:id="@+id/dialog_message_bar"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/dialog_message_message">
 
         <ImageView
             android:id="@+id/dialog_message_bold"
@@ -134,14 +134,14 @@
         android:id="@+id/dialog_message_send"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_alignEnd="@+id/dialog_message_message"
-        android:layout_alignRight="@+id/dialog_message_message"
         android:layout_alignTop="@+id/dialog_message_bar"
         android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         android:text="@string/dialog_label_send"
         android:background="@drawable/highlite_friendlist"
-        android:textColor="@color/primary" />
+        android:textColor="@color/primary"
+        android:layout_alignRight="@+id/dialog_message_close"
+        android:layout_alignEnd="@+id/dialog_message_close" />
 
 </RelativeLayout>

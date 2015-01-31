@@ -4,27 +4,27 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.ForumJob;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
-public class MessageDialogFragment extends DialogFragment implements View.OnClickListener, ForumNetworkTaskFinishedListener {
+public class MessageDialogFragment extends DialogFragment implements View.OnClickListener {
 
-    EditText title;
+    EditText subject;
     EditText message;
     TextView header;
     ForumJob task;
     int id;
+    View view;
+    onSendClickListener callback;
+    TextView send;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,47 +33,75 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         builder.setView(setView(inflater.inflate(R.layout.dialog_message, null)));
 
         task = (ForumJob) getArguments().getSerializable("task");
-        if (task == ForumJob.ADDTOPIC)
-            title.setVisibility(View.VISIBLE);
-        else
-            title.setVisibility(View.GONE);
-
-        if (task == ForumJob.UPDATECOMMENT)
-            header.setText(getString(R.string.dialog_title_edit_comment));
-        else if (task == ForumJob.ADDTOPIC)
-            header.setText(getString(R.string.dialog_title_add_topic));
-        else
-            header.setText(getString(R.string.dialog_title_add_comment));
-
-        String message = getArguments().getString("message");
-        if (message != null)
-            this.message.setText((new HtmlUtil(getActivity())).convertComment(message));
-
+        String hint = getArguments().getString("hint", null);
+        String message = getArguments().getString("message", null);
+        String title = getArguments().getString("title", null);
         id = getArguments().getInt("id");
 
+        subject.setVisibility(task == ForumJob.ADDTOPIC ? View.VISIBLE : View.GONE);
+        setHeader(title);
+        setClickListener();
+
+        if (task == null)
+            send.setText(getString(R.string.dialog_label_update));
+        if (message != null)
+            this.message.setText((new HtmlUtil(getActivity())).convertComment(message));
+        if (hint != null)
+            this.message.setHint(hint);
+
         Dialog dialog = builder.create();
+        DisplayMetrics dm = new DisplayMetrics();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        this.message.setMaxHeight(dm.heightPixels / 3); //fill only 30% of the screen with the message
 
         return dialog;
     }
 
-    private View setView(View view) {
-        view.findViewById(R.id.dialog_message_close).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_bold).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_italic).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_underlined).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_striped).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_spoiler).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_center).setOnClickListener(this);
-        view.findViewById(R.id.dialog_message_send).setOnClickListener(this);
+    /**
+     * Changes the header title depending on the arguments and parameters.
+     *
+     * @param title The title (can be null)
+     */
+    private void setHeader(String title) {
+        if (title != null)
+            header.setText(title);
+        else
+            switch (task) {
+                case UPDATECOMMENT:
+                    header.setText(getString(R.string.dialog_title_edit_comment));
+                    break;
+                case ADDTOPIC:
+                    header.setText(getString(R.string.dialog_title_add_topic));
+                    break;
+                default:
+                    header.setText(getString(R.string.dialog_title_add_comment));
+                    break;
+            }
+    }
 
+    /**
+     * Set all the required variables.
+     *
+     * @param view The parent view
+     * @return View The view to make init simple
+     */
+    private View setView(View view) {
         header = (TextView) view.findViewById(R.id.dialog_message_header);
-        title = (EditText) view.findViewById(R.id.dialog_message_title);
+        send = (TextView) view.findViewById(R.id.dialog_message_send);
+        subject = (EditText) view.findViewById(R.id.dialog_message_title);
         message = (EditText) view.findViewById(R.id.dialog_message_message);
 
+        this.view = view;
         return view;
     }
 
+    /**
+     * This will insert a BBCode in the message field.
+     * note: It also changes the cursor position
+     *
+     * @param BBCode The BBCode string that should be in the message field
+     */
     private void insert(String BBCode) {
         int curPos = message.getSelectionStart();
         String str = message.getText().toString();
@@ -83,6 +111,27 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         message.setSelection(curPos + ((BBCode.length() - 1) / 2));
     }
 
+    /**
+     * Add all the onClickListener events.
+     */
+    private void setClickListener() {
+        if (getArguments().getBoolean("BBCode", true)) {
+            view.findViewById(R.id.dialog_message_bold).setOnClickListener(this);
+            view.findViewById(R.id.dialog_message_italic).setOnClickListener(this);
+            view.findViewById(R.id.dialog_message_underlined).setOnClickListener(this);
+            view.findViewById(R.id.dialog_message_striped).setOnClickListener(this);
+            view.findViewById(R.id.dialog_message_spoiler).setOnClickListener(this);
+            view.findViewById(R.id.dialog_message_center).setOnClickListener(this);
+        }
+        view.findViewById(R.id.dialog_message_close).setOnClickListener(this);
+        send.setOnClickListener(this);
+    }
+
+    /**
+     * Handle all the click events.
+     *
+     * @param v The view that has been clicked
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -109,30 +158,40 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
                 insert("[center][/center]");
                 break;
             case R.id.dialog_message_send:
-                title.clearFocus();
+                subject.clearFocus();
                 message.clearFocus();
-                if (task == ForumJob.ADDTOPIC && !message.getText().toString().equals("") && !title.getText().toString().equals(""))
-                    new ForumNetworkTask(getActivity(), this, task, id).execute(title.getText().toString(), message.getText().toString());
-                else if (!message.getText().toString().equals(""))
-                    new ForumNetworkTask(getActivity(), this, task, id).execute(message.getText().toString());
-                message.setEnabled(false);
-                title.setEnabled(false);
+                if (message.getText().toString() != null && !message.getText().toString().equals(""))
+                    callback.onSendClicked(message.getText().toString(), subject.getText().toString(), task, id);
+                dismiss();
                 break;
         }
     }
 
+    /**
+     * The interface for callback
+     */
+    public interface onSendClickListener {
+        public void onSendClicked(String message, String subject, ForumJob task, int id);
+    }
+
+    /**
+     * Set the Callback for update/send purpose.
+     *
+     * @param callback The activity/fragment where the callback is located
+     * @return MessageDialogFragment This will return the dialog itself to make init simple
+     */
+    public MessageDialogFragment setOnSendClickListener(onSendClickListener callback) {
+        this.callback = callback;
+        return this;
+    }
+
+    /**
+     * This will let the dialog remain on the sceen after an orientation.
+     */
     @Override
     public void onDestroyView() {
         if (getDialog() != null && getRetainInstance())
             getDialog().setDismissMessage(null);
         super.onDestroyView();
-    }
-
-    @Override
-    public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
-        message.setEnabled(true);
-        title.setEnabled(true);
-        dismiss();
-        ((ForumActivity) getActivity()).refresh();
     }
 }

@@ -15,22 +15,25 @@ import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumsMain;
 import net.somethingdreadful.MAL.forum.ForumsPosts;
 import net.somethingdreadful.MAL.forum.ForumsTopics;
 import net.somethingdreadful.MAL.tasks.ForumJob;
+import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
+import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
-public class ForumActivity extends ActionBarActivity {
+public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener {
 
     public ForumsMain main;
     public ForumsTopics topics;
     public ForumsPosts posts;
     public boolean discussion = false;
+    public ForumJob task = ForumJob.BOARD;
     FragmentManager manager;
     ViewFlipper viewFlipper;
-    public ForumJob task = ForumJob.BOARD;
     MenuItem search;
     Menu menu;
 
@@ -106,12 +109,12 @@ public class ForumActivity extends ActionBarActivity {
     /**
      * Create the edithor dialog.
      *
-     * @param id The comment id
+     * @param id      The comment id
      * @param message The comment text
-     * @param task The task to peform
+     * @param task    The task to peform
      */
     public void getComments(int id, String message, ForumJob task) {
-        MessageDialogFragment info = new MessageDialogFragment();
+        MessageDialogFragment info = new MessageDialogFragment().setOnSendClickListener(this);
         Bundle args = new Bundle();
         args.putInt("id", id);
         args.putString("message", message);
@@ -278,5 +281,18 @@ public class ForumActivity extends ActionBarActivity {
                 return Uri.parse("http://myanimelist.net/forum/?topicid=" + posts.id);
         }
         return null;
+    }
+
+    @Override
+    public void onSendClicked(String message, String subject, ForumJob task, int id) {
+        if (task == ForumJob.ADDTOPIC && !message.equals("") && !subject.equals(""))
+            new ForumNetworkTask(this, this, task, id).execute(subject, message);
+        else if (!message.equals(""))
+            new ForumNetworkTask(this, this, task, id).execute(message);
+    }
+
+    @Override
+    public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
+        refresh();
     }
 }
