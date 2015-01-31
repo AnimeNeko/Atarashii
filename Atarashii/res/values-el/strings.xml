@@ -46,6 +46,7 @@
     <string name="dialog_title_sync">Συγχρονισμός</string>
     <string name="dialog_title_id_search">Αναζήτηση με ID</string>
     <string name="dialog_title_update_password">Αλλαγή κωδικού</string>
+    <string name="dialog_title_update_navigation">Ανανέωση φόντου</string>
     <string name="dialog_message_view">Ποια λίστα θέλετε να δείτε;</string>
     <string name="dialog_message_logout">Είστε σίγουροι πως θέλετε να βγείτε; Αυτό θα έχει ως αποτέλεσμα να διαγραφούν όλα τα αποθηκευμένα δεδομένα και εικόνες.</string>
     <string name="dialog_message_id_search">Παρακαλώ πατήστε πάνω στο κουμπί Manga ή Anime για αναζήτηση. Να θυμάστε ότι τα ID των Manga και των Anime δεν είναι ίδια!</string>
@@ -54,6 +55,7 @@
     <string name="dialog_message_Verifying">Διασφάλιση ότι ο λογαριασμός σας είναι εντάξει. Περιμένετε λίγα δευτερόλεπτα.</string>
     <string name="dialog_message_update_password">Φαίνεται πως ο κωδικός σας έχει αλλάξει. Παρακαλώ εισάγετε τον καινούργιο.</string>
     <string name="dialog_message_new_password_wrong">Ο νέος κωδικός που εισάχθηκε είναι λάθος.</string>
+    <string name="dialog_message_update_navigation">Εισαγωγή του συνδέσμου της εικόνας παρακάτω.</string>
     <string name="dialog_label_cancel">Άκυρο</string>
     <string name="dialog_label_update">Αναβάθμιση</string>
     <string name="dialog_label_anime">Anime</string>
@@ -145,8 +147,12 @@
     <string name="card_name_personal">Προσωπικό</string>
     <string name="card_name_relations">Σχέσεις</string>
     <string name="card_name_titles">Εναλλακτικοί Τίτλοι</string>
+    <string name="card_name_basic">Βασικό</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Τόμοι</string>
+    <string name="card_content_my_start">Ημέρα εκκίνησης</string>
+    <string name="card_content_my_end">Ημέρα περάτωσης</string>
+    <string name="card_content_none">Κανένα</string>
     <string name="card_content_chapters">Κεφάλαια</string>
     <string name="card_content_episodes">Επεισόδια</string>
     <string name="card_content_status">Κατάσταση</string>
@@ -255,6 +261,8 @@
     <string name="contributor_dsko_summary">Τροποποίησε το Retrofit για χειρισμό του API</string>
     <string name="contributor_ratan12_summary">Διαχείρηση των μεταφράσεων, δημιουργία νέων χαρακτηριστικών και εργασία πάνω στο περιβάλλον χρήσης.</string>
     <string name="translations">Το Atarashii! υποστηρήζει διαφορετικές γλώσσες από την έκδοση 1.4 και μετά! Ο καθένας μπορεί <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">να βοηθήσει</a> στην μετάφραση της εφαρμογής.</string>
+    <string name="translations_notListed">Η γλώσσα μου δεν είναι διαθέσιμη στο OneSkyApp...</string>
+    <string name="translations_notListed_summary">Αν η γλώσσα σου δεν είναι διαθέσιμη τότε σας προτείνουμε να ρωτήσετε τον Ratan Dhawtal να την προσθέσει ή αφήστε ένα σχόλιο σε αυτή τη <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">Google+ δημοσίευση</a>. Θα την προσθέσουμε όσο πιο άμεσα γίνεται και θα σας ενημερώσουμε.</string>
     <string name="translations_notApproved">Γιατί οι μεταφράσεις μου δεν έχουμε ακόμη εγκριθεί;</string>
     <string name="translations_notApproved_summary">Πιθανότατα ο υπεύθυνος είναι απασχολημένος με την ανάπτυξη της εφαρμογής. Μπορείτε να στείλειτε μία υπενθύμιση στον προγραμματιστή, ένα μήνα μετά, απλά μην στείλετε πολλές.</string>
     <string name="customShareText_fromAtarashii">\n\nΚοινοποιημένο από το Atarashii! - Modern MAL for Android</string>

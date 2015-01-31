@@ -32,6 +32,7 @@
     <string name="toast_error_nothingFound">No se encontraron resultados de anime o manga. Una de dos: o la API está rota o no ha escrito  la búsqueda correctamente.</string>
     <string name="toast_info_SyncMessage">Sincronizando todo. Esto podría tomar unos pocos segundos, dependiendo de la velocidad de su conexión.</string>
     <string name="toast_info_Copied">¡Se ha copiado con éxito el título al portapapeles!</string>
+    <string name="toast_info_hold_on">¡Espera un segundo, todavía estamos cargando algo de información!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Vista</string>
     <string name="dialog_title_share">Compartir</string>
@@ -143,6 +144,7 @@
     <string name="card_name_rating">Valoración</string>
     <string name="card_name_personal">Personal</string>
     <string name="card_name_relations">Relaciones</string>
+    <string name="card_name_titles">Títulos alternativos</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Tomos</string>
     <string name="card_content_chapters">Capítulos</string>
@@ -170,10 +172,17 @@
     <string name="card_content_character">Personaje</string>
     <string name="card_content_related">Relacionado</string>
     <string name="card_content_parentstory">Historia principal</string>
+    <string name="card_content_japanese">Japonés</string>
+    <string name="card_content_english">Inglés</string>
+    <string name="card_content_synonyms">Sinónimos</string>
+    <string name="card_offline_error">No hay conexión de red disponible.</string>
+    <string name="card_offline_button_caption">Intentar de nuevo</string>
+    <string name="card_offline_title">¡Estás fuera de línea!</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Vista detallada en MyAnimeList</string>
     <string name="action_Share">Compartir</string>
     <string name="action_Remove">Eliminar de la lista</string>
+    <string name="action_Copy">Copiar título</string>
     <string name="action_AddToList">Añadir a la lista</string>
     <!-- DetailView (Media info) Strings -->
     <string-array name="mediaType_Anime">
@@ -235,12 +244,21 @@
     <string name="search_prompt">Búsqueda en MAL</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Mayores Colaboradores</string>
+    <string name="acknowledgements_card_title">Información</string>
     <string name="community_card_title">Comunidad de Atarashii</string>
+    <string name="translations_card_title">Traducciones</string>
+    <string name="acknowledgements">Atarashii! fué puesto en marcha por Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> por Square Inc. y <a href="https://code.google.com/p/google-gson/">google-gson</a> por Google Inc. que es utilizado por Retrofit, todos los cuales están bajo la <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> licencia.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Cómo podemos usar tus datos</a>.</string>
     <string name="app_description">Atarashii! Es la mejor forma de accesar MyAnimeList desde tu celular. Cuenta con una hermosa y moderna interfaz para Android junto con toda la funcionalidad que podrías pedir.</string>
     <string name="contributor_anima_summary">\"¡Todas las otras aplicaciones apestan!\" \n\nFundador y programador principal. Cansado de todas las otras aplicaciones con una interfaz muy mala y por lo general con mal mantenimiento, fue y creó esta aplicación.</string>
     <string name="contributor_motokochan_summary">Se enfoca en limpieza de código e implementación de pequeñas funciones. Trabajó en extender la aplicación para el soporte de manga.</string>
     <string name="contributor_apkawa_summary">Implementó la función de búsqueda.</string>
     <string name="contributor_dsko_summary">Implementó retrofit para el manejo de la API.</string>
+    <string name="contributor_ratan12_summary">La gestión de todas las traducciones, la creación de nuevas características y trabajando en la interfaz de usuario.</string>
+    <string name="translations">Atarashii! comenzó a utilizar diferentes idiomas desde la versión 1.4! Cualquiera puede <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217"> Unirse al proyecto de traducción</a> para contribuir.</string>
+    <string name="translations_notListed">¿Mi idioma no está en la lista de oneskyapp?</string>
+    <string name="translations_notListed_summary">Si su idioma no está en la lista le recomendamos preguntar a Ratan Dhawtal para habilitar o añadir un comentario en <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">este post de Google+</a>. Vamos a añadirlo lo antes posible y a responder para notificarte.</string>
+    <string name="translations_notApproved">¿Por qué mis partes traducidas aún no han sido aprobadas?</string>
+    <string name="translations_notApproved_summary">Probablemente el programador  está bastante ocupado con el desarrollo de la aplicación. Puedes enviar el desarrollo, y después de un mes, puedes enviar un recordatorio, tampoco envíes demasiados de ellos.</string>
     <string name="customShareText_fromAtarashii">\n\nCompartido desde Atarashii! - MAL moderno para Android</string>
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">¡Únete a nuestra comunidad!</a>La comunidad de Atarashii en Google+ es un gran lugar para interactuar con los creadores y dejarnos saber lo que piensas. Problemas, implementaciones, estado de actualizaciones, está todo ahí. No mordemos, lo prometo.</string>
     <!-- Preferences (contents) Strings -->
@@ -256,6 +274,7 @@
     <string name="preference_displayVolumes">Usar tomos en las cubiertas</string>
     <string name="preference_autosync">Intervalo de auto-sincronización</string>
     <string name="preference_language">Cambiar el idioma a</string>
+    <string name="preference_category_language_title">Idioma</string>
     <string name="preference_title_language">Cambiar el idioma</string>
     <string name="preference_profileTextColors">Deshabilitar colores de texto</string>
     <string name="preference_profileAnimeHide">Ocultar siempre detalles de anime</string>

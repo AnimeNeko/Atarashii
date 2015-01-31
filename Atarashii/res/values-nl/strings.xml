@@ -46,6 +46,7 @@
     <string name="dialog_title_sync">Synchronisatie</string>
     <string name="dialog_title_id_search">Zoeken op ID</string>
     <string name="dialog_title_update_password">Wachtwoord bijwerken</string>
+    <string name="dialog_title_update_navigation">Verander achtergrond</string>
     <string name="dialog_message_view">Welke lijst wil je bekijken?</string>
     <string name="dialog_message_logout">Weet je zeker dat je wilt uitloggen? Dit zal alle opgeslagen data en foto\'s verwijderen.</string>
     <string name="dialog_message_id_search">Druk op de knop Anime of Manga om te zoeken. Onthou dat Anime- en Manga-ID\'s niet hetzelfde zijn!</string>
@@ -54,6 +55,7 @@
     <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblikje...</string>
     <string name="dialog_message_update_password">Het lijkt erop dat je wachtwoord gewijzigd werd. Vul a.u.b. het nieuwe hieronder in.</string>
     <string name="dialog_message_new_password_wrong">Het nieuwe wachtwoord dat je ingaf is verkeerd.</string>
+    <string name="dialog_message_update_navigation">Voer de URL van de afbeelding hieronder.</string>
     <string name="dialog_label_cancel">Annuleren</string>
     <string name="dialog_label_update">Bijwerken</string>
     <string name="dialog_label_anime">Anime</string>
@@ -145,8 +147,12 @@
     <string name="card_name_personal">Persoonlijk</string>
     <string name="card_name_relations">Geretaleerd</string>
     <string name="card_name_titles">Alternatieve Titels</string>
+    <string name="card_name_basic">Basis</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
+    <string name="card_content_my_start">Mijn startdatum</string>
+    <string name="card_content_my_end">Mijn einddatum</string>
+    <string name="card_content_none">Geen</string>
     <string name="card_content_chapters">Hoofdstukken</string>
     <string name="card_content_episodes">Afleveringen</string>
     <string name="card_content_status">Status</string>

@@ -32,6 +32,7 @@
     <string name="toast_error_nothingFound">Keine Anime- oder Manga-Einträge gefunden. Entweder die API ist defekt oder Du kannst nicht buchstabieren.</string>
     <string name="toast_info_SyncMessage">Sychronisiere alles. Das könnte ein oder zwei Sekunden dauern, abhängig von Deiner Internetgeschwindigkeit.</string>
     <string name="toast_info_Copied">Der Titel wurde erfolgreich in die Zwischenablage kopiert!</string>
+    <string name="toast_info_hold_on">Warte einen Moment, wir laden noch einige Informationen!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Ansicht</string>
     <string name="dialog_title_share">Teilen</string>
@@ -45,6 +46,7 @@
     <string name="dialog_title_sync">Synchronisation</string>
     <string name="dialog_title_id_search">ID Suche</string>
     <string name="dialog_title_update_password">Passwort aktualisieren</string>
+    <string name="dialog_title_update_navigation">Hintergrund aktualisieren</string>
     <string name="dialog_message_view">Welche Liste möchtest Du ansehen?</string>
     <string name="dialog_message_logout">Bist Du sicher, dass Du Dich abmelden möchtest? Das wird alle gespeicherten Daten und Bilder löschen.</string>
     <string name="dialog_message_id_search">Bitte tippe zum Suchen auf den Anime- oder Manga-Knopf. Denke daran das Anime- und Manga-IDs nicht das gleiche sind!</string>
@@ -53,6 +55,7 @@
     <string name="dialog_message_Verifying">Stelle sicher das Dein Account OK ist. Bitte warte einen Moment.</string>
     <string name="dialog_message_update_password">Es sieht so aus als hätte sich Dein Passwort geändert. Bitte gib das neue Passwort unten ein.</string>
     <string name="dialog_message_new_password_wrong">Das neue Passwort das Du eingegeben hast ist falsch.</string>
+    <string name="dialog_message_update_navigation">Gib die URL zum Bild unten ein.</string>
     <string name="dialog_label_cancel">Abbrechen</string>
     <string name="dialog_label_update">Aktualisieren</string>
     <string name="dialog_label_anime">Anime</string>
@@ -144,8 +147,12 @@
     <string name="card_name_personal">Persönlich</string>
     <string name="card_name_relations">Relationen</string>
     <string name="card_name_titles">Alternative Titel</string>
+    <string name="card_name_basic">Allgemein</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Bände</string>
+    <string name="card_content_my_start">Mein Startdatum</string>
+    <string name="card_content_my_end">Mein Enddatum</string>
+    <string name="card_content_none">Kein</string>
     <string name="card_content_chapters">Kapitel</string>
     <string name="card_content_episodes">Episoden</string>
     <string name="card_content_status">Status</string>
@@ -226,7 +233,7 @@
     <!-- Anime/Manga progress status strings -->
         <item>Abgebrochen</item>
     <!-- Anime/Manga progress status strings -->
-        <item>Sehe ich aktuell</item>
+        <item>Schaue aktuell</item>
     <!-- Anime/Manga progress status strings -->
         <item>Ansehen geplant</item>
     <!-- Anime/Manga progress status strings -->
@@ -273,6 +280,7 @@
     <string name="preference_displayVolumes">Bände auf Covern verwenden</string>
     <string name="preference_autosync">Auto-Sync Intervall</string>
     <string name="preference_language">Ändere die Sprache zu</string>
+    <string name="preference_category_language_title">Sprache</string>
     <string name="preference_title_language">Spräche ändern</string>
     <string name="preference_profileTextColors">Textfarben deaktivieren</string>
     <string name="preference_profileAnimeHide">Animedetails immer verstecken</string>

@@ -46,6 +46,7 @@
     <string name="dialog_title_sync">Synchronisation</string>
     <string name="dialog_title_id_search">Recherche par ID</string>
     <string name="dialog_title_update_password">Mettre à jour son mot de passe</string>
+    <string name="dialog_title_update_navigation">Mettre à jour le fond</string>
     <string name="dialog_message_view">Quelle liste souhaites-tu afficher ?</string>
     <string name="dialog_message_logout">Es-tu sûr de vouloir te déconnecter ? Cela effacera toutes les données et les images stockées.</string>
     <string name="dialog_message_id_search">Merci d\'appuyez sur le bouton Animes ou Mangas afin de le chercher. Rappelez-vous ce les ID des Animes et ceux des Mangas sont différents !</string>
@@ -54,6 +55,7 @@
     <string name="dialog_message_Verifying">Vérification du compte. Patientes quelques secondes…</string>
     <string name="dialog_message_update_password">Il nous semble que ton mot de passe ait été changé. Merci de l\'écrire ci-dessous.</string>
     <string name="dialog_message_new_password_wrong">Le nouveau mot de passe entré est incorrect.</string>
+    <string name="dialog_message_update_navigation">Entre l\'URL de l\'image ci-dessous.</string>
     <string name="dialog_label_cancel">Annuler</string>
     <string name="dialog_label_update">Mis à jour</string>
     <string name="dialog_label_anime">Animes</string>
@@ -145,8 +147,12 @@
     <string name="card_name_personal">Personnel</string>
     <string name="card_name_relations">Relations</string>
     <string name="card_name_titles">Titres alternatifs</string>
+    <string name="card_name_basic">De base</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
+    <string name="card_content_my_start">Ma date de début</string>
+    <string name="card_content_my_end">Ma date de fin</string>
+    <string name="card_content_none">Aucun</string>
     <string name="card_content_chapters">Chapitres</string>
     <string name="card_content_episodes">Épisodes</string>
     <string name="card_content_status">Statut</string>
@@ -256,7 +262,7 @@
     <string name="contributor_ratan12_summary">Gérer toutes les traductions, la création de nouvelles fonctions et le travail sur l\'interface utilisateur.</string>
     <string name="translations">Atarashii! a commencé à supporter le multi-langue depuis la version 1.4 ! 
 Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">rejoindre le projet de traduction</a> afin d\'y contribuer.</string>
-    <string name="translations_notListed">Mon langage n\'est pas répertorié sur oneskyapp ?</string>
+    <string name="translations_notListed">Ma langue n\'est pas répertoriée sur oneskyapp ?</string>
     <string name="translations_notListed_summary">Si ta langue n\'est pas répertoriée, nous te recommandons de demander à Ratan Dhawtal de l\'ajouter ou d\'ajouter un commentaire sur <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">ce post Google+</a>. Nous l\'ajouterons dès que possible et te tiendrons au courant.</string>
     <string name="translations_notApproved">Pourquoi mes phases traduites ne sont-elles toujours pas approuvées ?</string>
     <string name="translations_notApproved_summary">Le collaborateur est très probablement occupé par le développement de l\'application. Tu peux ré-envoyer un rappel au développeur d\'ici un mois, mais n\'en envoie pas trop.</string>
