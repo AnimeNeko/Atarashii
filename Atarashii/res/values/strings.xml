@@ -48,6 +48,8 @@
     <string name="dialog_title_storage_value">Storage value</string>
     <string name="dialog_title_downloaded">Episodes downloaded</string>
     <string name="dialog_title_rewatched_times">Times rewatched</string>
+    <string name="dialog_title_rewatched_priority">Rewatch priority</string>
+    <string name="dialog_title_storage">Storage type</string>
     <string name="dialog_title_comment">My comments</string>
     <string name="dialog_title_fansub">My fansubgroup</string>
     <string name="dialog_title_share">Share</string>
@@ -480,6 +482,17 @@
         <item>Medium</item>
         <item>High</item>
     </string-array>
+
+    <integer-array name="id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
 
     <string-array name="priorityRewatchArray">
         <item>None</item>

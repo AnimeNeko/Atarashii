@@ -30,6 +30,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
@@ -45,7 +46,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener {
+public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -188,11 +189,23 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             case R.id.scorePanel:
                 animeRecord.setScore(number);
                 break;
+            case R.id.priorityPanel:
+                animeRecord.setPriority(number);
+                break;
+            case R.id.storagePanel:
+                animeRecord.setStorage(number);
+                break;
             case R.id.capacityPanel:
                 animeRecord.setStorageValue(number);
                 break;
             case R.id.downloadPanel:
                 animeRecord.setEpsDownloaded(number);
+                break;
+            case R.id.rewatchPriorityPanel:
+                animeRecord.setRewatchValue(number);
+                break;
+            case R.id.countPanel:
+                animeRecord.setRewatchCount(number);
                 break;
         }
         animeRecord.setDirty(true);

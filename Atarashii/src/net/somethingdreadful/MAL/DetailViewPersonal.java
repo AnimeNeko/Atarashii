@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
-import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
@@ -240,6 +241,13 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
                 break;
             case R.id.priorityPanel:
+                Bundle args4 = new Bundle();
+                args4.putInt("id", R.id.priorityPanel);
+                args4.putInt("current", activity.animeRecord.getPriority());
+                args4.putInt("stringArray", R.array.priorityArray);
+                args4.putInt("intArray", R.array.id);
+                args4.putString("title", getString(R.string.card_content_my_priority));
+                activity.showDialog("priority", new ListDialogFragment().setOnSendClickListener(activity), args4);
                 break;
             case R.id.tagsPanel:
                 Bundle args5 = new Bundle();
@@ -269,6 +277,13 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(this), args7);
                 break;
             case R.id.storagePanel:
+                Bundle args8 = new Bundle();
+                args8.putInt("id", R.id.storagePanel);
+                args8.putInt("current", activity.animeRecord.getStorage());
+                args8.putInt("stringArray", R.array.storageArray);
+                args8.putInt("intArray", R.array.id);
+                args8.putString("title", getString(R.string.dialog_title_storage));
+                activity.showDialog("storage", new ListDialogFragment().setOnSendClickListener(activity), args8);
                 break;
             case R.id.capacityPanel:
                 Bundle args9 = new Bundle();
@@ -287,6 +302,13 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args10);
                 break;
             case R.id.rewatchPriorityPanel:
+                Bundle args11 = new Bundle();
+                args11.putInt("id", R.id.rewatchPriorityPanel);
+                args11.putInt("current", activity.animeRecord.getRewatchValue());
+                args11.putInt("stringArray", R.array.priorityRewatchArray);
+                args11.putInt("intArray", R.array.id);
+                args11.putString("title", getString(R.string.dialog_title_rewatched_priority));
+                activity.showDialog("rewatchPriority", new ListDialogFragment().setOnSendClickListener(activity), args11);
                 break;
             case R.id.countPanel:
                 Bundle args12 = new Bundle();

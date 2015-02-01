@@ -39,7 +39,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setView(makeNumberPicker());
-        builder.setTitle(getArguments().getString("title"));//builder.setTitle(R.string.dialog_title_watched_update);
+        builder.setTitle(getArguments().getString("title"));
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
