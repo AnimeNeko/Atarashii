@@ -49,7 +49,6 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     TextView dowloaded;
 
     TextView priority;
-    TextView rewatchCount1;
     TextView rewatchCount2;
 
     @Override
@@ -115,7 +114,6 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         dowloaded = (TextView) view.findViewById(R.id.downloaded);
 
         priority = (TextView) view.findViewById(R.id.priority);
-        rewatchCount1 = (TextView) view.findViewById(R.id.count2Text1);
         rewatchCount2 = (TextView) view.findViewById(R.id.count2Text2);
 
         view.findViewById(R.id.status).setOnClickListener(this);
@@ -159,8 +157,8 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         }
 
         myScore.setText(nullCheck(activity.animeRecord.getScore()));
-        myStartDate.setText(getDate(activity.animeRecord.getStartDate()));
-        myEndDate.setText(getDate(activity.animeRecord.getEndDate()));
+        myStartDate.setText(getDate(activity.animeRecord.getWatchingStart()));
+        myEndDate.setText(getDate(activity.animeRecord.getWatchingEnd()));
         myPriority.setText(getString(R.array.priorityArray, activity.animeRecord.getPriority()));
         myTags.setText(activity.animeRecord.getTags() != null && activity.animeRecord.getTags().size() > 0 ? TextUtils.join(", ", activity.animeRecord.getTags()) : getString(R.string.card_content_none));
         comments.setText(nullCheck(activity.animeRecord.getPersonalComments()));
@@ -171,7 +169,6 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         dowloaded.setText(nullCheck(Integer.toString(activity.animeRecord.getEpsDownloaded())));
 
         priority.setText(getString(R.array.priorityRewatchArray, activity.animeRecord.getRewatchValue()));
-        rewatchCount1.setText(nullCheckOf(activity.animeRecord.getEpisodes()));
         rewatchCount2.setText(nullCheck(activity.animeRecord.getRewatchCount()));
 
         cardOther.findViewById(R.id.capacityPanel).setVisibility((activity.animeRecord.getStorage() == 0 || activity.animeRecord.getStorage() == 3) ? View.GONE : View.VISIBLE);
@@ -180,7 +177,11 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     }
 
     private String nullCheck(String string) {
-        return ((string == null || string.equals("") || string.equals("0-00-00")) ? getString(R.string.unknown) : string);
+        return isEmpty(string) ? getString(R.string.unknown) : string;
+    }
+
+    private boolean isEmpty(String string) {
+        return ((string == null || string.equals("") || string.equals("0-00-00")));
     }
 
     private String nullCheck(int number) {
@@ -192,7 +193,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     }
 
     private String getDate(String string) {
-        return nullCheck((string == null || string.equals("")) ? getString(R.string.card_content_none) : MALDateTools.formatDateString(string, activity, true));
+        return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, activity, false));
     }
 
     private String getString(int arrayId, int position) {
