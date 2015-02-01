@@ -148,6 +148,11 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "score integer, "
             + "readStart varchar, "
             + "readEnd varchar, "
+            + "priority integer, "
+            + "downloaded integer, "
+            + "rereading boolean, "
+            + "rereadCount integer, "
+            + "comments varchar, "
             + "dirty boolean DEFAULT false, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, manga_id)"
@@ -570,6 +575,13 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
             db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, watchedStart, watchedEnd, dirty, lastUpdate) select * from temp_table;");
+            db.execSQL("drop table temp_table;");
+
+            // update mangalist table
+            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("drop table " + TABLE_MANGALIST);
+            db.execSQL(CREATE_MANGALIST_TABLE);
+            db.execSQL("insert into " + TABLE_MANGALIST + " (profile_id, manga_id, status, chaptersRead, volumesRead, score, readStart, readEnd, dirty, lastUpdate) select * from temp_table;");
             db.execSQL("drop table temp_table;");
 
             // add new tables

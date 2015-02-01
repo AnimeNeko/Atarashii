@@ -31,6 +31,10 @@ public class Manga extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("listed_manga_id") private int listedId;
     @Setter @Getter @SerializedName("reading_start") private String readingStart;
     @Setter @Getter @SerializedName("reading_end") private String readingEnd;
+    @Setter @Getter @SerializedName("chap_downloaded") private int chapDownloaded;
+    @Setter @Getter @SerializedName("rereading") private boolean rereading;
+    @Setter @Getter @SerializedName("reread_count") private int rereadCount;
+    @Setter @Getter @SerializedName("reread_value") private int rereadValue;
 
     // AniList
     public Manga manga;
@@ -93,6 +97,13 @@ public class Manga extends GenericRecord implements Serializable {
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));
         result.setListedId(c.getInt(columnNames.indexOf("listedId")));
+        result.setReadingStart(c.getString(columnNames.indexOf("readStart")));
+        result.setReadingEnd(c.getString(columnNames.indexOf("readEnd")));
+        result.setPriority(c.getInt(columnNames.indexOf("priority")));
+        result.setChapDownloaded(c.getInt(columnNames.indexOf("downloaded")));
+        result.setRereading(c.getInt(columnNames.indexOf("rereading")) > 0);
+        result.setRereadCount(c.getInt(columnNames.indexOf("rereadCount")));
+        result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
         Date lastUpdateDate;
         try {
             long lastUpdate = c.getLong(columnNames.indexOf("lastUpdate"));

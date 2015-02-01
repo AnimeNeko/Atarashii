@@ -205,7 +205,7 @@
     <string name="card_content_my_end">My End Date</string>
     <string name="card_content_none">None</string>
     <string name="card_content_chapters">Chapters</string>
-    <string name="card_content_rewatch_priority">Rewatch Priority</string>
+    <string name="card_content_rewatch_priority">Priority</string>
     <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Storage</string>
     <string name="card_content_storage_amount">Storage capacity (GB)</string>

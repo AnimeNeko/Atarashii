@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +9,6 @@ import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -29,14 +27,11 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
     @Setter @Getter private String classification;
     @Setter @Getter @SerializedName("listed_anime_id") private int listedId;
-    @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
     @Setter @Getter @SerializedName("fansub_group") private String fansubGroup;
-    @Setter @Getter private int priority;
     @Setter @Getter private ArrayList<String> producers;
     @Setter @Getter @SerializedName("eps_downloaded") private int epsDownloaded;
     @Setter @Getter @SerializedName("rewatch_count") private int rewatchCount;
     @Setter @Getter @SerializedName("rewatch_value") private int rewatchValue;
-    @Setter @Getter @SerializedName("personal_comments") private String personalComments;
     @Setter @Getter @SerializedName("start_date") private String startDate;
     @Setter @Getter @SerializedName("end_date") private String endDate;
     @Setter @Getter @SerializedName("watching_start") private String watchingStart;
@@ -130,7 +125,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")));
         result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")));
         result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")));
-        result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) == 1);
+        result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0);
         result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
         result.setStartDate(c.getString(columnNames.indexOf("startDate")));
         result.setEndDate(c.getString(columnNames.indexOf("endDate")));
@@ -182,20 +177,6 @@ public class Anime extends GenericRecord implements Serializable {
                 "not yet aired"
         };
         return Arrays.asList(status).indexOf(getStatus());
-    }
-
-    public void setPersonalTags(String tag) {
-        ArrayList<String> tags = new ArrayList<String>();
-        Collections.addAll(tags, TextUtils.split(tag, ","));
-        setPersonalTags(tags);
-    }
-
-    public void setPersonalTags(ArrayList<String> tags) {
-        personalTags = tags;
-    }
-
-    public String getPersonalTagsString() {
-        return getTags() != null ? TextUtils.join(",", getTags()) : "";
     }
 
     public int getWatchedStatusInt() {
