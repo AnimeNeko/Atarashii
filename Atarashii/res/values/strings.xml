@@ -362,9 +362,6 @@
         <item>Polish</item>
         <item>Portuguese (Brazil)</item>
         <item>Portuguese (Portugal)</item>
-        <item>Russian</item>
-        <item>Spanish</item>
-        <item>Turkish</item>
     </string-array>
     <string-array name="localeValuesArray">
         <item>ar</item>
@@ -376,9 +373,6 @@
         <item>pl</item>
         <item>pt-pt</item>
         <item>pt-br</item>
-        <item>ru</item>
-        <item>es</item>
-        <item>tr</item>
     </string-array>
 
     <!-- Settings (ListPreference Entries) Items -->
