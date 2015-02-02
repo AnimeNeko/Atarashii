@@ -91,7 +91,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
         cardRating.setContent(R.layout.card_detailview_rating);
-        cardPersonal.setPadding(0, 0, 0, 0);
+        cardPersonal.setAllPadding(0, 0, 0, 0);
         cardPersonal.setOnClickListener(R.id.status, this);
         cardPersonal.setOnClickListener(R.id.progress1, this);
         cardPersonal.setOnClickListener(R.id.progress2, this);
