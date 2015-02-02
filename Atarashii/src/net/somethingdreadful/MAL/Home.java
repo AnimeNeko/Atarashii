@@ -198,6 +198,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             case R.id.listType_planned:
                 getRecords(true, TaskJob.GETLIST, 5);
                 setChecked(item);
+                break;
             case R.id.listType_rewatching:
                 getRecords(true, TaskJob.GETLIST, 6);
                 setChecked(item);
