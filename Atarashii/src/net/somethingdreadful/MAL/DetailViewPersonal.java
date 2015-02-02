@@ -67,10 +67,8 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 
         cardBasic = (Card) view.findViewById(R.id.basic);
-
         cardBasic.setContent(R.layout.card_detailview_personal_basic);
-
-        cardBasic.setPadding(0, 0, 0, 0);
+        cardBasic.setAllPadding(0, 0, 0, 0);
 
         status = (TextView) view.findViewById(R.id.statusText);
         progress1Total = (TextView) view.findViewById(R.id.progress1Text1);

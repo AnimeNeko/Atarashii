@@ -93,7 +93,7 @@ public class Card extends RelativeLayout {
      * @param right  The padding of the right side in dp
      * @param bottom The padding of the bottom in dp
      */
-    public void setPadding(int left, int top, int right, int bottom) {
+    public void setAllPadding(int left, int top, int right, int bottom) {
         if (Content != null)
             Content.setPadding(convert(left), convert(top), convert(right), convert(bottom));
     }
@@ -104,8 +104,7 @@ public class Card extends RelativeLayout {
      * @param all The padding of all the sides
      */
     public void setPadding(int all) {
-        all = convert(all);
-        Content.setPadding(all, all, all, all);
+        setAllPadding(all, all, all, all);
     }
 
     /**
