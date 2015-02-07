@@ -81,7 +81,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     RelativeLayout about;
     String username;
 
-
     boolean instanceExists;
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not

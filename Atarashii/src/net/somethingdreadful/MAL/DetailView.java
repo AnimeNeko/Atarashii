@@ -116,6 +116,22 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         setMenu();
     }
 
+    public String nullCheck(String string) {
+        return isEmpty(string) ? getString(R.string.unknown) : string;
+    }
+
+    public boolean isEmpty(String string) {
+        return ((string == null || string.equals("") || string.equals("0-00-00")));
+    }
+
+    public String nullCheck(int number) {
+        return (number == 0 ? "?" : Integer.toString(number));
+    }
+
+    public String getDate(String string) {
+        return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, this, false));
+    }
+
     /*
      * show or hide the personal card
      */

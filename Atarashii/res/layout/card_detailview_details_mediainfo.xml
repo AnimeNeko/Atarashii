@@ -88,18 +88,47 @@
             android:textSize="16sp" />
     </TableRow>
 
-    <TableRow android:layout_marginTop="8dp">
+    <TableRow
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/startRow">
 
         <TextView
-            android:id="@+id/genresLabel"
+            android:id="@+id/startLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/card_content_genres"
+            android:text="@string/card_content_start"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/genres"
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/endRow">
+
+        <TextView
+            android:id="@+id/endLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_end"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -120,6 +149,47 @@
 
         <TextView
             android:id="@+id/classification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/genresLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_genres"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="8dp"
+        android:id="@+id/producersRow">
+
+        <TextView
+            android:id="@+id/producersLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_producers"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/producers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

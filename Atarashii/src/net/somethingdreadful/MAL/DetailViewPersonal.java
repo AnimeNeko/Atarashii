@@ -141,23 +141,23 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
             progress1Total.setText(nullCheckOf(activity.animeRecord.getEpisodes()));
 
-            myStartDate.setText(nullCheck(activity.animeRecord.getWatchingStart()));
-            myEndDate.setText(nullCheck(activity.animeRecord.getWatchingEnd()));
+            myStartDate.setText(activity.nullCheck(activity.animeRecord.getWatchingStart()));
+            myEndDate.setText(activity.nullCheck(activity.animeRecord.getWatchingEnd()));
 
-            myScore.setText(nullCheck(activity.animeRecord.getScore()));
-            myStartDate.setText(getDate(activity.animeRecord.getWatchingStart()));
-            myEndDate.setText(getDate(activity.animeRecord.getWatchingEnd()));
+            myScore.setText(activity.nullCheck(activity.animeRecord.getScore()));
+            myStartDate.setText(activity.getDate(activity.animeRecord.getWatchingStart()));
+            myEndDate.setText(activity.getDate(activity.animeRecord.getWatchingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.animeRecord.getPriority()));
             myTags.setText(activity.animeRecord.getPersonalTagsString().equals("") ? getString(R.string.card_content_none) : activity.animeRecord.getPersonalTagsString());
-            comments.setText(nullCheck(activity.animeRecord.getPersonalComments()));
+            comments.setText(activity.nullCheck(activity.animeRecord.getPersonalComments()));
 
-            fansubs.setText(nullCheck(activity.animeRecord.getFansubGroup()));
+            fansubs.setText(activity.nullCheck(activity.animeRecord.getFansubGroup()));
             storage.setText(getString(R.array.storageArray, activity.animeRecord.getStorage()));
             storageCount.setText(Integer.toString(activity.animeRecord.getStorageValue()));
-            dowloaded.setText(nullCheck(Integer.toString(activity.animeRecord.getEpsDownloaded())));
+            dowloaded.setText(activity.nullCheck(Integer.toString(activity.animeRecord.getEpsDownloaded())));
 
             priority.setText(getString(R.array.priorityRewatchArray, activity.animeRecord.getRewatchValue()));
-            rewatchCount2.setText(nullCheck(activity.animeRecord.getRewatchCount()));
+            rewatchCount2.setText(activity.nullCheck(activity.animeRecord.getRewatchCount()));
 
             cardOther.findViewById(R.id.capacityPanel).setVisibility((activity.animeRecord.getStorage() == 0 || activity.animeRecord.getStorage() == 3) ? View.GONE : View.VISIBLE);
 
@@ -168,42 +168,26 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
             progress2Total.setText(nullCheckOf(activity.mangaRecord.getChapters()));
 
-            myStartDate.setText(nullCheck(activity.mangaRecord.getReadingStart()));
-            myEndDate.setText(nullCheck(activity.mangaRecord.getReadingEnd()));
+            myStartDate.setText(activity.nullCheck(activity.mangaRecord.getReadingStart()));
+            myEndDate.setText(activity.nullCheck(activity.mangaRecord.getReadingEnd()));
 
-            myScore.setText(nullCheck(activity.mangaRecord.getScore()));
-            myStartDate.setText(getDate(activity.mangaRecord.getReadingStart()));
-            myEndDate.setText(getDate(activity.mangaRecord.getReadingEnd()));
+            myScore.setText(activity.nullCheck(activity.mangaRecord.getScore()));
+            myStartDate.setText(activity.getDate(activity.mangaRecord.getReadingStart()));
+            myEndDate.setText(activity.getDate(activity.mangaRecord.getReadingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.mangaRecord.getPriority()));
             myTags.setText(activity.mangaRecord.getPersonalTagsString().equals("") ? getString(R.string.card_content_none) : activity.mangaRecord.getPersonalTagsString());
-            comments.setText(nullCheck(activity.mangaRecord.getPersonalComments()));
+            comments.setText(activity.nullCheck(activity.mangaRecord.getPersonalComments()));
 
             cardOther.setVisibility(View.GONE);
 
             priority.setText(getString(R.array.priorityRewatchArray, activity.mangaRecord.getRereadValue()));
-            rewatchCount2.setText(nullCheck(activity.mangaRecord.getRereadCount()));
+            rewatchCount2.setText(activity.nullCheck(activity.mangaRecord.getRereadCount()));
         }
         setCard();
     }
 
-    private String nullCheck(String string) {
-        return isEmpty(string) ? getString(R.string.unknown) : string;
-    }
-
-    private boolean isEmpty(String string) {
-        return ((string == null || string.equals("") || string.equals("0-00-00")));
-    }
-
-    private String nullCheck(int number) {
-        return (number == 0 ? "?" : Integer.toString(number));
-    }
-
     private String nullCheckOf(int number) {
-        return "/" + nullCheck(number);
-    }
-
-    private String getDate(String string) {
-        return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, activity, false));
+        return "/" + activity.nullCheck(number);
     }
 
     private String getString(int arrayId, int position) {

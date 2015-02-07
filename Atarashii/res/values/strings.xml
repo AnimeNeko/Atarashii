@@ -220,6 +220,9 @@
     <string name="card_content_comments">Comments</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
+    <string name="card_content_start">Start Date</string>
+    <string name="card_content_end">End Date</string>
+    <string name="card_content_producers">Producers</string>
     <string name="card_content_aired">Aired</string>
     <string name="card_content_genres">Genres</string>
     <string name="card_content_classification">Classification</string>

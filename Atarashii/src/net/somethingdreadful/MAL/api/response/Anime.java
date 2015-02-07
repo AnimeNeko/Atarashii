@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -181,5 +182,9 @@ public class Anime extends GenericRecord implements Serializable {
 
     public int getWatchedStatusInt() {
         return getUserStatusInt(getWatchedStatus());
+    }
+
+    public String getProducersString() {
+        return getProducers() != null ? TextUtils.join(", ", getProducers()) : "";
     }
 }
