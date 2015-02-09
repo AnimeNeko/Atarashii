@@ -4,6 +4,7 @@ import android.content.Context;
 
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.User;
@@ -76,6 +77,14 @@ public class HtmlUtil {
             list = list.replace("class=\"item\" value=\"2\"", "class=\"item hidden\" value=\"2\"");
         list = list.replace("pages", Integer.toString(record.getPages()));
         list = list.replace("page", Integer.toString(page));
+
+        if (Theme.darkTheme) {
+            list = list.replace("#D2D2D2", "#212121"); // divider
+            list = list.replace("#FAFAFA", "#313131"); // post
+            list = list.replace("#444444", "#E3E3E3"); // title text
+            list = list.replace("class=\"content\"", "class=\"content\" style=\"color:#E3E3E3\""); // post text
+        }
+
         return list;
     }
 

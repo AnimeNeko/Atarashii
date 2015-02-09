@@ -40,7 +40,8 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        setContentView(R.layout.activity_forum);
+        Theme.setTheme(this, R.layout.activity_forum, false);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         handleIntent(getIntent());
 

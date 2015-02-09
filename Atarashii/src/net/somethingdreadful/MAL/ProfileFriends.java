@@ -38,6 +38,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.friends, container, false);
+        Theme.setBackground(activity, view, R.color.bg_dark);
 
         Gridview = (GridView) view.findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);

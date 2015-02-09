@@ -29,7 +29,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        Theme.setTheme(this, R.layout.activity_profile, true);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)

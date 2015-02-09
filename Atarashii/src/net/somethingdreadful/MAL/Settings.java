@@ -10,7 +10,7 @@ public class Settings extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Theme.setTheme(this, 0, false);
         setTitle(R.string.title_activity_settings);
 
         ActionBar actionBar = getSupportActionBar();

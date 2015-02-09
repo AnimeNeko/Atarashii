@@ -124,6 +124,17 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);
             about.setOnClickListener(this);
+            Theme.setBackground(this, logout);
+            Theme.setBackground(this, settings);
+            Theme.setBackground(this, about);
+
+            if (Theme.darkTheme) {
+                DrawerLayout.findViewById(R.id.scrollView).setBackgroundColor(getResources().getColor(R.color.bg_dark));
+                DrawerLayout.findViewById(R.id.divider).setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                ((TextView) DrawerLayout.findViewById(R.id.logoutText)).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) DrawerLayout.findViewById(R.id.settingsText)).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
+            }
 
             DrawerList = (ListView) DrawerLayout.findViewById(R.id.listview);
 

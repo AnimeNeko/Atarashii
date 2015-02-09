@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="48dp"
     android:layout_gravity="center"
-    android:background="@drawable/highlite_friendlist"
+    android:background="@drawable/highlite_details"
     android:orientation="horizontal">
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/highlite_friendlist"
+        android:background="@drawable/highlite_details"
         android:padding="12dp"
         android:src="@drawable/ic_info"
         android:tint="@color/primary"

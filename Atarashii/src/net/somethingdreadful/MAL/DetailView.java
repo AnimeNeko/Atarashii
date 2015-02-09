@@ -68,8 +68,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Theme.setTheme(this, R.layout.activity_detailview, true);
 
-        setContentView(R.layout.activity_detailview);
         actionBar = getSupportActionBar();
         context = getApplicationContext();
         username = getIntent().getStringExtra("username");

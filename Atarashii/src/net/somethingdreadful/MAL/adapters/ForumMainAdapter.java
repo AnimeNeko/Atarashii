@@ -17,6 +17,7 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
@@ -48,6 +49,12 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
             viewHolder = new ViewHolder();
             viewHolder.title = (TextView) view.findViewById(R.id.title);
             viewHolder.image = (ImageView) view.findViewById(R.id.Image);
+
+            if (Theme.darkTheme) {
+                viewHolder.title.setTextColor(context.getResources().getColor(R.color.text_dark));
+                Theme.setBackground(context, viewHolder.image);
+                Theme.setBackground(context, view);
+            }
 
             view.setTag(viewHolder);
         } else {
