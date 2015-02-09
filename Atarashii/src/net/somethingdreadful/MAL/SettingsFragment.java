@@ -52,8 +52,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     sharedPreferences.edit().commit();
                     startActivity(new Intent(context, Home.class));
                     System.exit(0);
+                    break;
+                case "darkTheme":
+                    PrefManager.setTextColor(true);
+                    PrefManager.commitChanges();
+                    sharedPreferences.edit().commit();
+                    startActivity(new Intent(context, Home.class));
+                    System.exit(0);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());
         }
     }

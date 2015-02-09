@@ -10,6 +10,7 @@ public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefEditor;
     private static Context context;
+    private static boolean darkTheme;
 
 
     public static void create(Context mContext) {
@@ -138,6 +139,16 @@ public class PrefManager {
     }
 
     /**
+     * This will disable the text colors.
+     *
+     * @param disable True if the text colors should be default
+     * @see ProfileActivity
+     */
+    public static void setTextColor(boolean disable) {
+        prefEditor.putBoolean("text_colours", disable);
+    }
+
+    /**
      * Returns if the app should hide the anime stats in all profiles.
      *
      * @return boolean If it should be hidden
@@ -210,5 +221,14 @@ public class PrefManager {
      */
     public static void commitChanges() {
         prefEditor.commit();
+    }
+
+    /**
+     * Get the prefs for the dark theme.
+     *
+     * @return boolean true if the user wants a dark theme
+     */
+    public static boolean getDarkTheme() {
+        return prefs.getBoolean("darkTheme", false);
     }
 }
