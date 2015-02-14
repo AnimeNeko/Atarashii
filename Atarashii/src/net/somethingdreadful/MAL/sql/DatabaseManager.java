@@ -578,8 +578,7 @@ public class DatabaseManager {
         else
             cv.put("avatar_url", user.getProfile().getAvatarUrl());
         if (user.getProfile().getDetails().getLastOnline() != null) {
-            String lastOnline = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getLastOnline());
-            cv.put("last_online", lastOnline.equals("") ? user.getProfile().getDetails().getLastOnline() : lastOnline);
+            cv.put("last_online", user.getProfile().getDetails().getLastOnline());
         } else
             cv.putNull("last_online");
 
