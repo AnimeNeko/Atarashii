@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -440,10 +442,14 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     public void onUserNetworkTaskFinished(User result) {
         ImageView image = (ImageView) findViewById(R.id.Image);
         ImageView image2 = (ImageView) findViewById(R.id.NDimage);
-        Picasso.with(context)
-                .load(result.getProfile().getAvatarUrl())
-                .transform(new RoundedTransformation(result.getName()))
-                .into(image);
+        try {
+            Picasso.with(context)
+                    .load(result.getProfile().getAvatarUrl())
+                    .transform(new RoundedTransformation(result.getName()))
+                    .into(image);
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
+        }
         if (PrefManager.getNavigationBackground() != null)
             Picasso.with(context)
                     .load(PrefManager.getNavigationBackground())
