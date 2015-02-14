@@ -52,7 +52,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         if (data != null && data.containsKey("page")) {
             page = data.getInt("page", 1);
             Crashlytics.setInt("Page", page);
-        }
+        } else
+            Crashlytics.setInt("Page", 0);
 
         taskResult = null;
         MALManager mManager = new MALManager(context);
@@ -94,7 +95,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
                         taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
-                        Crashlytics.setInt(type + " ID", data.getInt("recordID", -1));
+                        Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
                     }
                     break;
                 case GETDETAILS:
@@ -102,11 +103,11 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         if (isAnimeTask()) {
                             Anime record = (Anime) data.getSerializable("record");
                             taskResult = mManager.updateWithDetails(record.getId(), record, "");
-                            Crashlytics.setInt(type + " ID", record.getId());
+                            Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                         } else {
                             Manga record = (Manga) data.getSerializable("record");
                             taskResult = mManager.updateWithDetails(record.getId(), record, "");
-                            Crashlytics.setInt(type + " ID", record.getId());
+                            Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                         }
                     }
                     break;
