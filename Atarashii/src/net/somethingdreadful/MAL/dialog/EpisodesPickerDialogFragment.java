@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
+
+import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
@@ -17,7 +20,12 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
-        int totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
+        int totalEpisodes = 0;
+        try {
+            totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(): " + e.getMessage());
+        }
         int watchedEpisodes = ((DetailView) getActivity()).animeRecord.getWatchedEpisodes();
 
         numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
