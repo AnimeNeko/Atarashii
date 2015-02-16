@@ -99,7 +99,7 @@ public class HtmlUtil {
         comment = comment.replace("<u>", "[u]").replace("</u>", "[/u]");                                                                    // Text underline
         comment = comment.replace("<div style=\"text-align: center;]", "[center]").replace("<!--center-->", "[/center]");                   // Center
         comment = convertSpoiler(comment);                                                                                                  // Spoiler
-        comment = comment.replace("<!--link--><a href=\"", "[url=").replace("\" rel=\"nofollow]", "]").replace("</a>", "[/url]");           // Hyperlink
+        comment = comment.replace("<a href=\"", "[url=").replace("target=\"_blank ", "").replace("</a>", "[/url]");                         // Hyperlink
         comment = comment.replace("<!--quote--><div class=\"quotetext][b]", "[quote=").replace(" said:[/b]<!--quotesaid-->", "]");          // Quote
         comment = comment.replace("<!--quote-->", "[/quote]");
         comment = comment.replace("<ol>", "[list]").replace("</ol>", "[/list]").replace("<li>", "[*]");                                     // List
