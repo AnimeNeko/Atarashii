@@ -230,6 +230,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
             relation.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
             relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+            relation.addRelations(activity.animeRecord.getOther(), getString(R.string.card_content_other));
 
             title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
             title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));

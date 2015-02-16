@@ -203,6 +203,7 @@
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_my_start">My Start Date</string>
     <string name="card_content_my_end">My End Date</string>
+    <string name="card_content_other">Other</string>
     <string name="card_content_none">None</string>
     <string name="card_content_chapters">Chapters</string>
     <string name="card_content_rewatch_priority">Priority</string>
