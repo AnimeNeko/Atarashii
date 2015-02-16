@@ -2,7 +2,9 @@ package net.somethingdreadful.MAL.forum;
 
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class PostsInterface {
@@ -25,7 +27,10 @@ public class PostsInterface {
         posts.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                posts.activity.getComments(Integer.parseInt(id), comment, ForumJob.UPDATECOMMENT);
+                if (comment.contains("embed src"))
+                    Toast.makeText(posts.activity, posts.activity.getString(R.string.toast_info_disabled_youtube), Toast.LENGTH_LONG).show();
+                else
+                    posts.activity.getComments(Integer.parseInt(id), comment, ForumJob.UPDATECOMMENT);
             }
         });
     }
