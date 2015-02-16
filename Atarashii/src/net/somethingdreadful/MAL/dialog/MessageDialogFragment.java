@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
@@ -87,10 +88,21 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      * @return View The view to make init simple
      */
     private View setView(View view) {
+        Theme.setBackground(getActivity(), view);
+
         header = (TextView) view.findViewById(R.id.dialog_message_header);
         send = (TextView) view.findViewById(R.id.dialog_message_send);
         subject = (EditText) view.findViewById(R.id.dialog_message_title);
         message = (EditText) view.findViewById(R.id.dialog_message_message);
+
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_bold));
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_italic));
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_underlined));
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_striped));
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_spoiler));
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_center));
+        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_close));
+        Theme.setBackground(getActivity(), send);
 
         this.view = view;
         return view;
