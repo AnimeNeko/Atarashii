@@ -111,8 +111,6 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
                 tv8.setTextColor(Color.parseColor("#850000"));
             } else if (rank.contains("Moderator")) {
                 tv8.setTextColor(Color.parseColor("#003385"));
-            } else if (User.isDeveloperRecord(name)) {
-                tv8.setTextColor(Color.parseColor("#008583")); //Developer
             } else {
                 tv8.setTextColor(Color.parseColor("#0D8500")); //normal user
             }
@@ -121,6 +119,7 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
         }
         if (User.isDeveloperRecord(name)) {
             tv8.setText(R.string.access_rank_atarashii_developer); //Developer
+            tv8.setTextColor(getResources().getColor(R.color.primary)); //Developer
         }
     }
 
