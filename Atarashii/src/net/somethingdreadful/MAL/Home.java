@@ -469,6 +469,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             myList = ((position <= 2 && myList) || position == 0);
             myListChanged();
             // disable swipeRefresh for other lists
+            if (af == null || mf == null) {
+                af = mIGFPagerAdapter.getIGF(0);
+                mf = mIGFPagerAdapter.getIGF(1);
+            }
             af.setSwipeRefreshEnabled(myList);
             mf.setSwipeRefreshEnabled(myList);
             switch (position) {

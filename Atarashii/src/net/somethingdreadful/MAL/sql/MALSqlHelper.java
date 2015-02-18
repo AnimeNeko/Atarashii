@@ -495,17 +495,19 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              * In version 9 We added the start/end dates for anime & manga records.
              */
             // update animelist table
+            String animeUpdateFields = "profile_id, anime_id, status, watched, score, dirty, lastUpdate";
             db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
-            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, dirty, lastUpdate) select * from temp_table;");
+            db.execSQL("insert into " + TABLE_ANIMELIST + " (" + animeUpdateFields + ") select " + animeUpdateFields + " from temp_table;");
             db.execSQL("drop table temp_table;");
 
             // update mangalist table
+            String mangaUpdateFields = "profile_id, manga_id, status, chaptersRead, volumesRead, score, dirty, lastUpdate";
             db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
             db.execSQL("drop table " + TABLE_MANGALIST);
             db.execSQL(CREATE_MANGALIST_TABLE);
-            db.execSQL("insert into " + TABLE_MANGALIST + " (profile_id, manga_id, status, chaptersRead, volumesRead, score, dirty, lastUpdate) select * from temp_table;");
+            db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
             db.execSQL("drop table temp_table;");
         }
     }
