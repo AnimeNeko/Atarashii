@@ -8,6 +8,8 @@ import net.somethingdreadful.MAL.IGF;
 import net.somethingdreadful.MAL.api.MALApi;
 
 public class IGFPagerAdapter extends FragmentPagerAdapter {
+    IGF anime;
+    IGF manga;
 
     public IGFPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -17,7 +19,15 @@ public class IGFPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         IGF fragment = new IGF();
         fragment.listType = i == 0 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA;
+        if (i == 0)
+            anime = fragment;
+        else
+            manga = fragment;
         return fragment;
+    }
+
+    public IGF getIGF(int i) {
+        return i == 0 ? anime : manga;
     }
 
     @Override
