@@ -66,6 +66,7 @@ public class Anime extends GenericRecord implements Serializable {
     private String description;
     @Getter private Airing airing;
     private ArrayList<String> synonyms;
+    private String notes;
 
     public class Airing {
         @Getter private String time;
@@ -74,24 +75,25 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public Anime createBaseModel() {
-        if (anime != null) {
+        if (anime != null) { // animelist
             setId(anime.getId());
             setTitle(anime.title_romaji);
             setImageUrl(anime.image_url_lge);
             setStatus(anime.airing_status);
             setMembersScore(anime.average_score);
             setEpisodes(anime.total_episodes);
-        } else {
+            setWatchedEpisodes(episodes_watched);
+            setWatchedStatus(list_status);
+            setPersonalComments(notes);
+        } else { // anime details
             setTitle(title_romaji);
             setImageUrl(image_url_lge);
             setStatus(airing_status);
             if (average_score != null)
                 setMembersScore(average_score);
             setEpisodes(total_episodes);
+            setSynopsis(description);
         }
-        setWatchedEpisodes(episodes_watched);
-        setWatchedStatus(list_status);
-        setSynopsis(description);
         return this;
     }
 
