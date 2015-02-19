@@ -135,7 +135,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     }
 
     private void setCard(int id, boolean ALOnly){
-        if (ALOnly)
+        if (ALOnly && !AccountService.isMAL())
             view.findViewById(id).setVisibility(View.GONE);
         else
             view.findViewById(id).setOnClickListener(this);
