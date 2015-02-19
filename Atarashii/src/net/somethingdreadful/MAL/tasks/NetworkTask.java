@@ -59,7 +59,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         taskResult = null;
         MALManager mManager = new MALManager(context);
 
-        if (!AccountService.isMAL())
+        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(context))
             mManager.verifyAuthentication();
 
         try {
