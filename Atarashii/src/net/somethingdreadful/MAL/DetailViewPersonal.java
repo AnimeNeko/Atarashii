@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
@@ -114,21 +115,30 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         priority = (TextView) view.findViewById(R.id.priority);
         rewatchCount2 = (TextView) view.findViewById(R.id.count2Text2);
 
-        view.findViewById(R.id.status).setOnClickListener(this);
-        view.findViewById(R.id.progress1).setOnClickListener(this);
-        view.findViewById(R.id.progress2).setOnClickListener(this);
-        view.findViewById(R.id.scorePanel).setOnClickListener(this);
-        view.findViewById(R.id.startDatePanel).setOnClickListener(this);
-        view.findViewById(R.id.endDatePanel).setOnClickListener(this);
-        view.findViewById(R.id.priorityPanel).setOnClickListener(this);
-        view.findViewById(R.id.tagsPanel).setOnClickListener(this);
-        view.findViewById(R.id.commentspanel).setOnClickListener(this);
-        view.findViewById(R.id.fansubPanel).setOnClickListener(this);
-        view.findViewById(R.id.storagePanel).setOnClickListener(this);
-        view.findViewById(R.id.capacityPanel).setOnClickListener(this);
-        view.findViewById(R.id.downloadPanel).setOnClickListener(this);
-        view.findViewById(R.id.rewatchPriorityPanel).setOnClickListener(this);
-        view.findViewById(R.id.countPanel).setOnClickListener(this);
+        setCard(R.id.status, false);
+        setCard(R.id.progress1, false);
+        setCard(R.id.progress2, false);
+        setCard(R.id.scorePanel, false);
+        setCard(R.id.startDatePanel, true);
+        setCard(R.id.endDatePanel, true);
+        setCard(R.id.priorityPanel, true);
+        setCard(R.id.tagsPanel, true);
+        setCard(R.id.commentspanel, false);
+        setCard(R.id.fansubPanel, true);
+        setCard(R.id.storagePanel, true);
+        setCard(R.id.capacityPanel, true);
+        setCard(R.id.downloadPanel, true);
+        setCard(R.id.rewatchPriorityPanel, true);
+        setCard(R.id.countPanel, false);
+        if (!AccountService.isMAL())
+            cardOther.setVisibility(View.GONE);
+    }
+
+    private void setCard(int id, boolean ALOnly){
+        if (ALOnly)
+            view.findViewById(id).setVisibility(View.GONE);
+        else
+            view.findViewById(id).setOnClickListener(this);
     }
 
     public void setText() {
