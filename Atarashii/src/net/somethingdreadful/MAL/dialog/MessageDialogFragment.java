@@ -49,6 +49,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
             this.message.setText((new HtmlUtil(getActivity())).convertComment(message));
         if (hint != null)
             this.message.setHint(hint);
+        this.message.setSelection(this.message.getText().length());
 
         Dialog dialog = builder.create();
         DisplayMetrics dm = new DisplayMetrics();
