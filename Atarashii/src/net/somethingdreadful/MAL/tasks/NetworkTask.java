@@ -94,20 +94,20 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     break;
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
-                        taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
                         Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
+                        taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
                     }
                     break;
                 case GETDETAILS:
                     if (data != null && data.containsKey("record")) {
                         if (isAnimeTask()) {
                             Anime record = (Anime) data.getSerializable("record");
-                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
                         } else {
                             Manga record = (Manga) data.getSerializable("record");
-                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
                         }
                     }
                     break;
