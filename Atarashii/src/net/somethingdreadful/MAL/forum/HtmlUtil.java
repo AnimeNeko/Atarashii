@@ -45,6 +45,8 @@ public class HtmlUtil {
 
             if (post.getUsername().equals(username))
                 postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"edit('itemID', 'position')\" src=\"http://i.imgur.com/uZ0TbNv.png\"/>");
+            else
+                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"quote('itemID', 'position')\" src=\"http://i.imgur.com/yYtLVTV.png\"/>");
             if (User.isDeveloperRecord(post.getUsername()))
                 postreal = postreal.replace("=\"title\">", "=\"developer\">");
             if (!post.getProfile().getDetails().getAccessRank().equals("Member"))
