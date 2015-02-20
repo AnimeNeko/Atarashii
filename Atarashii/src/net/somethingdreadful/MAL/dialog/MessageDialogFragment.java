@@ -16,7 +16,7 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
-public class MessageDialogFragment extends DialogFragment implements View.OnClickListener {
+public class MessageDialogFragment extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
 
     EditText subject;
     EditText message;
@@ -105,6 +105,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_center));
         Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_close));
         Theme.setBackground(getActivity(), send);
+        view.findViewById(R.id.dialog_message_close).setOnLongClickListener(this);
 
         this.view = view;
         return view;
@@ -183,6 +184,12 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
                 dismiss();
                 break;
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        message.setText("");
+        return true;
     }
 
     /**
