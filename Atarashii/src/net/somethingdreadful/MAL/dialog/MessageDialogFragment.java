@@ -26,6 +26,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
     View view;
     onSendClickListener callback;
     TextView send;
+    onCloseClickListener closeCallback;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -149,6 +150,10 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_message_close:
+                if (closeCallback != null) {
+                    message.clearFocus();
+                    closeCallback.onCloseClicked(message.getText().toString() != null ? message.getText().toString() : "");
+                }
                 if (message.isEnabled())
                     dismiss();
                 break;
@@ -195,6 +200,30 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      */
     public MessageDialogFragment setOnSendClickListener(onSendClickListener callback) {
         this.callback = callback;
+        return this;
+    }
+
+    /**
+     * The interface for callback
+     */
+    public interface onCloseClickListener {
+        public void onCloseClicked(String message);
+    }
+
+    /**
+     * Set the Callback for close purpose.
+     *
+     * @param callback The activity/fragment where the callback is located
+     * @return MessageDialogFragment This will return the dialog itself to make init simple
+     */
+    public MessageDialogFragment setOnCloseClickListener(onCloseClickListener callback) {
+        this.closeCallback = callback;
+        return this;
+    }
+
+    public MessageDialogFragment setListeners(onSendClickListener callback, onCloseClickListener callback2){
+        setOnSendClickListener(callback);
+        setOnCloseClickListener(callback2);
         return this;
     }
 
