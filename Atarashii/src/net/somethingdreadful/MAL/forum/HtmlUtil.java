@@ -122,6 +122,7 @@ public class HtmlUtil {
         comment = comment.replace("</div>", "");
         comment = comment.replace("</span>", "");
         comment = comment.replace("</li>", "");
+        comment = comment.replace("<!--link-->", "");
 
         return comment;
     }
