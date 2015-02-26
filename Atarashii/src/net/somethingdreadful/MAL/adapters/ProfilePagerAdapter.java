@@ -5,8 +5,8 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.ProfileActivity;
-import net.somethingdreadful.MAL.ProfileDetails;
-import net.somethingdreadful.MAL.ProfileFriends;
+import net.somethingdreadful.MAL.profile.ProfileDetails;
+import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.R;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {

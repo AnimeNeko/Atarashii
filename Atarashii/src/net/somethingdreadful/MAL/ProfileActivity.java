@@ -13,12 +13,14 @@ import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
+import net.somethingdreadful.MAL.profile.ProfileDetails;
+import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
     Context context;
-    User record;
+    public User record;
     ProfileDetails details;
     ProfileFriends friends;
 

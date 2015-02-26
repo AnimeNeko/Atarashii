@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.profile;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,6 +23,12 @@ import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.NfcHelper;
+import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.ProfileActivity;
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 
@@ -34,7 +40,7 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
     Card imagecard;
     Card animecard;
     Card mangacard;
-    SwipeRefreshLayout swipeRefresh;
+    public SwipeRefreshLayout swipeRefresh;
     ProgressBar progressBar;
     Card networkCard;
 
