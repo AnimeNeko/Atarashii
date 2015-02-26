@@ -104,11 +104,11 @@ public class ALApi {
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        return service.searchAnime(query, page);
+        return AnimeList.getData(service.searchAnime(query, page));
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        return service.searchManga(query, page);
+        return MangaList.getData(service.searchManga(query, page));
     }
 
     public ArrayList<Manga> getUpcomingManga(int page) {

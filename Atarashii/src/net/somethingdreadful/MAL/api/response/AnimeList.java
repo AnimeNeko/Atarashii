@@ -16,6 +16,10 @@ public class AnimeList {
     private ArrayList<Anime> data;
 
     public ArrayList<Anime> getData() {
+        return getData(data);
+    }
+
+    public static ArrayList<Anime> getData(ArrayList<Anime> data) {
         ArrayList<Anime> list = new ArrayList<Anime>();
         for (Anime anime : data) {
             anime.createBaseModel();
