@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
@@ -91,7 +92,7 @@ public class Manga extends GenericRecord implements Serializable {
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
-        result.setDirty(c.getInt(columnNames.indexOf("dirty")) > 0);
+        result.setDirty(new Gson().fromJson(c.getString(columnNames.indexOf("dirty")),ArrayList.class));
         result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
         result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));

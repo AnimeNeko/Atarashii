@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.api.response;
 import android.database.Cursor;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
@@ -24,22 +25,22 @@ public class Anime extends GenericRecord implements Serializable {
 
     // MyAnimeList
     @Setter @Getter private int episodes;
-    @Setter @Getter @SerializedName("watched_status") private String watchedStatus;
-    @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
+    @Getter @SerializedName("watched_status") private String watchedStatus;
+    @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
     @Setter @Getter private String classification;
     @Setter @Getter @SerializedName("listed_anime_id") private int listedId;
-    @Setter @Getter @SerializedName("fansub_group") private String fansubGroup;
+    @Getter @SerializedName("fansub_group") private String fansubGroup;
     @Setter @Getter private ArrayList<String> producers;
-    @Setter @Getter @SerializedName("eps_downloaded") private int epsDownloaded;
-    @Setter @Getter @SerializedName("rewatch_count") private int rewatchCount;
-    @Setter @Getter @SerializedName("rewatch_value") private int rewatchValue;
+    @Getter @SerializedName("eps_downloaded") private int epsDownloaded;
+    @Getter @SerializedName("rewatch_count") private int rewatchCount;
+    @Getter @SerializedName("rewatch_value") private int rewatchValue;
     @Setter @Getter @SerializedName("start_date") private String startDate;
     @Setter @Getter @SerializedName("end_date") private String endDate;
-    @Setter @Getter @SerializedName("watching_start") private String watchingStart;
-    @Setter @Getter @SerializedName("watching_end") private String watchingEnd;
+    @Getter @SerializedName("watching_start") private String watchingStart;
+    @Getter @SerializedName("watching_end") private String watchingEnd;
     @Setter private boolean rewatching;
-    @Setter @Getter @SerializedName("storage_value") private int storageValue;
-    @Setter @Getter private int storage;
+    @Getter @SerializedName("storage_value") private int storageValue;
+    @Getter private int storage;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
     @Setter @Getter @SerializedName("character_anime") private ArrayList<RecordStub> characterAnime;
     @Setter @Getter private ArrayList<RecordStub> prequels;
@@ -105,8 +106,8 @@ public class Anime extends GenericRecord implements Serializable {
         result.setTitle(c.getString(columnNames.indexOf("recordName")));
         result.setType(c.getString(columnNames.indexOf("recordType")));
         result.setStatus(c.getString(columnNames.indexOf("recordStatus")));
-        result.setWatchedStatus(c.getString(columnNames.indexOf("myStatus")));
-        result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")));
+        result.setWatchedStatus(c.getString(columnNames.indexOf("myStatus")), false);
+        result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")), false);
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
         result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
         result.setStorage(c.getInt(columnNames.indexOf("storage")));
@@ -116,14 +117,14 @@ public class Anime extends GenericRecord implements Serializable {
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
-        result.setDirty(c.getInt(columnNames.indexOf("dirty")) > 0);
+        result.setDirty(new Gson().fromJson(c.getString(columnNames.indexOf("dirty")),ArrayList.class));
         result.setClassification(c.getString(columnNames.indexOf("classification")));
         result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
         result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
         result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
-        result.setFansubGroup(c.getString(columnNames.indexOf("fansub")));
+        result.setFansubGroup(c.getString(columnNames.indexOf("fansub")), false);
         result.setPriority(c.getInt(columnNames.indexOf("priority")));
         result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")));
         result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")));
@@ -188,5 +189,115 @@ public class Anime extends GenericRecord implements Serializable {
 
     public String getProducersString() {
         return getProducers() != null ? TextUtils.join(", ", getProducers()) : "";
+    }
+
+    public void setWatchedStatus(String status, boolean markDirty) {
+        this.watchedStatus = status;
+        if (markDirty) {
+            addDirtyField("watchedStatus");
+        }
+    }
+
+    public void setWatchedStatus(String status) {
+        setWatchedStatus(status, true);
+    }
+
+    public void setWatchedEpisodes(int episodes, boolean markDirty) {
+        this.watchedEpisodes = episodes;
+        if (markDirty) {
+            addDirtyField("watchedEpisodes");
+        }
+    }
+
+    public void setWatchedEpisodes(int episodes) {
+        setWatchedEpisodes(episodes, true);
+    }
+
+    public void setFansubGroup(String group, boolean markDirty) {
+        this.fansubGroup = group;
+        if (markDirty) {
+            addDirtyField("fansubGroup");
+        }
+    }
+
+    public void setFansubGroup(String group) {
+        setFansubGroup(group, true);
+    }
+
+    public void setEpsDownloaded(int episodes, boolean markDirty) {
+        this.epsDownloaded = episodes;
+        if (markDirty) {
+            addDirtyField("epsDownloaded");
+        }
+    }
+
+    public void setEpsDownloaded(int episodes) {
+        setEpsDownloaded(episodes, true);
+    }
+
+    public void setRewatchCount(int count, boolean markDirty) {
+        this.rewatchCount = count;
+        if (markDirty) {
+            addDirtyField("rewatchCount");
+        }
+    }
+
+    public void setRewatchCount(int count) {
+        setRewatchCount(count, true);
+    }
+
+    public void setRewatchValue(int value, boolean markDirty) {
+        this.rewatchValue = value;
+        if (markDirty) {
+            addDirtyField("rewatchValue");
+        }
+    }
+
+    public void setRewatchValue(int value) {
+        setRewatchValue(value, true);
+    }
+
+    public void setWatchingStart(String start, boolean markDirty) {
+        this.watchingStart = start;
+        if (markDirty) {
+            addDirtyField("watchingStart");
+        }
+    }
+
+    public void setWatchingStart(String start) {
+        setWatchingStart(start, true);
+    }
+
+    public void setWatchingEnd(String end, boolean markDirty) {
+        this.watchingEnd = end;
+        if (markDirty) {
+            addDirtyField("watchingEnd");
+        }
+    }
+
+    public void setWatchingEnd(String end) {
+        setWatchingEnd(end, true);
+    }
+
+    public void setStorageValue(int value, boolean markDirty) {
+        this.storageValue = value;
+        if (markDirty) {
+            addDirtyField("storageValue");
+        }
+    }
+
+    public void setStorageValue(int value) {
+        setStorageValue(value, true);
+    }
+
+    public void setStorage(int storage, boolean markDirty) {
+        this.storage = storage;
+        if (markDirty) {
+            addDirtyField("storage");
+        }
+    }
+
+    public void setStorage(int storage) {
+        setStorageValue(storage, true);
     }
 }

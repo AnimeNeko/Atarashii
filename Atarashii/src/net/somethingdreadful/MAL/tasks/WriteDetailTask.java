@@ -47,10 +47,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 } else {
                     manager.writeMangaDetailsToMAL((Manga) gr[0]);
                 }
-                gr[0].setDirty(false);
-            } else {
-                // currently no connection, mark record as dirty for later sync
-                gr[0].setDirty(true);
+                gr[0].clearDirty();
             }
         } catch (RetrofitError re) {
             if (re.getResponse() != null) {

@@ -231,7 +231,7 @@ public class MALManager {
     }
 
     public Anime updateWithDetails(int id, Anime anime, String username) {
-        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.updateWithDetails("+ Integer.toString(id) + ", " + username + ")");
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
         Anime anime_api;
         if (AccountService.isMAL())
             anime_api = malApi.getAnime(id);
@@ -375,7 +375,7 @@ public class MALManager {
             for (Anime anime : dirtyAnimes) {
                 totalSuccess = writeAnimeDetailsToMAL(anime);
                 if (totalSuccess) {
-                    anime.setDirty(false);
+                    anime.clearDirty();
                     saveAnimeToDatabase(anime, false, username);
                 }
 
@@ -398,7 +398,7 @@ public class MALManager {
             for (Manga manga : dirtyMangas) {
                 totalSuccess = writeMangaDetailsToMAL(manga);
                 if (totalSuccess) {
-                    manga.setDirty(false);
+                    manga.clearDirty();
                     saveMangaToDatabase(manga, false, username);
                 }
 

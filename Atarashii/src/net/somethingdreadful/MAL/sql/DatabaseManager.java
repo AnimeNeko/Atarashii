@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
 
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -227,7 +228,7 @@ public class DatabaseManager {
                 alcv.put("rewatchCount", anime.getRewatchCount());
                 alcv.put("rewatchValue", anime.getRewatchValue());
                 alcv.put("comments", anime.getPersonalComments());
-                alcv.put("dirty", anime.getDirty());
+                alcv.put("dirty", new Gson().toJson(anime.getDirty()));
                 if (anime.getLastUpdate() != null)
                     alcv.put("lastUpdate", anime.getLastUpdate().getTime());
                 getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
@@ -538,7 +539,7 @@ public class DatabaseManager {
                 mlcv.put("rereading", manga.getRereadValue());
                 mlcv.put("rereadCount", manga.getRereadCount());
                 mlcv.put("comments", manga.getPersonalComments());
-                mlcv.put("dirty", manga.getDirty());
+                mlcv.put("dirty", new Gson().toJson(manga.getDirty()));
                 if (manga.getLastUpdate() != null)
                     mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
                 getDBWrite().replace(MALSqlHelper.TABLE_MANGALIST, null, mlcv);

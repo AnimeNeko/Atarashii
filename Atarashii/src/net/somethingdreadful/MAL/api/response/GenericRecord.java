@@ -45,7 +45,7 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String synopsis;
     @Setter @Getter @SerializedName("other_titles") private HashMap<String, ArrayList<String>> otherTitles;
 
-    @Setter private boolean dirty;
+    @Setter @Getter private ArrayList<String> dirty;
     @Setter @Getter private Date lastUpdate;
     @Setter private boolean createFlag;
     @Setter private boolean deleteFlag;
@@ -70,9 +70,23 @@ public class GenericRecord implements Serializable {
         return deleteFlag;
     }
 
-    // Note: @Getter is not working on booleans
-    public boolean getDirty() {
+    public ArrayList<String> getDirty() {
         return dirty;
+    }
+
+    public void addDirtyField(String field) {
+        if  (dirty == null) {
+            dirty = new ArrayList<String>();
+        }
+        if (!dirty.contains((field))) {
+            dirty.add(field);
+        }
+    }
+
+    public void clearDirty() {
+        if (dirty != null) {
+            dirty.clear();
+        }
     }
 
     public ArrayList<Integer> getGenresInt() {
@@ -97,7 +111,7 @@ public class GenericRecord implements Serializable {
         if (getGenres() != null)
             for (String genre : getGenres())
                 result.add(Arrays.asList(genres).indexOf(genre));
-        
+
         return result;
     }
 

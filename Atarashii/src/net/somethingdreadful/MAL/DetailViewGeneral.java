@@ -25,8 +25,8 @@ import com.squareup.picasso.Target;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
@@ -165,7 +165,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         setMenu();
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
-            
+
             if (activity.isAdded()) {
                 status.setText(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
@@ -281,12 +281,10 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             if (activity.type.equals(ListType.ANIME)) {
                 if (activity.animeRecord != null) {
                     activity.animeRecord.setScore((int) (rating * 2));
-                    activity.animeRecord.setDirty(true);
                 }
             } else {
                 if (activity.mangaRecord != null) {
                     activity.mangaRecord.setScore((int) (rating * 2));
-                    activity.mangaRecord.setDirty(true);
                 }
             }
             activity.setText();
