@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
@@ -82,7 +83,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 if (record == null)
                     Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/profile/" + record.getName())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getProfileURL() + record.getName())));
                 break;
             case R.id.View:
                 showShareDialog(false);
@@ -91,6 +92,10 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 showShareDialog(true);
         }
         return true;
+    }
+
+    public String getProfileURL() {
+        return AccountService.isMAL() ? "http://myanimelist.net/profile/" : "http://anilist.co/user/";
     }
 
     public void refresh() {
