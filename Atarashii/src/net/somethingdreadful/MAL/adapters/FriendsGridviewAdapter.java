@@ -16,6 +16,7 @@ import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -50,6 +51,9 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
                 viewHolder.username.setTextColor(context.getResources().getColor(R.color.text_dark));
                 Theme.setBackground(context, view);
             }
+
+            if (!AccountService.isMAL())
+                viewHolder.last_online.setText(context.getString(R.string.unknown));
 
             view.setTag(viewHolder);
         } else {
