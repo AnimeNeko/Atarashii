@@ -8,6 +8,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.ForumMain;
@@ -478,5 +479,9 @@ public class MALManager {
             return malApi.searchManga(query, page);
         else
             return alApi.searchManga(query, page);
+    }
+
+    public ArrayList<Activity> getActivity(String username){
+        return alApi.getActivity(username);
     }
 }

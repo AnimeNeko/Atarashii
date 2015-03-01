@@ -43,6 +43,10 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
             else if (result != null && result.getProfile().getDetails().getAccessRank() == null)
                 result = null;
         }
+
+        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(context) && result != null && params.length == 2)
+            result.setActivity(mManager.getActivity(params[1]));
+
         return result;
     }
 
