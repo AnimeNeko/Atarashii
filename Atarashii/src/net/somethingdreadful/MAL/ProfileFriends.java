@@ -1,13 +1,14 @@
 package net.somethingdreadful.MAL;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
@@ -25,9 +25,7 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
 import java.util.ArrayList;
 
-public class FriendsActivity extends ActionBarActivity implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
-
-    Context context;
+public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
     ArrayList<User> listarray = new ArrayList<User>();
     FriendsGridviewAdapter<User> listadapter;
     GridView Gridview;
@@ -35,31 +33,31 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     ProgressBar progressBar;
     Card networkCard;
     boolean forcesync = false;
+    private ProfileActivity activity;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_friends);
-        setTitle(AccountService.isMAL() ? R.string.title_activity_friends : R.string.nav_item_my_followers); //set title
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        View view = inflater.inflate(R.layout.friends, container, false);
 
-        Gridview = (GridView) findViewById(R.id.listview);
+        Gridview = (GridView) view.findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        networkCard = (Card) findViewById(R.id.network_Card);
-        listadapter = new FriendsGridviewAdapter<User>(context, listarray);
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        networkCard = (Card) view.findViewById(R.id.network_Card);
+        listadapter = new FriendsGridviewAdapter<User>(activity, listarray);
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
+        activity.setFriends(this);
         toggle(1);
-        sync();
+        return view;
+    }
 
-        NfcHelper.disableBeam(this);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (ProfileActivity) activity;
     }
 
     private void toggle(int number) {
@@ -79,58 +77,36 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
         listadapter.notifyDataSetChanged();
         toggle(0);
     }
-
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_friends_view, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        final int itemId = item.getItemId();
-        switch (itemId) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.forceSync:
-                forcesync = true;
-                sync();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    
     @Override
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {
             listarray = result;
-            if (result.size() == 0 && !MALApi.isNetworkAvailable(context)) {
+            if (result.size() == 0 && !MALApi.isNetworkAvailable(activity)) {
                 toggle(2);
             } else {
                 refresh(); // show toast only if sync was forced
             }
         } else {
-            Toast.makeText(context, R.string.toast_error_Friends, Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.toast_error_Friends, Toast.LENGTH_SHORT).show();
         }
-        swipeRefresh.setEnabled(true);
-        swipeRefresh.setRefreshing(false);
+        activity.refreshing(false);
     }
 
-    public void sync() {
-        swipeRefresh.setEnabled(false);
-        swipeRefresh.setRefreshing(true);
-        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername());
+    public void getRecords() {
+        activity.refreshing(true);
+        new FriendsNetworkTask(activity, forcesync, this).execute(activity.record.getName());
     }
 
     @Override
     public void onRefresh() {
         forcesync = true;
-        sync();
+        getRecords();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent profile = new Intent(context, net.somethingdreadful.MAL.ProfileActivity.class);
+        Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
         if (listarray.get(position).getProfile().getDetails().getAccessRank() == null) {
             profile.putExtra("username", listarray.get(position).getName());
         } else

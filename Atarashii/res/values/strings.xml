@@ -169,10 +169,11 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <!-- DetailView (Tab names) Strings -->
+    <!-- Tab names Strings -->
     <string name="tab_name_general">General</string>
     <string name="tab_name_personal">Personal</string>
     <string name="tab_name_details">Details</string>
+    <string name="tab_name_friends">Friends</string>
 
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Synopsis</string>
