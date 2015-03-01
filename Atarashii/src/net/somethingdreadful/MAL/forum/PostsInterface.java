@@ -5,6 +5,7 @@ import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class PostsInterface {
@@ -31,6 +32,27 @@ public class PostsInterface {
                     Toast.makeText(posts.activity, posts.activity.getString(R.string.toast_info_disabled_youtube), Toast.LENGTH_LONG).show();
                 else
                     posts.activity.getComments(Integer.parseInt(id), comment, ForumJob.UPDATECOMMENT);
+            }
+        });
+    }
+
+    /**
+     * This method will be triggered when the user clicks on an HTML post.
+     *
+     * @param id       The HTML post id
+     * @param position The array position of the post
+     */
+    @JavascriptInterface
+    public void quote(final String id, String position) {
+        Forum record = posts.record.getList().get(Integer.parseInt(position));
+        final String comment = "[quote=" + record.getUsername() + "]" + record.getComment() + "[/quote]";
+        posts.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (comment.contains("embed src"))
+                    Toast.makeText(posts.activity, posts.activity.getString(R.string.toast_info_disabled_youtube), Toast.LENGTH_LONG).show();
+                else
+                    posts.activity.getComments(posts.id, posts.activity.message + "<br>" + comment, ForumJob.ADDCOMMENT);
             }
         });
     }

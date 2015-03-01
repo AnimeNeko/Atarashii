@@ -25,13 +25,14 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
-public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener {
+public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener, MessageDialogFragment.onCloseClickListener {
 
     public ForumsMain main;
     public ForumsTopics topics;
     public ForumsPosts posts;
     public boolean discussion = false;
     public ForumJob task = ForumJob.BOARD;
+    public String message = "";
     FragmentManager manager;
     ViewFlipper viewFlipper;
     MenuItem search;
@@ -115,7 +116,7 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
      * @param task    The task to peform
      */
     public void getComments(int id, String message, ForumJob task) {
-        MessageDialogFragment info = new MessageDialogFragment().setOnSendClickListener(this);
+        MessageDialogFragment info = new MessageDialogFragment().setListeners(this, this);
         Bundle args = new Bundle();
         args.putInt("id", id);
         args.putString("message", message);
@@ -167,6 +168,7 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
                 viewFlipper.setDisplayedChild(1);
                 break;
         }
+        message = "";
     }
 
     /**
@@ -252,7 +254,7 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
                 break;
             case R.id.action_add:
                 if (task == ForumJob.POSTS)
-                    getComments(posts.id, null, ForumJob.ADDCOMMENT);
+                    getComments(posts.id, message, ForumJob.ADDCOMMENT);
                 else if (task == ForumJob.TOPICS)
                     getComments(topics.id, null, ForumJob.ADDTOPIC);
                 break;
@@ -295,5 +297,10 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
     @Override
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
         refresh();
+    }
+
+    @Override
+    public void onCloseClicked(String message) {
+        this.message = message;
     }
 }
