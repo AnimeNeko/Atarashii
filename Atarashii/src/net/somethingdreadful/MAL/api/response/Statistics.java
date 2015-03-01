@@ -2,10 +2,8 @@ package net.somethingdreadful.MAL.api.response;
 
 import java.io.Serializable;
 
-public class Statistics implements Serializable {
-    private float days;
+import lombok.Getter;
 
-    public float getDays() {
-        return days;
-    }
+public class Statistics implements Serializable {
+    @Getter private float days;
 }

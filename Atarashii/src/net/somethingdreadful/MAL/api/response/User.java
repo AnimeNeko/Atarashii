@@ -9,10 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class User implements Serializable {
-    private String name;
-    private Profile profile;
-    private Integer id;
+    @Getter @Setter private String name;
+    @Getter @Setter private Profile profile;
+    @Getter @Setter private Integer id;
 
     public static User fromCursor(Cursor c) {
         User result = new User();
@@ -34,29 +37,5 @@ public class User implements Serializable {
                 "d-sko"
         };
         return Arrays.asList(developers).contains(name.toLowerCase(Locale.US));
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 }

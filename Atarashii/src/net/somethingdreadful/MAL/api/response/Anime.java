@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
@@ -10,33 +12,36 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Anime extends GenericRecord implements Serializable {
 
     public static final String STATUS_WATCHING = "watching";
     public static final String STATUS_PLANTOWATCH = "plan to watch";
 
-    private int episodes;
-    private String watched_status;
-    private int watched_episodes;
-    private String classification;
-    private int listed_anime_id;
+    @Setter @Getter private int episodes;
+    @Setter @Getter @SerializedName("watched_status") private String watchedStatus;
+    @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
+    @Setter @Getter private String classification;
+    @Setter @Getter @SerializedName("listed_anime_id") private int listedId;
     /*private Date start_date;
     private Date end_date;*/
-    private String watching_start;
-    private String watching_end;
-    private ArrayList<RecordStub> alternative_versions;
-    private ArrayList<RecordStub> character_anime;
-    private ArrayList<RecordStub> prequels;
-    private ArrayList<RecordStub> sequels;
-    private ArrayList<RecordStub> side_stories;
-    private ArrayList<RecordStub> summaries;
-    private ArrayList<RecordStub> spin_offs;
-    private ArrayList<RecordStub> manga_adaptations;
-    private RecordStub parent_story;
+    @Setter @Getter @SerializedName("watching_start") private String watchingStart;
+    @Setter @Getter @SerializedName("watching_end") private String watchingEnd;
+    @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
+    @Setter @Getter @SerializedName("character_anime") private ArrayList<RecordStub> characterAnime;
+    @Setter @Getter private ArrayList<RecordStub> prequels;
+    @Setter @Getter private ArrayList<RecordStub> sequels;
+    @Setter @Getter @SerializedName("side_stories") private ArrayList<RecordStub> sideStories;
+    @Setter @Getter private ArrayList<RecordStub> summaries;
+    @Setter @Getter @SerializedName("spin_offs") private ArrayList<RecordStub> spinOffs;
+    @Setter @Getter @SerializedName("manga_adaptations") private ArrayList<RecordStub> mangaAdaptions;
+    @Setter @Getter @SerializedName("parent_story") private RecordStub parentStory;
 
     public static Anime fromCursor(Cursor c) {
         Anime result = new Anime();
-        result.setCreatedFromCursor(true);
+        result.setFromCursor(true);
         List<String> columnNames = Arrays.asList(c.getColumnNames());
         result.setId(c.getInt(columnNames.indexOf(MALSqlHelper.COLUMN_ID)));
         result.setTitle(c.getString(columnNames.indexOf("recordName")));
@@ -69,54 +74,6 @@ public class Anime extends GenericRecord implements Serializable {
         return result;
     }
 
-    public int getEpisodes() {
-        return episodes;
-    }
-
-    public void setEpisodes(int episodes) {
-        this.episodes = episodes;
-    }
-
-    public String getWatchedStatus() {
-        return watched_status;
-    }
-
-    public void setWatchedStatus(String watched_status) {
-        this.watched_status = watched_status;
-    }
-
-    public int getWatchedEpisodes() {
-        return watched_episodes;
-    }
-
-    public void setWatchedEpisodes(int watched_episodes) {
-        this.watched_episodes = watched_episodes;
-    }
-
-    public String getWatchingStart() {
-        return watching_start;
-    }
-
-    public void setWatchingStart(String watching_start) {
-        this.watching_start = watching_start;
-    }
-
-    public String getWatchingEnd() {
-        return watching_end;
-    }
-
-    public void setWatchingEnd(String watching_end) {
-        this.watching_end = watching_end;
-    }
-
-    public String getClassification() {
-        return classification;
-    }
-
-    public void setClassification(String classification) {
-        this.classification = classification;
-    }
-
     public Integer getClassificationInt() {
         String[] classification = {
                 "G - All Ages",
@@ -127,102 +84,6 @@ public class Anime extends GenericRecord implements Serializable {
                 "Rx - Hentai"
         };
         return Arrays.asList(classification).indexOf(getClassification());
-    }
-
-    public int getListedId() {
-        return listed_anime_id;
-    }
-
-    public void setListedId(int listed_anime_id) {
-        this.listed_anime_id = listed_anime_id;
-    }
-
-    /*public Date getStartDate() {
-        return start_date;
-    }
-
-    public void setStartDate(Date start_data) {
-        this.start_date = start_data;
-    }
-
-    public Date getEndDate() {
-        return end_date;
-    }
-
-    public void setEndDate(Date end_date) {
-        this.end_date = end_date;
-    }*/
-
-    public ArrayList<RecordStub> getAlternativeVersions() {
-        return alternative_versions;
-    }
-
-    public void setAlternativeVersions(ArrayList<RecordStub> alternative_versions) {
-        this.alternative_versions = alternative_versions;
-    }
-
-    public ArrayList<RecordStub> getCharacterAnime() {
-        return character_anime;
-    }
-
-    public void setCharacterAnime(ArrayList<RecordStub> character_anime) {
-        this.character_anime = character_anime;
-    }
-
-    public ArrayList<RecordStub> getPrequels() {
-        return prequels;
-    }
-
-    public void setPrequels(ArrayList<RecordStub> prequels) {
-        this.prequels = prequels;
-    }
-
-    public ArrayList<RecordStub> getSequels() {
-        return sequels;
-    }
-
-    public void setSequels(ArrayList<RecordStub> sequels) {
-        this.sequels = sequels;
-    }
-
-    public ArrayList<RecordStub> getSideStories() {
-        return side_stories;
-    }
-
-    public void setSideStories(ArrayList<RecordStub> side_stories) {
-        this.side_stories = side_stories;
-    }
-
-    public ArrayList<RecordStub> getSummaries() {
-        return summaries;
-    }
-
-    public void setSummaries(ArrayList<RecordStub> summaries) {
-        this.summaries = summaries;
-    }
-
-    public ArrayList<RecordStub> getSpinOffs() {
-        return spin_offs;
-    }
-
-    public void setSpinOffs(ArrayList<RecordStub> spin_offs) {
-        this.spin_offs = spin_offs;
-    }
-
-    public ArrayList<RecordStub> getMangaAdaptions() {
-        return manga_adaptations;
-    }
-
-    public void setMangaAdaptions(ArrayList<RecordStub> manga_adaptations) {
-        this.manga_adaptations = manga_adaptations;
-    }
-
-    public RecordStub getParentStory() {
-        return parent_story;
-    }
-
-    public void setParentStory(RecordStub parent_story) {
-        this.parent_story = parent_story;
     }
 
     public int getTypeInt() {

@@ -2,17 +2,22 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class Profile implements Serializable {
-    private int id;
-    private String avatar_url;
-    private ProfileDetails details;
+import lombok.Getter;
+import lombok.Setter;
 
-    private ProfileAnimeStats anime_stats;
-    private ProfileMangaStats manga_stats;
+public class Profile implements Serializable {
+    @Getter @Setter private int id;
+    @Getter @Setter @SerializedName("avatar_url") private String avatarUrl;
+    @Getter @Setter private ProfileDetails details;
+
+    @Getter @Setter @SerializedName("anime_stats") private ProfileAnimeStats animeStats;
+    @Getter @Setter @SerializedName("manga_stats") private ProfileMangaStats mangaStats;
 
     public static Profile fromCursor(Cursor c) {
         Profile result = new Profile();
@@ -23,45 +28,5 @@ public class Profile implements Serializable {
         result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
         result.setMangaStats(ProfileMangaStats.fromCursor(c));
         return result;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAvatarUrl() {
-        return avatar_url;
-    }
-
-    public void setAvatarUrl(String avatarurl) {
-        this.avatar_url = avatarurl;
-    }
-
-    public ProfileDetails getDetails() {
-        return details;
-    }
-
-    public void setDetails(ProfileDetails details) {
-        this.details = details;
-    }
-
-    public ProfileAnimeStats getAnimeStats() {
-        return anime_stats;
-    }
-
-    public void setAnimeStats(ProfileAnimeStats animestats) {
-        this.anime_stats = animestats;
-    }
-
-    public ProfileMangaStats getMangaStats() {
-        return manga_stats;
-    }
-
-    public void setMangaStats(ProfileMangaStats mangastats) {
-        this.manga_stats = mangastats;
     }
 }
