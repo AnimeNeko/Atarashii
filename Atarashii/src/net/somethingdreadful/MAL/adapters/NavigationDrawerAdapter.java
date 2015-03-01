@@ -10,6 +10,7 @@ import android.widget.TextView;
 import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.NavigationItems;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,12 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationItems.NavIte
             viewHolder = new ViewHolder();
             viewHolder.mIcon = (ImageView) v.findViewById(R.id.nav_item_icon);
             viewHolder.mTitle = (TextView) v.findViewById(R.id.nav_item_text);
+
+            if (Theme.darkTheme) {
+                viewHolder.mTitle.setTextColor(home.getResources().getColor(R.color.text_dark));
+                Theme.setBackground(home, v);
+            }
+
             v.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) v.getTag();

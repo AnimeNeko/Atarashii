@@ -8,4 +8,13 @@
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
     </style>
+
+    <!-- Theme -->
+    <style name="AtarashiiDarkBg" parent="@style/Theme.AppCompat">
+        <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
 </resources>

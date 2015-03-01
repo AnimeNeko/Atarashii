@@ -8,6 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 
 import java.util.ArrayList;
@@ -132,6 +133,9 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.record_details_listview, parent, false);
 
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+            if (Theme.darkTheme)
+                viewHolder.name.setTextColor(context.getResources().getColor(R.color.text_dark));
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -161,9 +165,13 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.record_details_listview_header, parent, false);
+            if (Theme.darkTheme)
+                convertView.setBackgroundColor(context.getResources().getColor(R.color.card_dark_green));
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
+        if (Theme.darkTheme)
+            name.setTextColor(context.getResources().getColor(R.color.text_dark));
         name.setText(headers.get(groupPos));
         return convertView;
     }
