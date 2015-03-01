@@ -11,6 +11,7 @@
     <string name="title_activity_profile">User profile</string>
     <string name="title_activity_friends">My friends</string>
     <string name="title_activity_logout">Logout</string>
+    <string name="title_activity_forum">Forum</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
@@ -38,6 +39,7 @@
     <string name="toast_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
     <string name="toast_info_hold_on">Hold on a second, we are still loading some information!</string>
+    <string name="toast_info_comment_add">The comment was successfully send!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
@@ -50,6 +52,9 @@
     <string name="dialog_title_read_update">I\'ve read</string>
     <string name="dialog_title_status">Status</string>
     <string name="dialog_title_sync">Synchronization</string>
+    <string name="dialog_title_edit_comment">Edit comment</string>
+    <string name="dialog_title_add_comment">Add comment</string>
+    <string name="dialog_title_add_topic">Create topic</string>
     <string name="dialog_title_id_search">ID search</string>
     <string name="dialog_title_update_password">Update password</string>
     <string name="dialog_title_update_navigation">Update background</string>
@@ -62,6 +67,10 @@
     <string name="dialog_message_update_password">It looks like your password has changed. Please enter the new one below.</string>
     <string name="dialog_message_new_password_wrong">The new password you have entered is wrong.</string>
     <string name="dialog_message_update_navigation">Enter the Image URL below.</string>
+    <string name="dialog_message_created_by">Created by</string>
+    <string name="dialog_message_last_post">Last post by</string>
+    <string name="dialog_message_forum_child">Do you want to view the $child1; or $child2; category?</string>
+    <string name="dialog_message_on">on </string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_update">Update</string>
     <string name="dialog_label_anime">Anime</string>
@@ -72,6 +81,7 @@
     <string name="dialog_label_logout">Logout</string>
     <string name="dialog_label_remove">Remove</string>
     <string name="dialog_label_confirm">Confirm</string>
+    <string name="dialog_label_send">Send</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -113,6 +123,11 @@
     <string name="layout_card_friends_since">Friends since</string>
     <string name="unknown">unknown</string>
 
+    <!-- ForumActivity Strings -->
+    <string name="action_add">Add a comment or topic</string>
+    <string name="form_hint_title">Topic title</string>
+    <string name="form_hint_message">Message</string>
+
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">MAL Username</string>
     <string name="form_hint_pass">MAL Password</string>
@@ -139,6 +154,7 @@
     <string name="nav_item_my_profile">My Profile</string>
     <string name="nav_item_my_list">My List</string>
     <string name="nav_item_my_friends">My Friends</string>
+    <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
     <string name="nav_item_most_popular">Most Popular</string>
     <string name="nav_item_just_added">Just Added</string>

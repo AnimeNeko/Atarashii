@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.api;
 
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -96,4 +97,37 @@ public interface MALInterface {
 
     @GET("/friends/{username}")
     ArrayList<User> getFriends(@Path("username") String username);
+
+    @GET("/forum")
+    ForumMain getForum();
+
+    @GET("/forum/{id}")
+    ForumMain getTopics(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/anime/{id}")
+    ForumMain getAnime(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/manga/{id}")
+    ForumMain getManga(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/topic/{id}")
+    ForumMain getPosts(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/board/{id}")
+    ForumMain getSubBoards(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/search")
+    ForumMain search(@Query("query") String query);
+
+    @FormUrlEncoded
+    @POST("/forum/topic/{id}")
+    Response addComment(@Path("id") int id, @Field("message") String message);
+
+    @FormUrlEncoded
+    @PUT("/forum/topic/{id}")
+    Response updateComment(@Path("id") int id, @Field("message") String message);
+
+    @FormUrlEncoded
+    @POST("/forum/{id}")
+    Response addTopic(@Path("id") int id, @Field("title") String title, @Field("message") String message);
 }

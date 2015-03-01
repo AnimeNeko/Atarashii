@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -183,6 +184,46 @@ public class MALApi {
 
     public ArrayList<User> getFriends(String user) {
         return service.getFriends(user);
+    }
+
+    public ForumMain getForum() {
+        return service.getForum();
+    }
+
+    public ForumMain getTopics(int id, int page) {
+        return service.getTopics(id, page);
+    }
+
+    public ForumMain getAnime(int id, int page) {
+        return service.getAnime(id, page);
+    }
+
+    public ForumMain getManga(int id, int page) {
+        return service.getManga(id, page);
+    }
+
+    public ForumMain getPosts(int id, int page) {
+        return service.getPosts(id, page);
+    }
+
+    public ForumMain getSubBoards(int id, int page) {
+        return service.getSubBoards(id, page);
+    }
+
+    public boolean addComment(int id, String message) {
+        return service.addComment(id, message).getStatus() == 200;
+    }
+
+    public boolean updateComment(int id, String message) {
+        return service.updateComment(id, message).getStatus() == 200;
+    }
+
+    public boolean addTopic(int id, String title, String message) {
+        return service.addTopic(id, title, message).getStatus() == 200;
+    }
+
+    public ForumMain search(String query) {
+        return service.search(query);
     }
 
     public enum ListType {

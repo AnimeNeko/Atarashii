@@ -8,6 +8,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -85,6 +86,81 @@ public class MALManager {
             return malApi.getManga(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getMangaRecord(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getForum() {
+        try {
+            return malApi.getForum();
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getForum(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getTopics(int id, int page) {
+        try {
+            return malApi.getTopics(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getTopics(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
+        try {
+            if (type.equals(MALApi.ListType.ANIME))
+                return malApi.getAnime(id, page);
+            else
+                return malApi.getManga(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getDiscussion(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getPosts(int id, int page) {
+        try {
+            return malApi.getPosts(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getPosts(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getSubBoards(int id, int page) {
+        try {
+            return malApi.getSubBoards(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getSubBoards(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public Boolean addComment(int id, String message) {
+        return malApi.addComment(id, message);
+    }
+
+    public Boolean updateComment(int id, String message) {
+        return malApi.updateComment(id, message);
+    }
+
+    public Boolean addTopic(int id, String title, String message) {
+        return malApi.addTopic(id, title, message);
+    }
+
+    public ForumMain search(String query) {
+        try {
+            return malApi.search(query);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.search(" + query + "): " + e.getMessage());
             Crashlytics.logException(e);
         }
         return null;

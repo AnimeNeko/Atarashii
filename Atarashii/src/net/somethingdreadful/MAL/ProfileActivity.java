@@ -320,7 +320,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
 
                         @Override
                         public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+                            toggle(0);
                         }
                     });
         }
