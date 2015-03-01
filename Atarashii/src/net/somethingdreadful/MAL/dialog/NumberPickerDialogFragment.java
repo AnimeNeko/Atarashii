@@ -11,31 +11,27 @@ import android.widget.NumberPicker;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 
-public class EpisodesPickerDialogFragment extends DialogFragment {
+public class NumberPickerDialogFragment extends DialogFragment {
 
     NumberPicker numberPicker;
+    private onUpdateClickListener callback;
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
-        int totalEpisodes = 0;
+        int max = 0;
         try {
-            totalEpisodes = ((DetailView) getActivity()).animeRecord.getEpisodes();
+            max = getArguments().getInt("max");
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(): " + e.getMessage());
         }
-        int watchedEpisodes = ((DetailView) getActivity()).animeRecord.getWatchedEpisodes();
+        int current = getArguments().getInt("current");
 
         numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
-        if (totalEpisodes != 0) {
-            numberPicker.setMaxValue(totalEpisodes);
-        } else {
-            numberPicker.setMaxValue(999);
-        }
+        numberPicker.setMaxValue(max != 0 ? max : 999);
         numberPicker.setMinValue(0);
-        numberPicker.setValue(watchedEpisodes);
+        numberPicker.setValue(current);
         return view;
     }
 
@@ -43,12 +39,12 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setView(makeNumberPicker());
-        builder.setTitle(R.string.dialog_title_watched_update);
+        builder.setTitle(getArguments().getString("title"));
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 numberPicker.clearFocus();
-                ((DetailView) getActivity()).onDialogDismissed(numberPicker.getValue());
+                callback.onUpdated(numberPicker.getValue(), getArguments().getInt("id"));
                 dismiss();
             }
         });
@@ -60,5 +56,23 @@ public class EpisodesPickerDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    /**
+     * Set the Callback for update purpose.
+     *
+     * @param callback The activity/fragment where the callback is located
+     * @return NumberPickerDialogFragment This will return the dialog itself to make init simple
+     */
+    public NumberPickerDialogFragment setOnSendClickListener(onUpdateClickListener callback) {
+        this.callback = callback;
+        return this;
+    }
+
+    /**
+     * The interface for callback
+     */
+    public interface onUpdateClickListener {
+        public void onUpdated(int number, int id);
     }
 }

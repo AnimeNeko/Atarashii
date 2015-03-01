@@ -50,3 +50,4 @@ crashlytics-build.properties
 
 # local gradle config
 local.gradle
+Atarashii/res/values/com_crashlytics_export_strings.xml

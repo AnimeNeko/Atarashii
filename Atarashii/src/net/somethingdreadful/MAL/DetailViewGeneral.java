@@ -25,7 +25,7 @@ import com.squareup.picasso.Target;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
@@ -289,6 +289,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                     activity.mangaRecord.setDirty(true);
                 }
             }
+            activity.setText();
         }
     }
 
@@ -298,7 +299,12 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             activity.showDialog("statusPicker", new StatusPickerDialogFragment());
         } else if (res == R.id.progress1 || res == R.id.progress2) {
             if (activity.type.equals(ListType.ANIME)) {
-                activity.showDialog("episodes", new EpisodesPickerDialogFragment());
+                Bundle args = new Bundle();
+                args.putInt("id", R.id.progress1);
+                args.putInt("current", activity.animeRecord.getWatchedEpisodes());
+                args.putInt("max", activity.animeRecord.getEpisodes());
+                args.putString("title", getString(R.string.dialog_title_watched_update));
+                activity.showDialog("episodes", new NumberPickerDialogFragment().setOnSendClickListener(activity), args);
             } else {
                 activity.showDialog("manga", new MangaPickerDialogFragment());
             }

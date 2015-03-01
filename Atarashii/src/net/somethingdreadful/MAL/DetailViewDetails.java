@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -40,9 +41,15 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     TextView volumes;
     TextView volumesLabel;
     TextView status;
-    TextView genres;
+    TextView start;
+    TableRow startRow;
+    TextView end;
+    TableRow endRow;
     TextView classification;
     TextView classificationLabel;
+    TextView genres;
+    TextView producers;
+    TableRow producersRow;
 
     TextView score;
     TextView ranked;
@@ -128,9 +135,15 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         volumes = (TextView) view.findViewById(R.id.volumes);
         volumesLabel = (TextView) view.findViewById(R.id.volumesLabel);
         status = (TextView) view.findViewById(R.id.status);
-        genres = (TextView) view.findViewById(R.id.genres);
+        start = (TextView) view.findViewById(R.id.start);
+        startRow = (TableRow) view.findViewById(R.id.startRow);
+        end = (TextView) view.findViewById(R.id.end);
+        endRow = (TableRow) view.findViewById(R.id.endRow);
         classification = (TextView) view.findViewById(R.id.classification);
         classificationLabel = (TextView) view.findViewById(R.id.classificationLabel);
+        genres = (TextView) view.findViewById(R.id.genres);
+        producers = (TextView) view.findViewById(R.id.producers);
+        producersRow = (TableRow) view.findViewById(R.id.producersRow);
 
         score = (TextView) view.findViewById(R.id.score);
         ranked = (TextView) view.findViewById(R.id.ranked);
@@ -177,19 +190,25 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         genres.setText("\u200F" + TextUtils.join(", ", activity.getGenresString(record.getGenresInt())));
         if (activity.type.equals(MALApi.ListType.ANIME)) {
             type.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
-            episodes.setText(activity.animeRecord.getEpisodes() == 0 ? "?" : Integer.toString(activity.animeRecord.getEpisodes()));
+            episodes.setText(activity.nullCheck(activity.animeRecord.getEpisodes()));
             volumes.setVisibility(View.GONE);
             volumesLabel.setVisibility(View.GONE);
             status.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
             classification.setText(activity.getClassificationString(activity.animeRecord.getClassificationInt()));
+            start.setText(activity.getDate(activity.animeRecord.getStartDate()));
+            end.setText(activity.getDate(activity.animeRecord.getEndDate()));
+            producers.setText("\u200F" + activity.animeRecord.getProducersString());
         } else {
             type.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
-            episodes.setText(activity.mangaRecord.getChapters() == 0 ? "?" : Integer.toString(activity.mangaRecord.getChapters()));
+            episodes.setText(activity.nullCheck(activity.mangaRecord.getChapters()));
             episodesLabel.setText(R.string.label_Chapters);
-            volumes.setText(activity.mangaRecord.getVolumes() == 0 ? "?" : Integer.toString(activity.mangaRecord.getVolumes()));
+            volumes.setText(activity.nullCheck(activity.mangaRecord.getVolumes()));
             status.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
             classification.setVisibility(View.GONE);
             classificationLabel.setVisibility(View.GONE);
+            startRow.setVisibility(View.GONE);
+            endRow.setVisibility(View.GONE);
+            producersRow.setVisibility(View.GONE);
         }
 
         score.setText(Float.toString(record.getMembersScore()));
@@ -211,6 +230,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.animeRecord.getSummaries(), getString(R.string.card_content_summaries));
             relation.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
             relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
+            relation.addRelations(activity.animeRecord.getOther(), getString(R.string.card_content_other));
 
             title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
             title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));

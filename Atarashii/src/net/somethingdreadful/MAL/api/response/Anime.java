@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,6 +19,7 @@ import lombok.Setter;
 public class Anime extends GenericRecord implements Serializable {
 
     public static final String STATUS_WATCHING = "watching";
+    public static final String STATUS_REWATCHING = "rewatching";
     public static final String STATUS_PLANTOWATCH = "plan to watch";
 
     // MyAnimeList
@@ -26,10 +28,18 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
     @Setter @Getter private String classification;
     @Setter @Getter @SerializedName("listed_anime_id") private int listedId;
-    /*private Date start_date;
-    private Date end_date;*/
+    @Setter @Getter @SerializedName("fansub_group") private String fansubGroup;
+    @Setter @Getter private ArrayList<String> producers;
+    @Setter @Getter @SerializedName("eps_downloaded") private int epsDownloaded;
+    @Setter @Getter @SerializedName("rewatch_count") private int rewatchCount;
+    @Setter @Getter @SerializedName("rewatch_value") private int rewatchValue;
+    @Setter @Getter @SerializedName("start_date") private String startDate;
+    @Setter @Getter @SerializedName("end_date") private String endDate;
     @Setter @Getter @SerializedName("watching_start") private String watchingStart;
     @Setter @Getter @SerializedName("watching_end") private String watchingEnd;
+    @Setter private boolean rewatching;
+    @Setter @Getter @SerializedName("storage_value") private int storageValue;
+    @Setter @Getter private int storage;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
     @Setter @Getter @SerializedName("character_anime") private ArrayList<RecordStub> characterAnime;
     @Setter @Getter private ArrayList<RecordStub> prequels;
@@ -39,6 +49,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("spin_offs") private ArrayList<RecordStub> spinOffs;
     @Setter @Getter @SerializedName("manga_adaptations") private ArrayList<RecordStub> mangaAdaptions;
     @Setter @Getter @SerializedName("parent_story") private RecordStub parentStory;
+    @Setter @Getter private ArrayList<RecordStub> other;
 
     // AniList
     public Anime anime;
@@ -96,6 +107,8 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")));
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
         result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
+        result.setStorage(c.getInt(columnNames.indexOf("storage")));
+        result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")));
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
@@ -106,6 +119,17 @@ public class Anime extends GenericRecord implements Serializable {
         result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
         result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
+        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
+        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
+        result.setFansubGroup(c.getString(columnNames.indexOf("fansub")));
+        result.setPriority(c.getInt(columnNames.indexOf("priority")));
+        result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")));
+        result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")));
+        result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")));
+        result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0);
+        result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
+        result.setStartDate(c.getString(columnNames.indexOf("startDate")));
+        result.setEndDate(c.getString(columnNames.indexOf("endDate")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));
         result.setListedId(c.getInt(columnNames.indexOf("listedId")));
         Date lastUpdateDate;
@@ -131,6 +155,10 @@ public class Anime extends GenericRecord implements Serializable {
         return Arrays.asList(classification).indexOf(getClassification());
     }
 
+    public boolean getRewatching() {
+        return rewatching;
+    }
+
     public int getTypeInt() {
         String[] types = {
                 "TV",
@@ -154,5 +182,9 @@ public class Anime extends GenericRecord implements Serializable {
 
     public int getWatchedStatusInt() {
         return getUserStatusInt(getWatchedStatus());
+    }
+
+    public String getProducersString() {
+        return getProducers() != null ? TextUtils.join(", ", getProducers()) : "";
     }
 }

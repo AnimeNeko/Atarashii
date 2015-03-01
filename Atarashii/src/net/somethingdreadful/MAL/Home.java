@@ -52,7 +52,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener {
+public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
 
     IGF af;
     IGF mf;
@@ -80,7 +80,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     RelativeLayout settings;
     RelativeLayout about;
     String username;
-
 
     boolean instanceExists;
     boolean networkAvailable;
@@ -141,6 +140,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
+            mViewPager.setOnPageChangeListener(this);
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -196,6 +196,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 break;
             case R.id.listType_planned:
                 getRecords(true, TaskJob.GETLIST, 5);
+                setChecked(item);
+                break;
+            case R.id.listType_rewatching:
+                getRecords(true, TaskJob.GETLIST, 6);
                 setChecked(item);
                 break;
             case R.id.forceSync:
@@ -277,6 +281,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     break;
                 case 5:
                     setChecked(menu.findItem(R.id.listType_planned));
+                    break;
+                case 6:
+                    setChecked(menu.findItem(R.id.listType_rewatching));
+                    break;
             }
         }
         return true;
@@ -461,6 +469,18 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         image.setOnClickListener(this);
         image2.setOnClickListener(this);
     }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (menu != null)
+            menu.findItem(R.id.listType_rewatching).setTitle(getString(position == 0 ? R.string.listType_rewatching : R.string.listType_rereading));
+    }
+
+    @Override
+    public void onPageSelected(int position) {}
+
+    @Override
+    public void onPageScrollStateChanged(int state) {}
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 

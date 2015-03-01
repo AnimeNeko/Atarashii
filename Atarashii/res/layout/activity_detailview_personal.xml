@@ -20,6 +20,28 @@
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_basic"
                 custom:header_Title_Color="@color/white" />
+
+            <!-- Other card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/other"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/basic"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_other"
+                custom:header_Title_Color="@color/white" />
+
+            <!-- Media rewatch card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/rewatch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/other"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_rewatch"
+                custom:header_Title_Color="@color/white" />
         </RelativeLayout>
     </ScrollView>
-    +</android.support.v4.widget.SwipeRefreshLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

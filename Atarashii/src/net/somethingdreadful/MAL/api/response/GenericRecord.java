@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +11,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -31,6 +33,9 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String status;
     @Setter @Getter private ArrayList<String> genres;
     @Setter @Getter private ArrayList<String> tags;
+    @Setter @Getter private int priority;
+    @Setter @Getter @SerializedName("personal_comments") private String personalComments;
+    @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
     @Setter @Getter private int score;
     @Setter @Getter private int rank;
     @Setter @Getter @SerializedName("members_score") private float membersScore;
@@ -118,6 +123,20 @@ public class GenericRecord implements Serializable {
     // Use this to get a formatted version of the text suited for display in the application
     public Spanned getSpannedSynopsis() {
         return (getSynopsis() != null ? Html.fromHtml(getSynopsis()) : null);
+    }
+
+    public void setPersonalTags(ArrayList<String> tags) {
+        personalTags = tags;
+    }
+
+    public String getPersonalTagsString() {
+        return getPersonalTags() != null ? TextUtils.join(",", getPersonalTags()) : "";
+    }
+
+    public void setPersonalTags(String tag) {
+        ArrayList<String> tags = new ArrayList<String>();
+        Collections.addAll(tags, TextUtils.split(tag, ","));
+        setPersonalTags(tags);
     }
 
     public int getUserStatusInt(String statusString) {

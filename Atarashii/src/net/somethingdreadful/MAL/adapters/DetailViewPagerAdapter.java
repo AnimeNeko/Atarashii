@@ -11,8 +11,8 @@ import net.somethingdreadful.MAL.DetailViewPersonal;
 import net.somethingdreadful.MAL.R;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
-    DetailView activity;
     public int count = 3;
+    DetailView activity;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);

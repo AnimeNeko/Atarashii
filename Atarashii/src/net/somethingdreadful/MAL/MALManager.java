@@ -65,6 +65,9 @@ public class MALManager {
                 else
                     r = Manga.STATUS_PLANTOREAD;
                 break;
+            case 6:
+                r = Anime.STATUS_REWATCHING;
+                break;
             default:
                 if (type.equals(MALApi.ListType.ANIME))
                     r = Anime.STATUS_WATCHING;

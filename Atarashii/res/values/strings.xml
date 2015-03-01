@@ -44,6 +44,14 @@
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
+    <string name="dialog_title_tags">My tags</string>
+    <string name="dialog_title_storage_value">Storage value</string>
+    <string name="dialog_title_downloaded">Episodes downloaded</string>
+    <string name="dialog_title_rewatched_times">Times rewatched</string>
+    <string name="dialog_title_rewatched_priority">Rewatch priority</string>
+    <string name="dialog_title_storage">Storage type</string>
+    <string name="dialog_title_comment">My comments</string>
+    <string name="dialog_title_fansub">My fansubgroup</string>
     <string name="dialog_title_share">Share</string>
     <string name="dialog_title_share_via">Share via</string>
     <string name="dialog_title_Verifying">Verifying</string>
@@ -59,6 +67,9 @@
     <string name="dialog_title_id_search">ID search</string>
     <string name="dialog_title_update_password">Update password</string>
     <string name="dialog_title_update_navigation">Update background</string>
+    <string name="dialog_hint_tags">Separate your tags with a comma</string>
+    <string name="dialog_hint_comment">Enter you comment</string>
+    <string name="dialog_hint_fansub">Enter you fansubgroup</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_id_search">Please press on the Anime or Manga button to search. Remember that Anime and Manga IDs aren\'t the same!</string>
@@ -185,19 +196,34 @@
     <string name="card_name_relations">Relations</string>
     <string name="card_name_titles">Alternative Titles</string>
     <string name="card_name_basic">Basic</string>
+    <string name="card_name_other">Other</string>
+    <string name="card_name_rewatch">Rewatch/Re-read</string>
 
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_my_start">My Start Date</string>
     <string name="card_content_my_end">My End Date</string>
+    <string name="card_content_other">Other</string>
     <string name="card_content_none">None</string>
     <string name="card_content_chapters">Chapters</string>
+    <string name="card_content_rewatch_priority">Priority</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_storage">Storage</string>
+    <string name="card_content_storage_amount">Storage capacity (GB)</string>
+    <string name="card_content_downloaded">Downloaded</string>
+    <string name="card_content_count">Count</string>
     <string name="card_content_episodes">Episodes</string>
     <string name="card_content_status">Status</string>
     <string name="card_content_mal_score">Score</string>
     <string name="card_content_my_score">My Score</string>
+    <string name="card_content_my_priority">My Priority</string>
+    <string name="card_content_my_tags">My Tags</string>
+    <string name="card_content_comments">Comments</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
+    <string name="card_content_start">Start Date</string>
+    <string name="card_content_end">End Date</string>
+    <string name="card_content_producers">Producers</string>
     <string name="card_content_aired">Aired</string>
     <string name="card_content_genres">Genres</string>
     <string name="card_content_classification">Classification</string>
@@ -341,6 +367,8 @@
     <string name="listType_planned">Planned</string>
     <string name="listType_Completed">Completed</string>
     <string name="listType_InProgress">In Progress</string>
+    <string name="listType_rewatching">Rewatching</string>
+    <string name="listType_rereading">Re-reading</string>
 
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
@@ -451,6 +479,42 @@
         <item>R - 17+ (violence \u0026 profanity)</item>
         <item>R+ - Mild Nudity</item>
         <item>Rx - Hentai</item>
+    </string-array>
+
+    <string-array name="priorityArray">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+
+    <integer-array name="id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
+
+    <string-array name="priorityRewatchArray">
+        <item>None</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Very High</item>
+    </string-array>
+
+    <string-array name="storageArray">
+        <item>None</item>
+        <item>Hard Drive</item>
+        <item>DVD / CD</item>
+        <item>None</item>
+        <item>Retail DVD</item>
+        <item>VHS</item>
+        <item>External HD</item>
+        <item>NAS</item>
     </string-array>
 
     <string-array name="genresArray">

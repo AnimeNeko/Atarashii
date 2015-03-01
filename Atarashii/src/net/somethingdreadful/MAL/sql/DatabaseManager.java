@@ -85,6 +85,8 @@ public class DatabaseManager {
             cv.put("favoritedCount", anime.getFavoritedCount());
             cv.put("popularityRank", anime.getPopularityRank());
             cv.put("rank", anime.getRank());
+            cv.put("startDate", anime.getStartDate());
+            cv.put("endDate", anime.getEndDate());
             cv.put("listedId", anime.getListedId());
         }
 
@@ -127,12 +129,27 @@ public class DatabaseManager {
                 }
 
                 saveAnimeToAnimeRelation(anime.getAlternativeVersions(), anime.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE);
+                saveAnimeToAnimeRelation(anime.getOther(), anime.getId(), MALSqlHelper.RELATION_TYPE_OTHER);
                 saveAnimeToAnimeRelation(anime.getCharacterAnime(), anime.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER);
                 saveAnimeToAnimeRelation(anime.getPrequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL);
                 saveAnimeToAnimeRelation(anime.getSequels(), anime.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL);
                 saveAnimeToAnimeRelation(anime.getSideStories(), anime.getId(), MALSqlHelper.RELATION_TYPE_SIDE_STORY);
                 saveAnimeToAnimeRelation(anime.getSpinOffs(), anime.getId(), MALSqlHelper.RELATION_TYPE_SPINOFF);
                 saveAnimeToAnimeRelation(anime.getSummaries(), anime.getId(), MALSqlHelper.RELATION_TYPE_SUMMARY);
+
+                if (anime.getPersonalTags() != null) {
+                    // delete old relations
+                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_PERSONALTAGS, "anime_id = ?", new String[]{String.valueOf(anime.getId())});
+                    for (String tag : anime.getPersonalTags()) {
+                        Integer tagId = getTagId(tag);
+                        if (tagId != null) {
+                            ContentValues gcv = new ContentValues();
+                            gcv.put("anime_id", anime.getId());
+                            gcv.put("tag_id", tagId);
+                            getDBWrite().replace(MALSqlHelper.TABLE_ANIME_PERSONALTAGS, null, gcv);
+                        }
+                    }
+                }
 
                 if (anime.getMangaAdaptions() != null) {
                     // delete old relations
@@ -174,6 +191,21 @@ public class DatabaseManager {
                         }
                     }
                 }
+
+                if (anime.getProducers() != null) {
+                    // delete old relations
+                    getDBWrite().delete(MALSqlHelper.TABLE_ANIME_PRODUCER, "anime_id = ?", new String[]{String.valueOf(anime.getId())});
+                    for (String producer : anime.getProducers()) {
+                        Integer producerId = getProducerId(producer);
+                        if (producerId != null) {
+                            ContentValues gcv = new ContentValues();
+                            gcv.put("anime_id", anime.getId());
+                            gcv.put("producer_id", producerId);
+                            getDBWrite().replace(MALSqlHelper.TABLE_ANIME_PRODUCER, null, gcv);
+
+                        }
+                    }
+                }
             }
 
             // update animelist if user id is provided
@@ -186,6 +218,15 @@ public class DatabaseManager {
                 alcv.put("watched", anime.getWatchedEpisodes());
                 alcv.put("watchedStart", anime.getWatchingStart());
                 alcv.put("watchedEnd", anime.getWatchingEnd());
+                alcv.put("fansub", anime.getFansubGroup());
+                alcv.put("priority", anime.getPriority());
+                alcv.put("downloaded", anime.getEpsDownloaded());
+                alcv.put("rewatch", (anime.getRewatching() ? 1 : 0));
+                alcv.put("storage", anime.getStorage());
+                alcv.put("storageValue", anime.getStorageValue());
+                alcv.put("rewatchCount", anime.getRewatchCount());
+                alcv.put("rewatchValue", anime.getRewatchValue());
+                alcv.put("comments", anime.getPersonalComments());
                 alcv.put("dirty", anime.getDirty());
                 if (anime.getLastUpdate() != null)
                     alcv.put("lastUpdate", anime.getLastUpdate().getTime());
@@ -207,7 +248,8 @@ public class DatabaseManager {
 
     public Anime getAnime(Integer id, String username) {
         Anime result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.watchedStart, al.watchedEnd, al.dirty, al.lastUpdate" +
+        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate, " +
+                " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
                 " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
                 " WHERE al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
@@ -215,6 +257,8 @@ public class DatabaseManager {
             result.setGenres(getAnimeGenres(result.getId()));
             result.setTags(getAnimeTags(result.getId()));
             result.setAlternativeVersions(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
+            result.setOther(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_OTHER));
+            result.setPersonalTags(getAnimePersonalTags(result.getId()));
             result.setCharacterAnime(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER));
             result.setPrequels(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL));
             result.setSequels(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL));
@@ -231,6 +275,7 @@ public class DatabaseManager {
             otherTitles.put("japanese", getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_JAPANESE));
             otherTitles.put("synonyms", getAnimeOtherTitles(result.getId(), MALSqlHelper.TITLE_TYPE_SYNONYM));
             result.setOtherTitles(otherTitles);
+            result.setProducers(getAnimeProducers(result.getId()));
         }
         cursor.close();
         return result;
@@ -296,12 +341,19 @@ public class DatabaseManager {
         try {
             ArrayList<String> selArgs = new ArrayList<String>();
             selArgs.add(String.valueOf(userId));
-            if (listType != "") {
+            if (listType != "" && !listType.equals(Anime.STATUS_REWATCHING))
                 selArgs.add(listType);
-            }
-            cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.watchedStart, al.watchedEnd, al.dirty, al.lastUpdate" +
-                    " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                    " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+
+            if (listType.equals(Anime.STATUS_REWATCHING))
+                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
+                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                        " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+            else
+                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
+                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                        " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Anime>();
                 do {
@@ -420,6 +472,20 @@ public class DatabaseManager {
                     }
                 }
 
+                if (manga.getPersonalTags() != null) {
+                    // delete old relations
+                    getDBWrite().delete(MALSqlHelper.TABLE_MANGA_PERSONALTAGS, "manga_id = ?", new String[]{String.valueOf(manga.getId())});
+                    for (String tag : manga.getPersonalTags()) {
+                        Integer tagId = getTagId(tag);
+                        if (tagId != null) {
+                            ContentValues gcv = new ContentValues();
+                            gcv.put("manga_id", manga.getId());
+                            gcv.put("tag_id", tagId);
+                            getDBWrite().replace(MALSqlHelper.TABLE_MANGA_PERSONALTAGS, null, gcv);
+                        }
+                    }
+                }
+
                 if (manga.getAnimeAdaptations() != null) {
                     // delete old relations
                     getDBWrite().delete(MALSqlHelper.TABLE_MANGA_ANIME_RELATIONS, "manga_id = ? AND relationType = ?", new String[]{String.valueOf(manga.getId()), MALSqlHelper.RELATION_TYPE_ADAPTATION});
@@ -467,6 +533,11 @@ public class DatabaseManager {
                 mlcv.put("chaptersRead", manga.getChaptersRead());
                 mlcv.put("readStart", manga.getReadingStart());
                 mlcv.put("readEnd", manga.getReadingEnd());
+                mlcv.put("priority", manga.getPriority());
+                mlcv.put("downloaded", manga.getChapDownloaded());
+                mlcv.put("rereading", manga.getRereadValue());
+                mlcv.put("rereadCount", manga.getRereadCount());
+                mlcv.put("comments", manga.getPersonalComments());
                 mlcv.put("dirty", manga.getDirty());
                 if (manga.getLastUpdate() != null)
                     mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
@@ -478,12 +549,14 @@ public class DatabaseManager {
     public Manga getManga(Integer id, String username) {
         Manga result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                " ml.dirty, ml.lastUpdate FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+                " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
+                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
                 " WHERE ml.profile_id = ? and m." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
             result.setGenres(getMangaGenres(result.getId()));
             result.setTags(getMangaTags(result.getId()));
+            result.setPersonalTags(getMangaPersonalTags(result.getId()));
             result.setAlternativeVersions(getMangaToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
             result.setRelatedManga(getMangaToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_RELATED));
             result.setAnimeAdaptations(getMangaToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ADAPTATION));
@@ -561,7 +634,8 @@ public class DatabaseManager {
                 selArgs.add(listType);
             }
             cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                    " ml.dirty, ml.lastUpdate FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+                    " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
+                    " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
                     " WHERE ml.profile_id = ? " + (listType != "" ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty = 1 " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Manga>();
@@ -749,6 +823,10 @@ public class DatabaseManager {
         return getRecordId(MALSqlHelper.TABLE_TAGS, MALSqlHelper.COLUMN_ID, "recordName", tag);
     }
 
+    private Integer getProducerId(String producer) {
+        return getRecordId(MALSqlHelper.TABLE_PRODUCER, MALSqlHelper.COLUMN_ID, "recordName", producer);
+    }
+
     private Integer getUserId(String username) {
         if (username == null || username.equals(""))
             return 0;
@@ -808,6 +886,36 @@ public class DatabaseManager {
         return result;
     }
 
+    public ArrayList<String> getAnimePersonalTags(Integer animeId) {
+        ArrayList<String> result = null;
+        Cursor cursor = getDBRead().rawQuery("SELECT t.recordName FROM " + MALSqlHelper.TABLE_TAGS + " t " +
+                "INNER JOIN " + MALSqlHelper.TABLE_ANIME_PERSONALTAGS + " at ON at.tag_id = t." + MALSqlHelper.COLUMN_ID +
+                " WHERE at.anime_id = ? ORDER BY t.recordName COLLATE NOCASE", new String[]{animeId.toString()});
+        if (cursor.moveToFirst()) {
+            result = new ArrayList<String>();
+            do {
+                result.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public ArrayList<String> getMangaPersonalTags(Integer mangaId) {
+        ArrayList<String> result = null;
+        Cursor cursor = getDBRead().rawQuery("SELECT t.recordName FROM " + MALSqlHelper.TABLE_TAGS + " t " +
+                "INNER JOIN " + MALSqlHelper.TABLE_MANGA_PERSONALTAGS + " at ON at.tag_id = t." + MALSqlHelper.COLUMN_ID +
+                " WHERE at.manga_id = ? ORDER BY t.recordName COLLATE NOCASE", new String[]{mangaId.toString()});
+        if (cursor.moveToFirst()) {
+            result = new ArrayList<String>();
+            do {
+                result.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
     public ArrayList<String> getMangaGenres(Integer mangaId) {
         ArrayList<String> result = null;
         Cursor cursor = getDBRead().rawQuery("SELECT g.recordName FROM " + MALSqlHelper.TABLE_GENRES + " g " +
@@ -828,6 +936,22 @@ public class DatabaseManager {
         Cursor cursor = getDBRead().rawQuery("SELECT t.recordName FROM " + MALSqlHelper.TABLE_TAGS + " t " +
                 "INNER JOIN " + MALSqlHelper.TABLE_MANGA_TAGS + " mt ON mt.tag_id = t." + MALSqlHelper.COLUMN_ID +
                 " WHERE mt.manga_id = ? ORDER BY t.recordName COLLATE NOCASE", new String[]{mangaId.toString()});
+        if (cursor.moveToFirst()) {
+            result = new ArrayList<String>();
+            do {
+                result.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public ArrayList<String> getAnimeProducers(Integer animeId) {
+        ArrayList<String> result = null;
+        Cursor cursor = getDBRead().rawQuery("SELECT p.recordName FROM " + MALSqlHelper.TABLE_PRODUCER + " p " +
+                "INNER JOIN " + MALSqlHelper.TABLE_ANIME_PRODUCER + " ap ON ap.producer_id = p." + MALSqlHelper.COLUMN_ID +
+                " WHERE ap.anime_id = ? ORDER BY p.recordName COLLATE NOCASE", new String[]{animeId.toString()});
+
         if (cursor.moveToFirst()) {
             result = new ArrayList<String>();
             do {

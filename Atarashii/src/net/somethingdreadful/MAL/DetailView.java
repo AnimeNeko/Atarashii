@@ -30,10 +30,14 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.dialog.ListDialogFragment;
+import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -44,7 +48,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -112,6 +116,22 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         setMenu();
     }
 
+    public String nullCheck(String string) {
+        return isEmpty(string) ? getString(R.string.unknown) : string;
+    }
+
+    public boolean isEmpty(String string) {
+        return ((string == null || string.equals("") || string.equals("0-00-00")));
+    }
+
+    public String nullCheck(int number) {
+        return (number == 0 ? "?" : Integer.toString(number));
+    }
+
+    public String getDate(String string) {
+        return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, this, false));
+    }
+
     /*
      * show or hide the personal card
      */
@@ -172,19 +192,83 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     /*
      * Episode picker dialog
      */
-    public void onDialogDismissed(int newValue) {
-        if (newValue != animeRecord.getWatchedEpisodes()) {
-            if (newValue == animeRecord.getEpisodes()) {
-                animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            }
-            if (newValue == 0) {
-                animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
-            }
-
-            animeRecord.setWatchedEpisodes(newValue);
-            animeRecord.setDirty(true);
-            setText();
+    @Override
+    public void onUpdated(int number, int id) {
+        switch (id) {
+            case R.id.progress1:
+                if (number != animeRecord.getWatchedEpisodes()) {
+                    if (number == animeRecord.getEpisodes())
+                        animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                    if (number == 0)
+                        animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
+                    animeRecord.setWatchedEpisodes(number);
+                }
+                break;
+            case R.id.scorePanel:
+                if (isAnime())
+                    animeRecord.setScore(number);
+                else
+                    mangaRecord.setScore(number);
+                break;
+            case R.id.priorityPanel:
+                if (isAnime())
+                    animeRecord.setPriority(number);
+                else
+                    mangaRecord.setPriority(number);
+                break;
+            case R.id.storagePanel:
+                animeRecord.setStorage(number);
+                break;
+            case R.id.capacityPanel:
+                animeRecord.setStorageValue(number);
+                break;
+            case R.id.downloadPanel:
+                animeRecord.setEpsDownloaded(number);
+                break;
+            case R.id.rewatchPriorityPanel:
+                if (isAnime())
+                    animeRecord.setRewatchValue(number);
+                else
+                    mangaRecord.setRereadValue(number);
+                break;
+            case R.id.countPanel:
+                if (isAnime())
+                    animeRecord.setRewatchCount(number);
+                else
+                    mangaRecord.setRereadCount(number);
+                break;
         }
+        if (isAnime())
+            animeRecord.setDirty(true);
+        else
+            mangaRecord.setDirty(true);
+        setText();
+    }
+
+    @Override
+    public void onSendClicked(String message, String subject, ForumJob task, int id) {
+        switch (id) {
+            case R.id.tagsPanel:
+                if (isAnime())
+                    animeRecord.setPersonalTags(message);
+                else
+                    mangaRecord.setPersonalTags(message);
+                break;
+            case R.id.commentspanel:
+                if (isAnime())
+                    animeRecord.setPersonalComments(message);
+                else
+                    mangaRecord.setPersonalComments(message);
+                break;
+            case R.id.fansubPanel:
+                animeRecord.setFansubGroup(message);
+                break;
+        }
+        if (isAnime())
+            animeRecord.setDirty(true);
+        else
+            mangaRecord.setDirty(true);
+        setText();
     }
 
     /*
@@ -212,6 +296,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             mangaRecord.setDirty(true);
         }
         setText();
+    }
+
+    public boolean isAnime(){
+        return type.equals(MALApi.ListType.ANIME);
     }
 
     /*
