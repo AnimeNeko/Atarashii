@@ -31,7 +31,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
         }
         MALManager mManager = new MALManager(context);
 
-        if (!AccountService.isMAL())
+        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(context))
             mManager.verifyAuthentication();
 
         if (forcesync && MALApi.isNetworkAvailable(context)) {
