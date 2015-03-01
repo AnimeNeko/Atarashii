@@ -19,6 +19,7 @@ import net.somethingdreadful.MAL.adapters.ForumMainAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
@@ -191,7 +192,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         int itemID = ((Forum) topicsAdapter.getItem(position)).getId();
-        if (task == ForumJob.SUBBOARD)
+        if (task == ForumJob.SUBBOARD && !ForumChildDialogFragment.DBModificationRequest)
             activity.getDiscussion(itemID);
         else
             activity.getPosts(itemID);

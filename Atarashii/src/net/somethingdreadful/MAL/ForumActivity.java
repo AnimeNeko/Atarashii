@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumsMain;
 import net.somethingdreadful.MAL.forum.ForumsPosts;
@@ -261,24 +262,21 @@ public class ForumActivity extends ActionBarActivity {
      * @return Uri The uri of the desired URL to launch
      */
     public Uri getUri() {
-        Uri url = Uri.EMPTY;
         switch (task) {
             case BOARD:
-                url = Uri.parse("http://myanimelist.net/forum/");
-                break;
+                return Uri.parse("http://myanimelist.net/forum/");
             case SUBBOARD:
-                url = Uri.parse("http://myanimelist.net/forum/?subboard=" + topics.id);
-                break;
+                return Uri.parse("http://myanimelist.net/forum/?subboard=" + topics.id);
             case DISCUSSION:
-                url = Uri.parse("http://myanimelist.net/forum/?" + (topics.type == MALApi.ListType.ANIME ? "anime" : "manga") + "id=" + topics.id);
-                break;
+                if (ForumChildDialogFragment.DBModificationRequest)
+                    return Uri.parse("http://myanimelist.net/forum/?topicid=" + topics.id);
+                else
+                    return Uri.parse("http://myanimelist.net/forum/?" + (topics.type == MALApi.ListType.ANIME ? "anime" : "manga") + "id=" + topics.id);
             case TOPICS:
-                url = Uri.parse("http://myanimelist.net/forum/?board=" + topics.id);
-                break;
+                return Uri.parse("http://myanimelist.net/forum/?board=" + topics.id);
             case POSTS:
-                url = Uri.parse("http://myanimelist.net/forum/?topicid=" + posts.id);
-                break;
+                return Uri.parse("http://myanimelist.net/forum/?topicid=" + posts.id);
         }
-        return url;
+        return null;
     }
 }
