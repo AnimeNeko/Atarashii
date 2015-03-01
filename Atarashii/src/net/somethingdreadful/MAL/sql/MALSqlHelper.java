@@ -70,6 +70,15 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + COLUMN_ID + " integer primary key autoincrement, "
             + "username varchar UNIQUE, "
             + "avatar_url varchar, "
+            + "anime_time integer, "
+            + "manga_chap integer, "
+            + "about varchar, "
+            + "list_order integer, "
+            + "image_url_lge varchar, "
+            + "image_url_banner varchar, "
+            + "title_language varchar, "
+            + "score_type integer, "
+            + "notifications integer, "
             + "birthday varchar, "
             + "location varchar, "
             + "website varchar, "
@@ -394,7 +403,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              */
             // we need the username for building the relation tables, so get the account here
             Integer userId = null;
-            Account account = AccountService.getAccount(context);
+            Account account = AccountService.getAccount();
             if (account != null) {
                 Cursor userCursor = db.query(TABLE_PROFILE, new String[]{COLUMN_ID}, "username = ?", new String[]{account.name}, null, null, null);
                 if (userCursor.moveToFirst()) {

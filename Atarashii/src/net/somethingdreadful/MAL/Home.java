@@ -94,7 +94,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        if (AccountService.getAccount(context) != null) {
+        if (AccountService.getAccount() != null) {
             actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
@@ -114,8 +114,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
-            username = AccountService.getUsername(context);
+            username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
+            ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
             new UserNetworkTask(context, false, this).execute(username);
 
             logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);
@@ -202,8 +203,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 break;
             case R.id.menu_inverse:
                 if (af != null && mf != null) {
-                    af.inverse();
-                    mf.inverse();
+                    if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
+                        af.toggleAiringTime();
+                    } else {
+                        af.inverse();
+                        mf.inverse();
+                    }
                 }
                 break;
         }
@@ -252,7 +257,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
-        myListChanged();
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.list) {
@@ -284,7 +288,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     public void myListChanged() {
         menu.findItem(R.id.menu_listType).setVisible(myList);
-        menu.findItem(R.id.menu_inverse).setVisible(myList);
+        menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
         menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
         menu.findItem(R.id.action_search).setVisible(networkAvailable);
     }
@@ -296,7 +300,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         if (mf != null)
             mf.cancelNetworkTask();
         MALSqlHelper.getHelper(context).deleteDatabase(context);
-        AccountService.deleteAccount(context);
+        AccountService.deleteAccount();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
@@ -351,7 +355,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onIGFReady(IGF igf) {
-        igf.setUsername(AccountService.getUsername(context));
+        igf.setUsername(AccountService.getUsername());
         if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else
@@ -467,7 +471,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             }
             myList = ((position <= 3 && myList) || position == 0);
-            myListChanged();
             // disable swipeRefresh for other lists
             if (af == null || mf == null) {
                 af = mIGFPagerAdapter.getIGF(0);
@@ -489,8 +492,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     startActivity(Friends);
                     break;
                 case 3:
-                    Intent Forum = new Intent(context, ForumActivity.class);
-                    startActivity(Forum);
+                    if (AccountService.isMAL()) {
+                        Intent Forum = new Intent(context, ForumActivity.class);
+                        startActivity(Forum);
+                    } else {
+                        Toast.makeText(context, getString(R.string.toast_info_disabled), Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case 4:
                     getRecords(true, TaskJob.GETTOPRATED, af.list);
@@ -505,11 +512,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     getRecords(true, TaskJob.GETUPCOMING, af.list);
                     break;
             }
+            myListChanged();
 
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
              */
-            if (position != 1 && position != 2&& position != 3) {
+            if (position != 1 && position != 2 && position != 3) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
                 view.setBackgroundColor(Color.parseColor("#E8E8E8"));

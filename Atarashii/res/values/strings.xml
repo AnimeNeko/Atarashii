@@ -40,6 +40,7 @@
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
     <string name="toast_info_hold_on">Hold on a second, we are still loading some information!</string>
     <string name="toast_info_comment_add">The comment was successfully send!</string>
+    <string name="toast_info_disabled">This feature is currently disabled :(</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
@@ -129,11 +130,14 @@
     <string name="form_hint_message">Message</string>
 
     <!-- FirstTimeInit (Contents) Strings -->
+    <string name="init_hint_choose">Welcome to Atarashii!\nPlease choose your preferred site.</string>
+    <string name="init_hint_myanimelist">MyAnimeList</string>
+    <string name="init_hint_anilist">AniList</string>
     <string name="form_hint_user">MAL Username</string>
     <string name="form_hint_pass">MAL Password</string>
     <string name="form_hint_info">Enter your MyAnimeList credentials below:</string>
     <string name="form_action_create">Create an Account</string>
-    <string name="form_action_connect">Connect to MAL</string>
+    <string name="form_action_connect">Login</string>
 
     <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">I\'ve watched:</string>
@@ -154,9 +158,12 @@
     <string name="nav_item_my_profile">My Profile</string>
     <string name="nav_item_my_list">My List</string>
     <string name="nav_item_my_friends">My Friends</string>
+    <string name="nav_item_my_followers">Followers</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
+    <string name="nav_item_airing">Airing</string>
     <string name="nav_item_most_popular">Most Popular</string>
+    <string name="nav_item_year">This Year</string>
     <string name="nav_item_just_added">Just Added</string>
     <string name="nav_item_upcoming">Upcoming</string>
     <string name="drawer_open">Open navigation drawer</string>
@@ -170,8 +177,8 @@
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Synopsis</string>
     <string name="card_name_progress">Progress</string>
-    <string name="card_name_stats">MAL Stats</string>
-    <string name="card_name_info">MAL Info</string>
+    <string name="card_name_stats">Statistics</string>
+    <string name="card_name_info">Information</string>
     <string name="card_name_rating">Rating</string>
     <string name="card_name_personal">Personal</string>
     <string name="card_name_relations">Relations</string>
@@ -186,7 +193,7 @@
     <string name="card_content_chapters">Chapters</string>
     <string name="card_content_episodes">Episodes</string>
     <string name="card_content_status">Status</string>
-    <string name="card_content_mal_score">MAL Score</string>
+    <string name="card_content_mal_score">Score</string>
     <string name="card_content_my_score">My Score</string>
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
@@ -415,11 +422,21 @@
     <string name="dateformat">MM-dd-yy</string>
     <string name="datetimeformat">MM-dd-yy, h:mm a</string>
     <string name="datetimeformat_yesterday">\'Yesterday\', h:mm a</string>
+    <string name="datetimeformat_tomorrow">\'Tomorrow\', h:mm a</string>
     <string name="datetimeformat_dayname">EEEE, h:mm a</string>
     <plurals name="minutes_ago">
         <item quantity="zero">now</item>
         <item quantity="one">One minute ago</item>
         <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <plurals name="minutes_left">
+        <item quantity="zero">now</item>
+        <item quantity="one">In %d minute</item>
+        <item quantity="other">In %d minutes</item>
+    </plurals>
+    <plurals name="hours_left">
+        <item quantity="one">%d hour from now</item>
+        <item quantity="other">%d hours from now</item>
     </plurals>
     <plurals name="hours_ago">
         <item quantity="one">One hour ago</item>

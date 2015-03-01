@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
@@ -145,6 +146,8 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         title = new DetailViewRelationsAdapter(activity.getApplicationContext());
         titles = (ExpandableListView) cardTitles.findViewById(R.id.ListView);
         titles.setAdapter(title);
+
+        view.findViewById(R.id.MALstats).setVisibility(AccountService.isMAL() ? View.VISIBLE : View.GONE);
 
         clickListeners();
     }

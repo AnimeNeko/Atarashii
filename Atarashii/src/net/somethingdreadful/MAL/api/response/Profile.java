@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,11 +14,32 @@ import lombok.Setter;
 
 public class Profile implements Serializable {
     @Getter @Setter private int id;
+
+    // MyAnimeList
     @Getter @Setter @SerializedName("avatar_url") private String avatarUrl;
     @Getter @Setter private ProfileDetails details;
 
     @Getter @Setter @SerializedName("anime_stats") private ProfileAnimeStats animeStats;
     @Getter @Setter @SerializedName("manga_stats") private ProfileMangaStats mangaStats;
+
+    // Anilist
+    @Getter @Setter @SerializedName("display_name") private String displayName;
+    @Getter @Setter @SerializedName("anime_time") private int animeTime;
+    @Getter @Setter @SerializedName("manga_chap") private int mangaChapters;
+    @Getter @Setter private String about;
+    @Getter @Setter @SerializedName("list_order") private int listOrder;
+    @Getter @Setter @SerializedName("adult_content") private boolean adultContent;
+    @Getter @Setter private boolean following;
+    @Getter @Setter @SerializedName("image_url_lge") private String imageUrl;
+    @Getter @Setter @SerializedName("image_url_banner") private String imageUrlBanner;
+    @Getter @Setter @SerializedName("title_language") private String titleLanguage;
+    @Getter @Setter @SerializedName("score_type") private int scoreType;
+    @Getter @Setter @SerializedName("custom_list_anime") private ArrayList<String> customAnime;
+    @Getter @Setter @SerializedName("custom_list_manga") private ArrayList<String> customManga;
+    @Getter @Setter @SerializedName("advanced_rating") private boolean advancedRating;
+    @Getter @Setter @SerializedName("advanced_rating_names") private ArrayList<String> advancedRatingNames;
+    @Getter @Setter private int notifications;
+
 
     public static Profile fromCursor(Cursor c) {
         Profile result = new Profile();

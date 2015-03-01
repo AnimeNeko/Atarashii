@@ -35,6 +35,9 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         boolean error = false;
         MALManager manager = new MALManager(context);
 
+        if (!AccountService.isMAL())
+            manager.verifyAuthentication();
+
         try {
             if (MALApi.isNetworkAvailable(context)) {
                 if (type.equals(ListType.ANIME)) {
@@ -63,7 +66,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
         // only update if everything went well!
         if (!error) {
-            String account = AccountService.getUsername(context);
+            String account = AccountService.getUsername();
             if (!job.equals(TaskJob.UPDATE)) {
                 if (ListType.ANIME.equals(type)) {
                     manager.deleteAnimeFromAnimelist((Anime) gr[0], account);

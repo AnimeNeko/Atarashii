@@ -10,9 +10,11 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.api.response.Profile;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.api.response.User;
 
@@ -65,6 +67,9 @@ public class DatabaseManager {
 
     public void saveAnime(Anime anime, boolean IGF, int userId) {
         ContentValues cv = new ContentValues();
+
+        if (!AccountService.isMAL() && anime.getWatchedStatus() == null)
+            anime.createBaseModel();
 
         cv.put(MALSqlHelper.COLUMN_ID, anime.getId());
         cv.put("recordName", anime.getTitle());
@@ -339,6 +344,9 @@ public class DatabaseManager {
     public void saveManga(Manga manga, boolean ignoreSynopsis, int userId) {
         ContentValues cv = new ContentValues();
 
+        if (!AccountService.isMAL())
+            manga.createBaseModel();
+
         cv.put(MALSqlHelper.COLUMN_ID, manga.getId());
         cv.put("recordName", manga.getTitle());
         cv.put("recordType", manga.getType());
@@ -569,6 +577,49 @@ public class DatabaseManager {
         return result;
     }
 
+    public void saveProfile(Profile profile) {
+        ContentValues cv = new ContentValues();
+
+        cv.put("username", profile.getDisplayName());
+        cv.put("anime_time", profile.getAnimeTime());
+        cv.put("manga_chap", profile.getMangaChapters());
+        cv.put("about", profile.getAbout());
+        cv.put("list_order", profile.getListOrder());
+        cv.put("avatar_url", profile.getImageUrl());
+        cv.put("image_url_banner", profile.getImageUrlBanner());
+        cv.put("title_language", profile.getTitleLanguage());
+        cv.put("score_type", profile.getScoreType());
+
+        //cv.put("advanced_rating", profile.getAdvancedRating());
+
+        cv.put("notifications", profile.getNotifications());
+
+        // don't use replace it alters the autoincrement _id field!
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_PROFILE, cv, "username = ?", new String[]{profile.getDisplayName()});
+        if (updateResult > 0) {// updated row
+            profile.setId(getUserId(profile.getDisplayName()));
+        } else {
+            Long insertResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
+            profile.setId(insertResult.intValue());
+        }
+    }
+
+    public void saveUser(User profile) {
+        ContentValues cv = new ContentValues();
+
+        cv.put("username", profile.getDisplayName());
+        cv.put("avatar_url", profile.getImageUrl());
+
+        // don't use replace it alters the autoincrement _id field!
+        int updateResult = getDBWrite().update(MALSqlHelper.TABLE_PROFILE, cv, "username = ?", new String[]{profile.getDisplayName()});
+        if (updateResult > 0) {// updated row
+            profile.setId(getUserId(profile.getDisplayName()));
+        } else {
+            Long insertResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
+            profile.setId(insertResult.intValue());
+        }
+    }
+
     public void saveUser(User user, Boolean profile) {
         ContentValues cv = new ContentValues();
 
@@ -680,7 +731,10 @@ public class DatabaseManager {
 
     public void saveFriendList(ArrayList<User> friendlist, String username) {
         for (User friend : friendlist) {
-            saveUser(friend, false);
+            if (AccountService.isMAL())
+                saveUser(friend, false);
+            else
+                saveUser(friend);
         }
 
         Integer userId = getUserId(username);

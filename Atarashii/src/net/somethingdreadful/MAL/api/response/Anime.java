@@ -20,6 +20,7 @@ public class Anime extends GenericRecord implements Serializable {
     public static final String STATUS_WATCHING = "watching";
     public static final String STATUS_PLANTOWATCH = "plan to watch";
 
+    // MyAnimeList
     @Setter @Getter private int episodes;
     @Setter @Getter @SerializedName("watched_status") private String watchedStatus;
     @Setter @Getter @SerializedName("watched_episodes") private int watchedEpisodes;
@@ -38,6 +39,50 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("spin_offs") private ArrayList<RecordStub> spinOffs;
     @Setter @Getter @SerializedName("manga_adaptations") private ArrayList<RecordStub> mangaAdaptions;
     @Setter @Getter @SerializedName("parent_story") private RecordStub parentStory;
+
+    // AniList
+    public Anime anime;
+    private String list_status;
+    private String airing_status;
+    private Float average_score;
+    private int total_episodes;
+    private String image_url_lge;
+    private String title_romaji;
+    private String title_japanese;
+    private String title_english;
+
+    private int episodes_watched;
+    private String description;
+    @Getter private Airing airing;
+    private ArrayList<String> synonyms;
+
+    public class Airing {
+        @Getter private String time;
+        @Getter private int countdown;
+        @Getter private int next_episode;
+    }
+
+    public Anime createBaseModel() {
+        if (anime != null) {
+            setId(anime.getId());
+            setTitle(anime.title_romaji);
+            setImageUrl(anime.image_url_lge);
+            setStatus(anime.airing_status);
+            setMembersScore(anime.average_score);
+            setEpisodes(anime.total_episodes);
+        } else {
+            setTitle(title_romaji);
+            setImageUrl(image_url_lge);
+            setStatus(airing_status);
+            if (average_score != null)
+                setMembersScore(average_score);
+            setEpisodes(total_episodes);
+        }
+        setWatchedEpisodes(episodes_watched);
+        setWatchedStatus(list_status);
+        setSynopsis(description);
+        return this;
+    }
 
     public static Anime fromCursor(Cursor c) {
         Anime result = new Anime();

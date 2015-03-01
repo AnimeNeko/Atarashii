@@ -31,21 +31,21 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         try {
-            String Auth = AccountService.getAuth(context);
+            String Auth = AccountService.getAuth();
             Bundle bundle = new Bundle();
             int interval = PrefManager.getSyncTime() * 60;
             switch (key) {
                 case "synchronisation_time":
-                    ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
-                    ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
+                    ContentResolver.removePeriodicSync(AccountService.getAccount(), Auth, bundle);
+                    ContentResolver.addPeriodicSync(AccountService.getAccount(), Auth, bundle, interval);
                     break;
                 case "synchronisation":
                     if (PrefManager.getSyncEnabled()) {
-                        ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, true);
-                        ContentResolver.addPeriodicSync(AccountService.getAccount(context), Auth, bundle, interval);
+                        ContentResolver.setSyncAutomatically(AccountService.getAccount(), Auth, true);
+                        ContentResolver.addPeriodicSync(AccountService.getAccount(), Auth, bundle, interval);
                     } else {
-                        ContentResolver.removePeriodicSync(AccountService.getAccount(context), Auth, bundle);
-                        ContentResolver.setSyncAutomatically(AccountService.getAccount(context), Auth, false);
+                        ContentResolver.removePeriodicSync(AccountService.getAccount(), Auth, bundle);
+                        ContentResolver.setSyncAutomatically(AccountService.getAccount(), Auth, false);
                     }
                     break;
                 case "locale":

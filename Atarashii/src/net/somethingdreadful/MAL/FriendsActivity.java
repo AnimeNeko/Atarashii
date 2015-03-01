@@ -44,7 +44,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_friends);
-        setTitle(R.string.title_activity_friends); //set title
+        setTitle(AccountService.isMAL() ? R.string.title_activity_friends : R.string.nav_item_my_followers); //set title
 
         Gridview = (GridView) findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);
@@ -119,7 +119,7 @@ public class FriendsActivity extends ActionBarActivity implements FriendsNetwork
     public void sync() {
         swipeRefresh.setEnabled(false);
         swipeRefresh.setRefreshing(true);
-        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername(context));
+        new FriendsNetworkTask(context, forcesync, this).execute(AccountService.getUsername());
     }
 
     @Override

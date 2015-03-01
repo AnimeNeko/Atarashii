@@ -32,6 +32,42 @@ public class Manga extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("reading_start") private String readingStart;
     @Setter @Getter @SerializedName("reading_end") private String readingEnd;
 
+    // AniList
+    public Manga manga;
+    private String list_status;
+    private String publishing_status;
+    private Float average_score;
+    private int total_chapters;
+    private int total_volumes;
+    private String image_url_lge;
+    private String title_romaji;
+    private String title_japanese;
+    private String title_english;
+
+    private ArrayList<String> synonyms;
+
+    public Manga createBaseModel() {
+        if (manga != null) {
+            setId(manga.getId());
+            setTitle(manga.title_romaji);
+            setImageUrl(manga.image_url_lge);
+            setStatus(manga.publishing_status);
+            setMembersScore(manga.average_score);
+            setVolumes(manga.total_volumes);
+            setChapters(manga.total_chapters);
+        } else {
+            setTitle(title_romaji);
+            setImageUrl(image_url_lge);
+            setStatus(publishing_status);
+            if (average_score != null)
+                setMembersScore(average_score);
+            setVolumes(total_volumes);
+            setChapters(total_chapters);
+        }
+        setReadStatus(list_status);
+        return this;
+    }
+
     public static Manga fromCursor(Cursor c) {
         Manga result = new Manga();
         result.setFromCursor(true);

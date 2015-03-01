@@ -47,3 +47,6 @@ build/
 crashlytics.properties
 #Build-unique data
 crashlytics-build.properties
+
+# local gradle config
+local.gradle

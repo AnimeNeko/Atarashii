@@ -115,7 +115,7 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
          * details (read/watch status, score). To do this it needs the username to determine the correct
          * anime-/mangalist
          */
-        igf.setUsername(AccountService.getUsername(getApplicationContext()));
+        igf.setUsername(AccountService.getUsername());
         if (igf.listType.equals(ListType.ANIME))
             af = igf;
         else

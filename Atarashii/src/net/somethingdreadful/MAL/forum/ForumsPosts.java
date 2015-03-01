@@ -113,7 +113,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      */
     public void apply(ForumMain result) {
         activity.setTitle(getString(R.string.title_activity_forum));
-        webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(activity), page), "text/html", "utf-8", null);
+        webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(), page), "text/html", "utf-8", null);
         toggle(false);
         record = result;
     }

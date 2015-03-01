@@ -71,7 +71,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
                 if (!getPassword().equals("")) {
                     passwordWrongText.setVisibility(View.GONE);
                     toggleLoadingIndicator(true);
-                    new AuthenticationCheckTask(UpdatePasswordDialogFragment.this).execute(AccountService.getUsername(getActivity()), getPassword());
+                    new AuthenticationCheckTask(UpdatePasswordDialogFragment.this).execute(AccountService.getUsername(), getPassword());
                 }
             }
         });
@@ -79,9 +79,9 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
     }
 
     @Override
-    public void onAuthenticationCheckFinished(boolean result) {
+    public void onAuthenticationCheckFinished(boolean result, String username) {
         if (result) {
-            AccountService.updatePassword(getActivity(), getPassword());
+            AccountService.updatePassword(getPassword());
             dismiss();
         } else {
             passwordEdit.setText("");
