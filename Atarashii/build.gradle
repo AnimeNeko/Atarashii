@@ -44,6 +44,8 @@ android {
     }
     productFlavors {
         Production {
+            versionCode 16
+            versionName '2.0'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
