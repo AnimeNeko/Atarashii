@@ -5,34 +5,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockActivity;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
+import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-public class FirstTimeInit extends SherlockActivity {
-    static EditText malUser;
-    static EditText malPass;
-    static String testMalUser;
-    static String testMalPass;
-    static ProgressDialog pd;
-    static Thread netThread;
-    static Context context;
-    static private Handler messenger;
-    static PrefManager prefManager;
+public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener {
+    EditText malUser;
+    EditText malPass;
+    String MalUser;
+    String MalPass;
+    ProgressDialog dialog;
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.firstrun);
+        setContentView(R.layout.activity_firstrun);
 
         malUser = (EditText) findViewById(R.id.edittext_malUser);
         malPass = (EditText) findViewById(R.id.edittext_malPass);
@@ -40,12 +35,12 @@ public class FirstTimeInit extends SherlockActivity {
         Button registerButton = (Button) findViewById(R.id.registerButton);
         context = getApplicationContext();
 
-        prefManager = new PrefManager(context);
+        PrefManager.deleteAccount();
 
         connectButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                testMalUser = malUser.getText().toString().trim();
-                testMalPass = malPass.getText().toString().trim();
+                MalUser = malUser.getText().toString().trim();
+                MalPass = malPass.getText().toString().trim();
                 tryConnection();
             }
         });
@@ -58,51 +53,32 @@ public class FirstTimeInit extends SherlockActivity {
             }
         });
 
-        messenger = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 2) {
-                    pd.dismiss();
-                    Crouton.makeText(FirstTimeInit.this, R.string.crouton_error_VerifyProblem , Style.ALERT).show();
-                }
-                if (msg.what == 3) {
-                    pd.dismiss();
-
-                    prefManager.setUser(testMalUser);
-                    prefManager.setPass(testMalPass);
-                    prefManager.setInit(true);
-                    prefManager.setsync_time_last(0);
-                    prefManager.commitChanges();
-
-                    Intent goHome = new Intent(context, Home.class);
-                    startActivity(goHome);
-                    System.exit(0);
-                }
-                super.handleMessage(msg);
-            }
-        };
-
         NfcHelper.disableBeam(this);
     }
 
     private void tryConnection() {
-        pd = ProgressDialog.show(this, context.getString(R.string.dialog_title_Verifying), context.getString(R.string.dialog_message_Verifying));
-        netThread = new networkThread();
-        netThread.start();
+        dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setTitle(getString(R.string.dialog_title_Verifying));
+        dialog.setMessage(getString(R.string.dialog_message_Verifying));
+        dialog.show();
+        new AuthenticationCheckTask(this).execute(MalUser, MalPass);
     }
 
-    public class networkThread extends Thread {
-        @Override
-        public void run() {
-            boolean valid = new MALApi(testMalUser, testMalPass).isAuth();
-            Message msg = new Message();
-            if (!valid) {
-                msg.what = 2;
-                messenger.sendMessage(msg);
-            } else {
-                msg.what = 3;
-                messenger.sendMessage(msg);
-            }
+    @Override
+    public void onAuthenticationCheckFinished(boolean result) {
+        if (result) {
+            AccountService.addAccount(context, MalUser, MalPass);
+            PrefManager.setForceSync(true);
+            PrefManager.commitChanges();
+            dialog.dismiss();
+            Intent goHome = new Intent(context, Home.class);
+            startActivity(goHome);
+            finish();
+        } else {
+            dialog.dismiss();
+            Toast.makeText(getApplicationContext(), R.string.toast_error_VerifyProblem, Toast.LENGTH_SHORT).show();
         }
     }
 }

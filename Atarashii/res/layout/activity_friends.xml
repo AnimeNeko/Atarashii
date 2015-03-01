@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light" >
 
-    <GridView
-        android:id="@+id/listview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <GridView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:columnWidth="300dp"
+            android:fadingEdge="none"
+            android:gravity="center"
+            android:numColumns="auto_fit"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:stretchMode="columnWidth" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
+
+    <net.somethingdreadful.MAL.Card xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/network_Card"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:columnWidth="300dp"
-        android:gravity="center"
-        android:numColumns="auto_fit"
-        android:clipToPadding="false"
-        android:stretchMode="columnWidth"
-        android:padding="16dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp" >
-
-    </GridView>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        custom:card_content="@layout/card_network_connection"
+        custom:header_Color="@color/card_red"
+        custom:header_Title="@string/card_offline_title"
+        custom:header_Title_Color="@color/white" />
+</RelativeLayout>

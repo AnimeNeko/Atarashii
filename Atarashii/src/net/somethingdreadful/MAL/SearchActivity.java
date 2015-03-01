@@ -1,128 +1,56 @@
 package net.somethingdreadful.MAL;
 
-import java.util.ArrayList;
-
-import net.somethingdreadful.MAL.ItemGridFragment.IItemGridFragment;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTask;
-import net.somethingdreadful.MAL.tasks.AnimeNetworkTaskFinishedListener;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTask;
-import net.somethingdreadful.MAL.tasks.MangaNetworkTaskFinishedListener;
-import net.somethingdreadful.MAL.tasks.TaskJob;
-
+import android.app.FragmentManager;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.widget.ViewFlipper;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
+import net.somethingdreadful.MAL.tasks.TaskJob;
 
-public class SearchActivity extends BaseActionBarSearchView
-implements IItemGridFragment, ActionBar.TabListener,
-	AnimeNetworkTaskFinishedListener, MangaNetworkTaskFinishedListener {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
-     * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
-     * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    SearchSectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
-     */
-    ViewPager mViewPager;
-    ViewFlipper vf;
+public class SearchActivity extends ActionBarActivity implements IGFCallbackListener {
+    public String query;
+    IGF af;
+    IGF mf;
+    ViewPager ViewPager;
+    IGFPagerAdapter mIGFPagerAdapter;
+    SearchView searchView;
     ActionBar actionBar;
-    static Context context;
-    PrefManager mPrefManager;
-    ItemGridFragment af;
-    ItemGridFragment mf;
-    BaseActionBarSearchView b;
-    
-    public boolean animeError = false;
-    public boolean mangaError = false;
-    public boolean instanceExists;
+
+    boolean callbackAnimeError = false;
+    boolean callbackMangaError = false;
+    boolean callbackAnimeResultEmpty = false;
+    boolean callbackMangaResultEmpty = false;
+    int callbackCounter = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        mPrefManager = new PrefManager(context);
-        instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
-
         setContentView(R.layout.activity_search);
 
-        vf = (ViewFlipper)findViewById(R.id.viewFlipperSearch);
-
-        // Set up the action bar.
         actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        mSectionsPagerAdapter = new SearchSectionsPagerAdapter(getSupportFragmentManager());
-
-        mViewPager = (ViewPager) findViewById(R.id.searchResult);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setPageMargin(32);
-        // For swipe
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-        // Add tabs for the animu and manga lists
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            actionBar.addTab(actionBar.newTab()
-                    .setText(mSectionsPagerAdapter.getPageTitle(i))
-                    .setTag(mSectionsPagerAdapter.getTag(i))
-                    .setTabListener(this));
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        BaseActionBarSearchView.query = getIntent().getStringExtra("net.somethingdreadful.MAL.search_query");
-        int ordinalListType = getIntent().getIntExtra("net.somethingdreadful.MAL.search_type", MALApi.ListType.ANIME.ordinal());
-        MALApi.ListType listType = MALApi.ListType.values()[ordinalListType];
-        if (BaseActionBarSearchView.query != null && !BaseActionBarSearchView.query.equals("")) {
-            if (listType == MALApi.ListType.MANGA) {
-                actionBar.setSelectedNavigationItem(1);
-            }
-        }
-        
-        NfcHelper.disableBeam(this);
-    }
+        mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
 
-    @Override
-    public MALApi.ListType getCurrentListType() {
-        return (MALApi.ListType) getSupportActionBar().getSelectedTab().getTag();
-    }
-
-    public void doSearch() { //i search both anime and manga
-        toggleLoadingIndicator(true);
-        new AnimeNetworkTask(TaskJob.SEARCH, context, this).execute(query);
-        new MangaNetworkTask(TaskJob.SEARCH, context, this).execute(query);
-        
-        if (mSearchView != null) {
-        	mSearchView.clearFocus();
-            mSearchView.setFocusable(false);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_search_view, menu);
-        super.onCreateOptionsMenu(menu);
-        return true;
+        ViewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager.setAdapter(mIGFPagerAdapter);
     }
 
     @Override
@@ -131,96 +59,96 @@ implements IItemGridFragment, ActionBar.TabListener,
             case android.R.id.home:
                 finish();
                 break;
-
-            case R.id.menu_settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-
-            case R.id.menu_logout:
-                //showLogoutDialog();
-                break;
-
-            case R.id.menu_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void fragmentReady() {
-        //Interface implementation for knowing when the dynamically created fragment is finished loading
-        //We use instantiateItem to return the fragment. Since the fragment IS instantiated, the method returns it.
-        af = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 0);
-        mf = (ItemGridFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
-        af.setMode(TaskJob.SEARCH);
-        mf.setMode(TaskJob.SEARCH);
-        doSearch();	
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-    	animeError = false;
-    	mangaError = false;
-        return false;
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-    }
-	
-	@Override
-    public void onPause() {
-        super.onPause();
-        instanceExists = true;
-    }
-
-    private void toggleLoadingIndicator(boolean show) {
-        if (vf != null) {
-            vf.setDisplayedChild(show ? 1 : 0);
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+            if (TextUtils.isDigitsOnly(query)) {
+                FragmentManager fm = getFragmentManager();
+                (new SearchIdDialogFragment()).show(fm, "fragment_id_search");
+            } else {
+                if (searchView != null) {
+                    searchView.setQuery(query, false);
+                }
+                if (af != null && mf != null) {
+                    af.searchRecords(query);
+                    mf.searchRecords(query);
+                }
+            }
         }
     }
 
-	public void onAnimeNetworkTaskFinished(ArrayList<Anime> result, TaskJob job, int page) {
-		if (result != null) {
-            af.setAnimeRecords(result);
-			if (result.size() > 0) {
-				SearchActivity.this.af.scrollListener.notifyMorePages(ListType.ANIME);
-			} else if (!animeError) {
-				animeError = true;
-				if (mangaError)
-					Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
-			}
-		} else if (!animeError) {
-		    Crouton.makeText(this, R.string.crouton_error_Anime_Sync, Style.ALERT).show();
-		    animeError = true;
-        }
-        toggleLoadingIndicator(false);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_search_view, menu);
 
-	public void onMangaNetworkTaskFinished(ArrayList<Manga> result, TaskJob job, int page) {
-		if (result != null) {
-            mf.setMangaRecords(result);
-			if (result.size() > 0) {
-				SearchActivity.this.mf.scrollListener.notifyMorePages(ListType.MANGA);	
-			} else if (!mangaError) {
-				mangaError = true;
-				if (animeError)
-					Crouton.makeText(this, R.string.crouton_error_nothingFound, Style.ALERT).show();
-			}
-		} else if (!mangaError) {
-		    Crouton.makeText(this, R.string.crouton_error_Manga_Sync, Style.ALERT).show();
-		    mangaError = true;
-		}
-        toggleLoadingIndicator(false);
-	}
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        searchView.setQuery(query, false);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        if (getIntent() != null)
+            handleIntent(getIntent());
+        super.onResume();
+    }
+
+    @Override
+    public void onIGFReady(IGF igf) {
+        /* Set Username to the search IGFs, looks strange but has a reason:
+         * The username is passed to DetailViews if clicked, the DetailView tries to get user-specific
+         * details (read/watch status, score). To do this it needs the username to determine the correct
+         * anime-/mangalist
+         */
+        igf.setUsername(AccountService.getUsername(getApplicationContext()));
+        if (igf.listType.equals(ListType.ANIME))
+            af = igf;
+        else
+            mf = igf;
+        if (query != null && !TextUtils.isDigitsOnly(query)) // there is already a search to do
+            igf.searchRecords(query);
+    }
+
+    @Override
+    public void onRecordsLoadingFinished(ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+        if (cancelled) {
+            return;
+        }
+
+        callbackCounter++;
+
+        if (type.equals(ListType.ANIME)) {
+            callbackAnimeError = error;
+            callbackAnimeResultEmpty = resultEmpty;
+        } else {
+            callbackMangaError = error;
+            callbackMangaResultEmpty = resultEmpty;
+        }
+
+        if (callbackCounter >= 2) {
+            callbackCounter = 0;
+
+            if (callbackAnimeError && callbackMangaError) // the sync failed completely
+                Toast.makeText(getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
+            else if (callbackAnimeError || callbackMangaError) // one list failed to sync
+                Toast.makeText(getApplicationContext(), callbackAnimeError ? R.string.toast_error_Search_Anime : R.string.toast_error_Search_Manga, Toast.LENGTH_SHORT).show();
+            else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
+                Toast.makeText(getApplicationContext(), R.string.toast_error_nothingFound, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -8,26 +8,19 @@ buildscript {
     }
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
+    gradleVersion = '2.21'
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 19
-    }
-
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
+        minSdkVersion 14
+        targetSdkVersion 21
     }
 
     sourceSets {
@@ -49,27 +42,29 @@ android {
             }
         }
     }
+    productFlavors {
+        Production {
+        }
+        Beta {
+            applicationId 'net.somethingdreadful.MAL.beta'
+            versionCode 45
+            versionName '2.0 RC 3'
+        }
+    }
 }
 
 repositories {
-    maven {
-        url 'https://github.com/toxbee/mvn-repo/raw/master/maven-deploy'
-    }
-    maven {
-        url 'https://raw.github.com/nicolasjafelle/maven-repo/master/'
-    }
     maven { url 'http://download.crashlytics.com/maven' }
 }
 
 dependencies {
-    compile 'de.keyboardsurfer.android.widget:crouton:1.8.3@aar'
-    compile 'net.simonvt.numberpicker:android-numberpicker:1.0.0'
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19+'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.squareup.retrofit:retrofit:1.4.1'
+    compile 'com.android.support:support-v4:21+'
+    compile 'com.android.support:support-v13:21+'
+    compile 'com.android.support:cardview-v7:21+'
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.squareup.retrofit:retrofit:1.7.1'
     compile 'org.apache.commons:commons-lang3:3.2.1'
     compile 'com.squareup.picasso:picasso:2.2.0'
-    compile 'com.sherlock:navigationdrawer:+@aar'
     compile 'com.crashlytics.android:crashlytics:1.+'
 }

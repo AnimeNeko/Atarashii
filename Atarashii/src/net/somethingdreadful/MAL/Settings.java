@@ -1,30 +1,27 @@
 package net.somethingdreadful.MAL;
 
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
+public class Settings extends ActionBarActivity {
 
-public class Settings extends SherlockPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.title_activity_settings);
 
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-
-        PreferenceManager prefMgr = getPreferenceManager();
-        prefMgr.setSharedPreferencesName("prefs");
-        
-        addPreferencesFromResource(R.xml.settings);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
         NfcHelper.disableBeam(this);
+
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 
     @Override
@@ -32,21 +29,8 @@ public class Settings extends SherlockPreferenceActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
         }
         return true;
     }
-    
-    //Fix for the android(2,2+) theme bug (https://code.google.com/p/android/issues/detail?id=4611)
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
-    {
-    	super.onPreferenceTreeClick(preferenceScreen, preference);
-    	if (preference!=null)
-	    	if (preference instanceof PreferenceScreen)
-	        	if (((PreferenceScreen)preference).getDialog()!=null)
-	        		((PreferenceScreen)preference).getDialog().getWindow().getDecorView().setBackgroundDrawable(this.getWindow().getDecorView().getBackground().getConstantState().newDrawable());
-    	return false;
-    }
-
 }

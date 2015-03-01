@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:res-auto="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/listGroup">
+        <item
+            android:id="@+id/listType_all"
+            android:title="@string/listType_all"
+            res-auto:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/listType_inprogress"
+            android:title="@string/listType_InProgress"
+            res-auto:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/listType_completed"
+            android:title="@string/listType_Completed"
+            res-auto:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/listType_onhold"
+            android:title="@string/listType_onhold"
+            res-auto:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/listType_dropped"
+            android:title="@string/listType_dropped"
+            res-auto:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/listType_planned"
+            android:title="@string/listType_planned"
+            res-auto:showAsAction="ifRoom" />
+    </group>
+</menu>

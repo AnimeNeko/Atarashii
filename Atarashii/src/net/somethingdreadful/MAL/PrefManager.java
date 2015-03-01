@@ -2,119 +2,194 @@ package net.somethingdreadful.MAL;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import java.util.Locale;
 
 public class PrefManager {
     private static SharedPreferences prefs;
-    private static SharedPreferences.Editor prefeditor;
+    private static SharedPreferences.Editor prefEditor;
     private static Context context;
 
-    public PrefManager(Context mContext)
-    {
+
+    public static void create(Context mContext) {
         context = mContext;
-        prefs = context.getSharedPreferences("prefs", 0);
-        prefeditor = prefs.edit();
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefEditor = prefs.edit();
     }
 
-    public String getUser() {
-        return prefs.getString("user", "failed");
+    /**
+     * Remove the old account info.
+     *
+     * The username & password were saved in Atarashii! < 2.0.
+     * Currently we are using this to remove the old username and password.
+     *
+     * @see net.somethingdreadful.MAL.account.AccountService
+     */
+    public static void deleteAccount() {
+        if (prefs.getString("user", null) != null) {
+            prefEditor.remove("user");
+            prefEditor.remove("pass");
+        }
     }
 
-    public String getPass() {
-        return prefs.getString("pass", "failed");
-    }
-
-    public String getCustomShareText() {
+    /**
+     * Returns the custom share text.
+     *
+     * @return String The custom share text that the app should use.
+     * @see DetailView
+     */
+    public static String getCustomShareText() {
         return prefs.getString("customShareText", context.getString(R.string.preference_default_customShareText));
     }
 
-    public boolean getUpgradeInit() {
-        return prefs.getBoolean("upgradeInit", false);
-    }
-
-    public boolean getInit() {
-        return prefs.getBoolean("init", false);
-    }
-
-    public boolean getTraditionalListEnabled() {
+    /**
+     * Returns if we should use a Listview.
+     *
+     * @return boolean If true the app will use a Listview
+     * @see IGF
+     */
+    public static boolean getTraditionalListEnabled() {
         return prefs.getBoolean("traditionalList", false);
     }
 
-    public boolean getUseSecondaryAmountsEnabled() {
+    /**
+     * Returns if the app should use Volumes instead of Chapters.
+     *
+     * @return boolean If it is true the app will use Volumes
+     * @see IGF
+     */
+    public static boolean getUseSecondaryAmountsEnabled() {
         return prefs.getBoolean("displayVolumes", false);
     }
 
-    public boolean getsynchronisationEnabled() {
+    /**
+     * Returns if auto synchronisation is enabled.
+     *
+     * @return boolean This returns true when auto synchronisation is enabled
+     * @see Settings
+     */
+    public static boolean getSyncEnabled() {
         return prefs.getBoolean("synchronisation", false);
     }
 
-    public boolean getonly_wifiEnabled() { //Home, if the setting sync only at wifi is turned on
-        return prefs.getBoolean("Only_wifi", false);
+    /**
+     * Returns the auto synchronisation interval.
+     *
+     * @return int The auto synchronisation interval in seconds
+     * @see Settings
+     */
+    public static int getSyncTime() {
+        return Integer.parseInt(prefs.getString("synchronisation_time", "60"));
     }
 
-    public Integer getsync_time() { //Home, get the auto-sync interval
-        return Integer.parseInt(prefs.getString("synchronisation_time", "5"));
+    /**
+     * Returns the locale of the language that this app should use.
+     *
+     * @return Locale The locale of the language that the app should use
+     * @see Theme
+     */
+    public static Locale getLocale() {
+        String localeName = prefs.getString("locale", Locale.getDefault().toString());
+        Locale locale;
+        switch (localeName) {
+            case "pt-br":
+                locale = new Locale("pt", "PT");
+                break;
+            case "pt-pt":
+                locale = new Locale("pt", "BR");
+                break;
+            default:
+                locale = new Locale(localeName);
+                break;
+        }
+        return locale;
     }
 
-    public Integer getsync_time_last() { //Home, get the last auto-sync interval
-        return prefs.getInt("synchronisation_time_last", 1);
+    /**
+     * Returns if the app should synchronise the Anime/Manga records.
+     *
+     * @return boolean If all the records should be synced
+     * @see Home
+     */
+    public static boolean getForceSync() {
+        return prefs.getBoolean("ForceSync", false);
     }
 
-    public boolean anime_manga_zero() { //profile activity, if the card is empty setting
-        return prefs.getBoolean("a_mhide", false);
+    /**
+     * Set the force synchronisation, if true all the records will be synchronised.
+     *
+     * @param force This will determine if all the records should be synchronised
+     * @see FirstTimeInit
+     * @see Home
+     */
+    public static void setForceSync(boolean force) {
+        prefEditor.putBoolean("ForceSync", force);
     }
 
-    public boolean Textcolordisable() { //profile activity, if the textcolors are turned off
+    /**
+     * Returns if the app should disable the coloured text and use black.
+     *
+     * @return boolean If it should be black
+     * @see ProfileActivity
+     */
+    public static boolean getTextColor() {
         return prefs.getBoolean("text_colours", false);
     }
 
-    public boolean animehide() { //profile activity, if the setting force hide is turned on
-        return prefs.getBoolean("A_hide", false); //anime card
+    /**
+     * Returns if the app should hide the anime stats in all profiles.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public static boolean getHideAnime() {
+        return prefs.getBoolean("A_hide", false);
     }
 
-    public boolean mangahide() {//profile activity, if the setting force hide is turned on
-        return prefs.getBoolean("M_hide", false); //manga card
-    }
-    public void setUser(String newUser) {
-        prefeditor.putString("user", newUser);
-    }
-
-    public void setPass(String newPass) {
-        prefeditor.putString("pass", newPass);
-    }
-
-    public void setInit(boolean newInit) {
-        prefeditor.putBoolean("init", newInit);
+    /**
+     * Returns if the app should hide the manga stats in all profiles.
+     *
+     * @return boolean If it should be hidden
+     * @see ProfileActivity
+     */
+    public static boolean getHideManga() {
+        return prefs.getBoolean("M_hide", false);
     }
 
-    public void setUpgradeInit(boolean newUpgradeInit) {
-        prefeditor.putBoolean("upgradeInit", newUpgradeInit);
-    }
-
-    public void setLastSyncTime(long lastsync) {
-        prefeditor.putLong("lastSync", lastsync);
-    }
-
-    public void setsync_time_last(int time) { //Home, set the last auto-sync interval
-        prefeditor.putInt("synchronisation_time_last", time);
-    }
-
-    public void commitChanges() {
-        prefeditor.commit();
-    }
-
-    public long getSyncFrequency() {
-        long syncFrequency = 0;
-        syncFrequency = Long.parseLong(prefs.getString("syncFrequency", "604800000"));
-        return syncFrequency;
-    }
-
-    public long getLastSyncTime() {
-        long lastsync = 0;
-        lastsync = prefs.getLong("lastSync", 0);
-        return lastsync;
-    }
-
-    public int getDefaultList() {
+    /**
+     * Returns the default list that will open on start.
+     *
+     * @return int The number of the list that should get loaded.
+     * @see Home
+     */
+    public static int getDefaultList() {
         return Integer.parseInt(prefs.getString("defList", "1"));
+    }
+
+    /**
+     * Returns the url of the navigation drawer background.
+     *
+     * @return string The url of the image.
+     * @see Home
+     */
+    public static String getNavigationBackground() {
+        return prefs.getString("navigationDrawer_image", null);
+    }
+
+    /**
+     * Set the navigation drawer background.
+     *
+     * @param image The URL
+     */
+    public static void setNavigationBackground(String image) {
+        prefEditor.putString("navigationDrawer_image", image);
+    }
+
+    /**
+     * Commit all the changed made.
+     */
+    public static void commitChanges() {
+        prefEditor.commit();
     }
 }

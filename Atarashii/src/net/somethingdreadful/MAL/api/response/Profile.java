@@ -1,36 +1,30 @@
 package net.somethingdreadful.MAL.api.response;
 
+import android.database.Cursor;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import android.database.Cursor;
-
-public class Profile {
+public class Profile implements Serializable {
     private int id;
     private String avatar_url;
     private ProfileDetails details;
 
     private ProfileAnimeStats anime_stats;
     private ProfileMangaStats manga_stats;
-    
-    public static Profile fromCursor(Cursor c) {
-        return fromCursor(c, false);
-    }
 
-    public static Profile fromCursor(Cursor c, boolean friendDetails) {
+    public static Profile fromCursor(Cursor c) {
         Profile result = new Profile();
 
         List<String> columnNames = Arrays.asList(c.getColumnNames());
         result.setAvatarUrl(c.getString(columnNames.indexOf("avatar_url")));
-        // friends profile is less detailed
-        result.setDetails(ProfileDetails.fromCursor(c, friendDetails));
-        if ( !friendDetails ) {
-            result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
-            result.setMangaStats(ProfileMangaStats.fromCursor(c));
-        }
+        result.setDetails(ProfileDetails.fromCursor(c));
+        result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
+        result.setMangaStats(ProfileMangaStats.fromCursor(c));
         return result;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -46,7 +40,7 @@ public class Profile {
     public void setAvatarUrl(String avatarurl) {
         this.avatar_url = avatarurl;
     }
-    
+
     public ProfileDetails getDetails() {
         return details;
     }

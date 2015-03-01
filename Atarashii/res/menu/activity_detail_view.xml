@@ -1,5 +1,27 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_Share" android:title="@string/action_Share" android:showAsAction="always|withText" android:icon="@drawable/ic_action_share"></item>
-    <item android:id="@+id/action_ViewMALPage" android:icon="@drawable/ic_location_web_site" android:showAsAction="ifRoom" android:title="@string/action_viewMALPage"></item>
-    <item android:id="@+id/action_Remove" android:showAsAction="never" android:title="@string/action_Remove"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:res-auto="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_Share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/action_Share"
+        res-auto:showAsAction="always" />
+    <item
+        android:id="@+id/action_ViewMALPage"
+        android:icon="@drawable/ic_language"
+        android:title="@string/action_viewMALPage"
+        res-auto:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_Remove"
+        android:title="@string/action_Remove"
+        res-auto:showAsAction="never" />
+    <item
+        android:id="@+id/action_copy"
+        android:icon="@drawable/ic_content_copy"
+        android:title="@string/action_Copy"
+        res-auto:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_addToList"
+        android:icon="@drawable/ic_add"
+        android:title="@string/action_AddToList"
+        res-auto:showAsAction="always" />
 </menu>

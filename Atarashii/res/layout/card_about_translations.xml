@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/translations_card_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/translations" />
+
+    <TextView
+        android:id="@+id/notlisted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/translations_card_content"
+        android:text="@string/translations_notListed"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/notlisted_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notlisted"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="8dp"
+        android:text="@string/translations_notListed_summary" />
+
+    <TextView
+        android:id="@+id/notapproved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notlisted_content"
+        android:text="@string/translations_notApproved"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/notapproved_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notapproved"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="8dp"
+        android:text="@string/translations_notApproved_summary" />
+</RelativeLayout>

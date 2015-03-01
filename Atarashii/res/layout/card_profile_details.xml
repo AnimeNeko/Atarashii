@@ -1,0 +1,231 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/birthdayfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/layout_card_birthday"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/birthdaysmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/birthdayfront"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/locationfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/birthdayfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_location"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/locationsmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/locationfront"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/websitefront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/locationfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_website"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/websitesmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/websitefront"
+        android:layout_alignParentRight="true"
+        android:maxLength="20"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/commentsfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/websitefront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_comments"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/commentspostssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/commentsfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/forumpostsfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/commentsfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_forum"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/forumpostssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/forumpostsfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lastonlinefront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/forumpostsfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_last"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lastonlinesmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/lastonlinefront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/genderfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lastonlinefront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_gender"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/gendersmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/genderfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/joindatefront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/genderfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_join"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/joindatesmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/joindatefront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/accessrankfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/joindatefront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_acces"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/accessranksmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/accessrankfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/animelistviewsfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/accessrankfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_anime_views"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/animelistviewssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/animelistviewsfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mangalistviewsfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/animelistviewsfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_manga_views"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mangalistviewssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+</RelativeLayout>

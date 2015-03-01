@@ -1,184 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@color/bg_light_card">
 
     <RelativeLayout
         android:id="@+id/about_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp" >
+        android:padding="8dp">
 
-        <LinearLayout
-            android:id="@+id/about_card"
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:contentDescription="Application Icon"
+            android:padding="8dp"
+            android:src="@drawable/icon" />
+
+        <!-- Atarashii Card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/atarashii_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_below="@id/app_icon"
             android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            android:padding="12dp" >
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/app_name"
+            custom:header_Title_Color="@color/white" />
 
-            <ImageView
-                android:id="@+id/app_icon"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:contentDescription="Application Icon"
-                android:gravity="center_horizontal"
-                android:padding="8dp"
-                android:src="@drawable/icon" />
-
-            <TextView
-                android:id="@+id/app_description"
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/app_description"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <!-- Contributors Card -->
+        <net.somethingdreadful.MAL.Card
             android:id="@+id/contributors_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/about_card"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_below="@id/atarashii_card"
             android:layout_marginTop="8dp"
-            android:background="@drawable/card"
-            android:orientation="vertical"
-            android:padding="12dp">
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/contributors_card_title"
+            custom:header_Title_Color="@color/white" />
 
-            <TextView
-                android:id="@+id/contributors_card_title"
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/contributors_card_title"
-                android:textColor="#0099CC"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/contributor_anima_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contributor_anima_name"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:paddingLeft="8dp"
-                android:text="@string/contributor_anima_summary" />
-
-            <TextView
-                android:id="@+id/contributor_motokochan_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contributor_motokochan_name"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:paddingLeft="8dp"
-                android:text="@string/contributor_motokochan_summary" />
-
-            <TextView
-                android:id="@+id/contributor_apkawa_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contributor_apkawa_name"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:paddingLeft="8dp"
-                android:text="@string/contributor_apkawa_summary" />
-            
-            <TextView
-                android:id="@+id/contributor_dsko_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contributor_dsko_name"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:text="@string/contributor_dsko_summary" />
-        </LinearLayout>
-
-        <LinearLayout
+        <!-- Community Card -->
+        <net.somethingdreadful.MAL.Card
             android:id="@+id/community_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/contributors_card"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/card"
-            android:orientation="vertical"
-            android:padding="12dp" >
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/community_card_title"
+            custom:header_Title_Color="@color/white" />
 
-            <TextView
-                android:id="@+id/community_card_title"
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/community_card_title"
-                android:textColor="#0099CC"
-                android:textSize="18sp" />
-
-            <TextView
-                style="@style/TextViewLightFont"
-                android:id="@+id/community_card_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/community"/>
-        </LinearLayout>
-        
-        <LinearLayout
-            android:id="@+id/acknowledgements_card"
+        <!-- Translations Card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/translations_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/community_card"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/card"
-            android:orientation="vertical"
-            android:padding="12dp" >
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/translations_card_title"
+            custom:header_Title_Color="@color/white" />
 
-            <TextView
-                android:id="@+id/acknowledgements_card_title"
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/acknowledgements_card_title"
-                android:textColor="#0099CC"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/acknowledgements_card_content"
-                style="@style/TextViewLightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/acknowledgements" />
-        </LinearLayout>
+        <!-- Acknowledgements Card -->
+        <net.somethingdreadful.MAL.Card
+            android:id="@+id/acknowledgements_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/translations_card"
+            android:layout_marginTop="8dp"
+            custom:header_Color="@color/card_blue"
+            custom:header_Title="@string/acknowledgements_card_title"
+            custom:header_Title_Color="@color/white" />
     </RelativeLayout>
-
 </ScrollView>

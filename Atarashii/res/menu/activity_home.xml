@@ -1,50 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_listType" android:showAsAction="ifRoom|withText"
-          android:title="@string/menu_listType" android:icon="@drawable/ic_menu_switchlist"
-            >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:res-auto="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_listType"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/menu_listType"
+        res-auto:showAsAction="always">
 
         <menu>
-            <group android:id="@+id/listGroup" android:checkableBehavior="single">
-                <item android:id="@+id/listType_all" android:title="@string/listType_all"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_inprogress" android:title="@string/listType_InProgress"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_completed" android:title="@string/listType_Completed"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_onhold" android:title="@string/listType_onhold"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_dropped" android:title="@string/listType_dropped"
-                      android:checkable="true"/>
-                <item android:id="@+id/listType_planned" android:title="@string/listType_planned"
-                      android:checkable="true"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/listType_all"
+                    android:title="@string/listType_all"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_inprogress"
+                    android:title="@string/listType_InProgress"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_completed"
+                    android:title="@string/listType_Completed"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_onhold"
+                    android:title="@string/listType_onhold"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_dropped"
+                    android:title="@string/listType_dropped"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_planned"
+                    android:title="@string/listType_planned"
+                    res-auto:showAsAction="never" />
             </group>
-
         </menu>
     </item>
-    <item android:id="@+id/forceSync"
-          android:title="@string/menu_sync"
-          android:icon="@drawable/ic_menu_refresh"
-          android:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_search"
-          android:title="Search"
-          android:icon="@drawable/ic_menu_search"
-          android:showAsAction="always|collapseActionView"
-          android:actionViewClass="com.actionbarsherlock.widget.SearchView"
-            />
-    <item android:id="@+id/menu_settings"
-          android:title="@string/menu_settings"
-          android:icon="@drawable/ic_menu_settings"
-          android:orderInCategory="100"
-          android:showAsAction="never"/>
-    <item android:id="@+id/menu_logout"
-          android:title="@string/title_activity_logout"
-          android:icon="@drawable/ic_menu_account"
-          android:orderInCategory="9000"
-          android:showAsAction="never"/>
-    <item android:id="@+id/menu_about"
-          android:title="@string/title_activity_about"
-          android:icon="@drawable/ic_menu_about"
-          android:orderInCategory="9001"
-          android:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_inverse"
+        android:icon="@drawable/ic_sort"
+        android:title="@string/menu_inverse"
+        res-auto:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/forceSync"
+        android:icon="@drawable/ic_autorenew"
+        android:title="@string/menu_sync"
+        res-auto:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_prompt"
+        res-auto:actionViewClass="android.support.v7.widget.SearchView"
+        res-auto:showAsAction="collapseActionView|always" />
 </menu>

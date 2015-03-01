@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/BaseCard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="8dp"
-    android:background="@drawable/card"
-    android:padding="12dp" >
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardPreventCornerOverlap="false">
 
-    <TextView
-        android:id="@+id/CardTitle"
-        style="@style/TextViewLightFont"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="TITLE"
-        android:textColor="#0099CC"
-        android:textSize="18sp" />
+        android:layout_height="wrap_content">
 
-    <ViewStub
-        android:id="@+id/contentStub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/CardTitle"
-        android:layout_below="@+id/CardTitle"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/CardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/card_header"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/card_content_loading"
+            android:textColor="#0099CC"
+            android:textSize="18sp" />
 
-    <ImageView
-        android:id="@+id/actionableIcon"
-        style="@style/TextViewLightFont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/CardTitle"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_cardaction" />
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/CardTitle"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp" />
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/actionableIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

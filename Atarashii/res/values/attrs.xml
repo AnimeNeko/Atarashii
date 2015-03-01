@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Card">
+        <attr name="header_Title" format="string" localization="suggested" />
+        <attr name="header_Title_Color" format="reference" />
+        <attr name="header_Title_center" format="boolean" />
+        <attr name="header_Color" format="reference" />
+        <attr name="card_TouchFeedback" format="boolean" />
+        <attr name="card_maxWidth" format="integer" />
+        <attr name="card_minHeight" format="integer" />
+        <attr name="card_divide" format="integer" />
+        <attr name="card_content" format="reference" />
+    </declare-styleable>
+</resources> 

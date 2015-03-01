@@ -1,11 +1,12 @@
 package net.somethingdreadful.MAL.api.response;
 
+import android.database.Cursor;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import android.database.Cursor;
-
-public class ProfileAnimeStats {
+public class ProfileAnimeStats implements Serializable {
     private int completed;
     private int dropped;
     private int on_hold;
@@ -13,7 +14,7 @@ public class ProfileAnimeStats {
     private Double time_days;
     private int total_entries;
     private int watching;
-    
+
     public static ProfileAnimeStats fromCursor(Cursor c) {
         ProfileAnimeStats result = new ProfileAnimeStats();
 

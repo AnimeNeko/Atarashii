@@ -1,0 +1,148 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/mtimedaysfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/layout_card_anime_time"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mtimedayssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/mtimedaysfront"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mwatchingfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mtimedaysfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_manga_reading"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mwatchingsmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mwatchingfront"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mcompletedfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mwatchingfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_anime_completed"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mcompletedpostssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mcompletedfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/monholdfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mcompletedfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_anime_on"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/monholdsmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/monholdfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mdroppedfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/monholdfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_anime_dropped"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mdroppedsmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mdroppedfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mplantowatchfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mdroppedfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_manga_plan"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mplantowatchsmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mplantowatchfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mtotalentriesfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mplantowatchfront"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_anime_total"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mtotalentriessmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mtotalentriesfront"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+</RelativeLayout>
