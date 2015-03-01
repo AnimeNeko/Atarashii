@@ -100,6 +100,7 @@
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">$username; shared a manga list using Atarashii: http://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Details</string>
+    <string name="layout_card_title_activity">Activity</string>
     <string name="layout_discription">Application Icon</string>
     <string name="layout_card_loading">Loading</string>
     <string name="layout_card_birthday">Birthday</string>

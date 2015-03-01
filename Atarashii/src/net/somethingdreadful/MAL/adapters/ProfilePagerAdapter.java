@@ -5,9 +5,11 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.ProfileActivity;
-import net.somethingdreadful.MAL.profile.ProfileDetails;
-import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
+import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
+import net.somethingdreadful.MAL.profile.ProfileFriends;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     ProfileActivity activity;
@@ -21,11 +23,14 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new ProfileDetails();
+                if (AccountService.isMAL())
+                    return new ProfileDetailsMAL();
+                else
+                    return new ProfileDetailsAL();
             case 1:
                 return new ProfileFriends();
             default:
-                return new ProfileDetails();
+                return new ProfileDetailsMAL();
         }
     }
 

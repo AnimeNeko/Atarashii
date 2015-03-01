@@ -34,7 +34,7 @@ import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     Context context;
     View view;
     Card imagecard;
@@ -48,7 +48,7 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_mal, container, false);
 
         imagecard = ((Card) view.findViewById(R.id.name_card));
         imagecard.setContent(R.layout.card_image);
