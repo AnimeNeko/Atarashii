@@ -76,7 +76,7 @@ public class GenericRecord implements Serializable {
     }
 
     public void addDirtyField(String field) {
-        if  (dirty == null) {
+        if (dirty == null) {
             dirty = new ArrayList<String>();
         }
         if (!dirty.contains((field))) {
@@ -188,19 +188,34 @@ public class GenericRecord implements Serializable {
      */
     public Class getPropertyType(String property) {
         try {
-            Field field = this.getClass().getDeclaredField(property);
+            Field field = getField(this.getClass(), property);
             return field.getType();
         } catch (Exception e) {
             return null;
         }
     }
 
+    private Field getField(Class<?> c, String property) {
+        try {
+            return c.getDeclaredField(property);
+        } catch (Exception e) {
+            if (c.getSuperclass() != null) {
+                return getField(c.getSuperclass(), property);
+            } else {
+                return null;
+            }
+        }
+    }
+
     protected Object getPropertyValue(String property) {
         try {
-            Field field = this.getClass().getDeclaredField(property);
-            field.setAccessible(true);
-            return field.get(this);
-        } catch (Exception e) {
+            Field field = getField(this.getClass(), property);
+            if (field != null) {
+                field.setAccessible(true);
+                return field.get(this);
+            }
+            return null;
+        } catch (IllegalAccessException e) {
             return null;
         }
     }
