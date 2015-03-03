@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,8 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder.username.setText(WordUtils.capitalize(username));
             if (User.isDeveloperRecord(username))
                 viewHolder.username.setTextColor(context.getResources().getColor(R.color.primary)); //Developer
+            else
+                viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
 
             String last_online = record.getProfile().getDetails().getLastOnline();
             if (last_online != null) {
