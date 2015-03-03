@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.account.AccountService;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private int priority;
     @Setter @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
-    @Setter @Getter private int score;
+    @Getter private int score;
     @Setter @Getter private int rank;
     @Setter @Getter @SerializedName("members_score") private float membersScore;
     @Setter @Getter @SerializedName("members_count") private int membersCount;
@@ -84,9 +85,7 @@ public class GenericRecord implements Serializable {
     }
 
     public void clearDirty() {
-        if (dirty != null) {
-            dirty.clear();
-        }
+        dirty = null;
     }
 
     public ArrayList<Integer> getGenresInt() {
@@ -164,5 +163,61 @@ public class GenericRecord implements Serializable {
                 "plan to read"
         };
         return Arrays.asList(status).indexOf(statusString);
+    }
+
+    public void setScore(int value) {
+        setScore(value, true);
+    }
+
+    public void setScore(int value, boolean markDirty) {
+        this.score = value;
+        if (markDirty) {
+            addDirtyField("score");
+        }
+    }
+
+    public boolean isDirty() {
+        if (dirty == null) {
+            return false;
+        }
+        return !dirty.isEmpty();
+    }
+
+    /*
+     * some reflection magic used to get dirty values easier
+     */
+    public Class getPropertyType(String property) {
+        try {
+            Field field = this.getClass().getDeclaredField(property);
+            return field.getType();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    protected Object getPropertyValue(String property) {
+        try {
+            Field field = this.getClass().getDeclaredField(property);
+            field.setAccessible(true);
+            return field.get(this);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Integer getIntegerPropertyValue(String property) {
+        Object value = getPropertyValue(property);
+        if (value != null) {
+            return (Integer) value;
+        }
+        return null;
+    }
+
+    public String getStringPropertyValue(String property) {
+        Object value = getPropertyValue(property);
+        if (value != null) {
+            return (String) value;
+        }
+        return null;
     }
 }

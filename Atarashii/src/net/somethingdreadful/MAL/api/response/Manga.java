@@ -26,15 +26,15 @@ public class Manga extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("anime_adaptations") ArrayList<RecordStub> animeAdaptations;
     @Setter @Getter private int chapters;
     @Setter @Getter private int volumes;
-    @Setter @Getter @SerializedName("read_status") private String readStatus;
-    @Setter @Getter @SerializedName("chapters_read") private int chaptersRead;
-    @Setter @Getter @SerializedName("volumes_read") private int volumesRead;
+    @Getter @SerializedName("read_status") private String readStatus;
+    @Getter @SerializedName("chapters_read") private int chaptersRead;
+    @Getter @SerializedName("volumes_read") private int volumesRead;
     @Setter @Getter @SerializedName("listed_manga_id") private int listedId;
-    @Setter @Getter @SerializedName("reading_start") private String readingStart;
-    @Setter @Getter @SerializedName("reading_end") private String readingEnd;
-    @Setter @Getter @SerializedName("chap_downloaded") private int chapDownloaded;
-    @Setter @Getter @SerializedName("rereading") private boolean rereading;
-    @Setter @Getter @SerializedName("reread_count") private int rereadCount;
+    @Getter @SerializedName("reading_start") private String readingStart;
+    @Getter @SerializedName("reading_end") private String readingEnd;
+    @Getter @SerializedName("chap_downloaded") private int chapDownloaded;
+    @Getter @SerializedName("rereading") private boolean rereading;
+    @Getter @SerializedName("reread_count") private int rereadCount;
     @Setter @Getter @SerializedName("reread_value") private int rereadValue;
 
     // AniList
@@ -69,7 +69,7 @@ public class Manga extends GenericRecord implements Serializable {
             setVolumes(total_volumes);
             setChapters(total_chapters);
         }
-        setReadStatus(list_status);
+        setReadStatus(list_status, false);
         return this;
     }
 
@@ -81,29 +81,31 @@ public class Manga extends GenericRecord implements Serializable {
         result.setTitle(c.getString(columnNames.indexOf("recordName")));
         result.setType(c.getString(columnNames.indexOf("recordType")));
         result.setStatus(c.getString(columnNames.indexOf("recordStatus")));
-        result.setReadStatus(c.getString(columnNames.indexOf("myStatus")));
-        result.setVolumesRead(c.getInt(columnNames.indexOf("volumesRead")));
-        result.setChaptersRead(c.getInt(columnNames.indexOf("chaptersRead")));
-        result.setReadingStart(c.getString(columnNames.indexOf("readStart")));
-        result.setReadingEnd(c.getString(columnNames.indexOf("readEnd")));
+        result.setReadStatus(c.getString(columnNames.indexOf("myStatus")), false);
+        result.setVolumesRead(c.getInt(columnNames.indexOf("volumesRead")), false);
+        result.setChaptersRead(c.getInt(columnNames.indexOf("chaptersRead")), false);
+        result.setReadingStart(c.getString(columnNames.indexOf("readStart")), false);
+        result.setReadingEnd(c.getString(columnNames.indexOf("readEnd")), false);
         result.setVolumes(c.getInt(columnNames.indexOf("volumesTotal")));
         result.setChapters(c.getInt(columnNames.indexOf("chaptersTotal")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
-        result.setDirty(new Gson().fromJson(c.getString(columnNames.indexOf("dirty")),ArrayList.class));
+        if (!c.isNull(columnNames.indexOf("dirty"))) {
+            result.setDirty(new Gson().fromJson(c.getString(columnNames.indexOf("dirty")), ArrayList.class));
+        } else {
+            result.setDirty(null);
+        }
         result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
         result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));
         result.setListedId(c.getInt(columnNames.indexOf("listedId")));
-        result.setReadingStart(c.getString(columnNames.indexOf("readStart")));
-        result.setReadingEnd(c.getString(columnNames.indexOf("readEnd")));
         result.setPriority(c.getInt(columnNames.indexOf("priority")));
-        result.setChapDownloaded(c.getInt(columnNames.indexOf("downloaded")));
-        result.setRereading(c.getInt(columnNames.indexOf("rereading")) > 0);
-        result.setRereadCount(c.getInt(columnNames.indexOf("rereadCount")));
+        result.setChapDownloaded(c.getInt(columnNames.indexOf("downloaded")), false);
+        result.setRereading(c.getInt(columnNames.indexOf("rereading")) > 0, false);
+        result.setRereadCount(c.getInt(columnNames.indexOf("rereadCount")), false);
         result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
         Date lastUpdateDate;
         try {
@@ -155,5 +157,93 @@ public class Manga extends GenericRecord implements Serializable {
 
     public int getTotal(boolean useSecondaryAmount) {
         return useSecondaryAmount ? getVolumes() : getChapters();
+    }
+
+    public void setReadStatus(String value, boolean markDirty) {
+        this.readStatus = value;
+        if (markDirty) {
+            addDirtyField("readStatus");
+        }
+    }
+
+    public void setReadStatus(String value) {
+        setReadStatus(value, true);
+    }
+
+    public void setChaptersRead(int value, boolean markDirty) {
+        this.chaptersRead = value;
+        if (markDirty) {
+            addDirtyField("chaptersRead");
+        }
+    }
+
+    public void setChaptersRead(int value) {
+        setChaptersRead(value, true);
+    }
+
+    public void setVolumesRead(int value, boolean markDirty) {
+        this.volumesRead = value;
+        if (markDirty) {
+            addDirtyField("volumesRead");
+        }
+    }
+
+    public void setVolumesRead(int value) {
+        setVolumesRead(value, true);
+    }
+
+    public void setReadingStart(String value, boolean markDirty) {
+        this.readingStart = value;
+        if (markDirty) {
+            addDirtyField("readingStart");
+        }
+    }
+
+    public void setReadingStart(String value) {
+        setReadingStart(value, true);
+    }
+
+    public void setReadingEnd(String value, boolean markDirty) {
+        this.readingEnd = value;
+        if (markDirty) {
+            addDirtyField("readingEnd");
+        }
+    }
+
+    public void setReadingEnd(String value) {
+        setReadingEnd(value, true);
+    }
+
+    public void setChapDownloaded(int value, boolean markDirty) {
+        this.chapDownloaded = value;
+        if (markDirty) {
+            addDirtyField("chapDownloaded");
+        }
+    }
+
+    public void setChapDownloaded(int value) {
+        setChapDownloaded(value, true);
+    }
+
+    public void setRereading(boolean value, boolean markDirty) {
+        this.rereading = value;
+        if (markDirty) {
+            addDirtyField("rereading");
+        }
+    }
+
+    public void setRereading(boolean value) {
+        setRereading(value, true);
+    }
+
+    public void setRereadCount(int value, boolean markDirty) {
+        this.rereadCount = value;
+        if (markDirty) {
+            addDirtyField("rereadCount");
+        }
+    }
+
+    public void setRereadCount(int value) {
+        setRereadCount(value, true);
     }
 }

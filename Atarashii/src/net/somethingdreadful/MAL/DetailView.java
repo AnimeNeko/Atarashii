@@ -589,13 +589,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
         try {
             if (type.equals(ListType.ANIME)) {
-                if (!animeRecord.getDirty().isEmpty() && !animeRecord.getDeleteFlag()) {
+                if (!animeRecord.isDirty() && !animeRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(animeRecord);
                 } else if (animeRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(animeRecord);
                 }
             } else if (type.equals(ListType.MANGA)) {
-                if (!mangaRecord.getDirty().isEmpty() && !mangaRecord.getDeleteFlag()) {
+                if (!mangaRecord.isDirty() && !mangaRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(mangaRecord);
                 } else if (mangaRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(mangaRecord);

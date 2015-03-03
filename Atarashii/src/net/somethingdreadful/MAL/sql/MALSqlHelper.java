@@ -132,7 +132,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "rewatchCount integer, "
             + "rewatchValue integer, "
             + "comments varchar, "
-            + "dirty boolean DEFAULT false, "
+            + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, anime_id)"
             + ");";
@@ -153,7 +153,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "rereading boolean, "
             + "rereadCount integer, "
             + "comments varchar, "
-            + "dirty boolean DEFAULT false, "
+            + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, manga_id)"
             + ");";
@@ -310,7 +310,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -589,6 +589,24 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
             db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
             db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
+        }
+
+        if (oldVersion < 11) {
+            // update animelist table
+            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("update temp_table set dirty = NULL");
+            db.execSQL("drop table " + TABLE_ANIMELIST);
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            db.execSQL("insert into " + TABLE_ANIMELIST + " select * from temp_table;");
+            db.execSQL("drop table temp_table;");
+
+            // update mangalist table
+            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("update temp_table set dirty = NULL");
+            db.execSQL("drop table " + TABLE_MANGALIST);
+            db.execSQL(CREATE_MANGALIST_TABLE);
+            db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
+            db.execSQL("drop table temp_table;");
         }
     }
 }

@@ -25,6 +25,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpProtocolParams;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -124,8 +125,30 @@ public class MALApi {
         boolean result;
         if (anime.getCreateFlag())
             result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
-        else
-            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getWatchingStart(), anime.getWatchingEnd()).getStatus() == 200;
+        else {
+            if (anime.isDirty()) {
+                // map anime property names to api field names
+                HashMap<String, String> nameMap = new HashMap<>();
+                nameMap.put("watchedStatus", "status");
+                nameMap.put("watchedEpisodes", "episodes");
+                nameMap.put("score", "score");
+                nameMap.put("watchingStart", "start");
+                nameMap.put("watchingEnd", "end");
+                HashMap<String, String> fieldMap = new HashMap<>();
+                for (String dirtyField : anime.getDirty()) {
+                    if (nameMap.containsKey(dirtyField)) {
+                        if (anime.getPropertyType(dirtyField) == String.class) {
+                            fieldMap.put(nameMap.get(dirtyField), anime.getStringPropertyValue(dirtyField));
+                        } else if (anime.getPropertyType(dirtyField) == int.class) {
+                            fieldMap.put(nameMap.get(dirtyField), anime.getIntegerPropertyValue(dirtyField).toString());
+                        }
+                    }
+                }
+                result = service.updateAnime(anime.getId(), fieldMap).getStatus() == 200;
+            } else {
+                result = false;
+            }
+        }
         return result;
     }
 
@@ -133,8 +156,31 @@ public class MALApi {
         boolean result;
         if (manga.getCreateFlag())
             result = service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
-        else
-            result = service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore(), manga.getReadingStart(), manga.getReadingEnd()).getStatus() == 200;
+        else {
+            if (manga.isDirty()) {
+                // map manga property names to api field names
+                HashMap<String, String> nameMap = new HashMap<>();
+                nameMap.put("readStatus", "status");
+                nameMap.put("chaptersRead", "chapters");
+                nameMap.put("volumesRead", "volumes");
+                nameMap.put("score", "score");
+                nameMap.put("readingStart", "start");
+                nameMap.put("readingEnd", "end");
+                HashMap<String, String> fieldMap = new HashMap<>();
+                for (String dirtyField : manga.getDirty()) {
+                    if (nameMap.containsKey(dirtyField)) {
+                        if (manga.getPropertyType(dirtyField) == String.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getStringPropertyValue(dirtyField));
+                        } else if (manga.getPropertyType(dirtyField) == int.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getIntegerPropertyValue(dirtyField).toString());
+                        }
+                    }
+                }
+                result = service.updateManga(manga.getId(), fieldMap).getStatus() == 200;
+            } else {
+                result = false;
+            }
+        }
         return result;
     }
 

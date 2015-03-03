@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -109,26 +110,30 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchedStatus(c.getString(columnNames.indexOf("myStatus")), false);
         result.setWatchedEpisodes(c.getInt(columnNames.indexOf("episodesWatched")), false);
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
-        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
-        result.setStorage(c.getInt(columnNames.indexOf("storage")));
-        result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")));
-        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
+        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")), false);
+        result.setStorage(c.getInt(columnNames.indexOf("storage")), false);
+        result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")), false);
+        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
-        result.setDirty(new Gson().fromJson(c.getString(columnNames.indexOf("dirty")),ArrayList.class));
+        if (!c.isNull(columnNames.indexOf("dirty"))) {
+            result.setDirty(new Gson().fromJson(c.getString(columnNames.indexOf("dirty")), ArrayList.class));
+        } else {
+            result.setDirty(null);
+        }
         result.setClassification(c.getString(columnNames.indexOf("classification")));
         result.setMembersCount(c.getInt(columnNames.indexOf("membersCount")));
         result.setFavoritedCount(c.getInt(columnNames.indexOf("favoritedCount")));
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
-        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")));
-        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")));
+        result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")), false);
+        result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setFansubGroup(c.getString(columnNames.indexOf("fansub")), false);
         result.setPriority(c.getInt(columnNames.indexOf("priority")));
-        result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")));
-        result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")));
-        result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")));
+        result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")), false);
+        result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")), false);
+        result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")), false);
         result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0);
         result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
         result.setStartDate(c.getString(columnNames.indexOf("startDate")));

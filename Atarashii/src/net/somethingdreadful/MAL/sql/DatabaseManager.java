@@ -228,7 +228,7 @@ public class DatabaseManager {
                 alcv.put("rewatchCount", anime.getRewatchCount());
                 alcv.put("rewatchValue", anime.getRewatchValue());
                 alcv.put("comments", anime.getPersonalComments());
-                alcv.put("dirty", new Gson().toJson(anime.getDirty()));
+                alcv.put("dirty", anime.getDirty() != null ? new Gson().toJson(anime.getDirty()) : null);
                 if (anime.getLastUpdate() != null)
                     alcv.put("lastUpdate", anime.getLastUpdate().getTime());
                 getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
@@ -349,12 +349,12 @@ public class DatabaseManager {
                 cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
                         " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
                         " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                        " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+                        " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty IS NOT NULL " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             else
                 cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
                         " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
                         " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                        " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty = 1 " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+                        " WHERE al.profile_id = ? " + (listType != "" ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty IS NOT NULL " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Anime>();
                 do {
@@ -539,7 +539,7 @@ public class DatabaseManager {
                 mlcv.put("rereading", manga.getRereadValue());
                 mlcv.put("rereadCount", manga.getRereadCount());
                 mlcv.put("comments", manga.getPersonalComments());
-                mlcv.put("dirty", new Gson().toJson(manga.getDirty()));
+                mlcv.put("dirty", manga.getDirty() != null ? new Gson().toJson(manga.getDirty()) : null);
                 if (manga.getLastUpdate() != null)
                     mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
                 getDBWrite().replace(MALSqlHelper.TABLE_MANGALIST, null, mlcv);
@@ -637,7 +637,7 @@ public class DatabaseManager {
             cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
                     " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
                     " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
-                    " WHERE ml.profile_id = ? " + (listType != "" ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty = 1 " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+                    " WHERE ml.profile_id = ? " + (listType != "" ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty <> \"\" " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<Manga>();
                 do {
