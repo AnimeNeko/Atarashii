@@ -9,10 +9,12 @@ import net.somethingdreadful.MAL.api.response.Profile;
 import net.somethingdreadful.MAL.api.response.User;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import retrofit.client.Response;
 import retrofit.http.DELETE;
 import retrofit.http.Field;
+import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -55,8 +57,7 @@ public interface MALInterface {
 
     @FormUrlEncoded
     @PUT("/animelist/anime/{anime_id}")
-    Response updateAnime(@Path("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes,
-                         @Field("score") int score, @Field("start") String start, @Field("end") String end);
+    Response updateAnime(@Path("anime_id") int id, @FieldMap Map<String, String> params);
 
     @GET("/manga/{manga_id}?mine=1")
     Manga getManga(@Path("manga_id") int manga_id);
@@ -89,8 +90,7 @@ public interface MALInterface {
 
     @FormUrlEncoded
     @PUT("/mangalist/manga/{manga_id}")
-    Response updateManga(@Path("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters,
-                         @Field("volumes") int volumes, @Field("score") int score, @Field("start") String readingStart, @Field("end") String readingEnd);
+    Response updateManga(@Path("manga_id") int id, @FieldMap Map<String, String> params);
 
     @GET("/profile/{username}")
     Profile getProfile(@Path("username") String username);

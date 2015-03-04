@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.account.AccountService;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private int priority;
     @Setter @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
-    @Setter @Getter private int score;
+    @Getter private int score;
     @Setter @Getter private int rank;
     @Setter @Getter @SerializedName("members_score") private float membersScore;
     @Setter @Getter @SerializedName("members_count") private int membersCount;
@@ -45,7 +46,7 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String synopsis;
     @Setter @Getter @SerializedName("other_titles") private HashMap<String, ArrayList<String>> otherTitles;
 
-    @Setter private boolean dirty;
+    @Setter @Getter private ArrayList<String> dirty;
     @Setter @Getter private Date lastUpdate;
     @Setter private boolean createFlag;
     @Setter private boolean deleteFlag;
@@ -70,9 +71,21 @@ public class GenericRecord implements Serializable {
         return deleteFlag;
     }
 
-    // Note: @Getter is not working on booleans
-    public boolean getDirty() {
+    public ArrayList<String> getDirty() {
         return dirty;
+    }
+
+    public void addDirtyField(String field) {
+        if (dirty == null) {
+            dirty = new ArrayList<String>();
+        }
+        if (!dirty.contains((field))) {
+            dirty.add(field);
+        }
+    }
+
+    public void clearDirty() {
+        dirty = null;
     }
 
     public ArrayList<Integer> getGenresInt() {
@@ -97,7 +110,7 @@ public class GenericRecord implements Serializable {
         if (getGenres() != null)
             for (String genre : getGenres())
                 result.add(Arrays.asList(genres).indexOf(genre));
-        
+
         return result;
     }
 
@@ -150,5 +163,76 @@ public class GenericRecord implements Serializable {
                 "plan to read"
         };
         return Arrays.asList(status).indexOf(statusString);
+    }
+
+    public void setScore(int value) {
+        setScore(value, true);
+    }
+
+    public void setScore(int value, boolean markDirty) {
+        this.score = value;
+        if (markDirty) {
+            addDirtyField("score");
+        }
+    }
+
+    public boolean isDirty() {
+        if (dirty == null) {
+            return false;
+        }
+        return !dirty.isEmpty();
+    }
+
+    /*
+     * some reflection magic used to get dirty values easier
+     */
+    public Class getPropertyType(String property) {
+        try {
+            Field field = getField(this.getClass(), property);
+            return field.getType();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Field getField(Class<?> c, String property) {
+        try {
+            return c.getDeclaredField(property);
+        } catch (Exception e) {
+            if (c.getSuperclass() != null) {
+                return getField(c.getSuperclass(), property);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    protected Object getPropertyValue(String property) {
+        try {
+            Field field = getField(this.getClass(), property);
+            if (field != null) {
+                field.setAccessible(true);
+                return field.get(this);
+            }
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
+
+    public Integer getIntegerPropertyValue(String property) {
+        Object value = getPropertyValue(property);
+        if (value != null) {
+            return (Integer) value;
+        }
+        return null;
+    }
+
+    public String getStringPropertyValue(String property) {
+        Object value = getPropertyValue(property);
+        if (value != null) {
+            return (String) value;
+        }
+        return null;
     }
 }

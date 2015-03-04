@@ -233,12 +233,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
-            anime.setDirty(true);
             gl.remove(anime);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
-            manga.setDirty(true);
             gl.remove(manga);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }

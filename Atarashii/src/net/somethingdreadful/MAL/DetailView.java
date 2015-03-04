@@ -238,10 +238,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                     mangaRecord.setRereadCount(number);
                 break;
         }
-        if (isAnime())
-            animeRecord.setDirty(true);
-        else
-            mangaRecord.setDirty(true);
         setText();
     }
 
@@ -264,10 +260,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 animeRecord.setFansubGroup(message);
                 break;
         }
-        if (isAnime())
-            animeRecord.setDirty(true);
-        else
-            mangaRecord.setDirty(true);
         setText();
     }
 
@@ -287,13 +279,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
             else
                 animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
-            animeRecord.setDirty(true);
         } else {
             if (startDate)
                 mangaRecord.setReadingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
             else
                 mangaRecord.setReadingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
-            mangaRecord.setDirty(true);
         }
         setText();
     }
@@ -327,11 +317,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             if (type.equals(ListType.ANIME)) {
                 animeRecord.setCreateFlag(true);
                 animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-                animeRecord.setDirty(true);
             } else {
                 mangaRecord.setCreateFlag(true);
                 mangaRecord.setReadStatus(Manga.STATUS_READING);
-                mangaRecord.setDirty(true);
             }
             setText();
         }
@@ -493,7 +481,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 if (animeRecord.getEpisodes() != 0)
                     animeRecord.setWatchedEpisodes(animeRecord.getEpisodes());
             }
-            animeRecord.setDirty(true);
         } else {
             mangaRecord.setReadStatus(currentStatus);
             if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
@@ -502,7 +489,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 if (mangaRecord.getVolumes() != 0)
                     mangaRecord.setVolumesRead(mangaRecord.getVolumes());
             }
-            mangaRecord.setDirty(true);
         }
         setText();
     }
@@ -517,7 +503,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
             }
             mangaRecord.setChaptersRead(value);
-            mangaRecord.setDirty(true);
         }
 
         if (value2 != mangaRecord.getVolumesRead()) {
@@ -528,7 +513,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
             }
             mangaRecord.setVolumesRead(value2);
-            mangaRecord.setDirty(true);
         }
 
         setText();
@@ -537,10 +521,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
     public void onRemoveConfirmed() {
         if (type.equals(ListType.ANIME)) {
-            animeRecord.setDirty(true);
             animeRecord.setDeleteFlag(true);
         } else {
-            mangaRecord.setDirty(true);
             mangaRecord.setDeleteFlag(true);
         }
         finish();
@@ -607,13 +589,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
         try {
             if (type.equals(ListType.ANIME)) {
-                if (animeRecord.getDirty() && !animeRecord.getDeleteFlag()) {
+                if (animeRecord.isDirty() && !animeRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(animeRecord);
                 } else if (animeRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(animeRecord);
                 }
             } else if (type.equals(ListType.MANGA)) {
-                if (mangaRecord.getDirty() && !mangaRecord.getDeleteFlag()) {
+                if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(mangaRecord);
                 } else if (mangaRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(mangaRecord);
@@ -681,12 +663,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         try {
             if (type == ListType.ANIME) {
                 animeRecord = (Anime) result;
-                if (isAdded() && AccountService.isMAL())
-                    animeRecord.setDirty(true);
             } else {
                 mangaRecord = (Manga) result;
-                if (isAdded() && AccountService.isMAL())
-                    mangaRecord.setDirty(true);
             }
             setRefreshing(false);
             toggleLoadingIndicator(false);
