@@ -34,8 +34,8 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String status;
     @Setter @Getter private ArrayList<String> genres;
     @Setter @Getter private ArrayList<String> tags;
-    @Setter @Getter private int priority;
     @Setter @Getter @SerializedName("personal_comments") private String personalComments;
+    @Getter private int priority;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
     @Getter private int score;
     @Setter @Getter private int rank;
@@ -176,11 +176,19 @@ public class GenericRecord implements Serializable {
         }
     }
 
-    public boolean isDirty() {
-        if (dirty == null) {
-            return false;
+    public void setPriority(int value) {
+        setPriority(value, true);
+    }
+
+    public void setPriority(int value, boolean markDirty) {
+        this.priority = value;
+        if (markDirty) {
+            addDirtyField("priority");
         }
-        return !dirty.isEmpty();
+    }
+
+    public boolean isDirty() {
+        return dirty != null && !dirty.isEmpty();
     }
 
     /*

@@ -132,6 +132,7 @@ public class MALApi {
                 nameMap.put("watchedStatus", "status");
                 nameMap.put("watchedEpisodes", "episodes");
                 nameMap.put("score", "score");
+                nameMap.put("priority", "priority");
                 nameMap.put("watchingStart", "start");
                 nameMap.put("watchingEnd", "end");
                 HashMap<String, String> fieldMap = new HashMap<>();
@@ -166,6 +167,7 @@ public class MALApi {
                 nameMap.put("score", "score");
                 nameMap.put("readingStart", "start");
                 nameMap.put("readingEnd", "end");
+                nameMap.put("priority", "priority");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : manga.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {
