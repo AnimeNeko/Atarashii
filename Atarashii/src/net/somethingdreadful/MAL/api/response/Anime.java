@@ -114,7 +114,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")), false);
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
-        result.setScore(c.getInt(columnNames.indexOf("myScore")));
+        result.setScore(c.getInt(columnNames.indexOf("myScore")), false);
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
         if (!c.isNull(columnNames.indexOf("dirty"))) {
@@ -302,6 +302,6 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setStorage(int storage) {
-        setStorageValue(storage, true);
+        setStorage(storage, true);
     }
 }
