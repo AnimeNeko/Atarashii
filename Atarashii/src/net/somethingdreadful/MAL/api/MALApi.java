@@ -168,6 +168,7 @@ public class MALApi {
                 nameMap.put("readingStart", "start");
                 nameMap.put("readingEnd", "end");
                 nameMap.put("priority", "priority");
+                nameMap.put("rereadValue", "reread_value");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : manga.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {

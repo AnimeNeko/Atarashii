@@ -35,7 +35,7 @@ public class Manga extends GenericRecord implements Serializable {
     @Getter @SerializedName("chap_downloaded") private int chapDownloaded;
     @Getter @SerializedName("rereading") private boolean rereading;
     @Getter @SerializedName("reread_count") private int rereadCount;
-    @Setter @Getter @SerializedName("reread_value") private int rereadValue;
+    @Getter @SerializedName("reread_value") private int rereadValue;
 
     // AniList
     public Manga manga;
@@ -245,5 +245,16 @@ public class Manga extends GenericRecord implements Serializable {
 
     public void setRereadCount(int value) {
         setRereadCount(value, true);
+    }
+
+    public void setRereadValue(int value, boolean markDirty) {
+        this.rereadValue = value + 1;
+        if (markDirty) {
+            addDirtyField("rereadValue");
+        }
+    }
+
+    public void setRereadValue(int value) {
+        setRereadValue(value, true);
     }
 }
