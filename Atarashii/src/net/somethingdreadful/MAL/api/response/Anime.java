@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -135,7 +134,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")), false);
         result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")), false);
         result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0);
-        result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
+        result.setPersonalComments(c.getString(columnNames.indexOf("comments")), false);
         result.setStartDate(c.getString(columnNames.indexOf("startDate")));
         result.setEndDate(c.getString(columnNames.indexOf("endDate")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));

@@ -190,7 +190,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
 
             cardOther.setVisibility(View.GONE);
 
-            priority.setText(getString(R.array.priorityRewatchArray, activity.mangaRecord.getRereadValue()));
+            priority.setText(getString(R.array.priorityRewatchArray, activity.mangaRecord.getRereadValue() != 0 ? activity.mangaRecord.getRereadValue() - 1 : 0));
             rewatchCount2.setText(activity.nullCheck(activity.mangaRecord.getRereadCount()));
         }
         setCard();

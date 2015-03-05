@@ -259,7 +259,7 @@ public class DatabaseManager {
             result.setTags(getAnimeTags(result.getId()));
             result.setAlternativeVersions(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
             result.setOther(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_OTHER));
-            result.setPersonalTags(getAnimePersonalTags(result.getId()));
+            result.setPersonalTags(getAnimePersonalTags(result.getId()), false);
             result.setCharacterAnime(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_CHARACTER));
             result.setPrequels(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_PREQUEL));
             result.setSequels(getAnimeToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_SEQUEL));
@@ -557,7 +557,7 @@ public class DatabaseManager {
             result = Manga.fromCursor(cursor);
             result.setGenres(getMangaGenres(result.getId()));
             result.setTags(getMangaTags(result.getId()));
-            result.setPersonalTags(getMangaPersonalTags(result.getId()));
+            result.setPersonalTags(getMangaPersonalTags(result.getId()), false);
             result.setAlternativeVersions(getMangaToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ALTERNATIVE));
             result.setRelatedManga(getMangaToMangaRelations(result.getId(), MALSqlHelper.RELATION_TYPE_RELATED));
             result.setAnimeAdaptations(getMangaToAnimeRelations(result.getId(), MALSqlHelper.RELATION_TYPE_ADAPTATION));

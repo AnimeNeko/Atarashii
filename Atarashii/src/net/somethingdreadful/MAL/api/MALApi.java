@@ -132,6 +132,7 @@ public class MALApi {
                 nameMap.put("watchedStatus", "status");
                 nameMap.put("watchedEpisodes", "episodes");
                 nameMap.put("score", "score");
+                nameMap.put("score", "score");
                 nameMap.put("priority", "priority");
                 nameMap.put("watchingStart", "start");
                 nameMap.put("watchingEnd", "end");
@@ -169,6 +170,9 @@ public class MALApi {
                 nameMap.put("readingEnd", "end");
                 nameMap.put("priority", "priority");
                 nameMap.put("rereadValue", "reread_value");
+                nameMap.put("rereadCount", "reread_count");
+                nameMap.put("personalComments", "comments");
+                nameMap.put("personalTags", "tags");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : manga.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {
@@ -176,6 +180,8 @@ public class MALApi {
                             fieldMap.put(nameMap.get(dirtyField), manga.getStringPropertyValue(dirtyField));
                         } else if (manga.getPropertyType(dirtyField) == int.class) {
                             fieldMap.put(nameMap.get(dirtyField), manga.getIntegerPropertyValue(dirtyField).toString());
+                        } else if (manga.getPropertyType(dirtyField) == ArrayList.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getArrayPropertyValue(dirtyField));
                         }
                     }
                 }

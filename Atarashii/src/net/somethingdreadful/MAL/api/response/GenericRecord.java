@@ -34,8 +34,8 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String status;
     @Setter @Getter private ArrayList<String> genres;
     @Setter @Getter private ArrayList<String> tags;
-    @Setter @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter private int priority;
+    @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
     @Getter private int score;
     @Setter @Getter private int rank;
@@ -46,7 +46,7 @@ public class GenericRecord implements Serializable {
     @Setter @Getter private String synopsis;
     @Setter @Getter @SerializedName("other_titles") private HashMap<String, ArrayList<String>> otherTitles;
 
-    @Setter @Getter private ArrayList<String> dirty;
+    @Setter private ArrayList<String> dirty;
     @Setter @Getter private Date lastUpdate;
     @Setter private boolean createFlag;
     @Setter private boolean deleteFlag;
@@ -138,18 +138,28 @@ public class GenericRecord implements Serializable {
         return (getSynopsis() != null ? Html.fromHtml(getSynopsis()) : null);
     }
 
-    public void setPersonalTags(ArrayList<String> tags) {
-        personalTags = tags;
+    public void setPersonalComments(String message) {
+        setPersonalComments(message, true);
     }
 
-    public String getPersonalTagsString() {
-        return getPersonalTags() != null ? TextUtils.join(",", getPersonalTags()) : "";
+    public void setPersonalComments(String value, boolean markDirty) {
+        this.personalComments = value;
+        if (markDirty) {
+            addDirtyField("personalComments");
+        }
+    }
+
+    public void setPersonalTags(ArrayList<String> value, boolean markDirty) {
+        this.personalTags = value;
+        if (markDirty) {
+            addDirtyField("personalTags");
+        }
     }
 
     public void setPersonalTags(String tag) {
         ArrayList<String> tags = new ArrayList<String>();
         Collections.addAll(tags, TextUtils.split(tag, ","));
-        setPersonalTags(tags);
+        setPersonalTags(tags, true);
     }
 
     public int getUserStatusInt(String statusString) {
@@ -242,5 +252,15 @@ public class GenericRecord implements Serializable {
             return (String) value;
         }
         return null;
+    }
+
+    public String getArrayPropertyValue(String property) {
+        ArrayList<String> array = (ArrayList<String>) getPropertyValue(property);
+        Object value = array != null ? TextUtils.join(",", array) : "";
+        return (String) value;
+    }
+
+    public String getPersonalTagsString() {
+        return getPersonalTags() != null ? TextUtils.join(",", getPersonalTags()) : "";
     }
 }
