@@ -152,6 +152,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "downloaded integer, "
             + "rereading boolean, "
             + "rereadCount integer, "
+            + "rereadValue integer, "
             + "comments varchar, "
             + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"

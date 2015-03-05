@@ -35,7 +35,7 @@ public class Manga extends GenericRecord implements Serializable {
     @Getter @SerializedName("chap_downloaded") private int chapDownloaded;
     @Getter @SerializedName("rereading") private boolean rereading;
     @Getter @SerializedName("reread_count") private int rereadCount;
-    @Setter @Getter @SerializedName("reread_value") private int rereadValue;
+    @Getter @SerializedName("reread_value") private int rereadValue;
 
     // AniList
     public Manga manga;
@@ -102,11 +102,11 @@ public class Manga extends GenericRecord implements Serializable {
         result.setPopularityRank(c.getInt(columnNames.indexOf("popularityRank")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));
         result.setListedId(c.getInt(columnNames.indexOf("listedId")));
-        result.setPriority(c.getInt(columnNames.indexOf("priority")));
+        result.setPriority(c.getInt(columnNames.indexOf("priority")), false);
         result.setChapDownloaded(c.getInt(columnNames.indexOf("downloaded")), false);
         result.setRereading(c.getInt(columnNames.indexOf("rereading")) > 0, false);
         result.setRereadCount(c.getInt(columnNames.indexOf("rereadCount")), false);
-        result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
+        result.setPersonalComments(c.getString(columnNames.indexOf("comments")), false);
         Date lastUpdateDate;
         try {
             long lastUpdate = c.getLong(columnNames.indexOf("lastUpdate"));
@@ -245,5 +245,16 @@ public class Manga extends GenericRecord implements Serializable {
 
     public void setRereadCount(int value) {
         setRereadCount(value, true);
+    }
+
+    public void setRereadValue(int value, boolean markDirty) {
+        this.rereadValue = value + 1;
+        if (markDirty) {
+            addDirtyField("rereadValue");
+        }
+    }
+
+    public void setRereadValue(int value) {
+        setRereadValue(value, true);
     }
 }

@@ -134,6 +134,15 @@ public class MALApi {
                 nameMap.put("score", "score");
                 nameMap.put("watchingStart", "start");
                 nameMap.put("watchingEnd", "end");
+                nameMap.put("priority", "priority");
+                nameMap.put("personalTags", "tags");
+                nameMap.put("personalComments", "comments");
+                nameMap.put("fansubGroup", "fansubber");
+                nameMap.put("storage", "storage_type");
+                nameMap.put("storageValue", "storage_amt");
+                nameMap.put("epsDownloaded", "downloaded_eps");
+                nameMap.put("rewatchCount", "rewatch_count");
+                nameMap.put("rewatchValue", "rewatch_value");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : anime.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {
@@ -141,6 +150,8 @@ public class MALApi {
                             fieldMap.put(nameMap.get(dirtyField), anime.getStringPropertyValue(dirtyField));
                         } else if (anime.getPropertyType(dirtyField) == int.class) {
                             fieldMap.put(nameMap.get(dirtyField), anime.getIntegerPropertyValue(dirtyField).toString());
+                        } else if (anime.getPropertyType(dirtyField) == ArrayList.class) {
+                            fieldMap.put(nameMap.get(dirtyField), anime.getArrayPropertyValue(dirtyField));
                         }
                     }
                 }
@@ -166,6 +177,11 @@ public class MALApi {
                 nameMap.put("score", "score");
                 nameMap.put("readingStart", "start");
                 nameMap.put("readingEnd", "end");
+                nameMap.put("priority", "priority");
+                nameMap.put("personalTags", "tags");
+                nameMap.put("rereadValue", "reread_value");
+                nameMap.put("rereadCount", "reread_count");
+                nameMap.put("personalComments", "comments");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : manga.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {
@@ -173,6 +189,8 @@ public class MALApi {
                             fieldMap.put(nameMap.get(dirtyField), manga.getStringPropertyValue(dirtyField));
                         } else if (manga.getPropertyType(dirtyField) == int.class) {
                             fieldMap.put(nameMap.get(dirtyField), manga.getIntegerPropertyValue(dirtyField).toString());
+                        } else if (manga.getPropertyType(dirtyField) == ArrayList.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getArrayPropertyValue(dirtyField));
                         }
                     }
                 }

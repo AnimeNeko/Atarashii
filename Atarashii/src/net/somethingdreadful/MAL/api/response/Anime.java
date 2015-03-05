@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -115,7 +114,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")), false);
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
-        result.setScore(c.getInt(columnNames.indexOf("myScore")));
+        result.setScore(c.getInt(columnNames.indexOf("myScore")), false);
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
         if (!c.isNull(columnNames.indexOf("dirty"))) {
@@ -130,12 +129,12 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")), false);
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setFansubGroup(c.getString(columnNames.indexOf("fansub")), false);
-        result.setPriority(c.getInt(columnNames.indexOf("priority")));
+        result.setPriority(c.getInt(columnNames.indexOf("priority")), false);
         result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")), false);
         result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")), false);
         result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")), false);
         result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0);
-        result.setPersonalComments(c.getString(columnNames.indexOf("comments")));
+        result.setPersonalComments(c.getString(columnNames.indexOf("comments")), false);
         result.setStartDate(c.getString(columnNames.indexOf("startDate")));
         result.setEndDate(c.getString(columnNames.indexOf("endDate")));
         result.setRank(c.getInt(columnNames.indexOf("rank")));
@@ -303,6 +302,6 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setStorage(int storage) {
-        setStorageValue(storage, true);
+        setStorage(storage, true);
     }
 }
