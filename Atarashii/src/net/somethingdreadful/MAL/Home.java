@@ -553,7 +553,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             if (position != 1 && position != 2 && position != 3) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
-                view.setBackgroundColor(Color.parseColor("#E8E8E8"));
+                if (Theme.darkTheme)
+                    view.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                else
+                    view.setBackgroundColor(Color.parseColor("#E8E8E8"));
                 mPreviousView = view;
             }
 
