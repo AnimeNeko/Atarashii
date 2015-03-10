@@ -86,12 +86,12 @@ public interface ALInterface {
     @FormUrlEncoded
     @POST("/animelist")
     Response addAnime(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                      @Field("score") int score);
+                      @Field("score") int score, @Field("notes") String notes, @Field("rewatched") int rewatched);
 
     @FormUrlEncoded
     @PUT("/animelist")
     Response updateAnime(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                         @Field("score") int score);
+                         @Field("score") int score, @Field("notes") String notes, @Field("rewatched") int rewatched);
 
     @DELETE("/animelist/{anime_id}")
     Response deleteAnime(@Path("anime_id") int anime_id);

@@ -150,9 +150,9 @@ public class ALApi {
     public boolean addOrUpdateAnime(Anime anime) {
         boolean result;
         if (anime.getCreateFlag())
-            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
+            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getPersonalComments(), anime.getRewatchCount()).getStatus() == 200;
         else
-            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
+            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getPersonalComments(), anime.getRewatchCount()).getStatus() == 200;
         return result;
     }
 
