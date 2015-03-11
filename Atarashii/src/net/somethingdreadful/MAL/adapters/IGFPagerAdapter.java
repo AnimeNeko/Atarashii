@@ -3,31 +3,28 @@ package net.somethingdreadful.MAL.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import net.somethingdreadful.MAL.IGF;
 import net.somethingdreadful.MAL.api.MALApi;
 
 public class IGFPagerAdapter extends FragmentPagerAdapter {
-    IGF anime;
-    IGF manga;
+    FragmentManager fm;
 
     public IGFPagerAdapter(FragmentManager fm) {
         super(fm);
+        this.fm = fm;
     }
 
     @Override
     public Fragment getItem(int i) {
         IGF fragment = new IGF();
         fragment.listType = i == 0 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA;
-        if (i == 0)
-            anime = fragment;
-        else
-            manga = fragment;
         return fragment;
     }
 
-    public IGF getIGF(int i) {
-        return i == 0 ? anime : manga;
+    public Fragment getIGF(ViewPager viewPager, int position) {
+        return  fm.findFragmentByTag("android:switcher:" + viewPager.getId() + ":" + position);
     }
 
     @Override
