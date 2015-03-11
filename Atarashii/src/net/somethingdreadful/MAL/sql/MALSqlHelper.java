@@ -554,7 +554,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              */
             // update animelist table
             String animeUpdateFields = "profile_id, anime_id, status, watched, score, dirty, lastUpdate";
-            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("create table temp_table as select " + animeUpdateFields + " from " + TABLE_ANIMELIST);
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
             db.execSQL("insert into " + TABLE_ANIMELIST + " (" + animeUpdateFields + ") select " + animeUpdateFields + " from temp_table;");
@@ -562,7 +562,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
             // update mangalist table
             String mangaUpdateFields = "profile_id, manga_id, status, chaptersRead, volumesRead, score, dirty, lastUpdate";
-            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("create table temp_table as select " + mangaUpdateFields + " from " + TABLE_MANGALIST);
             db.execSQL("drop table " + TABLE_MANGALIST);
             db.execSQL(CREATE_MANGALIST_TABLE);
             db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
