@@ -569,30 +569,10 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("drop table temp_table;");
         }
 
-
         if (oldVersion < 10) {
-            // update animelist table
-            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
-            db.execSQL("drop table " + TABLE_ANIMELIST);
-            db.execSQL(CREATE_ANIMELIST_TABLE);
-            db.execSQL("insert into " + TABLE_ANIMELIST + " (profile_id, anime_id, status, watched, score, watchedStart, watchedEnd, dirty, lastUpdate) select * from temp_table;");
-            db.execSQL("drop table temp_table;");
-
-            // update mangalist table
-            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
-            db.execSQL("drop table " + TABLE_MANGALIST);
-            db.execSQL(CREATE_MANGALIST_TABLE);
-            db.execSQL("insert into " + TABLE_MANGALIST + " (profile_id, manga_id, status, chaptersRead, volumesRead, score, readStart, readEnd, dirty, lastUpdate) select * from temp_table;");
-            db.execSQL("drop table temp_table;");
-
-            // add new tables
-            db.execSQL(CREATE_PRODUCER_TABLE);
-            db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
-            db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
-            db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
-        }
-
-        if (oldVersion < 11) {
+            /*
+             * In version 10 We added new personal details, AL support & are using the new dirty flag system
+             */
             // update animelist table
             db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
             db.execSQL("update temp_table set dirty = NULL");
@@ -608,6 +588,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_MANGALIST_TABLE);
             db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
+
+            // add new tables
+            db.execSQL(CREATE_PRODUCER_TABLE);
+            db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
+            db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
+            db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
         }
     }
 }
