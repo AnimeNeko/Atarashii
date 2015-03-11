@@ -20,13 +20,8 @@ public class NumberPickerDialogFragment extends DialogFragment {
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
-        int max = 0;
-        try {
-            max = getArguments().getInt("max");
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(): " + e.getMessage());
-        }
-        int current = getArguments().getInt("current");
+        int max = getInt("max");
+        int current = getInt("current");
 
         numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
         numberPicker.setMaxValue(max != 0 ? max : 999);
@@ -56,6 +51,21 @@ public class NumberPickerDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    /**
+     * Get the integer from an argument.
+     *
+     * @param key The argument name
+     * @return int The number of the argument
+     */
+    public int getInt(String key) {
+        try {
+            return getArguments().getInt(key);
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
+            return 0;
+        }
     }
 
     /**
