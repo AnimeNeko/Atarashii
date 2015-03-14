@@ -17,7 +17,7 @@ public class NavigationItems {
         if (AccountService.isMAL())
             addItem(new NavItem(R.drawable.ic_group, R.string.nav_item_my_friends));
         else
-            addItem(new NavItem(R.drawable.ic_group, R.string.nav_item_my_followers));
+            addItem(new NavItem(R.drawable.ic_group, R.string.nav_item_my_following));
         addItem(new NavItem(R.drawable.ic_forum_grey, R.string.nav_item_my_forum));
         if (AccountService.isMAL()) {
             addItem(new NavItem(R.drawable.ic_star, R.string.nav_item_top_rated));

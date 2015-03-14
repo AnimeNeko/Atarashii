@@ -171,7 +171,7 @@
     <string name="nav_item_my_profile">My Profile</string>
     <string name="nav_item_my_list">My List</string>
     <string name="nav_item_my_friends">My Friends</string>
-    <string name="nav_item_my_followers">Followers</string>
+    <string name="nav_item_my_following">Following</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
     <string name="nav_item_airing">Airing</string>
@@ -187,6 +187,7 @@
     <string name="tab_name_personal">Personal</string>
     <string name="tab_name_details">Details</string>
     <string name="tab_name_friends">Friends</string>
+    <string name="tab_name_following">Following</string>
 
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Synopsis</string>

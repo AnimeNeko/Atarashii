@@ -45,7 +45,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return activity.getString(R.string.tab_name_details);
             case 1:
-                return activity.getString(R.string.tab_name_friends);
+                return AccountService.isMAL() ? activity.getString(R.string.tab_name_friends) : activity.getString(R.string.tab_name_following);
             default:
                 return null;
         }
