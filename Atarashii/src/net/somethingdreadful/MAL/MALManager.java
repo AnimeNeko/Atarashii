@@ -254,12 +254,11 @@ public class MALManager {
             else
                 result = alApi.getFollowers(user);
 
-            if (result.size() > 0) {
+            if (result != null && result.size() > 0) {
                 dbMan.saveFriendList(result, user);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
-            e.printStackTrace();
             Crashlytics.logException(e);
         }
         return dbMan.getFriendList(user);
