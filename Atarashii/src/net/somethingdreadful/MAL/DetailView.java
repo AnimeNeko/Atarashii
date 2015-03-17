@@ -507,23 +507,14 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                     mangaRecord.setRereading(false);
                 }
             }
-            if (value == 0) {
+            if (value == 0)
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
-            }
             mangaRecord.setChaptersRead(value);
         }
 
         if (value2 != mangaRecord.getVolumesRead()) {
-            if (value2 == mangaRecord.getVolumes()) {
-                mangaRecord.setReadStatus(GenericRecord.STATUS_COMPLETED);
-                if (mangaRecord.getRereading()) {
-                    mangaRecord.setRereadCount(mangaRecord.getRereadCount() + 1);
-                    mangaRecord.setRereading(false);
-                }
-            }
-            if (value2 == 0) {
+            if (value2 == 0)
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
-            }
             mangaRecord.setVolumesRead(value2);
         }
 
