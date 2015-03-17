@@ -196,8 +196,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         switch (id) {
             case R.id.progress1:
                 if (number != animeRecord.getWatchedEpisodes()) {
-                    if (number == animeRecord.getEpisodes())
+                    if (number == animeRecord.getEpisodes()) {
                         animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                        if (animeRecord.getRewatching()) {
+                            animeRecord.setRewatchCount(animeRecord.getRewatchCount() + 1);
+                            animeRecord.setRewatching(false);
+                        }
+                    }
                     if (number == 0)
                         animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
                     animeRecord.setWatchedEpisodes(number);
@@ -497,6 +502,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         if (value != mangaRecord.getChaptersRead()) {
             if (value == mangaRecord.getChapters() && mangaRecord.getChapters() != 0) {
                 mangaRecord.setReadStatus(GenericRecord.STATUS_COMPLETED);
+                if (mangaRecord.getRereading()) {
+                    mangaRecord.setRereadCount(mangaRecord.getRereadCount() + 1);
+                    mangaRecord.setRereading(false);
+                }
             }
             if (value == 0) {
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
@@ -507,6 +516,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         if (value2 != mangaRecord.getVolumesRead()) {
             if (value2 == mangaRecord.getVolumes()) {
                 mangaRecord.setReadStatus(GenericRecord.STATUS_COMPLETED);
+                if (mangaRecord.getRereading()) {
+                    mangaRecord.setRereadCount(mangaRecord.getRereadCount() + 1);
+                    mangaRecord.setRereading(false);
+                }
             }
             if (value2 == 0) {
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);

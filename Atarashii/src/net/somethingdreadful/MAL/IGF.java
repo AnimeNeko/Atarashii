@@ -189,7 +189,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts)) {
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
                 if (manga.getRereading()) {
-                    manga.setRereadCount(anime.getRewatchCount() + 1);
+                    manga.setRereadCount(manga.getRereadCount() + 1);
                     manga.setRereading(false);
                 }
             }
