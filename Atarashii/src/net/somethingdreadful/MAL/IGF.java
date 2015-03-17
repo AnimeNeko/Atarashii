@@ -176,13 +176,23 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void setProgressPlusOne(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-            if (anime.getWatchedEpisodes() == anime.getEpisodes())
+            if (anime.getWatchedEpisodes() == anime.getEpisodes()) {
                 anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                if (anime.getRewatching()) {
+                    anime.setRewatchCount(anime.getRewatchCount() + 1);
+                    anime.setRewatching(false);
+                }
+            }
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
-            if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts))
+            if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts)) {
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
+                if (manga.getRereading()) {
+                    manga.setRereadCount(anime.getRewatchCount() + 1);
+                    manga.setRereading(false);
+                }
+            }
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
         refresh();

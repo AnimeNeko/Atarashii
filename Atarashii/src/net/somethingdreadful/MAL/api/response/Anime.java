@@ -38,7 +38,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Setter @Getter @SerializedName("end_date") private String endDate;
     @Getter @SerializedName("watching_start") private String watchingStart;
     @Getter @SerializedName("watching_end") private String watchingEnd;
-    @Setter private boolean rewatching;
+    private boolean rewatching;
     @Getter @SerializedName("storage_value") private int storageValue;
     @Getter private int storage;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
@@ -133,7 +133,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setEpsDownloaded(c.getInt(columnNames.indexOf("downloaded")), false);
         result.setRewatchCount(c.getInt(columnNames.indexOf("rewatchCount")), false);
         result.setRewatchValue(c.getInt(columnNames.indexOf("rewatchValue")), false);
-        result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0);
+        result.setRewatching(c.getInt(columnNames.indexOf("rewatch")) > 0, false);
         result.setPersonalComments(c.getString(columnNames.indexOf("comments")), false);
         result.setStartDate(c.getString(columnNames.indexOf("startDate")));
         result.setEndDate(c.getString(columnNames.indexOf("endDate")));
@@ -164,6 +164,17 @@ public class Anime extends GenericRecord implements Serializable {
 
     public boolean getRewatching() {
         return rewatching;
+    }
+
+    public void setRewatching(boolean value) {
+        setRewatching(value, true);
+    }
+
+    public void setRewatching(boolean rewatching, boolean markDirty) {
+        this.rewatching = rewatching;
+        if (markDirty) {
+            addDirtyField("rewatching");
+        }
     }
 
     public int getTypeInt() {
