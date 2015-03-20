@@ -284,9 +284,10 @@ public class MALManager {
 
             if (profile != null && AccountService.isMAL()) {
                 dbMan.saveUser(result, true);
+            } else if (profile != null && !AccountService.isMAL()) {
+                dbMan.saveProfile(profile);
             } else if (profile != null)
                 result.getProfile().setAvatarUrl(profile.getImageUrl());
-            dbMan.saveProfile(profile);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreProfile(): " + e.getMessage());
             Crashlytics.logException(e);
