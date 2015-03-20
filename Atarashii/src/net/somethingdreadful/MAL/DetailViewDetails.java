@@ -144,6 +144,10 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         genres = (TextView) view.findViewById(R.id.genres);
         producers = (TextView) view.findViewById(R.id.producers);
         producersRow = (TableRow) view.findViewById(R.id.producersRow);
+        if (!AccountService.isMAL()) {
+            producers.setVisibility(View.GONE);
+            producersRow.setVisibility(View.GONE);
+        }
 
         score = (TextView) view.findViewById(R.id.score);
         ranked = (TextView) view.findViewById(R.id.ranked);
