@@ -197,8 +197,6 @@ public class HtmlUtil {
         String result = "";
         for (int i = 0; i < list.size(); i++) {
             Activity post = list.get(i);
-            if (post.getSeries() != null)
-                post.getSeries().createBaseModel();
             String postreal = postStructure;
 
             String comment = "";
@@ -212,9 +210,11 @@ public class HtmlUtil {
                     title = post.getUsers().get(0).getDisplayName();
                     break;
                 case "list":
-                    comment = post.getUsers().get(0).getDisplayName() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitle();
-                    image = post.getSeries().getImageUrl();
-                    title = post.getSeries().getTitle();
+                    if (post.getSeries() != null) {
+                        comment = post.getUsers().get(0).getDisplayName() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitleRomaji();
+                        image = post.getSeries().getImageUrlLge();
+                        title = post.getSeries().getTitleRomaji();
+                    }
                     break;
             }
 
