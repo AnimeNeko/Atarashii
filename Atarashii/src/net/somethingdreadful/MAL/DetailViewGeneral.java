@@ -188,7 +188,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
         }
-        activity.hidePersonal(!activity.isAdded());
+        activity.hidePersonal(!activity.isAdded() || record.getSynopsis() == null);
 
         if (record.getSynopsis() == null) {
             if (!MALApi.isNetworkAvailable(activity)) {
