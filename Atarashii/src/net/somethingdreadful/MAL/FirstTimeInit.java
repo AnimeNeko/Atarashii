@@ -13,7 +13,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -21,6 +20,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
@@ -107,7 +107,10 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
             finish();
         } else {
             dialog.dismiss();
-            Toast.makeText(getApplicationContext(), R.string.toast_error_VerifyProblem, Toast.LENGTH_SHORT).show();
+            if (MALApi.isNetworkAvailable(this))
+                Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
+            else
+                Theme.Snackbar(this, R.string.toast_error_noConnectivity);
         }
     }
 
