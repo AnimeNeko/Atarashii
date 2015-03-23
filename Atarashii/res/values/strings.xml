@@ -32,16 +32,16 @@
     <string name="toast_error_Anime_Records">Error while getting anime records.</string>
     <string name="toast_error_Manga_Records">Error while getting manga records.</string>
     <string name="toast_error_Records">Error while getting records. Please try again later.</string>
-    <string name="toast_error_DetailsError">Could not load details, please check your Internet connection.</string>
-    <string name="toast_error_VerifyProblem">Whoah! Something didn\'t work. Check your credentials and network connection and try again.</string>
+    <string name="toast_error_DetailsError">Atarashii can\'t load the details!</string>
+    <string name="toast_error_VerifyProblem">Check your credentials and try again.</string>
     <string name="toast_error_Friends">Sync error while getting friendlist!</string>
-    <string name="toast_error_nothingFound">No anime or manga results found. Either the API is broke, or you can\'t spell.</string>
-    <string name="toast_info_SyncMessage">Syncing everything. This could take a sec or two, depending on your internet speed.</string>
+    <string name="toast_error_nothingFound">No anime or manga results found.</string>
+    <string name="toast_info_SyncMessage">Syncing everything. This could take a few seconds.</string>
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
-    <string name="toast_info_hold_on">Hold on a second, we are still loading some information!</string>
+    <string name="toast_info_hold_on">Hold on a second, we are still loading information!</string>
     <string name="toast_info_comment_add">The comment was successfully send!</string>
     <string name="toast_info_disabled">This feature is currently disabled :(</string>
-    <string name="toast_info_disabled_youtube">Atarashii doesn\'t support comments with Youtube videos currently :(</string>
+    <string name="toast_info_disabled_youtube">Comments with Youtube videos aren\'t supported :(</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>
