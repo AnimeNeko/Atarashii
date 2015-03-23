@@ -17,5 +17,5 @@ public class Activity implements Serializable {
     @Setter @Getter private String value;
     @Setter @Getter private String activity_type;
     @Setter @Getter private ArrayList<Profile> users;
-    @Setter @Getter private Anime series;
+    @Setter @Getter private Series series;
 }
