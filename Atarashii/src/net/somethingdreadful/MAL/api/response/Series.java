@@ -24,4 +24,58 @@ public class Series {
     @Setter @Getter @SerializedName("total_episodes") private int totalEpisodes;
     @Setter @Getter @SerializedName("total_volumes") private int totalVolumes;
     @Setter @Getter private String type;
+
+    public static Series fromAnime(Anime anime) {
+        Series result = new Series();
+        result.setId(anime.getId());
+        result.setTitleRomaji(anime.getTitle());
+        result.setImageUrlLge(anime.getImageUrl());
+        result.setAiringStatus(anime.getStatus());
+        result.setAverageScore(anime.getMembersScore());
+        result.setTotalEpisodes(anime.getEpisodes());
+        result.setSeriesType("anime");
+        return result;
+    }
+
+    public static Series fromManga(Manga manga) {
+        Series result = new Series();
+        result.setId(manga.getId());
+        result.setTitleRomaji(manga.getTitle());
+        result.setImageUrlLge(manga.getImageUrl());
+        result.setPublishingStatus(manga.getStatus());
+        result.setAverageScore(manga.getMembersScore());
+        result.setTotalChapters(manga.getChapters());
+        result.setTotalVolumes(manga.getVolumes());
+        result.setSeriesType("manga");
+        return result;
+    }
+
+    public Anime getAnime() {
+        Anime result = null;
+        if (seriesType.equals("anime")) {
+            result = new Anime();
+            result.setId(id);
+            result.setTitle(titleRomaji);
+            result.setImageUrl(imageUrlLge);
+            result.setStatus(airingStatus);
+            result.setMembersScore(averageScore);
+            result.setEpisodes(totalEpisodes);
+        }
+        return result;
+    }
+
+    public Manga getManga() {
+        Manga result = null;
+        if (seriesType.equals("manga")) {
+            result = new Manga();
+            result.setId(id);
+            result.setTitle(titleRomaji);
+            result.setImageUrl(imageUrlLge);
+            result.setStatus(publishingStatus);
+            result.setMembersScore(averageScore);
+            result.setChapters(totalChapters);
+            result.setVolumes(totalVolumes);
+        }
+        return result;
+    }
 }

@@ -13,10 +13,12 @@ import com.google.gson.Gson;
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.Profile;
 import net.somethingdreadful.MAL.api.response.RecordStub;
+import net.somethingdreadful.MAL.api.response.Series;
 import net.somethingdreadful.MAL.api.response.User;
 
 import java.util.ArrayList;
@@ -67,9 +69,13 @@ public class DatabaseManager {
     }
 
     public void saveAnime(Anime anime, boolean IGF, int userId) {
+        saveAnime(anime, IGF, userId, false);
+    }
+
+    public void saveAnime(Anime anime, boolean IGF, int userId, boolean dontCreateBaseModel) {
         ContentValues cv = new ContentValues();
 
-        if (!AccountService.isMAL() && anime.getWatchedStatus() == null)
+        if (!AccountService.isMAL() && anime.getWatchedStatus() == null && !dontCreateBaseModel)
             anime.createBaseModel();
 
         cv.put(MALSqlHelper.COLUMN_ID, anime.getId());
@@ -395,9 +401,13 @@ public class DatabaseManager {
     }
 
     public void saveManga(Manga manga, boolean ignoreSynopsis, int userId) {
+        saveManga(manga, ignoreSynopsis, userId, false);
+    }
+
+    public void saveManga(Manga manga, boolean ignoreSynopsis, int userId, boolean dontCreateBaseModel) {
         ContentValues cv = new ContentValues();
 
-        if (!AccountService.isMAL())
+        if (!AccountService.isMAL() && !dontCreateBaseModel)
             manga.createBaseModel();
 
         cv.put(MALSqlHelper.COLUMN_ID, manga.getId());
@@ -677,6 +687,16 @@ public class DatabaseManager {
             Long insertResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
             profile.setId(insertResult.intValue());
         }
+    }
+
+    private Profile getProfile(Integer userId) {
+        Profile result = null;
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_PROFILE, null, MALSqlHelper.COLUMN_ID + " = ?", new String[]{userId.toString()}, null, null, null);
+        if (cursor.moveToFirst()) {
+            result = Profile.fromCursor(cursor);
+            cursor.close();
+        }
+        return result;
     }
 
     public void saveUser(User profile) {
@@ -1182,6 +1202,90 @@ public class DatabaseManager {
             result = new ArrayList<String>();
             do {
                 result.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public void saveActivity(ArrayList<Activity> activities, String username) {
+        Integer userId = getUserId(username);
+        if (userId > 0) {
+            for (Activity activity : activities) {
+                ContentValues cv = new ContentValues();
+                cv.put(MALSqlHelper.COLUMN_ID, activity.getId());
+                cv.put("user", userId);
+                cv.put("type", activity.getActivityType());
+                cv.put("created", activity.getCreatedAt());
+                cv.put("reply_count", activity.getReplyCount());
+                cv.put("status", activity.getStatus());
+                cv.put("value", activity.getValue());
+                if (activity.getSeries() != null) {
+                    if (activity.getSeries().getSeriesType().equals("anime")) {
+                        Anime anime = activity.getSeries().getAnime();
+                        if (anime != null) {
+                            saveAnime(anime, true, 0, true);
+                            cv.put("series_anime", activity.getSeries().getId());
+                        }
+                    } else if (activity.getSeries().getSeriesType().equals("manga")) {
+                        Manga manga = activity.getSeries().getManga();
+                        if (manga != null) {
+                            saveManga(manga, true, 0, true);
+                            cv.put("series_manga", activity.getSeries().getId());
+                        }
+                    }
+                }
+                getDBWrite().replace(MALSqlHelper.TABLE_ACTIVITIES, null, cv);
+                if (activity.getUsers() != null) {
+                    for (Profile user : activity.getUsers()) {
+                        ContentValues ucv = new ContentValues();
+                        ucv.put("profile_id", getUserId(user.getDisplayName()));
+                        ucv.put("activity_id", activity.getId());
+                        getDBWrite().replace(MALSqlHelper.TABLE_ACTIVITIES_USERS, null, ucv);
+                    }
+                }
+            }
+        }
+    }
+
+    public ArrayList<Activity> getActivity(String username) {
+        ArrayList<Activity> result = null;
+        Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ACTIVITIES, null, "user = ?", new String[]{getUserId(username).toString()}, null, null, MALSqlHelper.COLUMN_ID + " DESC");
+        if (cursor.moveToFirst()) {
+            result = new ArrayList<>();
+            do {
+                Activity activity = new Activity();
+                activity.setId(cursor.getInt(cursor.getColumnIndex(MALSqlHelper.COLUMN_ID)));
+                activity.setUserId(cursor.getInt(cursor.getColumnIndex("user")));
+                activity.setActivityType(cursor.getString(cursor.getColumnIndex("type")));
+                activity.setCreatedAt(cursor.getString(cursor.getColumnIndex("created")));
+                activity.setReplyCount(cursor.getInt(cursor.getColumnIndex("reply_count")));
+                activity.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+                activity.setValue(cursor.getString(cursor.getColumnIndex("value")));
+                if (!cursor.isNull(cursor.getColumnIndex("series_anime"))) {
+                    Anime anime = getAnime(cursor.getInt(cursor.getColumnIndex("series_anime")), username);
+                    if (anime != null) {
+                        activity.setSeries(Series.fromAnime(anime));
+                    }
+                }
+                if (!cursor.isNull(cursor.getColumnIndex("series_manga"))) {
+                    Manga manga = getManga(cursor.getInt(cursor.getColumnIndex("series_manga")), username);
+                    if (manga != null) {
+                        activity.setSeries(Series.fromManga(manga));
+                    }
+                }
+                Cursor userCursor = getDBWrite().rawQuery("SELECT p.* FROM " + MALSqlHelper.TABLE_PROFILE + " p INNER JOIN " + MALSqlHelper.TABLE_ACTIVITIES_USERS +
+                        " au ON p." + MALSqlHelper.COLUMN_ID + " = au.profile_id WHERE au.activity_id = ?", new String[]{String.valueOf(activity.getId())});
+                if (userCursor.moveToFirst()) {
+                    ArrayList<Profile> users = new ArrayList<>();
+                    do {
+                        Profile profile = Profile.fromCursor(userCursor);
+                        users.add(profile);
+                    } while (userCursor.moveToNext());
+                    activity.setUsers(users);
+                }
+                userCursor.close();
+                result.add(activity);
             } while (cursor.moveToNext());
         }
         cursor.close();

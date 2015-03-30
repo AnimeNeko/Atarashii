@@ -44,8 +44,13 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
                 result = null;
         }
 
-        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(context) && result != null && params.length == 2)
-            result.setActivity(mManager.getActivity(params[1]));
+        if (!AccountService.isMAL() && result != null && params.length == 2) {
+            if (MALApi.isNetworkAvailable(context)) {
+                result.setActivity(mManager.downloadAndStoreActivity(params[1]));
+            } else {
+                result.setActivity(mManager.getActivityFromDB(params[1]));
+            }
+        }
 
         return result;
     }

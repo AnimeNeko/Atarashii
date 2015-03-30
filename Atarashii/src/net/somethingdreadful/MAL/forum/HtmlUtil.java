@@ -29,8 +29,8 @@ public class HtmlUtil {
     /**
      * Convert a forum array into a HTML list.
      *
-     * @param record The ForumMain object that contains the list which should be converted in a HTML list
-     * @param context The application context to format the dates
+     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
+     * @param context  The application context to format the dates
      * @param username The username of the user, this is used for special rights
      * @return String The HTML source
      */
@@ -70,10 +70,10 @@ public class HtmlUtil {
      *
      * @param result The post list
      * @param record The ForumMain object that contains the pagenumbers
-     * @param page The current page number
+     * @param page   The current page number
      * @return String The html source
      */
-    private String buildList(String result, ForumMain record, Integer page){
+    private String buildList(String result, ForumMain record, Integer page) {
         String list = structure.replace("<!-- insert here the posts -->", rebuildSpoiler(result));
         if (page == 1)
             list = list.replace("class=\"item\" value=\"1\"", "class=\"item hidden\" value=\"1\"");
@@ -174,7 +174,7 @@ public class HtmlUtil {
     /**
      * Get the string of the given resource file.
      *
-     * @param context The application context
+     * @param context  The application context
      * @param resource The resource of which string we need
      * @return String the wanted string
      */

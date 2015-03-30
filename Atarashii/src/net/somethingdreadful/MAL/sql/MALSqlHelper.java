@@ -328,8 +328,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     private static final String CREATE_ACTIVITIES_USERS_TABLE = "CREATE TABLE "
             + TABLE_ACTIVITIES_USERS + "("
             + "profile_id integer NOT NULL REFERENCES " + TABLE_PROFILE + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
-            + "activitiy_id integer NOT NULL REFERENCES " + TABLE_ACTIVITIES + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
-            + "PRIMARY KEY(profile_id, activitiy_id)"
+            + "activity_id integer NOT NULL REFERENCES " + TABLE_ACTIVITIES + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(profile_id, activity_id)"
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
@@ -383,6 +383,8 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
         db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
         db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
+        db.execSQL(CREATE_ACTIVITIES_TABLE);
+        db.execSQL(CREATE_ACTIVITIES_USERS_TABLE);
     }
 
     @Override

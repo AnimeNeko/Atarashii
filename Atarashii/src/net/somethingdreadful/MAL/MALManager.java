@@ -481,7 +481,15 @@ public class MALManager {
             return alApi.searchManga(query, page);
     }
 
-    public ArrayList<Activity> getActivity(String username){
-        return alApi.getActivity(username);
+    public ArrayList<Activity> getActivityFromDB(String username) {
+        return dbMan.getActivity(username);
+    }
+
+    public ArrayList<Activity> downloadAndStoreActivity(String username) {
+        ArrayList<Activity> result = alApi.getActivity(username);
+        if (result != null && result.size() > 0) {
+            dbMan.saveActivity(result, username);
+        }
+        return result;
     }
 }
