@@ -574,6 +574,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                     android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
                     clipBoard.setPrimaryClip(clipData);
+                    Theme.Snackbar(this, R.string.toast_info_Copied);
                 } else {
                     Theme.Snackbar(this, R.string.toast_info_hold_on);
                 }
