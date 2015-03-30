@@ -202,7 +202,7 @@ public class HtmlUtil {
             String comment = "";
             String image = "";
             String title = "";
-            switch (post.getActivity_type()) {
+            switch (post.getActivityType()) {
                 case "message":
                 case "text":
                     comment = post.getValue();
@@ -221,7 +221,7 @@ public class HtmlUtil {
             comment = comment.replace("data-src=", "width=\"100%\" src=");
             comment = comment.replace("img src=", "img width=\"100%\" src=");
 
-            if (User.isDeveloperRecord(post.getUsers().get(0).getDisplayName()) && post.getActivity_type().equals("message"))
+            if (User.isDeveloperRecord(post.getUsers().get(0).getDisplayName()) && post.getActivityType().equals("message"))
                 postreal = postreal.replace("=\"title\">", "=\"developer\">");
             postreal = postreal.replace("image", image);
             postreal = postreal.replace("Title", title);
