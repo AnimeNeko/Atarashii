@@ -615,7 +615,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
             db.execSQL("drop table temp_table;");
 
-            // update mangalist table
+            // update profile table
             db.execSQL("alter table " + TABLE_PROFILE + " add column anime_time integer default 0");
             db.execSQL("alter table " + TABLE_PROFILE + " add column manga_chap integer default 0");
             db.execSQL("alter table " + TABLE_PROFILE + " add column about varchar");
