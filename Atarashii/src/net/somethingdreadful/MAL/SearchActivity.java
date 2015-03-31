@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -144,11 +143,11 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
             callbackCounter = 0;
 
             if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                Toast.makeText(getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(this, R.string.toast_error_Search);
             else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                Toast.makeText(getApplicationContext(), callbackAnimeError ? R.string.toast_error_Search_Anime : R.string.toast_error_Search_Manga, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Search_Anime : R.string.toast_error_Search_Manga);
             else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
-                Toast.makeText(getApplicationContext(), R.string.toast_error_nothingFound, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(this, R.string.toast_error_nothingFound);
         }
     }
 }

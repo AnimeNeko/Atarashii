@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -93,7 +92,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
                 refresh(); // show toast only if sync was forced
             }
         } else {
-            Toast.makeText(activity, R.string.toast_error_Friends, Toast.LENGTH_SHORT).show();
+            Theme.Snackbar(activity, R.string.toast_error_Friends);
         }
         activity.refreshing(false);
     }

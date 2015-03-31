@@ -73,12 +73,12 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                     refreshing(true);
                     getRecords();
                 } else {
-                    Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 }
                 break;
             case R.id.action_ViewMALPage:
                 if (record == null)
-                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_info_hold_on);
                 else
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getProfileURL() + record.getName())));
                 break;
@@ -98,7 +98,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     public void refresh() {
         if (record == null) {
             if (MALApi.isNetworkAvailable(context)) {
-                Toast.makeText(context, R.string.toast_error_UserRecord, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(this, R.string.toast_error_UserRecord);
             } else {
                 toggle(2);
             }

@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
@@ -368,7 +367,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 af.toggleSwipeRefreshAnimation(false);
                 mf.toggleSwipeRefreshAnimation(false);
             }
-            Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
         }
     }
 
@@ -413,14 +412,14 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Toast.makeText(context, R.string.toast_error_SyncFailed, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_error_SyncFailed);
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync);
             } else {
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Toast.makeText(context, R.string.toast_error_Records, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_error_Records);
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records);
                 // no else here, there is nothing to be shown when everything went well
             }
         }
@@ -499,7 +498,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (!networkAvailable && position > 2) {
                 position = 0;
-                Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(Home.this, R.string.toast_error_noConnectivity);
             }
             myList = ((position <= 3 && myList) || position == 0);
             // disable swipeRefresh for other lists
@@ -529,7 +528,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                         Intent Forum = new Intent(context, ForumActivity.class);
                         startActivity(Forum);
                     } else {
-                        Toast.makeText(context, getString(R.string.toast_info_disabled), Toast.LENGTH_SHORT).show();
+                        Theme.Snackbar(Home.this, R.string.toast_info_disabled);
                     }
                     break;
                 case 4:

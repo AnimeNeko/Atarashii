@@ -8,6 +8,8 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 
 import net.somethingdreadful.MAL.account.AccountService;
 
@@ -95,5 +97,15 @@ public class Theme extends Application {
      */
     private static int getDrawable() {
         return darkTheme ? R.drawable.highlite_details_dark : R.drawable.highlite_details;
+    }
+
+    /**
+     * Create a snackbar which handles the queue.
+     *
+     * @param activity The activity where the snackbar should be shown
+     * @param stringResID The string resource ID
+     */
+    public static void Snackbar(Activity activity, int stringResID) {
+        SnackbarManager.show(Snackbar.with(activity).text(activity.getString(stringResID)));
     }
 }

@@ -2,9 +2,9 @@ package net.somethingdreadful.MAL.forum;
 
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
@@ -29,7 +29,7 @@ public class PostsInterface {
             @Override
             public void run() {
                 if (comment.contains("embed src"))
-                    Toast.makeText(posts.activity, posts.activity.getString(R.string.toast_info_disabled_youtube), Toast.LENGTH_LONG).show();
+                    Theme.Snackbar(posts.activity, R.string.toast_info_disabled_youtube);
                 else
                     posts.activity.getComments(Integer.parseInt(id), comment, ForumJob.UPDATECOMMENT);
             }
@@ -50,7 +50,7 @@ public class PostsInterface {
             @Override
             public void run() {
                 if (comment.contains("embed src"))
-                    Toast.makeText(posts.activity, posts.activity.getString(R.string.toast_info_disabled_youtube), Toast.LENGTH_LONG).show();
+                    Theme.Snackbar(posts.activity, R.string.toast_info_disabled_youtube);
                 else
                     posts.activity.getComments(posts.id, posts.activity.message + "<br>" + comment, ForumJob.ADDCOMMENT);
             }

@@ -24,7 +24,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -371,16 +370,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
                 Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
-                    Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(activity, R.string.toast_error_Search);
                 } else {
                     if (listType.equals(ListType.ANIME)) {
-                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Anime_Sync, Toast.LENGTH_SHORT).show();
+                        Theme.Snackbar(activity, R.string.toast_error_Anime_Sync);
                     } else {
-                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
+                        Theme.Snackbar(activity, R.string.toast_error_Manga_Sync);
                     }
                 }
             } else {
-                Toast.makeText(activity.getApplicationContext(), R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             }
         }
         loading = false;

@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -575,8 +574,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                     android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
                     clipBoard.setPrimaryClip(clipData);
+                    Theme.Snackbar(this, R.string.toast_info_Copied);
                 } else {
-                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_info_hold_on);
                 }
                 break;
         }
@@ -676,13 +676,16 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         } catch (ClassCastException e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             Crashlytics.logException(e);
-            Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
+            Theme.Snackbar(this, R.string.toast_error_DetailsError);
         }
     }
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
+        if (MALApi.isNetworkAvailable(context))
+            Theme.Snackbar(this, R.string.toast_error_DetailsError);
+        else
+            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
     }
 
     @Override

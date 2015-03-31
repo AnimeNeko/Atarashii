@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -23,6 +22,7 @@ import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 
@@ -92,7 +92,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     public void refresh() {
         if (activity.record == null) {
             if (MALApi.isNetworkAvailable(context)) {
-                Toast.makeText(context, R.string.toast_error_UserRecord, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(activity, R.string.toast_error_UserRecord);
             } else {
                 toggle(2);
             }
