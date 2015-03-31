@@ -333,7 +333,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 10;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
