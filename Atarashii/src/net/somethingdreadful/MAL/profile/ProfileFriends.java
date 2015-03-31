@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.profile;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.ProfileActivity;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
@@ -29,7 +33,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
     ArrayList<User> listarray = new ArrayList<User>();
     FriendsGridviewAdapter<User> listadapter;
     GridView Gridview;
-    SwipeRefreshLayout swipeRefresh;
+    public SwipeRefreshLayout swipeRefresh;
     ProgressBar progressBar;
     Card networkCard;
     boolean forcesync = false;

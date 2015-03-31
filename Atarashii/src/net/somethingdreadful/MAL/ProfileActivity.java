@@ -9,17 +9,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
+import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
+import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
+import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
     Context context;
-    User record;
-    ProfileDetails details;
+    public User record;
+    ProfileDetailsMAL detailsMAL;
+    ProfileDetailsAL detailsAL;
     ProfileFriends friends;
 
     boolean forcesync = false;
@@ -46,7 +51,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             record = (User) getIntent().getExtras().get("user");
         } else {
             refreshing(true);
-            new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"));
+            new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"), getIntent().getStringExtra("username"));
         }
 
         NfcHelper.disableBeam(this);
@@ -66,12 +71,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             case R.id.forceSync:
                 if (MALApi.isNetworkAvailable(context)) {
                     refreshing(true);
-                    String username;
-                    if (record != null)
-                        username = record.getName();
-                    else
-                        username = getIntent().getStringExtra("username");
-                    new UserNetworkTask(context, true, this).execute(username);
+                    getRecords();
                 } else {
                     Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
                 }
@@ -80,7 +80,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 if (record == null)
                     Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/profile/" + record.getName())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getProfileURL() + record.getName())));
                 break;
             case R.id.View:
                 showShareDialog(false);
@@ -89,6 +89,10 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
                 showShareDialog(true);
         }
         return true;
+    }
+
+    public String getProfileURL() {
+        return AccountService.isMAL() ? "http://myanimelist.net/profile/" : "http://anilist.co/user/";
     }
 
     public void refresh() {
@@ -121,16 +125,22 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     }
 
     public void setText() {
-        if (details != null)
-            details.refresh();
+        if (detailsMAL != null)
+            detailsMAL.refresh();
+        if (detailsAL != null)
+            detailsAL.refresh();
         if (friends != null)
             friends.getRecords();
     }
 
     public void refreshing(boolean loading) {
-        if (details != null) {
-            details.swipeRefresh.setRefreshing(loading);
-            details.swipeRefresh.setEnabled(!loading);
+        if (detailsMAL != null) {
+            detailsMAL.swipeRefresh.setRefreshing(loading);
+            detailsMAL.swipeRefresh.setEnabled(!loading);
+        }
+        if (detailsAL != null) {
+            detailsAL.swipeRefresh.setRefreshing(loading);
+            detailsAL.swipeRefresh.setEnabled(!loading);
         }
         if (friends != null) {
             friends.swipeRefresh.setRefreshing(loading);
@@ -144,11 +154,11 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             username = record.getName();
         else
             username = getIntent().getStringExtra("username");
-        new UserNetworkTask(context, true, this).execute(username);
+        new UserNetworkTask(context, true, this).execute(username, username);
     }
 
-    public void setDetails(ProfileDetails details) {
-        this.details = details;
+    public void setDetails(ProfileDetailsMAL details) {
+        this.detailsMAL = details;
         if (record != null)
             details.refresh();
     }
@@ -162,7 +172,15 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     }
 
     public void toggle(int number) {
-        if (details != null)
-            details.toggle(number);
+        if (detailsMAL != null)
+            detailsMAL.toggle(number);
+        if (detailsAL != null)
+            detailsAL.toggle(number);
+    }
+
+    public void setDetails(ProfileDetailsAL details) {
+        this.detailsAL = details;
+        if (record != null)
+            details.refresh();
     }
 }

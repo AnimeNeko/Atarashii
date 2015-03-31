@@ -15,6 +15,10 @@ public class MangaList {
     private ArrayList<Manga> data;
 
     public ArrayList<Manga> getData() {
+        return getData(data);
+    }
+
+    public static ArrayList<Manga> getData(ArrayList<Manga> data) {
         ArrayList<Manga> list = new ArrayList<Manga>();
         for (Manga manga : data) {
             manga.createBaseModel();

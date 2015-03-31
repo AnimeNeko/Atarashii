@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.profile;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,18 +23,24 @@ import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.NfcHelper;
+import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.ProfileActivity;
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     Context context;
     View view;
     Card imagecard;
     Card animecard;
     Card mangacard;
-    SwipeRefreshLayout swipeRefresh;
+    public SwipeRefreshLayout swipeRefresh;
     ProgressBar progressBar;
     Card networkCard;
 
@@ -42,7 +48,7 @@ public class ProfileDetails extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_mal, container, false);
 
         imagecard = ((Card) view.findViewById(R.id.name_card));
         imagecard.setContent(R.layout.card_image);

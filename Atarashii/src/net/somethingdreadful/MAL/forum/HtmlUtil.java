@@ -3,8 +3,10 @@ package net.somethingdreadful.MAL.forum;
 import android.content.Context;
 
 import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.User;
@@ -27,8 +29,8 @@ public class HtmlUtil {
     /**
      * Convert a forum array into a HTML list.
      *
-     * @param record The ForumMain object that contains the list which should be converted in a HTML list
-     * @param context The application context to format the dates
+     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
+     * @param context  The application context to format the dates
      * @param username The username of the user, this is used for special rights
      * @return String The HTML source
      */
@@ -68,16 +70,16 @@ public class HtmlUtil {
      *
      * @param result The post list
      * @param record The ForumMain object that contains the pagenumbers
-     * @param page The current page number
+     * @param page   The current page number
      * @return String The html source
      */
-    private String buildList(String result, ForumMain record, Integer page){
+    private String buildList(String result, ForumMain record, Integer page) {
         String list = structure.replace("<!-- insert here the posts -->", rebuildSpoiler(result));
         if (page == 1)
             list = list.replace("class=\"item\" value=\"1\"", "class=\"item hidden\" value=\"1\"");
-        if (page == record.getPages())
+        if (record == null || page == record.getPages())
             list = list.replace("class=\"item\" value=\"2\"", "class=\"item hidden\" value=\"2\"");
-        list = list.replace("pages", Integer.toString(record.getPages()));
+        list = list.replace("pages", record == null ? "1" : Integer.toString(record.getPages()));
         list = list.replace("page", Integer.toString(page));
 
         if (Theme.darkTheme) {
@@ -172,7 +174,7 @@ public class HtmlUtil {
     /**
      * Get the string of the given resource file.
      *
-     * @param context The application context
+     * @param context  The application context
      * @param resource The resource of which string we need
      * @return String the wanted string
      */
@@ -188,5 +190,48 @@ public class HtmlUtil {
         }
 
         return null;
+    }
+
+    public String convertList(User record, ProfileActivity activity, int page) {
+        ArrayList<Activity> list = record.getActivity();
+        String result = "";
+        for (int i = 0; i < list.size(); i++) {
+            Activity post = list.get(i);
+            String postreal = postStructure;
+
+            String comment = "";
+            String image = "";
+            String title = "";
+            switch (post.getActivityType()) {
+                case "message":
+                case "text":
+                    comment = post.getValue();
+                    image = post.getUsers().get(0).getImageUrl();
+                    title = post.getUsers().get(0).getDisplayName();
+                    break;
+                case "list":
+                    if (post.getSeries() != null) {
+                        comment = post.getUsers().get(0).getDisplayName() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitleRomaji();
+                        image = post.getSeries().getImageUrlLge();
+                        title = post.getSeries().getTitleRomaji();
+                    }
+                    break;
+            }
+
+            comment = comment.replace("data-src=", "width=\"100%\" src=");
+            comment = comment.replace("img src=", "img width=\"100%\" src=");
+
+            if (User.isDeveloperRecord(post.getUsers().get(0).getDisplayName()) && post.getActivityType().equals("message"))
+                postreal = postreal.replace("=\"title\">", "=\"developer\">");
+            postreal = postreal.replace("image", image);
+            postreal = postreal.replace("Title", title);
+            postreal = postreal.replace("itemID", Integer.toString(post.getId()));
+            postreal = postreal.replace("position", Integer.toString(i));
+            postreal = postreal.replace("Subhead", MALDateTools.formatDateString(post.getCreatedAt(), activity, true));
+            postreal = postreal.replace("<!-- place post content here -->", comment);
+
+            result = result + postreal;
+        }
+        return buildList(result, null, page);
     }
 }

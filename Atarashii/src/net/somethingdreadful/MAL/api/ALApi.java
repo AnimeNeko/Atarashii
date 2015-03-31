@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.Manga;
@@ -77,6 +78,10 @@ public class ALApi {
         return auth;
     }
 
+    public ArrayList<Activity> getActivity(String username) {
+        return service.getActivity(username);
+    }
+
     public Profile getCurrentUser() {
         return service.getCurrentUser();
     }
@@ -104,11 +109,11 @@ public class ALApi {
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        return service.searchAnime(query, page);
+        return AnimeList.getData(service.searchAnime(query, page));
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        return service.searchManga(query, page);
+        return MangaList.getData(service.searchManga(query, page));
     }
 
     public ArrayList<Manga> getUpcomingManga(int page) {

@@ -38,11 +38,20 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
             result = mManager.downloadAndStoreProfile(params[0]);
         } else {
             result = mManager.getProfileFromDB(params[0]);
-            if ((result == null || result.getProfile().getDetails().getAccessRank() == null) && MALApi.isNetworkAvailable(context))
+            if ((result == null || (result.getProfile().getDetails().getAccessRank() == null && AccountService.isMAL())) && MALApi.isNetworkAvailable(context))
                 result = mManager.downloadAndStoreProfile(params[0]);
-            else if (result != null && result.getProfile().getDetails().getAccessRank() == null)
+            else if (result != null && result.getProfile().getDetails().getAccessRank() == null && AccountService.isMAL())
                 result = null;
         }
+
+        if (!AccountService.isMAL() && result != null && params.length == 2) {
+            if (MALApi.isNetworkAvailable(context)) {
+                result.setActivity(mManager.downloadAndStoreActivity(params[1]));
+            } else {
+                result.setActivity(mManager.getActivityFromDB(params[1]));
+            }
+        }
+
         return result;
     }
 

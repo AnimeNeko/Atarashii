@@ -42,7 +42,7 @@ public class ShareDialogFragment extends DialogFragment {
                             .replace("$username;", AccountService.getUsername()));
                     startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
                 } else {
-                    Uri mallisturlanime = Uri.parse("http://myanimelist.net/animelist/" + title);
+                    Uri mallisturlanime = Uri.parse(getWebsiteURL() + "animelist/" + title);
                     startActivity(new Intent(Intent.ACTION_VIEW, mallisturlanime));
                 }
             }
@@ -62,12 +62,16 @@ public class ShareDialogFragment extends DialogFragment {
                             .replace("$username;", AccountService.getUsername()));
                     startActivity(Intent.createChooser(sharingIntent, getString(R.string.dialog_title_share_via)));
                 } else {
-                    Uri mallisturlmanga = Uri.parse("http://myanimelist.net/mangalist/" + title);
+                    Uri mallisturlmanga = Uri.parse(getWebsiteURL() + "mangalist/" + title);
                     startActivity(new Intent(Intent.ACTION_VIEW, mallisturlmanga));
                 }
             }
         });
 
         return builder.create();
+    }
+
+    public String getWebsiteURL(){
+        return AccountService.isMAL() ? "http://myanimelist.net/" : "http://anilist.co/";
     }
 }

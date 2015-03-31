@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.api;
 
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.ForumMain;
@@ -32,6 +33,9 @@ public interface ALInterface {
 
     @GET("/user/{username}")
     Profile getProfile(@Path("username") String username);
+
+    @GET("/user/{username}/activity")
+    ArrayList<Activity> getActivity(@Path("username") String username);
 
     @GET("/user/{username}/animelist")
     AnimeList getAnimeList(@Path("username") String username);
@@ -80,7 +84,7 @@ public interface ALInterface {
     @GET("/anime/browse/year/{year}")
     AnimeList getYearAnime(@Path("year") int year, @Query("page") int page);
 
-    @GET("/user/{username}/followers")
+    @GET("/user/{username}/following")
     ArrayList<User> getFollowers(@Path("username") String username);
 
     @FormUrlEncoded

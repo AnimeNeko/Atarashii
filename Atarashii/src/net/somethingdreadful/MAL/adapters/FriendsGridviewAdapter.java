@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -51,6 +53,9 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
                 Theme.setBackground(context, view);
             }
 
+            if (!AccountService.isMAL())
+                viewHolder.last_online.setText(context.getString(R.string.unknown));
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -61,6 +66,8 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder.username.setText(WordUtils.capitalize(username));
             if (User.isDeveloperRecord(username))
                 viewHolder.username.setTextColor(context.getResources().getColor(R.color.primary)); //Developer
+            else
+                viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
 
             String last_online = record.getProfile().getDetails().getLastOnline();
             if (last_online != null) {

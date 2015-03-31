@@ -8,6 +8,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
 import net.somethingdreadful.MAL.api.response.ForumMain;
@@ -253,12 +254,11 @@ public class MALManager {
             else
                 result = alApi.getFollowers(user);
 
-            if (result.size() > 0) {
+            if (result != null && result.size() > 0) {
                 dbMan.saveFriendList(result, user);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
-            e.printStackTrace();
             Crashlytics.logException(e);
         }
         return dbMan.getFriendList(user);
@@ -284,9 +284,10 @@ public class MALManager {
 
             if (profile != null && AccountService.isMAL()) {
                 dbMan.saveUser(result, true);
+            } else if (profile != null && !AccountService.isMAL()) {
+                dbMan.saveProfile(profile);
             } else if (profile != null)
                 result.getProfile().setAvatarUrl(profile.getImageUrl());
-            dbMan.saveProfile(profile);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreProfile(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -478,5 +479,17 @@ public class MALManager {
             return malApi.searchManga(query, page);
         else
             return alApi.searchManga(query, page);
+    }
+
+    public ArrayList<Activity> getActivityFromDB(String username) {
+        return dbMan.getActivity(username);
+    }
+
+    public ArrayList<Activity> downloadAndStoreActivity(String username) {
+        ArrayList<Activity> result = alApi.getActivity(username);
+        if (result != null && result.size() > 0) {
+            dbMan.saveActivity(result, username);
+        }
+        return result;
     }
 }

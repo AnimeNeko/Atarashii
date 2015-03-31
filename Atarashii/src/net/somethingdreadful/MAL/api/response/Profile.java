@@ -49,6 +49,16 @@ public class Profile implements Serializable {
         result.setDetails(ProfileDetails.fromCursor(c));
         result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
         result.setMangaStats(ProfileMangaStats.fromCursor(c));
+
+        result.setDisplayName(c.getString(columnNames.indexOf("username")));
+        result.setAnimeTime(c.getInt(columnNames.indexOf("anime_time")));
+        result.setMangaChapters(c.getInt(columnNames.indexOf("manga_chap")));
+        result.setAbout(c.getString(columnNames.indexOf("about")));
+        result.setListOrder(c.getInt(columnNames.indexOf("list_order")));
+        result.setImageUrlBanner(c.getString(columnNames.indexOf("image_url_banner")));
+        result.setTitleLanguage(c.getString(columnNames.indexOf("title_language")));
+        result.setScoreType(c.getInt(columnNames.indexOf("score_type")));
+        result.setNotifications(c.getInt(columnNames.indexOf("notifications")));
         return result;
     }
 }

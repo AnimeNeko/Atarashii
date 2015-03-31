@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +20,7 @@ public class User implements Serializable {
     @Getter @Setter private String name;
     @Getter @Setter private Profile profile;
     @Getter @Setter private Integer id;
+    @Getter @Setter private ArrayList<Activity> activity;
 
     // Anilist
     @Getter @SerializedName("display_name") private String displayName;
