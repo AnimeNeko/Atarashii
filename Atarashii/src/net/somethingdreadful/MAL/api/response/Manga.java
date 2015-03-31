@@ -33,7 +33,7 @@ public class Manga extends GenericRecord implements Serializable {
     @Getter @SerializedName("reading_start") private String readingStart;
     @Getter @SerializedName("reading_end") private String readingEnd;
     @Getter @SerializedName("chap_downloaded") private int chapDownloaded;
-    @Getter @SerializedName("rereading") private boolean rereading;
+    private boolean rereading;
     @Getter @SerializedName("reread_count") private int rereadCount;
     @Getter @SerializedName("reread_value") private int rereadValue;
 
@@ -140,6 +140,21 @@ public class Manga extends GenericRecord implements Serializable {
         return Arrays.asList(status).indexOf(getStatus());
     }
 
+    public boolean getRereading() {
+        return rereading;
+    }
+
+    public void setRereading(boolean value, boolean markDirty) {
+        this.rereading = value;
+        if (markDirty) {
+            addDirtyField("rereading");
+        }
+    }
+
+    public void setRereading(boolean value) {
+        setRereading(value, true);
+    }
+
     public int getReadStatusInt() {
         return getUserStatusInt(getReadStatus());
     }
@@ -223,17 +238,6 @@ public class Manga extends GenericRecord implements Serializable {
 
     public void setChapDownloaded(int value) {
         setChapDownloaded(value, true);
-    }
-
-    public void setRereading(boolean value, boolean markDirty) {
-        this.rereading = value;
-        if (markDirty) {
-            addDirtyField("rereading");
-        }
-    }
-
-    public void setRereading(boolean value) {
-        setRereading(value, true);
     }
 
     public void setRereadCount(int value, boolean markDirty) {
