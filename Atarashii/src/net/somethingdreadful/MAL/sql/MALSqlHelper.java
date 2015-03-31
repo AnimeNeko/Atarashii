@@ -333,7 +333,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 10;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -598,20 +598,33 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              * In version 10 We added new personal details, AL support & are using the new dirty flag system
              */
             // update animelist table
+            String animeUpdateFields = "profile_id, anime_id, status, watched, score, watchedStart, watchedEnd, dirty, lastUpdate";
             db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
             db.execSQL("update temp_table set dirty = NULL");
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
-            db.execSQL("insert into " + TABLE_ANIMELIST + " select * from temp_table;");
+            db.execSQL("insert into " + TABLE_ANIMELIST + " (" + animeUpdateFields + ") select " + animeUpdateFields + " from temp_table;");
             db.execSQL("drop table temp_table;");
 
             // update mangalist table
+            String mangaUpdateFields = "profile_id, manga_id, status, chaptersRead, volumesRead, score, readStart, readEnd, dirty, lastUpdate";
             db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
             db.execSQL("update temp_table set dirty = NULL");
             db.execSQL("drop table " + TABLE_MANGALIST);
             db.execSQL(CREATE_MANGALIST_TABLE);
-            db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
+            db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
             db.execSQL("drop table temp_table;");
+
+            // update profile table
+            db.execSQL("alter table " + TABLE_PROFILE + " add column anime_time integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column manga_chap integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column about varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column list_order integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column image_url_lge varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column image_url_banner varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column title_language varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column score_type integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column notifications integer default 0");
 
             // add new tables
             db.execSQL(CREATE_PRODUCER_TABLE);

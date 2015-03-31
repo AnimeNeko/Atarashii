@@ -91,10 +91,10 @@ public class AccountService extends Service {
      * @return AccountType The type of account
      */
     public static AccountType getAccountType(String type) {
-        if (AccountType.MyAnimeList.toString().equals(type))
-            return AccountType.MyAnimeList;
-        else
+        if (AccountType.AniList.toString().equals(type))
             return AccountType.AniList;
+        else
+            return AccountType.MyAnimeList;
     }
 
     /**
