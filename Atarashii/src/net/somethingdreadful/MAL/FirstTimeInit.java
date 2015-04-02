@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
@@ -78,6 +79,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
 
         PrefManager.deleteAccount();
         NfcHelper.disableBeam(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void tryConnection() {
@@ -91,6 +93,16 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
             new AuthenticationCheckTask(this).execute(MalUser, MalPass);
         else
             new AuthenticationCheckTask(this).execute(MalUser);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
