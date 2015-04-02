@@ -122,7 +122,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         String str = message.getText().toString();
         String str1 = str.substring(0, curPos);
         String str2 = str.substring(curPos);
-        message.setText(str1 + BBCode +str2);
+        message.setText(str1 + BBCode + str2);
         message.setSelection(curPos + ((BBCode.length() - 1) / 2));
     }
 
@@ -228,7 +228,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         return this;
     }
 
-    public MessageDialogFragment setListeners(onSendClickListener callback, onCloseClickListener callback2){
+    public MessageDialogFragment setListeners(onSendClickListener callback, onCloseClickListener callback2) {
         setOnSendClickListener(callback);
         setOnCloseClickListener(callback2);
         return this;

@@ -81,7 +81,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
         listadapter.notifyDataSetChanged();
         toggle(0);
     }
-    
+
     @Override
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {

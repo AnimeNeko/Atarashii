@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
     <net.somethingdreadful.MAL.Card xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/network_Card"

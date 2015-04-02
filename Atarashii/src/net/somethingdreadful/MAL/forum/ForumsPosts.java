@@ -103,7 +103,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob job) {
-            apply(result);
+        apply(result);
     }
 
     /**
