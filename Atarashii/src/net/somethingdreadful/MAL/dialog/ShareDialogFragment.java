@@ -71,7 +71,7 @@ public class ShareDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public String getWebsiteURL(){
+    public String getWebsiteURL() {
         return AccountService.isMAL() ? "http://myanimelist.net/" : "http://anilist.co/";
     }
 }

@@ -89,7 +89,7 @@ public class Card extends RelativeLayout {
             Content.setBackgroundColor(getResources().getColor(R.color.bg_dark));
             initLoop(Content);
             if (this.findViewById(R.id.ListView) != null) {
-                ExpandableListView listView =(ExpandableListView) this.findViewById(R.id.ListView);
+                ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.ListView);
                 ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_dark_card));
                 listView.setDivider(colorDrawable);
                 listView.setChildDivider(colorDrawable);

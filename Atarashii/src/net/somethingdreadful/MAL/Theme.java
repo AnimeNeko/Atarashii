@@ -78,9 +78,9 @@ public class Theme extends Application {
     /**
      * Set the background of a view.
      *
-     * @param c The context
+     * @param c    The context
      * @param view The view which should use this drawable
-     * @param id The drawable/color id of the wanted color/drawable
+     * @param id   The drawable/color id of the wanted color/drawable
      */
     public static void setBackground(Context c, View view, int id) {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -102,7 +102,7 @@ public class Theme extends Application {
     /**
      * Create a snackbar which handles the queue.
      *
-     * @param activity The activity where the snackbar should be shown
+     * @param activity    The activity where the snackbar should be shown
      * @param stringResID The string resource ID
      */
     public static void Snackbar(Activity activity, int stringResID) {

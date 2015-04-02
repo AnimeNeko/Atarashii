@@ -26,7 +26,7 @@ public interface ALInterface {
     @FormUrlEncoded
     @POST("/auth/access_token")
     OAuth getAuthCode(@Field("grant_type") String grant_type, @Field("client_id") String client_id, @Field("client_secret") String client_secret,
-                          @Field("redirect_uri") String redirect_uri, @Field("code") String code);
+                      @Field("redirect_uri") String redirect_uri, @Field("code") String code);
 
     @GET("/user")
     Profile getCurrentUser();

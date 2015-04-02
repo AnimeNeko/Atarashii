@@ -124,7 +124,7 @@ public class AccountService extends Service {
      * Add an accesToken to the Account data.
      *
      * @param token The AccesToken which should be stored
-     * @param time The time till the token will expire
+     * @param time  The time till the token will expire
      * @return String The token
      */
     public static String setAccesToken(String token, Long time) {

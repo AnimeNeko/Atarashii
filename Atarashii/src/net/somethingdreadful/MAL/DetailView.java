@@ -291,7 +291,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         setText();
     }
 
-    public boolean isAnime(){
+    public boolean isAnime() {
         return type.equals(MALApi.ListType.ANIME);
     }
 
