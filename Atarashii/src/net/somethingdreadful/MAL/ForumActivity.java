@@ -296,6 +296,10 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
+        if (task == ForumJob.ADDTOPIC) {
+            Theme.Snackbar(this, R.string.toast_info_comment_add);
+            Theme.Snackbar(this, R.string.toast_info_comment_added);
+        }
         refresh();
     }
 
