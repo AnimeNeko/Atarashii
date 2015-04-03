@@ -363,6 +363,12 @@
         <item>Πορτογαλικά Βραζιλίας</item>
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Πορτογαλικά Πορτογαλίας</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Ρωσσικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Ισπανικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Τουρκικά</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
