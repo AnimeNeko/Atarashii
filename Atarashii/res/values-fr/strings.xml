@@ -52,7 +52,7 @@
     <string name="dialog_message_id_search">Merci d\'appuyez sur le bouton Animes ou Mangas afin de le chercher. Rappelez-vous ce les ID des Animes et ceux des Mangas sont différents !</string>
     <string name="dialog_message_remove">Absolument sûr ? Une fois fait, c\'est parti pour de bon et ne peut pas être récupéré. Pas facilement en tout cas.</string>
     <string name="dialog_message_share">Quelle liste souhaites-tu partager ?</string>
-    <string name="dialog_message_Verifying">Vérification du compte. Patientes quelques secondes…</string>
+    <string name="dialog_message_Verifying">Vérification du compte. Patiente quelques secondes…</string>
     <string name="dialog_message_update_password">Il nous semble que ton mot de passe ait été changé. Merci de l\'écrire ci-dessous.</string>
     <string name="dialog_message_new_password_wrong">Le nouveau mot de passe entré est incorrect.</string>
     <string name="dialog_message_update_navigation">Entre l\'URL de l\'image ci-dessous.</string>
@@ -364,6 +364,10 @@ Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project
         <item>Portugais (Brésil)</item>
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Portugais (Portugal)</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Russe</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Espagnol</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
@@ -429,7 +433,7 @@ Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project
         <item>Parodie</item>
         <item>Policier</item>
         <item>Psychologique</item>
-        <item>Romantique</item>
+        <item>Romance</item>
         <item>Samourai</item>
         <item>École</item>
         <item>Science-Fiction</item>

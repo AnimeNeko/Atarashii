@@ -363,6 +363,10 @@
         <item>Português do Brasil</item>
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Português de Portugal</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Russo</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Espanhol</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
