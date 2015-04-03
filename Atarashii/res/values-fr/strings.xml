@@ -368,8 +368,6 @@ Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project
         <item>Russe</item>
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Espagnol</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turc</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">

@@ -367,8 +367,6 @@
         <item>Russo</item>
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Espanhol</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turco</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
