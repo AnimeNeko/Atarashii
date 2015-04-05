@@ -19,11 +19,13 @@ public class HtmlUtil {
     String structure;
     String postStructure;
     String spoilerStructure;
+    String noActivity;
 
     public HtmlUtil(Context context) {
         structure = getString(context, R.raw.forum_post_structure);
         postStructure = getString(context, R.raw.forum_post_post_structure);
         spoilerStructure = getString(context, R.raw.forum_post_spoiler_structure);
+        noActivity = context.getString(R.string.no_activity);
     }
 
     /**
@@ -79,8 +81,12 @@ public class HtmlUtil {
             list = list.replace("class=\"item\" value=\"1\"", "class=\"item hidden\" value=\"1\"");
         if (record == null || page == record.getPages())
             list = list.replace("class=\"item\" value=\"2\"", "class=\"item hidden\" value=\"2\"");
-        list = list.replace("pages", record == null ? "1" : Integer.toString(record.getPages()));
-        list = list.replace("page", Integer.toString(page));
+        if (record == null) {
+            list = list.replace("(page/pages)", noActivity);
+        } else {
+            list = list.replace("pages", Integer.toString(record.getPages()));
+            list = list.replace("page", Integer.toString(page));
+        }
 
         if (Theme.darkTheme) {
             list = list.replace("#D2D2D2", "#212121"); // divider
@@ -195,42 +201,44 @@ public class HtmlUtil {
     public String convertList(User record, ProfileActivity activity, int page) {
         ArrayList<Activity> list = record.getActivity();
         String result = "";
-        for (int i = 0; i < list.size(); i++) {
-            Activity post = list.get(i);
-            String postreal = postStructure;
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                Activity post = list.get(i);
+                String postreal = postStructure;
 
-            String comment = "";
-            String image = "";
-            String title = "";
-            switch (post.getActivityType()) {
-                case "message":
-                case "text":
-                    comment = post.getValue();
-                    image = post.getUsers().get(0).getImageUrl();
-                    title = post.getUsers().get(0).getDisplayName();
-                    break;
-                case "list":
-                    if (post.getSeries() != null) {
-                        comment = post.getUsers().get(0).getDisplayName() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitleRomaji();
-                        image = post.getSeries().getImageUrlLge();
-                        title = post.getSeries().getTitleRomaji();
-                    }
-                    break;
+                String comment = "";
+                String image = "";
+                String title = "";
+                switch (post.getActivityType()) {
+                    case "message":
+                    case "text":
+                        comment = post.getValue();
+                        image = post.getUsers().get(0).getImageUrl();
+                        title = post.getUsers().get(0).getDisplayName();
+                        break;
+                    case "list":
+                        if (post.getSeries() != null) {
+                            comment = post.getUsers().get(0).getDisplayName() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitleRomaji();
+                            image = post.getSeries().getImageUrlLge();
+                            title = post.getSeries().getTitleRomaji();
+                        }
+                        break;
+                }
+
+                comment = comment.replace("data-src=", "width=\"100%\" src=");
+                comment = comment.replace("img src=", "img width=\"100%\" src=");
+
+                if (User.isDeveloperRecord(post.getUsers().get(0).getDisplayName()) && post.getActivityType().equals("message"))
+                    postreal = postreal.replace("=\"title\">", "=\"developer\">");
+                postreal = postreal.replace("image", image);
+                postreal = postreal.replace("Title", title);
+                postreal = postreal.replace("itemID", Integer.toString(post.getId()));
+                postreal = postreal.replace("position", Integer.toString(i));
+                postreal = postreal.replace("Subhead", MALDateTools.formatDateString(post.getCreatedAt(), activity, true));
+                postreal = postreal.replace("<!-- place post content here -->", comment);
+
+                result = result + postreal;
             }
-
-            comment = comment.replace("data-src=", "width=\"100%\" src=");
-            comment = comment.replace("img src=", "img width=\"100%\" src=");
-
-            if (User.isDeveloperRecord(post.getUsers().get(0).getDisplayName()) && post.getActivityType().equals("message"))
-                postreal = postreal.replace("=\"title\">", "=\"developer\">");
-            postreal = postreal.replace("image", image);
-            postreal = postreal.replace("Title", title);
-            postreal = postreal.replace("itemID", Integer.toString(post.getId()));
-            postreal = postreal.replace("position", Integer.toString(i));
-            postreal = postreal.replace("Subhead", MALDateTools.formatDateString(post.getCreatedAt(), activity, true));
-            postreal = postreal.replace("<!-- place post content here -->", comment);
-
-            result = result + postreal;
         }
         return buildList(result, null, page);
     }
