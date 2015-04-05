@@ -35,6 +35,18 @@ public class PrefManager {
     }
 
     /**
+     * Remove the preferences.
+     *
+     * Reset all the preferences
+     *
+     * @see Home
+     */
+    public static void clear() {
+            prefEditor.clear();
+            prefEditor.commit();
+    }
+
+    /**
      * Returns the custom share text.
      *
      * @return String The custom share text that the app should use.
