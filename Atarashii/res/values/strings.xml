@@ -129,6 +129,7 @@
     <string name="layout_card_manga_plan">Plan to read</string>
     <string name="action_viewListOnMAL">View list on MAL</string>
     <string name="not_specified">not specified</string>
+    <string name="no_activity">No Activity</string>
     <string-array name="gender">
         <item>Female</item>
         <item>Male</item>
