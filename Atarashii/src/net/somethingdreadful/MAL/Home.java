@@ -318,6 +318,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         if (mf != null)
             mf.cancelNetworkTask();
         MALSqlHelper.getHelper(context).deleteDatabase(context);
+        PrefManager.clear();
         AccountService.deleteAccount();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
