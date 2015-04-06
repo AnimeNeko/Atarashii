@@ -21,10 +21,11 @@ public class AnimeList {
 
     public static ArrayList<Anime> getData(ArrayList<Anime> data) {
         ArrayList<Anime> list = new ArrayList<Anime>();
-        for (Anime anime : data) {
-            anime.createBaseModel();
-            list.add(anime);
-        }
+        if (data != null)
+            for (Anime anime : data) {
+                anime.createBaseModel();
+                list.add(anime);
+            }
         return list;
     }
 

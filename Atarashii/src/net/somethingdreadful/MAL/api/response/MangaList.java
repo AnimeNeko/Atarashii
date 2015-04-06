@@ -20,10 +20,11 @@ public class MangaList {
 
     public static ArrayList<Manga> getData(ArrayList<Manga> data) {
         ArrayList<Manga> list = new ArrayList<Manga>();
-        for (Manga manga : data) {
-            manga.createBaseModel();
-            list.add(manga);
-        }
+        if (data != null)
+            for (Manga manga : data) {
+                manga.createBaseModel();
+                list.add(manga);
+            }
         return list;
     }
 
