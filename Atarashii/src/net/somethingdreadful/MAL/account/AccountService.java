@@ -144,11 +144,16 @@ public class AccountService extends Service {
     public static String getAccesToken() {
         AccountManager accountManager = AccountManager.get(context);
         String token = accountManager.getUserData(getAccount(), "accesToken");
-        Long expireTime = Long.parseLong(accountManager.getUserData(getAccount(), "accesTokenTime"));
-        Long time = System.currentTimeMillis() / 1000;
-        Long timeLeft = expireTime - time;
-        Crashlytics.log(Log.INFO, "MALX", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
-        return timeLeft >= 0 ? token : null;
+        try {
+            Long expireTime = Long.parseLong(accountManager.getUserData(getAccount(), "accesTokenTime"));
+            Long time = System.currentTimeMillis() / 1000;
+            Long timeLeft = expireTime - time;
+            Crashlytics.log(Log.INFO, "MALX", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
+            return timeLeft >= 0 ? token : null;
+        } catch (Exception e) {
+            Crashlytics.log(Log.INFO, "MALX", "AccountService: The expire time could not be received.");
+            return null;
+        }
     }
 
     /**
