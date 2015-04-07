@@ -81,6 +81,7 @@ public class AccountService extends Service {
     }
 
     public static boolean isMAL() {
+        getAccount();
         return accountType.equals(AccountType.MyAnimeList);
     }
 
