@@ -37,7 +37,7 @@ public class GenericRecord implements Serializable {
     @Getter private int priority;
     @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
-    @Getter private int score;
+    @Getter private float score;
     @Setter @Getter private int rank;
     @Setter @Getter @SerializedName("members_score") private float membersScore;
     @Setter @Getter @SerializedName("members_count") private int membersCount;
@@ -175,11 +175,11 @@ public class GenericRecord implements Serializable {
         return Arrays.asList(status).indexOf(statusString);
     }
 
-    public void setScore(int value) {
+    public void setScore(float value) {
         setScore(value, true);
     }
 
-    public void setScore(int value, boolean markDirty) {
+    public void setScore(float value, boolean markDirty) {
         this.score = value;
         if (markDirty) {
             addDirtyField("score");

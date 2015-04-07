@@ -120,7 +120,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "status varchar, "
             + "watched integer, "
-            + "score integer, "
+            + "score float, "
             + "watchedStart varchar, "
             + "watchedEnd varchar, "
             + "fansub varchar, "
@@ -145,7 +145,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "status varchar, "
             + "chaptersRead integer, "
             + "volumesRead integer, "
-            + "score integer, "
+            + "score float, "
             + "readStart varchar, "
             + "readEnd varchar, "
             + "priority integer, "
@@ -333,7 +333,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -633,6 +633,25 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
             db.execSQL(CREATE_ACTIVITIES_TABLE);
             db.execSQL(CREATE_ACTIVITIES_USERS_TABLE);
+        }
+
+        if (oldVersion < 11) {
+            /*
+             * In version 11 We fixed an AniList bug that caused crashes due decimals
+             */
+            // update animelist table
+            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("drop table " + TABLE_ANIMELIST);
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            db.execSQL("insert into " + TABLE_ANIMELIST + " select * from temp_table;");
+            db.execSQL("drop table temp_table;");
+
+            // update mangalist table
+            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("drop table " + TABLE_MANGALIST);
+            db.execSQL(CREATE_MANGALIST_TABLE);
+            db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
+            db.execSQL("drop table temp_table;");
         }
     }
 }

@@ -11,6 +11,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
 import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.Activity;
@@ -686,6 +687,11 @@ public class DatabaseManager {
         } else {
             Long insertResult = getDBWrite().insert(MALSqlHelper.TABLE_PROFILE, null, cv);
             profile.setId(insertResult.intValue());
+        }
+
+        if (AccountService.getUsername().equals(profile.getDisplayName())) {
+            PrefManager.setScoreType(profile.getScoreType() + 1);
+            PrefManager.commitChanges();
         }
     }
 
