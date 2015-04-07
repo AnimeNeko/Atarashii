@@ -229,6 +229,32 @@ public class PrefManager {
     }
 
     /**
+     * Set the score display type.
+     *
+     * 1. 0 - 10
+     * 2. 0 - 100
+     * 3. 0 - 5
+     * 4. :( & :| & :)
+     * 5. 0.0 - 10.0
+     *
+     * note: number 4 is currently not supported!
+     *
+     * @param type The type number
+     */
+    public static void setScoreType(int type) {
+        prefEditor.putInt("Score_type", type);
+    }
+
+    /**
+     * Returns the score type.
+     *
+     * @return int the score type to display.
+     */
+    public static int getScoreType() {
+        return prefs.getInt("Score_type", 1);
+    }
+
+    /**
      * Commit all the changed made.
      */
     public static void commitChanges() {

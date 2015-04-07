@@ -53,7 +53,7 @@ public interface MALInterface {
     @FormUrlEncoded
     @POST("/animelist/anime")
     Response addAnime(@Field("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes,
-                      @Field("score") int score);
+                      @Field("score") float score);
 
     @FormUrlEncoded
     @PUT("/animelist/anime/{anime_id}")
@@ -86,7 +86,7 @@ public interface MALInterface {
     @FormUrlEncoded
     @POST("/mangalist/manga")
     Response addManga(@Field("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters,
-                      @Field("volumes") int volumes, @Field("score") int score);
+                      @Field("volumes") int volumes, @Field("score") float score);
 
     @FormUrlEncoded
     @PUT("/mangalist/manga/{manga_id}")

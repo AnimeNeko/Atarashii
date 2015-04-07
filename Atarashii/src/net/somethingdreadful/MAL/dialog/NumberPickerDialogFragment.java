@@ -7,26 +7,38 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 
 public class NumberPickerDialogFragment extends DialogFragment {
 
     NumberPicker numberPicker;
+    EditText numberInput;
     private onUpdateClickListener callback;
+    boolean inputScore = false;
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
-        int max = getInt("max");
-        int current = getInt("current");
+        int max = (int) getValue("max");
+        float current = getValue("current");
 
+        numberInput = (EditText) view.findViewById(R.id.numberInput);
         numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
-        numberPicker.setMaxValue(max != 0 ? max : 999);
-        numberPicker.setMinValue(0);
-        numberPicker.setValue(current);
+
+        if (!inputScore) {
+            numberPicker.setMaxValue(max != 0 ? max : 999);
+            numberPicker.setMinValue(0);
+            numberPicker.setValue((int) current);
+            numberInput.setVisibility(View.GONE);
+        } else {
+            numberInput.setText(Float.toString(current));
+            numberPicker.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -39,7 +51,9 @@ public class NumberPickerDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 numberPicker.clearFocus();
-                callback.onUpdated(numberPicker.getValue(), getArguments().getInt("id"));
+                numberInput.clearFocus();
+                float value = Float.parseFloat(!numberInput.getText().toString().equals("") ? numberInput.getText().toString() : "0.0");
+                callback.onUpdated(0, getArguments().getInt("id"), inputScore ? value : ((float) numberPicker.getValue()));
                 dismiss();
             }
         });
@@ -59,9 +73,11 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * @param key The argument name
      * @return int The number of the argument
      */
-    public int getInt(String key) {
+    public float getValue(String key) {
         try {
-            return getArguments().getInt(key);
+            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() != 3 && PrefManager.getScoreType() != 1)
+                inputScore = true;
+            return inputScore ? getArguments().getFloat(key) : getArguments().getInt(key);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
             return 0;
@@ -83,6 +99,6 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        public void onUpdated(int number, int id);
+        public void onUpdated(int number, int id, float decimal);
     }
 }

@@ -24,7 +24,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 if (selectedItem != -1)
-                    callback.onUpdated(selectedItem, getArguments().getInt("id"));
+                    callback.onUpdated(selectedItem, getArguments().getInt("id"), 0.0f);
                 dismiss();
             }
         });
@@ -46,7 +46,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        public void onUpdated(int number, int id);
+        public void onUpdated(int number, int id, float decimal);
     }
 
     /**

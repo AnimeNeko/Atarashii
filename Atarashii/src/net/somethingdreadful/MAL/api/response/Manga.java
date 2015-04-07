@@ -89,7 +89,7 @@ public class Manga extends GenericRecord implements Serializable {
         result.setVolumes(c.getInt(columnNames.indexOf("volumesTotal")));
         result.setChapters(c.getInt(columnNames.indexOf("chaptersTotal")));
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
-        result.setScore(c.getInt(columnNames.indexOf("myScore")));
+        result.setScore(c.getFloat(columnNames.indexOf("myScore")));
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
         if (!c.isNull(columnNames.indexOf("dirty"))) {
