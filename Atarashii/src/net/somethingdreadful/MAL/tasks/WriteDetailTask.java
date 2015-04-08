@@ -43,9 +43,9 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         try {
             if (MALApi.isNetworkAvailable(context)) {
                 if (type.equals(ListType.ANIME)) {
-                    manager.writeAnimeDetailsToMAL((Anime) gr[0]);
+                    manager.writeAnimeDetails((Anime) gr[0]);
                 } else {
-                    manager.writeMangaDetailsToMAL((Manga) gr[0]);
+                    manager.writeMangaDetails((Manga) gr[0]);
                 }
                 gr[0].clearDirty();
             }

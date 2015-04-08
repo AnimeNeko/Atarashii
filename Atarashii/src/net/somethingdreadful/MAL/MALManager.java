@@ -347,7 +347,7 @@ public class MALManager {
         return dbMan.deleteMangaFromMangalist(manga.getId(), username);
     }
 
-    public boolean writeAnimeDetailsToMAL(Anime anime) {
+    public boolean writeAnimeDetails(Anime anime) {
         boolean result;
         if (anime.getDeleteFlag()) {
             if (AccountService.isMAL())
@@ -364,7 +364,7 @@ public class MALManager {
         return result;
     }
 
-    public boolean writeMangaDetailsToMAL(Manga manga) {
+    public boolean writeMangaDetails(Manga manga) {
         boolean result;
         if (manga.getDeleteFlag()) {
             if (AccountService.isMAL())
@@ -389,7 +389,7 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
 
             for (Anime anime : dirtyAnimes) {
-                totalSuccess = writeAnimeDetailsToMAL(anime);
+                totalSuccess = writeAnimeDetails(anime);
                 if (totalSuccess) {
                     anime.clearDirty();
                     saveAnimeToDatabase(anime, false, username);
@@ -412,7 +412,7 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
 
             for (Manga manga : dirtyMangas) {
-                totalSuccess = writeMangaDetailsToMAL(manga);
+                totalSuccess = writeMangaDetails(manga);
                 if (totalSuccess) {
                     manga.clearDirty();
                     saveMangaToDatabase(manga, false, username);
