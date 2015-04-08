@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.forum;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+
+import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ForumActivity;
@@ -147,14 +150,19 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
     }
 
     public void apply(ForumMain result) {
-        topicsAdapter.supportAddAll(result.getList());
-        toggle(0);
-        loading = false;
-        activity.setTitle(getString(R.string.title_activity_forum));
-        if (task == ForumJob.SUBBOARD) {
-            subBoard = result;
-        } else {
-            topic = result;
+        try {
+            topicsAdapter.supportAddAll(result.getList());
+            toggle(0);
+            loading = false;
+            activity.setTitle(getString(R.string.title_activity_forum));
+            if (task == ForumJob.SUBBOARD) {
+                subBoard = result;
+            } else {
+                topic = result;
+            }
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "ForumTopics.apply(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
