@@ -302,12 +302,6 @@
         <item>Plan to read</item>
     </string-array>
 
-    <!-- AndroidManifest (Unknown) Strings -->
-    <string name="permission_group_useAtarashii">Use Atarashii! for MyAnimeList</string>
-    <string name="permission_group_description_useAtarashii">Allow this app to use Atarashii! (if installed) to access your MyAnimeList account</string>
-    <string name="permission_updateMedia">Update Records</string>
-    <string name="permission_description_updateMedia">Allow this app to update records on your MyAnimeList account</string>
-
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">Search on MAL</string>
 
