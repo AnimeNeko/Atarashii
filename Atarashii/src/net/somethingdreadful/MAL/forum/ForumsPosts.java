@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ViewFlipper;
+
+import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
@@ -112,9 +115,14 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      * @param result The new record
      */
     public void apply(ForumMain result) {
-        activity.setTitle(getString(R.string.title_activity_forum));
-        webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(), page), "text/html", "utf-8", null);
-        toggle(false);
-        record = result;
+        try {
+            activity.setTitle(getString(R.string.title_activity_forum));
+            webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(), page), "text/html", "utf-8", null);
+            toggle(false);
+            record = result;
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "ForumPosts.apply(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
     }
 }

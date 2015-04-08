@@ -37,7 +37,7 @@ public class GenericRecord implements Serializable {
     @Getter private int priority;
     @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
-    @Getter private float score;
+    @Getter private float score = 0.01f; // Anilist got a bug that will cause internal server errors if we pass 0
     @Setter @Getter private int rank;
     @Setter @Getter @SerializedName("members_score") private float membersScore;
     @Setter @Getter @SerializedName("members_count") private int membersCount;

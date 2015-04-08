@@ -103,6 +103,16 @@ public class MALManager {
         return null;
     }
 
+    public Manga getManga(int id, String username) {
+        try {
+            return dbMan.getManga(id, username);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getManga(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
     public Manga getMangaRecord(int id) {
         try {
             if (AccountService.isMAL())
@@ -231,8 +241,22 @@ public class MALManager {
         return dbMan.getMangaList(ListType, username);
     }
 
+    public Manga updateWithDetails(int id, Manga manga, String username) {
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
+        Manga manga_api;
+        if (AccountService.isMAL())
+            manga_api = malApi.getManga(id);
+        else
+            manga_api = alApi.getManga(id).createBaseModel();
+        if (manga_api != null) {
+            dbMan.saveManga(manga_api, false, username);
+            return AccountService.isMAL() ? manga_api : dbMan.getManga(id, AccountService.getUsername());
+        }
+        return manga;
+    }
+
     public Anime updateWithDetails(int id, Anime anime, String username) {
-        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
         Anime anime_api;
         if (AccountService.isMAL())
             anime_api = malApi.getAnime(id);
@@ -307,15 +331,6 @@ public class MALManager {
         return dbMan.getProfile(name);
     }
 
-    public Manga updateWithDetails(int id, Manga manga, String username) {
-        Manga manga_api = malApi.getManga(id);
-        if (manga_api != null) {
-            dbMan.saveManga(manga_api, false, username);
-            return manga_api;
-        }
-        return manga;
-    }
-
     public void saveAnimeToDatabase(Anime anime, boolean ignoreSynopsis, String username) {
         dbMan.saveAnime(anime, ignoreSynopsis, username);
     }
@@ -332,7 +347,7 @@ public class MALManager {
         return dbMan.deleteMangaFromMangalist(manga.getId(), username);
     }
 
-    public boolean writeAnimeDetailsToMAL(Anime anime) {
+    public boolean writeAnimeDetails(Anime anime) {
         boolean result;
         if (anime.getDeleteFlag()) {
             if (AccountService.isMAL())
@@ -349,7 +364,7 @@ public class MALManager {
         return result;
     }
 
-    public boolean writeMangaDetailsToMAL(Manga manga) {
+    public boolean writeMangaDetails(Manga manga) {
         boolean result;
         if (manga.getDeleteFlag()) {
             if (AccountService.isMAL())
@@ -374,7 +389,7 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
 
             for (Anime anime : dirtyAnimes) {
-                totalSuccess = writeAnimeDetailsToMAL(anime);
+                totalSuccess = writeAnimeDetails(anime);
                 if (totalSuccess) {
                     anime.clearDirty();
                     saveAnimeToDatabase(anime, false, username);
@@ -397,7 +412,7 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
 
             for (Manga manga : dirtyMangas) {
-                totalSuccess = writeMangaDetailsToMAL(manga);
+                totalSuccess = writeMangaDetails(manga);
                 if (totalSuccess) {
                     manga.clearDirty();
                     saveMangaToDatabase(manga, false, username);

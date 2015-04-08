@@ -120,6 +120,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             Manga record = (Manga) data.getSerializable("record");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                             taskResult = mManager.updateWithDetails(record.getId(), record, "");
+                            if (!AccountService.isMAL())
+                                mManager.getManga(record.getId(), AccountService.getUsername());
                         }
                     }
                     break;

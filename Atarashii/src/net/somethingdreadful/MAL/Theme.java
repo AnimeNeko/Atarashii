@@ -108,4 +108,25 @@ public class Theme extends Application {
     public static void Snackbar(Activity activity, int stringResID) {
         SnackbarManager.show(Snackbar.with(activity).text(activity.getString(stringResID)));
     }
+
+    /**
+     * Converts a score to the display format
+     *
+     * @param score The score that should be converted
+     * @return The string to display
+     */
+    public static String converScore(float score) {
+        switch (PrefManager.getScoreType()) {
+            case 1:
+                return String.format("%.0f", score / 10);
+            case 2:
+                return String.format("%.0f", score);
+            case 3:
+                return String.format("%.0f", score / 20);
+            case 5:
+                return String.format("%.1f", score / 10);
+            default:
+                return String.format("%.0f", score / 10);
+        }
+    }
 }
