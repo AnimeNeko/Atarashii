@@ -215,7 +215,10 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             producersRow.setVisibility(View.GONE);
         }
 
-        score.setText(Float.toString(record.getMembersScore()));
+        if (!AccountService.isMAL())
+            score.setText(Theme.converScore(record.getMembersScore()));
+        else
+            score.setText(Float.toString(record.getMembersScore()));
         ranked.setText(Integer.toString(record.getRank()));
         popularity.setText(Integer.toString(record.getPopularityRank()));
         members.setText(Integer.toString(record.getMembersCount()));

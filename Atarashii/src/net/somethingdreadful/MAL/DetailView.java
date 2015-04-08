@@ -128,7 +128,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     }
 
     public String nullCheck(float number) {
-        return (number == 0 ? "?" : Float.toString(number));
+        return (number == 0 ? "?" : Float.toString(number).replace(".", ","));
     }
 
     public String getDate(String string) {
