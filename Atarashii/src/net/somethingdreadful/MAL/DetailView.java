@@ -22,6 +22,7 @@ import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -349,7 +350,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public String makeShareText() {
         String shareText = PrefManager.getCustomShareText();
         shareText = shareText.replace("$title;", actionBar.getTitle());
-        shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+        if (AccountService.isMAL())
+            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+        else
+            shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
         return shareText;
     }
@@ -570,7 +574,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 addToList();
                 break;
             case R.id.action_ViewMALPage:
-                Uri malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
+                Uri malurl;
+                if (AccountService.isMAL())
+                    malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
+                else
+                    malurl = Uri.parse("http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
             case R.id.action_copy:
