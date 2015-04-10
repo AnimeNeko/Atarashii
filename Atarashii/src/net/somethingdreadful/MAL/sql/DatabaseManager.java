@@ -408,7 +408,7 @@ public class DatabaseManager {
     public void saveManga(Manga manga, boolean ignoreSynopsis, int userId, boolean dontCreateBaseModel) {
         ContentValues cv = new ContentValues();
 
-        if (!AccountService.isMAL() && !dontCreateBaseModel)
+        if (!AccountService.isMAL() && manga.getReadStatus() == null && !dontCreateBaseModel)
             manga.createBaseModel();
 
         cv.put(MALSqlHelper.COLUMN_ID, manga.getId());

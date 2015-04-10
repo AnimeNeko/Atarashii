@@ -53,7 +53,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
                 numberPicker.clearFocus();
                 numberInput.clearFocus();
                 float value = Float.parseFloat(!numberInput.getText().toString().equals("") ? numberInput.getText().toString() : "0.0");
-                callback.onUpdated(0, getArguments().getInt("id"), inputScore ? value : ((float) numberPicker.getValue()));
+                callback.onUpdated(numberPicker.getValue(), getArguments().getInt("id"), value);
                 dismiss();
             }
         });
