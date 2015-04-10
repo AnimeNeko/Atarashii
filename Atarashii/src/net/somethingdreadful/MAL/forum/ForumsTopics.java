@@ -162,7 +162,6 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "ForumTopics.apply(): " + e.getMessage());
-            Crashlytics.logException(e);
         }
     }
 

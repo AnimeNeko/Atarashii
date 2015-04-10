@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,16 +147,20 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     }
 
     private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
-        Resources res = getResources();
-        try {
-            String[] types = res.getStringArray(resArrayId);
-            if (index < 0 || index >= types.length) // make sure to have a valid array index
+        try { // getResources will cause a crash if an users clicks the profile fast away
+            Resources res = getResources();
+            try {
+                String[] types = res.getStringArray(resArrayId);
+                if (index < 0 || index >= types.length) // make sure to have a valid array index
+                    return res.getString(notFoundStringId);
+                else
+                    return types[index];
+            }catch (Exception e) {
                 return res.getString(notFoundStringId);
-            else
-                return types[index];
-        } catch (Resources.NotFoundException e) {
-            Crashlytics.logException(e);
-            return res.getString(notFoundStringId);
+            }
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.getStringFromResourceArray(): " + e.getMessage());
+            return "Error: could not receive resources";
         }
     }
 
