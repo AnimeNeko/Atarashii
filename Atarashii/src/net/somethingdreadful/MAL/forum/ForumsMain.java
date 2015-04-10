@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.forum;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+
+import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ForumActivity;
@@ -98,15 +101,19 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
      * @param result The new record that should be applied.
      */
     public void apply(ForumMain result) {
-        myAnimeList.setAdapter(myanimelistAdapter);
-        animeManga.setAdapter(animemangaAdapter);
-        general.setAdapter(generalAdapter);
+        try {
+            myAnimeList.setAdapter(myanimelistAdapter);
+            animeManga.setAdapter(animemangaAdapter);
+            general.setAdapter(generalAdapter);
 
-        myanimelistAdapter.supportAddAll(result.getMyAnimeList());
-        animemangaAdapter.supportAddAll(result.getAnimeManga());
-        generalAdapter.supportAddAll(result.getGeneral());
-        record = result;
-        toggle(0);
+            myanimelistAdapter.supportAddAll(result.getMyAnimeList());
+            animemangaAdapter.supportAddAll(result.getAnimeManga());
+            generalAdapter.supportAddAll(result.getGeneral());
+            record = result;
+            toggle(0);
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "ForumMain.apply(): " + e.getMessage());
+        }
     }
 
     /**

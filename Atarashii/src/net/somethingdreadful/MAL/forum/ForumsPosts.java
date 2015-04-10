@@ -15,6 +15,7 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.ForumMain;
@@ -117,12 +118,15 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     public void apply(ForumMain result) {
         try {
             activity.setTitle(getString(R.string.title_activity_forum));
-            webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(), page), "text/html", "utf-8", null);
-            toggle(false);
-            record = result;
+            if (result != null) {
+                webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, activity, AccountService.getUsername(), page), "text/html", "utf-8", null);
+                toggle(false);
+                record = result;
+            } else {
+                Theme.Snackbar(activity, R.string.toast_error_Records);
+            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "ForumPosts.apply(): " + e.getMessage());
-            Crashlytics.logException(e);
         }
     }
 }
