@@ -108,12 +108,16 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     }
 
     private void showShareDialog(boolean type) {
-        ShareDialogFragment share = new ShareDialogFragment();
-        Bundle args = new Bundle();
-        args.putString("title", record.getName());
-        args.putBoolean("share", type);
-        share.setArguments(args);
-        share.show(getFragmentManager(), "fragment_share");
+        if (record == null || record.getName() == null) {
+            Theme.Snackbar(this, R.string.toast_info_hold_on);
+        } else {
+            ShareDialogFragment share = new ShareDialogFragment();
+            Bundle args = new Bundle();
+            args.putString("title", record.getName());
+            args.putBoolean("share", type);
+            share.setArguments(args);
+            share.show(getFragmentManager(), "fragment_share");
+        }
     }
 
     @Override
