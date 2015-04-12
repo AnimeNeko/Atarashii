@@ -39,53 +39,29 @@ public class MALManager {
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
-        String r;
-
         switch (i) {
             case 0:
-                r = "";
-                break;
+                return "";
             case 1:
-                if (type.equals(MALApi.ListType.ANIME))
-                    r = Anime.STATUS_WATCHING;
-                else
-                    r = Manga.STATUS_READING;
-                break;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
             case 2:
-                r = Anime.STATUS_COMPLETED;
-                break;
+                return Anime.STATUS_COMPLETED;
             case 3:
-                r = Anime.STATUS_ONHOLD;
-                break;
+                return Anime.STATUS_ONHOLD;
             case 4:
-                r = Anime.STATUS_DROPPED;
-                break;
+                return Anime.STATUS_DROPPED;
             case 5:
-                if (type.equals(MALApi.ListType.ANIME))
-                    r = Anime.STATUS_PLANTOWATCH;
-                else
-                    r = Manga.STATUS_PLANTOREAD;
-                break;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_PLANTOWATCH : Manga.STATUS_PLANTOREAD;
             case 6:
-                r = Anime.STATUS_REWATCHING;
-                break;
+                return Anime.STATUS_REWATCHING;
             default:
-                if (type.equals(MALApi.ListType.ANIME))
-                    r = Anime.STATUS_WATCHING;
-                else
-                    r = Manga.STATUS_READING;
-                break;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
         }
-
-        return r;
     }
 
     public Anime getAnimeRecord(int id) {
         try {
-            if (AccountService.isMAL())
-                return malApi.getAnime(id);
-            else
-                return alApi.getAnime(id);
+            return AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getAnimeRecord(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -115,10 +91,7 @@ public class MALManager {
 
     public Manga getMangaRecord(int id) {
         try {
-            if (AccountService.isMAL())
-                return malApi.getManga(id);
-            else
-                return alApi.getManga(id);
+            return AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getMangaRecord(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -148,10 +121,7 @@ public class MALManager {
 
     public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
         try {
-            if (type.equals(MALApi.ListType.ANIME))
-                return malApi.getAnime(id, page);
-            else
-                return malApi.getManga(id, page);
+            return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getDiscussion(" + id + ", " + page + "): " + e.getMessage());
             Crashlytics.logException(e);
@@ -203,11 +173,7 @@ public class MALManager {
 
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
         ArrayList<Anime> result = null;
-        AnimeList animeList;
-        if (AccountService.isMAL())
-            animeList = malApi.getAnimeList();
-        else
-            animeList = alApi.getAnimeList(username);
+        AnimeList animeList = AccountService.isMAL() ? malApi.getAnimeList() : alApi.getAnimeList(username);
 
         if (animeList != null) {
             result = animeList.getAnimes();
@@ -219,11 +185,7 @@ public class MALManager {
 
     public ArrayList<Manga> downloadAndStoreMangaList(String username) {
         ArrayList<Manga> result = null;
-        MangaList mangaList;
-        if (AccountService.isMAL())
-            mangaList = malApi.getMangaList();
-        else
-            mangaList = alApi.getMangaList(username);
+        MangaList mangaList = AccountService.isMAL() ? malApi.getMangaList() : alApi.getMangaList(username);
 
         if (mangaList != null) {
             result = mangaList.getMangas();
@@ -243,11 +205,8 @@ public class MALManager {
 
     public Manga updateWithDetails(int id, Manga manga, String username) {
         Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
-        Manga manga_api;
-        if (AccountService.isMAL())
-            manga_api = malApi.getManga(id);
-        else
-            manga_api = alApi.getManga(id).createBaseModel();
+        Manga manga_api = AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id).createBaseModel();
+
         if (manga_api != null) {
             dbMan.saveManga(manga_api, false, username);
             return AccountService.isMAL() ? manga_api : dbMan.getManga(id, AccountService.getUsername());
@@ -257,11 +216,8 @@ public class MALManager {
 
     public Anime updateWithDetails(int id, Anime anime, String username) {
         Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
-        Anime anime_api;
-        if (AccountService.isMAL())
-            anime_api = malApi.getAnime(id);
-        else
-            anime_api = alApi.getAnime(id).createBaseModel();
+        Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id).createBaseModel();
+
         if (anime_api != null) {
             dbMan.saveAnime(anime_api, false, username);
             return AccountService.isMAL() ? anime_api : dbMan.getAnime(id, AccountService.getUsername());
@@ -270,17 +226,12 @@ public class MALManager {
     }
 
     public ArrayList<User> downloadAndStoreFriendList(String user) {
-        ArrayList<User> result;
         try {
             Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
-            if (AccountService.isMAL())
-                result = malApi.getFriends(user);
-            else
-                result = alApi.getFollowers(user);
+            ArrayList<User> result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
 
-            if (result != null && result.size() > 0) {
+            if (result != null && result.size() > 0)
                 dbMan.saveFriendList(result, user);
-            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -293,16 +244,11 @@ public class MALManager {
     }
 
     public User downloadAndStoreProfile(String name) {
-        User result;
+        User result = new User();
         try {
             Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreProfile(): Downloading profile of " + name);
-            Profile profile;
-            if (AccountService.isMAL())
-                profile = malApi.getProfile(name);
-            else
-                profile = alApi.getProfile(name);
+            Profile profile = AccountService.isMAL() ? malApi.getProfile(name) : alApi.getProfile(name);
 
-            result = new User();
             result.setName(name);
             result.setProfile(profile);
 
@@ -349,34 +295,20 @@ public class MALManager {
 
     public boolean writeAnimeDetails(Anime anime) {
         boolean result;
-        if (anime.getDeleteFlag()) {
-            if (AccountService.isMAL())
-                result = malApi.deleteAnimeFromList(anime.getId());
-            else
-                result = alApi.deleteAnimeFromList(anime.getId());
-        } else {
-            if (AccountService.isMAL())
-                result = malApi.addOrUpdateAnime(anime);
-            else
-                result = alApi.addOrUpdateAnime(anime);
-        }
-
+        if (anime.getDeleteFlag())
+            result = AccountService.isMAL() ? malApi.deleteAnimeFromList(anime.getId()) : alApi.deleteAnimeFromList(anime.getId());
+        else
+            result = AccountService.isMAL() ? malApi.addOrUpdateAnime(anime) : alApi.addOrUpdateAnime(anime);
         return result;
     }
 
     public boolean writeMangaDetails(Manga manga) {
         boolean result;
-        if (manga.getDeleteFlag()) {
-            if (AccountService.isMAL())
-                result = malApi.deleteMangaFromList(manga.getId());
-            else
-                result = alApi.deleteMangaFromList(manga.getId());
-        } else {
-            if (AccountService.isMAL())
-                result = malApi.addOrUpdateManga(manga);
-            else
-                result = alApi.addOrUpdateManga(manga);
-        }
+        if (manga.getDeleteFlag())
+            result = AccountService.isMAL() ? malApi.deleteMangaFromList(manga.getId()) : alApi.deleteMangaFromList(manga.getId());
+        else
+            result = AccountService.isMAL() ? malApi.addOrUpdateManga(manga) : alApi.addOrUpdateManga(manga);
+
         return result;
     }
 
@@ -427,73 +359,43 @@ public class MALManager {
     }
 
     public ArrayList<Anime> getMostPopularAnime(int page) {
-        if (AccountService.isMAL())
-            return malApi.getMostPopularAnime(page);
-        else
-            return alApi.getAiringAnime(page);
+        return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getAiringAnime(page);
     }
 
     public ArrayList<Manga> getMostPopularManga(int page) {
-        if (AccountService.isMAL())
-            return malApi.getMostPopularManga(page);
-        else
-            return alApi.getAiringManga(page);
+        return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getAiringManga(page);
     }
 
     public ArrayList<Anime> getTopRatedAnime(int page) {
-        if (AccountService.isMAL())
-            return malApi.getTopRatedAnime(page);
-        else
-            return alApi.getYearAnime(Calendar.getInstance().get(Calendar.YEAR), page);
+        return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getYearAnime(Calendar.getInstance().get(Calendar.YEAR), page);
     }
 
     public ArrayList<Manga> getTopRatedManga(int page) {
-        if (AccountService.isMAL())
-            return malApi.getTopRatedManga(page);
-        else
-            return alApi.getYearManga(Calendar.getInstance().get(Calendar.YEAR), page);
+        return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getYearManga(Calendar.getInstance().get(Calendar.YEAR), page);
     }
 
     public ArrayList<Anime> getJustAddedAnime(int page) {
-        if (AccountService.isMAL())
-            return malApi.getJustAddedAnime(page);
-        else
-            return alApi.getJustAddedAnime(page);
+        return AccountService.isMAL() ? malApi.getJustAddedAnime(page) : alApi.getJustAddedAnime(page);
     }
 
     public ArrayList<Manga> getJustAddedManga(int page) {
-        if (AccountService.isMAL())
-            return malApi.getJustAddedManga(page);
-        else
-            return alApi.getJustAddedManga(page);
+        return AccountService.isMAL() ? malApi.getJustAddedManga(page) : alApi.getJustAddedManga(page);
     }
 
     public ArrayList<Anime> getUpcomingAnime(int page) {
-        if (AccountService.isMAL())
-            return malApi.getUpcomingAnime(page);
-        else
-            return alApi.getUpcomingAnime(page);
+        return AccountService.isMAL() ? malApi.getUpcomingAnime(page) : alApi.getUpcomingAnime(page);
     }
 
     public ArrayList<Manga> getUpcomingManga(int page) {
-        if (AccountService.isMAL())
-            return malApi.getUpcomingManga(page);
-        else
-            return alApi.getUpcomingManga(page);
+        return AccountService.isMAL() ? malApi.getUpcomingManga(page) : alApi.getUpcomingManga(page);
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        if (AccountService.isMAL())
-            return malApi.searchAnime(query, page);
-        else
-            return alApi.searchAnime(query, page);
+        return AccountService.isMAL() ? malApi.searchAnime(query, page) : alApi.searchAnime(query, page);
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        if (AccountService.isMAL())
-            return malApi.searchManga(query, page);
-        else
-            return alApi.searchManga(query, page);
+        return AccountService.isMAL() ? malApi.searchManga(query, page) : alApi.searchManga(query, page);
     }
 
     public ArrayList<Activity> getActivityFromDB(String username) {
