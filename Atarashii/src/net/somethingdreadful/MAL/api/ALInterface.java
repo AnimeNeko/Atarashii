@@ -90,12 +90,12 @@ public interface ALInterface {
     @FormUrlEncoded
     @POST("/animelist")
     Response addAnime(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                      @Field("score") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+                      @Field("score_raw") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
 
     @FormUrlEncoded
     @PUT("/animelist")
     Response updateAnime(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                         @Field("score") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+                         @Field("score_raw") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
 
     @DELETE("/animelist/{anime_id}")
     Response deleteAnime(@Path("anime_id") int anime_id);
@@ -106,12 +106,12 @@ public interface ALInterface {
     @FormUrlEncoded
     @POST("/mangalist")
     Response addManga(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                      @Field("volumes_read") int volumes, @Field("score") float score);
+                      @Field("volumes_read") int volumes, @Field("score_raw") float score);
 
     @FormUrlEncoded
     @PUT("/mangalist")
     Response updateManga(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                         @Field("volumes_read") int volumes, @Field("score") float score);
+                         @Field("volumes_read") int volumes, @Field("score_raw") float score);
 
     @GET("/forum/recent")
     ForumMain getForumRecent();

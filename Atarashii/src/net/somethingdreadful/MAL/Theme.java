@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
@@ -115,13 +116,13 @@ public class Theme extends Application {
      * @param score The score that should be converted
      * @return The string to display
      */
-    public static String convertScore(float score) {
+    public static String getDisplayScore(float score) {
         switch (PrefManager.getScoreType()) {
             case 1:
                 Double score1 = Math.floor(score / 10);
                 return score1 > 0.0 ? String.format("%.0f", score1) : "?";
             case 2:
-                return score > 0.0 ? String.format("%.0f", score) : "?";
+                return score > 0 ? Integer.toString((int) score) : "?";
             case 3:
                 if (score <= 0)
                     return "?";
@@ -149,6 +150,38 @@ public class Theme extends Application {
                 return score5 > 0.0 ? String.format("%.1f", score5) : "?";
             default:
                 return String.format("%.0f", Math.floor(score / 10));
+        }
+    }
+
+    /**
+     * Converts a score to the raw format
+     *
+     * @param score The score that should be converted
+     * @return The raw integer
+     */
+    public static int getRawScore(String score) {
+        switch (PrefManager.getScoreType()) {
+            case 1:
+                return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
+            case 2:
+                return TextUtils.isDigitsOnly(score) ? Integer.parseInt(score) : 0;
+            case 3:
+                return TextUtils.isDigitsOnly(score) ? Integer.parseInt(score) * 20 : 0;
+            case 4:
+                switch (score) {
+                    case ":(":
+                        return 33;
+                    case ":|":
+                        return 67;
+                    case ":)":
+                        return 100;
+                    default:
+                        return 0;
+                }
+            case 5:
+                return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
+            default:
+                return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
     }
 }

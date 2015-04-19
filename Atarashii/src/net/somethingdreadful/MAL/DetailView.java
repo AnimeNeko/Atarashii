@@ -192,7 +192,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * Episode picker dialog
      */
     @Override
-    public void onUpdated(int number, int id, float decimal) {
+    public void onUpdated(int number, int id) {
         switch (id) {
             case R.id.progress1:
                 if (number != animeRecord.getWatchedEpisodes()) {
@@ -210,9 +210,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 break;
             case R.id.scorePanel:
                 if (isAnime())
-                    animeRecord.setScore(decimal);
+                    animeRecord.setScore(number);
                 else
-                    mangaRecord.setScore(decimal);
+                    mangaRecord.setScore(number);
                 break;
             case R.id.priorityPanel:
                 if (isAnime())

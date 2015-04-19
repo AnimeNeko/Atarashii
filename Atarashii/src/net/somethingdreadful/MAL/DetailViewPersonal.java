@@ -154,7 +154,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myStartDate.setText(activity.nullCheck(activity.animeRecord.getWatchingStart()));
             myEndDate.setText(activity.nullCheck(activity.animeRecord.getWatchingEnd()));
 
-            myScore.setText(activity.nullCheck(Theme.convertScore(activity.animeRecord.getScore())));
+            myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.animeRecord.getScore())));
             myStartDate.setText(activity.getDate(activity.animeRecord.getWatchingStart()));
             myEndDate.setText(activity.getDate(activity.animeRecord.getWatchingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.animeRecord.getPriority()));
@@ -181,7 +181,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myStartDate.setText(activity.nullCheck(activity.mangaRecord.getReadingStart()));
             myEndDate.setText(activity.nullCheck(activity.mangaRecord.getReadingEnd()));
 
-            myScore.setText(activity.nullCheck(Theme.convertScore(activity.mangaRecord.getScore())));
+            myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.mangaRecord.getScore())));
             myStartDate.setText(activity.getDate(activity.mangaRecord.getReadingStart()));
             myEndDate.setText(activity.getDate(activity.mangaRecord.getReadingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.mangaRecord.getPriority()));
@@ -230,7 +230,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             case R.id.startDatePanel:
                 Bundle args1 = new Bundle();
                 args1.putBoolean("startDate", true);
-                args1.putString("current", activity.isAnime() ? activity.animeRecord.getWatchingStart() : activity.mangaRecord.getReadingStart() );
+                args1.putString("current", activity.isAnime() ? activity.animeRecord.getWatchingStart() : activity.mangaRecord.getReadingStart());
                 activity.showDialog("startDate", new DatePickerDialogFragment(), args1);
                 break;
             case R.id.endDatePanel:
@@ -241,10 +241,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 break;
             case R.id.scorePanel:
                 Bundle args3 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
-                if (PrefManager.getScoreType() == 1 || PrefManager.getScoreType() == 3)
-                    args3.putInt("current", (int) (activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore()));
-                else
-                    args3.putFloat("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
+                args3.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
                 args3.putInt("max", PrefManager.getScoreType() == 3 ? 5 : 10);
                 activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
                 break;
