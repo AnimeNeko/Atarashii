@@ -43,7 +43,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     Card cardSynopsis;
     Card cardMediainfo;
     Card cardPersonal;
-    Card cardRating;
 
     TextView synopsis;
     TextView mediaType;
@@ -53,10 +52,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     TextView progress1Current;
     TextView progress2Total;
     TextView progress2Current;
-    TextView myScore;
-    TextView MALScore;
-    RatingBar myScoreBar;
-    RatingBar MALScoreBar;
     ImageView image;
 
     @Override
@@ -83,14 +78,12 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
         cardPersonal = (Card) view.findViewById(R.id.personal);
-        cardRating = (Card) view.findViewById(R.id.rating);
 
         // add all the card contents
         cardMain.setContent(R.layout.card_image);
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
-        cardRating.setContent(R.layout.card_detailview_rating);
         cardPersonal.setAllPadding(0, 0, 0, 0);
         cardPersonal.setOnClickListener(R.id.status, this);
         cardPersonal.setOnClickListener(R.id.progress1, this);
@@ -106,18 +99,12 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         progress1Current = (TextView) view.findViewById(R.id.progress1Text2);
         progress2Total = (TextView) view.findViewById(R.id.progress2Text1);
         progress2Current = (TextView) view.findViewById(R.id.progress2Text2);
-        myScore = (TextView) view.findViewById(R.id.MyScoreLabel);
-        MALScore = (TextView) view.findViewById(R.id.MALScoreLabel);
-        myScoreBar = (RatingBar) view.findViewById(R.id.MyScoreBar);
-        MALScoreBar = (RatingBar) view.findViewById(R.id.MALScoreBar);
     }
 
     /*
      * set all the ClickListeners
      */
     public void setListener() {
-        myScoreBar.setOnRatingBarChangeListener(this);
-
         swipeRefresh.setOnRefreshListener(activity);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
@@ -169,10 +156,8 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             if (activity.isAdded()) {
                 status.setText(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
-                cardRating.setBelowof(cardMediainfo, 2, 720);
             } else {
                 cardPersonal.setVisibility(View.GONE);
-                cardRating.setRightof(cardMediainfo, 2, 720);
             }
             mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
@@ -221,26 +206,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         }
 
         if (!activity.isAdded() && record.getMembersScore() == 0) {
-            cardRating.setVisibility(View.GONE);
             cardMediainfo.setWidth(1, 850);
-        } else {
-            if (record.getMembersScore() == 0) {
-                MALScoreBar.setVisibility(View.GONE);
-                MALScore.setVisibility(View.GONE);
-            } else {
-                MALScoreBar.setVisibility(View.VISIBLE);
-                MALScore.setVisibility(View.VISIBLE);
-                MALScoreBar.setRating(record.getMembersScore() / 2);
-            }
-
-            if (activity.isAdded()) {
-                myScore.setVisibility(View.VISIBLE);
-                myScoreBar.setVisibility(View.VISIBLE);
-                myScoreBar.setRating((float) record.getScore() / 2);
-            } else {
-                myScore.setVisibility(View.GONE);
-                myScoreBar.setVisibility(View.GONE);
-            }
         }
 
         Picasso.with(activity)
