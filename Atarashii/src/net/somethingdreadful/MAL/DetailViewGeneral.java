@@ -52,6 +52,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     TextView progress1Current;
     TextView progress2Total;
     TextView progress2Current;
+    TextView myScore;
     ImageView image;
 
     @Override
@@ -88,6 +89,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardPersonal.setOnClickListener(R.id.status, this);
         cardPersonal.setOnClickListener(R.id.progress1, this);
         cardPersonal.setOnClickListener(R.id.progress2, this);
+        cardPersonal.setOnClickListener(R.id.scorePanel, this);
 
         // set all the views
         image = (ImageView) view.findViewById(R.id.Image);
@@ -99,6 +101,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         progress1Current = (TextView) view.findViewById(R.id.progress1Text2);
         progress2Total = (TextView) view.findViewById(R.id.progress2Text1);
         progress2Current = (TextView) view.findViewById(R.id.progress2Text2);
+        myScore = (TextView) view.findViewById(R.id.myScore);
     }
 
     /*
@@ -190,6 +193,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 progress1Total.setText("/?");
             else
                 progress1Total.setText("/" + Integer.toString(activity.animeRecord.getEpisodes()));
+            myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.animeRecord.getScore())));
         } else {
             progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
             if (activity.mangaRecord.getVolumes() == 0)
@@ -203,6 +207,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 progress2Total.setText("/?");
             else
                 progress2Total.setText("/" + Integer.toString(activity.mangaRecord.getChapters()));
+            myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.mangaRecord.getScore())));
         }
 
         if (!activity.isAdded() && record.getMembersScore() == 0) {
@@ -259,19 +264,30 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
     @Override
     public void onCardClickListener(int res) {
-        if (res == R.id.status) {
-            activity.showDialog("statusPicker", new StatusPickerDialogFragment());
-        } else if (res == R.id.progress1 || res == R.id.progress2) {
-            if (activity.type.equals(ListType.ANIME)) {
-                Bundle args = new Bundle();
-                args.putInt("id", R.id.progress1);
-                args.putInt("current", activity.animeRecord.getWatchedEpisodes());
-                args.putInt("max", activity.animeRecord.getEpisodes());
-                args.putString("title", getString(R.string.dialog_title_watched_update));
-                activity.showDialog("episodes", new NumberPickerDialogFragment().setOnSendClickListener(activity), args);
-            } else {
-                activity.showDialog("manga", new MangaPickerDialogFragment());
-            }
+        switch (res) {
+            case R.id.status:
+                activity.showDialog("statusPicker", new StatusPickerDialogFragment());
+                break;
+            case R.id.progress1:
+            case R.id.progress2:
+                if (activity.type.equals(ListType.ANIME)) {
+                    Bundle args = new Bundle();
+                    args.putInt("id", R.id.progress1);
+                    args.putInt("current", activity.animeRecord.getWatchedEpisodes());
+                    args.putInt("max", activity.animeRecord.getEpisodes());
+                    args.putString("title", getString(R.string.dialog_title_watched_update));
+                    activity.showDialog("episodes", new NumberPickerDialogFragment().setOnSendClickListener(activity), args);
+                } else {
+                    activity.showDialog("manga", new MangaPickerDialogFragment());
+                }
+                break;
+            case R.id.scorePanel:
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", R.id.scorePanel);
+                bundle.putString("title", getString(R.string.dialog_title_rating));
+                bundle.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
+                bundle.putInt("max", PrefManager.getScoreType() == 3 ? 5 : 10);
+                activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), bundle);
         }
     }
 }
