@@ -61,6 +61,7 @@ public class Manga extends GenericRecord implements Serializable {
             setMembersScore(manga.average_score);
             setVolumes(manga.total_volumes);
             setChapters(manga.total_chapters);
+            setScore(score_raw, false);
         } else {  // manga details
             setTitle(title_romaji);
             setImageUrl(image_url_lge);

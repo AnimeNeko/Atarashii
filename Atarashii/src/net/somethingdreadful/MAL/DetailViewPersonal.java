@@ -154,7 +154,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myStartDate.setText(activity.nullCheck(activity.animeRecord.getWatchingStart()));
             myEndDate.setText(activity.nullCheck(activity.animeRecord.getWatchingEnd()));
 
-            myScore.setText(activity.nullCheck(activity.animeRecord.getScore()));
+            myScore.setText(activity.nullCheck(Theme.convertScore(activity.animeRecord.getScore())));
             myStartDate.setText(activity.getDate(activity.animeRecord.getWatchingStart()));
             myEndDate.setText(activity.getDate(activity.animeRecord.getWatchingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.animeRecord.getPriority()));
@@ -181,7 +181,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myStartDate.setText(activity.nullCheck(activity.mangaRecord.getReadingStart()));
             myEndDate.setText(activity.nullCheck(activity.mangaRecord.getReadingEnd()));
 
-            myScore.setText(activity.nullCheck(activity.mangaRecord.getScore()));
+            myScore.setText(activity.nullCheck(Theme.convertScore(activity.mangaRecord.getScore())));
             myStartDate.setText(activity.getDate(activity.mangaRecord.getReadingStart()));
             myEndDate.setText(activity.getDate(activity.mangaRecord.getReadingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.mangaRecord.getPriority()));

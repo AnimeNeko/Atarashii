@@ -5,6 +5,8 @@ import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Since;
+import com.google.gson.annotations.Until;
 
 import net.somethingdreadful.MAL.account.AccountService;
 
@@ -26,7 +28,6 @@ public class GenericRecord implements Serializable {
     public static final String STATUS_ONHOLD = "on-hold";
     public static final String STATUS_DROPPED = "dropped";
 
-    // MyAnimeList
     @Setter @Getter private int id;
     @Setter @Getter private String title;
     @Setter @SerializedName("image_url") private String imageUrl;
@@ -37,7 +38,8 @@ public class GenericRecord implements Serializable {
     @Getter private int priority;
     @Getter @SerializedName("personal_comments") private String personalComments;
     @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
-    @Getter private float score = 0.01f; // Anilist got a bug that will cause internal server errors if we pass 0
+    @Getter @Until(2) private float score = 0; // MAL Score
+    @Getter @Since(2) public float score_raw = 0.0f; // AniList score
     @Setter @Getter private int rank;
     @Setter @Getter @SerializedName("members_score") private float membersScore;
     @Setter @Getter @SerializedName("members_count") private int membersCount;

@@ -118,15 +118,37 @@ public class Theme extends Application {
     public static String convertScore(float score) {
         switch (PrefManager.getScoreType()) {
             case 1:
-                return String.format("%.0f", score / 10);
+                Double score1 = Math.floor(score / 10);
+                return score1 > 0.0 ? String.format("%.0f", score1) : "?";
             case 2:
-                return String.format("%.0f", score);
+                return score > 0.0 ? String.format("%.0f", score) : "?";
             case 3:
-                return String.format("%.0f", score / 20);
+                if (score <= 0)
+                    return "?";
+                else if (score <= 29)
+                    return "1";
+                else if (score <= 49)
+                    return "2";
+                else if (score <= 69)
+                    return "3";
+                else if (score <= 89)
+                    return "4";
+                else
+                    return "5";
+            case 4:
+                if (score <= 0)
+                    return "?";
+                else if (score <= 30)
+                    return ":(";
+                else if (score <= 60)
+                    return ":|";
+                else
+                    return ":)";
             case 5:
-                return String.format("%.1f", score / 10);
+                Double score5 = Math.floor(score / 10);
+                return score5 > 0.0 ? String.format("%.1f", score5) : "?";
             default:
-                return String.format("%.0f", score / 10);
+                return String.format("%.0f", Math.floor(score / 10));
         }
     }
 }

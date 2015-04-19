@@ -70,6 +70,7 @@ public class MALApi {
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .setVersion(1)
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()

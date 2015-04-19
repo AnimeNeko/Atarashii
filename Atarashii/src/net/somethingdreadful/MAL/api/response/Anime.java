@@ -86,6 +86,7 @@ public class Anime extends GenericRecord implements Serializable {
             setWatchedEpisodes(episodes_watched, false);
             setWatchedStatus(list_status, false);
             setPersonalComments(notes, false);
+            setScore(score_raw, false);
         } else { // anime details
             setTitle(title_romaji);
             setImageUrl(image_url_lge);
