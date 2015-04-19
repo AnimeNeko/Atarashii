@@ -115,7 +115,7 @@ public class Theme extends Application {
      * @param score The score that should be converted
      * @return The string to display
      */
-    public static String converScore(float score) {
+    public static String convertScore(float score) {
         switch (PrefManager.getScoreType()) {
             case 1:
                 return String.format("%.0f", score / 10);
