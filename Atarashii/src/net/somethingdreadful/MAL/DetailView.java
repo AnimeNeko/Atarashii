@@ -127,10 +127,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         return (number == 0 ? "?" : Integer.toString(number));
     }
 
-    public String nullCheck(float number) {
-        return (number == 0 ? "?" : String.format(PrefManager.getScoreType() == 5 ? "%.1f" : "%.0f", number));
-    }
-
     public String getDate(String string) {
         return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, this, false));
     }
@@ -196,7 +192,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * Episode picker dialog
      */
     @Override
-    public void onUpdated(int number, int id, float decimal) {
+    public void onUpdated(int number, int id) {
         switch (id) {
             case R.id.progress1:
                 if (number != animeRecord.getWatchedEpisodes()) {
@@ -214,9 +210,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 break;
             case R.id.scorePanel:
                 if (isAnime())
-                    animeRecord.setScore(decimal);
+                    animeRecord.setScore(number);
                 else
-                    mangaRecord.setScore(decimal);
+                    mangaRecord.setScore(number);
                 break;
             case R.id.priorityPanel:
                 if (isAnime())

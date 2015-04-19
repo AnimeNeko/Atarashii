@@ -86,6 +86,7 @@ public class Anime extends GenericRecord implements Serializable {
             setWatchedEpisodes(episodes_watched, false);
             setWatchedStatus(list_status, false);
             setPersonalComments(notes, false);
+            setScore(score_raw, false);
         } else { // anime details
             setTitle(title_romaji);
             setImageUrl(image_url_lge);
@@ -114,7 +115,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")), false);
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
-        result.setScore(c.getFloat(columnNames.indexOf("myScore")), false);
+        result.setScore(c.getInt(columnNames.indexOf("myScore")), false);
         result.setSynopsis(c.getString(columnNames.indexOf("synopsis")));
         result.setImageUrl(c.getString(columnNames.indexOf("imageUrl")));
         if (!c.isNull(columnNames.indexOf("dirty"))) {

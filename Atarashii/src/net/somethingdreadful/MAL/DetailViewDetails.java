@@ -216,7 +216,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         }
 
         if (!AccountService.isMAL())
-            score.setText(Theme.converScore(record.getMembersScore()));
+            score.setText(Theme.getDisplayScore(record.getMembersScore()));
         else
             score.setText(Float.toString(record.getMembersScore()));
         ranked.setText(Integer.toString(record.getRank()));

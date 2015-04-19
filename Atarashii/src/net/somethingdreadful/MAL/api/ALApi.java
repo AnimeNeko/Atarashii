@@ -55,6 +55,7 @@ public class ALApi {
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .setVersion(2)
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
