@@ -38,7 +38,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
             numberPicker.setValue(current);
             numberInput.setVisibility(View.GONE);
         } else {
-            numberInput.setText(PrefManager.getScoreType() == 4 ? Theme.getDisplayScore(current) : Float.toString(current));
+            numberInput.setText(Theme.getDisplayScore(current));
             if (PrefManager.getScoreType() == 4)
                 numberInput.setInputType(InputType.TYPE_CLASS_TEXT);
             numberPicker.setVisibility(View.GONE);
