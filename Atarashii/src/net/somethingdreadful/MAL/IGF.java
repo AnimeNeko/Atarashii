@@ -46,8 +46,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import butterknife.InjectView;
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
@@ -59,9 +59,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     ListViewAdapter<GenericRecord> ga;
     ArrayList<GenericRecord> gl = new ArrayList<>();
 
-    @InjectView(R.id.gridview) GridView Gridview;
-    @InjectView(R.id.viewFlipper) ViewFlipper viewflipper;
-    @InjectView(R.id.swiperefresh) SwipeRefreshLayout swipeRefresh;
+    @InjectView(R.id.gridview)
+    GridView Gridview;
+    @InjectView(R.id.viewFlipper)
+    ViewFlipper viewflipper;
+    @InjectView(R.id.swiperefresh)
+    SwipeRefreshLayout swipeRefresh;
 
     RecordStatusUpdatedReceiver recordStatusReceiver;
 
@@ -190,7 +193,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
     /**
      * Add +1 episode/volume/chapters to the anime/manga.
-     *
+     * <p/>
      * Use null if the other record isn't available
      *
      * @param anime The Anime record that should increase by one
@@ -223,7 +226,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
     /**
      * Mark the anime/manga as completed.
-     *
+     * <p/>
      * Use null if the other record isn't available
      *
      * @param anime The Anime record that should be marked as complete
@@ -250,9 +253,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param show If true then the IGF will show the indiacator
      */
     private void toggleLoadingIndicator(boolean show) {
-        if (viewflipper != null) {
+        if (viewflipper != null)
             viewflipper.setDisplayedChild(show ? 1 : 0);
-        }
     }
 
     /**
@@ -261,9 +263,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param show If true then the IGF will show the animation
      */
     public void toggleSwipeRefreshAnimation(boolean show) {
-        if (swipeRefresh != null) {
+        if (swipeRefresh != null)
             swipeRefresh.setRefreshing(show);
-        }
     }
 
     /**
@@ -273,9 +274,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void setSwipeRefreshEnabled(boolean enabled) {
         swipeRefreshEnabled = enabled;
-        if (swipeRefresh != null) {
+        if (swipeRefresh != null)
             swipeRefresh.setEnabled(enabled);
-        }
     }
 
     private APIAuthenticationErrorListener getAuthErrorCallback() {
@@ -290,12 +290,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param list  Which list type should be shown (completed, dropped, in progress...)
      */
     public void getRecords(boolean clear, TaskJob task, int list) {
-        if (task != null) {
+        if (task != null)
             taskjob = task;
-        }
-        if (list != this.list) {
+        if (list != this.list)
             this.list = list;
-        }
         /* only show loading indicator if
          * - is not own list and on page 1
          * - force sync and list is empty (only show swipe refresh animation if not empty)
@@ -314,9 +312,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (clear) {
                 resetPage();
                 gl.clear();
-                if (ga == null) {
+                if (ga == null)
                     setAdapter();
-                }
                 ga.clear();
             }
             Bundle data = new Bundle();
@@ -325,9 +322,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             ArrayList<String> args = new ArrayList<String>();
             if (!username.equals("") && isList()) {
                 args.add(username);
-                if (isList()) {
+                if (isList())
                     args.add(MALManager.listSortFromInt(list, listType));
-                }
             } else {
                 args.add(query);
             }
@@ -395,11 +391,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Theme.Snackbar(activity, R.string.toast_error_Search);
                 } else {
-                    if (listType.equals(ListType.ANIME)) {
+                    if (listType.equals(ListType.ANIME))
                         Theme.Snackbar(activity, R.string.toast_error_Anime_Sync);
-                    } else {
+                    else
                         Theme.Snackbar(activity, R.string.toast_error_Manga_Sync);
-                    }
                 }
             } else {
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
@@ -477,11 +472,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         if (!cancelled || job.equals(TaskJob.FORCESYNC)) { // forced sync tasks are completed even after cancellation
             ArrayList resultList;
             try {
-                if (type == ListType.ANIME) {
+                if (type == ListType.ANIME)
                     resultList = (ArrayList<Anime>) result;
-                } else {
+                else
                     resultList = (ArrayList<Manga>) result;
-                }
             } catch (ClassCastException e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
                 Crashlytics.logException(e);
