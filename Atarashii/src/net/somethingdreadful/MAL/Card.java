@@ -112,6 +112,11 @@ public class Card extends RelativeLayout {
         }
     }
 
+    /**
+     * Loop to apply themes on cards
+     *
+     * @param view The view that should be themed.
+     */
     private void initLoop(RelativeLayout view) {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
