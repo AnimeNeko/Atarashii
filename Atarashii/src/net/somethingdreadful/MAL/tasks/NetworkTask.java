@@ -137,7 +137,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
              * there was no error
              */
             if (taskResult == null && !job.equals(TaskJob.GETDETAILS) && !job.equals(TaskJob.GET))
-                taskResult = isAnimeTask() ? new ArrayList<Anime>() : new ArrayList<Manga>();
+                taskResult = isAnimeTask() ? new ArrayList<>() : new ArrayList<>();
         } catch (RetrofitError re) {
             if (re.getResponse() != null) {
                 /* Search and Toplist API's are returning an 404 status code if nothing is found (nothing
@@ -146,7 +146,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                  */
                 if (re.getResponse().getStatus() == 404 && (job.equals(TaskJob.SEARCH) || job.equals(TaskJob.GETJUSTADDED) ||
                         job.equals(TaskJob.GETMOSTPOPULAR) || job.equals(TaskJob.GETTOPRATED) || job.equals(TaskJob.GETUPCOMING))) {
-                    taskResult = new ArrayList<Anime>();
+                    taskResult = new ArrayList<>();
                 } else {
                     Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
                     // Authentication failed, fire callback!

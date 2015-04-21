@@ -425,7 +425,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * Get the anime or manga genre translations
      */
     public ArrayList<String> getGenresString(ArrayList<Integer> genresInt) {
-        ArrayList<String> genres = new ArrayList<String>();
+        ArrayList<String> genres = new ArrayList<>();
         for (Integer genreInt : genresInt) {
             genres.add(getStringFromResourceArray(R.array.genresArray, R.string.unknown, genreInt));
         }

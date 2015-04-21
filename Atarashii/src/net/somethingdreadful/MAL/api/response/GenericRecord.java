@@ -79,7 +79,7 @@ public class GenericRecord implements Serializable {
 
     public void addDirtyField(String field) {
         if (dirty == null) {
-            dirty = new ArrayList<String>();
+            dirty = new ArrayList<>();
         }
         if (!dirty.contains((field))) {
             dirty.add(field);
@@ -159,7 +159,7 @@ public class GenericRecord implements Serializable {
     }
 
     public void setPersonalTags(String tag) {
-        ArrayList<String> tags = new ArrayList<String>();
+        ArrayList<String> tags = new ArrayList<>();
         Collections.addAll(tags, TextUtils.split(tag, ","));
         setPersonalTags(tags, true);
     }

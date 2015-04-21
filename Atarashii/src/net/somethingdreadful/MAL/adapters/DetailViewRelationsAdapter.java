@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     public Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<String, ArrayList<RecordStub>>();
-    public ArrayList<String> headers = new ArrayList<String>();
+    public ArrayList<String> headers = new ArrayList<>();
     public int visable;
     ViewHolder viewHolder;
     private Context context;
