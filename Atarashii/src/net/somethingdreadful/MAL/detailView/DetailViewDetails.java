@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.detailView;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,6 +14,10 @@ import android.widget.ExpandableListView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.DetailView;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 import net.somethingdreadful.MAL.api.MALApi;

@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.detailView;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.DetailView;
+import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;

@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.detailView;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -20,6 +20,11 @@ import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.DetailView;
+import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.GenericRecord;

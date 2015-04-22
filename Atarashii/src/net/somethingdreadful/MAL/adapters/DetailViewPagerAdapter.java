@@ -5,9 +5,9 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.DetailView;
-import net.somethingdreadful.MAL.DetailViewDetails;
-import net.somethingdreadful.MAL.DetailViewGeneral;
-import net.somethingdreadful.MAL.DetailViewPersonal;
+import net.somethingdreadful.MAL.detailView.DetailViewDetails;
+import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
+import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.R;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
