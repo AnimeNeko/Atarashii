@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,7 +29,7 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
 
-public class DetailViewGeneral extends Fragment implements Serializable, OnRatingBarChangeListener, Card.onCardClickListener {
+public class DetailViewGeneral extends Fragment implements Serializable, Card.onCardClickListener {
 
     public SwipeRefreshLayout swipeRefresh;
     Menu menu;
@@ -137,11 +135,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 menu.findItem(R.id.action_Remove).setVisible(false);
                 menu.findItem(R.id.action_addToList).setVisible(true);
             }
-            if (MALApi.isNetworkAvailable(activity) && menu.findItem(R.id.action_Remove).isVisible()) {
-                menu.findItem(R.id.action_Remove).setVisible(true);
-            } else {
-                menu.findItem(R.id.action_Remove).setVisible(false);
-            }
+            menu.findItem(R.id.action_Remove).setVisible(MALApi.isNetworkAvailable(activity) && menu.findItem(R.id.action_Remove).isVisible());
         }
     }
 
@@ -179,9 +173,8 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         activity.hidePersonal(!activity.isAdded() || record.getSynopsis() == null);
 
         if (record.getSynopsis() == null) {
-            if (!MALApi.isNetworkAvailable(activity)) {
+            if (!MALApi.isNetworkAvailable(activity))
                 synopsis.setText(getString(R.string.toast_error_noConnectivity));
-            }
         } else {
             synopsis.setMovementMethod(LinkMovementMethod.getInstance());
             synopsis.setText(record.getSpannedSynopsis());
@@ -189,30 +182,18 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
 
         if (activity.type.equals(ListType.ANIME)) {
             progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
-            if (activity.animeRecord.getEpisodes() == 0)
-                progress1Total.setText("/?");
-            else
-                progress1Total.setText("/" + Integer.toString(activity.animeRecord.getEpisodes()));
+            progress1Total.setText(activity.animeRecord.getEpisodes() == 0 ? "/?" : "/" + Integer.toString(activity.animeRecord.getEpisodes()));
             myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.animeRecord.getScore())));
         } else {
             progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
-            if (activity.mangaRecord.getVolumes() == 0)
-                progress1Total.setText("/?");
-            else
-                progress1Total.setText("/" + Integer.toString(activity.mangaRecord.getVolumes()));
-
+            progress1Total.setText(activity.mangaRecord.getVolumes() == 0 ? "/?" : "/" + Integer.toString(activity.mangaRecord.getVolumes()));
             progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
-
-            if (activity.mangaRecord.getChapters() == 0)
-                progress2Total.setText("/?");
-            else
-                progress2Total.setText("/" + Integer.toString(activity.mangaRecord.getChapters()));
+            progress2Total.setText(activity.mangaRecord.getChapters() == 0 ? "/?" : "/" + Integer.toString(activity.mangaRecord.getChapters()));
             myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.mangaRecord.getScore())));
         }
 
-        if (!activity.isAdded() && record.getMembersScore() == 0) {
+        if (!activity.isAdded() && record.getMembersScore() == 0)
             cardMediainfo.setWidth(1, 850);
-        }
 
         Picasso.with(activity)
                 .load(record.getImageUrl())
@@ -244,22 +225,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardMain.Header.setText(record.getTitle());
 
         setCard();
-    }
-
-    @Override
-    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        if (fromUser) {
-            if (activity.type.equals(ListType.ANIME)) {
-                if (activity.animeRecord != null) {
-                    activity.animeRecord.setScore((int) (rating * 2));
-                }
-            } else {
-                if (activity.mangaRecord != null) {
-                    activity.mangaRecord.setScore((int) (rating * 2));
-                }
-            }
-            activity.setText();
-        }
     }
 
     @Override
