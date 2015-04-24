@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.forum;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,7 +88,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
             toggle(true);
         this.page = page;
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.POSTS, id).execute(Integer.toString(page));
+            new ForumNetworkTask(activity, this, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page));
     }
 
     /**

@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -206,7 +207,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     anime.setRewatching(false);
                 }
             }
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts)) {
@@ -216,7 +217,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     manga.setRereading(false);
                 }
             }
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -235,11 +236,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -321,7 +322,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
-            cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
             if (!username.equals("") && isList()) {
@@ -332,7 +332,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             } else {
                 args.add(query);
             }
-            networkTask.execute(args.toArray(new String[args.size()]));
+            networkTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "IGF.getRecords(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -436,14 +436,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     private boolean jobReturnsPagedResults(TaskJob job) {
         return !isList(job);
-    }
-
-    /**
-     * Cancel the networktask.
-     */
-    public void cancelNetworkTask() {
-        if (networkTask != null)
-            networkTask.cancelTask();
     }
 
     /**

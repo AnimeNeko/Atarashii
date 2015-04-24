@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -92,9 +93,9 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         dialog.setMessage(getString(R.string.dialog_message_Verifying));
         dialog.show();
         if (MalPass != null)
-            new AuthenticationCheckTask(this).execute(MalUser, MalPass);
+            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
         else
-            new AuthenticationCheckTask(this).execute(MalUser);
+            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
     }
 
     @Override

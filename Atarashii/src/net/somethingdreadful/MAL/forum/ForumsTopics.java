@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.forum;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,7 +115,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         toggle(1);
         topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).execute(query);
+            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
         else
             toggle(2);
         return ForumJob.SEARCH;
@@ -132,7 +133,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, task, id).execute(Integer.toString(page), type.toString());
+            new ForumNetworkTask(activity, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
         else
             toggle(2);
     }

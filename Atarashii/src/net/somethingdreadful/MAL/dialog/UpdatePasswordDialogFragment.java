@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -71,7 +72,7 @@ public class UpdatePasswordDialogFragment extends DialogFragment implements Auth
                 if (!getPassword().equals("")) {
                     passwordWrongText.setVisibility(View.GONE);
                     toggleLoadingIndicator(true);
-                    new AuthenticationCheckTask(UpdatePasswordDialogFragment.this).execute(AccountService.getUsername(), getPassword());
+                    new AuthenticationCheckTask(UpdatePasswordDialogFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, AccountService.getUsername(), getPassword());
                 }
             }
         });

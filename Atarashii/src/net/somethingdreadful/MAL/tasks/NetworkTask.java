@@ -26,7 +26,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     NetworkTaskCallbackListener callback;
     APIAuthenticationErrorListener authErrorCallback;
     Object taskResult;
-    boolean cancelled = false;
     TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
             TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH};
 
@@ -184,34 +183,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             return isArrayList() ? new ArrayList<>() : null;
         }
         return taskResult;
-    }
-
-    /* own cancel implementation, reason:
-     * Force syncs should always complete in the background, even if the user switched to an other
-     * list. If the user switches list to fast, the doInBackground function won't be called at all
-     * because it is not guaranteed that both NetworkTasks (anime/manga) are running parallel. So
-     * do a "soft-cancel" for FORCESYNC: don't cancel, but set cancelled to true so it can be set
-     * in the callback to prevent updating the view with wrong entries.
-     *
-     * This "workaround" can be removed once we drop API level < 11, because then we can run the
-     * tasks parallel (with AsyncTasks THREAD_POOL_EXECUTOR). This makes sure both NetworkTasks are
-     * running parallel.
-     */
-    public boolean cancelTask() {
-        if (!job.equals(TaskJob.FORCESYNC))
-            return cancel(true);
-        else {
-            cancelled = true;
-            return true;
-        }
-    }
-
-    /* this one is called if the task is cancelled and the device API-level is < 11
-     * TODO: when those old targets are dropped: remove this and make taskResult a local variable of doInBackground()
-     */
-    @Override
-    protected void onCancelled() {
-        doCallback(taskResult, true);
     }
 
     @Override

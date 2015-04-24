@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.forum;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,7 +80,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
      */
     private void getRecords() {
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.BOARD, 0).execute();
+            new ForumNetworkTask(activity, this, ForumJob.BOARD, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         else
             toggle(2);
     }

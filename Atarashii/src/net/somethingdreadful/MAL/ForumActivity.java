@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -289,9 +290,9 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
     @Override
     public void onSendClicked(String message, String subject, ForumJob task, int id) {
         if (task == ForumJob.ADDTOPIC && !message.equals("") && !subject.equals(""))
-            new ForumNetworkTask(this, this, task, id).execute(subject, message);
+            new ForumNetworkTask(this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subject, message);
         else if (!message.equals(""))
-            new ForumNetworkTask(this, this, task, id).execute(message);
+            new ForumNetworkTask(this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, message);
     }
 
     @Override

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -50,7 +51,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             record = (User) getIntent().getExtras().get("user");
         } else {
             refreshing(true);
-            new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"), getIntent().getStringExtra("username"));
+            new UserNetworkTask(context, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"), getIntent().getStringExtra("username"));
         }
 
         NfcHelper.disableBeam(this);
@@ -157,7 +158,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             username = record.getName();
         else
             username = getIntent().getStringExtra("username");
-        new UserNetworkTask(context, true, this).execute(username, username);
+        new UserNetworkTask(context, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
     }
 
     public void setDetails(ProfileDetailsMAL details) {
