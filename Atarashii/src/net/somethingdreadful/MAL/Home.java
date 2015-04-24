@@ -53,32 +53,27 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
     IGF af;
     IGF mf;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
-     * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
-     * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    IGFPagerAdapter mIGFPagerAdapter;
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    ViewPager mViewPager;
-    Context context;
     Menu menu;
-    BroadcastReceiver networkReceiver;
-    DrawerLayout DrawerLayout;
-    ListView DrawerList;
-    ActionBarDrawerToggle mDrawerToggle;
+    Context context;
     View mPreviousView;
     ActionBar actionBar;
+    DrawerLayout DrawerLayout;
+    IGFPagerAdapter mIGFPagerAdapter;
+    BroadcastReceiver networkReceiver;
+    ActionBarDrawerToggle mDrawerToggle;
     NavigationDrawerAdapter mNavigationDrawerAdapter;
-    RelativeLayout logout;
-    RelativeLayout settings;
-    RelativeLayout about;
+
+    @InjectView(R.id.about) RelativeLayout about;
+    @InjectView(R.id.pager) ViewPager mViewPager;
+    @InjectView(R.id.listview) ListView DrawerList;
+    @InjectView(R.id.logout) RelativeLayout logout;
+    @InjectView(R.id.settings) RelativeLayout settings;
+
     String username;
 
     boolean instanceExists;
@@ -101,9 +96,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             //The following is state handling code
             instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
             networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-            if (savedInstanceState != null) {
+            if (savedInstanceState != null)
                 myList = savedInstanceState.getBoolean("myList");
-            }
 
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
@@ -111,6 +105,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            ButterKnife.inject(this);
+
             DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
             username = AccountService.getUsername();
@@ -118,9 +114,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
             new UserNetworkTask(context, false, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
-            logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);
-            settings = (RelativeLayout) DrawerLayout.findViewById(R.id.settings);
-            about = (RelativeLayout) DrawerLayout.findViewById(R.id.about);
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);
             about.setOnClickListener(this);
@@ -136,8 +129,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
             }
 
-            DrawerList = (ListView) DrawerLayout.findViewById(R.id.listview);
-
             NavigationItems mNavigationContent = new NavigationItems(DrawerList, context);
             mNavigationDrawerAdapter = new NavigationDrawerAdapter(this, mNavigationContent.ITEMS);
             DrawerList.setAdapter(mNavigationDrawerAdapter);
@@ -148,7 +139,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             mDrawerToggle.syncState();
 
             // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
             mViewPager.setOnPageChangeListener(this);

@@ -35,33 +35,63 @@ import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    Context context;
     View view;
     Card imagecard;
     Card animecard;
     Card mangacard;
-    public SwipeRefreshLayout swipeRefresh;
-    ProgressBar progressBar;
-    Card networkCard;
-
+    Context context;
     private ProfileActivity activity;
+
+    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @InjectView(R.id.progressBar) ProgressBar progressBar;
+    @InjectView(R.id.network_Card) Card networkCard;
+
+    @InjectView(R.id.birthdaysmall) TextView tv1;
+    @InjectView(R.id.locationsmall) TextView tv2;
+    @InjectView(R.id.commentspostssmall) TextView tv3;
+    @InjectView(R.id.forumpostssmall) TextView tv4;
+    @InjectView(R.id.lastonlinesmall) TextView tv5;
+    @InjectView(R.id.gendersmall) TextView tv6;
+    @InjectView(R.id.joindatesmall) TextView tv7;
+    @InjectView(R.id.accessranksmall) TextView tv8;
+    @InjectView(R.id.animelistviewssmall) TextView tv9;
+    @InjectView(R.id.mangalistviewssmall) TextView tv10;
+    @InjectView(R.id.atimedayssmall) TextView tv11;
+    @InjectView(R.id.awatchingsmall) TextView tv12;
+    @InjectView(R.id.acompletedpostssmall) TextView tv13;
+    @InjectView(R.id.aonholdsmall) TextView tv14;
+    @InjectView(R.id.adroppedsmall) TextView tv15;
+    @InjectView(R.id.aplantowatchsmall) TextView tv16;
+    @InjectView(R.id.atotalentriessmall) TextView tv17;
+    @InjectView(R.id.mtimedayssmall) TextView tv18;
+    @InjectView(R.id.mwatchingsmall) TextView tv19;
+    @InjectView(R.id.mcompletedpostssmall) TextView tv20;
+    @InjectView(R.id.monholdsmall) TextView tv21;
+    @InjectView(R.id.mdroppedsmall) TextView tv22;
+    @InjectView(R.id.mplantowatchsmall) TextView tv23;
+    @InjectView(R.id.mtotalentriessmall) TextView tv24;
+    @InjectView(R.id.websitesmall) TextView tv25;
+    @InjectView(R.id.websitefront) TextView tv26;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_mal, container, false);
 
         imagecard = ((Card) view.findViewById(R.id.name_card));
+        animecard = (Card) view.findViewById(R.id.Anime_card);
+        mangacard = (Card) view.findViewById(R.id.Manga_card);
+
+        ButterKnife.inject(this, view);
+
         imagecard.setContent(R.layout.card_image);
         ((Card) view.findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
-        animecard = (Card) view.findViewById(R.id.Anime_card);
         animecard.setContent(R.layout.card_profile_anime);
-        mangacard = (Card) view.findViewById(R.id.Manga_card);
         mangacard.setContent(R.layout.card_profile_manga);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
 
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
@@ -91,18 +121,15 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void card() { //settings for hide a card and text userprofile
-        if (PrefManager.getHideAnime()) {
+        if (PrefManager.getHideAnime())
             animecard.setVisibility(View.GONE);
-        }
-        if (PrefManager.getHideManga()) {
+        if (PrefManager.getHideManga())
             mangacard.setVisibility(View.GONE);
-        }
-        if (activity.record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
+        if (activity.record.getProfile().getMangaStats().getTotalEntries() < 1)  //if manga (total entry) is beneath the int then hide
             mangacard.setVisibility(View.GONE);
-        }
-        if (activity.record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
+        if (activity.record.getProfile().getAnimeStats().getTotalEntries() < 1)  //if anime (total entry) is beneath the int then hide
             animecard.setVisibility(View.GONE);
-        }
+
         Card namecard = (Card) view.findViewById(R.id.name_card);
         namecard.Header.setText(WordUtils.capitalize(activity.record.getName()));
     }
@@ -140,9 +167,8 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
             textview = (TextView) view.findViewById(R.id.mtimedayssmall); // manga
             Hue = (int) (activity.record.getProfile().getMangaStats().getTimeDays() * 5);
         }
-        if (Hue > 359) {
+        if (Hue > 359)
             Hue = 359;
-        }
         textview.setTextColor(Color.HSVToColor(new float[]{Hue, 1, (float) 0.7}));
     }
 
@@ -171,81 +197,53 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void setText() {
-        TextView tv1 = (TextView) view.findViewById(R.id.birthdaysmall);
         if (activity.record.getProfile().getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {
             String birthday = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getBirthday(), activity, false);
             tv1.setText(birthday.equals("") ? activity.record.getProfile().getDetails().getBirthday() : birthday);
         }
-        TextView tv2 = (TextView) view.findViewById(R.id.locationsmall);
-        if (activity.record.getProfile().getDetails().getLocation() == null) {
+        if (activity.record.getProfile().getDetails().getLocation() == null)
             tv2.setText(R.string.not_specified);
-        } else {
+         else
             tv2.setText(activity.record.getProfile().getDetails().getLocation());
-        }
-        TextView tv25 = (TextView) view.findViewById(R.id.websitesmall);
-        TextView tv26 = (TextView) view.findViewById(R.id.websitefront);
-        Card tv36 = (Card) view.findViewById(R.id.details_card);
         if (activity.record.getProfile().getDetails().getWebsite() != null && activity.record.getProfile().getDetails().getWebsite().contains("http://") && activity.record.getProfile().getDetails().getWebsite().contains(".")) { // filter fake websites
             tv25.setText(activity.record.getProfile().getDetails().getWebsite().replace("http://", ""));
         } else {
             tv25.setVisibility(View.GONE);
             tv26.setVisibility(View.GONE);
         }
-        TextView tv3 = (TextView) view.findViewById(R.id.commentspostssmall);
         tv3.setText(String.valueOf(activity.record.getProfile().getDetails().getComments()));
-        TextView tv4 = (TextView) view.findViewById(R.id.forumpostssmall);
         tv4.setText(String.valueOf(activity.record.getProfile().getDetails().getForumPosts()));
-        TextView tv5 = (TextView) view.findViewById(R.id.lastonlinesmall);
         if (activity.record.getProfile().getDetails().getLastOnline() != null) {
             String lastOnline = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getLastOnline(), activity, true);
             tv5.setText(lastOnline.equals("") ? activity.record.getProfile().getDetails().getLastOnline() : lastOnline);
         } else
             tv5.setText("-");
-        TextView tv6 = (TextView) view.findViewById(R.id.gendersmall);
         tv6.setText(getStringFromResourceArray(R.array.gender, R.string.not_specified, activity.record.getProfile().getDetails().getGenderInt()));
-        TextView tv7 = (TextView) view.findViewById(R.id.joindatesmall);
         if (activity.record.getProfile().getDetails().getJoinDate() != null) {
             String joinDate = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getJoinDate(), activity, false);
             tv7.setText(joinDate.equals("") ? activity.record.getProfile().getDetails().getJoinDate() : joinDate);
         } else
             tv7.setText("-");
-        TextView tv8 = (TextView) view.findViewById(R.id.accessranksmall);
         tv8.setText(activity.record.getProfile().getDetails().getAccessRank());
-        TextView tv9 = (TextView) view.findViewById(R.id.animelistviewssmall);
         tv9.setText(String.valueOf(activity.record.getProfile().getDetails().getAnimeListViews()));
-        TextView tv10 = (TextView) view.findViewById(R.id.mangalistviewssmall);
         tv10.setText(String.valueOf(activity.record.getProfile().getDetails().getMangaListViews()));
 
-        TextView tv11 = (TextView) view.findViewById(R.id.atimedayssmall);
         tv11.setText(activity.record.getProfile().getAnimeStats().getTimeDays().toString());
-        TextView tv12 = (TextView) view.findViewById(R.id.awatchingsmall);
         tv12.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getWatching()));
-        TextView tv13 = (TextView) view.findViewById(R.id.acompletedpostssmall);
         tv13.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getCompleted()));
-        TextView tv14 = (TextView) view.findViewById(R.id.aonholdsmall);
         tv14.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getOnHold()));
-        TextView tv15 = (TextView) view.findViewById(R.id.adroppedsmall);
         tv15.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getDropped()));
-        TextView tv16 = (TextView) view.findViewById(R.id.aplantowatchsmall);
         tv16.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getPlanToWatch()));
-        TextView tv17 = (TextView) view.findViewById(R.id.atotalentriessmall);
         tv17.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getTotalEntries()));
 
-        TextView tv18 = (TextView) view.findViewById(R.id.mtimedayssmall);
         tv18.setText(activity.record.getProfile().getMangaStats().getTimeDays().toString());
-        TextView tv19 = (TextView) view.findViewById(R.id.mwatchingsmall);
         tv19.setText(String.valueOf(activity.record.getProfile().getMangaStats().getReading()));
-        TextView tv20 = (TextView) view.findViewById(R.id.mcompletedpostssmall);
         tv20.setText(String.valueOf(activity.record.getProfile().getMangaStats().getCompleted()));
-        TextView tv21 = (TextView) view.findViewById(R.id.monholdsmall);
         tv21.setText(String.valueOf(activity.record.getProfile().getMangaStats().getOnHold()));
-        TextView tv22 = (TextView) view.findViewById(R.id.mdroppedsmall);
         tv22.setText(String.valueOf(activity.record.getProfile().getMangaStats().getDropped()));
-        TextView tv23 = (TextView) view.findViewById(R.id.mplantowatchsmall);
         tv23.setText(String.valueOf(activity.record.getProfile().getMangaStats().getPlanToRead()));
-        TextView tv24 = (TextView) view.findViewById(R.id.mtotalentriessmall);
         tv24.setText(String.valueOf(activity.record.getProfile().getMangaStats().getTotalEntries()));
     }
 

@@ -27,6 +27,9 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedListener {
     ForumActivity activity;
     View view;
@@ -34,29 +37,23 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
     ForumMainAdapter myanimelistAdapter;
     ForumMainAdapter animemangaAdapter;
     ForumMainAdapter generalAdapter;
-    ProgressBar progressBar;
-    ScrollView content;
-    Card networkCard;
-    ListView myAnimeList;
-    ListView animeManga;
-    ListView general;
+
+    @InjectView(R.id.general) ListView general;
+    @InjectView(R.id.scrollView) ScrollView content;
+    @InjectView(R.id.animemanga) ListView animeManga;
+    @InjectView(R.id.myanimelist) ListView myAnimeList;
+    @InjectView(R.id.network_Card) Card networkCard;
+    @InjectView(R.id.progressBar) ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_main, container, false);
-
-        myAnimeList = (ListView) view.findViewById(R.id.myanimelist);
-        animeManga = (ListView) view.findViewById(R.id.animemanga);
-        general = (ListView) view.findViewById(R.id.general);
+        ButterKnife.inject(this, view);
 
         myanimelistAdapter = new ForumMainAdapter(activity, myAnimeList, getFragmentManager(), ForumJob.BOARD);
         animemangaAdapter = new ForumMainAdapter(activity, animeManga, getFragmentManager(), ForumJob.BOARD);
         generalAdapter = new ForumMainAdapter(activity, general, getFragmentManager(), ForumJob.BOARD);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
-        content = (ScrollView) view.findViewById(R.id.scrollView);
 
         toggle(1);
         setListener();

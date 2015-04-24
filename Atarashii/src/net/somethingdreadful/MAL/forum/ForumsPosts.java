@@ -24,23 +24,28 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener {
-    public int id;
-    public ForumMain record;
-    ForumActivity activity;
-    HtmlUtil htmlUtil;
     View view;
-    WebView webview;
+    HtmlUtil htmlUtil;
+    ForumActivity activity;
+    public ForumMain record;
+
+    @InjectView(R.id.webview) WebView webview;
+    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+
+    public int id;
     public int page = 0;
-    ViewFlipper viewFlipper;
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
-        webview = (WebView) view.findViewById(R.id.webview);
-        viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
+        ButterKnife.inject(this, view);
+
         htmlUtil = new HtmlUtil(activity);
 
         if (bundle != null && bundle.getSerializable("posts") != null) {

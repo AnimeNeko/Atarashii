@@ -27,33 +27,29 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
-    EditText malUser;
-    EditText malPass;
     String MalUser;
     String MalPass;
-    ProgressDialog dialog;
     Context context;
-    ViewFlipper viewFlipper;
-    Button connectButton;
-    Button registerButton;
-    WebView webview;
-    TextView myanimelist;
-    TextView anilist;
+    ProgressDialog dialog;
+
+    @InjectView(R.id.edittext_malUser) EditText malUser;
+    @InjectView(R.id.edittext_malPass) EditText malPass;
+    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @InjectView(R.id.button_connectToMal) Button connectButton;
+    @InjectView(R.id.registerButton) Button registerButton;
+    @InjectView(R.id.webview) WebView webview;
+    @InjectView(R.id.myanimelist) TextView myanimelist;
+    @InjectView(R.id.anilist) TextView anilist;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
-
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        malUser = (EditText) findViewById(R.id.edittext_malUser);
-        malPass = (EditText) findViewById(R.id.edittext_malPass);
-        connectButton = (Button) findViewById(R.id.button_connectToMal);
-        registerButton = (Button) findViewById(R.id.registerButton);
-        webview = (WebView) findViewById(R.id.webview);
-        myanimelist = (TextView) findViewById(R.id.myanimelist);
-        anilist = (TextView) findViewById(R.id.anilist);
+        ButterKnife.inject(this);
 
         context = getApplicationContext();
 

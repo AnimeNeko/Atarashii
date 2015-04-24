@@ -34,29 +34,30 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
 
-public class DetailViewGeneral extends Fragment implements Serializable, Card.onCardClickListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-    public SwipeRefreshLayout swipeRefresh;
+public class DetailViewGeneral extends Fragment implements Serializable, Card.onCardClickListener {
+    View view;
     Menu menu;
     DetailView activity;
-
-    View view;
+    public SwipeRefreshLayout swipeRefresh;
 
     Card cardMain;
     Card cardSynopsis;
     Card cardMediainfo;
     Card cardPersonal;
 
-    TextView synopsis;
-    TextView mediaType;
-    TextView mediaStatus;
-    TextView status;
-    TextView progress1Total;
-    TextView progress1Current;
-    TextView progress2Total;
-    TextView progress2Current;
-    TextView myScore;
-    ImageView image;
+    @InjectView(R.id.SynopsisContent) TextView synopsis;
+    @InjectView(R.id.mediaType) TextView mediaType;
+    @InjectView(R.id.mediaStatus) TextView mediaStatus;
+    @InjectView(R.id.statusText) TextView status;
+    @InjectView(R.id.progress1Text1) TextView progress1Total;
+    @InjectView(R.id.progress1Text2) TextView progress1Current;
+    @InjectView(R.id.progress2Text1) TextView progress2Total;
+    @InjectView(R.id.progress2Text2) TextView progress2Current;
+    @InjectView(R.id.myScore) TextView myScore;
+    @InjectView(R.id.Image) ImageView image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,23 +89,14 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
+
+        ButterKnife.inject(this, view);
+
         cardPersonal.setAllPadding(0, 0, 0, 0);
         cardPersonal.setOnClickListener(R.id.status, this);
         cardPersonal.setOnClickListener(R.id.progress1, this);
         cardPersonal.setOnClickListener(R.id.progress2, this);
         cardPersonal.setOnClickListener(R.id.scorePanel, this);
-
-        // set all the views
-        image = (ImageView) view.findViewById(R.id.Image);
-        synopsis = (TextView) view.findViewById(R.id.SynopsisContent);
-        mediaType = (TextView) view.findViewById(R.id.mediaType);
-        mediaStatus = (TextView) view.findViewById(R.id.mediaStatus);
-        status = (TextView) view.findViewById(R.id.statusText);
-        progress1Total = (TextView) view.findViewById(R.id.progress1Text1);
-        progress1Current = (TextView) view.findViewById(R.id.progress1Text2);
-        progress2Total = (TextView) view.findViewById(R.id.progress2Text1);
-        progress2Current = (TextView) view.findViewById(R.id.progress2Text2);
-        myScore = (TextView) view.findViewById(R.id.myScore);
     }
 
     /*

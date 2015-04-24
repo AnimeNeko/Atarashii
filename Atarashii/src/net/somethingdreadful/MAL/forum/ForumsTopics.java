@@ -28,41 +28,39 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
-    public int id;
-    public MALApi.ListType type = MALApi.ListType.MANGA;
-    public ForumMain subBoard;
-    public ForumMain topic;
-    public ForumJob task;
-
-    ForumActivity activity;
     View view;
+    public ForumJob task;
+    ForumActivity activity;
+    public ForumMain topic;
+    public ForumMain subBoard;
     public ForumMainAdapter topicsAdapter;
-    ProgressBar progressBar;
-    RelativeLayout content;
-    Card networkCard;
-    ListView topics;
+    public MALApi.ListType type = MALApi.ListType.MANGA;
 
-    Boolean loading = true;
+    @InjectView(R.id.progressBar) ProgressBar progressBar;
+    @InjectView(R.id.content) RelativeLayout content;
+    @InjectView(R.id.network_Card) Card networkCard;
+    @InjectView(R.id.list) ListView topics;
+
+    public int id;
     public int page = 0;
+    boolean loading = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_topics, container, false);
+        ButterKnife.inject(this, view);
 
-        topics = (ListView) view.findViewById(R.id.list);
         topicsAdapter = new ForumMainAdapter(activity, topics, getFragmentManager(), ForumJob.TOPICS);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
-        content = (RelativeLayout) view.findViewById(R.id.content);
 
         topics.setOnScrollListener(this);
         topics.setOnItemClickListener(this);
         topics.setAdapter(topicsAdapter);
         topicsAdapter.setNotifyOnChange(true);
-
 
         toggle(1);
 
@@ -156,11 +154,10 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
             toggle(0);
             loading = false;
             activity.setTitle(getString(R.string.title_activity_forum));
-            if (task == ForumJob.SUBBOARD) {
+            if (task == ForumJob.SUBBOARD)
                 subBoard = result;
-            } else {
+            else
                 topic = result;
-            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "ForumTopics.apply(): " + e.getMessage());
         }

@@ -28,32 +28,31 @@ import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    Context context;
-    View view;
-    Card imagecard;
-    Card activitycard;
-    public SwipeRefreshLayout swipeRefresh;
-    ProgressBar progressBar;
-    Card networkCard;
-    WebView webview;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-    private ProfileActivity activity;
+public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    View view;
+    Context context;
     private HtmlUtil htmlUtil;
+    private ProfileActivity activity;
+
+    @InjectView(R.id.webview) WebView webview;
+    @InjectView(R.id.name_card) Card imagecard;
+    @InjectView(R.id.activity) Card activitycard;
+    @InjectView(R.id.progressBar) public SwipeRefreshLayout swipeRefresh;
+    @InjectView(R.id.swiperefresh) ProgressBar progressBar;
+    @InjectView(R.id.network_Card) Card networkCard;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_al, container, false);
+        ButterKnife.inject(this, view);
 
-        imagecard = ((Card) view.findViewById(R.id.name_card));
         imagecard.setContent(R.layout.card_image);
-        activitycard = ((Card) view.findViewById(R.id.activity));
         activitycard.setContent(R.layout.card_profile_webview);
         activitycard.setPadding(0);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
-        webview = (WebView) view.findViewById(R.id.webview);
 
         htmlUtil = new HtmlUtil(activity);
         webview.getSettings().setJavaScriptEnabled(true);
@@ -91,11 +90,11 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
     public void refresh() {
         if (activity.record == null) {
-            if (MALApi.isNetworkAvailable(context)) {
+            if (MALApi.isNetworkAvailable(context))
                 Theme.Snackbar(activity, R.string.toast_error_UserRecord);
-            } else {
+            else
                 toggle(2);
-            }
+
         } else {
             card();
 

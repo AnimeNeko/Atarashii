@@ -46,21 +46,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
+import butterknife.InjectView;
+import butterknife.ButterKnife;
 
+public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
     Context context;
     TaskJob taskjob;
-
-    GridView Gridview;
-    ViewFlipper viewflipper;
-    SwipeRefreshLayout swipeRefresh;
     Activity activity;
-    ArrayList<GenericRecord> gl = new ArrayList<GenericRecord>();
-    ListViewAdapter<GenericRecord> ga;
-    IGFCallbackListener callback;
-
     NetworkTask networkTask;
+    IGFCallbackListener callback;
+    ListViewAdapter<GenericRecord> ga;
+    ArrayList<GenericRecord> gl = new ArrayList<>();
+
+    @InjectView(R.id.gridview) GridView Gridview;
+    @InjectView(R.id.viewFlipper) ViewFlipper viewflipper;
+    @InjectView(R.id.swiperefresh) SwipeRefreshLayout swipeRefresh;
 
     RecordStatusUpdatedReceiver recordStatusReceiver;
 
@@ -68,10 +69,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     int list = -1;
     int resource;
     int height = 0;
-    boolean useSecondaryAmounts;
     boolean loading = true;
-    boolean clearAfterLoading = false;
+    boolean useSecondaryAmounts;
     boolean hasmorepages = false;
+    boolean clearAfterLoading = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     boolean swipeRefreshEnabled = true;
@@ -99,8 +100,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
-        viewflipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
-        Gridview = (GridView) view.findViewById(R.id.gridview);
+        ButterKnife.inject(this, view);
+
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
 
@@ -122,10 +123,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
         resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
 
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        if (isOnHomeActivity()) {
+        if (isOnHomeActivity())
             swipeRefresh.setOnRefreshListener((Home) getActivity());
-        }
         swipeRefresh.setColorScheme(
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,

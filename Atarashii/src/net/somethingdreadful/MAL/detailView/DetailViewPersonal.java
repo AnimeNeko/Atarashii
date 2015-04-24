@@ -26,6 +26,9 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
     public SwipeRefreshLayout swipeRefresh;
 
@@ -35,25 +38,25 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     Card cardOther;
     Card cardRewatch;
 
-    TextView status;
-    TextView progress1Total;
-    TextView progress1Current;
-    TextView progress2Total;
-    TextView progress2Current;
-    TextView myScore;
-    TextView myStartDate;
-    TextView myEndDate;
-    TextView myPriority;
-    TextView myTags;
-    TextView comments;
+    @InjectView(R.id.statusText) TextView status;
+    @InjectView(R.id.progress1Text1) TextView progress1Total;
+    @InjectView(R.id.progress1Text2) TextView progress1Current;
+    @InjectView(R.id.progress2Text1) TextView progress2Total;
+    @InjectView(R.id.progress2Text2) TextView progress2Current;
+    @InjectView(R.id.myScore) TextView myScore;
+    @InjectView(R.id.myStartDate) TextView myStartDate;
+    @InjectView(R.id.myEndDate) TextView myEndDate;
+    @InjectView(R.id.myPriority) TextView myPriority;
+    @InjectView(R.id.myTags) TextView myTags;
+    @InjectView(R.id.comments) TextView comments;
 
-    TextView fansubs;
-    TextView storage;
-    TextView storageCount;
-    TextView dowloaded;
+    @InjectView(R.id.fansubs) TextView fansubs;
+    @InjectView(R.id.storage) TextView storage;
+    @InjectView(R.id.storage_amount) TextView storageCount;
+    @InjectView(R.id.downloaded) TextView dowloaded;
 
-    TextView priority;
-    TextView rewatchCount2;
+    @InjectView(R.id.priority) TextView priority;
+    @InjectView(R.id.count2Text2) TextView rewatchCount2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,29 +99,11 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         cardOther.setContent(R.layout.card_detailview_personal_other);
         cardRewatch.setContent(R.layout.card_detailview_personal_rewatch);
 
+        ButterKnife.inject(this, view);
+
         cardBasic.setAllPadding(0, 0, 0, 0);
         cardOther.setAllPadding(0, 0, 0, 0);
         cardRewatch.setAllPadding(0, 0, 0, 0);
-
-        status = (TextView) view.findViewById(R.id.statusText);
-        progress1Total = (TextView) view.findViewById(R.id.progress1Text1);
-        progress1Current = (TextView) view.findViewById(R.id.progress1Text2);
-        progress2Total = (TextView) view.findViewById(R.id.progress2Text1);
-        progress2Current = (TextView) view.findViewById(R.id.progress2Text2);
-        myScore = (TextView) view.findViewById(R.id.myScore);
-        myStartDate = (TextView) view.findViewById(R.id.myStartDate);
-        myEndDate = (TextView) view.findViewById(R.id.myEndDate);
-        myPriority = (TextView) view.findViewById(R.id.myPriority);
-        myTags = (TextView) view.findViewById(R.id.myTags);
-        comments = (TextView) view.findViewById(R.id.comments);
-
-        fansubs = (TextView) view.findViewById(R.id.fansubs);
-        storage = (TextView) view.findViewById(R.id.storage);
-        storageCount = (TextView) view.findViewById(R.id.storage_amount);
-        dowloaded = (TextView) view.findViewById(R.id.downloaded);
-
-        priority = (TextView) view.findViewById(R.id.priority);
-        rewatchCount2 = (TextView) view.findViewById(R.id.count2Text2);
 
         setCard(R.id.status, false);
         setCard(R.id.progress1, false);

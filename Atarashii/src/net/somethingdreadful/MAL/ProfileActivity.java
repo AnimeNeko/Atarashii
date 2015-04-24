@@ -20,21 +20,26 @@ import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
     Context context;
     public User record;
-    ProfileDetailsMAL detailsMAL;
-    ProfileDetailsAL detailsAL;
     ProfileFriends friends;
+    ProfileDetailsAL detailsAL;
+    ProfileDetailsMAL detailsMAL;
+    private ProfilePagerAdapter pageAdapter;
+
+    @InjectView(R.id.pager) ViewPager viewPager;
 
     boolean forcesync = false;
-    private ViewPager viewPager;
-    private ProfilePagerAdapter pageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Theme.setTheme(this, R.layout.activity_profile, true);
+        ButterKnife.inject(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -43,7 +48,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
 
         setTitle(R.string.title_activity_profile); //set title
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
         pageAdapter = new ProfilePagerAdapter(getFragmentManager(), this);
         viewPager.setAdapter(pageAdapter);
 

@@ -25,46 +25,47 @@ import net.somethingdreadful.MAL.api.response.GenericRecord;
 
 import java.io.Serializable;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
-
-    public SwipeRefreshLayout swipeRefresh;
-    DetailView activity;
     View view;
-
     Card cardSynopsis;
     Card cardMediainfo;
     Card cardMediaStats;
     Card cardRelations;
     Card cardTitles;
     Card cardNetwork;
-
-    TextView synopsis;
-    TextView type;
-    TextView episodes;
-    TextView episodesLabel;
-    TextView volumes;
-    TextView volumesLabel;
-    TextView status;
-    TextView start;
-    TableRow startRow;
-    TextView end;
-    TableRow endRow;
-    TextView classification;
-    TextView classificationLabel;
-    TextView genres;
-    TextView producers;
-    TableRow producersRow;
-
-    TextView score;
-    TextView ranked;
-    TextView popularity;
-    TextView members;
-    TextView favorites;
-
+    DetailView activity;
     ExpandableListView relations;
     ExpandableListView titles;
     DetailViewRelationsAdapter relation;
     DetailViewRelationsAdapter title;
+
+    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+
+    @InjectView(R.id.SynopsisContent) TextView  synopsis;
+    @InjectView(R.id.type) TextView type;
+    @InjectView(R.id.episodes) TextView episodes;
+    @InjectView(R.id.episodesLabel) TextView episodesLabel;
+    @InjectView(R.id.volumes) TextView volumes;
+    @InjectView(R.id.volumesLabel) TextView volumesLabel;
+    @InjectView(R.id.status) TextView status;
+    @InjectView(R.id.start) TextView start;
+    @InjectView(R.id.startRow) TableRow startRow;
+    @InjectView(R.id.end) TextView end;
+    @InjectView(R.id.endRow) TableRow endRow;
+    @InjectView(R.id.classification) TextView classification;
+    @InjectView(R.id.classificationLabel) TextView classificationLabel;
+    @InjectView(R.id.genres) TextView genres;
+    @InjectView(R.id.producers) TextView producers;
+    @InjectView(R.id.producersRow) TableRow producersRow;
+
+    @InjectView(R.id.score) TextView score;
+    @InjectView(R.id.ranked) TextView ranked;
+    @InjectView(R.id.popularity) TextView popularity;
+    @InjectView(R.id.members) TextView members;
+    @InjectView(R.id.favorites) TextView favorites;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +73,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         view = inflater.inflate(R.layout.activity_detailview_details, container, false);
 
         setViews();
-        setListener();
+        swipeRefresh.setOnRefreshListener(activity);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
 
         activity.setDetails(this);
 
@@ -110,12 +113,10 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         this.activity = ((DetailView) activity);
     }
 
-    /*
-         * Set all views once
-         */
+    /**
+     * Set all views once
+     */
     public void setViews() {
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-
         // set all the card views
         cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
@@ -129,35 +130,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardMediaStats.setContent(R.layout.card_detailview_details_mediastats);
         cardRelations.setContent(R.layout.card_detailview_details_relations);
         cardTitles.setContent(R.layout.card_detailview_details_relations);
-
+        
         // set all the views
-        synopsis = (TextView) view.findViewById(R.id.SynopsisContent);
+        ButterKnife.inject(this, view);
 
-        type = (TextView) view.findViewById(R.id.type);
-        episodes = (TextView) view.findViewById(R.id.episodes);
-        episodesLabel = (TextView) view.findViewById(R.id.episodesLabel);
-        volumes = (TextView) view.findViewById(R.id.volumes);
-        volumesLabel = (TextView) view.findViewById(R.id.volumesLabel);
-        status = (TextView) view.findViewById(R.id.status);
-        start = (TextView) view.findViewById(R.id.start);
-        startRow = (TableRow) view.findViewById(R.id.startRow);
-        end = (TextView) view.findViewById(R.id.end);
-        endRow = (TableRow) view.findViewById(R.id.endRow);
-        classification = (TextView) view.findViewById(R.id.classification);
-        classificationLabel = (TextView) view.findViewById(R.id.classificationLabel);
-        genres = (TextView) view.findViewById(R.id.genres);
-        producers = (TextView) view.findViewById(R.id.producers);
-        producersRow = (TableRow) view.findViewById(R.id.producersRow);
         if (!AccountService.isMAL()) {
             producers.setVisibility(View.GONE);
             producersRow.setVisibility(View.GONE);
         }
-
-        score = (TextView) view.findViewById(R.id.score);
-        ranked = (TextView) view.findViewById(R.id.ranked);
-        popularity = (TextView) view.findViewById(R.id.popularity);
-        members = (TextView) view.findViewById(R.id.members);
-        favorites = (TextView) view.findViewById(R.id.favorites);
 
         relation = new DetailViewRelationsAdapter(activity.getApplicationContext());
         relations = (ExpandableListView) cardRelations.findViewById(R.id.ListView);
@@ -173,16 +153,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         clickListeners();
     }
 
-    /*
-     * set all the ClickListeners
-     */
-    public void setListener() {
-        swipeRefresh.setOnRefreshListener(activity);
-        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
-        swipeRefresh.setEnabled(true);
-    }
-
-    /*
+    /**
      * Place all the text in the right textview
      */
     public void setText() {
@@ -271,6 +242,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         return true;
     }
 
+    /**
+     * Handle the click events (expand and collapse)
+     */
     public void clickListeners() {
         titles.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
