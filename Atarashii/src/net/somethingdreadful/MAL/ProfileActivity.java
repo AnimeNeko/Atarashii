@@ -29,7 +29,6 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     ProfileFriends friends;
     ProfileDetailsAL detailsAL;
     ProfileDetailsMAL detailsMAL;
-    private ProfilePagerAdapter pageAdapter;
 
     @InjectView(R.id.pager) ViewPager viewPager;
 
@@ -47,9 +46,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         context = getApplicationContext();
 
         setTitle(R.string.title_activity_profile); //set title
-
-        pageAdapter = new ProfilePagerAdapter(getFragmentManager(), this);
-        viewPager.setAdapter(pageAdapter);
+        viewPager.setAdapter(new ProfilePagerAdapter(getFragmentManager(), this));
 
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
