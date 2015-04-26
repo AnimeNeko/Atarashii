@@ -45,17 +45,15 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
     IGF af;
     IGF mf;
     Menu menu;
@@ -351,9 +349,8 @@ import butterknife.InjectView;
     }
 
     public void checkNetworkAndDisplayCrouton() {
-        if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
+        if (MALApi.isNetworkAvailable(context) && !networkAvailable)
             synctask(false);
-        }
         networkAvailable = MALApi.isNetworkAvailable(context);
     }
 
@@ -426,12 +423,8 @@ import butterknife.InjectView;
 
     @Override
     public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        // check if it is already showing
-        if (getFragmentManager().findFragmentByTag("fragment_updatePassword") == null) {
-            FragmentManager fm = getFragmentManager();
-            UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
-            passwordFragment.show(fm, "fragment_updatePassword");
-        }
+        startActivity(new Intent(this, Home.class).putExtra("updatePassword", true));
+        finish();
     }
 
     @Override

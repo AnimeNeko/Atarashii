@@ -29,6 +29,7 @@ import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.http.HEAD;
 
 public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
     String MalUser;
@@ -53,6 +54,8 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
 
         context = getApplicationContext();
 
+        if (getIntent().getBooleanExtra("updatePassword", false))
+            Theme.Snackbar(this, R.string.toast_info_password);
         connectButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         myanimelist.setOnClickListener(this);

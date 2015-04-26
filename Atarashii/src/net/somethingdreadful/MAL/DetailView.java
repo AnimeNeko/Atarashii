@@ -37,7 +37,6 @@ import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.ForumJob;
@@ -695,7 +694,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
     @Override
     public void onAPIAuthenticationError(ListType type, TaskJob job) {
-        showDialog("updatePassword", new UpdatePasswordDialogFragment());
+        startActivity(new Intent(this, Home.class).putExtra("updatePassword", true));
+        finish();
     }
 
     /*
