@@ -74,10 +74,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     String username;
 
-    boolean instanceExists;
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
-
     boolean callbackAnimeError = false;
     boolean callbackMangaError = false;
     int callbackCounter = 0;
@@ -92,7 +90,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
             //The following is state handling code
-            instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
             networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
             if (savedInstanceState != null)
                 myList = savedInstanceState.getBoolean("myList");
@@ -253,7 +250,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         super.onPause();
         if (menu != null)
             menu.findItem(R.id.action_search).collapseActionView();
-        instanceExists = true;
         unregisterReceiver(networkReceiver);
     }
 
@@ -264,7 +260,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public void onSaveInstanceState(Bundle state) {
         //This is telling out future selves that we already have some things and not to do them
-        state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putBoolean("myList", myList);
         super.onSaveInstanceState(state);
