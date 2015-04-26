@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name" translatable="false">Atarashii!</string>
     <string name="app_name_beta" translatable="false">Atarashii! β</string>
 
@@ -37,7 +36,7 @@
     <string name="toast_error_Friends">Sync error while getting friendlist!</string>
     <string name="toast_error_nothingFound">No anime or manga results found.</string>
     <string name="toast_info_SyncMessage">Syncing everything. This could take a few seconds.</string>
-    <string name="toast_info_password">Username and password combination doesn't match!</string>
+    <string name="toast_info_password">Username and password combination doesn\'t match!</string>
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
     <string name="toast_info_hold_on">Hold on a second, we are still loading information!</string>
     <string name="toast_info_comment_add">The comment was successfully send!</string>
