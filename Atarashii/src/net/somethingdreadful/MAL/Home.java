@@ -317,10 +317,8 @@ import butterknife.InjectView;
 
     @SuppressLint("NewApi")
     public void onLogoutConfirmed() {
-        MALSqlHelper.getHelper(context).deleteDatabase(context);
-        PrefManager.clear();
-        AccountService.deleteAccount();
-        startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        AccountService.clearData(true);
+        startActivity(new Intent(this, Home.class));
         finish();
     }
 
