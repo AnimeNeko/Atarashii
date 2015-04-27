@@ -160,6 +160,8 @@ public class Theme extends Application {
      * @return The raw integer
      */
     public static int getRawScore(String score) {
+        if (score.equals(""))
+            return 0;
         switch (PrefManager.getScoreType()) {
             case 1:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
