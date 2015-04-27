@@ -517,8 +517,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
         doRecordsLoadedCallback(type, job, true, true, false);
-        toggleSwipeRefreshAnimation(false);
-        toggleLoadingIndicator(false);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toggleSwipeRefreshAnimation(false);
+                toggleLoadingIndicator(false);
+            }
+        });
     }
 
     /**
