@@ -119,7 +119,7 @@ public class Theme extends Application {
     public static String getDisplayScore(float score) {
         switch (PrefManager.getScoreType()) {
             case 1:
-                Double score1 = Math.floor(score / 10);
+                Double score1 = AccountService.isMAL() ? score : Math.floor(score / 10);
                 return score1 > 0.0 ? String.format("%.0f", score1) : "?";
             case 2:
                 return score > 0 ? Integer.toString((int) score) : "?";
