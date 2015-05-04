@@ -183,6 +183,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        checkIGF();
         switch (item.getItemId()) {
             case R.id.listType_all:
                 getRecords(true, TaskJob.GETLIST, 0);
@@ -229,7 +230,19 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * On some devices the af & mf will change into null due inactivity.
+     * This is a check to prevent any crashes and set it again.
+     */
+    public void checkIGF() {
+        if (af == null || mf == null) {
+            af = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 0);
+            mf = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 1);
+        }
+    }
+
     public void getRecords(boolean clear, TaskJob task, int list) {
+        checkIGF();
         if (af != null && mf != null) {
             af.getRecords(clear, task, list);
             mf.getRecords(clear, task, list);
@@ -502,11 +515,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 Theme.Snackbar(Home.this, R.string.toast_error_noConnectivity);
             }
             myList = ((position <= 3 && myList) || position == 0);
+            checkIGF();
             // disable swipeRefresh for other lists
-            if (af == null || mf == null) {
-                af = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 0);
-                mf = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 1);
-            }
             af.setSwipeRefreshEnabled(myList);
             mf.setSwipeRefreshEnabled(myList);
             switch (position) {

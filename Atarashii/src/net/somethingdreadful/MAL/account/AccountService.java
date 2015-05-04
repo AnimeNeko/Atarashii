@@ -22,9 +22,27 @@ public class AccountService extends Service {
     private static Account account;
     private static Context context;
     private Authenticator mAuthenticator;
+    /**
+     * The account version will be used to peform
+     */
+    private static int accountVersion = 1;
 
     public static void create(Context context) {
         AccountService.context = context;
+    }
+
+    /**
+     * This is used for Account upgrade purpose
+     */
+    private static void onUpgrade() {
+        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + Integer.toString(accountVersion) + ".");
+        setAccountVersion(accountVersion);
+        switch (accountVersion){
+            case 1:
+                // We support now all Anilist scores, the user needs to log out (2.1 beta 3).
+                if (!accountType.equals(AccountType.MyAnimeList))
+                    deleteAccount();
+        }
     }
 
     /**
@@ -71,11 +89,16 @@ public class AccountService extends Service {
         if (account == null) {
             AccountManager accountManager = AccountManager.get(context);
             Account[] myaccount = accountManager.getAccountsByType(".account.SyncAdapter.account");
+            String version = Integer.toString(accountVersion);
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
+                version = accountManager.getUserData(myaccount[0], "accountVersion");
                 Crashlytics.setString("Site", AccountService.accountType.toString());
+                Crashlytics.setString("accountVersion", version);
             }
             account = myaccount.length > 0 ? myaccount[0] : null;
+            if (version == null || accountVersion != Integer.parseInt(version))
+                onUpgrade();
         }
         return account;
     }
@@ -118,6 +141,7 @@ public class AccountService extends Service {
         final Account account = new Account(username, ".account.SyncAdapter.account");
         accountManager.addAccountExplicitly(account, password, null);
         accountManager.setUserData(account, "accountType", accountType.toString());
+        accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
         AccountService.accountType = accountType;
     }
 
@@ -154,6 +178,18 @@ public class AccountService extends Service {
         } catch (Exception e) {
             Crashlytics.log(Log.INFO, "MALX", "AccountService: The expire time could not be received.");
             return null;
+        }
+    }
+
+    /**
+     * Set an auth token in the accountmanager.
+     *
+     * @param accountVersion The new accountversion of the account that will be saved
+     */
+    public static void setAccountVersion(int accountVersion) {
+        if (account != null) {
+            AccountManager accountManager = AccountManager.get(context);
+            accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
         }
     }
 
