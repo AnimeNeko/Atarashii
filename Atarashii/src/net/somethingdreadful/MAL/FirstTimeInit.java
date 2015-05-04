@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -60,6 +61,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         myanimelist.setOnClickListener(this);
         anilist.setOnClickListener(this);
 
+        CookieManager.getInstance().removeAllCookie();
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setDomStorageEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
