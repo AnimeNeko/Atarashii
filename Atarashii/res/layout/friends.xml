@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light">
+    android:background="@color/bg_light"
+    android:id="@+id/friends_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
@@ -39,5 +40,6 @@
         custom:card_content="@layout/card_network_connection"
         custom:header_Color="@color/card_red"
         custom:header_Title="@string/card_offline_title"
-        custom:header_Title_Color="@color/white" />
+        custom:header_Title_Color="@color/white"
+        android:visibility="gone" />
 </RelativeLayout>
