@@ -85,12 +85,12 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         animecard = (Card) view.findViewById(R.id.Anime_card);
         mangacard = (Card) view.findViewById(R.id.Manga_card);
 
-        ButterKnife.inject(this, view);
-
         imagecard.setContent(R.layout.card_image);
         ((Card) view.findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
         animecard.setContent(R.layout.card_profile_anime);
         mangacard.setContent(R.layout.card_profile_manga);
+
+        ButterKnife.inject(this, view);
 
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
