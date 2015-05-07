@@ -264,6 +264,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         setText();
     }
 
+    @Override
+    public void onCloseClicked(String message) {
+    }
+
     /*
      * Date picker dialog
      */
