@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -14,7 +15,7 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
 
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
     private Context context;
 
     @Override
@@ -22,6 +23,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.settings);
+        Preference preference = findPreference("backup");
+        preference.setOnPreferenceClickListener(this);
 
         context = getActivity().getApplicationContext();
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
@@ -63,5 +66,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());
         }
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        Intent firstRunInit = new Intent(context, BackupActivity.class);
+        startActivity(firstRunInit);
+        return false;
     }
 }

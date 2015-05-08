@@ -75,5 +75,9 @@
             android:key="darkTheme"
             android:summary="@string/preference_summary_theme"
             android:title="@string/preference_Theme" />
+        <Preference
+            android:key="backup"
+            android:summary="@string/preference_summary_backup"
+            android:title="@string/title_activity_backup" />
     </PreferenceCategory>
 </PreferenceScreen>

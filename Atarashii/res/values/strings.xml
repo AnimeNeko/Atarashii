@@ -375,6 +375,7 @@
     <string name="preference_summary_profileTextColors">Force the profile page to use black text colour.</string>
     <string name="preference_summary_profileAnimeHide">Hide the anime details on all profiles.</string>
     <string name="preference_summary_profileMangaHide">Hide the manga details on all profiles.</string>
+    <string name="preference_summary_backup">Backup the animelist and mangalist.</string>
     <string name="preference_android_synchronisation">Anime/Manga records</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
 
