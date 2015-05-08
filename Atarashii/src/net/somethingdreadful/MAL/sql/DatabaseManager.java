@@ -326,6 +326,13 @@ public class DatabaseManager {
         saveManga(manga, ignoreSynopsis, userId, false);
     }
 
+    public void restoreLists(ArrayList<Anime> animelist, ArrayList<Manga> mangalist) {
+        getDBWrite().delete(MALSqlHelper.TABLE_ANIMELIST, null, new String[]{});
+        getDBWrite().delete(MALSqlHelper.TABLE_MANGALIST, null, new String[]{});
+        saveAnimeList(animelist, AccountService.getUsername());
+        saveMangaList(mangalist, AccountService.getUsername());
+    }
+
     public void saveManga(Manga manga, boolean ignoreSynopsis, int userId, boolean dontCreateBaseModel) {
         ContentValues cv = new ContentValues();
 

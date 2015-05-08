@@ -153,6 +153,14 @@ public class MALDateTools {
         return "";
     }
 
+    public static String formatDate(Long miliseconds){
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTimeInMillis(miliseconds);
+        String date = String.format("%s-%s-%s", rightNow.get(Calendar.DAY_OF_MONTH), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.YEAR));
+        String time = String.format("%s:%s ", rightNow.get(Calendar.HOUR_OF_DAY), rightNow.get(Calendar.MINUTE));
+        return time + date;
+    }
+
     public static String formatDate(Date date, Context context, boolean withtime) {
         if (date == null)
             return "";
