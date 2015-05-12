@@ -10,7 +10,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -599,7 +599,7 @@ public class DatabaseManager {
 
         if (profile) {
             if (user.getProfile().getDetails().getBirthday() != null) {
-                String birthday = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getBirthday());
+                String birthday = DateTools.parseDate(user.getProfile().getDetails().getBirthday(), false);
                 cv.put("birthday", birthday.equals("") ? user.getProfile().getDetails().getBirthday() : birthday);
             } else
                 cv.putNull("birthday");
@@ -609,7 +609,7 @@ public class DatabaseManager {
             cv.put("forum_posts", user.getProfile().getDetails().getForumPosts());
             cv.put("gender", user.getProfile().getDetails().getGender());
             if (user.getProfile().getDetails().getJoinDate() != null) {
-                String joindate = MALDateTools.parseMALDateToISO8601String(user.getProfile().getDetails().getJoinDate());
+                String joindate = DateTools.parseDate(user.getProfile().getDetails().getJoinDate(), false);
                 cv.put("join_date", joindate.equals("") ? user.getProfile().getDetails().getJoinDate() : joindate);
             } else
                 cv.putNull("join_date");

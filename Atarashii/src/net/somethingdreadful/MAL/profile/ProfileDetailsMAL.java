@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import net.somethingdreadful.MAL.Card;
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.ProfileActivity;
@@ -200,7 +200,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         if (activity.record.getProfile().getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {
-            String birthday = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getBirthday(), activity, false);
+            String birthday = DateTools.parseDate(activity.record.getProfile().getDetails().getBirthday(), false);
             tv1.setText(birthday.equals("") ? activity.record.getProfile().getDetails().getBirthday() : birthday);
         }
         if (activity.record.getProfile().getDetails().getLocation() == null)
@@ -216,13 +216,13 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         tv3.setText(String.valueOf(activity.record.getProfile().getDetails().getComments()));
         tv4.setText(String.valueOf(activity.record.getProfile().getDetails().getForumPosts()));
         if (activity.record.getProfile().getDetails().getLastOnline() != null) {
-            String lastOnline = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getLastOnline(), activity, true);
+            String lastOnline = DateTools.parseDate(activity.record.getProfile().getDetails().getLastOnline(), true);
             tv5.setText(lastOnline.equals("") ? activity.record.getProfile().getDetails().getLastOnline() : lastOnline);
         } else
             tv5.setText("-");
         tv6.setText(getStringFromResourceArray(R.array.gender, R.string.not_specified, activity.record.getProfile().getDetails().getGenderInt()));
         if (activity.record.getProfile().getDetails().getJoinDate() != null) {
-            String joinDate = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getJoinDate(), activity, false);
+            String joinDate = DateTools.parseDate(activity.record.getProfile().getDetails().getJoinDate(), false);
             tv7.setText(joinDate.equals("") ? activity.record.getProfile().getDetails().getJoinDate() : joinDate);
         } else
             tv7.setText("-");
