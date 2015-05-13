@@ -1,8 +1,6 @@
-package net.somethingdreadful.MAL.api.response;
+package net.somethingdreadful.MAL.api.response.AnimeManga;
 
 import com.google.gson.annotations.SerializedName;
-
-import net.somethingdreadful.MAL.api.MALApi;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,8 @@
 package net.somethingdreadful.MAL.tasks;
 
-import net.somethingdreadful.MAL.api.response.User;
+
+import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 public interface UserNetworkTaskFinishedListener {
-    public void onUserNetworkTaskFinished(User result);
+    void onUserNetworkTaskFinished(User result);
 }

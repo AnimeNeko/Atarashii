@@ -1,6 +1,7 @@
-package net.somethingdreadful.MAL.api.response;
+package net.somethingdreadful.MAL.api.response.AnimeManga;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.response.Statistics;
 
 import java.util.ArrayList;
 

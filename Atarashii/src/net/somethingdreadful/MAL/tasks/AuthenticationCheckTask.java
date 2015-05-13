@@ -8,7 +8,7 @@ import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.Profile;
+import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 
 public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
     private AuthenticationCheckFinishedListener callback;
