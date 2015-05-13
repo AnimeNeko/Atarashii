@@ -15,6 +15,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
@@ -289,6 +290,14 @@ public class MALApi {
 
     public ForumMain search(String query) {
         return service.search(query);
+    }
+
+    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        return service.getAnimeReviews(id, page);
+    }
+
+    public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        return service.getMangaReviews(id, page);
     }
 
     public enum ListType {

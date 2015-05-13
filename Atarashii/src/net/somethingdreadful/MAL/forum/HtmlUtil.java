@@ -1,11 +1,13 @@
 package net.somethingdreadful.MAL.forum;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
@@ -26,45 +28,6 @@ public class HtmlUtil {
         postStructure = getString(context, R.raw.forum_post_post_structure);
         spoilerStructure = getString(context, R.raw.forum_post_spoiler_structure);
         noActivity = context.getString(R.string.no_activity);
-    }
-
-    /**
-     * Convert a forum array into a HTML list.
-     *
-     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
-     * @param context  The application context to format the dates
-     * @param username The username of the user, this is used for special rights
-     * @return String The HTML source
-     */
-    public String convertList(ForumMain record, Context context, String username, int page) {
-        ArrayList<Forum> list = record.getList();
-        String result = "";
-        for (int i = 0; i < list.size(); i++) {
-            Forum post = list.get(i);
-            String postreal = postStructure;
-            String comment = post.getComment();
-
-            comment = comment.replace("data-src=", "width=\"100%\" src=");
-            comment = comment.replace("img src=", "img width=\"100%\" src=");
-
-            if (post.getUsername().equals(username))
-                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"edit('itemID', 'position')\" src=\"http://i.imgur.com/uZ0TbNv.png\"/>");
-            else
-                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"quote('itemID', 'position')\" src=\"http://i.imgur.com/yYtLVTV.png\"/>");
-            if (User.isDeveloperRecord(post.getUsername()))
-                postreal = postreal.replace("=\"title\">", "=\"developer\">");
-            if (!post.getProfile().getDetails().getAccessRank().equals("Member"))
-                postreal = postreal.replace("=\"title\">", "=\"staff\">");
-            postreal = postreal.replace("image", post.getProfile().getAvatarUrl() != null ? post.getProfile().getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
-            postreal = postreal.replace("Title", post.getUsername());
-            postreal = postreal.replace("itemID", Integer.toString(post.getId()));
-            postreal = postreal.replace("position", Integer.toString(i));
-            postreal = postreal.replace("Subhead", DateTools.parseDate(post.getTime(), true));
-            postreal = postreal.replace("<!-- place post content here -->", comment);
-
-            result = result + postreal;
-        }
-        return buildList(result, record, page);
     }
 
     /**
@@ -220,6 +183,76 @@ public class HtmlUtil {
 
                 result = result + postreal;
             }
+        }
+        return buildList(result, null, page);
+    }
+
+    /**
+     * Convert a forum array into a HTML list.
+     *
+     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
+     * @param context  The application context to format the dates
+     * @param username The username of the user, this is used for special rights
+     * @return String The HTML source
+     */
+    public String convertList(ForumMain record, Context context, String username, int page) {
+        ArrayList<Forum> list = record.getList();
+        String result = "";
+        for (int i = 0; i < list.size(); i++) {
+            Forum post = list.get(i);
+            String postreal = postStructure;
+            String comment = post.getComment();
+
+            comment = comment.replace("data-src=", "width=\"100%\" src=");
+            comment = comment.replace("img src=", "img width=\"100%\" src=");
+
+            if (post.getUsername().equals(username))
+                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"edit('itemID', 'position')\" src=\"http://i.imgur.com/uZ0TbNv.png\"/>");
+            else
+                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"quote('itemID', 'position')\" src=\"http://i.imgur.com/yYtLVTV.png\"/>");
+            if (User.isDeveloperRecord(post.getUsername()))
+                postreal = postreal.replace("=\"title\">", "=\"developer\">");
+            if (!post.getProfile().getDetails().getAccessRank().equals("Member"))
+                postreal = postreal.replace("=\"title\">", "=\"staff\">");
+            postreal = postreal.replace("image", post.getProfile().getAvatarUrl() != null ? post.getProfile().getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
+            postreal = postreal.replace("Title", post.getUsername());
+            postreal = postreal.replace("itemID", Integer.toString(post.getId()));
+            postreal = postreal.replace("position", Integer.toString(i));
+            postreal = postreal.replace("Subhead", DateTools.parseDate(post.getTime(), true));
+            postreal = postreal.replace("<!-- place post content here -->", comment);
+
+            result = result + postreal;
+        }
+        return buildList(result, record, page);
+    }
+
+    /**
+     * Convert a forum array into a HTML list.
+     *
+     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
+     * @return String The HTML source
+     */
+    public String convertList(ArrayList<Reviews> record, int page) {
+        String result = "";
+        for (int i = 0; i < record.size(); i++) {
+            Reviews review = record.get(i);
+            String reviewreal = postStructure;
+            String comment = review.getReview().replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
+            Log.e("a", comment);
+
+            comment = comment.replace("data-src=", "width=\"100%\" src=");
+            comment = comment.replace("img src=", "img width=\"100%\" src=");
+
+            if (User.isDeveloperRecord(review.getUsername()))
+                reviewreal = reviewreal.replace("=\"title\">", "=\"developer\">");
+            reviewreal = reviewreal.replace("image", review.getAvatarUrl() != null ? review.getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
+            reviewreal = reviewreal.replace("Title", review.getUsername());
+            reviewreal = reviewreal.replace("itemID", Integer.toString(i));
+            reviewreal = reviewreal.replace("position", Integer.toString(i));
+            reviewreal = reviewreal.replace("Subhead", DateTools.parseDate(review.getDate(), false));
+            reviewreal = reviewreal.replace("<!-- place post content here -->", comment);
+
+            result = result + reviewreal;
         }
         return buildList(result, null, page);
     }

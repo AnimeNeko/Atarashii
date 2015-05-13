@@ -4,6 +4,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.OAuth;
 import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
@@ -149,4 +150,10 @@ public interface ALInterface {
 
     @GET("/forum/thread/{id}")
     ForumMain getPosts(@Path("id") int id, @Query("page") int page);
+
+    @GET("/review/anime/{id}")
+    ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);
+
+    @GET("/review/manga/{id}")
+    ArrayList<Reviews> getMangaReviews(@Path("id") int id, @Query("page") int page);
 }

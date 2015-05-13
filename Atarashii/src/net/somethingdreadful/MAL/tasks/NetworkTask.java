@@ -135,6 +135,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     if (params != null)
                         taskResult = isAnimeTask() ? mManager.searchAnime(params[0], page) : mManager.searchManga(params[0], page);
                     break;
+                case REVIEWS:
+                    if (params != null)
+                        taskResult = isAnimeTask() ? mManager.getAnimeReviews(Integer.parseInt(params[0]), page) : mManager.getMangaReviews(Integer.parseInt(params[0]), page);
+                    break;
                 default:
                     Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }

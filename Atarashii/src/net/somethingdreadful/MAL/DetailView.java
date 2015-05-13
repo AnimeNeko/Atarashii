@@ -33,6 +33,7 @@ import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
+import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
@@ -59,6 +60,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public DetailViewGeneral general;
     public DetailViewDetails details;
     public DetailViewPersonal personal;
+    public DetailViewReviews reviews;
     DetailViewPagerAdapter PageAdapter;
     int recordID;
     private ActionBar actionBar;
@@ -722,6 +724,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
     public void setPersonal(DetailViewPersonal personal) {
         this.personal = personal;
+    }
+
+    public void setReviews(DetailViewReviews reviews) {
+        this.reviews = reviews;
     }
 
     /*

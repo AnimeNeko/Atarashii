@@ -4,6 +4,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
@@ -130,4 +131,10 @@ public interface MALInterface {
     @FormUrlEncoded
     @POST("/forum/{id}")
     Response addTopic(@Path("id") int id, @Field("title") String title, @Field("message") String message);
+
+    @GET("/anime/reviews/{id}")
+    ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);
+
+    @GET("/manga/reviews/{id}")
+    ArrayList<Reviews> getMangaReviews(@Path("id") int id, @Query("page") int page);
 }

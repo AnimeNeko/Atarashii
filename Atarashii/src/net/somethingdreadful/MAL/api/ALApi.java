@@ -11,6 +11,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.OAuth;
 import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
@@ -181,5 +182,13 @@ public class ALApi {
 
     public Profile getProfile(String name) {
         return service.getProfile(name);
+    }
+
+    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        return service.getAnimeReviews(id, page);
+    }
+
+    public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        return service.getMangaReviews(id, page);
     }
 }

@@ -10,5 +10,6 @@ public enum TaskJob {
     GET,
     GETDETAILS,
     UPDATE,
+    REVIEWS,
     SEARCH
 }

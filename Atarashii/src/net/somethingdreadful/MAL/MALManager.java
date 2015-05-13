@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
@@ -352,5 +353,13 @@ public class MALManager {
 
     public ArrayList<Manga> searchManga(String query, int page) {
         return AccountService.isMAL() ? malApi.searchManga(query, page) : alApi.searchManga(query, page);
+    }
+
+    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        return AccountService.isMAL() ? malApi.getAnimeReviews(id, page) : alApi.getAnimeReviews(id, page);
+    }
+
+    public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        return AccountService.isMAL() ? malApi.getMangaReviews(id, page) : alApi.getMangaReviews(id, page);
     }
 }
