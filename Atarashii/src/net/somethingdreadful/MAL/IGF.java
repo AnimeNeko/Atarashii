@@ -82,24 +82,44 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private boolean ownList = false; // not set directly, is set by setUsername()
 
     @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putSerializable("gl", gl);
+        state.putSerializable("listType", listType);
+        state.putSerializable("taskjob", taskjob);
+        state.putInt("page", page);
+        state.putInt("list", list);
+        state.putBoolean("hasmorepages", hasmorepages);
+        state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
+        state.putString("query", query);
+        state.putString("username", username);
+        super.onSaveInstanceState(state);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        setRetainInstance(true);
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
         viewflipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
         Gridview = (GridView) view.findViewById(R.id.gridview);
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
 
+        if (state != null) {
+            gl = (ArrayList<GenericRecord>) state.getSerializable("gl");
+            listType = (ListType) state.getSerializable("listType");
+            taskjob = (TaskJob) state.getSerializable("taskjob");
+            page = state.getInt("page");
+            list = state.getInt("list");
+            hasmorepages = state.getBoolean("hasmorepages");
+            swipeRefreshEnabled = state.getBoolean("swipeRefreshEnabled");
+            query = state.getString("query");
+            username = state.getString("username");
+        }
+
         context = getActivity();
         activity = getActivity();
         setColumns();
         useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
-        if (PrefManager.getTraditionalListEnabled()) {
-            Gridview.setNumColumns(1); //remain in the listview mode
-            resource = R.layout.record_igf_listview;
-        } else {
-            resource = R.layout.record_igf_gridview;
-        }
+        resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         if (isOnHomeActivity()) {
@@ -146,13 +166,17 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     @SuppressLint("InlinedApi")
     public void setColumns() {
-        float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
-        int screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
-        float minWidth = 225 * density;
-        int columns = (int) Math.ceil(screenWidth / minWidth);
-        int width = screenWidth / columns;
-        height = (int) (width / 0.7);
-        Gridview.setNumColumns(columns);
+        if (PrefManager.getTraditionalListEnabled()) {
+            Gridview.setNumColumns(1); //remain in the listview mode
+        } else {
+            float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
+            int screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
+            float minWidth = 225 * density;
+            int columns = (int) Math.ceil(screenWidth / minWidth);
+            int width = screenWidth / columns;
+            height = (int) (width / 0.7);
+            Gridview.setNumColumns(columns);
+        }
     }
 
     /**
