@@ -1,10 +1,8 @@
 package net.somethingdreadful.MAL.forum;
 
 import android.content.Context;
-import android.util.Log;
 
 import net.somethingdreadful.MAL.DateTools;
-import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
@@ -18,16 +16,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class HtmlUtil {
+    private Context context;
     String structure;
     String postStructure;
     String spoilerStructure;
-    String noActivity;
+    String pageString;
 
     public HtmlUtil(Context context) {
         structure = getString(context, R.raw.forum_post_structure);
         postStructure = getString(context, R.raw.forum_post_post_structure);
         spoilerStructure = getString(context, R.raw.forum_post_spoiler_structure);
-        noActivity = context.getString(R.string.no_activity);
+        this.context = context;
     }
 
     /**
@@ -45,7 +44,7 @@ public class HtmlUtil {
         if (record == null || page == record.getPages())
             list = list.replace("class=\"item\" value=\"2\"", "class=\"item hidden\" value=\"2\"");
         if (record == null) {
-            list = list.replace("(page/pages)", noActivity);
+            list = list.replace("(page/pages)", pageString);
         } else {
             list = list.replace("pages", Integer.toString(record.getPages()));
             list = list.replace("page", Integer.toString(page));
@@ -138,11 +137,10 @@ public class HtmlUtil {
      * Convert a user activity array into a HTML list.
      *
      * @param record The UserActivity object that contains the list which should be converted in a HTML list
-     * @param activity The profile activity
      * @param page The page number
      * @return String The HTML source
      */
-    public String convertList(User record, ProfileActivity activity, int page) {
+    public String convertList(User record, int page) {
         ArrayList<Activity> list = record.getActivity();
         String result = "";
         if (list != null) {
@@ -184,6 +182,7 @@ public class HtmlUtil {
                 result = result + postreal;
             }
         }
+        pageString = context.getString(R.string.no_activity);
         return buildList(result, null, page);
     }
 
@@ -191,11 +190,10 @@ public class HtmlUtil {
      * Convert a forum array into a HTML list.
      *
      * @param record   The ForumMain object that contains the list which should be converted in a HTML list
-     * @param context  The application context to format the dates
      * @param username The username of the user, this is used for special rights
      * @return String The HTML source
      */
-    public String convertList(ForumMain record, Context context, String username, int page) {
+    public String convertList(ForumMain record, String username, int page) {
         ArrayList<Forum> list = record.getList();
         String result = "";
         for (int i = 0; i < list.size(); i++) {
@@ -223,6 +221,7 @@ public class HtmlUtil {
 
             result = result + postreal;
         }
+        pageString = context.getString(R.string.no_activity);
         return buildList(result, record, page);
     }
 
@@ -238,7 +237,6 @@ public class HtmlUtil {
             Reviews review = record.get(i);
             String reviewreal = postStructure;
             String comment = review.getReview().replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
-            Log.e("a", comment);
 
             comment = comment.replace("data-src=", "width=\"100%\" src=");
             comment = comment.replace("img src=", "img width=\"100%\" src=");
@@ -254,6 +252,7 @@ public class HtmlUtil {
 
             result = result + reviewreal;
         }
+        pageString = context.getString(R.string.no_reviews);
         return buildList(result, null, page);
     }
 }

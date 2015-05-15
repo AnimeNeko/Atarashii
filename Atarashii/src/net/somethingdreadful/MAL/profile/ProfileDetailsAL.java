@@ -98,7 +98,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
         } else {
             card();
 
-            webview.loadDataWithBaseURL(null, htmlUtil.convertList(activity.record, activity, 1), "text/html", "utf-8", null);
+            webview.loadDataWithBaseURL(null, htmlUtil.convertList(activity.record, 1), "text/html", "utf-8", null);
 
             Picasso.with(context)
                     .load(activity.record.getProfile()
