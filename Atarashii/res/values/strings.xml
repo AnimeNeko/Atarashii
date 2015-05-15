@@ -143,6 +143,7 @@
     <string name="action_viewListOnMAL">View list on MAL</string>
     <string name="not_specified">not specified</string>
     <string name="no_activity">No Activity</string>
+    <string name="no_reviews">No Reviews</string>
     <string-array name="gender">
         <item>Female</item>
         <item>Male</item>
@@ -203,6 +204,7 @@
     <!-- Tab names Strings -->
     <string name="tab_name_general">General</string>
     <string name="tab_name_personal">Personal</string>
+    <string name="tab_name_reviews">Reviews</string>
     <string name="tab_name_details">Details</string>
     <string name="tab_name_friends">Friends</string>
     <string name="tab_name_following">Following</string>

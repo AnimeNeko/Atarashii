@@ -134,8 +134,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * show or hide the personal card
      */
     public void hidePersonal(boolean hide) {
-        PageAdapter.count = hide ? 2 : 3;
-        PageAdapter.notifyDataSetChanged();
+        PageAdapter.hidePersonal(hide);
     }
 
     /*
