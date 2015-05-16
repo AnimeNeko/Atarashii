@@ -46,7 +46,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         if (task == null)
             send.setText(getString(R.string.dialog_label_update));
         if (message != null)
-            this.message.setText((new HtmlUtil(getActivity())).convertComment(message));
+            this.message.setText((new HtmlUtil(getActivity())).convertMALComment(message));
         if (hint != null)
             this.message.setHint(hint);
         this.message.setSelection(this.message.getText().length());

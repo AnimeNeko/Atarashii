@@ -5,6 +5,7 @@ import android.content.Context;
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
@@ -66,7 +67,7 @@ public class HtmlUtil {
      * @param comment The HTML comment
      * @return String The BBCode comment
      */
-    public String convertComment(String comment) {
+    public String convertMALComment(String comment) {
         comment = comment.replace("\">", "]");
         comment = comment.replace("\n", "");
 
@@ -98,6 +99,44 @@ public class HtmlUtil {
         comment = comment.replace("<!--link-->", "");
 
         return comment;
+    }
+
+    /**
+     * convert a AL comment into a HTML comment.
+     *
+     * @param comment The HTML comment
+     * @return String The BBCode comment
+     */
+    public String convertALComment(String comment) {
+        comment = comment.replace("\n", "<br>");                                                                                            // New line
+
+        comment = comment.replace("~~~img(", "<img width=\"100%\" src=\"").replace(")~~~", "\">");                                          // Image
+        comment = comment.replaceAll("~~~(.+?)~~~", "<center>$1</center>");                                                                 // Center
+        comment = comment.replaceAll("__(.+?)__", "<b>$1</b>");                                                                             // Text bold
+        comment = comment.replaceAll("_(.+?)_", "<em>$1</em>");                                                                             // Text Italic
+        comment = comment.replaceAll("~~(.+?)~~", "<em>$1</em>");                                                                           // Text strike
+        return comment;
+    }
+
+    /**
+     * Converts the spoiler HTML code into the BBCode.
+     *
+     * @param text The text to search for a spoiler
+     * @return String The text with the BBCode spoiler
+     */
+    private String convertSpoiler(String text) {
+        text = text.replace("<div class=\"spoiler]", "");
+        text = text.replace("<input type=\"button\" class=\"button\"", "");
+        text = text.replace(" onclick=\"this.nextSibling.nextSibling.style.display='block';", "");
+        text = text.replace("this.style.display='none';\"", "");
+        text = text.replace(" value=\"Show spoiler]", "");
+        text = text.replace("<span class=\"spoiler_content\" style=\"display:none]", "");
+        text = text.replace("<input type=\"button\" class=\"button\" ", "");
+        text = text.replace("onclick=\"this.parentNode.style.display='none';", "");
+        text = text.replace("this.parentNode.parentNode.childNodes[0].style.display='block';\" ", "");
+        text = text.replace("value=\"Hide spoiler]", "[spoiler]");
+        text = text.replace("<!--spoiler--></span>", "[/spoiler]");
+        return text;
     }
 
     /**
@@ -236,10 +275,7 @@ public class HtmlUtil {
         for (int i = 0; i < record.size(); i++) {
             Reviews review = record.get(i);
             String reviewreal = postStructure;
-            String comment = review.getReview().replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
-
-            comment = comment.replace("data-src=", "width=\"100%\" src=");
-            comment = comment.replace("img src=", "img width=\"100%\" src=");
+            String comment = convertALComment(review.getReview()).replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
 
             if (User.isDeveloperRecord(review.getUsername()))
                 reviewreal = reviewreal.replace("=\"title\">", "=\"developer\">");
@@ -247,7 +283,7 @@ public class HtmlUtil {
             reviewreal = reviewreal.replace("Title", review.getUsername());
             reviewreal = reviewreal.replace("itemID", Integer.toString(i));
             reviewreal = reviewreal.replace("position", Integer.toString(i));
-            reviewreal = reviewreal.replace("Subhead", DateTools.parseDate(review.getDate(), false));
+            reviewreal = reviewreal.replace("Subhead", DateTools.parseDate(review.getDate(), !AccountService.isMAL()));
             reviewreal = reviewreal.replace("<!-- place post content here -->", comment);
 
             result = result + reviewreal;

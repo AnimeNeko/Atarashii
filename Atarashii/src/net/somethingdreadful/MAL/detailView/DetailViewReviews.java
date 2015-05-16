@@ -119,7 +119,8 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
                 Theme.Snackbar(activity, R.string.toast_error_Records);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ForumPosts.apply(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DetailViewReviews.apply(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 

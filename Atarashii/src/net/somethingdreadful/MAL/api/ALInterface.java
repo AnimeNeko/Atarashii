@@ -151,9 +151,9 @@ public interface ALInterface {
     @GET("/forum/thread/{id}")
     ForumMain getPosts(@Path("id") int id, @Query("page") int page);
 
-    @GET("/review/anime/{id}")
+    @GET("/anime/{id}/reviews")
     ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);
 
-    @GET("/review/manga/{id}")
+    @GET("/manga/{id}/reviews")
     ArrayList<Reviews> getMangaReviews(@Path("id") int id, @Query("page") int page);
 }
