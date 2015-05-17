@@ -115,6 +115,16 @@ public class HtmlUtil {
         comment = comment.replaceAll("__(.+?)__", "<b>$1</b>");                                                                             // Text bold
         comment = comment.replaceAll("_(.+?)_", "<em>$1</em>");                                                                             // Text Italic
         comment = comment.replaceAll("~~(.+?)~~", "<em>$1</em>");                                                                           // Text strike
+
+        String[] spaces = comment.split("<br><br>");
+        int length = 0;
+        for (String line : spaces) {
+            length = length + line.length() + 8;
+            if (length > 300) {
+                comment = comment.substring(0, length - 4) + spoilerStructure + comment.substring(length, comment.length());
+                break;
+            }
+        }
         return comment;
     }
 
@@ -275,7 +285,8 @@ public class HtmlUtil {
         for (int i = 0; i < record.size(); i++) {
             Reviews review = record.get(i);
             String reviewreal = postStructure;
-            String comment = convertALComment(review.getReview()).replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
+            String comment = review.getReview().replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
+            comment = AccountService.isMAL() ? comment : convertALComment(comment);
 
             if (User.isDeveloperRecord(review.getUsername()))
                 reviewreal = reviewreal.replace("=\"title\">", "=\"developer\">");
