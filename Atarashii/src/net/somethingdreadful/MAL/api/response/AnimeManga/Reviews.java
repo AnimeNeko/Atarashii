@@ -42,6 +42,6 @@ public class Reviews implements Serializable {
     }
 
     public String getAvatarUrl() {
-        return AccountService.isMAL() ? username : user.getImageUrl();
+        return AccountService.isMAL() ? avatarUrl : user.getImageUrl();
     }
 }
