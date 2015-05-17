@@ -31,23 +31,40 @@ public class HtmlUtil {
     }
 
     /**
+     * Change the spoiler text with resource id's
+     *
+     * @param hide String resource id
+     * @param show String resource id
+     */
+    private void setSpoilerText(int hide, int show){
+        spoilerStructure = spoilerStructure
+                .replace("Hide spoiler", context.getString(hide).toUpperCase())
+                .replace("Show spoiler", context.getString(show).toUpperCase());
+        structure = structure
+                .replace("Hide spoiler", context.getString(hide).toUpperCase())
+                .replace("Show spoiler", context.getString(show).toUpperCase());
+    }
+
+    /**
      * Creates from the given data the list.
      *
      * @param result The post list
-     * @param record The ForumMain object that contains the pagenumbers
+     * @param maxpages The maximum amount of pages
      * @param page   The current page number
      * @return String The html source
+     *
+     * note: if the maxpages equals -1 it will show a questionmark instead a pageString message.
      */
-    private String buildList(String result, ForumMain record, Integer page) {
+    private String buildList(String result, int maxpages, Integer page) {
         String list = structure.replace("<!-- insert here the posts -->", rebuildSpoiler(result));
         if (page == 1)
             list = list.replace("class=\"item\" value=\"1\"", "class=\"item hidden\" value=\"1\"");
-        if (record == null || page == record.getPages())
+        if (maxpages == 0 || page == maxpages)
             list = list.replace("class=\"item\" value=\"2\"", "class=\"item hidden\" value=\"2\"");
-        if (record == null) {
+        if (maxpages == 0) {
             list = list.replace("(page/pages)", pageString);
         } else {
-            list = list.replace("pages", Integer.toString(record.getPages()));
+            list = list.replace("pages", maxpages == -1 ? "?" : Integer.toString(maxpages));
             list = list.replace("page", Integer.toString(page));
         }
 
@@ -232,7 +249,7 @@ public class HtmlUtil {
             }
         }
         pageString = context.getString(R.string.no_activity);
-        return buildList(result, null, page);
+        return buildList(result, 0, page);
     }
 
     /**
@@ -271,7 +288,7 @@ public class HtmlUtil {
             result = result + postreal;
         }
         pageString = context.getString(R.string.no_activity);
-        return buildList(result, record, page);
+        return buildList(result, record.getPages(), page);
     }
 
     /**
@@ -281,6 +298,7 @@ public class HtmlUtil {
      * @return String The HTML source
      */
     public String convertList(ArrayList<Reviews> record, int page) {
+        setSpoilerText(R.string.show_less, R.string.read_more);
         String result = "";
         for (int i = 0; i < record.size(); i++) {
             Reviews review = record.get(i);
@@ -300,6 +318,15 @@ public class HtmlUtil {
             result = result + reviewreal;
         }
         pageString = context.getString(R.string.no_reviews);
-        return buildList(result, null, page);
+
+        int maxPage;
+        if (record.size() == 0)
+            maxPage = 0;
+        else if (record.size() < 20 && AccountService.isMAL())
+            maxPage = page;
+        else
+            maxPage = AccountService.isMAL() ? -1 : 0;
+
+        return buildList(result, maxPage, page);
     }
 }

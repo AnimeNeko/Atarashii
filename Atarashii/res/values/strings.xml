@@ -144,6 +144,8 @@
     <string name="not_specified">not specified</string>
     <string name="no_activity">No Activity</string>
     <string name="no_reviews">No Reviews</string>
+    <string name="read_more">read more</string>
+    <string name="show_less">show less</string>
     <string-array name="gender">
         <item>Female</item>
         <item>Male</item>

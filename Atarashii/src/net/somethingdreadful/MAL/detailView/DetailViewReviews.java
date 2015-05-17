@@ -58,6 +58,7 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
         }
 
         webview.getSettings().setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(new ReviewsInterface(this), "Posts");
 
         return view;
     }

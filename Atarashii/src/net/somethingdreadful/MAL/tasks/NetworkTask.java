@@ -27,7 +27,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     APIAuthenticationErrorListener authErrorCallback;
     Object taskResult;
     TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
-            TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH};
+            TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
 
     public NetworkTask(TaskJob job, MALApi.ListType type, Context context, Bundle data, NetworkTaskCallbackListener callback, APIAuthenticationErrorListener authErrorCallback) {
