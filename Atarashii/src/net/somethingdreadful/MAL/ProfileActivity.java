@@ -17,6 +17,7 @@ import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
 import net.somethingdreadful.MAL.profile.ProfileFriends;
+import net.somethingdreadful.MAL.profile.ProfileHistory;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
@@ -29,6 +30,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     ProfileFriends friends;
     ProfileDetailsAL detailsAL;
     ProfileDetailsMAL detailsMAL;
+    ProfileHistory history;
 
     @InjectView(R.id.pager) ViewPager viewPager;
 
@@ -152,6 +154,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             detailsAL.refresh();
         if (friends != null)
             friends.getRecords();
+        if (history != null)
+            history.refresh();
     }
 
     public void refreshing(boolean loading) {
@@ -203,5 +207,9 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         this.detailsAL = details;
         if (record != null)
             details.refresh();
+    }
+
+    public void setHistory(ProfileHistory history) {
+        this.history = history;
     }
 }
