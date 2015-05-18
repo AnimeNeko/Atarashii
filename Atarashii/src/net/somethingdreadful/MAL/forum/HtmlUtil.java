@@ -9,7 +9,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.Forum;
 import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import java.io.IOException;
@@ -186,11 +186,11 @@ public class HtmlUtil {
      * @return String The HTML source
      */
     public String convertList(User record, int page) {
-        ArrayList<Activity> list = record.getActivity();
+        ArrayList<History> list = record.getActivity();
         String result = "";
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                Activity post = list.get(i);
+                History post = list.get(i);
                 String postreal = postStructure;
 
                 String comment = "";

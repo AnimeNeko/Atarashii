@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Activity implements Serializable {
+public class History implements Serializable {
     @Setter @Getter private int id;
     @Setter @Getter @SerializedName("user_id") private int userId;
     @Setter @Getter @SerializedName("reply_count") private int replyCount;

@@ -13,7 +13,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
@@ -80,7 +80,7 @@ public class ALApi {
         return auth;
     }
 
-    public ArrayList<Activity> getActivity(String username) {
+    public ArrayList<History> getActivity(String username) {
         return service.getActivity(username);
     }
 

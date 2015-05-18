@@ -18,7 +18,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Series;
 import net.somethingdreadful.MAL.api.response.RecordStub;
-import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
@@ -972,10 +972,10 @@ public class DatabaseManager {
         }
     }
 
-    public void saveActivity(ArrayList<Activity> activities, String username) {
+    public void saveActivity(ArrayList<History> activities, String username) {
         Integer userId = getUserId(username);
         if (userId > 0) {
-            for (Activity activity : activities) {
+            for (History activity : activities) {
                 ContentValues cv = new ContentValues();
                 cv.put(MALSqlHelper.COLUMN_ID, activity.getId());
                 cv.put("user", userId);
@@ -1012,13 +1012,13 @@ public class DatabaseManager {
         }
     }
 
-    public ArrayList<Activity> getActivity(String username) {
-        ArrayList<Activity> result = null;
+    public ArrayList<History> getActivity(String username) {
+        ArrayList<History> result = null;
         Cursor cursor = getDBRead().query(MALSqlHelper.TABLE_ACTIVITIES, null, "user = ?", new String[]{getUserId(username).toString()}, null, null, MALSqlHelper.COLUMN_ID + " DESC");
         if (cursor.moveToFirst()) {
             result = new ArrayList<>();
             do {
-                Activity activity = new Activity();
+                History activity = new History();
                 activity.setId(cursor.getInt(cursor.getColumnIndex(MALSqlHelper.COLUMN_ID)));
                 activity.setUserId(cursor.getInt(cursor.getColumnIndex("user")));
                 activity.setActivityType(cursor.getString(cursor.getColumnIndex("type")));
