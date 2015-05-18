@@ -214,9 +214,6 @@ public class HtmlUtil {
 
                 comment = comment.replace("data-src=", "width=\"100%\" src=");
                 comment = comment.replace("img src=", "img width=\"100%\" src=");
-
-                if (User.isDeveloperRecord(post.getUsers().get(0).getDisplayName()) && post.getActivityType().equals("message"))
-                    postreal = postreal.replace("=\"title\">", "=\"developer\">");
                 postreal = postreal.replace("image", image);
                 postreal = postreal.replace("Title", title);
                 postreal = postreal.replace("itemID", Integer.toString(post.getId()));
@@ -227,7 +224,7 @@ public class HtmlUtil {
                 result = result + postreal;
             }
         }
-        pageString = context.getString(R.string.no_activity);
+        pageString = context.getString(R.string.no_history);
         return buildList(result, 0, page);
     }
 
