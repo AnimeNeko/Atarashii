@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Series {
+    // AniList
     @Setter @Getter private boolean adult;
     @Setter @Getter @SerializedName("airing_status") private String airingStatus;
     @Setter @Getter @SerializedName("average_score") private float averageScore;
@@ -22,6 +23,11 @@ public class Series {
     @Setter @Getter @SerializedName("total_episodes") private int totalEpisodes;
     @Setter @Getter @SerializedName("total_volumes") private int totalVolumes;
     @Setter @Getter private String type;
+
+    // MyAnimeList
+    private int chapters;
+    private int episodes;
+    private String title;
 
     public static Series fromAnime(Anime anime) {
         Series result = new Series();
@@ -75,5 +81,13 @@ public class Series {
             result.setVolumes(totalVolumes);
         }
         return result;
+    }
+
+    public Series createBaseModel(String seriesType) {
+        setTitleRomaji(title);
+        setTotalEpisodes(episodes);
+        setTotalChapters(chapters);
+        setSeriesType(seriesType);
+        return this;
     }
 }
