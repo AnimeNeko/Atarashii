@@ -6,6 +6,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
@@ -137,4 +138,7 @@ public interface MALInterface {
 
     @GET("/manga/reviews/{id}")
     ArrayList<Reviews> getMangaReviews(@Path("id") int id, @Query("page") int page);
+
+    @GET("/history/{username}")
+    ArrayList<History> getActivity(@Path("username") String username);
 }

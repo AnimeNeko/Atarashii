@@ -23,6 +23,7 @@ import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class DatabaseManager {
@@ -974,8 +975,12 @@ public class DatabaseManager {
 
     public void saveActivity(ArrayList<History> activities, String username) {
         Integer userId = getUserId(username);
+        if (AccountService.isMAL())
+            Collections.reverse(activities);
         if (userId > 0) {
             for (History activity : activities) {
+                if (AccountService.isMAL())
+                    activity.createBaseModel(username);
                 ContentValues cv = new ContentValues();
                 cv.put(MALSqlHelper.COLUMN_ID, activity.getId());
                 cv.put("user", userId);
@@ -988,13 +993,15 @@ public class DatabaseManager {
                     if (activity.getSeries().getSeriesType().equals("anime")) {
                         Anime anime = activity.getSeries().getAnime();
                         if (anime != null) {
-                            saveAnime(anime, true, 0, true);
+                            if (!AccountService.isMAL())
+                                saveAnime(anime, true, 0, true);
                             cv.put("series_anime", activity.getSeries().getId());
                         }
                     } else if (activity.getSeries().getSeriesType().equals("manga")) {
                         Manga manga = activity.getSeries().getManga();
-                        if (manga != null) {
-                            saveManga(manga, true, 0, true);
+                        if (manga != null && !AccountService.isMAL()) {
+                            if (!AccountService.isMAL())
+                                saveManga(manga, true, 0, true);
                             cv.put("series_manga", activity.getSeries().getId());
                         }
                     }
