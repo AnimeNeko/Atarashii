@@ -35,8 +35,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     boolean forcesync = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         Theme.setTheme(this, R.layout.activity_profile, true);
         ButterKnife.inject(this);
 
@@ -50,9 +50,19 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
 
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
+        }
+
+        if (bundle != null) {
+            record = (User) bundle.getSerializable("record");
+            setText();
         } else {
-            refreshing(true);
-            new UserNetworkTask(context, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"), getIntent().getStringExtra("username"));
+            if (getIntent().getExtras().containsKey("user")) {
+                record = (User) getIntent().getExtras().get("user");
+                setText();
+            } else {
+                refreshing(true);
+                new UserNetworkTask(context, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
+            }
         }
 
         NfcHelper.disableBeam(this);
@@ -61,6 +71,12 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.activity_profile_view, menu);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putSerializable("record", record);
+        super.onSaveInstanceState(state);
     }
 
     @Override
