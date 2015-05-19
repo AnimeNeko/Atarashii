@@ -4,12 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -23,25 +23,33 @@ import net.somethingdreadful.MAL.forum.HtmlUtil;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ProfileHistory extends Fragment {
+public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private HtmlUtil htmlUtil;
-    private ProfileActivity activity;
+    public ProfileActivity activity;
 
     @InjectView(R.id.webview) WebView webview;
-    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        View view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_history, container, false);
         ButterKnife.inject(this, view);
 
         htmlUtil = new HtmlUtil(activity);
         webview.getSettings().setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(new ProfileHistoryInterface(this), "Posts");
 
         activity.setHistory(this);
         if (activity.record != null)
             refresh();
+        else
+            activity.getRecords();
+
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
 
         NfcHelper.disableBeam(activity);
         return view;
@@ -56,7 +64,6 @@ public class ProfileHistory extends Fragment {
         try {
             if (result != null) {
                 webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, 1), "text/html", "utf-8", null);
-                toggle(false);
             } else {
                 Theme.Snackbar(activity, R.string.toast_error_Records);
             }
@@ -73,16 +80,12 @@ public class ProfileHistory extends Fragment {
         this.activity = (ProfileActivity) activity;
     }
 
-    /**
-     * Show or hide the progress indicator.
-     *
-     * @param loading True if the indicator should be shown
-     */
-    public void toggle(boolean loading) {
-        viewFlipper.setDisplayedChild(loading ? 1 : 0);
-    }
-
     public void refresh() {
         apply(activity.record);
+    }
+
+    @Override
+    public void onRefresh() {
+        activity.getRecords();
     }
 }
