@@ -2,10 +2,12 @@ package net.somethingdreadful.MAL.api.response.AnimeManga;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class Series {
+public class Series implements Serializable {
     // AniList
     @Setter @Getter private boolean adult;
     @Setter @Getter @SerializedName("airing_status") private String airingStatus;

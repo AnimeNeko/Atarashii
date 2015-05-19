@@ -31,6 +31,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     ProfileDetailsAL detailsAL;
     ProfileDetailsMAL detailsMAL;
     ProfileHistory history;
+    boolean isLoading = false;
 
     @InjectView(R.id.pager) ViewPager viewPager;
 
@@ -145,6 +146,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         record = result;
         refresh();
         refreshing(false);
+        isLoading = false;
     }
 
     public void setText() {
@@ -171,15 +173,22 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             friends.swipeRefresh.setRefreshing(loading);
             friends.swipeRefresh.setEnabled(!loading);
         }
+        if (history != null) {
+            history.swipeRefresh.setRefreshing(loading);
+            history.swipeRefresh.setEnabled(!loading);
+        }
     }
 
     public void getRecords() {
-        String username;
-        if (record != null)
-            username = record.getName();
-        else
-            username = getIntent().getStringExtra("username");
-        new UserNetworkTask(context, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
+        if (!isLoading) {
+            isLoading = true;
+            String username;
+            if (record != null)
+                username = record.getName();
+            else
+                username = getIntent().getStringExtra("username");
+            new UserNetworkTask(context, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
+        }
     }
 
     public void setDetails(ProfileDetailsMAL details) {
