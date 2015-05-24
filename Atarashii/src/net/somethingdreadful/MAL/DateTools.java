@@ -47,7 +47,7 @@ public class DateTools {
             case 10: // 2015-05-10
                 return getDate("yyyy-MM-dd", ISO8601);
             case 18: // 2015-05-10T16+0100
-                return getDate("yyyy-MM-dd'T'HH", ISO8601);
+                return getDate("yyyy-MM-dd'T'HHZ", ISO8601);
             case 21: // 2015-05-10T16:23+0100
                 return getDate("yyyy-MM-dd'T'HH:mmZ", ISO8601);
             case 22: // 2015-05-10T16:23+01:00
