@@ -13,7 +13,7 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 
 public class StatusPickerDialogFragment extends DialogFragment implements OnCheckedChangeListener {
 

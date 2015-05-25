@@ -35,7 +35,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;

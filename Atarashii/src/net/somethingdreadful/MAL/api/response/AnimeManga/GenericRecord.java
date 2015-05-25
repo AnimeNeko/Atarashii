@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL.api.response;
+package net.somethingdreadful.MAL.api.response.AnimeManga;
 
 import android.text.Html;
 import android.text.Spanned;
