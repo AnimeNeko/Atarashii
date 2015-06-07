@@ -117,7 +117,8 @@ public class HtmlUtil {
         comment = comment.replace("<strong>", "[b]").replace("</strong>", "[/b]");                                                          // Text bold
         comment = comment.replace("<u>", "[u]").replace("</u>", "[/u]");                                                                    // Text underline
         comment = comment.replace("<div style=\"text-align: center;]", "[center]").replace("<!--center-->", "[/center]");                   // Center
-        comment = convertSpoiler(comment);                                                                                                  // Spoiler
+        comment = comment.replaceAll("<div class=\"spoiler](.+?)value=\"Hide spoiler]", "[spoiler]");                                       // Spoiler
+        comment = comment.replace("<!--spoiler--></span>", "[/spoiler]");
         comment = comment.replace("<a href=\"", "[url=").replace("target=\"_blank ", "").replace("</a>", "[/url]");                         // Hyperlink
         comment = comment.replace("<!--quote--><div class=\"quotetext][b]", "[quote=").replace(" said:[/b]<!--quotesaid-->", "]");          // Quote
         comment = comment.replace("<!--quote-->", "[/quote]");
@@ -133,27 +134,6 @@ public class HtmlUtil {
         comment = comment.replace("<!--link-->", "");
 
         return comment;
-    }
-
-    /**
-     * Converts the spoiler HTML code into the BBCode.
-     *
-     * @param text The text to search for a spoiler
-     * @return String The text with the BBCode spoiler
-     */
-    private String convertSpoiler(String text) {
-        text = text.replace("<div class=\"spoiler]", "");
-        text = text.replace("<input type=\"button\" class=\"button\"", "");
-        text = text.replace(" onclick=\"this.nextSibling.nextSibling.style.display='block';", "");
-        text = text.replace("this.style.display='none';\"", "");
-        text = text.replace(" value=\"Show spoiler]", "");
-        text = text.replace("<span class=\"spoiler_content\" style=\"display:none]", "");
-        text = text.replace("<input type=\"button\" class=\"button\" ", "");
-        text = text.replace("onclick=\"this.parentNode.style.display='none';", "");
-        text = text.replace("this.parentNode.parentNode.childNodes[0].style.display='block';\" ", "");
-        text = text.replace("value=\"Hide spoiler]", "[spoiler]");
-        text = text.replace("<!--spoiler--></span>", "[/spoiler]");
-        return text;
     }
 
     /**
