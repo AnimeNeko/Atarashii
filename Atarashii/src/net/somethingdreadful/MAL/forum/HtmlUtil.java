@@ -117,7 +117,10 @@ public class HtmlUtil {
         comment = comment.replace("<strong>", "[b]").replace("</strong>", "[/b]");                                                          // Text bold
         comment = comment.replace("<u>", "[u]").replace("</u>", "[/u]");                                                                    // Text underline
         comment = comment.replace("<div style=\"text-align: center;]", "[center]").replace("<!--center-->", "[/center]");                   // Center
-        comment = convertSpoiler(comment);                                                                                                  // Spoiler
+        comment = comment.replaceAll("<div class=\"spoiler](.+?)value=\"Hide spoiler]", "[spoiler]");                                       // Spoiler
+        comment = comment.replace("<!--spoiler--></span>", "[/spoiler]");
+        comment = comment.replaceAll("<iframe class=\"movie youtube\"(.+?)/embed/", "[yt]");                                                // Youtube
+        comment = comment.replace("?rel=1]</iframe>", "[/yt]");
         comment = comment.replace("<a href=\"", "[url=").replace("target=\"_blank ", "").replace("</a>", "[/url]");                         // Hyperlink
         comment = comment.replace("<!--quote--><div class=\"quotetext][b]", "[quote=").replace(" said:[/b]<!--quotesaid-->", "]");          // Quote
         comment = comment.replace("<!--quote-->", "[/quote]");
@@ -136,43 +139,13 @@ public class HtmlUtil {
     }
 
     /**
-     * Converts the spoiler HTML code into the BBCode.
-     *
-     * @param text The text to search for a spoiler
-     * @return String The text with the BBCode spoiler
-     */
-    private String convertSpoiler(String text) {
-        text = text.replace("<div class=\"spoiler]", "");
-        text = text.replace("<input type=\"button\" class=\"button\"", "");
-        text = text.replace(" onclick=\"this.nextSibling.nextSibling.style.display='block';", "");
-        text = text.replace("this.style.display='none';\"", "");
-        text = text.replace(" value=\"Show spoiler]", "");
-        text = text.replace("<span class=\"spoiler_content\" style=\"display:none]", "");
-        text = text.replace("<input type=\"button\" class=\"button\" ", "");
-        text = text.replace("onclick=\"this.parentNode.style.display='none';", "");
-        text = text.replace("this.parentNode.parentNode.childNodes[0].style.display='block';\" ", "");
-        text = text.replace("value=\"Hide spoiler]", "[spoiler]");
-        text = text.replace("<!--spoiler--></span>", "[/spoiler]");
-        return text;
-    }
-
-    /**
      * Rebuild the spoiler to work again.
      *
      * @param html The html source where this method should fix the spoilers
      * @return String The source with working spoilers
      */
     private String rebuildSpoiler(String html) {
-        html = html.replace("<div class=\"spoiler\">", "");
-        html = html.replace("<input type=\"button\" class=\"button\"", "");
-        html = html.replace(" onclick=\"this.nextSibling.nextSibling.style.display='block';", "");
-        html = html.replace("this.style.display='none';\"", "");
-        html = html.replace(" value=\"Show spoiler\">", "");
-        html = html.replace("<span class=\"spoiler_content\" style=\"display:none\">", "");
-        html = html.replace("<input type=\"button\" class=\"button\" ", "");
-        html = html.replace(" onclick=\"this.parentNode.style.display='none';", "");
-        html = html.replace("this.parentNode.parentNode.childNodes[0].style.display='block';\" ", "");
-        html = html.replace("value=\"Hide spoiler\"><br>", spoilerStructure);
+        html = html.replaceAll("<div class=\"spoiler\">(\\s.+?)value=\"Hide spoiler\">", spoilerStructure);
         html = html.replace("<!--spoiler--></span>", "");
         return html;
     }
