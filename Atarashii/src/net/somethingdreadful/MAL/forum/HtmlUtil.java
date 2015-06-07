@@ -143,16 +143,7 @@ public class HtmlUtil {
      * @return String The source with working spoilers
      */
     private String rebuildSpoiler(String html) {
-        html = html.replace("<div class=\"spoiler\">", "");
-        html = html.replace("<input type=\"button\" class=\"button\"", "");
-        html = html.replace(" onclick=\"this.nextSibling.nextSibling.style.display='block';", "");
-        html = html.replace("this.style.display='none';\"", "");
-        html = html.replace(" value=\"Show spoiler\">", "");
-        html = html.replace("<span class=\"spoiler_content\" style=\"display:none\">", "");
-        html = html.replace("<input type=\"button\" class=\"button\" ", "");
-        html = html.replace(" onclick=\"this.parentNode.style.display='none';", "");
-        html = html.replace("this.parentNode.parentNode.childNodes[0].style.display='block';\" ", "");
-        html = html.replace("value=\"Hide spoiler\"><br>", spoilerStructure);
+        html = html.replaceAll("<div class=\"spoiler\">(\\s.+?)value=\"Hide spoiler\">", spoilerStructure);
         html = html.replace("<!--spoiler--></span>", "");
         return html;
     }
