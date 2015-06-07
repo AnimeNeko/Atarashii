@@ -119,6 +119,8 @@ public class HtmlUtil {
         comment = comment.replace("<div style=\"text-align: center;]", "[center]").replace("<!--center-->", "[/center]");                   // Center
         comment = comment.replaceAll("<div class=\"spoiler](.+?)value=\"Hide spoiler]", "[spoiler]");                                       // Spoiler
         comment = comment.replace("<!--spoiler--></span>", "[/spoiler]");
+        comment = comment.replaceAll("<iframe class=\"movie youtube\"(.+?)/embed/", "[yt]");                                                // Youtube
+        comment = comment.replace("?rel=1]</iframe>", "[/yt]");
         comment = comment.replace("<a href=\"", "[url=").replace("target=\"_blank ", "").replace("</a>", "[/url]");                         // Hyperlink
         comment = comment.replace("<!--quote--><div class=\"quotetext][b]", "[quote=").replace(" said:[/b]<!--quotesaid-->", "]");          // Quote
         comment = comment.replace("<!--quote-->", "[/quote]");
