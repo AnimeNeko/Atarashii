@@ -12,6 +12,7 @@ import com.crashlytics.android.Crashlytics;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
+import io.fabric.sdk.android.Fabric;
 import net.somethingdreadful.MAL.account.AccountService;
 
 import java.util.Locale;
@@ -25,7 +26,7 @@ public class Theme extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Crashlytics.start(this);
+        Fabric.with(this, new Crashlytics());
         PrefManager.create(getApplicationContext());
         AccountService.create(getApplicationContext());
 

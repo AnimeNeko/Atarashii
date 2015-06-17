@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        maven { url 'http://download.crashlytics.com/maven' }
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 task wrapper(type: Wrapper) {
@@ -12,7 +12,7 @@ task wrapper(type: Wrapper) {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 21
@@ -58,7 +58,7 @@ android {
 apply from: 'local.gradle'
 
 repositories {
-    maven { url 'http://download.crashlytics.com/maven' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -67,10 +67,12 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.+'
     compile 'com.android.support:appcompat-v7:22.+'
     compile 'com.google.code.gson:gson:2.3.+'
-    compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.nispok:snackbar:2.10.+'
     compile 'org.apache.commons:commons-lang3:3.2.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     provided 'org.projectlombok:lombok:1.16.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
+        transitive = true;
+    }
 }
