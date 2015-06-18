@@ -223,9 +223,9 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 34);
-        Card.getLayoutParams().width = convert(width + 34);
-        Card.getLayoutParams().height = convert(height + 96);
+        Header.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().height = convert(height + 92);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
