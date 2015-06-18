@@ -361,7 +361,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      */
     private boolean getRecordFromDB() {
         DatabaseManager dbMan = new DatabaseManager(this);
-        if (type.equals(ListType.ANIME)) {
+        if (type == null) {
+            Crashlytics.log(Log.ERROR, "MALX", "DetailView.getRecordFromDB(): ");
+            Theme.Snackbar(this, R.string.toast_error_Records);
+            return false;
+        } else if (type.equals(ListType.ANIME)) {
             animeRecord = dbMan.getAnime(recordID, username);
             return animeRecord != null;
         } else {

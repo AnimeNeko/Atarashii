@@ -122,11 +122,12 @@
     <RelativeLayout
         android:id="@+id/tagsPanel"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/priorityPanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite_details"
+        android:minHeight="56dp">
 
         <View
             android:id="@+id/divider9"
@@ -134,36 +135,45 @@
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TableRow
+            android:id="@+id/tagsRow"
             android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="@string/card_content_my_tags"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp">
 
-        <TextView
-            android:id="@+id/myTags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:text="@string/layout_card_loading"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/card_content_my_tags"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/myTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/layout_card_loading"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_marginLeft="18dp" />
+        </TableRow>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/commentspanel"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tagsPanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite_details"
+        android:minHeight="56dp">
 
         <View
             android:id="@+id/divider10"
@@ -171,25 +181,34 @@
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:text="@string/card_content_comments"
-            android:textColor="#000000"
-            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/comments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+        <TableRow
+            android:id="@+id/commentsRow"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:text="@string/layout_card_loading"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/card_content_comments"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="layout_card_loading"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_marginLeft="18dp"  />
+        </TableRow>
     </RelativeLayout>
 </RelativeLayout>

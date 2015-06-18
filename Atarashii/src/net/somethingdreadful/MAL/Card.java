@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
@@ -98,6 +99,19 @@ public class Card extends RelativeLayout {
         }
     }
 
+    private void initLoop(TableRow view) {
+        for (int i = 0; i < view.getChildCount(); i++) {
+            View child = view.getChildAt(i);
+            if (child instanceof TextView)
+                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+            else if (child instanceof RelativeLayout) {
+                initLoop((RelativeLayout) child);
+                Theme.setBackground(getContext(), child);
+            } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
+                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+        }
+    }
+
     private void initLoop(RelativeLayout view) {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
@@ -106,6 +120,8 @@ public class Card extends RelativeLayout {
             else if (child instanceof RelativeLayout) {
                 initLoop((RelativeLayout) child);
                 Theme.setBackground(getContext(), child);
+            } else if (child instanceof TableRow) {
+                initLoop((TableRow) child);
             } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
                 child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
         }
@@ -223,9 +239,9 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 34);
-        Card.getLayoutParams().width = convert(width + 34);
-        Card.getLayoutParams().height = convert(height + 96);
+        Header.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().height = convert(height + 92);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
