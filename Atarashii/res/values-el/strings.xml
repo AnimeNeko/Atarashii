@@ -26,13 +26,8 @@
     <string name="toast_error_Anime_Records">Λάθος κατά την λήψη αρχείων anime.</string>
     <string name="toast_error_Manga_Records">Λάθος κατά την λήψη αρχείων manga.</string>
     <string name="toast_error_Records">Λάθος κατά την λήψη αρχείων. Παρακαλώ προσπαθήστε ξανά αργότερα.</string>
-    <string name="toast_error_DetailsError">Δεν ήταν δυνατή η φόρτωση λεπτομερειών, παρακαλώ ελέγξτε τη σύνδεση σας στο Internet.</string>
-    <string name="toast_error_VerifyProblem">Να πάρει! Κάτι πήγε στραβά. Παρακαλώ ελέγξτε τα στοιχεία σύνδεσης σας στο MAL και τη σύνδεση σας στο Internet και δοκιμάστε ξανά.</string>
     <string name="toast_error_Friends">Σφάλμα κατά τη λήψη της λίστας των φίλων!</string>
-    <string name="toast_error_nothingFound">Δεν βρέθηκαν αποτελέσματα σε anime ή manga. Η υπάρχει πρόβλημα με το API ή δεν ξέρετε να γράφετε.</string>
-    <string name="toast_info_SyncMessage">Ολικώς συγχρονισμός. Αυτό θα διαρκέσει λίγο, αναλόγως και της ταχύτητας σας στο Internet.</string>
     <string name="toast_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
-    <string name="toast_info_hold_on">Περιμένε ένα λεπτό, φορτώνουμε κάποιες πληροφορίες!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Προβολή</string>
     <string name="dialog_title_share">Διαμοιρασμός</string>
@@ -104,12 +99,12 @@
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Φίλοι από</string>
     <string name="unknown">Αγνωστος</string>
+    <!-- ForumActivity Strings -->
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">Όνομα Χρήστη MAL:</string>
     <string name="form_hint_pass">Κωδικός MAL:</string>
     <string name="form_hint_info">Εισάγετε τα στοιχεία του λογαριασμού σας, από το MyAnimeList παρακάτω:</string>
     <string name="form_action_create">Δημιουργία λογαριασμού</string>
-    <string name="form_action_connect">Σύνδεση στο MAL</string>
     <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">Έχω δει:</string>
     <string name="cover_Completed">Ολοκληρωμένα</string>
@@ -134,15 +129,13 @@
     <string name="nav_item_upcoming">Αναμενόμενα</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <!-- DetailView (Tab names) Strings -->
+    <!-- Tab names Strings -->
     <string name="tab_name_general">Γενικές Πληροφορίες</string>
     <string name="tab_name_personal">Προσωπικά</string>
     <string name="tab_name_details">Λεπτομέρειες</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Περίληψη</string>
     <string name="card_name_progress">Πρόοδος</string>
-    <string name="card_name_stats">Στατιστικά MAL</string>
-    <string name="card_name_info">Πληοροφίες MAL</string>
     <string name="card_name_rating">Βαθμολογία</string>
     <string name="card_name_personal">Προσωπικό</string>
     <string name="card_name_relations">Σχέσεις</string>
@@ -156,7 +149,6 @@
     <string name="card_content_chapters">Κεφάλαια</string>
     <string name="card_content_episodes">Επεισόδια</string>
     <string name="card_content_status">Κατάσταση</string>
-    <string name="card_content_mal_score">Βαθμολόγηση MAL</string>
     <string name="card_content_my_score">Ο δικός μου βαθμός</string>
     <string name="card_content_media_type">Είδος</string>
     <string name="card_content_media_status">Κατάσταση</string>
@@ -241,11 +233,6 @@
     <!-- Anime/Manga progress status strings -->
         <item>Μελλοντική ανάγνωση</item>
     </string-array>
-    <!-- AndroidManifest (Unknown) Strings -->
-    <string name="permission_group_useAtarashii">Χρήση του Atarashii! για το MyAnimeList</string>
-    <string name="permission_group_description_useAtarashii">Επιτρέψτε se αυτή την εφαρμογή να χρησιμοποιεί το Atarashii! (αν είναι εγκατεστημένο) για πρόσβαση στον MyAnimeList λογαριασμό σας</string>
-    <string name="permission_updateMedia">Ανανέωση εγγραφών</string>
-    <string name="permission_description_updateMedia">Επιτρέψτε σε αυτή την εφαρμογή να ανανεώνει τις εγγραφές σας στον MyAnimeList λογαριασμό σας</string>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">Αναζήτηση στο MAL</string>
     <!-- AboutActivity (contents) Strings -->

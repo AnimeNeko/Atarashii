@@ -8,6 +8,7 @@
     <string name="title_activity_profile">Benutzerprofil</string>
     <string name="title_activity_friends">Meine Freunde</string>
     <string name="title_activity_logout">Abmelden</string>
+    <string name="title_activity_forum">Forum</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Liste wechseln</string>
     <string name="menu_inverse">Sortierung umkehren</string>
@@ -26,15 +27,21 @@
     <string name="toast_error_Anime_Records">Fehler beim Laden der Anime-Einträge.</string>
     <string name="toast_error_Manga_Records">Fehler beim Laden der Manga-Einträge.</string>
     <string name="toast_error_Records">Fehler beim Laden der Einträge. Bitte versuche es später noch einmal.</string>
-    <string name="toast_error_DetailsError">Details konnten nicht geladen werden, bitte prüfe Deine Internetverbindung.</string>
-    <string name="toast_error_VerifyProblem">Whoah! Etwas ist schief gelaufen. Prüfe Deine Zugangsdaten und Deine Internetverbindung und versuche es erneut.</string>
+    <string name="toast_error_VerifyProblem">Überprüfe deine Logindaten und versuche es noch einmal.</string>
     <string name="toast_error_Friends">Synchronisierungsfehler beim Laden der Freundesliste.</string>
-    <string name="toast_error_nothingFound">Keine Anime- oder Manga-Einträge gefunden. Entweder die API ist defekt oder Du kannst nicht buchstabieren.</string>
-    <string name="toast_info_SyncMessage">Sychronisiere alles. Das könnte ein oder zwei Sekunden dauern, abhängig von Deiner Internetgeschwindigkeit.</string>
+    <string name="toast_error_nothingFound">Keine Anime oder Manga Ergebnisse gefunden.</string>
+    <string name="toast_info_SyncMessage">Synchronisieren. Dies kann einige Sekunden dauern.</string>
     <string name="toast_info_Copied">Der Titel wurde erfolgreich in die Zwischenablage kopiert!</string>
-    <string name="toast_info_hold_on">Warte einen Moment, wir laden noch einige Informationen!</string>
+    <string name="toast_info_hold_on">Einen Augenblick, wir laden noch einige Informationen!</string>
+    <string name="toast_info_comment_add">Dein Kommentar wurde erfolgreich gesendet!</string>
+    <string name="toast_info_comment_added">Es kann 5 Minuten dauern bis deine Antwort sichtbar ist.</string>
+    <string name="toast_info_disabled">Diese Funktion ist momentan deaktiviert :(</string>
+    <string name="toast_info_disabled_youtube">Kommentare mit Youtube Videos werden nicht unterstützt :(</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Ansicht</string>
+    <string name="dialog_title_downloaded">Episoden runtergeladen</string>
+    <string name="dialog_title_comment">Meine Kommentare</string>
+    <string name="dialog_title_fansub">Meine Fansubgruppe</string>
     <string name="dialog_title_share">Teilen</string>
     <string name="dialog_title_share_via">Teilen über</string>
     <string name="dialog_title_Verifying">Prüfe</string>
@@ -44,6 +51,9 @@
     <string name="dialog_title_read_update">Gelesen</string>
     <string name="dialog_title_status">Status</string>
     <string name="dialog_title_sync">Synchronisation</string>
+    <string name="dialog_title_edit_comment">Kommentar bearbeiten</string>
+    <string name="dialog_title_add_comment">Kommentar hinzufügen</string>
+    <string name="dialog_title_add_topic">Thema erstellen</string>
     <string name="dialog_title_id_search">ID Suche</string>
     <string name="dialog_title_update_password">Passwort aktualisieren</string>
     <string name="dialog_title_update_navigation">Hintergrund aktualisieren</string>
@@ -104,12 +114,12 @@
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Freunde seit</string>
     <string name="unknown">Unbekannt</string>
+    <!-- ForumActivity Strings -->
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">MAL Benutzername</string>
     <string name="form_hint_pass">MAL Passwort</string>
     <string name="form_hint_info">Gib Deine MyAnimeList-Zugangsdaten unten ein:</string>
     <string name="form_action_create">Einen Account anlegen</string>
-    <string name="form_action_connect">Zu MAL verbinden</string>
     <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">Gesehen:</string>
     <string name="cover_Completed">Abgeschlossen</string>
@@ -134,15 +144,13 @@
     <string name="nav_item_upcoming">Kommende</string>
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
-    <!-- DetailView (Tab names) Strings -->
+    <!-- Tab names Strings -->
     <string name="tab_name_general">Allgemein</string>
     <string name="tab_name_personal">Persönlich</string>
     <string name="tab_name_details">Details</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Zusammenfassung</string>
     <string name="card_name_progress">Fortschritt</string>
-    <string name="card_name_stats">Info</string>
-    <string name="card_name_info">MAL Info</string>
     <string name="card_name_rating">Bewertung</string>
     <string name="card_name_personal">Persönlich</string>
     <string name="card_name_relations">Relationen</string>
@@ -156,7 +164,6 @@
     <string name="card_content_chapters">Kapitel</string>
     <string name="card_content_episodes">Episoden</string>
     <string name="card_content_status">Status</string>
-    <string name="card_content_mal_score">MAL Bewertung</string>
     <string name="card_content_my_score">Meine Bewertung</string>
     <string name="card_content_media_type">Medientyp</string>
     <string name="card_content_media_status">Medienstatus</string>
@@ -241,11 +248,6 @@
     <!-- Anime/Manga progress status strings -->
         <item>Lesen geplant</item>
     </string-array>
-    <!-- AndroidManifest (Unknown) Strings -->
-    <string name="permission_group_useAtarashii">Atarashii! für MyAnimeList verwenden</string>
-    <string name="permission_group_description_useAtarashii">Erlaubt dieser App Atarashii! zu verwenden (wenn installiert) um auf Deinen MyAnimeList-Account zuzugreifen</string>
-    <string name="permission_updateMedia">Einträge aktualisieren</string>
-    <string name="permission_description_updateMedia">Erlaubt dieser App Einträge in Deinem MyAnimeList-Account zu aktualisieren</string>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">Auf MAL suchen</string>
     <!-- AboutActivity (contents) Strings -->

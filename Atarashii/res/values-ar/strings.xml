@@ -26,13 +26,8 @@
     <string name="toast_error_Anime_Records">خطأ أثناء الحصول على مدخلات الـ Anime.</string>
     <string name="toast_error_Manga_Records">خطأ أثناء الحصول على مدخلات الـ Manga.</string>
     <string name="toast_error_Records">خطأ أثناء الحصول على المدخلات. من فضلك أعد المحاولة لاحقا.</string>
-    <string name="toast_error_DetailsError">لم نستطع تحميل التفاصيل، من فضلك تأكد من اتصالك بالإنترنت.</string>
-    <string name="toast_error_VerifyProblem">شئ ما لم يعمل. تحقق من بياناتك و اتصالك بالشبكة و حاول مجددا ً.</string>
     <string name="toast_error_Friends">خطأ فى التزامن أثناء الحصول على قائمة الأصدقاء!</string>
-    <string name="toast_error_nothingFound">لم نجد نتائج من الـ Anime أو الـ Manga. يمكن أن يكون هناك مشاكل فى واجهة برمجة التطبيق API أو أنك لم تتهج بشكل صحيح.</string>
-    <string name="toast_info_SyncMessage">يتزامن كل شئ الآن. هذا قد يتطلب ثانية أو اثنتان حسب سرعة اتصالك بالإنترنت</string>
     <string name="toast_info_Copied">تم نسخ العنوان إلى الـ clipboard بنجاح.</string>
-    <string name="toast_info_hold_on">أنتظر لحظة، ما زلنا نحمل بعض المعلومات!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">العرض</string>
     <string name="dialog_title_share">المشاركة</string>
@@ -104,12 +99,12 @@
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">أصدقاء منذ</string>
     <string name="unknown">وقت غير معلوم</string>
+    <!-- ForumActivity Strings -->
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">اسم مستخدم MAL</string>
     <string name="form_hint_pass">كلمة سر MAL</string>
     <string name="form_hint_info">ادخل بيانات دخولك على MyAnimeList ادناه:</string>
     <string name="form_action_create">أنشئ حسابا ً</string>
-    <string name="form_action_connect">أدخل MAL</string>
     <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">لقد شاهدت:</string>
     <string name="cover_Completed">شوهد كاملا ً</string>
@@ -134,15 +129,13 @@
     <string name="nav_item_upcoming">سيصدر لاحقا</string>
     <string name="drawer_open">افتح درج التصفح</string>
     <string name="drawer_close">اغلق درج التصفح</string>
-    <!-- DetailView (Tab names) Strings -->
+    <!-- Tab names Strings -->
     <string name="tab_name_general">عام</string>
     <string name="tab_name_personal">شخصى</string>
     <string name="tab_name_details">التفاصيل</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">نبذة</string>
     <string name="card_name_progress">التقدم</string>
-    <string name="card_name_stats">احصائيات MAL</string>
-    <string name="card_name_info">معلومات MAL</string>
     <string name="card_name_rating">التقييم</string>
     <string name="card_name_personal">شخصي</string>
     <string name="card_name_relations">ما يتعلق به</string>
@@ -156,7 +149,6 @@
     <string name="card_content_chapters">الفصول</string>
     <string name="card_content_episodes">الحلقات</string>
     <string name="card_content_status">الحالة</string>
-    <string name="card_content_mal_score">تقييم MAL</string>
     <string name="card_content_my_score">تقييمى</string>
     <string name="card_content_media_type">النوع</string>
     <string name="card_content_media_status">الحالة</string>
@@ -241,11 +233,6 @@
     <!-- Anime/Manga progress status strings -->
         <item>مخطط للقراءة</item>
     </string-array>
-    <!-- AndroidManifest (Unknown) Strings -->
-    <string name="permission_group_useAtarashii">استخدم ! Atarashii لــ MyAnimeList</string>
-    <string name="permission_group_description_useAtarashii">اسمح لهذا البرنامج باستخدام !Atarashii (اذا كان مثبتا ً) للوصول لحسابك على MAL</string>
-    <string name="permission_updateMedia">حدث بيانات المدخلات</string>
-    <string name="permission_description_updateMedia">اسمح لهذا التطبيق بتحديث مدخلاتك على MAL</string>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">ابحث على MAL</string>
     <!-- AboutActivity (contents) Strings -->
