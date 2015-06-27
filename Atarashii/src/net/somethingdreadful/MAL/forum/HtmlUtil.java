@@ -146,27 +146,6 @@ public class HtmlUtil {
     }
 
     /**
-     * Converts the spoiler HTML code into the BBCode.
-     *
-     * @param text The text to search for a spoiler
-     * @return String The text with the BBCode spoiler
-     */
-    private String convertSpoiler(String text) {
-        text = text.replace("<div class=\"spoiler]", "");
-        text = text.replace("<input type=\"button\" class=\"button\"", "");
-        text = text.replace(" onclick=\"this.nextSibling.nextSibling.style.display='block';", "");
-        text = text.replace("this.style.display='none';\"", "");
-        text = text.replace(" value=\"Show spoiler]", "");
-        text = text.replace("<span class=\"spoiler_content\" style=\"display:none]", "");
-        text = text.replace("<input type=\"button\" class=\"button\" ", "");
-        text = text.replace("onclick=\"this.parentNode.style.display='none';", "");
-        text = text.replace("this.parentNode.parentNode.childNodes[0].style.display='block';\" ", "");
-        text = text.replace("value=\"Hide spoiler]", "[spoiler]");
-        text = text.replace("<!--spoiler--></span>", "[/spoiler]");
-        return text;
-    }
-
-    /**
      * Rebuild the spoiler to work again.
      *
      * @param html The html source where this method should fix the spoilers
