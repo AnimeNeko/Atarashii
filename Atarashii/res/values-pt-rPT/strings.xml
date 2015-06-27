@@ -238,6 +238,7 @@
     <string name="card_offline_error">Nenhuma ligação disponível.</string>
     <string name="card_offline_button_caption">Tenta novamente</string>
     <string name="card_offline_title">Estás offline!</string>
+    <string name="episodepicker_hint">Insere a tua classificação.</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Ver detalhes em MyAnimeList</string>
     <string name="action_Share">Partilhar</string>
