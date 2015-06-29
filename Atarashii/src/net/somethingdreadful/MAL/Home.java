@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +24,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -95,14 +95,14 @@ public class Home extends ActionBarActivity implements ChooseDialogFragment.onCl
 
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
-            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
+            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager(), true);
 
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             ButterKnife.inject(this);
 
             DrawerLayout.setDrawerListener(new DrawerListener());
-            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
             username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
             ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
@@ -411,6 +411,15 @@ public class Home extends ActionBarActivity implements ChooseDialogFragment.onCl
                 // no else here, there is nothing to be shown when everything went well
             }
         }
+    }
+
+    @Override
+    public void onItemClick(int id, MALApi.ListType listType, String username) {
+        Intent startDetails = new Intent(context, DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", username);
+        startActivity(startDetails);
     }
 
     @Override
