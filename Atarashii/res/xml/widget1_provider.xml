@@ -1,0 +1,10 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+    android:updatePeriodMillis="0"
+    android:previewImage="@drawable/icon"
+    android:initialLayout="@layout/widget1"
+    android:resizeMode="horizontal|vertical"
+    android:configure="net.somethingdreadful.MAL.dialog.RecordPickerDialog"
+    android:widgetCategory="home_screen|keyguard">
+</appwidget-provider>
