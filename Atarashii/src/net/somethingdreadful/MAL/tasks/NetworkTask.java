@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.widgets.Widget1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +93,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(params[0]) : mManager.downloadAndStoreMangaList(params[0]);
                         if (taskResult != null && params.length == 2)
                             taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1], params[0]) : mManager.getMangaListFromDB(params[1], params[0]);
+
+                        Widget1.forceRefresh(context);
                     }
                     break;
                 case GETMOSTPOPULAR:
