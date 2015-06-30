@@ -198,10 +198,8 @@ public class DatabaseManager {
 
     public Anime getAnime(Integer id, String username) {
         Anime result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate, " +
-                " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                " WHERE al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
+        String[] values = new String[]{Integer.toString(getUserId(username)), Integer.toString(id)};
+        Cursor cursor = getAnimeListCursor("al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", null, values);
         if (cursor.moveToFirst()) {
             result = Anime.fromCursor(cursor);
             result.setGenres(getAnimeGenres(result.getId()));
@@ -281,21 +279,13 @@ public class DatabaseManager {
         ArrayList<Anime> result = null;
         Cursor cursor;
         try {
-            ArrayList<String> selArgs = new ArrayList<>();
-            selArgs.add(String.valueOf(userId));
-            if (!listType.equals("") && !listType.equals(Anime.STATUS_REWATCHING))
-                selArgs.add(listType);
-
-            if (listType.equals(Anime.STATUS_REWATCHING))
-                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                        " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty IS NOT NULL " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
-            else
-                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                        " WHERE al.profile_id = ? " + (!listType.equals("") ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty IS NOT NULL " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+            if (listType.equals(Anime.STATUS_REWATCHING)) {
+                String[] values = new String[]{String.valueOf(userId)};
+                cursor = getAnimeListCursor("al.profile_id = ? AND al.rewatch = 1" + (dirtyOnly ? " AND al.dirty IS NOT NULL" : ""), "a.recordName", values);
+            } else {
+                String[] values = !listType.equals("") ? new String[]{String.valueOf(userId), listType} : new String[]{String.valueOf(userId)};
+                cursor = getAnimeListCursor("al.profile_id = ?" + (!listType.equals("") ? " AND al.status = ?" : "") + (dirtyOnly ? " AND al.dirty IS NOT NULL" : ""), "a.recordName", values);
+            }
             if (cursor.moveToFirst()) {
                 result = new ArrayList<>();
                 do
@@ -452,10 +442,8 @@ public class DatabaseManager {
 
     public Manga getManga(Integer id, String username) {
         Manga result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
-                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
-                " WHERE ml.profile_id = ? and m." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
+        String[] values = new String[]{Integer.toString(getUserId(username)), Integer.toString(id)};
+        Cursor cursor = getMangaListCursor("ml.profile_id = ? AND m." + MALSqlHelper.COLUMN_ID + " = ?", null, values);
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
             result.setGenres(getMangaGenres(result.getId()));
@@ -527,15 +515,17 @@ public class DatabaseManager {
         ArrayList<Manga> result = null;
         Cursor cursor;
         try {
-            ArrayList<String> selArgs = new ArrayList<>();
-            selArgs.add(String.valueOf(userId));
-            if (!listType.equals(""))
-                selArgs.add(listType);
+            String[] values;
+            String where = "ml.profile_id = ?";
+            if (!listType.equals("")) {
+                values = new String[]{String.valueOf(userId), listType};
+                where = where + " AND ml.status = ?";
+            } else {
+                values = new String[]{String.valueOf(userId)};
+            }
+            where = where + (dirtyOnly ? " AND ml.dirty <> \"\" " : "");
+            cursor = getMangaListCursor(where, "m.recordName", values);
 
-            cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                    " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
-                    " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
-                    " WHERE ml.profile_id = ? " + (!listType.equals("") ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty <> \"\" " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<>();
                 do
@@ -1123,15 +1113,9 @@ public class DatabaseManager {
         ArrayList result = new ArrayList<>();
         Cursor cursor;
         if (type.equals(MALApi.ListType.ANIME))
-            cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                    " al.watchedStart, al.WatchedEnd, al.fansub, al.widget, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                    " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                    " WHERE widget IS NOT NULL " + " ORDER BY al.widget COLLATE NOCASE", null);
+            cursor = getAnimeListCursor("widget IS NOT NULL", "al.widget", null);
         else
-            cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                    " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.widget, ml.comments, ml.dirty, ml.lastUpdate" +
-                    " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
-                    " WHERE widget IS NOT NULL " + " ORDER BY ml.widget COLLATE NOCASE", null);
+            cursor = getMangaListCursor("widget IS NOT NULL", "ml.widget", null);
 
         if (cursor.moveToFirst()) {
             do
@@ -1149,5 +1133,18 @@ public class DatabaseManager {
         cursor.close();
         return result;
     }
-}
 
+    private Cursor getAnimeListCursor(String conditions, String orderby, String[] values){
+        return getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
+                " al.watchedStart, al.WatchedEnd, al.fansub, al.widget, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                " WHERE " + conditions + (orderby == null ? "" : " ORDER BY " + orderby + " COLLATE NOCASE"), values);
+    }
+
+    private Cursor getMangaListCursor(String conditions, String orderby, String[] values){
+        return getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
+                " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.widget, ml.comments, ml.dirty, ml.lastUpdate" +
+                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+                " WHERE " + conditions + (orderby == null ? "" : " ORDER BY " + orderby + " COLLATE NOCASE"), values);
+    }
+}
