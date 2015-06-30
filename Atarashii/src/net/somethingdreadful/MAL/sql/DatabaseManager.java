@@ -186,7 +186,12 @@ public class DatabaseManager {
                 alcv.put("dirty", anime.getDirty() != null ? new Gson().toJson(anime.getDirty()) : null);
                 if (anime.getLastUpdate() != null)
                     alcv.put("lastUpdate", anime.getLastUpdate().getTime());
-                getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, alcv, "profile_id = ? AND anime_id = ?", new String[]{Integer.toString(userId), Integer.toString(anime.getId())});
+
+                // don't use replace it replaces widget with null even when we don't put it in the ContentValues
+                updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, alcv, "profile_id = ? AND anime_id = ?", new String[]{Integer.toString(userId), Integer.toString(anime.getId())});
+                if (updateResult == 0) {
+                    getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
+                }
             }
         }
     }
@@ -435,7 +440,12 @@ public class DatabaseManager {
                 mlcv.put("dirty", manga.getDirty() != null ? new Gson().toJson(manga.getDirty()) : null);
                 if (manga.getLastUpdate() != null)
                     mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
-                getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, mlcv, "profile_id = ? AND manga_id = ?", new String[]{Integer.toString(userId), Integer.toString(manga.getId())});
+
+                // don't use replace it replaces widget with null even when we don't put it in the ContentValues
+                updateResult = getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, mlcv, "profile_id = ? AND manga_id = ?", new String[]{Integer.toString(userId), Integer.toString(manga.getId())});
+                if (updateResult == 0) {
+                    getDBWrite().replace(MALSqlHelper.TABLE_MANGALIST, null, mlcv);
+                }
             }
         }
     }
