@@ -1066,7 +1066,10 @@ public class DatabaseManager {
         return result;
     }
 
-    public void addWidgetRecord(int id, MALApi.ListType type) {
+    public boolean addWidgetRecord(int id, MALApi.ListType type) {
+        if (checkWidgetID(id, type))
+            return false;
+
         int number = getWidgetRecords().size() + 1;
         ContentValues cv = new ContentValues();
         cv.put("widget", number);
@@ -1074,9 +1077,13 @@ public class DatabaseManager {
             getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, cv, "anime_id = ?", new String[]{Integer.toString(id)});
         else
             getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, cv, "manga_id = ?", new String[]{Integer.toString(id)});
+        return true;
     }
 
-    public void updateWidgetRecord(int oldId, MALApi.ListType oldType, int id, MALApi.ListType type) {
+    public boolean updateWidgetRecord(int oldId, MALApi.ListType oldType, int id, MALApi.ListType type) {
+        if (checkWidgetID(id, type))
+            return false;
+
         // Remove old record
         ContentValues cv = new ContentValues();
         cv.putNull("widget");
@@ -1085,6 +1092,21 @@ public class DatabaseManager {
         else
             getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, cv, "manga_id = ?", new String[]{Integer.toString(oldId)});
         addWidgetRecord(id, type);
+        return true;
+    }
+
+    /**
+     * Check if records is already a widget
+     *
+     * @param id The anime/manga id
+     * @param type The List type
+     * @return Boolean True if exists
+     */
+    private boolean checkWidgetID(int id, MALApi.ListType type) {
+        if (type.equals(MALApi.ListType.ANIME))
+            return getAnimeListCursor("al.anime_id = " + id + " AND widget IS NOT NULL", null, null).getCount() > 0;
+        else
+            return getMangaListCursor("al.manga_id = " + id + " AND widget IS NOT NULL", null, null).getCount() > 0;
     }
 
     public void removeWidgetRecord() {

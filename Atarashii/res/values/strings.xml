@@ -49,6 +49,7 @@
     <string name="toast_info_backup_revert">The changes have been reverted!</string>
     <string name="toast_info_backup_remove">The backup has been removed!</string>
     <string name="toast_info_backup_list">The backup is not compatible with this site!</string>
+    <string name="toast_info_widget_exists">A widget with the chosen record already exists!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_userername">Username mismatch</string>

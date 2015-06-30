@@ -270,20 +270,25 @@ public class RecordPickerDialog extends ActionBarActivity implements IGF.IGFCall
     @Override
     public void onItemClick(int id, MALApi.ListType listType, String username) {
         DatabaseManager db = new DatabaseManager(context);
+        boolean succeeded;
         if (recordID != 0)
-            db.updateWidgetRecord(recordID, type, id, listType);
+            succeeded = db.updateWidgetRecord(recordID, type, id, listType);
         else
-            db.addWidgetRecord(id, listType);
+            succeeded = db.addWidgetRecord(id, listType);
 
-        Intent updateWidgetIntent = new Intent(context, Widget1.class);
-        updateWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        updateWidgetIntent.putExtra("checkGhost", true);
-        context.sendBroadcast(updateWidgetIntent);
+        if (succeeded) {
+            Intent updateWidgetIntent = new Intent(context, Widget1.class);
+            updateWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            updateWidgetIntent.putExtra("checkGhost", true);
+            context.sendBroadcast(updateWidgetIntent);
 
-        Intent resultValue = new Intent();
-        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
-        setResult(RESULT_OK, resultValue);
-        finish();
+            Intent resultValue = new Intent();
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
+            setResult(RESULT_OK, resultValue);
+            finish();
+        } else {
+            Theme.Snackbar(this, R.string.toast_info_widget_exists);
+        }
     }
 
     @Override
