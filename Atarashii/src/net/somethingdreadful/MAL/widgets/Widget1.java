@@ -155,7 +155,7 @@ public class Widget1 extends AppWidgetProvider {
                     // Remove ghost widgets
                     if (ids.length > number) {
                         for (int i = 0; i < (ids.length - number); i++)
-                            (new AppWidgetHost(context, 1)).deleteAppWidgetId(ids[ids.length - 1]);
+                            (new AppWidgetHost(context, 1)).deleteAppWidgetId(ids[ids.length - 2]); // the array length starts with 1 and not 0
                         Crashlytics.log(Log.INFO, "MALX", "Widget1.onUpdate(): Removing " + (ids.length - number) + " ghost widgets");
                         ids = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget1.class));
                     }
