@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -27,12 +28,15 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.dialog.RecordPickerDialog;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
+import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
+import net.somethingdreadful.MAL.tasks.TaskJob;
+import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
-public class Widget1 extends AppWidgetProvider {
+public class Widget1 extends AppWidgetProvider implements APIAuthenticationErrorListener {
 
     @Override
     public void onUpdate(final Context c, final AppWidgetManager widgetManager, final int[] ids) {
@@ -116,7 +120,14 @@ public class Widget1 extends AppWidgetProvider {
                 if (id > 0) {
                     Anime anime = db.getAnime(id, AccountService.getUsername());
                     anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-                    db.saveAnime(anime, false, AccountService.getUsername());
+                    if (anime.getWatchedEpisodes() == anime.getEpisodes()) {
+                        anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                        if (anime.getRewatching()) {
+                            anime.setRewatchCount(anime.getRewatchCount() + 1);
+                            anime.setRewatching(false);
+                        }
+                    }
+                    new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
                 } else {
                     PrefManager.create(context);
                     Manga manga = db.getManga(id * -1, AccountService.getUsername());
@@ -124,7 +135,15 @@ public class Widget1 extends AppWidgetProvider {
                         manga.setVolumesRead(manga.getVolumesRead() + 1);
                     else
                         manga.setChaptersRead(manga.getChaptersRead() + 1);
-                    db.saveManga(manga, false, AccountService.getUsername());
+
+                    if (manga.getChaptersRead() == manga.getChapters() && manga.getChapters() != 0) {
+                        manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
+                        if (manga.getRereading()) {
+                            manga.setRereadCount(manga.getRereadCount() + 1);
+                            manga.setRereading(false);
+                        }
+                    }
+                    new WriteDetailTask(MALApi.ListType.MANGA, TaskJob.UPDATE, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
                 }
                 onUpdate(context, AppWidgetManager.getInstance(context), ids);
                 break;
@@ -163,5 +182,10 @@ public class Widget1 extends AppWidgetProvider {
                 onUpdate(context, AppWidgetManager.getInstance(context), ids);
                 break;
         }
+    }
+
+    @Override
+    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
+
     }
 }
