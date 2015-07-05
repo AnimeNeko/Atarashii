@@ -153,7 +153,9 @@ public class BackupActivity extends ActionBarActivity implements NetworkTaskCall
      */
     private void getListFiles() {
         files.clear();
-        Collections.addAll(files, (new File(Environment.getExternalStorageDirectory() + "/Atarashii/")).listFiles());
+        File file = new File(Environment.getExternalStorageDirectory() + "/Atarashii/");
+        if (file.length() != 0)
+            Collections.addAll(files, file.listFiles());
         refresh();
     }
 
