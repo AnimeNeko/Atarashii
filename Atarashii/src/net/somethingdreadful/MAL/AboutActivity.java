@@ -1,21 +1,18 @@
 package net.somethingdreadful.MAL;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class AboutActivity extends ActionBarActivity {
+public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Theme.setTheme(this, R.layout.activity_about, true);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        Theme.setActionBar(this);
         setTitle(R.string.title_activity_about);
 
         ((Card) findViewById(R.id.atarashii_card)).setContent(R.layout.card_about_atarashii);

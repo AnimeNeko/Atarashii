@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,24 +42,28 @@ import java.util.Collections;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class BackupActivity extends ActionBarActivity implements NetworkTaskCallbackListener, APIAuthenticationErrorListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener {
+public class BackupActivity extends AppCompatActivity implements NetworkTaskCallbackListener, APIAuthenticationErrorListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener {
     ProgressDialog dialog;
     ArrayList<Anime> animeList;
     ArrayList<Manga> mangaList;
-    @InjectView(R.id.listview) GridView Gridview;
+    @InjectView(R.id.listview)
+    GridView Gridview;
     BackupGridviewAdapter backupGridviewAdapter;
     ArrayList<File> files = new ArrayList<>();
     boolean animeLoaded = false;
     boolean mangaLoaded = false;
     int position = 0;
-    @InjectView(R.id.progressBar) ProgressBar progressBar;
-    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @InjectView(R.id.progressBar)
+    ProgressBar progressBar;
+    @InjectView(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friends);
+        setContentView(R.layout.activity_backup);
         Theme.setBackground(this, findViewById(R.id.friends_parent), Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
+        Theme.setActionBar(this);
         ButterKnife.inject(this);
 
         backupGridviewAdapter = new BackupGridviewAdapter<>(this, files, this);
@@ -81,6 +85,7 @@ public class BackupActivity extends ActionBarActivity implements NetworkTaskCall
 
     /**
      * Switch between the loading screen & list
+     *
      * @param number The number of the item that you want to view
      */
     private void toggle(int number) {

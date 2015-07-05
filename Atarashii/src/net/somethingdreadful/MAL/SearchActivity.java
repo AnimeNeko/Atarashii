@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -21,14 +19,12 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-public class SearchActivity extends ActionBarActivity implements IGF.IGFCallbackListener{
+public class SearchActivity extends AppCompatActivity implements IGF.IGFCallbackListener{
     public String query;
     IGF af;
     IGF mf;
-    ViewPager ViewPager;
     IGFPagerAdapter mIGFPagerAdapter;
     SearchView searchView;
-    ActionBar actionBar;
 
     boolean callbackAnimeError = false;
     boolean callbackMangaError = false;
@@ -39,17 +35,8 @@ public class SearchActivity extends ActionBarActivity implements IGF.IGFCallback
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-
-        actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager(), true);
-
-        ViewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager.setAdapter(mIGFPagerAdapter);
+        setContentView(R.layout.theme_viewpager);
+        mIGFPagerAdapter = (IGFPagerAdapter) Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
     }
 
     @Override

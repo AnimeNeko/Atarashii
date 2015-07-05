@@ -6,8 +6,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
@@ -24,7 +25,7 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
+public class ProfileActivity extends AppCompatActivity implements UserNetworkTaskFinishedListener {
     Context context;
     public User record;
     ProfileFriends friends;
@@ -40,16 +41,13 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        Theme.setTheme(this, R.layout.activity_profile, true);
+        Theme.setTheme(this, R.layout.theme_viewpager, true);
+        Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
         ButterKnife.inject(this);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
 
         setTitle(R.string.title_activity_profile); //set title
-        viewPager.setAdapter(new ProfilePagerAdapter(getFragmentManager(), this));
 
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
@@ -71,7 +69,8 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         NfcHelper.disableBeam(this);
     }
 
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_profile_view, menu);
         return true;
     }
@@ -83,7 +82,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
     }
 
     @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
