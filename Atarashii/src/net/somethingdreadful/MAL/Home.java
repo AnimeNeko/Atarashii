@@ -548,6 +548,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         public void onDrawerClosed(View drawerView) {
             mDrawerToggle.onDrawerClosed(drawerView);
             actionBar.setTitle(getTitle());
+            drawerView.requestFocusFromTouch();
         }
 
         @Override
