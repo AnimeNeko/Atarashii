@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 
 import com.crashlytics.android.Crashlytics;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ForumActivity;
@@ -39,7 +39,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedList
     ForumMainAdapter generalAdapter;
 
     @InjectView(R.id.general) ListView general;
-    @InjectView(R.id.scrollView) ScrollView content;
+    @InjectView(R.id.scrollView) ObservableScrollView content;
     @InjectView(R.id.animemanga) ListView animeManga;
     @InjectView(R.id.myanimelist) ListView myAnimeList;
     @InjectView(R.id.network_Card) Card networkCard;

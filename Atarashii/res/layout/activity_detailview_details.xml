@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -78,5 +78,5 @@
                 custom:header_Title="@string/card_offline_title"
                 custom:header_Title_Color="@color/white" />
         </RelativeLayout>
-    </ScrollView>
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
