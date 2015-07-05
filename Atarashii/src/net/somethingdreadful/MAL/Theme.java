@@ -21,6 +21,7 @@ import io.fabric.sdk.android.Fabric;
 public class Theme extends Application {
 
     public static boolean darkTheme;
+    private static float density;
     Locale locale;
     Configuration config;
     static Context context;
@@ -50,6 +51,27 @@ public class Theme extends Application {
     public void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
+    }
+
+    /**
+     * Get the display density.
+     *
+     * @return Float The display density
+     */
+    private static Float getDensity() {
+        if (density == 0)
+            density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
+        return density;
+    }
+
+    /**
+     * Convert dp to pixels.
+     *
+     * @param number The number in dp to convert in pixels
+     * @return int The converted dp in pixels
+     */
+    public static int convert(int number) {
+        return Math.round(getDensity() * number);
     }
 
     /**
