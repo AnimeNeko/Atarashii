@@ -147,6 +147,7 @@
     <string name="cover_Watching">Я посмотрел:</string>
     <string name="cover_Completed">Завершено</string>
     <string name="cover_Reading">Я прочел:</string>
+    <string name="cover_OnHold">Отложено на:</string>
     <string name="cover_Dropped">Заброшено</string>
     <string name="cover_PlanningToWatch">Планируется посмотреть</string>
     <string name="cover_PlanningToRead">Планируется прочитать</string>
@@ -349,6 +350,7 @@
     <string name="preference_default_customShareText">Взгляните на $title; на MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
     <string name="listType_all">Все</string>
+    <string name="listType_onhold">Отложено</string>
     <string name="listType_dropped">Заброшенные</string>
     <string name="listType_planned">Запланированные</string>
     <string name="listType_Completed">Завершенные</string>
@@ -388,6 +390,8 @@
         <item>В состоянии просмотра</item>
     <!-- Settings (ListPreference Entries) Items -->
         <item>Завершено</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>Отложено</item>
     <!-- Settings (ListPreference Entries) Items -->
         <item>Заброшено</item>
     <!-- Settings (ListPreference Entries) Items -->

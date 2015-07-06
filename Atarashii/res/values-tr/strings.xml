@@ -5,12 +5,12 @@
     <string name="title_activity_settings">Ayarlar</string>
     <string name="title_activity_about">Hakkında</string>
     <string name="title_activity_detail_view">Detay Görünümü</string>
-    <string name="title_activity_profile">Kullanıcı profili</string>
+    <string name="title_activity_profile">Kullanıcı Profili</string>
     <string name="title_activity_friends">Arkadaşlarım</string>
     <string name="title_activity_logout">Çıkış</string>
     <string name="title_activity_forum">Forum</string>
     <!-- All (Actionbar Actions) Strings -->
-    <string name="menu_listType">Listeyi değiştir</string>
+    <string name="menu_listType">Listeyi Değiştir</string>
     <string name="menu_inverse">Sıralamayı Değiştir</string>
     <string name="menu_settings">Ayarlar</string>
     <string name="menu_sync">Tam Senkronizasyon</string>
@@ -69,7 +69,7 @@
     <string name="dialog_message_view">Hangi listeyi görmek istiyorsunuz?</string>
     <string name="dialog_message_logout">Çıkış yapmak istediğinizden emin misiniz? Bu işlem tüm saklanan verileri silinmesine sebep olacaktır.</string>
     <string name="dialog_message_id_search">Lütfen Anime veya Manga arama butonuna basın. Anime veya Manga ID\'lerin aynı olmadığını unutma!</string>
-    <string name="dialog_message_remove">Kesinlikle emin misiniz? Bir defa gitti mi, bir daha geri gelmez. En azından kolay br şekilde değil.</string>
+    <string name="dialog_message_remove">Kesinlikle emin misiniz? Bir defa gitti mi, bir daha geri gelmez. En azından kolay bir şekilde değil.</string>
     <string name="dialog_message_share">Hangi listeyi paylaşmak istiyorsunuz?</string>
     <string name="dialog_message_Verifying">Kullanıcı bilgileriniz kontrol ediliyor. Biraz bekleyin.</string>
     <string name="dialog_message_update_password">Görünüşe göre şifren değişmiş. Lütfen yenisini aşağıya gir.</string>
@@ -102,7 +102,7 @@
     <string name="layout_card_website">Web Sitesi</string>
     <string name="layout_card_comments">Yorumlar</string>
     <string name="layout_card_forum">Forum iletileri</string>
-    <string name="layout_card_last">Son çevrimiçi</string>
+    <string name="layout_card_last">Son Görülme</string>
     <string name="layout_card_gender">Cinsiyet</string>
     <string name="layout_card_join">Katılım tarihi</string>
     <string name="layout_card_acces">Rütbe</string>
@@ -113,7 +113,7 @@
     <string name="layout_card_manga_details">Manga Detayları</string>
     <string name="layout_card_anime_time">Gün sayısı</string>
     <string name="layout_card_anime_watching">İzlenen</string>
-    <string name="layout_card_anime_completed">İzlenmiş</string>
+    <string name="layout_card_anime_completed">Bitirilmiş</string>
     <string name="layout_card_anime_on">Beklemede</string>
     <string name="layout_card_anime_dropped">Bırakılmış</string>
     <string name="layout_card_anime_plan">İzlemeyi Planlıyor</string>
@@ -121,14 +121,14 @@
     <string name="layout_card_manga_reading">Okunuyor</string>
     <string name="layout_card_manga_plan">Planlanıyor</string>
     <string name="action_viewListOnMAL">Listeye MAL\'da bak</string>
-    <string name="not_specified">belirtilmemiş</string>
+    <string name="not_specified">Belirtilmemiş</string>
     <string name="no_activity">Hareket Yok</string>
     <string-array name="gender">
         <item>Bayan</item>
         <item>Erkek</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Beri arkadaş</string>
+    <string name="layout_card_friends_since">Beri arkadaşlar</string>
     <string name="unknown">bilinmiyor</string>
     <!-- ForumActivity Strings -->
     <string name="action_add">Yorum veya konu ekle</string>
@@ -144,19 +144,19 @@
     <string name="form_action_create">Kullanıcı oluştur</string>
     <string name="form_action_connect">Giriş</string>
     <!-- IGF (MyList Cover) Strings -->
-    <string name="cover_Watching">İzlediğim:</string>
-    <string name="cover_Completed">Bitirilmiş</string>
+    <string name="cover_Watching">İzlediğim Bölüm:</string>
+    <string name="cover_Completed">Bitirildi</string>
     <string name="cover_Reading">Okuduğum:</string>
     <string name="cover_OnHold">Beklemede:</string>
     <string name="cover_Dropped">Bırakılmış</string>
     <string name="cover_PlanningToWatch">Planlanıyor</string>
-    <string name="cover_PlanningToRead">Planlanıyor</string>
+    <string name="cover_PlanningToRead">Okumayı planlıyor</string>
     <string name="action_PlusOneWatched">+1 İzlenmiş</string>
     <string name="action_PlusOneRead">+1 Okunmuş</string>
     <string name="action_MarkAsComplete">Bitmiş olarak işaretle</string>
     <string name="label_Chapters">Bolüm:</string>
     <string name="label_Volumes">Cilt:</string>
-    <string name="label_Number">Sayı</string>
+    <string name="label_Number">Sıralama</string>
     <!-- Navigation drawer (item & action) Strings -->
     <string name="nav_item_my_profile">Profilim</string>
     <string name="nav_item_my_list">Listem</string>
@@ -164,7 +164,7 @@
     <string name="nav_item_my_following">Takip ediliyor</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">En Beğenilen</string>
-    <string name="nav_item_airing">Devam ediyor</string>
+    <string name="nav_item_airing">Devam Ediyor</string>
     <string name="nav_item_most_popular">En Popüler</string>
     <string name="nav_item_year">Bu Yıl</string>
     <string name="nav_item_just_added">Yeni Eklenen</string>
@@ -270,7 +270,7 @@
         <item>OEL</item>
     </string-array>
     <string-array name="mediaStatus_Anime">
-        <item>yayınlanmış</item>
+        <item>Yayınlanmış</item>
         <item>yayınlanıyor</item>
         <item>henüz yayınlanmamış</item>
     </string-array>
@@ -341,7 +341,7 @@
     <string name="preference_summary_theme">Seçilirse Atarashii, koyu temayı kullanacak.</string>
     <string name="preference_summary_Language">İstediğiniz varsayılan dili değiştirmek için. Yeniden başlatma gerekir.</string>
     <string name="preference_summary_customShareText">Varsayılan paylaşım metnini beğenmiyor musunuz? Kendinizinkini oluşturun! Başlık yerine $title; link yerine de $link kullanın. Gerisini biz hallederiz.</string>
-    <string name="preference_summary_autosync">Oto-senrkonizasyon bir süreliğine arka planda çalışacak.</string>
+    <string name="preference_summary_autosync">Oto-senkronizasyon bir süreliğine arka planda çalışacak.</string>
     <string name="preference_summary_displayVolumes">Kapaklarda bölümler yerine ciltleri göster. +1 Okunmuş özelliği de bölümler yerine ciltere işlemeye başlar. Değişikliklerin fark etmesi için uygulamanın yeniden başlaması gerekir.</string>
     <string name="preference_summary_profileTextColors">Profil sayfasını siyah yazı renki kullanmaya zorla</string>
     <string name="preference_summary_profileAnimeHide">Anime detaylarını tüm profillerde gizle</string>
