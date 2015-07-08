@@ -237,8 +237,6 @@ public class PrefManager {
      * 4. :( & :| & :)
      * 5. 0.0 - 10.0
      *
-     * note: number 4 is currently not supported!
-     *
      * @param type The type number
      */
     public static void setScoreType(int type) {

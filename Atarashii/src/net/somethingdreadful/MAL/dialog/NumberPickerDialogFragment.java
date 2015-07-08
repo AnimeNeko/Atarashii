@@ -16,6 +16,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 
 public class NumberPickerDialogFragment extends DialogFragment {
 
@@ -35,7 +36,10 @@ public class NumberPickerDialogFragment extends DialogFragment {
         if (!inputScore) {
             numberPicker.setMaxValue(max != 0 ? max : 999);
             numberPicker.setMinValue(0);
-            numberPicker.setValue(current);
+            if (!AccountService.isMAL() && isRating())
+                numberPicker.setValue(Integer.parseInt(Theme.getDisplayScore(current)));
+            else
+                numberPicker.setValue(current);
             numberInput.setVisibility(View.GONE);
         } else {
             numberInput.setText(Theme.getDisplayScore(current));
@@ -56,8 +60,11 @@ public class NumberPickerDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 numberPicker.clearFocus();
                 numberInput.clearFocus();
-                int value = Theme.getRawScore(numberInput.getText().toString());
-                callback.onUpdated(PrefManager.getScoreType() != 3 && PrefManager.getScoreType() != 1 ? value : numberPicker.getValue(), getArguments().getInt("id"));
+                int value = Theme.getRawScore(!inputScore ? Integer.toString(numberPicker.getValue()) : numberInput.getText().toString());
+                if (!AccountService.isMAL() && isRating())
+                    callback.onUpdated(value, getArguments().getInt("id"));
+                else
+                    callback.onUpdated(numberPicker.getValue(), getArguments().getInt("id"));
                 dismiss();
             }
         });
@@ -69,6 +76,10 @@ public class NumberPickerDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    private boolean isRating() {
+        return getArguments().getInt("id") == R.id.scorePanel;
     }
 
     /**
