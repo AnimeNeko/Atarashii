@@ -152,8 +152,12 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
                 viewFlipper.setDisplayedChild(1);
                 break;
             case R.id.anilist:
-                viewFlipper.setDisplayedChild(2);
+                if (MALApi.isNetworkAvailable(this))
+                    viewFlipper.setDisplayedChild(2);
+                else
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
         }
     }
 }
+
