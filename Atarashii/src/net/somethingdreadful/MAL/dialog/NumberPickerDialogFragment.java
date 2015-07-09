@@ -19,7 +19,6 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class NumberPickerDialogFragment extends DialogFragment {
-
     NumberPicker numberPicker;
     EditText numberInput;
     private onUpdateClickListener callback;
@@ -36,10 +35,12 @@ public class NumberPickerDialogFragment extends DialogFragment {
         if (!inputScore) {
             numberPicker.setMaxValue(max != 0 ? max : 999);
             numberPicker.setMinValue(0);
-            if (!AccountService.isMAL() && isRating())
-                numberPicker.setValue(Integer.parseInt(Theme.getDisplayScore(current)));
-            else
+            if (!AccountService.isMAL() && isRating()) {
+                String score = Theme.getDisplayScore(current);
+                numberPicker.setValue(score.equals("?") ? 0 : Integer.parseInt(score));
+            } else {
                 numberPicker.setValue(current);
+            }
             numberInput.setVisibility(View.GONE);
         } else {
             numberInput.setText(Theme.getDisplayScore(current));

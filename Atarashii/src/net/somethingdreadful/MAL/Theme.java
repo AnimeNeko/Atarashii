@@ -12,10 +12,11 @@ import com.crashlytics.android.Crashlytics;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
-import io.fabric.sdk.android.Fabric;
 import net.somethingdreadful.MAL.account.AccountService;
 
 import java.util.Locale;
+
+import io.fabric.sdk.android.Fabric;
 
 public class Theme extends Application {
 
@@ -150,7 +151,7 @@ public class Theme extends Application {
                 Double score5 = Math.floor(score / 10);
                 return score5 > 0.0 ? String.format("%.1f", score5) : "?";
             default:
-                return String.format("%.0f", Math.floor(score / 10));
+                return "?";
         }
     }
 
