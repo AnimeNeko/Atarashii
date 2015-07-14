@@ -60,7 +60,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public DetailViewDetails details;
     public DetailViewPersonal personal;
     public DetailViewReviews reviews;
-    DetailViewPagerAdapter PageAdapter;
+    public DetailViewPagerAdapter PageAdapter;
     int recordID;
     private ActionBar actionBar;
     private ViewFlipper viewFlipper;
@@ -454,12 +454,12 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         boolean loaded = false;
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
-                setText();
                 setRefreshing(false);
                 if (isDone()) {
                     loaded = true;
                     toggleLoadingIndicator(false);
                 }
+                setText();
             }
         }
         if (MALApi.isNetworkAvailable(this)) {

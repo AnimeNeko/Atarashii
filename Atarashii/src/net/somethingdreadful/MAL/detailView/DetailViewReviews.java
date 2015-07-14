@@ -53,6 +53,8 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
         if (bundle != null) {
             page = bundle.getInt("page");
             apply((ArrayList<Reviews>) bundle.getSerializable("record"));
+        } else if (page == 0 && !activity.isEmpty()) {
+            getRecords(1);
         }
 
         webview.getSettings().setJavaScriptEnabled(true);

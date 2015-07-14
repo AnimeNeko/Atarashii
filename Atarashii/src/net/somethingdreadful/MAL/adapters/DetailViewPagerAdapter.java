@@ -2,7 +2,9 @@ package net.somethingdreadful.MAL.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
@@ -17,9 +19,12 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     boolean hidePersonal = false;
     DetailView activity;
     int maxCount = 4;
+    FragmentManager fm;
+    public ViewGroup container;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
+        this.fm = fm;
         this.activity = activity;
         this.maxCount = MALApi.isNetworkAvailable(activity) ? maxCount : maxCount - 1;
         this.count = getMaxcount();
@@ -29,10 +34,15 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
         return maxCount;
     }
 
-    public void hidePersonal(boolean hidePersonal){
-        this.hidePersonal = hidePersonal;
-        count = hidePersonal ? getMaxcount() - 1 : getMaxcount();
-        this.notifyDataSetChanged();
+    public void hidePersonal(boolean hidePersonal) {
+        if (hidePersonal != this.hidePersonal) {
+            this.hidePersonal = hidePersonal;
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.fragment, new DetailViewReviews()).commit();
+
+            count = hidePersonal ? count - 1 : count;
+            this.notifyDataSetChanged();
+        }
     }
 
     @Override
