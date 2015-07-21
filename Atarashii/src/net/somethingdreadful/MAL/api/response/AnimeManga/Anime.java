@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL.api.response;
+package net.somethingdreadful.MAL.api.response.AnimeManga;
 
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
 import java.io.Serializable;

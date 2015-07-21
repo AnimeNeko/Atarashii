@@ -10,8 +10,8 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     APIAuthenticationErrorListener authErrorCallback;
     Object taskResult;
     TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
-            TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH};
+            TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
 
     public NetworkTask(TaskJob job, MALApi.ListType type, Context context, Bundle data, NetworkTaskCallbackListener callback, APIAuthenticationErrorListener authErrorCallback) {
@@ -134,6 +134,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case SEARCH:
                     if (params != null)
                         taskResult = isAnimeTask() ? mManager.searchAnime(params[0], page) : mManager.searchManga(params[0], page);
+                    break;
+                case REVIEWS:
+                    if (params != null)
+                        taskResult = isAnimeTask() ? mManager.getAnimeReviews(Integer.parseInt(params[0]), page) : mManager.getMangaReviews(Integer.parseInt(params[0]), page);
                     break;
                 default:
                     Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));

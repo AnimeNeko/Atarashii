@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL.api.response;
+package net.somethingdreadful.MAL.api.response.UserProfile;
 
 import android.database.Cursor;
 

@@ -1,6 +1,8 @@
-package net.somethingdreadful.MAL.api.response;
+package net.somethingdreadful.MAL.api.response.UserProfile;
 
 import com.google.gson.annotations.SerializedName;
+
+import net.somethingdreadful.MAL.api.response.AnimeManga.Series;
 
 import java.io.Serializable;
 import java.util.ArrayList;

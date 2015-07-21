@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL.api.response;
 
+import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

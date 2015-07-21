@@ -11,13 +11,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.api.response.MangaList;
-import net.somethingdreadful.MAL.api.response.Profile;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
+import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -289,6 +290,14 @@ public class MALApi {
 
     public ForumMain search(String query) {
         return service.search(query);
+    }
+
+    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        return service.getAnimeReviews(id, page);
+    }
+
+    public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        return service.getMangaReviews(id, page);
     }
 
     public enum ListType {

@@ -8,14 +8,15 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.Activity;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.api.response.MangaList;
-import net.somethingdreadful.MAL.api.response.Profile;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
+import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import java.util.ArrayList;
@@ -352,5 +353,13 @@ public class MALManager {
 
     public ArrayList<Manga> searchManga(String query, int page) {
         return AccountService.isMAL() ? malApi.searchManga(query, page) : alApi.searchManga(query, page);
+    }
+
+    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        return AccountService.isMAL() ? malApi.getAnimeReviews(id, page) : alApi.getAnimeReviews(id, page);
+    }
+
+    public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        return AccountService.isMAL() ? malApi.getMangaReviews(id, page) : alApi.getMangaReviews(id, page);
     }
 }

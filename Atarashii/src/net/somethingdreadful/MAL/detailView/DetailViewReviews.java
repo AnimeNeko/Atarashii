@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL.forum;
+package net.somethingdreadful.MAL.detailView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,24 +14,26 @@ import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.ForumActivity;
+import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.tasks.ForumJob;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.forum.HtmlUtil;
+import net.somethingdreadful.MAL.tasks.NetworkTask;
+import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
+import net.somethingdreadful.MAL.tasks.TaskJob;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener {
+public class DetailViewReviews extends Fragment implements NetworkTaskCallbackListener {
     View view;
     HtmlUtil htmlUtil;
-    ForumActivity activity;
-    public ForumMain record;
+    DetailView activity;
+    public ArrayList<Reviews> record;
 
     @InjectView(R.id.webview) WebView webview;
     @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
@@ -48,41 +50,25 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
 
         htmlUtil = new HtmlUtil(activity);
 
-        if (bundle != null && bundle.getSerializable("posts") != null) {
-            id = bundle.getInt("id");
+        if (bundle != null) {
             page = bundle.getInt("page");
-            apply((ForumMain) bundle.getSerializable("posts"));
+            apply((ArrayList<Reviews>) bundle.getSerializable("record"));
+        } else {
+            getRecords(1);
         }
 
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.addJavascriptInterface(new PostsInterface(this), "Posts");
+        webview.addJavascriptInterface(new ReviewsInterface(this), "Posts");
 
         return view;
     }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
-        state.putSerializable("posts", record);
-        state.putInt("id", id);
         state.putInt("page", page);
+        state.putSerializable("record", record);
         super.onSaveInstanceState(state);
     }
-
-    /**
-     * Change the records in this fragment.
-     *
-     * @param id The new id of the record
-     * @return ForumJob The task of this fragment
-     */
-    public ForumJob setId(int id) {
-        if (this.id != id) {
-            this.id = id;
-            toggle(true);
-            getRecords(1);
-        }
-        return ForumJob.POSTS;
-    }
-
     /**
      * Get the requested records.
      *
@@ -92,8 +78,14 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
         if (page != this.page)
             toggle(true);
         this.page = page;
-        if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page));
+        if (MALApi.isNetworkAvailable(activity)) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("page", page);
+            int id = activity.isAnime() ? activity.animeRecord.getId() : activity.mangaRecord.getId();
+            new NetworkTask(TaskJob.REVIEWS, activity.type, activity, bundle, activity.reviews, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(id));
+        } else {
+            Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+        }
     }
 
     /**
@@ -108,12 +100,8 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = ((ForumActivity) activity);
-    }
-
-    @Override
-    public void onForumNetworkTaskFinished(ForumMain result, ForumJob job) {
-        apply(result);
+        this.activity = ((DetailView) activity);
+        this.activity.setReviews(this);
     }
 
     /**
@@ -121,18 +109,29 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
      *
      * @param result The new record
      */
-    public void apply(ForumMain result) {
+    public void apply(ArrayList<Reviews> result) {
         try {
             activity.setTitle(getString(R.string.title_activity_forum));
             if (result != null) {
-                webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, AccountService.getUsername(), page), "text/html", "utf-8", null);
+                webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, page), "text/html", "utf-8", null);
                 toggle(false);
                 record = result;
             } else {
                 Theme.Snackbar(activity, R.string.toast_error_Records);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ForumPosts.apply(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "DetailViewReviews.apply(): " + e.getMessage());
+            Crashlytics.logException(e);
         }
+    }
+
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
+        apply((ArrayList<Reviews>) result);
+    }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
+        Theme.Snackbar(activity, R.string.toast_error_Records);
     }
 }

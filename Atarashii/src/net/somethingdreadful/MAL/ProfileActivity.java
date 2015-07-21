@@ -12,7 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;

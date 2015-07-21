@@ -7,14 +7,15 @@ import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.Activity;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeList;
-import net.somethingdreadful.MAL.api.response.Manga;
-import net.somethingdreadful.MAL.api.response.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.Profile;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
+import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -181,5 +182,13 @@ public class ALApi {
 
     public Profile getProfile(String name) {
         return service.getProfile(name);
+    }
+
+    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        return service.getAnimeReviews(id, page);
+    }
+
+    public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        return service.getMangaReviews(id, page);
     }
 }

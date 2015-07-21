@@ -8,7 +8,7 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import java.util.ArrayList;
 
