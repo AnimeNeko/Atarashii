@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
@@ -11,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
@@ -83,6 +86,45 @@ public class Card extends RelativeLayout {
         inflater.inflate(resource, Content);
         if (this.findViewById(R.id.ListView) != null)
             setPadding(0);
+        if (Theme.darkTheme) {
+            Content.setBackgroundColor(getResources().getColor(R.color.bg_dark));
+            initLoop(Content);
+            if (this.findViewById(R.id.ListView) != null) {
+                ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.ListView);
+                ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_dark_card));
+                listView.setDivider(colorDrawable);
+                listView.setChildDivider(colorDrawable);
+                listView.setDividerHeight(convert(1));
+            }
+        }
+    }
+
+    private void initLoop(TableRow view) {
+        for (int i = 0; i < view.getChildCount(); i++) {
+            View child = view.getChildAt(i);
+            if (child instanceof TextView)
+                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+            else if (child instanceof RelativeLayout) {
+                initLoop((RelativeLayout) child);
+                Theme.setBackground(getContext(), child);
+            } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
+                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+        }
+    }
+
+    private void initLoop(RelativeLayout view) {
+        for (int i = 0; i < view.getChildCount(); i++) {
+            View child = view.getChildAt(i);
+            if (child instanceof TextView)
+                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+            else if (child instanceof RelativeLayout) {
+                initLoop((RelativeLayout) child);
+                Theme.setBackground(getContext(), child);
+            } else if (child instanceof TableRow) {
+                initLoop((TableRow) child);
+            } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
+                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+        }
     }
 
     /**
@@ -197,9 +239,9 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 34);
-        Card.getLayoutParams().width = convert(width + 34);
-        Card.getLayoutParams().height = convert(height + 96);
+        Header.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().width = convert(width + 32);
+        Card.getLayoutParams().height = convert(height + 92);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);

@@ -73,19 +73,6 @@
                     custom:header_Color="@color/card_green"
                     custom:header_Title="@string/card_name_personal"
                     custom:header_Title_Color="@color/white" />
-
-                <!-- rating card -->
-                <net.somethingdreadful.MAL.Card
-                    android:id="@+id/rating"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/mediainfo"
-                    android:layout_marginTop="8dp"
-                    custom:card_divide="2"
-                    custom:card_minHeight="145"
-                    custom:header_Color="@color/card_green"
-                    custom:header_Title="@string/card_name_rating"
-                    custom:header_Title_Color="@color/white" />
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

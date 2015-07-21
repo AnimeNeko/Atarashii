@@ -10,6 +10,7 @@ public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefEditor;
     private static Context context;
+    private static boolean darkTheme;
 
 
     public static void create(Context mContext) {
@@ -31,6 +32,18 @@ public class PrefManager {
             prefEditor.remove("user");
             prefEditor.remove("pass");
         }
+    }
+
+    /**
+     * Remove the preferences.
+     *
+     * Reset all the preferences
+     *
+     * @see Home
+     */
+    public static void clear() {
+            prefEditor.clear();
+            prefEditor.commit();
     }
 
     /**
@@ -138,6 +151,16 @@ public class PrefManager {
     }
 
     /**
+     * This will disable the text colors.
+     *
+     * @param disable True if the text colors should be default
+     * @see ProfileActivity
+     */
+    public static void setTextColor(boolean disable) {
+        prefEditor.putBoolean("text_colours", disable);
+    }
+
+    /**
      * Returns if the app should hide the anime stats in all profiles.
      *
      * @return boolean If it should be hidden
@@ -187,9 +210,61 @@ public class PrefManager {
     }
 
     /**
+     * Returns if the IGF to show airing records only.
+     *
+     * @return boolean If true than hide all the null airing dates.
+     * @see Home
+     */
+    public static boolean getAiringOnly() {
+        return prefs.getBoolean("IGF_airingOnly", false);
+    }
+
+    /**
+     * Set toggle the IGF to show airing records only.
+     *
+     * @param airing If true than the airing records should only be shown
+     */
+    public static void setAiringOnly(boolean airing) {
+        prefEditor.putBoolean("IGF_airingOnly", airing);
+    }
+
+    /**
+     * Set the score display type.
+     *
+     * 1. 0 - 10
+     * 2. 0 - 100
+     * 3. 0 - 5
+     * 4. :( & :| & :)
+     * 5. 0.0 - 10.0
+     *
+     * @param type The type number
+     */
+    public static void setScoreType(int type) {
+        prefEditor.putInt("Score_type", type);
+    }
+
+    /**
+     * Returns the score type.
+     *
+     * @return int the score type to display.
+     */
+    public static int getScoreType() {
+        return prefs.getInt("Score_type", 1);
+    }
+
+    /**
      * Commit all the changed made.
      */
     public static void commitChanges() {
         prefEditor.commit();
+    }
+
+    /**
+     * Get the prefs for the dark theme.
+     *
+     * @return boolean true if the user wants a dark theme
+     */
+    public static boolean getDarkTheme() {
+        return prefs.getBoolean("darkTheme", false);
     }
 }

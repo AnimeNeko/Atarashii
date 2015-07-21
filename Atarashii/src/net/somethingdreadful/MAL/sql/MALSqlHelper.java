@@ -70,6 +70,15 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + COLUMN_ID + " integer primary key autoincrement, "
             + "username varchar UNIQUE, "
             + "avatar_url varchar, "
+            + "anime_time integer, "
+            + "manga_chap integer, "
+            + "about varchar, "
+            + "list_order integer, "
+            + "image_url_lge varchar, "
+            + "image_url_banner varchar, "
+            + "title_language varchar, "
+            + "score_type integer, "
+            + "notifications integer, "
             + "birthday varchar, "
             + "location varchar, "
             + "website varchar, "
@@ -114,7 +123,16 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "score integer, "
             + "watchedStart varchar, "
             + "watchedEnd varchar, "
-            + "dirty boolean DEFAULT false, "
+            + "fansub varchar, "
+            + "priority integer, "
+            + "downloaded integer, "
+            + "rewatch integer, "
+            + "storage integer, "
+            + "storageValue integer, "
+            + "rewatchCount integer, "
+            + "rewatchValue integer, "
+            + "comments varchar, "
+            + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, anime_id)"
             + ");";
@@ -130,9 +148,30 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "score integer, "
             + "readStart varchar, "
             + "readEnd varchar, "
-            + "dirty boolean DEFAULT false, "
+            + "priority integer, "
+            + "downloaded integer, "
+            + "rereading boolean, "
+            + "rereadCount integer, "
+            + "rereadValue integer, "
+            + "comments varchar, "
+            + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, manga_id)"
+            + ");";
+
+    public static final String TABLE_PRODUCER = "producer";
+    private static final String CREATE_PRODUCER_TABLE = "CREATE TABLE "
+            + TABLE_PRODUCER + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + "recordName varchar UNIQUE"
+            + ");";
+
+    public static final String TABLE_ANIME_PRODUCER = "anime_producer";
+    private static final String CREATE_ANIME_PRODUCER_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_PRODUCER + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "producer_id integer NOT NULL REFERENCES " + TABLE_PRODUCER + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(anime_id, producer_id)"
             + ");";
 
     /*
@@ -158,6 +197,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
     public static final String RELATION_TYPE_PREQUEL = "7";
     public static final String RELATION_TYPE_SEQUEL = "8";
     public static final String RELATION_TYPE_PARENT_STORY = "9";
+    public static final String RELATION_TYPE_OTHER = "10";
 
     public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
     private static final String CREATE_ANIME_ANIME_RELATIONS_TABLE = "CREATE TABLE "
@@ -227,9 +267,23 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "PRIMARY KEY(anime_id, tag_id)"
             + ");";
+    public static final String TABLE_ANIME_PERSONALTAGS = "anime_personaltags";
+    private static final String CREATE_ANIME_PERSONALTAGS_TABLE = "CREATE TABLE "
+            + TABLE_ANIME_PERSONALTAGS + "("
+            + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(anime_id, tag_id)"
+            + ");";
     public static final String TABLE_MANGA_TAGS = "manga_tags";
     private static final String CREATE_MANGA_TAGS_TABLE = "CREATE TABLE "
             + TABLE_MANGA_TAGS + "("
+            + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(manga_id, tag_id)"
+            + ");";
+    public static final String TABLE_MANGA_PERSONALTAGS = "manga_personaltags";
+    private static final String CREATE_MANGA_PERSONALTAGS_TABLE = "CREATE TABLE "
+            + TABLE_MANGA_PERSONALTAGS + "("
             + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "tag_id integer NOT NULL REFERENCES " + TABLE_TAGS + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "PRIMARY KEY(manga_id, tag_id)"
@@ -256,8 +310,30 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "PRIMARY KEY(manga_id, titleType, title)"
             + ");";
 
+    public static final String TABLE_ACTIVITIES = "activities";
+    private static final String CREATE_ACTIVITIES_TABLE = "CREATE TABLE "
+            + TABLE_ACTIVITIES + "("
+            + COLUMN_ID + " integer primary key, "
+            + "user integer NOT NULL REFERENCES " + TABLE_PROFILE + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "type varchar NOT NULL, "
+            + "created varchar NOT NULL, "
+            + "reply_count integer NOT NULL, "
+            + "series_anime integer, "
+            + "series_manga integer, "
+            + "status varchar, "
+            + "value varchar"
+            + ");";
+
+    public static final String TABLE_ACTIVITIES_USERS = "activities_users";
+    private static final String CREATE_ACTIVITIES_USERS_TABLE = "CREATE TABLE "
+            + TABLE_ACTIVITIES_USERS + "("
+            + "profile_id integer NOT NULL REFERENCES " + TABLE_PROFILE + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "activity_id integer NOT NULL REFERENCES " + TABLE_ACTIVITIES + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
+            + "PRIMARY KEY(profile_id, activity_id)"
+            + ");";
+
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 11;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -303,6 +379,12 @@ public class MALSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MANGA_TAGS_TABLE);
         db.execSQL(CREATE_ANIME_OTHER_TITLES_TABLE);
         db.execSQL(CREATE_MANGA_OTHER_TITLES_TABLE);
+        db.execSQL(CREATE_PRODUCER_TABLE);
+        db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
+        db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
+        db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
+        db.execSQL(CREATE_ACTIVITIES_TABLE);
+        db.execSQL(CREATE_ACTIVITIES_USERS_TABLE);
     }
 
     @Override
@@ -394,7 +476,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              */
             // we need the username for building the relation tables, so get the account here
             Integer userId = null;
-            Account account = AccountService.getAccount(context);
+            Account account = AccountService.getAccount();
             if (account != null) {
                 Cursor userCursor = db.query(TABLE_PROFILE, new String[]{COLUMN_ID}, "username = ?", new String[]{account.name}, null, null, null);
                 if (userCursor.moveToFirst()) {
@@ -496,7 +578,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
              */
             // update animelist table
             String animeUpdateFields = "profile_id, anime_id, status, watched, score, dirty, lastUpdate";
-            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("create table temp_table as select " + animeUpdateFields + " from " + TABLE_ANIMELIST);
             db.execSQL("drop table " + TABLE_ANIMELIST);
             db.execSQL(CREATE_ANIMELIST_TABLE);
             db.execSQL("insert into " + TABLE_ANIMELIST + " (" + animeUpdateFields + ") select " + animeUpdateFields + " from temp_table;");
@@ -504,10 +586,71 @@ public class MALSqlHelper extends SQLiteOpenHelper {
 
             // update mangalist table
             String mangaUpdateFields = "profile_id, manga_id, status, chaptersRead, volumesRead, score, dirty, lastUpdate";
-            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("create table temp_table as select " + mangaUpdateFields + " from " + TABLE_MANGALIST);
             db.execSQL("drop table " + TABLE_MANGALIST);
             db.execSQL(CREATE_MANGALIST_TABLE);
             db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
+            db.execSQL("drop table temp_table;");
+        }
+
+        if (oldVersion < 10) {
+            /*
+             * In version 10 We added new personal details, AL support & are using the new dirty flag system
+             */
+            // update animelist table
+            String animeUpdateFields = "profile_id, anime_id, status, watched, score, watchedStart, watchedEnd, dirty, lastUpdate";
+            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("update temp_table set dirty = NULL");
+            db.execSQL("drop table " + TABLE_ANIMELIST);
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            db.execSQL("insert into " + TABLE_ANIMELIST + " (" + animeUpdateFields + ") select " + animeUpdateFields + " from temp_table;");
+            db.execSQL("drop table temp_table;");
+
+            // update mangalist table
+            String mangaUpdateFields = "profile_id, manga_id, status, chaptersRead, volumesRead, score, readStart, readEnd, dirty, lastUpdate";
+            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("update temp_table set dirty = NULL");
+            db.execSQL("drop table " + TABLE_MANGALIST);
+            db.execSQL(CREATE_MANGALIST_TABLE);
+            db.execSQL("insert into " + TABLE_MANGALIST + " (" + mangaUpdateFields + ") select " + mangaUpdateFields + " from temp_table;");
+            db.execSQL("drop table temp_table;");
+
+            // update profile table
+            db.execSQL("alter table " + TABLE_PROFILE + " add column anime_time integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column manga_chap integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column about varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column list_order integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column image_url_lge varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column image_url_banner varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column title_language varchar");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column score_type integer default 0");
+            db.execSQL("alter table " + TABLE_PROFILE + " add column notifications integer default 0");
+
+            // add new tables
+            db.execSQL(CREATE_PRODUCER_TABLE);
+            db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
+            db.execSQL(CREATE_ANIME_PERSONALTAGS_TABLE);
+            db.execSQL(CREATE_MANGA_PERSONALTAGS_TABLE);
+            db.execSQL(CREATE_ACTIVITIES_TABLE);
+            db.execSQL(CREATE_ACTIVITIES_USERS_TABLE);
+        }
+
+        if (oldVersion < 11) {
+            /*
+             * In version 11 We fixed an AniList bug that caused crashes due decimals
+             */
+            // update animelist table
+            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("drop table " + TABLE_ANIMELIST);
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            db.execSQL("insert into " + TABLE_ANIMELIST + " select * from temp_table;");
+            db.execSQL("drop table temp_table;");
+
+            // update mangalist table
+            db.execSQL("create table temp_table as select * from " + TABLE_MANGALIST);
+            db.execSQL("drop table " + TABLE_MANGALIST);
+            db.execSQL(CREATE_MANGALIST_TABLE);
+            db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
         }
     }

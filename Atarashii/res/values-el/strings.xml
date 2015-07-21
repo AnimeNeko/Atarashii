@@ -8,6 +8,7 @@
     <string name="title_activity_profile">Προφίλ Χρήστη</string>
     <string name="title_activity_friends">Οι φίλοι μου</string>
     <string name="title_activity_logout">Έξοδος</string>
+    <string name="title_activity_forum">Φόρουμ</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Εναλλαγή λίστας</string>
     <string name="menu_inverse">Αντίστροφη λίστα</string>
@@ -26,15 +27,27 @@
     <string name="toast_error_Anime_Records">Λάθος κατά την λήψη αρχείων anime.</string>
     <string name="toast_error_Manga_Records">Λάθος κατά την λήψη αρχείων manga.</string>
     <string name="toast_error_Records">Λάθος κατά την λήψη αρχείων. Παρακαλώ προσπαθήστε ξανά αργότερα.</string>
-    <string name="toast_error_DetailsError">Δεν ήταν δυνατή η φόρτωση λεπτομερειών, παρακαλώ ελέγξτε τη σύνδεση σας στο Internet.</string>
-    <string name="toast_error_VerifyProblem">Να πάρει! Κάτι πήγε στραβά. Παρακαλώ ελέγξτε τα στοιχεία σύνδεσης σας στο MAL και τη σύνδεση σας στο Internet και δοκιμάστε ξανά.</string>
+    <string name="toast_error_DetailsError">Η εφαρμογή δεν μπορεί να φορτώσει τις λεπτομέρειες!</string>
+    <string name="toast_error_VerifyProblem">Ελέγξτε τα στοιχεία σας και προσπαθήστε ξανά.</string>
     <string name="toast_error_Friends">Σφάλμα κατά τη λήψη της λίστας των φίλων!</string>
-    <string name="toast_error_nothingFound">Δεν βρέθηκαν αποτελέσματα σε anime ή manga. Η υπάρχει πρόβλημα με το API ή δεν ξέρετε να γράφετε.</string>
-    <string name="toast_info_SyncMessage">Ολικώς συγχρονισμός. Αυτό θα διαρκέσει λίγο, αναλόγως και της ταχύτητας σας στο Internet.</string>
+    <string name="toast_error_nothingFound">Δεν βρέθηκαν αποτελέσματα anime ή manga.</string>
+    <string name="toast_info_SyncMessage">Συγχρονισμός όλων. Αυτό θα πάρει μερικά δευτερόλεπτα.</string>
     <string name="toast_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
-    <string name="toast_info_hold_on">Περιμένε ένα λεπτό, φορτώνουμε κάποιες πληροφορίες!</string>
+    <string name="toast_info_hold_on">Περιμένε λίγο, φορτώνουμε ακόμα πληροφορίες!</string>
+    <string name="toast_info_comment_add">Το σχόλιο στάλθηκε επιτυχώς!</string>
+    <string name="toast_info_comment_added">Μπορεί να πάρει ως και πέντε λεπτά μέχρι να είναι εμφανής.</string>
+    <string name="toast_info_disabled">Το συγκεκριμένο χαρακτηριστικό είναι απανεργοποιημένο :(</string>
+    <string name="toast_info_disabled_youtube">Τα σχόλιο με Youtube βίντεο δεν υποστηρίζονται :(</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">Προβολή</string>
+    <string name="dialog_title_tags">Οι ετικέτες μου</string>
+    <string name="dialog_title_storage_value">Μέγεθος</string>
+    <string name="dialog_title_downloaded">Κατεβασμένα επεισόδια</string>
+    <string name="dialog_title_rewatched_times">Επαναλήψεις</string>
+    <string name="dialog_title_rewatched_priority">Προτεραιότητα επανάληψης</string>
+    <string name="dialog_title_storage">Τύπος αποθήκευσης</string>
+    <string name="dialog_title_comment">Τα σχόλια μου</string>
+    <string name="dialog_title_fansub">Το fansubgroup μου</string>
     <string name="dialog_title_share">Διαμοιρασμός</string>
     <string name="dialog_title_share_via">Κοινοποίηση μέσω</string>
     <string name="dialog_title_Verifying">Επαλήθευση</string>
@@ -44,9 +57,15 @@
     <string name="dialog_title_read_update">Έχω διαβάσει</string>
     <string name="dialog_title_status">Κατάσταση</string>
     <string name="dialog_title_sync">Συγχρονισμός</string>
+    <string name="dialog_title_edit_comment">Επεξεργασία σχολίου</string>
+    <string name="dialog_title_add_comment">Προσθήκη σχολίου</string>
+    <string name="dialog_title_add_topic">Δημιουργία θέματος</string>
     <string name="dialog_title_id_search">Αναζήτηση με ID</string>
     <string name="dialog_title_update_password">Αλλαγή κωδικού</string>
     <string name="dialog_title_update_navigation">Ανανέωση φόντου</string>
+    <string name="dialog_hint_tags">Ξεχωρίστε τις ετικέτες σας με κόμμα</string>
+    <string name="dialog_hint_comment">Εισάγετε το σχόλιο σας</string>
+    <string name="dialog_hint_fansub">Εισάγετε το fansubgroup σας</string>
     <string name="dialog_message_view">Ποια λίστα θέλετε να δείτε;</string>
     <string name="dialog_message_logout">Είστε σίγουροι πως θέλετε να βγείτε; Αυτό θα έχει ως αποτέλεσμα να διαγραφούν όλα τα αποθηκευμένα δεδομένα και εικόνες.</string>
     <string name="dialog_message_id_search">Παρακαλώ πατήστε πάνω στο κουμπί Manga ή Anime για αναζήτηση. Να θυμάστε ότι τα ID των Manga και των Anime δεν είναι ίδια!</string>
@@ -56,6 +75,10 @@
     <string name="dialog_message_update_password">Φαίνεται πως ο κωδικός σας έχει αλλάξει. Παρακαλώ εισάγετε τον καινούργιο.</string>
     <string name="dialog_message_new_password_wrong">Ο νέος κωδικός που εισάχθηκε είναι λάθος.</string>
     <string name="dialog_message_update_navigation">Εισαγωγή του συνδέσμου της εικόνας παρακάτω.</string>
+    <string name="dialog_message_created_by">Δημιουργήθηκε από</string>
+    <string name="dialog_message_last_post">Τελευταίο σχόλιο από</string>
+    <string name="dialog_message_forum_child">Θέλετε να δείτε την $child1; ή $child2; κατηγορία;</string>
+    <string name="dialog_message_on">την</string>
     <string name="dialog_label_cancel">Άκυρο</string>
     <string name="dialog_label_update">Αναβάθμιση</string>
     <string name="dialog_label_anime">Anime</string>
@@ -66,10 +89,12 @@
     <string name="dialog_label_logout">Έξοδος</string>
     <string name="dialog_label_remove">Αφαίρεση</string>
     <string name="dialog_label_confirm">Επιβεβαίωση</string>
+    <string name="dialog_label_send">Αποστολή</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">Ο/Η $username; μοιράστηκε ένα anime μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">Ο/Η $username; μοιράστηκε ένα manga μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="layout_card_title_details">Λεπτομέρειες</string>
+    <string name="layout_card_title_activity">Δραστηριότητα</string>
     <string name="layout_discription">Εικονίδιο εφαρμογής</string>
     <string name="layout_card_loading">Φόρτωση</string>
     <string name="layout_card_birthday">Γενέθλια</string>
@@ -97,6 +122,7 @@
     <string name="layout_card_manga_plan">Για μελλοντική ανάγνωση</string>
     <string name="action_viewListOnMAL">Προβολή λίστας στο MAL</string>
     <string name="not_specified">δεν διευκρινίζεται</string>
+    <string name="no_activity">Καμία δραστηριότητα</string>
     <string-array name="gender">
         <item>Γυναίκα</item>
         <item>Άνδρας</item>
@@ -104,12 +130,19 @@
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Φίλοι από</string>
     <string name="unknown">Αγνωστος</string>
+    <!-- ForumActivity Strings -->
+    <string name="action_add">Προσθήκη σχολίου ή θέματος</string>
+    <string name="form_hint_title">Τίτλος θέματος</string>
+    <string name="form_hint_message">Μήνυμα</string>
     <!-- FirstTimeInit (Contents) Strings -->
+    <string name="init_hint_choose">Καλώς ήρθατε στο Atarashi!\nΔιαλέξτε το site σας</string>
+    <string name="init_hint_myanimelist">MyAnimeList</string>
+    <string name="init_hint_anilist">AniList</string>
     <string name="form_hint_user">Όνομα Χρήστη MAL:</string>
     <string name="form_hint_pass">Κωδικός MAL:</string>
     <string name="form_hint_info">Εισάγετε τα στοιχεία του λογαριασμού σας, από το MyAnimeList παρακάτω:</string>
     <string name="form_action_create">Δημιουργία λογαριασμού</string>
-    <string name="form_action_connect">Σύνδεση στο MAL</string>
+    <string name="form_action_connect">Είσοδος</string>
     <!-- IGF (MyList Cover) Strings -->
     <string name="cover_Watching">Έχω δει:</string>
     <string name="cover_Completed">Ολοκληρωμένα</string>
@@ -128,38 +161,59 @@
     <string name="nav_item_my_profile">Το προφίλ μου</string>
     <string name="nav_item_my_list">Η λίστα μου</string>
     <string name="nav_item_my_friends">Οι φίλοι μου</string>
+    <string name="nav_item_my_following">Ακολουθείς</string>
+    <string name="nav_item_my_forum">Φόρουμ</string>
     <string name="nav_item_top_rated">Κορυφαία</string>
+    <string name="nav_item_airing">Τρέχων σειρές</string>
     <string name="nav_item_most_popular">Πιο δημοφιλή</string>
+    <string name="nav_item_year">Αυτή τη χρονιά</string>
     <string name="nav_item_just_added">Μόλις προστέθηκαν</string>
     <string name="nav_item_upcoming">Αναμενόμενα</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <!-- DetailView (Tab names) Strings -->
+    <!-- Tab names Strings -->
     <string name="tab_name_general">Γενικές Πληροφορίες</string>
     <string name="tab_name_personal">Προσωπικά</string>
     <string name="tab_name_details">Λεπτομέρειες</string>
+    <string name="tab_name_friends">Φίλοι</string>
+    <string name="tab_name_following">Ακολουθείς</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Περίληψη</string>
     <string name="card_name_progress">Πρόοδος</string>
-    <string name="card_name_stats">Στατιστικά MAL</string>
-    <string name="card_name_info">Πληοροφίες MAL</string>
+    <string name="card_name_stats">Στατιστικά</string>
+    <string name="card_name_info">Πληροφορίες</string>
     <string name="card_name_rating">Βαθμολογία</string>
     <string name="card_name_personal">Προσωπικό</string>
     <string name="card_name_relations">Σχέσεις</string>
     <string name="card_name_titles">Εναλλακτικοί Τίτλοι</string>
     <string name="card_name_basic">Βασικό</string>
+    <string name="card_name_other">Άλλα</string>
+    <string name="card_name_rewatch">Επαναλήψεις</string>
     <!-- DetailView (Res contents) Strings -->
     <string name="card_content_volumes">Τόμοι</string>
     <string name="card_content_my_start">Ημέρα εκκίνησης</string>
     <string name="card_content_my_end">Ημέρα περάτωσης</string>
+    <string name="card_content_other">Άλλα</string>
     <string name="card_content_none">Κανένα</string>
     <string name="card_content_chapters">Κεφάλαια</string>
+    <string name="card_content_rewatch_priority">Προτεραιότητα</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_storage">Storage</string>
+    <string name="card_content_storage_amount">Storage capacity (GB)</string>
+    <string name="card_content_downloaded">Κατεβασμένα</string>
+    <string name="card_content_count">Καταμέτρηση</string>
     <string name="card_content_episodes">Επεισόδια</string>
     <string name="card_content_status">Κατάσταση</string>
-    <string name="card_content_mal_score">Βαθμολόγηση MAL</string>
+    <string name="card_content_mal_score">Βαθμολογία</string>
     <string name="card_content_my_score">Ο δικός μου βαθμός</string>
+    <string name="card_content_my_priority">Η προτεραιότητα μου</string>
+    <string name="card_content_my_tags">Οι ετικέτες μου</string>
+    <string name="card_content_comments">Σχόλια</string>
     <string name="card_content_media_type">Είδος</string>
     <string name="card_content_media_status">Κατάσταση</string>
+    <string name="card_content_start">Ημερομηνία έναρξης</string>
+    <string name="card_content_end">Ημερομηνία λήξης</string>
+    <string name="card_content_producers">Παραγωγοί</string>
     <string name="card_content_aired">Προβλήθηκε</string>
     <string name="card_content_genres">Είδη</string>
     <string name="card_content_classification">Καταλληλότητα</string>
@@ -184,6 +238,7 @@
     <string name="card_offline_error">Δεν υπάρχει κάποια ενεργή σύνδεση δικτύου.</string>
     <string name="card_offline_button_caption">Δοκιμάστε ξανά</string>
     <string name="card_offline_title">Είστε εκτός σύνδεσης!</string>
+    <string name="episodepicker_hint">Εισάγετε την βαθμολογία σας</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Προβολή λεπτομερειών στο MyAnimeList</string>
     <string name="action_Share">Διαμοιρασμός</string>
@@ -241,11 +296,6 @@
     <!-- Anime/Manga progress status strings -->
         <item>Μελλοντική ανάγνωση</item>
     </string-array>
-    <!-- AndroidManifest (Unknown) Strings -->
-    <string name="permission_group_useAtarashii">Χρήση του Atarashii! για το MyAnimeList</string>
-    <string name="permission_group_description_useAtarashii">Επιτρέψτε se αυτή την εφαρμογή να χρησιμοποιεί το Atarashii! (αν είναι εγκατεστημένο) για πρόσβαση στον MyAnimeList λογαριασμό σας</string>
-    <string name="permission_updateMedia">Ανανέωση εγγραφών</string>
-    <string name="permission_description_updateMedia">Επιτρέψτε σε αυτή την εφαρμογή να ανανεώνει τις εγγραφές σας στον MyAnimeList λογαριασμό σας</string>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
     <string name="search_prompt">Αναζήτηση στο MAL</string>
     <!-- AboutActivity (contents) Strings -->
@@ -275,6 +325,7 @@
     <string name="preference_category_sharing">Άλλες ρυθμίσεις</string>
     <string name="preference_category_profile">Συγχρονισμός Προφίλ</string>
     <string name="preference_synchronisation">Αυτόματος Συγχρονισμός</string>
+    <string name="preference_Theme">Σκοτεινό θέμα</string>
     <string name="preference_TraditionalList">Χρήση Παλαιάς Λίστας</string>
     <string name="preference_customShareText">Κείμενο διαμοιρασμού</string>
     <string name="preference_displayVolumes">Τόμοι στα Πλακίδια</string>
@@ -287,6 +338,7 @@
     <string name="preference_profileMangaHide">Μόνιμη απόκρυψη των λεπτομερειών των manga</string>
     <string name="preference_summary_TraditionList">Χρησιμοποιήστε το δοκιμασμένο τρόπο προβολής λίστας αντί για αυτόν με τη χρήση πλακιδίων. Χρειάζεται επανεκκίνηση της εφαρμογής για να λειτουργήσει.</string>
     <string name="preference_summary_synchronisation">Αν τσεκαριστεί, το Atarashii θα συχγρονίζει στο παρασκήνιο.</string>
+    <string name="preference_summary_theme">Αν είναι επιλεγμένος, η εφαρμογή θα χρησιμοποιήσει το σκοτεινό θέμα.</string>
     <string name="preference_summary_Language">Αλλάξτε την προεπιλεγμένη γλώσσας σε όποια που επιθυμείτε. Για την εφαρμογή της νέας γλώσσας απαιτείται επανεκκίνηση της εφαρμογής.</string>
     <string name="preference_summary_customShareText">Δεν σας αρέσει το κείμενο κοινοποίησης; Δημιουργήστε το δικό σας! Χρησιμοποιήστε το $tittle; και $link; στη θέση του τίτλου και του συνδέσμου στο MAL αντίστοιχα, τα υπόλοιπα θα τα κάνουμε εμείς.</string>
     <string name="preference_summary_autosync">Χρόνος μέχρι να γίνει συγχρονισμός αυτόματα στο παρασκήνιο.</string>
@@ -303,6 +355,8 @@
     <string name="listType_planned">Προγραμματισμένα</string>
     <string name="listType_Completed">Ολοκληρωμένα</string>
     <string name="listType_InProgress">Σε εξέλιξη</string>
+    <string name="listType_rewatching">Επαναλήψεις</string>
+    <string name="listType_rereading">Επαναλήψεις</string>
     <!-- RatingPickerDialogFragment (Rating) Items -->
     <string-array name="array_ratings_text">
     <!-- RatingPickerDialogFragment (Rating) Items -->
@@ -367,6 +421,8 @@
         <item>Ρωσσικά</item>
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Ισπανικά</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Τουρκικά</item>
     </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
@@ -389,10 +445,19 @@
     <string name="dateformat">dd-MM-yy</string>
     <string name="datetimeformat">dd-MM-yy, h:mm a</string>
     <string name="datetimeformat_yesterday">\'Χτες\', h:mm a</string>
+    <string name="datetimeformat_tomorrow">\'Αύριο\', h:mm a</string>
     <string name="datetimeformat_dayname">EEEE, h:mm a</string>
     <plurals name="minutes_ago">
         <item quantity="one">Ένα λεπτό πριν</item>
         <item quantity="other">%d λεπτά πριν</item>
+    </plurals>
+    <plurals name="minutes_left">
+        <item quantity="one">Σε %d λεπτό</item>
+        <item quantity="other">Σε %d λεπτά</item>
+    </plurals>
+    <plurals name="hours_left">
+        <item quantity="one">%d ώρα από τώρα</item>
+        <item quantity="other">%d ώρες από τώρα</item>
     </plurals>
     <plurals name="hours_ago">
         <item quantity="one">Μια ώρα πριν</item>
@@ -405,6 +470,28 @@
         <item>R - 17+ (\u03b2\u03af\u03b1 &amp; \u03b2\u03bb\u03b1\u03c3\u03c6\u03b7\u03bc\u03af\u03b5\u03c2)</item>
         <item>R+ - Ήπια Γυμνότητα</item>
         <item>Rx - Hentai</item>
+    </string-array>
+    <string-array name="priorityArray">
+        <item>Χαμηλό</item>
+        <item>Μεσσαίο</item>
+        <item>Υψηλό</item>
+    </string-array>
+    <string-array name="priorityRewatchArray">
+        <item>Κανένα</item>
+        <item>Χαμηλό</item>
+        <item>Μεσσαίο</item>
+        <item>Υψηλό</item>
+        <item>Πολύ υψηλό</item>
+    </string-array>
+    <string-array name="storageArray">
+        <item>Κανένα</item>
+        <item>Σκληρός Δίσκος</item>
+        <item>DVD / CD</item>
+        <item>Κανένα</item>
+        <item>Retail DVD</item>
+        <item>VHS</item>
+        <item>Εξωτερικός Σκληρός Δίσκος</item>
+        <item>NAS</item>
     </string-array>
     <string-array name="genresArray">
         <item>Δράση</item>

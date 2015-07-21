@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_light_card">
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
@@ -22,8 +21,10 @@
                 <!-- Profile picture -->
                 <net.somethingdreadful.MAL.Card
                     android:id="@+id/name_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
                     custom:header_Color="@color/card_cyan"
                     custom:header_Title="@string/layout_card_title_details"
                     custom:header_Title_Color="@color/white"
@@ -33,9 +34,9 @@
                 <net.somethingdreadful.MAL.Card
                     android:id="@+id/details_card"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/name_card"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/name_card"
+                    android:layout_marginTop="8dp"
                     custom:header_Color="@color/card_cyan"
                     custom:header_Title="@string/layout_card_title_details"
                     custom:header_Title_Color="@color/white" />
@@ -43,12 +44,10 @@
                 <!-- Anime card -->
                 <net.somethingdreadful.MAL.Card
                     android:id="@+id/Anime_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_below="@id/details_card"
-                    android:layout_marginRight="4dp"
                     android:layout_marginTop="8dp"
-                    custom:card_divide="2"
                     custom:header_Color="@color/card_cyan"
                     custom:header_Title="@string/layout_card_anime_details"
                     custom:header_Title_Color="@color/white" />
@@ -56,13 +55,10 @@
                 <!-- Manga card -->
                 <net.somethingdreadful.MAL.Card
                     android:id="@+id/Manga_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/details_card"
-                    android:layout_marginLeft="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/Anime_card"
                     android:layout_marginTop="8dp"
-                    android:layout_toRightOf="@id/Anime_card"
-                    custom:card_divide="2"
                     custom:header_Color="@color/card_cyan"
                     custom:header_Title="@string/layout_card_manga_details"
                     custom:header_Title_Color="@color/white" />
@@ -74,8 +70,8 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
 
     <net.somethingdreadful.MAL.Card xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/network_Card"

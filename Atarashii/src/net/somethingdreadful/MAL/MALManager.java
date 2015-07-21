@@ -5,9 +5,13 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.response.Activity;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -15,64 +19,49 @@ import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit.RetrofitError;
 
 public class MALManager {
     MALApi malApi;
+    ALApi alApi;
     DatabaseManager dbMan;
+    Context context;
 
     public MALManager(Context context) {
-        malApi = new MALApi(context);
+        if (AccountService.isMAL())
+            malApi = new MALApi();
+        else
+            alApi = new ALApi();
         dbMan = new DatabaseManager(context);
+        this.context = context;
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
-        String r;
-
         switch (i) {
             case 0:
-                r = "";
-                break;
+                return "";
             case 1:
-                if (type.equals(MALApi.ListType.ANIME))
-                    r = Anime.STATUS_WATCHING;
-                else
-                    r = Manga.STATUS_READING;
-                break;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
             case 2:
-                r = Anime.STATUS_COMPLETED;
-                break;
+                return Anime.STATUS_COMPLETED;
             case 3:
-                r = Anime.STATUS_ONHOLD;
-                break;
+                return Anime.STATUS_ONHOLD;
             case 4:
-                r = Anime.STATUS_DROPPED;
-                break;
+                return Anime.STATUS_DROPPED;
             case 5:
-                if (type.equals(MALApi.ListType.ANIME))
-                    r = Anime.STATUS_PLANTOWATCH;
-                else
-                    r = Manga.STATUS_PLANTOREAD;
-                break;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_PLANTOWATCH : Manga.STATUS_PLANTOREAD;
+            case 6:
+                return Anime.STATUS_REWATCHING;
             default:
-                if (type.equals(MALApi.ListType.ANIME))
-                    r = Anime.STATUS_WATCHING;
-                else
-                    r = Manga.STATUS_READING;
-                break;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
         }
-
-        return r;
-    }
-
-    public MALApi getAPIObject() {
-        return malApi;
     }
 
     public Anime getAnimeRecord(int id) {
         try {
-            return malApi.getAnime(id);
+            return AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getAnimeRecord(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -80,9 +69,29 @@ public class MALManager {
         return null;
     }
 
+    public Anime getAnime(int id, String username) {
+        try {
+            return dbMan.getAnime(id, username);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getAnime(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public Manga getManga(int id, String username) {
+        try {
+            return dbMan.getManga(id, username);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getManga(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
     public Manga getMangaRecord(int id) {
         try {
-            return malApi.getManga(id);
+            return AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
         } catch (RetrofitError e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.getMangaRecord(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -90,9 +99,82 @@ public class MALManager {
         return null;
     }
 
+    public ForumMain getForum() {
+        try {
+            return malApi.getForum();
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getForum(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getTopics(int id, int page) {
+        try {
+            return malApi.getTopics(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getTopics(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
+        try {
+            return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getDiscussion(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getPosts(int id, int page) {
+        try {
+            return malApi.getPosts(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getPosts(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public ForumMain getSubBoards(int id, int page) {
+        try {
+            return malApi.getSubBoards(id, page);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.getSubBoards(" + id + ", " + page + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
+    public Boolean addComment(int id, String message) {
+        return malApi.addComment(id, message);
+    }
+
+    public Boolean updateComment(int id, String message) {
+        return malApi.updateComment(id, message);
+    }
+
+    public Boolean addTopic(int id, String title, String message) {
+        return malApi.addTopic(id, title, message);
+    }
+
+    public ForumMain search(String query) {
+        try {
+            return malApi.search(query);
+        } catch (RetrofitError e) {
+            Crashlytics.log(Log.ERROR, "MALX", "MALManager.search(" + query + "): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+        return null;
+    }
+
     public ArrayList<Anime> downloadAndStoreAnimeList(String username) {
         ArrayList<Anime> result = null;
-        AnimeList animeList = malApi.getAnimeList();
+        AnimeList animeList = AccountService.isMAL() ? malApi.getAnimeList() : alApi.getAnimeList(username);
+
         if (animeList != null) {
             result = animeList.getAnimes();
             dbMan.saveAnimeList(result, username);
@@ -103,9 +185,10 @@ public class MALManager {
 
     public ArrayList<Manga> downloadAndStoreMangaList(String username) {
         ArrayList<Manga> result = null;
-        MangaList mangaList = malApi.getMangaList();
+        MangaList mangaList = AccountService.isMAL() ? malApi.getMangaList() : alApi.getMangaList(username);
+
         if (mangaList != null) {
-            result = mangaList.getManga();
+            result = mangaList.getMangas();
             dbMan.saveMangaList(result, username);
             dbMan.cleanupMangaTable();
         }
@@ -120,23 +203,35 @@ public class MALManager {
         return dbMan.getMangaList(ListType, username);
     }
 
+    public Manga updateWithDetails(int id, Manga manga, String username) {
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
+        Manga manga_api = AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id).createBaseModel();
+
+        if (manga_api != null) {
+            dbMan.saveManga(manga_api, false, username);
+            return AccountService.isMAL() ? manga_api : dbMan.getManga(id, AccountService.getUsername());
+        }
+        return manga;
+    }
+
     public Anime updateWithDetails(int id, Anime anime, String username) {
-        Anime anime_api = malApi.getAnime(id);
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails(" + Integer.toString(id) + ", " + username + ")");
+        Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id).createBaseModel();
+
         if (anime_api != null) {
             dbMan.saveAnime(anime_api, false, username);
-            return anime_api;
+            return AccountService.isMAL() ? anime_api : dbMan.getAnime(id, AccountService.getUsername());
         }
         return anime;
     }
 
     public ArrayList<User> downloadAndStoreFriendList(String user) {
-        ArrayList<User> result;
         try {
             Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
-            result = malApi.getFriends(user);
-            if (result.size() > 0) {
+            ArrayList<User> result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
+
+            if (result != null && result.size() > 0)
                 dbMan.saveFriendList(result, user);
-            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -149,16 +244,20 @@ public class MALManager {
     }
 
     public User downloadAndStoreProfile(String name) {
-        User result = null;
+        User result = new User();
         try {
             Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreProfile(): Downloading profile of " + name);
-            Profile profile = malApi.getProfile(name);
-            if (profile != null) {
-                result = new User();
-                result.setName(name);
-                result.setProfile(profile);
+            Profile profile = AccountService.isMAL() ? malApi.getProfile(name) : alApi.getProfile(name);
+
+            result.setName(name);
+            result.setProfile(profile);
+
+            if (profile != null && AccountService.isMAL()) {
                 dbMan.saveUser(result, true);
-            }
+            } else if (profile != null && !AccountService.isMAL()) {
+                dbMan.saveProfile(profile);
+            } else if (profile != null)
+                result.getProfile().setAvatarUrl(profile.getImageUrl());
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreProfile(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -167,17 +266,15 @@ public class MALManager {
         return result;
     }
 
-    public User getProfileFromDB(String name) {
-        return dbMan.getProfile(name);
+    public void verifyAuthentication() {
+        if (AccountService.isMAL())
+            malApi.verifyAuthentication();
+        else if (AccountService.getAccesToken() == null)
+            alApi.getAccesToken();
     }
 
-    public Manga updateWithDetails(int id, Manga manga, String username) {
-        Manga manga_api = malApi.getManga(id);
-        if (manga_api != null) {
-            dbMan.saveManga(manga_api, false, username);
-            return manga_api;
-        }
-        return manga;
+    public User getProfileFromDB(String name) {
+        return dbMan.getProfile(name);
     }
 
     public void saveAnimeToDatabase(Anime anime, boolean ignoreSynopsis, String username) {
@@ -196,21 +293,22 @@ public class MALManager {
         return dbMan.deleteMangaFromMangalist(manga.getId(), username);
     }
 
-    public boolean writeAnimeDetailsToMAL(Anime anime) {
+    public boolean writeAnimeDetails(Anime anime) {
         boolean result;
         if (anime.getDeleteFlag())
-            result = malApi.deleteAnimeFromList(anime.getId());
+            result = AccountService.isMAL() ? malApi.deleteAnimeFromList(anime.getId()) : alApi.deleteAnimeFromList(anime.getId());
         else
-            result = malApi.addOrUpdateAnime(anime);
+            result = AccountService.isMAL() ? malApi.addOrUpdateAnime(anime) : alApi.addOrUpdateAnime(anime);
         return result;
     }
 
-    public boolean writeMangaDetailsToMAL(Manga manga) {
+    public boolean writeMangaDetails(Manga manga) {
         boolean result;
         if (manga.getDeleteFlag())
-            result = malApi.deleteMangaFromList(manga.getId());
+            result = AccountService.isMAL() ? malApi.deleteMangaFromList(manga.getId()) : alApi.deleteMangaFromList(manga.getId());
         else
-            result = malApi.addOrUpdateManga(manga);
+            result = AccountService.isMAL() ? malApi.addOrUpdateManga(manga) : alApi.addOrUpdateManga(manga);
+
         return result;
     }
 
@@ -223,9 +321,9 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
 
             for (Anime anime : dirtyAnimes) {
-                totalSuccess = writeAnimeDetailsToMAL(anime);
+                totalSuccess = writeAnimeDetails(anime);
                 if (totalSuccess) {
-                    anime.setDirty(false);
+                    anime.clearDirty();
                     saveAnimeToDatabase(anime, false, username);
                 }
 
@@ -246,9 +344,9 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
 
             for (Manga manga : dirtyMangas) {
-                totalSuccess = writeMangaDetailsToMAL(manga);
+                totalSuccess = writeMangaDetails(manga);
                 if (totalSuccess) {
-                    manga.setDirty(false);
+                    manga.clearDirty();
                     saveMangaToDatabase(manga, false, username);
                 }
 
@@ -258,5 +356,57 @@ public class MALManager {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Cleaned dirty manga records, status: " + totalSuccess);
         }
         return totalSuccess;
+    }
+
+    public ArrayList<Anime> getMostPopularAnime(int page) {
+        return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getAiringAnime(page);
+    }
+
+    public ArrayList<Manga> getMostPopularManga(int page) {
+        return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getAiringManga(page);
+    }
+
+    public ArrayList<Anime> getTopRatedAnime(int page) {
+        return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getYearAnime(Calendar.getInstance().get(Calendar.YEAR), page);
+    }
+
+    public ArrayList<Manga> getTopRatedManga(int page) {
+        return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getYearManga(Calendar.getInstance().get(Calendar.YEAR), page);
+    }
+
+    public ArrayList<Anime> getJustAddedAnime(int page) {
+        return AccountService.isMAL() ? malApi.getJustAddedAnime(page) : alApi.getJustAddedAnime(page);
+    }
+
+    public ArrayList<Manga> getJustAddedManga(int page) {
+        return AccountService.isMAL() ? malApi.getJustAddedManga(page) : alApi.getJustAddedManga(page);
+    }
+
+    public ArrayList<Anime> getUpcomingAnime(int page) {
+        return AccountService.isMAL() ? malApi.getUpcomingAnime(page) : alApi.getUpcomingAnime(page);
+    }
+
+    public ArrayList<Manga> getUpcomingManga(int page) {
+        return AccountService.isMAL() ? malApi.getUpcomingManga(page) : alApi.getUpcomingManga(page);
+    }
+
+    public ArrayList<Anime> searchAnime(String query, int page) {
+        return AccountService.isMAL() ? malApi.searchAnime(query, page) : alApi.searchAnime(query, page);
+    }
+
+    public ArrayList<Manga> searchManga(String query, int page) {
+        return AccountService.isMAL() ? malApi.searchManga(query, page) : alApi.searchManga(query, page);
+    }
+
+    public ArrayList<Activity> getActivityFromDB(String username) {
+        return dbMan.getActivity(username);
+    }
+
+    public ArrayList<Activity> downloadAndStoreActivity(String username) {
+        ArrayList<Activity> result = alApi.getActivity(username);
+        if (result != null && result.size() > 0) {
+            dbMan.saveActivity(result, username);
+        }
+        return result;
     }
 }

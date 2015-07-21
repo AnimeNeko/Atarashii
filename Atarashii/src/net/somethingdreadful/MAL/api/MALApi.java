@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.AnimeList;
+import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.Manga;
 import net.somethingdreadful.MAL.api.response.MangaList;
 import net.somethingdreadful.MAL.api.response.Profile;
@@ -24,6 +25,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpProtocolParams;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -40,9 +42,9 @@ public class MALApi {
     private String username;
 
 
-    public MALApi(Context context) {
-        username = AccountService.getUsername(context);
-        setupRESTService(username, AccountService.getPassword(context));
+    public MALApi() {
+        username = AccountService.getUsername();
+        setupRESTService(username, AccountService.getPassword());
     }
 
     public MALApi(String username, String password) {
@@ -68,6 +70,7 @@ public class MALApi {
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .setVersion(1)
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
@@ -123,8 +126,41 @@ public class MALApi {
         boolean result;
         if (anime.getCreateFlag())
             result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
-        else
-            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getWatchingStart(), anime.getWatchingEnd()).getStatus() == 200;
+        else {
+            if (anime.isDirty()) {
+                // map anime property names to api field names
+                HashMap<String, String> nameMap = new HashMap<>();
+                nameMap.put("watchedStatus", "status");
+                nameMap.put("watchedEpisodes", "episodes");
+                nameMap.put("score", "score");
+                nameMap.put("watchingStart", "start");
+                nameMap.put("watchingEnd", "end");
+                nameMap.put("priority", "priority");
+                nameMap.put("personalTags", "tags");
+                nameMap.put("personalComments", "comments");
+                nameMap.put("fansubGroup", "fansubber");
+                nameMap.put("storage", "storage_type");
+                nameMap.put("storageValue", "storage_amt");
+                nameMap.put("epsDownloaded", "downloaded_eps");
+                nameMap.put("rewatchCount", "rewatch_count");
+                nameMap.put("rewatchValue", "rewatch_value");
+                HashMap<String, String> fieldMap = new HashMap<>();
+                for (String dirtyField : anime.getDirty()) {
+                    if (nameMap.containsKey(dirtyField)) {
+                        if (anime.getPropertyType(dirtyField) == String.class) {
+                            fieldMap.put(nameMap.get(dirtyField), anime.getStringPropertyValue(dirtyField));
+                        } else if (anime.getPropertyType(dirtyField) == int.class) {
+                            fieldMap.put(nameMap.get(dirtyField), anime.getIntegerPropertyValue(dirtyField).toString());
+                        } else if (anime.getPropertyType(dirtyField) == ArrayList.class) {
+                            fieldMap.put(nameMap.get(dirtyField), anime.getArrayPropertyValue(dirtyField));
+                        }
+                    }
+                }
+                result = service.updateAnime(anime.getId(), fieldMap).getStatus() == 200;
+            } else {
+                result = false;
+            }
+        }
         return result;
     }
 
@@ -132,8 +168,38 @@ public class MALApi {
         boolean result;
         if (manga.getCreateFlag())
             result = service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
-        else
-            result = service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore(), manga.getReadingStart(), manga.getReadingEnd()).getStatus() == 200;
+        else {
+            if (manga.isDirty()) {
+                // map manga property names to api field names
+                HashMap<String, String> nameMap = new HashMap<>();
+                nameMap.put("readStatus", "status");
+                nameMap.put("chaptersRead", "chapters");
+                nameMap.put("volumesRead", "volumes");
+                nameMap.put("score", "score");
+                nameMap.put("readingStart", "start");
+                nameMap.put("readingEnd", "end");
+                nameMap.put("priority", "priority");
+                nameMap.put("personalTags", "tags");
+                nameMap.put("rereadValue", "reread_value");
+                nameMap.put("rereadCount", "reread_count");
+                nameMap.put("personalComments", "comments");
+                HashMap<String, String> fieldMap = new HashMap<>();
+                for (String dirtyField : manga.getDirty()) {
+                    if (nameMap.containsKey(dirtyField)) {
+                        if (manga.getPropertyType(dirtyField) == String.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getStringPropertyValue(dirtyField));
+                        } else if (manga.getPropertyType(dirtyField) == int.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getIntegerPropertyValue(dirtyField).toString());
+                        } else if (manga.getPropertyType(dirtyField) == ArrayList.class) {
+                            fieldMap.put(nameMap.get(dirtyField), manga.getArrayPropertyValue(dirtyField));
+                        }
+                    }
+                }
+                result = service.updateManga(manga.getId(), fieldMap).getStatus() == 200;
+            } else {
+                result = false;
+            }
+        }
         return result;
     }
 
@@ -183,6 +249,46 @@ public class MALApi {
 
     public ArrayList<User> getFriends(String user) {
         return service.getFriends(user);
+    }
+
+    public ForumMain getForum() {
+        return service.getForum();
+    }
+
+    public ForumMain getTopics(int id, int page) {
+        return service.getTopics(id, page);
+    }
+
+    public ForumMain getAnime(int id, int page) {
+        return service.getAnime(id, page);
+    }
+
+    public ForumMain getManga(int id, int page) {
+        return service.getManga(id, page);
+    }
+
+    public ForumMain getPosts(int id, int page) {
+        return service.getPosts(id, page);
+    }
+
+    public ForumMain getSubBoards(int id, int page) {
+        return service.getSubBoards(id, page);
+    }
+
+    public boolean addComment(int id, String message) {
+        return service.addComment(id, message).getStatus() == 200;
+    }
+
+    public boolean updateComment(int id, String message) {
+        return service.updateComment(id, message).getStatus() == 200;
+    }
+
+    public boolean addTopic(int id, String title, String message) {
+        return service.addTopic(id, title, message).getStatus() == 200;
+    }
+
+    public ForumMain search(String query) {
+        return service.search(query);
     }
 
     public enum ListType {

@@ -55,13 +55,6 @@
             android:summary="@string/preference_summary_autosync"
             android:title="@string/preference_autosync" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preference_category_sharing">
-        <EditTextPreference
-            android:defaultValue="@string/preference_default_customShareText"
-            android:key="customShareText"
-            android:summary="@string/preference_summary_customShareText"
-            android:title="@string/preference_customShareText" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_language_title">
         <ListPreference
             android:dialogTitle="@string/preference_language"
@@ -70,5 +63,17 @@
             android:key="locale"
             android:summary="@string/preference_summary_Language"
             android:title="@string/preference_title_language" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_sharing">
+        <EditTextPreference
+            android:defaultValue="@string/preference_default_customShareText"
+            android:key="customShareText"
+            android:summary="@string/preference_summary_customShareText"
+            android:title="@string/preference_customShareText" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="darkTheme"
+            android:summary="@string/preference_summary_theme"
+            android:title="@string/preference_Theme" />
     </PreferenceCategory>
 </PreferenceScreen>

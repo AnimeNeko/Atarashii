@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
@@ -52,7 +51,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener {
+public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
 
     IGF af;
     IGF mf;
@@ -81,7 +80,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     RelativeLayout about;
     String username;
 
-
     boolean instanceExists;
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
@@ -94,7 +92,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        if (AccountService.getAccount(context) != null) {
+        if (AccountService.getAccount() != null) {
             actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
@@ -114,8 +112,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
-            username = AccountService.getUsername(context);
+            username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
+            ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
             new UserNetworkTask(context, false, this).execute(username);
 
             logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);
@@ -124,6 +123,17 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);
             about.setOnClickListener(this);
+            Theme.setBackground(this, logout);
+            Theme.setBackground(this, settings);
+            Theme.setBackground(this, about);
+
+            if (Theme.darkTheme) {
+                DrawerLayout.findViewById(R.id.scrollView).setBackgroundColor(getResources().getColor(R.color.bg_dark));
+                DrawerLayout.findViewById(R.id.divider).setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                ((TextView) DrawerLayout.findViewById(R.id.logoutText)).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) DrawerLayout.findViewById(R.id.settingsText)).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
+            }
 
             DrawerList = (ListView) DrawerLayout.findViewById(R.id.listview);
 
@@ -140,6 +150,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
+            mViewPager.setOnPageChangeListener(this);
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -172,6 +183,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        checkIGF();
         switch (item.getItemId()) {
             case R.id.listType_all:
                 getRecords(true, TaskJob.GETLIST, 0);
@@ -197,20 +209,40 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 getRecords(true, TaskJob.GETLIST, 5);
                 setChecked(item);
                 break;
+            case R.id.listType_rewatching:
+                getRecords(true, TaskJob.GETLIST, 6);
+                setChecked(item);
+                break;
             case R.id.forceSync:
                 synctask(true);
                 break;
             case R.id.menu_inverse:
                 if (af != null && mf != null) {
-                    af.inverse();
-                    mf.inverse();
+                    if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
+                        af.toggleAiringTime();
+                    } else {
+                        af.inverse();
+                        mf.inverse();
+                    }
                 }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * On some devices the af & mf will change into null due inactivity.
+     * This is a check to prevent any crashes and set it again.
+     */
+    public void checkIGF() {
+        if (af == null || mf == null) {
+            af = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 0);
+            mf = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 1);
+        }
+    }
+
     public void getRecords(boolean clear, TaskJob task, int list) {
+        checkIGF();
         if (af != null && mf != null) {
             af.getRecords(clear, task, list);
             mf.getRecords(clear, task, list);
@@ -252,7 +284,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
-        myListChanged();
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.list) {
@@ -273,6 +304,10 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     break;
                 case 5:
                     setChecked(menu.findItem(R.id.listType_planned));
+                    break;
+                case 6:
+                    setChecked(menu.findItem(R.id.listType_rewatching));
+                    break;
             }
         }
         return true;
@@ -284,7 +319,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     public void myListChanged() {
         menu.findItem(R.id.menu_listType).setVisible(myList);
-        menu.findItem(R.id.menu_inverse).setVisible(myList);
+        menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
         menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
         menu.findItem(R.id.action_search).setVisible(networkAvailable);
     }
@@ -296,7 +331,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         if (mf != null)
             mf.cancelNetworkTask();
         MALSqlHelper.getHelper(context).deleteDatabase(context);
-        AccountService.deleteAccount(context);
+        PrefManager.clear();
+        AccountService.deleteAccount();
         startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
@@ -345,13 +381,13 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 af.toggleSwipeRefreshAnimation(false);
                 mf.toggleSwipeRefreshAnimation(false);
             }
-            Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
         }
     }
 
     @Override
     public void onIGFReady(IGF igf) {
-        igf.setUsername(AccountService.getUsername(context));
+        igf.setUsername(AccountService.getUsername());
         if (igf.listType.equals(MALApi.ListType.ANIME))
             af = igf;
         else
@@ -390,14 +426,14 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Toast.makeText(context, R.string.toast_error_SyncFailed, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_error_SyncFailed);
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync);
             } else {
                 if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Toast.makeText(context, R.string.toast_error_Records, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_error_Records);
                 else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Toast.makeText(context, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records);
                 // no else here, there is nothing to be shown when everything went well
             }
         }
@@ -458,21 +494,29 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         image2.setOnClickListener(this);
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (menu != null)
+            menu.findItem(R.id.listType_rewatching).setTitle(getString(position == 0 ? R.string.listType_rewatching : R.string.listType_rereading));
+    }
+
+    @Override
+    public void onPageSelected(int position) {}
+
+    @Override
+    public void onPageScrollStateChanged(int state) {}
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (!networkAvailable && position > 2) {
                 position = 0;
-                Toast.makeText(context, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(Home.this, R.string.toast_error_noConnectivity);
             }
-            myList = ((position <= 2 && myList) || position == 0);
-            myListChanged();
+            myList = ((position <= 3 && myList) || position == 0);
+            checkIGF();
             // disable swipeRefresh for other lists
-            if (af == null || mf == null) {
-                af = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 0);
-                mf = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 1);
-            }
             af.setSwipeRefreshEnabled(myList);
             mf.setSwipeRefreshEnabled(myList);
             switch (position) {
@@ -485,30 +529,44 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     startActivity(Profile);
                     break;
                 case 2:
-                    Intent Friends = new Intent(context, net.somethingdreadful.MAL.FriendsActivity.class);
+                    Intent Friends = new Intent(context, ProfileActivity.class);
+                    Friends.putExtra("username", username);
+                    Friends.putExtra("friends", username);
                     startActivity(Friends);
                     break;
                 case 3:
-                    getRecords(true, TaskJob.GETTOPRATED, af.list);
+                    if (AccountService.isMAL()) {
+                        Intent Forum = new Intent(context, ForumActivity.class);
+                        startActivity(Forum);
+                    } else {
+                        Theme.Snackbar(Home.this, R.string.toast_info_disabled);
+                    }
                     break;
                 case 4:
-                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
+                    getRecords(true, TaskJob.GETTOPRATED, af.list);
                     break;
                 case 5:
-                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
+                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
                     break;
                 case 6:
+                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
+                    break;
+                case 7:
                     getRecords(true, TaskJob.GETUPCOMING, af.list);
                     break;
             }
+            myListChanged();
 
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
              */
-            if (position != 1 && position != 2) {
+            if (position != 1 && position != 2 && position != 3) {
                 if (mPreviousView != null)
                     mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
-                view.setBackgroundColor(Color.parseColor("#E8E8E8"));
+                if (Theme.darkTheme)
+                    view.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                else
+                    view.setBackgroundColor(Color.parseColor("#E8E8E8"));
                 mPreviousView = view;
             }
 

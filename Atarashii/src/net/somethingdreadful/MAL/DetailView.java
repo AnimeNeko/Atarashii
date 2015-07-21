@@ -18,21 +18,25 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.dialog.ListDialogFragment;
+import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
+import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -43,7 +47,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener {
+public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -63,8 +67,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Theme.setTheme(this, R.layout.activity_detailview, true);
 
-        setContentView(R.layout.activity_detailview);
         actionBar = getSupportActionBar();
         context = getApplicationContext();
         username = getIntent().getStringExtra("username");
@@ -109,6 +113,22 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 Crashlytics.logException(e);
         }
         setMenu();
+    }
+
+    public String nullCheck(String string) {
+        return isEmpty(string) ? getString(R.string.unknown) : string;
+    }
+
+    public boolean isEmpty(String string) {
+        return ((string == null || string.equals("") || string.equals("0-00-00")));
+    }
+
+    public String nullCheck(int number) {
+        return (number == 0 ? "?" : Integer.toString(number));
+    }
+
+    public String getDate(String string) {
+        return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, this, false));
     }
 
     /*
@@ -171,19 +191,80 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     /*
      * Episode picker dialog
      */
-    public void onDialogDismissed(int newValue) {
-        if (newValue != animeRecord.getWatchedEpisodes()) {
-            if (newValue == animeRecord.getEpisodes()) {
-                animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            }
-            if (newValue == 0) {
-                animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
-            }
-
-            animeRecord.setWatchedEpisodes(newValue);
-            animeRecord.setDirty(true);
-            setText();
+    @Override
+    public void onUpdated(int number, int id) {
+        switch (id) {
+            case R.id.progress1:
+                if (number != animeRecord.getWatchedEpisodes()) {
+                    if (number == animeRecord.getEpisodes()) {
+                        animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                        if (animeRecord.getRewatching()) {
+                            animeRecord.setRewatchCount(animeRecord.getRewatchCount() + 1);
+                            animeRecord.setRewatching(false);
+                        }
+                    }
+                    if (number == 0)
+                        animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
+                    animeRecord.setWatchedEpisodes(number);
+                }
+                break;
+            case R.id.scorePanel:
+                if (isAnime())
+                    animeRecord.setScore(number);
+                else
+                    mangaRecord.setScore(number);
+                break;
+            case R.id.priorityPanel:
+                if (isAnime())
+                    animeRecord.setPriority(number);
+                else
+                    mangaRecord.setPriority(number);
+                break;
+            case R.id.storagePanel:
+                animeRecord.setStorage(number);
+                break;
+            case R.id.capacityPanel:
+                animeRecord.setStorageValue(number);
+                break;
+            case R.id.downloadPanel:
+                animeRecord.setEpsDownloaded(number);
+                break;
+            case R.id.rewatchPriorityPanel:
+                if (isAnime())
+                    animeRecord.setRewatchValue(number);
+                else
+                    mangaRecord.setRereadValue(number);
+                break;
+            case R.id.countPanel:
+                if (isAnime())
+                    animeRecord.setRewatchCount(number);
+                else
+                    mangaRecord.setRereadCount(number);
+                break;
         }
+        setText();
+    }
+
+    @Override
+    public void onSendClicked(String message, String subject, ForumJob task, int id) {
+        switch (id) {
+            case R.id.tagsPanel:
+                if (isAnime())
+                    animeRecord.setPersonalTags(message);
+                else
+                    mangaRecord.setPersonalTags(message);
+                break;
+            case R.id.commentspanel:
+                if (isAnime())
+                    animeRecord.setPersonalComments(message);
+                else
+                    mangaRecord.setPersonalComments(message);
+                break;
+            case R.id.fansubPanel:
+                animeRecord.setFansubGroup(message);
+                break;
+        }
+        setText();
     }
 
     /*
@@ -202,15 +283,17 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
             else
                 animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
-            animeRecord.setDirty(true);
         } else {
             if (startDate)
                 mangaRecord.setReadingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
             else
                 mangaRecord.setReadingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
-            mangaRecord.setDirty(true);
         }
         setText();
+    }
+
+    public boolean isAnime() {
+        return type.equals(MALApi.ListType.ANIME);
     }
 
     /*
@@ -238,11 +321,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
             if (type.equals(ListType.ANIME)) {
                 animeRecord.setCreateFlag(true);
                 animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
-                animeRecord.setDirty(true);
             } else {
                 mangaRecord.setCreateFlag(true);
                 mangaRecord.setReadStatus(Manga.STATUS_READING);
-                mangaRecord.setDirty(true);
             }
             setText();
         }
@@ -265,7 +346,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public String makeShareText() {
         String shareText = PrefManager.getCustomShareText();
         shareText = shareText.replace("$title;", actionBar.getTitle());
-        shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+        if (AccountService.isMAL())
+            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+        else
+            shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
         return shareText;
     }
@@ -277,7 +361,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      */
     private boolean getRecordFromDB() {
         DatabaseManager dbMan = new DatabaseManager(this);
-        if (type.equals(ListType.ANIME)) {
+        if (type == null) {
+            Crashlytics.log(Log.ERROR, "MALX", "DetailView.getRecordFromDB(): ");
+            Theme.Snackbar(this, R.string.toast_error_Records);
+            return false;
+        } else if (type.equals(ListType.ANIME)) {
             animeRecord = dbMan.getAnime(recordID, username);
             return animeRecord != null;
         } else {
@@ -404,7 +492,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 if (animeRecord.getEpisodes() != 0)
                     animeRecord.setWatchedEpisodes(animeRecord.getEpisodes());
             }
-            animeRecord.setDirty(true);
         } else {
             mangaRecord.setReadStatus(currentStatus);
             if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
@@ -413,7 +500,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 if (mangaRecord.getVolumes() != 0)
                     mangaRecord.setVolumesRead(mangaRecord.getVolumes());
             }
-            mangaRecord.setDirty(true);
         }
         setText();
     }
@@ -423,23 +509,20 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         if (value != mangaRecord.getChaptersRead()) {
             if (value == mangaRecord.getChapters() && mangaRecord.getChapters() != 0) {
                 mangaRecord.setReadStatus(GenericRecord.STATUS_COMPLETED);
+                if (mangaRecord.getRereading()) {
+                    mangaRecord.setRereadCount(mangaRecord.getRereadCount() + 1);
+                    mangaRecord.setRereading(false);
+                }
             }
-            if (value == 0) {
+            if (value == 0)
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
-            }
             mangaRecord.setChaptersRead(value);
-            mangaRecord.setDirty(true);
         }
 
         if (value2 != mangaRecord.getVolumesRead()) {
-            if (value2 == mangaRecord.getVolumes()) {
-                mangaRecord.setReadStatus(GenericRecord.STATUS_COMPLETED);
-            }
-            if (value2 == 0) {
+            if (value2 == 0)
                 mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
-            }
             mangaRecord.setVolumesRead(value2);
-            mangaRecord.setDirty(true);
         }
 
         setText();
@@ -448,10 +531,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
     public void onRemoveConfirmed() {
         if (type.equals(ListType.ANIME)) {
-            animeRecord.setDirty(true);
             animeRecord.setDeleteFlag(true);
         } else {
-            mangaRecord.setDirty(true);
             mangaRecord.setDeleteFlag(true);
         }
         finish();
@@ -493,7 +574,11 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 addToList();
                 break;
             case R.id.action_ViewMALPage:
-                Uri malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
+                Uri malurl;
+                if (AccountService.isMAL())
+                    malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
+                else
+                    malurl = Uri.parse("http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));
                 break;
             case R.id.action_copy:
@@ -501,8 +586,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                     android.content.ClipboardManager clipBoard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     android.content.ClipData clipData = android.content.ClipData.newPlainText("Atarashii", type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
                     clipBoard.setPrimaryClip(clipData);
+                    Theme.Snackbar(this, R.string.toast_info_Copied);
                 } else {
-                    Toast.makeText(context, R.string.toast_info_hold_on, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(this, R.string.toast_info_hold_on);
                 }
                 break;
         }
@@ -518,13 +604,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
         try {
             if (type.equals(ListType.ANIME)) {
-                if (animeRecord.getDirty() && !animeRecord.getDeleteFlag()) {
+                if (animeRecord.isDirty() && !animeRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(animeRecord);
                 } else if (animeRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(animeRecord);
                 }
             } else if (type.equals(ListType.MANGA)) {
-                if (mangaRecord.getDirty() && !mangaRecord.getDeleteFlag()) {
+                if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(mangaRecord);
                 } else if (mangaRecord.getDeleteFlag()) {
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(mangaRecord);
@@ -592,12 +678,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         try {
             if (type == ListType.ANIME) {
                 animeRecord = (Anime) result;
-                if (isAdded())
-                    animeRecord.setDirty(true);
             } else {
                 mangaRecord = (Manga) result;
-                if (isAdded())
-                    mangaRecord.setDirty(true);
             }
             setRefreshing(false);
             toggleLoadingIndicator(false);
@@ -606,13 +688,16 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         } catch (ClassCastException e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             Crashlytics.logException(e);
-            Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
+            Theme.Snackbar(this, R.string.toast_error_DetailsError);
         }
     }
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        Toast.makeText(context, R.string.toast_error_DetailsError, Toast.LENGTH_SHORT).show();
+        if (MALApi.isNetworkAvailable(context))
+            Theme.Snackbar(this, R.string.toast_error_DetailsError);
+        else
+            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
     }
 
     @Override

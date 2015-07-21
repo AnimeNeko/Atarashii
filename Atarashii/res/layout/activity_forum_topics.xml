@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/bg_light" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
+
+    <net.somethingdreadful.MAL.Card xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/network_Card"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        custom:card_content="@layout/card_network_connection"
+        custom:header_Color="@color/card_red"
+        custom:header_Title="@string/card_offline_title"
+        custom:header_Title_Color="@color/white" />
+</RelativeLayout>

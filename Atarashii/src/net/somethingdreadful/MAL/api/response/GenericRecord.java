@@ -2,12 +2,24 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
+
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Since;
+import com.google.gson.annotations.Until;
+
+import net.somethingdreadful.MAL.account.AccountService;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class GenericRecord implements Serializable {
 
@@ -16,79 +28,66 @@ public class GenericRecord implements Serializable {
     public static final String STATUS_ONHOLD = "on-hold";
     public static final String STATUS_DROPPED = "dropped";
 
-    private int id;
-    private String title;
-    private String image_url;
-    private String type;
-    private String status;
-    private ArrayList<String> genres;
-    private ArrayList<String> tags;
-    private int score;
-    private int rank;
-    private float members_score;
-    private int members_count;
-    private int favorited_count;
-    private int popularity_rank;
-    private String synopsis;
-    private HashMap<String, ArrayList<String>> other_titles;
+    @Setter @Getter private int id;
+    @Setter @Getter private String title;
+    @Setter @SerializedName("image_url") private String imageUrl;
+    @Setter @Getter private String type;
+    @Setter @Getter private String status;
+    @Setter @Getter private ArrayList<String> genres;
+    @Setter @Getter private ArrayList<String> tags;
+    @Getter private int priority;
+    @Getter @SerializedName("personal_comments") private String personalComments;
+    @Getter @SerializedName("personal_tags") private ArrayList<String> personalTags;
+    @Getter @Until(2) private int score = 0; // MAL Score
+    @Getter @Since(2) public int score_raw = 0; // AniList score
+    @Setter @Getter private int rank;
+    @Setter @Getter @SerializedName("members_score") private float membersScore;
+    @Setter @Getter @SerializedName("members_count") private int membersCount;
+    @Setter @Getter @SerializedName("favorited_count") private int favoritedCount;
+    @Setter @Getter @SerializedName("popularity_rank") private int popularityRank;
+    @Setter @Getter private String synopsis;
+    @Setter @Getter @SerializedName("other_titles") private HashMap<String, ArrayList<String>> otherTitles;
 
-    private boolean dirty;
-    private Date lastUpdate;
-    private boolean flag_create;
-    private boolean flag_delete;
+    @Setter private ArrayList<String> dirty;
+    @Setter @Getter private Date lastUpdate;
+    @Setter private boolean createFlag;
+    @Setter private boolean deleteFlag;
 
-    private transient boolean from_cursor = false;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @Setter @Getter private transient boolean fromCursor = false;
 
     public String getImageUrl() {
         // if not loaded from cursor the image might point to an thumbnail
-        if (from_cursor)
-            return image_url;
+        if (fromCursor || !AccountService.isMAL())
+            return imageUrl;
         else
-            return image_url.replaceFirst("t.jpg$", ".jpg");
+            return imageUrl.replaceFirst("t.jpg$", ".jpg");
     }
 
-    public void setImageUrl(String image_url) {
-        this.image_url = image_url;
+    // Note: @Getter is not working on booleans
+    public boolean getCreateFlag() {
+        return createFlag;
     }
 
-    public String getType() {
-        return type;
+    // Note: @Getter is not working on booleans
+    public boolean getDeleteFlag() {
+        return deleteFlag;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public ArrayList<String> getDirty() {
+        return dirty;
     }
 
-    public String getStatus() {
-        return status;
+    public void addDirtyField(String field) {
+        if (dirty == null) {
+            dirty = new ArrayList<String>();
+        }
+        if (!dirty.contains((field))) {
+            dirty.add(field);
+        }
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public ArrayList<String> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
+    public void clearDirty() {
+        dirty = null;
     }
 
     public ArrayList<Integer> getGenresInt() {
@@ -113,87 +112,15 @@ public class GenericRecord implements Serializable {
         if (getGenres() != null)
             for (String genre : getGenres())
                 result.add(Arrays.asList(genres).indexOf(genre));
-        
+
         return result;
     }
 
-    public ArrayList<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public float getMembersScore() {
-        return members_score;
-    }
-
-    public void setMembersScore(float members_score) {
-        this.members_score = members_score;
-    }
-
-    public int getMembersCount() {
-        return members_count;
-    }
-
-    public void setMembersCount(int members_count) {
-        this.members_count = members_count;
-    }
-
-    public int getFavoritedCount() {
-        return favorited_count;
-    }
-
-    public void setFavoritedCount(int favorited_count) {
-        this.favorited_count = favorited_count;
-    }
-
-    public int getPopularityRank() {
-        return popularity_rank;
-    }
-
-    public void setPopularityRank(int popularity_rank) {
-        this.popularity_rank = popularity_rank;
-    }
-
-    public String getSynopsis() {
-        return synopsis;
-    }
-
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
-    }
-
-    public HashMap<String, ArrayList<String>> getOtherTitles() {
-        return other_titles;
-    }
-
-    public void setOtherTitles(HashMap<String, ArrayList<String>> other_titles) {
-        this.other_titles = other_titles;
-    }
-
     private ArrayList<String> getOtherTitlesByLanguage(String lang) {
-        if (other_titles == null) {
+        if (otherTitles == null) {
             return null;
         }
-        return other_titles.get(lang);
+        return otherTitles.get(lang);
     }
 
     public ArrayList<String> getOtherTitlesJapanese() {
@@ -208,41 +135,33 @@ public class GenericRecord implements Serializable {
         return getOtherTitlesByLanguage("synonyms");
     }
 
-    public boolean getDirty() {
-        return dirty;
-    }
-
-    public void setDirty(boolean dirty) {
-        this.dirty = dirty;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public boolean getCreateFlag() {
-        return flag_create;
-    }
-
-    public void setCreateFlag(boolean flag_create) {
-        this.flag_create = flag_create;
-    }
-
-    public boolean getDeleteFlag() {
-        return flag_delete;
-    }
-
-    public void setDeleteFlag(boolean flag_delete) {
-        this.flag_delete = flag_delete;
-    }
-
     // Use this to get a formatted version of the text suited for display in the application
     public Spanned getSpannedSynopsis() {
         return (getSynopsis() != null ? Html.fromHtml(getSynopsis()) : null);
+    }
+
+    public void setPersonalComments(String message) {
+        setPersonalComments(message, true);
+    }
+
+    public void setPersonalComments(String value, boolean markDirty) {
+        this.personalComments = value;
+        if (markDirty) {
+            addDirtyField("personalComments");
+        }
+    }
+
+    public void setPersonalTags(ArrayList<String> value, boolean markDirty) {
+        this.personalTags = value;
+        if (markDirty) {
+            addDirtyField("personalTags");
+        }
+    }
+
+    public void setPersonalTags(String tag) {
+        ArrayList<String> tags = new ArrayList<String>();
+        Collections.addAll(tags, TextUtils.split(tag, ","));
+        setPersonalTags(tags, true);
     }
 
     public int getUserStatusInt(String statusString) {
@@ -258,11 +177,92 @@ public class GenericRecord implements Serializable {
         return Arrays.asList(status).indexOf(statusString);
     }
 
-    public boolean getCreatedFromCursor() {
-        return from_cursor;
+    public void setScore(int value) {
+        setScore(value, true);
     }
 
-    public void setCreatedFromCursor(boolean from_cursor) {
-        this.from_cursor = from_cursor;
+    public void setScore(int value, boolean markDirty) {
+        this.score = value;
+        if (markDirty) {
+            addDirtyField("score");
+        }
+    }
+
+    public void setPriority(int value) {
+        setPriority(value, true);
+    }
+
+    public void setPriority(int value, boolean markDirty) {
+        this.priority = value;
+        if (markDirty) {
+            addDirtyField("priority");
+        }
+    }
+
+    public boolean isDirty() {
+        return dirty != null && !dirty.isEmpty();
+    }
+
+    /*
+     * some reflection magic used to get dirty values easier
+     */
+    public Class getPropertyType(String property) {
+        try {
+            Field field = getField(this.getClass(), property);
+            return field.getType();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Field getField(Class<?> c, String property) {
+        try {
+            return c.getDeclaredField(property);
+        } catch (Exception e) {
+            if (c.getSuperclass() != null) {
+                return getField(c.getSuperclass(), property);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    protected Object getPropertyValue(String property) {
+        try {
+            Field field = getField(this.getClass(), property);
+            if (field != null) {
+                field.setAccessible(true);
+                return field.get(this);
+            }
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
+
+    public Integer getIntegerPropertyValue(String property) {
+        Object value = getPropertyValue(property);
+        if (value != null) {
+            return (Integer) value;
+        }
+        return null;
+    }
+
+    public String getStringPropertyValue(String property) {
+        Object value = getPropertyValue(property);
+        if (value != null) {
+            return (String) value;
+        }
+        return null;
+    }
+
+    public String getArrayPropertyValue(String property) {
+        ArrayList<String> array = (ArrayList<String>) getPropertyValue(property);
+        Object value = array != null ? TextUtils.join(",", array) : "";
+        return (String) value;
+    }
+
+    public String getPersonalTagsString() {
+        return getPersonalTags() != null ? TextUtils.join(",", getPersonalTags()) : "";
     }
 }

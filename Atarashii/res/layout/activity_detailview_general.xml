@@ -8,7 +8,6 @@
         android:layout_height="fill_parent">
 
         <RelativeLayout
-            android:id="@+id/backgroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
@@ -56,18 +55,6 @@
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_personal"
                 custom:header_Title_Color="@color/white" />
-
-            <!-- rating card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/rating"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/personal"
-                android:layout_marginTop="8dp"
-                custom:header_Color="@color/card_green"
-                custom:header_Title="@string/card_name_rating"
-                custom:header_Title_Color="@color/white" />
-
         </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

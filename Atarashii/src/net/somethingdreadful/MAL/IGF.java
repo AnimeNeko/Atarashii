@@ -24,7 +24,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
@@ -82,57 +81,45 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private String username;
     private boolean ownList = false; // not set directly, is set by setUsername()
 
-    /**
-     * Set the watched/read count & status on the covers.
-     */
-    public static void setStatus(String myStatus, TextView textview, TextView progressCount, ImageView actionButton) {
-        actionButton.setVisibility(View.GONE);
-        progressCount.setVisibility(View.GONE);
-        if (myStatus == null) {
-            textview.setText("");
-        } else if (myStatus.equals("watching")) {
-            textview.setText(R.string.cover_Watching);
-            progressCount.setVisibility(View.VISIBLE);
-            actionButton.setVisibility(View.VISIBLE);
-        } else if (myStatus.equals("reading")) {
-            textview.setText(R.string.cover_Reading);
-            progressCount.setVisibility(View.VISIBLE);
-            actionButton.setVisibility(View.VISIBLE);
-        } else if (myStatus.equals("completed")) {
-            textview.setText(R.string.cover_Completed);
-        } else if (myStatus.equals("on-hold")) {
-            textview.setText(R.string.cover_OnHold);
-            progressCount.setVisibility(View.VISIBLE);
-        } else if (myStatus.equals("dropped")) {
-            textview.setText(R.string.cover_Dropped);
-        } else if (myStatus.equals("plan to watch")) {
-            textview.setText(R.string.cover_PlanningToWatch);
-        } else if (myStatus.equals("plan to read")) {
-            textview.setText(R.string.cover_PlanningToRead);
-        } else {
-            textview.setText("");
-        }
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putSerializable("gl", gl);
+        state.putSerializable("listType", listType);
+        state.putSerializable("taskjob", taskjob);
+        state.putInt("page", page);
+        state.putInt("list", list);
+        state.putBoolean("hasmorepages", hasmorepages);
+        state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
+        state.putString("query", query);
+        state.putString("username", username);
+        super.onSaveInstanceState(state);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        setRetainInstance(true);
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
         viewflipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
         Gridview = (GridView) view.findViewById(R.id.gridview);
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
 
+        if (state != null) {
+            gl = (ArrayList<GenericRecord>) state.getSerializable("gl");
+            listType = (ListType) state.getSerializable("listType");
+            taskjob = (TaskJob) state.getSerializable("taskjob");
+            page = state.getInt("page");
+            list = state.getInt("list");
+            hasmorepages = state.getBoolean("hasmorepages");
+            swipeRefreshEnabled = state.getBoolean("swipeRefreshEnabled");
+            query = state.getString("query");
+            username = state.getString("username");
+        }
+
         context = getActivity();
         activity = getActivity();
         setColumns();
         useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
-        if (PrefManager.getTraditionalListEnabled()) {
-            Gridview.setNumColumns(1); //remain in the listview mode
-            resource = R.layout.record_igf_listview;
-        } else {
-            resource = R.layout.record_igf_gridview;
-        }
+        resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         if (isOnHomeActivity()) {
@@ -179,13 +166,17 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     @SuppressLint("InlinedApi")
     public void setColumns() {
-        float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
-        int screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
-        float minWidth = 225 * density;
-        int columns = (int) Math.ceil(screenWidth / minWidth);
-        int width = screenWidth / columns;
-        height = (int) (width / 0.7);
-        Gridview.setNumColumns(columns);
+        if (PrefManager.getTraditionalListEnabled()) {
+            Gridview.setNumColumns(1); //remain in the listview mode
+        } else {
+            float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
+            int screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
+            float minWidth = 225 * density;
+            int columns = (int) Math.ceil(screenWidth / minWidth);
+            int width = screenWidth / columns;
+            height = (int) (width / 0.7);
+            Gridview.setNumColumns(columns);
+        }
     }
 
     /**
@@ -208,13 +199,23 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void setProgressPlusOne(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-            if (anime.getWatchedEpisodes() == anime.getEpisodes())
+            if (anime.getWatchedEpisodes() == anime.getEpisodes()) {
                 anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                if (anime.getRewatching()) {
+                    anime.setRewatchCount(anime.getRewatchCount() + 1);
+                    anime.setRewatching(false);
+                }
+            }
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
-            if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts))
+            if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts)) {
                 manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
+                if (manga.getRereading()) {
+                    manga.setRereadCount(manga.getRereadCount() + 1);
+                    manga.setRereading(false);
+                }
+            }
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
         refresh();
@@ -233,12 +234,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
-            anime.setDirty(true);
             gl.remove(anime);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
-            manga.setDirty(true);
             gl.remove(manga);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
         }
@@ -383,6 +382,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void refresh() {
         try {
+            filterTime();
             if (ga == null)
                 setAdapter();
             ga.clear();
@@ -394,16 +394,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
                 Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
-                    Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Search, Toast.LENGTH_SHORT).show();
+                    Theme.Snackbar(activity, R.string.toast_error_Search);
                 } else {
                     if (listType.equals(ListType.ANIME)) {
-                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Anime_Sync, Toast.LENGTH_SHORT).show();
+                        Theme.Snackbar(activity, R.string.toast_error_Anime_Sync);
                     } else {
-                        Toast.makeText(activity.getApplicationContext(), R.string.toast_error_Manga_Sync, Toast.LENGTH_SHORT).show();
+                        Theme.Snackbar(activity, R.string.toast_error_Manga_Sync);
                     }
                 }
             } else {
-                Toast.makeText(activity.getApplicationContext(), R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
+                Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             }
         }
         loading = false;
@@ -451,6 +451,29 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void inverse() {
         Collections.reverse(gl);
+        refresh();
+    }
+
+    /**
+     * Hide airing dates for anilist airing list.
+     */
+    private void filterTime() {
+        if (!AccountService.isMAL() && taskjob == TaskJob.GETMOSTPOPULAR && PrefManager.getAiringOnly() && listType == ListType.ANIME) {
+            ArrayList<GenericRecord> record = new ArrayList<GenericRecord>();
+            for (GenericRecord gr : gl)
+                if (((Anime) gr).getAiring() != null)
+                    record.add(gr);
+            gl = record;
+        }
+    }
+
+    /**
+     * Set and hide airing dates for anilist airing list.
+     */
+    public void toggleAiringTime() {
+        PrefManager.setAiringOnly(!PrefManager.getAiringOnly());
+        PrefManager.commitChanges();
+        filterTime();
         refresh();
     }
 
@@ -561,7 +584,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void setUsername(String username) {
         this.username = username;
-        ownList = !(username == null || username.equals("")) && AccountService.getUsername(context).equals(username);
+        ownList = !(username == null || username.equals("")) && AccountService.getUsername().equals(username);
     }
 
     // user updated record on DetailsView, so update the list if necessary
@@ -616,22 +639,71 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             try {
 
                 if (taskjob.equals(TaskJob.GETMOSTPOPULAR) || taskjob.equals(TaskJob.GETTOPRATED)) {
-                    viewHolder.progressCount.setVisibility(View.VISIBLE);
-                    viewHolder.progressCount.setText(Integer.toString(position + 1));
                     viewHolder.actionButton.setVisibility(View.GONE);
-                    viewHolder.flavourText.setText(R.string.label_Number);
-                } else {
-                    // only show actionbutton on own list
-                    viewHolder.actionButton.setVisibility(ownList ? View.VISIBLE : View.GONE);
-                    if (listType.equals(ListType.ANIME)) {
-                        viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
-                        setStatus(((Anime) record).getWatchedStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
+                    if (AccountService.isMAL()) {
+                        viewHolder.progressCount.setVisibility(View.VISIBLE);
+                        viewHolder.progressCount.setText(Integer.toString(position + 1));
+                        viewHolder.flavourText.setText(R.string.label_Number);
+                    } else if (listType.equals(ListType.ANIME) && ((Anime) record).getAiring() != null) {
+                        viewHolder.progressCount.setVisibility(View.GONE);
+                        viewHolder.flavourText.setText(MALDateTools.formatDateString(((Anime) record).getAiring().getTime(), context, true));
                     } else {
-                        if (useSecondaryAmounts)
-                            viewHolder.progressCount.setText(Integer.toString(((Manga) record).getVolumesRead()));
-                        else
-                            viewHolder.progressCount.setText(Integer.toString(((Manga) record).getChaptersRead()));
-                        setStatus(((Manga) record).getReadStatus(), viewHolder.flavourText, viewHolder.progressCount, viewHolder.actionButton);
+                        viewHolder.progressCount.setVisibility(View.GONE);
+                        viewHolder.flavourText.setText(getString(R.string.unknown));
+                    }
+                } else {
+                    if (listType.equals(ListType.ANIME))
+                        viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
+                    else
+                        viewHolder.progressCount.setText(Integer.toString(useSecondaryAmounts ? ((Manga) record).getVolumesRead() : ((Manga) record).getChaptersRead()));
+
+                    if ((listType.equals(ListType.ANIME) ? ((Anime) record).getWatchedStatus() : ((Manga) record).getReadStatus()) != null) {
+                        switch (listType.equals(ListType.ANIME) ? ((Anime) record).getWatchedStatus() : ((Manga) record).getReadStatus()) {
+                            case "watching":
+                                viewHolder.flavourText.setText(R.string.cover_Watching);
+                                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                                viewHolder.actionButton.setVisibility(View.VISIBLE);
+                                break;
+                            case "reading":
+                                viewHolder.flavourText.setText(R.string.cover_Reading);
+                                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                                viewHolder.actionButton.setVisibility(View.VISIBLE);
+                                break;
+                            case "completed":
+                                viewHolder.flavourText.setText(R.string.cover_Completed);
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                                viewHolder.progressCount.setVisibility(View.GONE);
+                                break;
+                            case "on-hold":
+                                viewHolder.flavourText.setText(R.string.cover_OnHold);
+                                viewHolder.progressCount.setVisibility(View.VISIBLE);
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                                break;
+                            case "dropped":
+                                viewHolder.flavourText.setText(R.string.cover_Dropped);
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                                viewHolder.progressCount.setVisibility(View.GONE);
+                                break;
+                            case "plan to watch":
+                                viewHolder.flavourText.setText(R.string.cover_PlanningToWatch);
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                                viewHolder.progressCount.setVisibility(View.GONE);
+                                break;
+                            case "plan to read":
+                                viewHolder.flavourText.setText(R.string.cover_PlanningToRead);
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                                viewHolder.progressCount.setVisibility(View.GONE);
+                                break;
+                            default:
+                                viewHolder.flavourText.setText("");
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                                viewHolder.progressCount.setVisibility(View.GONE);
+                                break;
+                        }
+                    } else {
+                        viewHolder.flavourText.setText("");
+                        viewHolder.actionButton.setVisibility(View.GONE);
+                        viewHolder.progressCount.setVisibility(View.GONE);
                     }
                 }
                 viewHolder.label.setText(record.getTitle());

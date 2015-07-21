@@ -2,17 +2,44 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Profile implements Serializable {
-    private int id;
-    private String avatar_url;
-    private ProfileDetails details;
+import lombok.Getter;
+import lombok.Setter;
 
-    private ProfileAnimeStats anime_stats;
-    private ProfileMangaStats manga_stats;
+public class Profile implements Serializable {
+    @Getter @Setter private int id;
+
+    // MyAnimeList
+    @Getter @Setter @SerializedName("avatar_url") private String avatarUrl;
+    @Getter @Setter private ProfileDetails details;
+
+    @Getter @Setter @SerializedName("anime_stats") private ProfileAnimeStats animeStats;
+    @Getter @Setter @SerializedName("manga_stats") private ProfileMangaStats mangaStats;
+
+    // Anilist
+    @Getter @Setter @SerializedName("display_name") private String displayName;
+    @Getter @Setter @SerializedName("anime_time") private int animeTime;
+    @Getter @Setter @SerializedName("manga_chap") private int mangaChapters;
+    @Getter @Setter private String about;
+    @Getter @Setter @SerializedName("list_order") private int listOrder;
+    @Getter @Setter @SerializedName("adult_content") private boolean adultContent;
+    @Getter @Setter private boolean following;
+    @Getter @Setter @SerializedName("image_url_lge") private String imageUrl;
+    @Getter @Setter @SerializedName("image_url_banner") private String imageUrlBanner;
+    @Getter @Setter @SerializedName("title_language") private String titleLanguage;
+    @Getter @Setter @SerializedName("score_type") private int scoreType;
+    @Getter @Setter @SerializedName("custom_list_anime") private ArrayList<String> customAnime;
+    @Getter @Setter @SerializedName("custom_list_manga") private ArrayList<String> customManga;
+    @Getter @Setter @SerializedName("advanced_rating") private boolean advancedRating;
+    @Getter @Setter @SerializedName("advanced_rating_names") private ArrayList<String> advancedRatingNames;
+    @Getter @Setter private int notifications;
+
 
     public static Profile fromCursor(Cursor c) {
         Profile result = new Profile();
@@ -22,46 +49,16 @@ public class Profile implements Serializable {
         result.setDetails(ProfileDetails.fromCursor(c));
         result.setAnimeStats(ProfileAnimeStats.fromCursor(c));
         result.setMangaStats(ProfileMangaStats.fromCursor(c));
+
+        result.setDisplayName(c.getString(columnNames.indexOf("username")));
+        result.setAnimeTime(c.getInt(columnNames.indexOf("anime_time")));
+        result.setMangaChapters(c.getInt(columnNames.indexOf("manga_chap")));
+        result.setAbout(c.getString(columnNames.indexOf("about")));
+        result.setListOrder(c.getInt(columnNames.indexOf("list_order")));
+        result.setImageUrlBanner(c.getString(columnNames.indexOf("image_url_banner")));
+        result.setTitleLanguage(c.getString(columnNames.indexOf("title_language")));
+        result.setScoreType(c.getInt(columnNames.indexOf("score_type")));
+        result.setNotifications(c.getInt(columnNames.indexOf("notifications")));
         return result;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAvatarUrl() {
-        return avatar_url;
-    }
-
-    public void setAvatarUrl(String avatarurl) {
-        this.avatar_url = avatarurl;
-    }
-
-    public ProfileDetails getDetails() {
-        return details;
-    }
-
-    public void setDetails(ProfileDetails details) {
-        this.details = details;
-    }
-
-    public ProfileAnimeStats getAnimeStats() {
-        return anime_stats;
-    }
-
-    public void setAnimeStats(ProfileAnimeStats animestats) {
-        this.anime_stats = animestats;
-    }
-
-    public ProfileMangaStats getMangaStats() {
-        return manga_stats;
-    }
-
-    public void setMangaStats(ProfileMangaStats mangastats) {
-        this.manga_stats = mangastats;
     }
 }

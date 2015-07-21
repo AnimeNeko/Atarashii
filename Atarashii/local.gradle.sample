@@ -1,0 +1,14 @@
+// rename this file to local.gradle after adding your client data
+
+apply plugin: 'com.android.application'
+
+android {
+    buildTypes {
+        all {
+            // Keep the escaped quotes in the values (\")!
+            buildConfigField "String", "ANILIST_CLIENT_ID", "\"insert id here\""
+            buildConfigField "String", "ANILIST_CLIENT_SECRET", "\"insert secret here\""
+            buildConfigField "String", "ANILIST_CLIENT_REDIRECT_URI", "\"insert redirect uri here\""
+        }
+    }
+}

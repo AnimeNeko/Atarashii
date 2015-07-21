@@ -20,83 +20,89 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/ranked"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@id/score"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        android:id="@+id/MALstats">
 
-    <TextView
-        android:id="@+id/rankedLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/ranked"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_ranked"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/ranked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/popularity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/ranked"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/rankedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/ranked"
+            android:layout_alignParentLeft="true"
+            android:text="@string/card_content_ranked"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/popularityLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/popularity"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_popularity"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/popularity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ranked"
+            android:layout_marginTop="8dp"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/members"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/popularity"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/popularityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/popularity"
+            android:layout_alignParentLeft="true"
+            android:text="@string/card_content_popularity"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/membersLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/members"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_members"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/popularity"
+            android:layout_marginTop="8dp"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/favorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/members"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/membersLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/members"
+            android:layout_alignParentLeft="true"
+            android:text="@string/card_content_members"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/favoritesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/favorites"
-        android:layout_alignParentLeft="true"
-        android:text="@string/card_content_favorites"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/members"
+            android:layout_marginTop="8dp"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/favoritesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/favorites"
+            android:layout_alignParentLeft="true"
+            android:text="@string/card_content_favorites"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </RelativeLayout>

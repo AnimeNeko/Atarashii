@@ -25,8 +25,8 @@ import com.squareup.picasso.Target;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.dialog.EpisodesPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
@@ -43,7 +43,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     Card cardSynopsis;
     Card cardMediainfo;
     Card cardPersonal;
-    Card cardRating;
 
     TextView synopsis;
     TextView mediaType;
@@ -54,9 +53,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
     TextView progress2Total;
     TextView progress2Current;
     TextView myScore;
-    TextView MALScore;
-    RatingBar myScoreBar;
-    RatingBar MALScoreBar;
     ImageView image;
 
     @Override
@@ -83,18 +79,17 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
         cardPersonal = (Card) view.findViewById(R.id.personal);
-        cardRating = (Card) view.findViewById(R.id.rating);
 
         // add all the card contents
         cardMain.setContent(R.layout.card_image);
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
-        cardRating.setContent(R.layout.card_detailview_rating);
         cardPersonal.setAllPadding(0, 0, 0, 0);
         cardPersonal.setOnClickListener(R.id.status, this);
         cardPersonal.setOnClickListener(R.id.progress1, this);
         cardPersonal.setOnClickListener(R.id.progress2, this);
+        cardPersonal.setOnClickListener(R.id.scorePanel, this);
 
         // set all the views
         image = (ImageView) view.findViewById(R.id.Image);
@@ -106,18 +101,13 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         progress1Current = (TextView) view.findViewById(R.id.progress1Text2);
         progress2Total = (TextView) view.findViewById(R.id.progress2Text1);
         progress2Current = (TextView) view.findViewById(R.id.progress2Text2);
-        myScore = (TextView) view.findViewById(R.id.MyScoreLabel);
-        MALScore = (TextView) view.findViewById(R.id.MALScoreLabel);
-        myScoreBar = (RatingBar) view.findViewById(R.id.MyScoreBar);
-        MALScoreBar = (RatingBar) view.findViewById(R.id.MALScoreBar);
+        myScore = (TextView) view.findViewById(R.id.myScore);
     }
 
     /*
      * set all the ClickListeners
      */
     public void setListener() {
-        myScoreBar.setOnRatingBarChangeListener(this);
-
         swipeRefresh.setOnRefreshListener(activity);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
@@ -165,14 +155,12 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
         setMenu();
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
-            
+
             if (activity.isAdded()) {
                 status.setText(activity.getUserStatusString(activity.animeRecord.getWatchedStatusInt()));
                 cardPersonal.setVisibility(View.VISIBLE);
-                cardRating.setBelowof(cardMediainfo, 2, 720);
             } else {
                 cardPersonal.setVisibility(View.GONE);
-                cardRating.setRightof(cardMediainfo, 2, 720);
             }
             mediaType.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
@@ -188,7 +176,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
         }
-        activity.hidePersonal(!activity.isAdded());
+        activity.hidePersonal(!activity.isAdded() || record.getSynopsis() == null);
 
         if (record.getSynopsis() == null) {
             if (!MALApi.isNetworkAvailable(activity)) {
@@ -205,6 +193,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 progress1Total.setText("/?");
             else
                 progress1Total.setText("/" + Integer.toString(activity.animeRecord.getEpisodes()));
+            myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.animeRecord.getScore())));
         } else {
             progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
             if (activity.mangaRecord.getVolumes() == 0)
@@ -218,29 +207,11 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
                 progress2Total.setText("/?");
             else
                 progress2Total.setText("/" + Integer.toString(activity.mangaRecord.getChapters()));
+            myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.mangaRecord.getScore())));
         }
 
         if (!activity.isAdded() && record.getMembersScore() == 0) {
-            cardRating.setVisibility(View.GONE);
             cardMediainfo.setWidth(1, 850);
-        } else {
-            if (record.getMembersScore() == 0) {
-                MALScoreBar.setVisibility(View.GONE);
-                MALScore.setVisibility(View.GONE);
-            } else {
-                MALScoreBar.setVisibility(View.VISIBLE);
-                MALScore.setVisibility(View.VISIBLE);
-                MALScoreBar.setRating(record.getMembersScore() / 2);
-            }
-
-            if (activity.isAdded()) {
-                myScore.setVisibility(View.VISIBLE);
-                myScoreBar.setVisibility(View.VISIBLE);
-                myScoreBar.setRating((float) record.getScore() / 2);
-            } else {
-                myScore.setVisibility(View.GONE);
-                myScoreBar.setVisibility(View.GONE);
-            }
         }
 
         Picasso.with(activity)
@@ -281,27 +252,42 @@ public class DetailViewGeneral extends Fragment implements Serializable, OnRatin
             if (activity.type.equals(ListType.ANIME)) {
                 if (activity.animeRecord != null) {
                     activity.animeRecord.setScore((int) (rating * 2));
-                    activity.animeRecord.setDirty(true);
                 }
             } else {
                 if (activity.mangaRecord != null) {
                     activity.mangaRecord.setScore((int) (rating * 2));
-                    activity.mangaRecord.setDirty(true);
                 }
             }
+            activity.setText();
         }
     }
 
     @Override
     public void onCardClickListener(int res) {
-        if (res == R.id.status) {
-            activity.showDialog("statusPicker", new StatusPickerDialogFragment());
-        } else if (res == R.id.progress1 || res == R.id.progress2) {
-            if (activity.type.equals(ListType.ANIME)) {
-                activity.showDialog("episodes", new EpisodesPickerDialogFragment());
-            } else {
-                activity.showDialog("manga", new MangaPickerDialogFragment());
-            }
+        switch (res) {
+            case R.id.status:
+                activity.showDialog("statusPicker", new StatusPickerDialogFragment());
+                break;
+            case R.id.progress1:
+            case R.id.progress2:
+                if (activity.type.equals(ListType.ANIME)) {
+                    Bundle args = new Bundle();
+                    args.putInt("id", R.id.progress1);
+                    args.putInt("current", activity.animeRecord.getWatchedEpisodes());
+                    args.putInt("max", activity.animeRecord.getEpisodes());
+                    args.putString("title", getString(R.string.dialog_title_watched_update));
+                    activity.showDialog("episodes", new NumberPickerDialogFragment().setOnSendClickListener(activity), args);
+                } else {
+                    activity.showDialog("manga", new MangaPickerDialogFragment());
+                }
+                break;
+            case R.id.scorePanel:
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", R.id.scorePanel);
+                bundle.putString("title", getString(R.string.dialog_title_rating));
+                bundle.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
+                bundle.putInt("max", PrefManager.getScoreType() == 3 ? 5 : 10);
+                activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), bundle);
         }
     }
 }

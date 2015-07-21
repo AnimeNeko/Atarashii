@@ -9,4 +9,15 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
+    <EditText
+        android:id="@+id/numberInput"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:hint="@string/episodepicker_hint"
+        android:inputType="number|numberDecimal"
+        android:numeric="integer|decimal"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="2dp" />
+
 </RelativeLayout>

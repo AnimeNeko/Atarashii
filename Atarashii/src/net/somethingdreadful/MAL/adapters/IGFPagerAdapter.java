@@ -24,7 +24,7 @@ public class IGFPagerAdapter extends FragmentPagerAdapter {
     }
 
     public Fragment getIGF(ViewPager viewPager, int position) {
-        return  fm.findFragmentByTag("android:switcher:" + viewPager.getId() + ":" + position);
+        return fm.findFragmentByTag("android:switcher:" + viewPager.getId() + ":" + position);
     }
 
     @Override

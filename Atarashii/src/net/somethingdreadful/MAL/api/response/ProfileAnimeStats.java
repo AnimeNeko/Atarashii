@@ -2,18 +2,23 @@ package net.somethingdreadful.MAL.api.response;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ProfileAnimeStats implements Serializable {
-    private int completed;
-    private int dropped;
-    private int on_hold;
-    private int plan_to_watch;
-    private Double time_days;
-    private int total_entries;
-    private int watching;
+    @Getter @Setter private int completed;
+    @Getter @Setter private int dropped;
+    @Getter @Setter @SerializedName("on_hold") private int onHold;
+    @Getter @Setter @SerializedName("plan_to_watch") private int planToWatch;
+    @Getter @Setter @SerializedName("time_days") private Double timeDays;
+    @Getter @Setter @SerializedName("total_entries") private int totalEntries;
+    @Getter @Setter private int watching;
 
     public static ProfileAnimeStats fromCursor(Cursor c) {
         ProfileAnimeStats result = new ProfileAnimeStats();
@@ -28,61 +33,5 @@ public class ProfileAnimeStats implements Serializable {
         result.setWatching(c.getInt(columnNames.indexOf("anime_watching")));
 
         return result;
-    }
-
-    public int getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(int completed) {
-        this.completed = completed;
-    }
-
-    public int getDropped() {
-        return dropped;
-    }
-
-    public void setDropped(int dropped) {
-        this.dropped = dropped;
-    }
-
-    public int getOnHold() {
-        return on_hold;
-    }
-
-    public void setOnHold(int on_hold) {
-        this.on_hold = on_hold;
-    }
-
-    public int getPlanToWatch() {
-        return plan_to_watch;
-    }
-
-    public void setPlanToWatch(int plan_to_watch) {
-        this.plan_to_watch = plan_to_watch;
-    }
-
-    public Double getTimeDays() {
-        return time_days;
-    }
-
-    public void setTimeDays(Double time_days) {
-        this.time_days = time_days;
-    }
-
-    public int getTotalEntries() {
-        return total_entries;
-    }
-
-    public void setTotalEntries(int total_entries) {
-        this.total_entries = total_entries;
-    }
-
-    public int getWatching() {
-        return watching;
-    }
-
-    public void setWatching(int watching) {
-        this.watching = watching;
     }
 }

@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -35,17 +37,17 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         boolean error = false;
         MALManager manager = new MALManager(context);
 
+        if (!AccountService.isMAL())
+            manager.verifyAuthentication();
+
         try {
             if (MALApi.isNetworkAvailable(context)) {
                 if (type.equals(ListType.ANIME)) {
-                    manager.writeAnimeDetailsToMAL((Anime) gr[0]);
+                    manager.writeAnimeDetails((Anime) gr[0]);
                 } else {
-                    manager.writeMangaDetailsToMAL((Manga) gr[0]);
+                    manager.writeMangaDetails((Manga) gr[0]);
                 }
-                gr[0].setDirty(false);
-            } else {
-                // currently no connection, mark record as dirty for later sync
-                gr[0].setDirty(true);
+                gr[0].clearDirty();
             }
         } catch (RetrofitError re) {
             if (re.getResponse() != null) {
@@ -58,12 +60,13 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
             error = true;
         } catch (Exception e) {
             Log.e("MALX", "error on response WriteDetailTask: " + e.getMessage());
+            Crashlytics.logException(e);
             error = true;
         }
 
         // only update if everything went well!
         if (!error) {
-            String account = AccountService.getUsername(context);
+            String account = AccountService.getUsername();
             if (!job.equals(TaskJob.UPDATE)) {
                 if (ListType.ANIME.equals(type)) {
                     manager.deleteAnimeFromAnimelist((Anime) gr[0], account);

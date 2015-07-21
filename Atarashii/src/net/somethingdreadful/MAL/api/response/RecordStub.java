@@ -4,6 +4,9 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /*
  * Base stub class for relations returned by API like side stories, sequels etc.
  * It contains both manga_id and anime_id to make it usable as response class for deserialization
@@ -12,24 +15,8 @@ import java.io.Serializable;
 public class RecordStub implements Serializable {
     private int anime_id = 0;
     private int manga_id = 0;
-    private String title;
-    private String url;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    @Getter @Setter private String title;
+    @Getter @Setter private String url;
 
     public void setId(int id, MALApi.ListType type) {
         this.anime_id = type.equals(MALApi.ListType.ANIME) ? id : 0;

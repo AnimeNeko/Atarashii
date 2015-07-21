@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 import net.somethingdreadful.MAL.MALDateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
+import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.response.User;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -46,6 +48,14 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
             viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
 
+            if (Theme.darkTheme) {
+                viewHolder.username.setTextColor(context.getResources().getColor(R.color.text_dark));
+                Theme.setBackground(context, view);
+            }
+
+            if (!AccountService.isMAL())
+                viewHolder.last_online.setText(context.getString(R.string.unknown));
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -55,13 +65,16 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             String username = record.getName();
             viewHolder.username.setText(WordUtils.capitalize(username));
             if (User.isDeveloperRecord(username))
-                viewHolder.username.setTextColor(Color.parseColor("#008583")); //Developer
+                viewHolder.username.setTextColor(context.getResources().getColor(R.color.primary)); //Developer
+            else
+                viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
 
             String last_online = record.getProfile().getDetails().getLastOnline();
-            last_online = MALDateTools.formatDateString(last_online, context, true);
-            viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
-            Picasso picasso = Picasso.with(context);
-            picasso.load(record.getProfile().getAvatarUrl())
+            if (last_online != null) {
+                last_online = MALDateTools.formatDateString(last_online, context, true);
+                viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
+            }
+            Picasso.with(context).load(record.getProfile().getAvatarUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
                     .transform(new RoundedTransformation(record.getName()))

@@ -33,6 +33,10 @@
                     android:id="@+id/listType_planned"
                     android:title="@string/listType_planned"
                     res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_rewatching"
+                    android:title="@string/listType_rewatching"
+                    res-auto:showAsAction="never" />
             </group>
         </menu>
     </item>
