@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,8 +33,8 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
@@ -52,7 +51,7 @@ import butterknife.InjectView;
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
     Context context;
-    TaskJob taskjob;
+    public TaskJob taskjob;
     Activity activity;
     NetworkTask networkTask;
     IGFCallbackListener callback;
@@ -66,7 +65,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     RecordStatusUpdatedReceiver recordStatusReceiver;
 
     int page = 1;
-    int list = -1;
+    public int list = -1;
     int resource;
     int height = 0;
     boolean loading = true;
@@ -82,6 +81,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     // use setter to change this!
     private String username;
     private boolean ownList = false; // not set directly, is set by setUsername()
+    public boolean popup;
 
     @Override
     public void onSaveInstanceState(Bundle state) {
@@ -92,6 +92,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putInt("list", list);
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
+        state.putBoolean("popup", popup);
         state.putString("query", query);
         state.putString("username", username);
         super.onSaveInstanceState(state);
@@ -115,6 +116,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             swipeRefreshEnabled = state.getBoolean("swipeRefreshEnabled");
             query = state.getString("query");
             username = state.getString("username");
+            popup = state.getBoolean("popup");
         }
 
         context = getActivity();
@@ -365,7 +367,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Set the adapter anime/manga.
      */
     public void setAdapter() {
-        ga = new ListViewAdapter<GenericRecord>(context, resource);
+        ga = new ListViewAdapter<GenericRecord>(context, resource, popup);
         ga.setNotifyOnChange(true);
     }
 
@@ -531,18 +533,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             callback.onRecordsLoadingFinished(type, job, error, resultEmpty, cancelled);
     }
 
-    /**
-     * Handle the gridview click by navigating to the detailview.
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent startDetails = new Intent(getView().getContext(), DetailView.class);
-        startDetails.putExtra("recordID", gl.get(position).getId());
-        startDetails.putExtra("recordType", listType);
-        startDetails.putExtra("username", username);
-        startActivity(startDetails);
-    }
-
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
     }
@@ -584,6 +574,15 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         }
     }
 
+
+    /**
+     * Handle the gridview click by navigating to the detailview.
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        callback.onItemClick(gl.get(position).getId(), listType, username);
+    }
+
     static class ViewHolder {
         TextView label;
         TextView progressCount;
@@ -596,9 +595,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
+        boolean popup;
 
-        public ListViewAdapter(Context context, int resource) {
+        public ListViewAdapter(Context context, int resource, boolean popup) {
             super(context, resource);
+            this.popup = popup;
         }
 
         @SuppressWarnings("deprecation")
@@ -687,6 +688,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                                 viewHolder.progressCount.setVisibility(View.GONE);
                                 break;
                         }
+                        if (!popup)
+                            viewHolder.actionButton.setVisibility(View.GONE);
                     } else {
                         viewHolder.flavourText.setText("");
                         viewHolder.actionButton.setVisibility(View.GONE);
@@ -749,5 +752,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public interface IGFCallbackListener {
         public void onIGFReady(IGF igf);
         public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled);
+        public void onItemClick(int id, ListType listType, String username);
     }
 }

@@ -50,7 +50,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
 
             if (result != null) {
                 ArrayList<History> activities = mManager.getActivityFromDB(params[0]);
-                if (activities == null && MALApi.isNetworkAvailable(context) || forcesync)
+                if (MALApi.isNetworkAvailable(context) && activities == null || MALApi.isNetworkAvailable(context) && forcesync)
                     activities = mManager.downloadAndStoreActivity(params[0]);
                 result.setActivity(activities);
             }

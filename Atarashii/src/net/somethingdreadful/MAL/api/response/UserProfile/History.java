@@ -40,4 +40,8 @@ public class History implements Serializable {
         value = Integer.toString(type.equals("anime") ? item.getTotalEpisodes() : item.getTotalChapters());
         return this;
     }
+
+    public String getRawCreatedAt() {
+        return createdAt != null ? createdAt : timeUpdated;
+    }
 }

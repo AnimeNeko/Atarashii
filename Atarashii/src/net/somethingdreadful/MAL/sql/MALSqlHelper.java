@@ -132,6 +132,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "rewatchCount integer, "
             + "rewatchValue integer, "
             + "comments varchar, "
+            + "widget integer, "
             + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, anime_id)"
@@ -154,6 +155,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "rereadCount integer, "
             + "rereadValue integer, "
             + "comments varchar, "
+            + "widget integer, "
             + "dirty varchar DEFAULT NULL, "
             + "lastUpdate integer NOT NULL DEFAULT (strftime('%s','now')),"
             + "PRIMARY KEY(profile_id, manga_id)"
@@ -333,7 +335,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -652,6 +654,15 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_MANGALIST_TABLE);
             db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
+        }
+
+        if (oldVersion < 12) {
+            /*
+             * In version 12 We added widget support.
+             * The integer is the widget number chosen by the user.
+             */
+            db.execSQL("alter table " + TABLE_ANIMELIST + " add column widget integer");
+            db.execSQL("alter table " + TABLE_MANGALIST + " add column widget integer");
         }
     }
 }

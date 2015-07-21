@@ -14,8 +14,9 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.widgets.Widget1;
 
 import retrofit.RetrofitError;
 
@@ -92,5 +93,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         i.setAction(RecordStatusUpdatedReceiver.RECV_IDENT);
         i.putExtra("type", type);
         LocalBroadcastManager.getInstance(context).sendBroadcast(i);
+
+        Widget1.forceRefresh(context);
     }
 }

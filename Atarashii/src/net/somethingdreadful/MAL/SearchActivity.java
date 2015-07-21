@@ -46,7 +46,7 @@ public class SearchActivity extends ActionBarActivity implements IGF.IGFCallback
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
+        mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager(), true);
 
         ViewPager = (ViewPager) findViewById(R.id.pager);
         ViewPager.setAdapter(mIGFPagerAdapter);
@@ -149,5 +149,14 @@ public class SearchActivity extends ActionBarActivity implements IGF.IGFCallback
             else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
                 Theme.Snackbar(this, R.string.toast_error_nothingFound);
         }
+    }
+
+    @Override
+    public void onItemClick(int id, ListType listType, String username) {
+        Intent startDetails = new Intent(getApplicationContext(), DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", username);
+        startActivity(startDetails);
     }
 }

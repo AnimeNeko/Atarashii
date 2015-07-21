@@ -15,6 +15,7 @@ import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Series;
 import net.somethingdreadful.MAL.api.response.RecordStub;
@@ -185,17 +186,20 @@ public class DatabaseManager {
                 alcv.put("dirty", anime.getDirty() != null ? new Gson().toJson(anime.getDirty()) : null);
                 if (anime.getLastUpdate() != null)
                     alcv.put("lastUpdate", anime.getLastUpdate().getTime());
-                getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
+
+                // don't use replace it replaces widget with null even when we don't put it in the ContentValues
+                updateResult = getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, alcv, "profile_id = ? AND anime_id = ?", new String[]{Integer.toString(userId), Integer.toString(anime.getId())});
+                if (updateResult == 0) {
+                    getDBWrite().replace(MALSqlHelper.TABLE_ANIMELIST, null, alcv);
+                }
             }
         }
     }
 
     public Anime getAnime(Integer id, String username) {
         Anime result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate, " +
-                " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                " WHERE al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
+        String[] values = new String[]{Integer.toString(getUserId(username)), Integer.toString(id)};
+        Cursor cursor = getAnimeListCursor("al.profile_id = ? AND a." + MALSqlHelper.COLUMN_ID + " = ?", null, values);
         if (cursor.moveToFirst()) {
             result = Anime.fromCursor(cursor);
             result.setGenres(getAnimeGenres(result.getId()));
@@ -275,21 +279,13 @@ public class DatabaseManager {
         ArrayList<Anime> result = null;
         Cursor cursor;
         try {
-            ArrayList<String> selArgs = new ArrayList<>();
-            selArgs.add(String.valueOf(userId));
-            if (!listType.equals("") && !listType.equals(Anime.STATUS_REWATCHING))
-                selArgs.add(listType);
-
-            if (listType.equals(Anime.STATUS_REWATCHING))
-                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                        " WHERE al.profile_id = ? AND al.rewatch = 1 " + (dirtyOnly ? " AND al.dirty IS NOT NULL " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
-            else
-                cursor = getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
-                        " al.watchedStart, al.WatchedEnd, al.fansub, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
-                        " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
-                        " WHERE al.profile_id = ? " + (!listType.equals("") ? " AND al.status = ? " : "") + (dirtyOnly ? " AND al.dirty IS NOT NULL " : "") + " ORDER BY a.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
+            if (listType.equals(Anime.STATUS_REWATCHING)) {
+                String[] values = new String[]{String.valueOf(userId)};
+                cursor = getAnimeListCursor("al.profile_id = ? AND al.rewatch = 1" + (dirtyOnly ? " AND al.dirty IS NOT NULL" : ""), "a.recordName", values);
+            } else {
+                String[] values = !listType.equals("") ? new String[]{String.valueOf(userId), listType} : new String[]{String.valueOf(userId)};
+                cursor = getAnimeListCursor("al.profile_id = ?" + (!listType.equals("") ? " AND al.status = ?" : "") + (dirtyOnly ? " AND al.dirty IS NOT NULL" : ""), "a.recordName", values);
+            }
             if (cursor.moveToFirst()) {
                 result = new ArrayList<>();
                 do
@@ -434,17 +430,20 @@ public class DatabaseManager {
                 mlcv.put("dirty", manga.getDirty() != null ? new Gson().toJson(manga.getDirty()) : null);
                 if (manga.getLastUpdate() != null)
                     mlcv.put("lastUpdate", manga.getLastUpdate().getTime());
-                getDBWrite().replace(MALSqlHelper.TABLE_MANGALIST, null, mlcv);
+
+                // don't use replace it replaces widget with null even when we don't put it in the ContentValues
+                updateResult = getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, mlcv, "profile_id = ? AND manga_id = ?", new String[]{Integer.toString(userId), Integer.toString(manga.getId())});
+                if (updateResult == 0) {
+                    getDBWrite().replace(MALSqlHelper.TABLE_MANGALIST, null, mlcv);
+                }
             }
         }
     }
 
     public Manga getManga(Integer id, String username) {
         Manga result = null;
-        Cursor cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
-                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
-                " WHERE ml.profile_id = ? and m." + MALSqlHelper.COLUMN_ID + " = ?", new String[]{getUserId(username).toString(), id.toString()});
+        String[] values = new String[]{Integer.toString(getUserId(username)), Integer.toString(id)};
+        Cursor cursor = getMangaListCursor("ml.profile_id = ? AND m." + MALSqlHelper.COLUMN_ID + " = ?", null, values);
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
             result.setGenres(getMangaGenres(result.getId()));
@@ -516,15 +515,17 @@ public class DatabaseManager {
         ArrayList<Manga> result = null;
         Cursor cursor;
         try {
-            ArrayList<String> selArgs = new ArrayList<>();
-            selArgs.add(String.valueOf(userId));
-            if (!listType.equals(""))
-                selArgs.add(listType);
+            String[] values;
+            String where = "ml.profile_id = ?";
+            if (!listType.equals("")) {
+                values = new String[]{String.valueOf(userId), listType};
+                where = where + " AND ml.status = ?";
+            } else {
+                values = new String[]{String.valueOf(userId)};
+            }
+            where = where + (dirtyOnly ? " AND ml.dirty <> \"\" " : "");
+            cursor = getMangaListCursor(where, "m.recordName", values);
 
-            cursor = getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
-                    " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.comments, ml.dirty, ml.lastUpdate" +
-                    " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
-                    " WHERE ml.profile_id = ? " + (!listType.equals("") ? " AND ml.status = ? " : "") + (dirtyOnly ? " AND ml.dirty <> \"\" " : "") + " ORDER BY m.recordName COLLATE NOCASE", selArgs.toArray(new String[selArgs.size()]));
             if (cursor.moveToFirst()) {
                 result = new ArrayList<>();
                 do
@@ -975,6 +976,8 @@ public class DatabaseManager {
 
     public void saveActivity(ArrayList<History> activities, String username) {
         Integer userId = getUserId(username);
+        getDBWrite().delete(MALSqlHelper.TABLE_ACTIVITIES, "user = ?", new String[]{String.valueOf(userId)});
+        getDBWrite().delete(MALSqlHelper.TABLE_ACTIVITIES_USERS, "profile_id = ?", new String[]{String.valueOf(userId)});
         if (AccountService.isMAL())
             Collections.reverse(activities);
         if (userId > 0) {
@@ -1058,7 +1061,112 @@ public class DatabaseManager {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        if (result != null)
+            Collections.sort(result, DateTools.Comparators.historyComparator);
         return result;
     }
-}
 
+    public boolean addWidgetRecord(int id, MALApi.ListType type) {
+        if (checkWidgetID(id, type))
+            return false;
+
+        int number = getWidgetRecords().size() + 1;
+        ContentValues cv = new ContentValues();
+        cv.put("widget", number);
+        if (type.equals(MALApi.ListType.ANIME))
+            getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, cv, "anime_id = ?", new String[]{Integer.toString(id)});
+        else
+            getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, cv, "manga_id = ?", new String[]{Integer.toString(id)});
+        return true;
+    }
+
+    public boolean updateWidgetRecord(int oldId, MALApi.ListType oldType, int id, MALApi.ListType type) {
+        if (checkWidgetID(id, type))
+            return false;
+
+        // Remove old record
+        ContentValues cv = new ContentValues();
+        cv.putNull("widget");
+        if (oldType.equals(MALApi.ListType.ANIME))
+            getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, cv, "anime_id = ?", new String[]{Integer.toString(oldId)});
+        else
+            getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, cv, "manga_id = ?", new String[]{Integer.toString(oldId)});
+        addWidgetRecord(id, type);
+        return true;
+    }
+
+    /**
+     * Check if records is already a widget
+     *
+     * @param id The anime/manga id
+     * @param type The List type
+     * @return Boolean True if exists
+     */
+    private boolean checkWidgetID(int id, MALApi.ListType type) {
+        if (type.equals(MALApi.ListType.ANIME))
+            return getAnimeListCursor("al.anime_id = " + id + " AND widget IS NOT NULL", null, null).getCount() > 0;
+        else
+            return getMangaListCursor("al.manga_id = " + id + " AND widget IS NOT NULL", null, null).getCount() > 0;
+    }
+
+    public void removeWidgetRecord() {
+        int number = getWidgetRecords().size() - 1;
+        // Remove old record
+        ContentValues cv = new ContentValues();
+        cv.putNull("widget");
+        getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, cv, "widget = ?", new String[]{Integer.toString(number)});
+        getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, cv, "widget = ?", new String[]{Integer.toString(number)});
+
+        // Replace id of the new record
+        ContentValues cvn = new ContentValues();
+        cvn.put("widget", number);
+        getDBWrite().update(MALSqlHelper.TABLE_ANIMELIST, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
+        getDBWrite().update(MALSqlHelper.TABLE_MANGALIST, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
+    }
+
+    public ArrayList<GenericRecord> getWidgetRecords() {
+        ArrayList<GenericRecord> result = new ArrayList<>();
+        result.addAll(getWidgetList(MALApi.ListType.ANIME));
+        result.addAll(getWidgetList(MALApi.ListType.MANGA));
+        return result;
+    }
+
+    private ArrayList getWidgetList(MALApi.ListType type) {
+        ArrayList result = new ArrayList<>();
+        Cursor cursor;
+        if (type.equals(MALApi.ListType.ANIME))
+            cursor = getAnimeListCursor("widget IS NOT NULL", "al.widget", null);
+        else
+            cursor = getMangaListCursor("widget IS NOT NULL", "ml.widget", null);
+
+        if (cursor.moveToFirst()) {
+            do
+                if (type.equals(MALApi.ListType.ANIME)) {
+                    Anime anime = Anime.fromCursor(cursor);
+                    anime.isAnime = true;
+                    result.add(anime);
+                } else {
+                    Manga manga = Manga.fromCursor(cursor);
+                    manga.isAnime = false;
+                    result.add(manga);
+                }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    private Cursor getAnimeListCursor(String conditions, String orderby, String[] values){
+        return getDBRead().rawQuery("SELECT a.*, al.score AS myScore, al.status AS myStatus, al.watched AS episodesWatched, al.dirty, al.lastUpdate," +
+                " al.watchedStart, al.WatchedEnd, al.fansub, al.widget, al.priority, al.downloaded, al.storage, al.storageValue, al.rewatch, al.rewatchCount, al.rewatchValue, al.comments" +
+                " FROM animelist al INNER JOIN anime a ON al.anime_id = a." + MALSqlHelper.COLUMN_ID +
+                " WHERE " + conditions + (orderby == null ? "" : " ORDER BY " + orderby + " COLLATE NOCASE"), values);
+    }
+
+    private Cursor getMangaListCursor(String conditions, String orderby, String[] values){
+        return getDBRead().rawQuery("SELECT m.*, ml.score AS myScore, ml.status AS myStatus, ml.chaptersRead, ml.volumesRead, ml.readStart, ml.readEnd," +
+                " ml.priority, ml.downloaded, ml.rereading, ml.rereadCount, ml.widget, ml.comments, ml.dirty, ml.lastUpdate" +
+                " FROM mangalist ml INNER JOIN manga m ON ml.manga_id = m." + MALSqlHelper.COLUMN_ID +
+                " WHERE " + conditions + (orderby == null ? "" : " ORDER BY " + orderby + " COLLATE NOCASE"), values);
+    }
+}

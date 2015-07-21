@@ -5,10 +5,13 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -38,6 +41,12 @@ public class DateTools {
         return getDateString(calander.getTime(), withTime);
     }
 
+    public static Long getmilis(String time){
+        Calendar calander = Calendar.getInstance();
+        calander.setTime(parseISO8601(time));
+        return calander.getTimeInMillis();
+    }
+
     private static Date parseISO8601(String ISO8601) {
         switch (ISO8601.length()){
             case 4: // 2015-05
@@ -59,6 +68,15 @@ public class DateTools {
             default:
                 return new Date();
         }
+    }
+
+    public static class Comparators {
+        public static Comparator<History> historyComparator = new Comparator<History>() {
+            @Override
+            public int compare(History lhs, History rhs) {
+                return getmilis(rhs.getRawCreatedAt()).compareTo(getmilis(lhs.getRawCreatedAt()));
+            }
+        };
     }
 
     private static String getDateString(Date date, boolean withTime) {

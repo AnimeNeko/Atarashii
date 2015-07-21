@@ -54,6 +54,7 @@ public class GenericRecord implements Serializable {
     @Setter private boolean deleteFlag;
 
     @Setter @Getter private transient boolean fromCursor = false;
+    public boolean isAnime;
 
     public String getImageUrl() {
         // if not loaded from cursor the image might point to an thumbnail
