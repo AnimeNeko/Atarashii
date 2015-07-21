@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.forum;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,41 +28,39 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
-    public int id;
-    public MALApi.ListType type = MALApi.ListType.MANGA;
-    public ForumMain subBoard;
-    public ForumMain topic;
-    public ForumJob task;
-
-    ForumActivity activity;
     View view;
+    public ForumJob task;
+    ForumActivity activity;
+    public ForumMain topic;
+    public ForumMain subBoard;
     public ForumMainAdapter topicsAdapter;
-    ProgressBar progressBar;
-    RelativeLayout content;
-    Card networkCard;
-    ListView topics;
+    public MALApi.ListType type = MALApi.ListType.MANGA;
 
-    Boolean loading = true;
+    @InjectView(R.id.progressBar) ProgressBar progressBar;
+    @InjectView(R.id.content) RelativeLayout content;
+    @InjectView(R.id.network_Card) Card networkCard;
+    @InjectView(R.id.list) ListView topics;
+
+    public int id;
     public int page = 0;
+    boolean loading = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_topics, container, false);
+        ButterKnife.inject(this, view);
 
-        topics = (ListView) view.findViewById(R.id.list);
         topicsAdapter = new ForumMainAdapter(activity, topics, getFragmentManager(), ForumJob.TOPICS);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
-        content = (RelativeLayout) view.findViewById(R.id.content);
 
         topics.setOnScrollListener(this);
         topics.setOnItemClickListener(this);
         topics.setAdapter(topicsAdapter);
         topicsAdapter.setNotifyOnChange(true);
-
 
         toggle(1);
 
@@ -114,7 +113,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         toggle(1);
         topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).execute(query);
+            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
         else
             toggle(2);
         return ForumJob.SEARCH;
@@ -132,7 +131,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, task, id).execute(Integer.toString(page), type.toString());
+            new ForumNetworkTask(activity, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
         else
             toggle(2);
     }
@@ -155,11 +154,10 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
             toggle(0);
             loading = false;
             activity.setTitle(getString(R.string.title_activity_forum));
-            if (task == ForumJob.SUBBOARD) {
+            if (task == ForumJob.SUBBOARD)
                 subBoard = result;
-            } else {
+            else
                 topic = result;
-            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "ForumTopics.apply(): " + e.getMessage());
         }

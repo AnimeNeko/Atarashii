@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -44,46 +45,37 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
 import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
+public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
     IGF af;
     IGF mf;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
-     * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
-     * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    IGFPagerAdapter mIGFPagerAdapter;
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    ViewPager mViewPager;
-    Context context;
     Menu menu;
-    BroadcastReceiver networkReceiver;
-    DrawerLayout DrawerLayout;
-    ListView DrawerList;
-    ActionBarDrawerToggle mDrawerToggle;
+    Context context;
     View mPreviousView;
     ActionBar actionBar;
+    DrawerLayout DrawerLayout;
+    IGFPagerAdapter mIGFPagerAdapter;
+    BroadcastReceiver networkReceiver;
+    ActionBarDrawerToggle mDrawerToggle;
     NavigationDrawerAdapter mNavigationDrawerAdapter;
-    RelativeLayout logout;
-    RelativeLayout settings;
-    RelativeLayout about;
+
+    @InjectView(R.id.about) RelativeLayout about;
+    @InjectView(R.id.pager) ViewPager mViewPager;
+    @InjectView(R.id.listview) ListView DrawerList;
+    @InjectView(R.id.logout) RelativeLayout logout;
+    @InjectView(R.id.settings) RelativeLayout settings;
+
     String username;
 
-    boolean instanceExists;
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
-
     boolean callbackAnimeError = false;
     boolean callbackMangaError = false;
     int callbackCounter = 0;
@@ -98,11 +90,9 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
             //The following is state handling code
-            instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
             networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-            if (savedInstanceState != null) {
+            if (savedInstanceState != null)
                 myList = savedInstanceState.getBoolean("myList");
-            }
 
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
@@ -110,16 +100,15 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            ButterKnife.inject(this);
+
             DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
             username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
             ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
-            new UserNetworkTask(context, false, this).execute(username);
+            new UserNetworkTask(context, false, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
-            logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);
-            settings = (RelativeLayout) DrawerLayout.findViewById(R.id.settings);
-            about = (RelativeLayout) DrawerLayout.findViewById(R.id.about);
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);
             about.setOnClickListener(this);
@@ -135,8 +124,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                 ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
             }
 
-            DrawerList = (ListView) DrawerLayout.findViewById(R.id.listview);
-
             NavigationItems mNavigationContent = new NavigationItems(DrawerList, context);
             mNavigationDrawerAdapter = new NavigationDrawerAdapter(this, mNavigationContent.ITEMS);
             DrawerList.setAdapter(mNavigationDrawerAdapter);
@@ -147,7 +134,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             mDrawerToggle.syncState();
 
             // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
             mViewPager.setOnPageChangeListener(this);
@@ -264,7 +250,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         super.onPause();
         if (menu != null)
             menu.findItem(R.id.action_search).collapseActionView();
-        instanceExists = true;
         unregisterReceiver(networkReceiver);
     }
 
@@ -275,7 +260,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public void onSaveInstanceState(Bundle state) {
         //This is telling out future selves that we already have some things and not to do them
-        state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putBoolean("myList", myList);
         super.onSaveInstanceState(state);
@@ -326,14 +310,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @SuppressLint("NewApi")
     public void onLogoutConfirmed() {
-        if (af != null)
-            af.cancelNetworkTask();
-        if (mf != null)
-            mf.cancelNetworkTask();
-        MALSqlHelper.getHelper(context).deleteDatabase(context);
-        PrefManager.clear();
-        AccountService.deleteAccount();
-        startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        AccountService.clearData(true);
+        startActivity(new Intent(this, Home.class));
         finish();
     }
 
@@ -366,9 +344,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     public void checkNetworkAndDisplayCrouton() {
-        if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
+        if (MALApi.isNetworkAvailable(context) && !networkAvailable)
             synctask(false);
-        }
         networkAvailable = MALApi.isNetworkAvailable(context);
     }
 
@@ -441,12 +418,8 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        // check if it is already showing
-        if (getFragmentManager().findFragmentByTag("fragment_updatePassword") == null) {
-            FragmentManager fm = getFragmentManager();
-            UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
-            passwordFragment.show(fm, "fragment_updatePassword");
-        }
+        startActivity(new Intent(this, Home.class).putExtra("updatePassword", true));
+        finish();
     }
 
     @Override

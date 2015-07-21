@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -26,36 +27,35 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import retrofit.http.HEAD;
+
 public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
-    EditText malUser;
-    EditText malPass;
     String MalUser;
     String MalPass;
-    ProgressDialog dialog;
     Context context;
-    ViewFlipper viewFlipper;
-    Button connectButton;
-    Button registerButton;
-    WebView webview;
-    TextView myanimelist;
-    TextView anilist;
+    ProgressDialog dialog;
+
+    @InjectView(R.id.edittext_malUser) EditText malUser;
+    @InjectView(R.id.edittext_malPass) EditText malPass;
+    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @InjectView(R.id.button_connectToMal) Button connectButton;
+    @InjectView(R.id.registerButton) Button registerButton;
+    @InjectView(R.id.webview) WebView webview;
+    @InjectView(R.id.myanimelist) TextView myanimelist;
+    @InjectView(R.id.anilist) TextView anilist;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
-
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        malUser = (EditText) findViewById(R.id.edittext_malUser);
-        malPass = (EditText) findViewById(R.id.edittext_malPass);
-        connectButton = (Button) findViewById(R.id.button_connectToMal);
-        registerButton = (Button) findViewById(R.id.registerButton);
-        webview = (WebView) findViewById(R.id.webview);
-        myanimelist = (TextView) findViewById(R.id.myanimelist);
-        anilist = (TextView) findViewById(R.id.anilist);
+        ButterKnife.inject(this);
 
         context = getApplicationContext();
 
+        if (getIntent().getBooleanExtra("updatePassword", false))
+            Theme.Snackbar(this, R.string.toast_info_password);
         connectButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         myanimelist.setOnClickListener(this);
@@ -92,9 +92,9 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
         dialog.setMessage(getString(R.string.dialog_message_Verifying));
         dialog.show();
         if (MalPass != null)
-            new AuthenticationCheckTask(this).execute(MalUser, MalPass);
+            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
         else
-            new AuthenticationCheckTask(this).execute(MalUser);
+            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
     }
 
     @Override

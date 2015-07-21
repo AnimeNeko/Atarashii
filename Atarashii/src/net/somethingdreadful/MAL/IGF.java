@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -45,21 +46,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
+public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
     Context context;
     TaskJob taskjob;
-
-    GridView Gridview;
-    ViewFlipper viewflipper;
-    SwipeRefreshLayout swipeRefresh;
     Activity activity;
-    ArrayList<GenericRecord> gl = new ArrayList<GenericRecord>();
-    ListViewAdapter<GenericRecord> ga;
-    IGFCallbackListener callback;
-
     NetworkTask networkTask;
+    IGFCallbackListener callback;
+    ListViewAdapter<GenericRecord> ga;
+    ArrayList<GenericRecord> gl = new ArrayList<>();
+
+    @InjectView(R.id.gridview)
+    GridView Gridview;
+    @InjectView(R.id.viewFlipper)
+    ViewFlipper viewflipper;
+    @InjectView(R.id.swiperefresh)
+    SwipeRefreshLayout swipeRefresh;
 
     RecordStatusUpdatedReceiver recordStatusReceiver;
 
@@ -67,10 +72,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     int list = -1;
     int resource;
     int height = 0;
-    boolean useSecondaryAmounts;
     boolean loading = true;
-    boolean clearAfterLoading = false;
+    boolean useSecondaryAmounts;
     boolean hasmorepages = false;
+    boolean clearAfterLoading = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     boolean swipeRefreshEnabled = true;
@@ -98,8 +103,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
-        viewflipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
-        Gridview = (GridView) view.findViewById(R.id.gridview);
+        ButterKnife.inject(this, view);
+
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
 
@@ -121,10 +126,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
         resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
 
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        if (isOnHomeActivity()) {
+        if (isOnHomeActivity())
             swipeRefresh.setOnRefreshListener((Home) getActivity());
-        }
         swipeRefresh.setColorScheme(
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -190,7 +193,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
     /**
      * Add +1 episode/volume/chapters to the anime/manga.
-     *
+     * <p/>
      * Use null if the other record isn't available
      *
      * @param anime The Anime record that should increase by one
@@ -206,7 +209,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     anime.setRewatching(false);
                 }
             }
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
             if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts)) {
@@ -216,14 +219,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     manga.setRereading(false);
                 }
             }
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
 
     /**
      * Mark the anime/manga as completed.
-     *
+     * <p/>
      * Use null if the other record isn't available
      *
      * @param anime The Anime record that should be marked as complete
@@ -235,11 +238,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).execute(manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -250,9 +253,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param show If true then the IGF will show the indiacator
      */
     private void toggleLoadingIndicator(boolean show) {
-        if (viewflipper != null) {
+        if (viewflipper != null)
             viewflipper.setDisplayedChild(show ? 1 : 0);
-        }
     }
 
     /**
@@ -261,9 +263,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param show If true then the IGF will show the animation
      */
     public void toggleSwipeRefreshAnimation(boolean show) {
-        if (swipeRefresh != null) {
+        if (swipeRefresh != null)
             swipeRefresh.setRefreshing(show);
-        }
     }
 
     /**
@@ -273,9 +274,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void setSwipeRefreshEnabled(boolean enabled) {
         swipeRefreshEnabled = enabled;
-        if (swipeRefresh != null) {
+        if (swipeRefresh != null)
             swipeRefresh.setEnabled(enabled);
-        }
     }
 
     private APIAuthenticationErrorListener getAuthErrorCallback() {
@@ -290,12 +290,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param list  Which list type should be shown (completed, dropped, in progress...)
      */
     public void getRecords(boolean clear, TaskJob task, int list) {
-        if (task != null) {
+        if (task != null)
             taskjob = task;
-        }
-        if (list != this.list) {
+        if (list != this.list)
             this.list = list;
-        }
         /* only show loading indicator if
          * - is not own list and on page 1
          * - force sync and list is empty (only show swipe refresh animation if not empty)
@@ -314,25 +312,22 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (clear) {
                 resetPage();
                 gl.clear();
-                if (ga == null) {
+                if (ga == null)
                     setAdapter();
-                }
                 ga.clear();
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
-            cancelNetworkTask();
             networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
             if (!username.equals("") && isList()) {
                 args.add(username);
-                if (isList()) {
+                if (isList())
                     args.add(MALManager.listSortFromInt(list, listType));
-                }
             } else {
                 args.add(query);
             }
-            networkTask.execute(args.toArray(new String[args.size()]));
+            networkTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "IGF.getRecords(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -396,11 +391,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Theme.Snackbar(activity, R.string.toast_error_Search);
                 } else {
-                    if (listType.equals(ListType.ANIME)) {
+                    if (listType.equals(ListType.ANIME))
                         Theme.Snackbar(activity, R.string.toast_error_Anime_Sync);
-                    } else {
+                    else
                         Theme.Snackbar(activity, R.string.toast_error_Manga_Sync);
-                    }
                 }
             } else {
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
@@ -436,14 +430,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     private boolean jobReturnsPagedResults(TaskJob job) {
         return !isList(job);
-    }
-
-    /**
-     * Cancel the networktask.
-     */
-    public void cancelNetworkTask() {
-        if (networkTask != null)
-            networkTask.cancelTask();
     }
 
     /**
@@ -486,11 +472,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         if (!cancelled || job.equals(TaskJob.FORCESYNC)) { // forced sync tasks are completed even after cancellation
             ArrayList resultList;
             try {
-                if (type == ListType.ANIME) {
+                if (type == ListType.ANIME)
                     resultList = (ArrayList<Anime>) result;
-                } else {
+                else
                     resultList = (ArrayList<Manga>) result;
-                }
             } catch (ClassCastException e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
                 Crashlytics.logException(e);
@@ -526,8 +511,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
         doRecordsLoadedCallback(type, job, true, true, false);
-        toggleSwipeRefreshAnimation(false);
-        toggleLoadingIndicator(false);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toggleSwipeRefreshAnimation(false);
+                toggleLoadingIndicator(false);
+            }
+        });
     }
 
     /**
@@ -757,5 +747,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 this.add(record);
             }
         }
+    }
+
+    public interface IGFCallbackListener {
+        public void onIGFReady(IGF igf);
+        public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled);
     }
 }

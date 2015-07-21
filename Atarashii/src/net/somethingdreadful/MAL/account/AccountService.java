@@ -17,6 +17,9 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.sql.MALSqlHelper;
+
 public class AccountService extends Service {
     public static AccountType accountType;
     private static Account account;
@@ -212,13 +215,15 @@ public class AccountService extends Service {
     }
 
     /**
-     * Update a password of an account.
+     * Removes the userdata
      *
-     * @param password The new password for an account
+     * @param prefs If true it will remove all the prefrences saved.
      */
-    public static void updatePassword(String password) {
-        AccountManager accountManager = AccountManager.get(context);
-        accountManager.setPassword(getAccount(), password);
+    public static void clearData(boolean prefs) {
+        MALSqlHelper.getHelper(context).deleteDatabase(context);
+        if (prefs)
+            PrefManager.clear();
+        AccountService.deleteAccount();
     }
 
     @Override

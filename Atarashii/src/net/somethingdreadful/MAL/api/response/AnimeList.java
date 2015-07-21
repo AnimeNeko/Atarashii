@@ -20,7 +20,7 @@ public class AnimeList {
     }
 
     public static ArrayList<Anime> getData(ArrayList<Anime> data) {
-        ArrayList<Anime> list = new ArrayList<Anime>();
+        ArrayList<Anime> list = new ArrayList<>();
         if (data != null)
             for (Anime anime : data) {
                 anime.createBaseModel();
@@ -33,7 +33,7 @@ public class AnimeList {
         if (AccountService.isMAL()) {
             return anime;
         } else {
-            ArrayList<Anime> list = new ArrayList<Anime>();
+            ArrayList<Anime> list = new ArrayList<>();
             if (lists.completed != null)
                 list.addAll(lists.completed);
             if (lists.plan_to_watch != null)

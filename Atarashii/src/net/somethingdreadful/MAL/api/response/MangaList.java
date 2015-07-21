@@ -19,7 +19,7 @@ public class MangaList {
     }
 
     public static ArrayList<Manga> getData(ArrayList<Manga> data) {
-        ArrayList<Manga> list = new ArrayList<Manga>();
+        ArrayList<Manga> list = new ArrayList<>();
         if (data != null)
             for (Manga manga : data) {
                 manga.createBaseModel();
@@ -32,7 +32,7 @@ public class MangaList {
         if (AccountService.isMAL()) {
             return manga;
         } else {
-            ArrayList<Manga> list = new ArrayList<Manga>();
+            ArrayList<Manga> list = new ArrayList<>();
             if (lists.completed != null)
                 list.addAll(lists.completed);
             if (lists.plan_to_read != null)

@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -25,28 +26,32 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
-public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener, MessageDialogFragment.onCloseClickListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
+public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener, MessageDialogFragment.onCloseClickListener {
+    Menu menu;
+    MenuItem search;
     public ForumsMain main;
-    public ForumsTopics topics;
+    FragmentManager manager;
     public ForumsPosts posts;
+    public String message = "";
+    public ForumsTopics topics;
+
+    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+
     public boolean discussion = false;
     public ForumJob task = ForumJob.BOARD;
-    public String message = "";
-    FragmentManager manager;
-    ViewFlipper viewFlipper;
-    MenuItem search;
-    Menu menu;
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Theme.setTheme(this, R.layout.activity_forum, false);
+        ButterKnife.inject(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         handleIntent(getIntent());
 
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         manager = getFragmentManager();
         main = (ForumsMain) manager.findFragmentById(R.id.main);
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
@@ -289,9 +294,9 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
     @Override
     public void onSendClicked(String message, String subject, ForumJob task, int id) {
         if (task == ForumJob.ADDTOPIC && !message.equals("") && !subject.equals(""))
-            new ForumNetworkTask(this, this, task, id).execute(subject, message);
+            new ForumNetworkTask(this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subject, message);
         else if (!message.equals(""))
-            new ForumNetworkTask(this, this, task, id).execute(message);
+            new ForumNetworkTask(this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, message);
     }
 
     @Override

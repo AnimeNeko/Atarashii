@@ -14,6 +14,7 @@ import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.Manga;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import retrofit.RetrofitError;
 
@@ -25,7 +26,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     NetworkTaskCallbackListener callback;
     APIAuthenticationErrorListener authErrorCallback;
     Object taskResult;
-    boolean cancelled = false;
+    TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
+            TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH};
+
 
     public NetworkTask(TaskJob job, MALApi.ListType type, Context context, Bundle data, NetworkTaskCallbackListener callback, APIAuthenticationErrorListener authErrorCallback) {
         if (job == null || type == null || context == null)
@@ -40,6 +43,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
     private boolean isAnimeTask() {
         return type.equals(MALApi.ListType.ANIME);
+    }
+
+    private boolean isArrayList() {
+        return Arrays.asList(arrayTasks).contains(job);
     }
 
     @Override
@@ -109,7 +116,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                     break;
                 case GETDETAILS:
-                    if (data != null && data.containsKey("record")) {
+                    if (data != null && data.containsKey("record"))
                         if (isAnimeTask()) {
                             Anime record = (Anime) data.getSerializable("record");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
@@ -123,7 +130,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             if (!AccountService.isMAL())
                                 mManager.getManga(record.getId(), AccountService.getUsername());
                         }
-                    }
                     break;
                 case SEARCH:
                     if (params != null)
@@ -136,69 +142,47 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
              * (e. g. an empty anime-/mangalist), so create an empty list to let the callback know that
              * there was no error
              */
-            if (taskResult == null && !job.equals(TaskJob.GETDETAILS) && !job.equals(TaskJob.GET))
-                taskResult = isAnimeTask() ? new ArrayList<Anime>() : new ArrayList<Manga>();
+            if (taskResult == null)
+                return isArrayList() ? new ArrayList<>() : null;
         } catch (RetrofitError re) {
             if (re.getResponse() != null) {
                 /* Search and Toplist API's are returning an 404 status code if nothing is found (nothing
                  * found for search, invalid page number for toplists, that is the normal behavior
                  * and no error. So return an empty list in this case.
                  */
-                if (re.getResponse().getStatus() == 404 && (job.equals(TaskJob.SEARCH) || job.equals(TaskJob.GETJUSTADDED) ||
-                        job.equals(TaskJob.GETMOSTPOPULAR) || job.equals(TaskJob.GETTOPRATED) || job.equals(TaskJob.GETUPCOMING))) {
-                    taskResult = new ArrayList<Anime>();
-                } else {
-                    Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
-                    // Authentication failed, fire callback!
-                    if (re.getResponse().getStatus() == 401) {
-                        if (authErrorCallback != null)
+                switch (re.getResponse().getStatus()) {
+                    case 401:
+                        Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): User is not logged in");
+                        if (re.getResponse().getStatus() == 401 && authErrorCallback != null)
                             authErrorCallback.onAPIAuthenticationError(type, job);
-                    }
+                        break;
+                    case 404:
+                        if (job.equals(TaskJob.SEARCH) || job.equals(TaskJob.GETJUSTADDED) ||
+                                job.equals(TaskJob.GETMOSTPOPULAR) || job.equals(TaskJob.GETTOPRATED) || job.equals(TaskJob.GETUPCOMING)) {
+                            taskResult = new ArrayList<>();
+                        } else {
+                            Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): The requested page was not found");
+                            Crashlytics.logException(re);
+                        }
+                        break;
+                    case 500:
+                        Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): Internal server error, API bug?");
+                        Crashlytics.logException(re);
+                    default:
+                        doCallback(taskResult, true);
+                        break;
                 }
+                Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                return isArrayList() ? new ArrayList<>() : null;
             } else {
                 Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));
             }
-            re.printStackTrace();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
             Crashlytics.logException(e);
-            e.printStackTrace();
-            taskResult = null;
+            return isArrayList() ? new ArrayList<>() : null;
         }
         return taskResult;
-    }
-
-    /* own cancel implementation, reason:
-     * Force syncs should always complete in the background, even if the user switched to an other
-     * list. If the user switches list to fast, the doInBackground function won't be called at all
-     * because it is not guaranteed that both NetworkTasks (anime/manga) are running parallel. So
-     * do a "soft-cancel" for FORCESYNC: don't cancel, but set cancelled to true so it can be set
-     * in the callback to prevent updating the view with wrong entries.
-     *
-     * This "workaround" can be removed once we drop API level < 11, because then we can run the
-     * tasks parallel (with AsyncTasks THREAD_POOL_EXECUTOR). This makes sure both NetworkTasks are
-     * running parallel.
-     */
-    public boolean cancelTask() {
-        if (!job.equals(TaskJob.FORCESYNC))
-            return cancel(true);
-        else {
-            cancelled = true;
-            return true;
-        }
-    }
-
-    /* this one is called if the task is cancelled and the device API-level is < 11
-     * TODO: when those old targets are dropped: remove this and make taskResult a local variable of doInBackground()
-     */
-    @Override
-    protected void onCancelled() {
-        doCallback(taskResult, true);
-    }
-
-    @Override
-    protected void onCancelled(Object result) {
-        doCallback(result, true);
     }
 
     @Override

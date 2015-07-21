@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
@@ -29,11 +30,13 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.Anime;
 import net.somethingdreadful.MAL.api.response.GenericRecord;
 import net.somethingdreadful.MAL.api.response.Manga;
+import net.somethingdreadful.MAL.detailView.DetailViewDetails;
+import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
+import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.ForumJob;
@@ -75,9 +78,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
 
-        if (actionBar != null) {
+        if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         PageAdapter = new DetailViewPagerAdapter(getFragmentManager(), this);
@@ -95,18 +97,13 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public void setText() {
         try {
             actionBar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
-            if (general != null) {
+            if (general != null)
                 general.setText();
-            }
-            if (details != null && !isEmpty()) {
+            if (details != null && !isEmpty())
                 details.setText();
-            }
-            if (personal != null && !isEmpty()) {
+            if (personal != null && !isEmpty())
                 personal.setText();
-            }
-            if (!isEmpty()) {
-                setupBeam();
-            }
+            if (!isEmpty()) setupBeam();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.setText(): " + e.getMessage());
             if (!(e instanceof IllegalStateException))
@@ -425,7 +422,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * Get the anime or manga genre translations
      */
     public ArrayList<String> getGenresString(ArrayList<Integer> genresInt) {
-        ArrayList<String> genres = new ArrayList<String>();
+        ArrayList<String> genres = new ArrayList<>();
         for (Integer genreInt : genresInt) {
             genres.add(getStringFromResourceArray(R.array.genresArray, R.string.unknown, genreInt));
         }
@@ -473,7 +470,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 } else {
                     data.putInt("recordID", recordID);
                 }
-                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, this, data, this, this).execute();
+                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, this, data, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         } else {
             toggleLoadingIndicator(false);
@@ -504,7 +501,6 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         setText();
     }
 
-
     public void onMangaDialogDismissed(int value, int value2) {
         if (value != mangaRecord.getChaptersRead()) {
             if (value == mangaRecord.getChapters() && mangaRecord.getChapters() != 0) {
@@ -530,11 +526,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     }
 
     public void onRemoveConfirmed() {
-        if (type.equals(ListType.ANIME)) {
+        if (type.equals(ListType.ANIME))
             animeRecord.setDeleteFlag(true);
-        } else {
+        else
             mangaRecord.setDeleteFlag(true);
-        }
         finish();
     }
 
@@ -604,17 +599,15 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
         try {
             if (type.equals(ListType.ANIME)) {
-                if (animeRecord.isDirty() && !animeRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(animeRecord);
-                } else if (animeRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(animeRecord);
-                }
+                if (animeRecord.isDirty() && !animeRecord.getDeleteFlag())
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                else if (animeRecord.getDeleteFlag())
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
             } else if (type.equals(ListType.MANGA)) {
-                if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).execute(mangaRecord);
-                } else if (mangaRecord.getDeleteFlag()) {
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).execute(mangaRecord);
-                }
+                if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag())
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                else if (mangaRecord.getDeleteFlag())
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onPause(): " + e.getMessage());
@@ -676,11 +669,10 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         try {
-            if (type == ListType.ANIME) {
+            if (type == ListType.ANIME)
                 animeRecord = (Anime) result;
-            } else {
+            else
                 mangaRecord = (Manga) result;
-            }
             setRefreshing(false);
             toggleLoadingIndicator(false);
 
@@ -702,7 +694,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
 
     @Override
     public void onAPIAuthenticationError(ListType type, TaskJob job) {
-        showDialog("updatePassword", new UpdatePasswordDialogFragment());
+        startActivity(new Intent(this, Home.class).putExtra("updatePassword", true));
+        finish();
     }
 
     /*
@@ -731,18 +724,17 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
      * handle the loading indicator
      */
     private void toggleLoadingIndicator(boolean show) {
-        if (viewFlipper != null) {
+        if (viewFlipper != null)
             viewFlipper.setDisplayedChild(show ? 1 : 0);
-        }
+
     }
 
     /*
      * handle the offline card
      */
     private void toggleNoNetworkCard(boolean show) {
-        if (viewFlipper != null) {
+        if (viewFlipper != null)
             viewFlipper.setDisplayedChild(show ? 2 : 0);
-        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.profile;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -28,26 +29,30 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
-    ArrayList<User> listarray = new ArrayList<User>();
-    FriendsGridviewAdapter<User> listadapter;
     GridView Gridview;
-    public SwipeRefreshLayout swipeRefresh;
-    ProgressBar progressBar;
-    Card networkCard;
-    boolean forcesync = false;
     private ProfileActivity activity;
+    FriendsGridviewAdapter<User> listadapter;
+    ArrayList<User> listarray = new ArrayList<>();
+
+    @InjectView(R.id.network_Card) Card networkCard;
+    @InjectView(R.id.progressBar) ProgressBar progressBar;
+    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+
+    boolean forcesync = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.friends, container, false);
         Theme.setBackground(activity, view, Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
+        ButterKnife.inject(this, view);
 
         Gridview = (GridView) view.findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
-        listadapter = new FriendsGridviewAdapter<User>(activity, listarray);
+        listadapter = new FriendsGridviewAdapter<>(activity, listarray);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -86,11 +91,10 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
     public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
         if (result != null) {
             listarray = result;
-            if (result.size() == 0 && !MALApi.isNetworkAvailable(activity)) {
+            if (result.size() == 0 && !MALApi.isNetworkAvailable(activity))
                 toggle(2);
-            } else {
+            else
                 refresh(); // show toast only if sync was forced
-            }
         } else {
             Theme.Snackbar(activity, R.string.toast_error_Friends);
         }
@@ -99,7 +103,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this).execute(activity.record.getName());
+        new FriendsNetworkTask(activity, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getName());
     }
 
     @Override
@@ -111,9 +115,9 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
-        if (listarray.get(position).getProfile().getDetails().getAccessRank() == null) {
+        if (listarray.get(position).getProfile().getDetails().getAccessRank() == null)
             profile.putExtra("username", listarray.get(position).getName());
-        } else
+        else
             profile.putExtra("user", listarray.get(position));
         startActivity(profile);
     }

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -19,21 +20,25 @@ import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class ProfileActivity extends ActionBarActivity implements UserNetworkTaskFinishedListener {
     Context context;
     public User record;
-    ProfileDetailsMAL detailsMAL;
-    ProfileDetailsAL detailsAL;
     ProfileFriends friends;
+    ProfileDetailsAL detailsAL;
+    ProfileDetailsMAL detailsMAL;
+
+    @InjectView(R.id.pager) ViewPager viewPager;
 
     boolean forcesync = false;
-    private ViewPager viewPager;
-    private ProfilePagerAdapter pageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Theme.setTheme(this, R.layout.activity_profile, true);
+        ButterKnife.inject(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -41,16 +46,13 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
         context = getApplicationContext();
 
         setTitle(R.string.title_activity_profile); //set title
-
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        pageAdapter = new ProfilePagerAdapter(getFragmentManager(), this);
-        viewPager.setAdapter(pageAdapter);
+        viewPager.setAdapter(new ProfilePagerAdapter(getFragmentManager(), this));
 
         if (getIntent().getExtras().containsKey("user")) {
             record = (User) getIntent().getExtras().get("user");
         } else {
             refreshing(true);
-            new UserNetworkTask(context, forcesync, this).execute(getIntent().getStringExtra("username"), getIntent().getStringExtra("username"));
+            new UserNetworkTask(context, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"), getIntent().getStringExtra("username"));
         }
 
         NfcHelper.disableBeam(this);
@@ -157,7 +159,7 @@ public class ProfileActivity extends ActionBarActivity implements UserNetworkTas
             username = record.getName();
         else
             username = getIntent().getStringExtra("username");
-        new UserNetworkTask(context, true, this).execute(username, username);
+        new UserNetworkTask(context, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
     }
 
     public void setDetails(ProfileDetailsMAL details) {

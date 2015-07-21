@@ -171,6 +171,14 @@ public class HtmlUtil {
         return null;
     }
 
+    /**
+     * Convert a user activity array into a HTML list.
+     *
+     * @param record The UserActivity object that contains the list which should be converted in a HTML list
+     * @param activity The profile activity
+     * @param page The page number
+     * @return String The HTML source
+     */
     public String convertList(User record, ProfileActivity activity, int page) {
         ArrayList<Activity> list = record.getActivity();
         String result = "";
