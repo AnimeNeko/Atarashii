@@ -20,7 +20,7 @@ public class User implements Serializable {
     @Getter @Setter private String name;
     @Getter @Setter private Profile profile;
     @Getter @Setter private Integer id;
-    @Getter @Setter private ArrayList<Activity> activity;
+    @Getter @Setter private ArrayList<History> activity;
 
     // Anilist
     @Getter @SerializedName("display_name") private String displayName;

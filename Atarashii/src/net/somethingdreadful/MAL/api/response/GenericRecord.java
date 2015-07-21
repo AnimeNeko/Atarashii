@@ -59,8 +59,10 @@ public class GenericRecord implements Serializable {
         // if not loaded from cursor the image might point to an thumbnail
         if (fromCursor || !AccountService.isMAL())
             return imageUrl;
-        else
+        else if (imageUrl != null)
             return imageUrl.replaceFirst("t.jpg$", ".jpg");
+        else
+            return "http://cdn.myanimelist.net/images/na_series.gif";
     }
 
     // Note: @Getter is not working on booleans

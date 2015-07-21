@@ -143,6 +143,7 @@
     <string name="action_viewListOnMAL">View list on MAL</string>
     <string name="not_specified">not specified</string>
     <string name="no_activity">No Activity</string>
+    <string name="no_history">No History</string>
     <string name="no_reviews">No Reviews</string>
     <string name="read_more">read more</string>
     <string name="show_less">show less</string>
@@ -210,6 +211,7 @@
     <string name="tab_name_details">Details</string>
     <string name="tab_name_friends">Friends</string>
     <string name="tab_name_following">Following</string>
+    <string name="tab_name_history">History</string>
 
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Synopsis</string>

@@ -10,6 +10,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
 import net.somethingdreadful.MAL.profile.ProfileFriends;
+import net.somethingdreadful.MAL.profile.ProfileHistory;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     ProfileActivity activity;
@@ -29,6 +30,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                     return new ProfileDetailsAL();
             case 1:
                 return new ProfileFriends();
+            case 2:
+                return new ProfileHistory();
             default:
                 return new ProfileDetailsMAL();
         }
@@ -36,7 +39,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return AccountService.isMAL() ? 3 : 2;
     }
 
     @Override
@@ -46,6 +49,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                 return activity.getString(R.string.tab_name_details);
             case 1:
                 return AccountService.isMAL() ? activity.getString(R.string.tab_name_friends) : activity.getString(R.string.tab_name_following);
+            case 2:
+                return activity.getString(R.string.tab_name_history);
             default:
                 return null;
         }

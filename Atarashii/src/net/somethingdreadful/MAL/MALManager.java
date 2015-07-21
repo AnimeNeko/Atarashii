@@ -14,7 +14,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
@@ -227,16 +227,16 @@ public class MALManager {
         return totalSuccess;
     }
 
-    public ArrayList<Activity> getActivityFromDB(String username) {
+    public ArrayList<History> getActivityFromDB(String username) {
         return dbMan.getActivity(username);
     }
 
-    public ArrayList<Activity> downloadAndStoreActivity(String username) {
-        ArrayList<Activity> result = alApi.getActivity(username);
-        if (result != null && result.size() > 0) {
+    public ArrayList<History> downloadAndStoreActivity(String username) {
+        ArrayList<History> result = AccountService.isMAL() ? malApi.getActivity(username) : alApi.getActivity(username);
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.downloadAndStoreActivity(): Downloaded " + Integer.toString(result != null ? result.size() : 0) + " records");
+        if (result != null && result.size() > 0)
             dbMan.saveActivity(result, username);
-        }
-        return result;
+        return getActivityFromDB(username);
     }
 
     /**

@@ -7,7 +7,7 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.UserProfile.Activity;
+import net.somethingdreadful.MAL.api.response.UserProfile.History;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
@@ -36,7 +36,7 @@ public interface ALInterface {
     Profile getProfile(@Path("username") String username);
 
     @GET("/user/{username}/activity")
-    ArrayList<Activity> getActivity(@Path("username") String username);
+    ArrayList<History> getActivity(@Path("username") String username);
 
     @GET("/user/{username}/animelist")
     AnimeList getAnimeList(@Path("username") String username);
