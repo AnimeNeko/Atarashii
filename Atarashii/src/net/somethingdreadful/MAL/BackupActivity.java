@@ -235,10 +235,14 @@ public class BackupActivity extends ActionBarActivity implements NetworkTaskCall
             bufferedReader.close();
             dialog.setMessage(getString(R.string.dialog_message_backup_converting));
             Backup backup = (new Gson()).fromJson(backupJson.toString(), Backup.class);
-            DatabaseManager databaseManager = new DatabaseManager(this);
-            databaseManager.restoreLists(backup.getAnimeList(), backup.getMangaList());
+            if (backup.getAccountType().equals(AccountService.accountType)) {
+                DatabaseManager databaseManager = new DatabaseManager(this);
+                databaseManager.restoreLists(backup.getAnimeList(), backup.getMangaList());
+                Theme.Snackbar(this, R.string.toast_info_backup_revert);
+            } else {
+                Theme.Snackbar(this, R.string.toast_info_backup_list);
+            }
             dialog.dismiss();
-            Theme.Snackbar(this, R.string.toast_info_backup_revert);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.restoreBackup(): " + e.getMessage());
             Crashlytics.logException(e);

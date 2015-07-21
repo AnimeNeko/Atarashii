@@ -38,21 +38,24 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     private ProfileActivity activity;
 
     @InjectView(R.id.webview) WebView webview;
-    @InjectView(R.id.name_card) Card imagecard;
-    @InjectView(R.id.activity) Card activitycard;
-    @InjectView(R.id.progressBar) public SwipeRefreshLayout swipeRefresh;
-    @InjectView(R.id.swiperefresh) ProgressBar progressBar;
+    Card imagecard;
+    Card activitycard;
+    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @InjectView(R.id.progressBar) ProgressBar progressBar;
     @InjectView(R.id.network_Card) Card networkCard;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_al, container, false);
-        ButterKnife.inject(this, view);
 
+        imagecard = (Card) view.findViewById(R.id.name_card);
         imagecard.setContent(R.layout.card_image);
+        activitycard = (Card) view.findViewById(R.id.activity);
         activitycard.setContent(R.layout.card_profile_webview);
         activitycard.setPadding(0);
+
+        ButterKnife.inject(this, view);
 
         htmlUtil = new HtmlUtil(activity);
         webview.getSettings().setJavaScriptEnabled(true);

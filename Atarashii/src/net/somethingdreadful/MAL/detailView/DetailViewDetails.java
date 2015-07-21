@@ -21,7 +21,7 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.GenericRecord;
+import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 
 import java.io.Serializable;
 
