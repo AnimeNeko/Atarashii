@@ -59,12 +59,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     ListViewAdapter<GenericRecord> ga;
     ArrayList<GenericRecord> gl = new ArrayList<>();
 
-    @InjectView(R.id.gridview)
-    GridView Gridview;
-    @InjectView(R.id.viewFlipper)
-    ViewFlipper viewflipper;
-    @InjectView(R.id.swiperefresh)
-    SwipeRefreshLayout swipeRefresh;
+    @InjectView(R.id.gridview) GridView Gridview;
+    @InjectView(R.id.viewFlipper) ViewFlipper viewflipper;
+    @InjectView(R.id.swiperefresh) SwipeRefreshLayout swipeRefresh;
 
     RecordStatusUpdatedReceiver recordStatusReceiver;
 

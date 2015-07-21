@@ -29,7 +29,7 @@ import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener, MessageDialogFragment.onCloseClickListener {
+public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener {
     Menu menu;
     MenuItem search;
     public ForumsMain main;
@@ -121,7 +121,7 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
      * @param task    The task to peform
      */
     public void getComments(int id, String message, ForumJob task) {
-        MessageDialogFragment info = new MessageDialogFragment().setListeners(this, this);
+        MessageDialogFragment info = new MessageDialogFragment().setListeners(this);
         Bundle args = new Bundle();
         args.putInt("id", id);
         args.putString("message", message);

@@ -11,12 +11,14 @@
     <string name="title_activity_friends">My friends</string>
     <string name="title_activity_logout">Logout</string>
     <string name="title_activity_forum">Forum</string>
+    <string name="title_activity_backup">Backup</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
     <string name="menu_inverse">Inverse List</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_sync">Full Sync</string>
+    <string name="menu_backup">Backup</string>
     <string name="menu_sortType">Sort</string>
 
     <!-- All (Toast) Strings -->
@@ -43,8 +45,13 @@
     <string name="toast_info_comment_added">It could take 5 minutes until it is visible</string>
     <string name="toast_info_disabled">This feature is currently disabled :(</string>
     <string name="toast_info_disabled_youtube">Comments with Youtube videos aren\'t supported :(</string>
+    <string name="toast_info_backup_saved">The backup has been created!</string>
+    <string name="toast_info_backup_revert">The changes have been reverted!</string>
+    <string name="toast_info_backup_remove">The backup has been removed!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_userername">Username mismatch</string>
+    <string name="dialog_title_restore">Restore lists?</string>
     <string name="dialog_title_view">View</string>
     <string name="dialog_title_tags">My tags</string>
     <string name="dialog_title_storage_value">Storage value</string>
@@ -73,6 +80,7 @@
     <string name="dialog_hint_comment">Enter you comment</string>
     <string name="dialog_hint_fansub">Enter you fansubgroup</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
+    <string name="dialog_message_restore">This could remove some records in your list!</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_id_search">Please press on the Anime or Manga button to search. Remember that Anime and Manga IDs aren\'t the same!</string>
     <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
@@ -85,6 +93,7 @@
     <string name="dialog_message_last_post">Last post by</string>
     <string name="dialog_message_forum_child">Do you want to view the $child1; or $child2; category?</string>
     <string name="dialog_message_on">on </string>
+    <string name="dialog_message_username">It is possible that the chosen backup is not your backup!</string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_update">Update</string>
     <string name="dialog_label_anime">Anime</string>
@@ -96,6 +105,10 @@
     <string name="dialog_label_remove">Remove</string>
     <string name="dialog_label_confirm">Confirm</string>
     <string name="dialog_label_send">Send</string>
+    <string name="dialog_message_backup_reading">Reading records</string>
+    <string name="dialog_message_backup_requesting">Requesting records</string>
+    <string name="dialog_message_backup_converting">Converting records</string>
+    <string name="dialog_message_backup_saving">Saving backup</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -138,6 +151,9 @@
     <!-- FriendsActivity Strings -->
     <string name="layout_card_friends_since">Friends since</string>
     <string name="unknown">unknown</string>
+
+    <!-- BackupActivity Strings -->
+    <string name="creation_date">Creation date</string>
 
     <!-- ForumActivity Strings -->
     <string name="action_add">Add a comment or topic</string>
@@ -359,6 +375,7 @@
     <string name="preference_summary_profileTextColors">Force the profile page to use black text colour.</string>
     <string name="preference_summary_profileAnimeHide">Hide the anime details on all profiles.</string>
     <string name="preference_summary_profileMangaHide">Hide the manga details on all profiles.</string>
+    <string name="preference_summary_backup">Backup the animelist and mangalist.</string>
     <string name="preference_android_synchronisation">Anime/Manga records</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
 

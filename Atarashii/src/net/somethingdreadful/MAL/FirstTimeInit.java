@@ -29,7 +29,6 @@ import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.http.HEAD;
 
 public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
     String MalUser;

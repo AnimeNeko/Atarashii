@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -43,7 +42,7 @@ import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.User;
-import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
+import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -53,7 +52,7 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
+public class Home extends ActionBarActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
     IGF af;
     IGF mf;
     Menu menu;
@@ -308,13 +307,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         menu.findItem(R.id.action_search).setVisible(networkAvailable);
     }
 
-    @SuppressLint("NewApi")
-    public void onLogoutConfirmed() {
-        AccountService.clearData(true);
-        startActivity(new Intent(this, Home.class));
-        finish();
-    }
-
     private void syncNotify() {
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -338,9 +330,14 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     private void showLogoutDialog() {
-        FragmentManager fm = getFragmentManager();
-        LogoutConfirmationDialogFragment lcdf = new LogoutConfirmationDialogFragment();
-        lcdf.show(fm, "fragment_LogoutConfirmationDialog");
+        ChooseDialogFragment lcdf = new ChooseDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", getString(R.string.dialog_title_restore));
+        bundle.putString("message", getString(R.string.dialog_message_logout));
+        bundle.putString("positive", getString(R.string.dialog_label_logout));
+        lcdf.setArguments(bundle);
+        lcdf.setCallback(this);
+        lcdf.show(getFragmentManager(), "fragment_LogoutConfirmationDialog");
     }
 
     public void checkNetworkAndDisplayCrouton() {
@@ -478,6 +475,13 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onPageScrollStateChanged(int state) {}
+
+    @Override
+    public void onPositiveButtonClicked() {
+        AccountService.clearData(true);
+        startActivity(new Intent(this, Home.class));
+        finish();
+    }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 
