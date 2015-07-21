@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -75,7 +75,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
 
         try {
             viewHolder.username.setText(fileName.substring(fileName.indexOf('_') + 1).replace(".json", ""));
-            viewHolder.last_online.setText(MALDateTools.formatDate(Long.parseLong(fileName.substring(6, fileName.indexOf('_')))));
+            viewHolder.last_online.setText(DateTools.parseDate(Long.parseLong(fileName.substring(6, fileName.indexOf('_'))), true));
             if (!username.equals(viewHolder.username.getText()))
                 viewHolder.username.setTextColor(context.getResources().getColor(R.color.card_red));
             else

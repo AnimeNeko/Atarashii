@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.response.Forum;
@@ -79,8 +79,7 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
                                     + "\n"
                                     + context.getString(R.string.dialog_message_last_post)
                                     + " " + record.getReply().getUsername()
-                                    + " " + context.getString(R.string.dialog_message_on)
-                                    + " " + MALDateTools.formatDateString(record.getReply().getTime(), context, true));
+                                    + ", " + DateTools.parseDate(record.getReply().getTime(), true));
                         info.setArguments(args);
                         info.show(fm, "fragment_forum");
 

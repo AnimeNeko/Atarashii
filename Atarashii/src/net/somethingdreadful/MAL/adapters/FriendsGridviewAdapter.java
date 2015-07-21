@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.Theme;
@@ -71,7 +71,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
             String last_online = record.getProfile().getDetails().getLastOnline();
             if (last_online != null) {
-                last_online = MALDateTools.formatDateString(last_online, context, true);
+                last_online = DateTools.parseDate(last_online, true);
                 viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
             }
             Picasso.with(context).load(record.getProfile().getAvatarUrl())

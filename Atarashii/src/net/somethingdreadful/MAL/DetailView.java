@@ -125,7 +125,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     }
 
     public String getDate(String string) {
-        return (isEmpty(string) ? getString(R.string.unknown) : MALDateTools.formatDateString(string, this, false));
+        return (isEmpty(string) ? getString(R.string.unknown) : DateTools.parseDate(string, false));
     }
 
     /*

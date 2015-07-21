@@ -23,11 +23,13 @@ public class Theme extends Application {
     public static boolean darkTheme;
     Locale locale;
     Configuration config;
+    static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        context = getApplicationContext();
         PrefManager.create(getApplicationContext());
         AccountService.create(getApplicationContext());
 

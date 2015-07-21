@@ -2,7 +2,7 @@ package net.somethingdreadful.MAL.forum;
 
 import android.content.Context;
 
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
@@ -59,7 +59,7 @@ public class HtmlUtil {
             postreal = postreal.replace("Title", post.getUsername());
             postreal = postreal.replace("itemID", Integer.toString(post.getId()));
             postreal = postreal.replace("position", Integer.toString(i));
-            postreal = postreal.replace("Subhead", MALDateTools.formatDateString(post.getTime(), context, true));
+            postreal = postreal.replace("Subhead", DateTools.parseDate(post.getTime(), true));
             postreal = postreal.replace("<!-- place post content here -->", comment);
 
             result = result + postreal;
@@ -215,7 +215,7 @@ public class HtmlUtil {
                 postreal = postreal.replace("Title", title);
                 postreal = postreal.replace("itemID", Integer.toString(post.getId()));
                 postreal = postreal.replace("position", Integer.toString(i));
-                postreal = postreal.replace("Subhead", MALDateTools.formatDateString(post.getCreatedAt(), activity, true));
+                postreal = postreal.replace("Subhead", DateTools.parseDate(post.getCreatedAt(), true));
                 postreal = postreal.replace("<!-- place post content here -->", comment);
 
                 result = result + postreal;
