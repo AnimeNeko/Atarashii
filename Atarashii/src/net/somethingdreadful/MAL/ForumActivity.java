@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +29,7 @@ import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumActivity extends ActionBarActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener {
+public class ForumActivity extends AppCompatActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener {
     Menu menu;
     MenuItem search;
     public ForumsMain main;
@@ -47,9 +47,9 @@ public class ForumActivity extends ActionBarActivity implements MessageDialogFra
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Theme.setTheme(this, R.layout.activity_forum, false);
+        Theme.setActionBar(this);
         ButterKnife.inject(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         handleIntent(getIntent());
 
         manager = getFragmentManager();

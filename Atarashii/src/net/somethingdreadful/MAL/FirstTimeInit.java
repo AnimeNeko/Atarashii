@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +30,7 @@ import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
+public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckFinishedListener, OnClickListener {
     String MalUser;
     String MalPass;
     Context context;
@@ -49,6 +49,7 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
+        Theme.setActionBar(this);
         ButterKnife.inject(this);
 
         context = getApplicationContext();

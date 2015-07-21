@@ -94,7 +94,7 @@ public class Card extends RelativeLayout {
                 ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_dark_card));
                 listView.setDivider(colorDrawable);
                 listView.setChildDivider(colorDrawable);
-                listView.setDividerHeight(convert(1));
+                listView.setDividerHeight(Theme.convert(1));
             }
         }
     }
@@ -142,7 +142,7 @@ public class Card extends RelativeLayout {
      */
     public void setAllPadding(int left, int top, int right, int bottom) {
         if (Content != null)
-            Content.setPadding(convert(left), convert(top), convert(right), convert(bottom));
+            Content.setPadding(Theme.convert(left), Theme.convert(top), Theme.convert(right), Theme.convert(bottom));
     }
 
     /**
@@ -168,7 +168,7 @@ public class Card extends RelativeLayout {
             Height = Height + (adapter.visable - 1);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height);
+                this.findViewById(R.id.ListView).getLayoutParams().height = Theme.convert(Height);
         }
     }
 
@@ -182,10 +182,10 @@ public class Card extends RelativeLayout {
      *               Note: Use 0 if you don't want any
      */
     public void setRightof(Card res, int amount, int screen) {
-        if (convert(screen) <= getScreenWidth()) {
-            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
+        if (Theme.convert(screen) <= getScreenWidth()) {
+            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), Theme.convert(minHeight));
             card.addRule(RelativeLayout.RIGHT_OF, res.getId());
-            card.setMargins(convert(4), 0, 0, 0);
+            card.setMargins(Theme.convert(4), 0, 0, 0);
             this.setLayoutParams(card);
         }
     }
@@ -200,10 +200,10 @@ public class Card extends RelativeLayout {
      *               Note: Use 0 if you don't want any
      */
     public void setBelowof(Card res, int amount, int screen) {
-        if (convert(screen) <= getScreenWidth()) {
+        if (Theme.convert(screen) <= getScreenWidth()) {
             RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), ViewGroup.LayoutParams.WRAP_CONTENT);
             card.addRule(RelativeLayout.BELOW, res.getId());
-            card.setMargins(0, convert(8), 0, 0);
+            card.setMargins(0, Theme.convert(8), 0, 0);
             this.setLayoutParams(card);
         }
     }
@@ -244,15 +244,15 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 32);
-        Card.getLayoutParams().width = convert(width + 32);
-        Card.getLayoutParams().height = convert(height + 92);
+        Header.getLayoutParams().width = Theme.convert(width + 32);
+        Card.getLayoutParams().width = Theme.convert(width + 32);
+        Card.getLayoutParams().height = Theme.convert(height + 92);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
 
-        Image.getLayoutParams().height = convert(height);
-        Image.getLayoutParams().width = convert(width);
+        Image.getLayoutParams().height = Theme.convert(height);
+        Image.getLayoutParams().width = Theme.convert(width);
 
         if (center)
             Header.setGravity(Gravity.CENTER);
@@ -279,35 +279,14 @@ public class Card extends RelativeLayout {
         if (amount == 0)
             amount = 1;
         int divider = amount - 1;
-        divider = convert((divider * 4) + 16);
+        divider = Theme.convert((divider * 4) + 16);
         int card = (getScreenWidth() - divider) / amount;
-        maxWidth = convert(maxWidth);
+        maxWidth = Theme.convert(maxWidth);
 
         if (card > maxWidth && maxWidth != 0)
             return maxWidth;
         else
             return card;
-    }
-
-    /**
-     * Get the display density.
-     *
-     * @return Float The display density
-     */
-    private Float getDensity() {
-        if (density == null)
-            density = (getResources().getDisplayMetrics().densityDpi / 160f);
-        return density;
-    }
-
-    /**
-     * Convert dp to pixels.
-     *
-     * @param number The number in dp to convert in pixels
-     * @return int The converted dp in pixels
-     */
-    private int convert(int number) {
-        return Math.round(getDensity() * number);
     }
 
     /**
@@ -319,7 +298,7 @@ public class Card extends RelativeLayout {
     private int getScreenWidth() {
         if (screenWidth == 0) {
             try {
-                screenWidth = convert(getResources().getConfiguration().screenWidthDp);
+                screenWidth = Theme.convert(getResources().getConfiguration().screenWidthDp);
             } catch (NoSuchFieldError e) {
                 screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
             }

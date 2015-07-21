@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
+import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
@@ -35,7 +35,7 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
     DetailView activity;
     public ArrayList<Reviews> record;
 
-    @InjectView(R.id.webview) WebView webview;
+    @InjectView(R.id.webview) ObservableWebView webview;
     @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
 
     public int id;
@@ -53,13 +53,12 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
         if (bundle != null) {
             page = bundle.getInt("page");
             apply((ArrayList<Reviews>) bundle.getSerializable("record"));
-        } else {
+        } else if (page == 0 && !activity.isEmpty()) {
             getRecords(1);
         }
 
         webview.getSettings().setJavaScriptEnabled(true);
         webview.addJavascriptInterface(new ReviewsInterface(this), "Posts");
-
         return view;
     }
 

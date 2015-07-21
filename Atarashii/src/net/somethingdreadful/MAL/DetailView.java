@@ -12,10 +12,9 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +27,8 @@ import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
@@ -51,7 +50,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends ActionBarActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -61,10 +60,9 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public DetailViewDetails details;
     public DetailViewPersonal personal;
     public DetailViewReviews reviews;
-    DetailViewPagerAdapter PageAdapter;
+    public DetailViewPagerAdapter PageAdapter;
     int recordID;
     private ActionBar actionBar;
-    private ViewPager viewPager;
     private ViewFlipper viewFlipper;
     private Menu menu;
     private Context context;
@@ -73,6 +71,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Theme.setTheme(this, R.layout.activity_detailview, true);
+        PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
 
         actionBar = getSupportActionBar();
         context = getApplicationContext();
@@ -80,12 +79,7 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
 
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        viewPager = (ViewPager) findViewById(R.id.pager);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        PageAdapter = new DetailViewPagerAdapter(getFragmentManager(), this);
-        viewPager.setAdapter(PageAdapter);
 
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
@@ -105,6 +99,8 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
                 details.setText();
             if (personal != null && !isEmpty())
                 personal.setText();
+            if (reviews != null && !isEmpty() && reviews.page == 0)
+                reviews.getRecords(1);
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.setText(): " + e.getMessage());
@@ -458,12 +454,12 @@ public class DetailView extends ActionBarActivity implements Serializable, Netwo
         boolean loaded = false;
         if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
             if (getRecordFromDB()) {
-                setText();
                 setRefreshing(false);
                 if (isDone()) {
                     loaded = true;
                     toggleLoadingIndicator(false);
                 }
+                setText();
             }
         }
         if (MALApi.isNetworkAvailable(this)) {

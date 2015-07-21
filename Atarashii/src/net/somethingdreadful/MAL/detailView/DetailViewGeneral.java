@@ -167,7 +167,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
             mediaType.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
             mediaStatus.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
         }
-        activity.hidePersonal(!activity.isAdded() || record.getSynopsis() == null);
+        activity.hidePersonal(!activity.isAdded());
 
         if (record.getSynopsis() == null) {
             if (!MALApi.isNetworkAvailable(activity))

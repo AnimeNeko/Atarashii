@@ -248,39 +248,43 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void refresh() {
-        if (activity.record == null) {
-            if (MALApi.isNetworkAvailable(context)) {
-                Theme.Snackbar(activity, R.string.toast_error_UserRecord);
+        try {
+            if (activity.record == null) {
+                if (MALApi.isNetworkAvailable(context)) {
+                    Theme.Snackbar(activity, R.string.toast_error_UserRecord);
+                } else {
+                    toggle(2);
+                }
             } else {
-                toggle(2);
+                card();
+                setText();
+                setcolor();
+
+                Picasso.with(context)
+                        .load(activity.record.getProfile()
+                                .getAvatarUrl())
+                        .into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                                ((ImageView) view.findViewById(R.id.Image)).setImageBitmap(bitmap);
+                                toggle(0);
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+                                toggle(0);
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                toggle(0);
+                            }
+                        });
+                toggle(0);
             }
-        } else {
-            card();
-            setText();
-            setcolor();
-
-            Picasso.with(context)
-                    .load(activity.record.getProfile()
-                            .getAvatarUrl())
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                            ((ImageView) view.findViewById(R.id.Image)).setImageBitmap(bitmap);
-                            toggle(0);
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            toggle(0);
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            toggle(0);
-                        }
-                    });
-            toggle(0);
+        }catch (IllegalStateException e) {
+            Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.refresh(): has been closed too fast");
         }
     }
 

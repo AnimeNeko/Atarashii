@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,7 +29,7 @@ import net.somethingdreadful.MAL.widgets.Widget1;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class RecordPickerDialog extends ActionBarActivity implements IGF.IGFCallbackListener, APIAuthenticationErrorListener, ViewPager.OnPageChangeListener {
+public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCallbackListener, APIAuthenticationErrorListener, ViewPager.OnPageChangeListener {
     IGF af;
     IGF mf;
     Menu menu;

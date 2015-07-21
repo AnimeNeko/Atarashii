@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
+import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
@@ -33,7 +33,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
     ForumActivity activity;
     public ForumMain record;
 
-    @InjectView(R.id.webview) WebView webview;
+    @InjectView(R.id.webview) ObservableWebView webview;
     @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
 
     public int id;

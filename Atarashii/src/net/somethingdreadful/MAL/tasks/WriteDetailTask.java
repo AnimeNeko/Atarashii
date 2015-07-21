@@ -52,7 +52,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
             }
         } catch (RetrofitError re) {
             if (re.getResponse() != null) {
-                Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                Crashlytics.log(Log.ERROR, "MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
                 if (re.getResponse().getStatus() == 401) {
                     if (authErrorCallback != null)
                         authErrorCallback.onAPIAuthenticationError(type, job);
@@ -60,7 +60,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
             }
             error = true;
         } catch (Exception e) {
-            Log.e("MALX", "error on response WriteDetailTask: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "MALX", "error on response WriteDetailTask: " + e.getMessage());
             Crashlytics.logException(e);
             error = true;
         }

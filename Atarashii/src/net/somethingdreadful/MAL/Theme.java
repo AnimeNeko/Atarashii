@@ -5,14 +5,20 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.crashlytics.android.Crashlytics;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 
 import java.util.Locale;
 
@@ -21,6 +27,7 @@ import io.fabric.sdk.android.Fabric;
 public class Theme extends Application {
 
     public static boolean darkTheme;
+    private static float density;
     Locale locale;
     Configuration config;
     static Context context;
@@ -50,6 +57,66 @@ public class Theme extends Application {
     public void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
+    }
+
+    /**
+     * Init the actionbar right.
+     * This method should only be used for activities without tabs.
+     *
+     * @param activity The view activity
+     * @return Toolbar The actionbar
+     */
+    public static Toolbar setActionBar(AppCompatActivity activity) {
+        Toolbar mViewPager = (Toolbar) activity.findViewById(R.id.pager);
+        activity.setSupportActionBar(mViewPager);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        return mViewPager;
+    }
+
+    /**
+     * Init the actionbar right.
+     * This method should only be used for activities with tabs.
+     *
+     * @param activity The view activity
+     * @param adapter The page adapter
+     * @return FragmentPagerAdapter The page adapter
+     */
+    public static FragmentPagerAdapter setActionBar(AppCompatActivity activity, FragmentPagerAdapter adapter) {
+        ViewPager viewPager = (ViewPager) activity.findViewById(R.id.pager);
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.actionbar);
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) activity.findViewById(R.id.tabs);
+
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
+        if (adapter instanceof IGFPagerAdapter)
+            viewPager.setBackgroundColor(activity.getResources().getColor(R.color.bg_dark));
+
+        tabs.setViewPager(viewPager);
+        return adapter;
+    }
+
+    /**
+     * Get the display density.
+     *
+     * @return Float The display density
+     */
+    private static Float getDensity() {
+        if (density == 0)
+            density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
+        return density;
+    }
+
+    /**
+     * Convert dp to pixels.
+     *
+     * @param number The number in dp to convert in pixels
+     * @return int The converted dp in pixels
+     */
+    public static int convert(int number) {
+        return Math.round(getDensity() * number);
     }
 
     /**

@@ -1,76 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/about_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_marginTop="56dp"
+        android:layout_height="fill_parent">
 
-        <ImageView
-            android:id="@+id/app_icon"
+        <RelativeLayout
+            android:id="@+id/about_dialog"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:contentDescription="Application Icon"
-            android:padding="8dp"
-            android:src="@drawable/icon" />
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
-        <!-- Atarashii Card -->
-        <net.somethingdreadful.MAL.Card
-            android:id="@+id/atarashii_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/app_icon"
-            android:layout_marginTop="8dp"
-            custom:header_Color="@color/card_blue"
-            custom:header_Title="@string/app_name"
-            custom:header_Title_Color="@color/white" />
+            <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:contentDescription="Application Icon"
+                android:padding="8dp"
+                android:src="@drawable/icon" />
 
-        <!-- Contributors Card -->
-        <net.somethingdreadful.MAL.Card
-            android:id="@+id/contributors_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/atarashii_card"
-            android:layout_marginTop="8dp"
-            custom:header_Color="@color/card_blue"
-            custom:header_Title="@string/contributors_card_title"
-            custom:header_Title_Color="@color/white" />
+            <!-- Atarashii Card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/atarashii_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/app_icon"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_blue"
+                custom:header_Title="@string/app_name"
+                custom:header_Title_Color="@color/white" />
 
-        <!-- Community Card -->
-        <net.somethingdreadful.MAL.Card
-            android:id="@+id/community_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/contributors_card"
-            android:layout_marginTop="8dp"
-            custom:header_Color="@color/card_blue"
-            custom:header_Title="@string/community_card_title"
-            custom:header_Title_Color="@color/white" />
+            <!-- Contributors Card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/contributors_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/atarashii_card"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_blue"
+                custom:header_Title="@string/contributors_card_title"
+                custom:header_Title_Color="@color/white" />
 
-        <!-- Translations Card -->
-        <net.somethingdreadful.MAL.Card
-            android:id="@+id/translations_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/community_card"
-            android:layout_marginTop="8dp"
-            custom:header_Color="@color/card_blue"
-            custom:header_Title="@string/translations_card_title"
-            custom:header_Title_Color="@color/white" />
+            <!-- Community Card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/community_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/contributors_card"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_blue"
+                custom:header_Title="@string/community_card_title"
+                custom:header_Title_Color="@color/white" />
 
-        <!-- Acknowledgements Card -->
-        <net.somethingdreadful.MAL.Card
-            android:id="@+id/acknowledgements_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/translations_card"
-            android:layout_marginTop="8dp"
-            custom:header_Color="@color/card_blue"
-            custom:header_Title="@string/acknowledgements_card_title"
-            custom:header_Title_Color="@color/white" />
-    </RelativeLayout>
-</ScrollView>
+            <!-- Translations Card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/translations_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/community_card"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_blue"
+                custom:header_Title="@string/translations_card_title"
+                custom:header_Title_Color="@color/white" />
+
+            <!-- Acknowledgements Card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/acknowledgements_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/translations_card"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_blue"
+                custom:header_Title="@string/acknowledgements_card_title"
+                custom:header_Title_Color="@color/white" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <include layout="@layout/theme_viewpager_notabs" />
+</RelativeLayout>
