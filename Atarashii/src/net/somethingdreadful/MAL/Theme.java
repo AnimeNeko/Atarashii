@@ -5,17 +5,18 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.crashlytics.android.Crashlytics;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -84,7 +85,7 @@ public class Theme extends Application {
     public static FragmentPagerAdapter setActionBar(AppCompatActivity activity, FragmentPagerAdapter adapter) {
         ViewPager viewPager = (ViewPager) activity.findViewById(R.id.pager);
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.actionbar);
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) activity.findViewById(R.id.tabs);
+        TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
 
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,7 +95,7 @@ public class Theme extends Application {
         if (adapter instanceof IGFPagerAdapter)
             viewPager.setBackgroundColor(activity.getResources().getColor(R.color.bg_dark));
 
-        tabs.setViewPager(viewPager);
+        tabs.setupWithViewPager(viewPager);
         return adapter;
     }
 
@@ -178,7 +179,10 @@ public class Theme extends Application {
      * @param stringResID The string resource ID
      */
     public static void Snackbar(Activity activity, int stringResID) {
-        SnackbarManager.show(Snackbar.with(activity).text(activity.getString(stringResID)));
+        Snackbar snack = Snackbar.make(activity.getWindow().getDecorView(), stringResID, Snackbar.LENGTH_LONG);
+        TextView tv = (TextView) snack.getView().findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+        snack.show();
     }
 
     /**
@@ -252,7 +256,8 @@ public class Theme extends Application {
                         return 0;
                 }
             case 5:
-                return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
+                String scoreStr = score.replaceFirst(".", "").replaceFirst(",", "");
+                return TextUtils.isDigitsOnly(scoreStr) ? (int) (Double.parseDouble(score) * 10) : 0;
             default:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
