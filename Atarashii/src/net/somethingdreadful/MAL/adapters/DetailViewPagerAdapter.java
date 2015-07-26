@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
@@ -39,6 +40,8 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
             this.hidePersonal = hidePersonal;
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.fragment, new DetailViewReviews()).commit();
+            TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
+            tabs.removeTabAt(3);
 
             count = hidePersonal ? count - 1 : count;
             this.notifyDataSetChanged();
