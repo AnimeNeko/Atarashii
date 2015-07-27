@@ -17,6 +17,10 @@
             android:key="displayVolumes"
             android:summary="@string/preference_summary_displayVolumes"
             android:title="@string/preference_displayVolumes" />
+        <Preference
+            android:key="IGFcolumns"
+            android:summary="@string/preference_summary_list_columns"
+            android:title="@string/preference_list_columns" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="Profile settings"

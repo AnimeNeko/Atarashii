@@ -14,8 +14,9 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, NumberPickerDialogFragment.onUpdateClickListener {
     private Context context;
 
     @Override
@@ -23,8 +24,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.settings);
-        Preference preference = findPreference("backup");
-        preference.setOnPreferenceClickListener(this);
+        findPreference("backup").setOnPreferenceClickListener(this);
+        findPreference("IGFcolumns").setOnPreferenceClickListener(this);
 
         context = getActivity().getApplicationContext();
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
@@ -70,8 +71,31 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        Intent firstRunInit = new Intent(context, BackupActivity.class);
-        startActivity(firstRunInit);
+        switch (preference.getKey()) {
+            case "IGFcolumns":
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", R.string.preference_list_columns);
+                bundle.putString("title", getString(R.string.preference_list_columns));
+                bundle.putInt("current", PrefManager.getIGFColumns());
+                bundle.putInt("max", IGF.getMaxColumns());
+                bundle.putInt("min", 2);
+                NumberPickerDialogFragment numberPickerDialogFragment = new NumberPickerDialogFragment().setOnSendClickListener(this);
+                numberPickerDialogFragment.setArguments(bundle);
+                numberPickerDialogFragment.show(getActivity().getFragmentManager(), "numberPickerDialogFragment");
+                break;
+            case "backup":
+                Intent firstRunInit = new Intent(context, BackupActivity.class);
+                startActivity(firstRunInit);
+            break;
+        }
         return false;
+    }
+
+    @Override
+    public void onUpdated(int number, int id) {
+        PrefManager.setIGFColumns(number);
+        PrefManager.commitChanges();
+        startActivity(new Intent(context, Home.class));
+        System.exit(0);
     }
 }
