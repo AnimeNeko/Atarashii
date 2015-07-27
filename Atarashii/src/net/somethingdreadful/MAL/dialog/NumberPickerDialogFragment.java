@@ -27,6 +27,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
         int max = getValue("max");
+        int min = getValue("min");
         int current = getValue("current");
 
         numberInput = (EditText) view.findViewById(R.id.numberInput);
@@ -34,7 +35,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
 
         if (!inputScore) {
             numberPicker.setMaxValue(max != 0 ? max : 999);
-            numberPicker.setMinValue(0);
+            numberPicker.setMinValue(min != 0 ? min : 0);
             if (!AccountService.isMAL() && isRating()) {
                 String score = Theme.getDisplayScore(current);
                 numberPicker.setValue(score.equals("?") ? 0 : Integer.parseInt(score));

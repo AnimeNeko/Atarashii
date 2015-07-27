@@ -267,4 +267,12 @@ public class PrefManager {
     public static boolean getDarkTheme() {
         return prefs.getBoolean("darkTheme", false);
     }
+
+    public static int getIGFColumns() {
+        return prefs.getInt("IGFcolumns", 0);
+    }
+
+    public static void setIGFColumns(int columns){
+        prefEditor.putInt("IGFcolumns", columns);
+    }
 }

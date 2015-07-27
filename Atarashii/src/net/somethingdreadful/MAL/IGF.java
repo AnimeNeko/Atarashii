@@ -168,17 +168,26 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     @SuppressLint("InlinedApi")
     public void setColumns() {
+        int screenWidth = Theme.convert(context.getResources().getConfiguration().screenWidthDp);
         if (PrefManager.getTraditionalListEnabled()) {
             Gridview.setNumColumns(1); //remain in the listview mode
-        } else {
-            float density = (context.getResources().getDisplayMetrics().densityDpi / 160f);
-            int screenWidth = (int) (context.getResources().getConfiguration().screenWidthDp * density);
-            float minWidth = 225 * density;
+        } else if (PrefManager.getIGFColumns() == 0) {
+            float minWidth = 225 * (context.getResources().getDisplayMetrics().densityDpi / 160f);
             int columns = (int) Math.ceil(screenWidth / minWidth);
             int width = screenWidth / columns;
             height = (int) (width / 0.7);
             Gridview.setNumColumns(columns);
+            PrefManager.setIGFColumns(columns);
+            PrefManager.commitChanges();
+        } else {
+            height = (int) (screenWidth / PrefManager.getIGFColumns() / 0.7);
+            Gridview.setNumColumns(PrefManager.getIGFColumns());
         }
+    }
+
+    public static int getMaxColumns() {
+        int screenWidth = Theme.convert(Theme.context.getResources().getConfiguration().screenWidthDp);
+        return (int) Math.ceil(screenWidth / Theme.convert(225)) + 2;
     }
 
     /**
