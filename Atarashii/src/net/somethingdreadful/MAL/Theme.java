@@ -183,7 +183,8 @@ public class Theme extends Application {
                         return 0;
                 }
             case 5:
-                return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
+                String scoreStr = score.replaceFirst(".", "").replaceFirst(",", "");
+                return TextUtils.isDigitsOnly(scoreStr) ? (int) (Double.parseDouble(score) * 10) : 0;
             default:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
