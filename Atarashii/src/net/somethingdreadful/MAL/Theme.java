@@ -148,7 +148,7 @@ public class Theme extends Application {
                 else
                     return ":)";
             case 5:
-                Double score5 = Math.floor(score / 10);
+                float score5 = score / 10;
                 return score5 > 0.0 ? String.format("%.1f", score5) : "?";
             default:
                 return "?";
@@ -183,8 +183,8 @@ public class Theme extends Application {
                         return 0;
                 }
             case 5:
-                String scoreStr = score.replaceFirst(".", "").replaceFirst(",", "");
-                return TextUtils.isDigitsOnly(scoreStr) ? (int) (Double.parseDouble(score) * 10) : 0;
+                String scoreStr = score.replaceFirst("\\.", "").replaceFirst(",", "");
+                return TextUtils.isDigitsOnly(scoreStr) ? (int) (Double.parseDouble(score.replace(",", ".")) * 10) : 0;
             default:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
