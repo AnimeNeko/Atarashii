@@ -26,6 +26,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         addPreferencesFromResource(R.xml.settings);
         findPreference("backup").setOnPreferenceClickListener(this);
         findPreference("IGFcolumns").setOnPreferenceClickListener(this);
+        findPreference("reset").setOnPreferenceClickListener(this);
 
         context = getActivity().getApplicationContext();
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
@@ -86,7 +87,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             case "backup":
                 Intent firstRunInit = new Intent(context, BackupActivity.class);
                 startActivity(firstRunInit);
-            break;
+                break;
+            case "reset":
+                PrefManager.clear();
+                startActivity(new Intent(context, Home.class));
+                System.exit(0);
+                break;
         }
         return false;
     }
