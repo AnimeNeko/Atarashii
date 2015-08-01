@@ -121,6 +121,16 @@ public class Theme extends Application {
     }
 
     /**
+     * Convert dp to pixels.
+     *
+     * @param number The number in dp to convert in pixels
+     * @return float The converted dp in pixels
+     */
+    public static Float floatConvert(int number) {
+        return getDensity() * number;
+    }
+
+    /**
      * This will apply the right theme and background.
      *
      * @param activity The activity which should be themed

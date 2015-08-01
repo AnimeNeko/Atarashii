@@ -172,8 +172,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         if (PrefManager.getTraditionalListEnabled()) {
             Gridview.setNumColumns(1); //remain in the listview mode
         } else if (PrefManager.getIGFColumns() == 0) {
-            float minWidth = 225 * (context.getResources().getDisplayMetrics().densityDpi / 160f);
-            int columns = (int) Math.ceil(screenWidth / minWidth);
+            int columns = (int) Math.ceil(screenWidth / Theme.floatConvert(225));
             int width = screenWidth / columns;
             height = (int) (width / 0.7);
             Gridview.setNumColumns(columns);
