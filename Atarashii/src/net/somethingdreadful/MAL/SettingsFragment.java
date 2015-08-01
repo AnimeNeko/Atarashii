@@ -25,7 +25,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         addPreferencesFromResource(R.xml.settings);
         findPreference("backup").setOnPreferenceClickListener(this);
-        findPreference("IGFcolumns").setOnPreferenceClickListener(this);
+        findPreference("reset").setOnPreferenceClickListener(this);
+        findPreference("IGFcolumnsportrait").setOnPreferenceClickListener(this);
+        findPreference("IGFcolumnslandscape").setOnPreferenceClickListener(this);
 
         context = getActivity().getApplicationContext();
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
@@ -71,29 +73,46 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
+        Bundle bundle = new Bundle();
         switch (preference.getKey()) {
-            case "IGFcolumns":
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", R.string.preference_list_columns);
-                bundle.putString("title", getString(R.string.preference_list_columns));
-                bundle.putInt("current", PrefManager.getIGFColumns());
-                bundle.putInt("max", IGF.getMaxColumns());
+            case "IGFcolumnsportrait":
+                bundle.putInt("id", R.string.preference_list_columns_portrait);
+                bundle.putString("title", getString(R.string.preference_list_columns_portrait));
+                bundle.putInt("current", PrefManager.getIGFColumns(true));
+                bundle.putInt("max", IGF.getMaxColumns(true));
                 bundle.putInt("min", 2);
-                NumberPickerDialogFragment numberPickerDialogFragment = new NumberPickerDialogFragment().setOnSendClickListener(this);
-                numberPickerDialogFragment.setArguments(bundle);
-                numberPickerDialogFragment.show(getActivity().getFragmentManager(), "numberPickerDialogFragment");
+                makeNumberpicker(bundle);
+                break;
+            case "IGFcolumnslandscape":
+                bundle.putInt("id", R.string.preference_list_columns_landscape);
+                bundle.putString("title", getString(R.string.preference_list_columns_landscape));
+                bundle.putInt("current", PrefManager.getIGFColumns(false));
+                bundle.putInt("max", IGF.getMaxColumns(false));
+                bundle.putInt("min", 2);
+                makeNumberpicker(bundle);
                 break;
             case "backup":
                 Intent firstRunInit = new Intent(context, BackupActivity.class);
                 startActivity(firstRunInit);
-            break;
+                break;
+            case "reset":
+                PrefManager.clear();
+                startActivity(new Intent(context, Home.class));
+                System.exit(0);
+                break;
         }
         return false;
     }
 
+    public void makeNumberpicker(Bundle bundle){
+        NumberPickerDialogFragment numberPickerDialogFragment = new NumberPickerDialogFragment().setOnSendClickListener(this);
+        numberPickerDialogFragment.setArguments(bundle);
+        numberPickerDialogFragment.show(getActivity().getFragmentManager(), "numberPickerDialogFragment");
+    }
+
     @Override
     public void onUpdated(int number, int id) {
-        PrefManager.setIGFColumns(number);
+        PrefManager.setIGFColumns(number, id == R.string.preference_list_columns_portrait);
         PrefManager.commitChanges();
         startActivity(new Intent(context, Home.class));
         System.exit(0);

@@ -363,7 +363,9 @@
     <string name="preference_category_profile">Profile</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_Theme">Dark Theme</string>
-    <string name="preference_list_columns">List columns</string>
+    <string name="preference_list_columns_portrait">Portrait list columns</string>
+    <string name="preference_list_columns_landscape">Landscape list columns</string>
+    <string name="preference_Reset">Reset settings</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_customShareText">Custom Share Text</string>
     <string name="preference_displayVolumes">Use Volumes on Covers</string>
@@ -377,6 +379,7 @@
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync in the background.</string>
     <string name="preference_summary_theme">If checked, Atarashii will use a dark theme.</string>
+    <string name="preference_summary_Reset">Atarashii will reset all the changed preferences to default.</string>
     <string name="preference_summary_list_columns">Change here the amount of columns that Atarashii should be using.</string>
     <string name="preference_summary_Language">Change the default language into your desired one. Requires restart to take effect.</string>
     <string name="preference_summary_customShareText">Don\'t like the default share text? Create your own! Use $title; and $link; in place of the title and link to MAL, we\'ll do the rest.</string>

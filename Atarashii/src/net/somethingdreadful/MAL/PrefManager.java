@@ -268,11 +268,41 @@ public class PrefManager {
         return prefs.getBoolean("darkTheme", false);
     }
 
+    /**
+     * Get the amount of the IGF columns.
+     */
     public static int getIGFColumns() {
-        return prefs.getInt("IGFcolumns", 0);
+        return prefs.getInt(Theme.isPortrait() ? "IGFcolumnsportrait" : "IGFcolumnslandscape", 0);
     }
 
-    public static void setIGFColumns(int columns){
-        prefEditor.putInt("IGFcolumns", columns);
+    /**
+     * Get the amount of the IGF columns.
+     *
+     * @param portrait The screen orientation
+     */
+    public static int getIGFColumns(boolean portrait) {
+        int prefvalue = prefs.getInt(portrait ? "IGFcolumnsportrait" : "IGFcolumnslandscape", 0);
+        if (prefvalue == 0)
+            prefvalue = IGF.getColumns(portrait);
+        return prefvalue;
+    }
+
+    /**
+     * set the amount of the IGF columns.
+     *
+     * @param columns The amount of columns
+     */
+    public static void setIGFColumns(int columns) {
+        prefEditor.putInt(Theme.isPortrait() ? "IGFcolumnsportrait" : "IGFcolumnslandscape", columns);
+    }
+
+    /**
+     * Get the amount of the IGF columns.
+     *
+     * @param columns The amount of columns
+     * @param portrait The screen orientation
+     */
+    public static void setIGFColumns(int columns, boolean portrait) {
+        prefEditor.putInt(portrait ? "IGFcolumnsportrait" : "IGFcolumnslandscape", columns);
     }
 }

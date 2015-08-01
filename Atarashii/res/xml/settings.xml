@@ -18,9 +18,13 @@
             android:summary="@string/preference_summary_displayVolumes"
             android:title="@string/preference_displayVolumes" />
         <Preference
-            android:key="IGFcolumns"
+            android:key="IGFcolumnsportrait"
             android:summary="@string/preference_summary_list_columns"
-            android:title="@string/preference_list_columns" />
+            android:title="@string/preference_list_columns_portrait" />
+        <Preference
+            android:key="IGFcolumnslandscape"
+            android:summary="@string/preference_summary_list_columns"
+            android:title="@string/preference_list_columns_landscape" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="Profile settings"
@@ -83,5 +87,9 @@
             android:key="backup"
             android:summary="@string/preference_summary_backup"
             android:title="@string/title_activity_backup" />
+        <Preference
+            android:key="reset"
+            android:summary="@string/preference_summary_Reset"
+            android:title="@string/preference_Reset" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -172,8 +172,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         if (PrefManager.getTraditionalListEnabled()) {
             Gridview.setNumColumns(1); //remain in the listview mode
         } else if (PrefManager.getIGFColumns() == 0) {
-            float minWidth = 225 * (context.getResources().getDisplayMetrics().densityDpi / 160f);
-            int columns = (int) Math.ceil(screenWidth / minWidth);
+            int columns = (int) Math.ceil(screenWidth / Theme.floatConvert(225));
             int width = screenWidth / columns;
             height = (int) (width / 0.7);
             Gridview.setNumColumns(columns);
@@ -185,9 +184,34 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         }
     }
 
-    public static int getMaxColumns() {
-        int screenWidth = Theme.convert(Theme.context.getResources().getConfiguration().screenWidthDp);
-        return (int) Math.ceil(screenWidth / Theme.convert(225)) + 2;
+    /**
+     * Get the amount of columns.
+     *
+     * @param portrait The orientation of the screen.
+     * @return int The amount of columns
+     */
+    public static int getColumns(boolean portrait) {
+        int screen;
+        if (Theme.isPortrait() && portrait || !Theme.isPortrait() && !portrait)
+            screen = Theme.convert(Theme.context.getResources().getConfiguration().screenWidthDp);
+        else
+            screen = Theme.convert(Theme.context.getResources().getConfiguration().screenHeightDp);
+        return (int) Math.ceil(screen / Theme.floatConvert(225));
+    }
+
+    /**
+     * Get the max amount of columns before the design breaks.
+     *
+     * @param portrait The orientation of the screen.
+     * @return int The amount of max columns
+     */
+    public static int getMaxColumns(boolean portrait) {
+        int screen;
+        if (Theme.isPortrait() && portrait || !Theme.isPortrait() && !portrait)
+            screen = Theme.convert(Theme.context.getResources().getConfiguration().screenWidthDp);
+        else
+            screen = Theme.convert(Theme.context.getResources().getConfiguration().screenHeightDp);
+        return (int) Math.ceil(screen / Theme.convert(225)) + 2;
     }
 
     /**

@@ -55,6 +55,18 @@ public class Theme extends Application {
         setLanguage(); //Change language after orientation.
     }
 
+    /**
+     * Checks if the device is in portrait orientation.
+     *
+     * @return Boolean true or false
+     */
+    public static boolean isPortrait() {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    /**
+     * Changes the language to the preferred one.
+     */
     public void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
@@ -118,6 +130,16 @@ public class Theme extends Application {
      */
     public static int convert(int number) {
         return Math.round(getDensity() * number);
+    }
+
+    /**
+     * Convert dp to pixels.
+     *
+     * @param number The number in dp to convert in pixels
+     * @return float The converted dp in pixels
+     */
+    public static Float floatConvert(int number) {
+        return getDensity() * number;
     }
 
     /**
