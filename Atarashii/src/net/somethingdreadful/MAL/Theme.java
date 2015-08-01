@@ -55,6 +55,18 @@ public class Theme extends Application {
         setLanguage(); //Change language after orientation.
     }
 
+    /**
+     * Checks if the device is in portrait orientation.
+     *
+     * @return Boolean true or false
+     */
+    public static boolean isPortrait() {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    /**
+     * Changes the language to the preferred one.
+     */
     public void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());

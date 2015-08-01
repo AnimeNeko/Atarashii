@@ -363,7 +363,8 @@
     <string name="preference_category_profile">Profile</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_Theme">Dark Theme</string>
-    <string name="preference_list_columns">List columns</string>
+    <string name="preference_list_columns_portrait">Portrait list columns</string>
+    <string name="preference_list_columns_landscape">Landscape list columns</string>
     <string name="preference_Reset">Reset settings</string>
     <string name="preference_TraditionalList">Use Traditional List</string>
     <string name="preference_customShareText">Custom Share Text</string>
