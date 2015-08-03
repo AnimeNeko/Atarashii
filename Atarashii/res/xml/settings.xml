@@ -8,6 +8,13 @@
             android:key="defList"
             android:summary="@string/summary_DefaultList"
             android:title="@string/dialog_DefaultList" />
+        <ListPreference
+            android:dialogTitle="@string/dialog_DefaultaddList"
+            android:entries="@array/listTypeArray"
+            android:entryValues="@array/listTypeValuesArray"
+            android:key="addList"
+            android:summary="@string/preference_summary_AddList"
+            android:title="@string/dialog_DefaultaddList" />
         <CheckBoxPreference
             android:key="traditionalList"
             android:summary="@string/preference_summary_TraditionList"

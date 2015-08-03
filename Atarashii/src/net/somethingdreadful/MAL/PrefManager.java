@@ -253,6 +253,15 @@ public class PrefManager {
     }
 
     /**
+     * Returns the list where a record should be added.
+     *
+     * @return int the list type to display.
+     */
+    public static int getAddList() {
+        return Integer.parseInt(prefs.getString("addList", "1"));
+    }
+
+    /**
      * Commit all the changed made.
      */
     public static void commitChanges() {

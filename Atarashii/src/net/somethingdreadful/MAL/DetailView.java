@@ -318,10 +318,10 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         if (!isEmpty()) {
             if (type.equals(ListType.ANIME)) {
                 animeRecord.setCreateFlag(true);
-                animeRecord.setWatchedStatus(Anime.STATUS_WATCHING);
+                animeRecord.setWatchedStatus(PrefManager.getAddList());
             } else {
                 mangaRecord.setCreateFlag(true);
-                mangaRecord.setReadStatus(Manga.STATUS_READING);
+                mangaRecord.setReadStatus(PrefManager.getAddList());
             }
             setText();
         }

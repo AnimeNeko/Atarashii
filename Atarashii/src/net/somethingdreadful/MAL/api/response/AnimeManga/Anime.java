@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
 
@@ -150,6 +152,10 @@ public class Anime extends GenericRecord implements Serializable {
         }
         result.setLastUpdate(lastUpdateDate);
         return result;
+    }
+
+    public void setWatchedStatus(int id) {
+        setWatchedStatus(MALManager.listSortFromInt(id, MALApi.ListType.ANIME));
     }
 
     public Integer getClassificationInt() {
