@@ -356,7 +356,7 @@
 
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Default List</string>
-    <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
+    <string name="dialog_DefaultaddList">Default List to add</string>
     <string name="preference_category_list">List</string>
     <string name="preference_category_synchronisation">Sync</string>
     <string name="preference_category_sharing">Other settings</string>
@@ -376,7 +376,9 @@
     <string name="preference_profileTextColors">Disable text colours</string>
     <string name="preference_profileAnimeHide">Hide always anime details</string>
     <string name="preference_profileMangaHide">Hide always manga details</string>
+    <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
+    <string name="preference_summary_AddList">When you will add an anime/ a manga it will add the record to this list.</string>
     <string name="preference_summary_synchronisation">If checked, Atarashii will sync in the background.</string>
     <string name="preference_summary_theme">If checked, Atarashii will use a dark theme.</string>
     <string name="preference_summary_Reset">Atarashii will reset all the changed preferences to default.</string>
