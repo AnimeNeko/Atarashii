@@ -258,7 +258,7 @@ public class PrefManager {
      * @return int the list type to display.
      */
     public static int getAddList() {
-        return Integer.parseInt(prefs.getString("addList", "3"));
+        return Integer.parseInt(prefs.getString("addList", "1"));
     }
 
     /**
