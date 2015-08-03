@@ -215,9 +215,15 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setWatchedStatus(String status, boolean markDirty) {
-        this.watchedStatus = status;
-        if (markDirty) {
-            addDirtyField("watchedStatus");
+        if (!status.equals(getWatchedStatus())) {
+            if (STATUS_PLANTOWATCH.equals(getWatchedStatus()) && getWatchedEpisodes() == 0 && STATUS_WATCHING.equals(status))
+                setWatchedEpisodes(1);
+            this.watchedStatus = status;
+            if (GenericRecord.STATUS_COMPLETED.equals(status) && getEpisodes() != 0)
+                setWatchedEpisodes(getEpisodes());
+            if (markDirty) {
+                addDirtyField("watchedStatus");
+            }
         }
     }
 
@@ -226,9 +232,21 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setWatchedEpisodes(int episodes, boolean markDirty) {
-        this.watchedEpisodes = episodes;
-        if (markDirty) {
-            addDirtyField("watchedEpisodes");
+        if (episodes != getWatchedEpisodes()) {
+            if (getWatchedEpisodes() == 0 && episodes == 1)
+                setWatchedStatus(1);
+            this.watchedEpisodes = episodes;
+            if (episodes == getEpisodes() && getEpisodes() != 0) {
+                setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+                if (getRewatching()) {
+                    setRewatchCount(getRewatchCount() + 1);
+                    setRewatching(false);
+                }
+            } else if (episodes == 0)
+                setWatchedStatus(Anime.STATUS_PLANTOWATCH);
+            if (markDirty) {
+                addDirtyField("watchedEpisodes");
+            }
         }
     }
 

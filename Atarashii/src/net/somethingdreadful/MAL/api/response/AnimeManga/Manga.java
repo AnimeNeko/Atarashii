@@ -185,9 +185,19 @@ public class Manga extends GenericRecord implements Serializable {
     }
 
     public void setReadStatus(String value, boolean markDirty) {
-        this.readStatus = value;
-        if (markDirty) {
-            addDirtyField("readStatus");
+        if (!value.equals(getReadStatus())) {
+            if (STATUS_PLANTOREAD.equals(getReadStatus()) && getChaptersRead() == 0 && STATUS_READING.equals(value))
+                setChaptersRead(1);
+            this.readStatus = value;
+            if (GenericRecord.STATUS_COMPLETED.equals(value)) {
+                if (getChapters() != 0)
+                    setChaptersRead(getChapters());
+                if (getVolumes() != 0)
+                    setVolumesRead(getVolumes());
+            }
+            if (markDirty) {
+                addDirtyField("readStatus");
+            }
         }
     }
 
@@ -196,9 +206,22 @@ public class Manga extends GenericRecord implements Serializable {
     }
 
     public void setChaptersRead(int value, boolean markDirty) {
-        this.chaptersRead = value;
-        if (markDirty) {
-            addDirtyField("chaptersRead");
+        if (value != getChaptersRead()) {
+            if (getChaptersRead() == 0 && value == 1)
+                setChaptersRead(1);
+            this.chaptersRead = value;
+            if (value == getChapters() && getChapters() != 0) {
+                setReadStatus(GenericRecord.STATUS_COMPLETED);
+                if (getRereading()) {
+                    setRereadCount(getRereadCount() + 1);
+                    setRereading(false);
+                }
+            }
+            if (value == 0)
+                setReadStatus(Manga.STATUS_PLANTOREAD);
+            if (markDirty) {
+                addDirtyField("chaptersRead");
+            }
         }
     }
 
@@ -207,9 +230,15 @@ public class Manga extends GenericRecord implements Serializable {
     }
 
     public void setVolumesRead(int value, boolean markDirty) {
-        this.volumesRead = value;
-        if (markDirty) {
-            addDirtyField("volumesRead");
+        if (value != getVolumesRead()) {
+            this.volumesRead = value;
+            if (value == getVolumes() && getVolumes() != 0 && getChapters() != 0)
+                setChaptersRead(getChapters());
+            if (value == 0)
+                setReadStatus(Manga.STATUS_PLANTOREAD);
+            if (markDirty) {
+                addDirtyField("volumesRead");
+            }
         }
     }
 
