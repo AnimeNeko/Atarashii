@@ -27,7 +27,6 @@ import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
@@ -189,18 +188,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void onUpdated(int number, int id) {
         switch (id) {
             case R.id.progress1:
-                if (number != animeRecord.getWatchedEpisodes()) {
-                    if (number == animeRecord.getEpisodes()) {
-                        animeRecord.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-                        if (animeRecord.getRewatching()) {
-                            animeRecord.setRewatchCount(animeRecord.getRewatchCount() + 1);
-                            animeRecord.setRewatching(false);
-                        }
-                    }
-                    if (number == 0)
-                        animeRecord.setWatchedStatus(Anime.STATUS_PLANTOWATCH);
                     animeRecord.setWatchedEpisodes(number);
-                }
                 break;
             case R.id.scorePanel:
                 if (isAnime())
@@ -486,41 +474,15 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void onStatusDialogDismissed(String currentStatus) {
         if (type.equals(ListType.ANIME)) {
             animeRecord.setWatchedStatus(currentStatus);
-            if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
-                if (animeRecord.getEpisodes() != 0)
-                    animeRecord.setWatchedEpisodes(animeRecord.getEpisodes());
-            }
         } else {
             mangaRecord.setReadStatus(currentStatus);
-            if (GenericRecord.STATUS_COMPLETED.equals(currentStatus)) {
-                if (mangaRecord.getChapters() != 0)
-                    mangaRecord.setChaptersRead(mangaRecord.getChapters());
-                if (mangaRecord.getVolumes() != 0)
-                    mangaRecord.setVolumesRead(mangaRecord.getVolumes());
-            }
         }
         setText();
     }
 
     public void onMangaDialogDismissed(int value, int value2) {
-        if (value != mangaRecord.getChaptersRead()) {
-            if (value == mangaRecord.getChapters() && mangaRecord.getChapters() != 0) {
-                mangaRecord.setReadStatus(GenericRecord.STATUS_COMPLETED);
-                if (mangaRecord.getRereading()) {
-                    mangaRecord.setRereadCount(mangaRecord.getRereadCount() + 1);
-                    mangaRecord.setRereading(false);
-                }
-            }
-            if (value == 0)
-                mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
-            mangaRecord.setChaptersRead(value);
-        }
-
-        if (value2 != mangaRecord.getVolumesRead()) {
-            if (value2 == 0)
-                mangaRecord.setReadStatus(Manga.STATUS_PLANTOREAD);
-            mangaRecord.setVolumesRead(value2);
-        }
+        mangaRecord.setChaptersRead(value);
+        mangaRecord.setVolumesRead(value2);
 
         setText();
         setMenu();

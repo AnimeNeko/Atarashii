@@ -234,23 +234,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void setProgressPlusOne(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-            if (anime.getWatchedEpisodes() == anime.getEpisodes()) {
-                anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-                if (anime.getRewatching()) {
-                    anime.setRewatchCount(anime.getRewatchCount() + 1);
-                    anime.setRewatching(false);
-                }
-            }
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
-            if (manga.getProgress(useSecondaryAmounts) == manga.getTotal(useSecondaryAmounts)) {
-                manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
-                if (manga.getRereading()) {
-                    manga.setRereadCount(manga.getRereadCount() + 1);
-                    manga.setRereading(false);
-                }
-            }
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
@@ -273,6 +259,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
+            if (manga.getChapters() > 0)
+                manga.setChaptersRead(manga.getChapters());
+            if (manga.getVolumes() > 0)
+                manga.setVolumesRead(manga.getVolumes());
             gl.remove(manga);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
