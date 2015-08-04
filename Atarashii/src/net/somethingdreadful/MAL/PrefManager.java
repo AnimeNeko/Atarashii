@@ -262,6 +262,15 @@ public class PrefManager {
     }
 
     /**
+     * Returns if a record will update the date automatically.
+     *
+     * @return boolean True if it should update.
+     */
+    public static boolean getAutoDateSetter() {
+        return prefs.getBoolean("autoDate", true);
+    }
+
+    /**
      * Commit all the changed made.
      */
     public static void commitChanges() {

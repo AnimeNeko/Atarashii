@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
@@ -14,6 +15,7 @@ import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -215,12 +217,25 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setWatchedStatus(String status, boolean markDirty) {
+        // Check if the value has been changed
         if (!status.equals(getWatchedStatus())) {
-            if (STATUS_PLANTOWATCH.equals(getWatchedStatus()) && getWatchedEpisodes() == 0 && STATUS_WATCHING.equals(status))
+            // Check if the user changed the status to progressing
+            if (STATUS_PLANTOWATCH.equals(getWatchedStatus()) && getWatchedEpisodes() == 0 && STATUS_WATCHING.equals(status)) {
                 setWatchedEpisodes(1);
+                if (PrefManager.getAutoDateSetter() && (getWatchingStart() == null || getWatchingStart().equals(""))) {
+                    Calendar c = Calendar.getInstance();
+                    setWatchingStart(c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_YEAR));
+                }
+            }
             this.watchedStatus = status;
-            if (GenericRecord.STATUS_COMPLETED.equals(status) && getEpisodes() != 0)
+            // Check if the record is completed
+            if (GenericRecord.STATUS_COMPLETED.equals(status) && getEpisodes() != 0) {
                 setWatchedEpisodes(getEpisodes());
+                if (PrefManager.getAutoDateSetter() && (getWatchingEnd() == null || getWatchingEnd().equals(""))) {
+                    Calendar c = Calendar.getInstance();
+                    setWatchingEnd(c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_YEAR));
+                }
+            }
             if (markDirty) {
                 addDirtyField("watchedStatus");
             }
