@@ -37,6 +37,7 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
     public ForumsPosts posts;
     public String message = "";
     public ForumsTopics topics;
+    public boolean closeOnBack = false;
 
     @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
 
@@ -56,6 +57,15 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
         main = (ForumsMain) manager.findFragmentById(R.id.main);
         topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
         posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
+
+        if (getIntent() != null) {
+            int id = getIntent().getIntExtra("id", 0);
+            if (id != 0) {
+                topics.type = (MALApi.ListType) getIntent().getSerializableExtra("listType");
+                getDiscussion(id);
+                closeOnBack = true;
+            }
+        }
 
         if (bundle != null) {
             viewFlipper.setDisplayedChild(bundle.getInt("child"));
@@ -154,6 +164,8 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
                 viewFlipper.setDisplayedChild(0);
                 break;
             case DISCUSSION:
+                if (closeOnBack)
+                    finish();
                 setTask(ForumJob.SUBBOARD);
                 topics.task = ForumJob.SUBBOARD;
                 topics.topicsAdapter.clear();
@@ -193,10 +205,12 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
      */
     public void setTask(ForumJob task) {
         this.task = task;
-        menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && getTopicStatus() && viewFlipper.getDisplayedChild() != 3);
-        menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
-        menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
-        search.setVisible(task == ForumJob.BOARD);
+        if (menu != null) {
+            menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && getTopicStatus() && viewFlipper.getDisplayedChild() != 3);
+            menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
+            menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
+            search.setVisible(task == ForumJob.BOARD);
+        }
     }
 
     /**

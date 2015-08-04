@@ -142,7 +142,8 @@
     <string name="layout_card_anime_total">Total entries</string>
     <string name="layout_card_manga_reading">Reading</string>
     <string name="layout_card_manga_plan">Plan to read</string>
-    <string name="action_viewListOnMAL">View list on MAL</string>
+    <string name="action_viewListOnMAL">View list in browser</string>
+    <string name="action_viewtopic">View discussion</string>
     <string name="not_specified">not specified</string>
     <string name="no_activity">No Activity</string>
     <string name="no_history">No History</string>

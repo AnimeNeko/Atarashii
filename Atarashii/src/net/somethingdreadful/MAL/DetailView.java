@@ -531,6 +531,12 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             case R.id.action_addToList:
                 addToList();
                 break;
+            case R.id.action_viewTopic:
+                Intent forumActivity = new Intent(this, ForumActivity.class);
+                forumActivity.putExtra("id", recordID);
+                forumActivity.putExtra("listType", type);
+                startActivity(forumActivity);
+                break;
             case R.id.action_ViewMALPage:
                 Uri malurl;
                 if (AccountService.isMAL())
