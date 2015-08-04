@@ -11,10 +11,6 @@
         android:title="@string/action_viewMALPage"
         res-auto:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_Remove"
-        android:title="@string/action_Remove"
-        res-auto:showAsAction="never" />
-    <item
         android:id="@+id/action_copy"
         android:icon="@drawable/ic_content_copy"
         android:title="@string/action_Copy"
@@ -24,4 +20,12 @@
         android:icon="@drawable/ic_add"
         android:title="@string/action_AddToList"
         res-auto:showAsAction="always" />
+    <item
+        android:id="@+id/action_viewTopic"
+        android:title="@string/action_viewtopic"
+        res-auto:showAsAction="never" />
+    <item
+        android:id="@+id/action_Remove"
+        android:title="@string/action_Remove"
+        res-auto:showAsAction="never" />
 </menu>
