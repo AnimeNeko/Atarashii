@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.RecordStub;
 import net.somethingdreadful.MAL.sql.MALSqlHelper;
@@ -13,6 +14,7 @@ import net.somethingdreadful.MAL.sql.MALSqlHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -185,15 +187,27 @@ public class Manga extends GenericRecord implements Serializable {
     }
 
     public void setReadStatus(String value, boolean markDirty) {
+        // Check if the value has been changed
         if (!value.equals(getReadStatus())) {
-            if (STATUS_PLANTOREAD.equals(getReadStatus()) && getChaptersRead() == 0 && STATUS_READING.equals(value))
+            // Check if the user changed the status to progressing
+            if (STATUS_PLANTOREAD.equals(getReadStatus()) && getChaptersRead() == 0 && STATUS_READING.equals(value)) {
                 setChaptersRead(1);
+                if (PrefManager.getAutoDateSetter() && (getReadingStart() == null || getReadingStart().equals(""))) {
+                    Calendar c = Calendar.getInstance();
+                    setReadingStart(c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_YEAR));
+                }
+            }
             this.readStatus = value;
+            // Check if the record is completed
             if (GenericRecord.STATUS_COMPLETED.equals(value)) {
                 if (getChapters() != 0)
                     setChaptersRead(getChapters());
                 if (getVolumes() != 0)
                     setVolumesRead(getVolumes());
+                if (PrefManager.getAutoDateSetter() && (getReadingEnd() == null || getReadingEnd().equals(""))) {
+                    Calendar c = Calendar.getInstance();
+                    setReadingEnd(c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_YEAR));
+                }
             }
             if (markDirty) {
                 addDirtyField("readStatus");

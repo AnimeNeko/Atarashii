@@ -16,6 +16,11 @@
             android:summary="@string/preference_summary_AddList"
             android:title="@string/dialog_DefaultaddList" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="autoDate"
+            android:summary="@string/preference_summary_autoDate"
+            android:title="@string/preference_autoDate" />
+        <CheckBoxPreference
             android:key="traditionalList"
             android:summary="@string/preference_summary_TraditionList"
             android:title="@string/preference_TraditionalList" />
