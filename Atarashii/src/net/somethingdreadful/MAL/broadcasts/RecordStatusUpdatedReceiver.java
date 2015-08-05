@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL;
+package net.somethingdreadful.MAL.broadcasts;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.content.Intent;
 import net.somethingdreadful.MAL.api.MALApi;
 
 public class RecordStatusUpdatedReceiver extends BroadcastReceiver {
-    public static final String RECV_IDENT = "net.somethingdreadful.MAL.RecordStatusUpdatedReceiver";
+    public static final String RECV_IDENT = "net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver";
     private RecordStatusUpdatedListener callback;
 
     public RecordStatusUpdatedReceiver(RecordStatusUpdatedListener callback) {
@@ -22,5 +22,9 @@ public class RecordStatusUpdatedReceiver extends BroadcastReceiver {
                 callback.onRecordStatusUpdated(type);
             }
         }
+    }
+
+    public interface RecordStatusUpdatedListener {
+        public void onRecordStatusUpdated(MALApi.ListType type);
     }
 }

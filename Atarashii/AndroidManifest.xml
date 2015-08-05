@@ -101,15 +101,6 @@
             android:exported="false"
             android:label="@string/preference_android_synchronisation" />
 
-        <receiver
-            android:name=".UpdateReceiver"
-            android:exported="true"
-            android:permission="net.somethingdreadful.MAL.permissions.UPDATE_MEDIA">
-            <intent-filter>
-                <action android:name="net.somethingdreadful.MAL.action.UPDATE_MEDIA" />
-            </intent-filter>
-        </receiver>
-
         <service android:name=".account.AccountService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
@@ -117,16 +108,6 @@
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
-        </service>
-        <service
-            android:name=".account.SyncService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
         </service>
 
         <meta-data
@@ -139,6 +120,15 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget1_provider" />
+        </receiver>
+
+        <receiver
+            android:name=".broadcasts.AutoSync"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
         </receiver>
     </application>
 

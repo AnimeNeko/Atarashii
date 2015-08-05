@@ -323,4 +323,22 @@ public class PrefManager {
     public static void setIGFColumns(int columns, boolean portrait) {
         prefEditor.putInt(portrait ? "IGFcolumnsportrait" : "IGFcolumnslandscape", columns);
     }
+
+    /**
+     * Mark that the auto-sync completed refreshing the records.
+     *
+     * @param done Set on true when it was completed
+     */
+    public static void setAutosyncDone(boolean done) {
+        prefEditor.putBoolean("AutosyncStatus", done).commit();
+    }
+
+    /**
+     * Get the status of the last auto-sync.
+     *
+     * @return boolean The status in true or false
+     */
+    public static boolean getAutosyncDone() {
+        return prefs.getBoolean("AutosyncStatus", false);
+    }
 }

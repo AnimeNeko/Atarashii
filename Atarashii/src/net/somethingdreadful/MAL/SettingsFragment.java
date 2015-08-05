@@ -1,7 +1,8 @@
 package net.somethingdreadful.MAL;
 
 
-import android.content.ContentResolver;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.broadcasts.AutoSync;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, NumberPickerDialogFragment.onUpdateClickListener {
@@ -37,22 +38,20 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         try {
-            String Auth = AccountService.getAuth();
-            Bundle bundle = new Bundle();
-            int interval = PrefManager.getSyncTime() * 60;
+            AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, AutoSync.class);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+            int interval = PrefManager.getSyncTime() * 60 * 1000;
             switch (key) {
                 case "synchronisation_time":
-                    ContentResolver.removePeriodicSync(AccountService.getAccount(), Auth, bundle);
-                    ContentResolver.addPeriodicSync(AccountService.getAccount(), Auth, bundle, interval);
+                    alarmMgr.cancel(alarmIntent);
+                    alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, interval, interval, alarmIntent);
                     break;
                 case "synchronisation":
-                    if (PrefManager.getSyncEnabled()) {
-                        ContentResolver.setSyncAutomatically(AccountService.getAccount(), Auth, true);
-                        ContentResolver.addPeriodicSync(AccountService.getAccount(), Auth, bundle, interval);
-                    } else {
-                        ContentResolver.removePeriodicSync(AccountService.getAccount(), Auth, bundle);
-                        ContentResolver.setSyncAutomatically(AccountService.getAccount(), Auth, false);
-                    }
+                    if (PrefManager.getSyncEnabled())
+                        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, interval, interval, alarmIntent);
+                    else
+                        alarmMgr.cancel(alarmIntent);
                     break;
                 case "locale":
                     sharedPreferences.edit().commit();

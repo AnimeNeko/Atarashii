@@ -72,15 +72,15 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                             else {
                                 views.setViewVisibility(R.id.popUpButton, View.VISIBLE);
                                 Intent addIntent = new Intent(c, Widget1.class).setAction(Intent.ACTION_EDIT).putExtra("id", widgetRecord.getId());
-                                views.setOnClickPendingIntent(R.id.popUpButton, PendingIntent.getBroadcast(c, widgetRecord.getId(), addIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                                views.setOnClickPendingIntent(R.id.popUpButton, PendingIntent.getBroadcast(c, widgetRecord.getId() * 100 + 1, addIntent, PendingIntent.FLAG_UPDATE_CURRENT));
                             }
 
                             // Handle the cover clicks
                             Intent viewIntent = new Intent(c, Widget1.class).setAction(Intent.ACTION_VIEW).putExtra("id", widgetRecord.getId());
-                            views.setOnClickPendingIntent(R.id.coverImage, PendingIntent.getBroadcast(c, widgetRecord.getId() * finalI * 10, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                            views.setOnClickPendingIntent(R.id.coverImage, PendingIntent.getBroadcast(c, widgetRecord.getId() * 100 + 2, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
                             Intent changeIntent = new Intent(c, Widget1.class).setAction(Intent.ACTION_PROVIDER_CHANGED).putExtra("id", widgetRecord.getId());
-                            views.setOnClickPendingIntent(R.id.changeRecord, PendingIntent.getBroadcast(c, widgetRecord.getId() * finalI * 100, changeIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                            views.setOnClickPendingIntent(R.id.changeRecord, PendingIntent.getBroadcast(c, widgetRecord.getId() * 100 + 3, changeIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
                             views.setTextViewText(R.id.animeName, widgetRecord.getTitle());
                             views.setTextViewText(R.id.watchedCount, Integer.toString(watchValue));
