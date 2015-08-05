@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import net.somethingdreadful.MAL.Home;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -28,32 +29,36 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent notificationIntent = new Intent(context, Home.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
+        PrefManager.create(context);
         if (MALApi.isNetworkAvailable(context)) {
-            ArrayList<String> args = new ArrayList<String>();
-            args.add(AccountService.getUsername());
-            args.add("");
-            new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
-            new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
-        }
+            Intent notificationIntent = new Intent(context, Home.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            if (networkChange(intent) && !PrefManager.getAutosyncDone() || !networkChange(intent)) {
+                ArrayList<String> args = new ArrayList<String>();
+                args.add(AccountService.getUsername());
+                args.add("");
+                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
 
-        nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
-                .setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(context.getString(R.string.toast_info_SyncMessage));
-        Notification syncNotification;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                syncNotificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
-            syncNotification = syncNotificationBuilder.build();
-        } else {
-            syncNotification = syncNotificationBuilder.getNotification();
+                nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
+                        .setContentIntent(contentIntent)
+                        .setSmallIcon(R.drawable.notification_icon)
+                        .setContentTitle(context.getString(R.string.app_name))
+                        .setContentText(context.getString(R.string.toast_info_SyncMessage));
+                Notification syncNotification;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        syncNotificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
+                    syncNotification = syncNotificationBuilder.build();
+                } else {
+                    syncNotification = syncNotificationBuilder.getNotification();
+                }
+                nm.notify(R.id.notification_sync, syncNotification);
+            }
+        } else if (!networkChange(intent)) {
+            PrefManager.setAutosyncDone(false);
         }
-        nm.notify(R.id.notification_sync, syncNotification);
     }
 
     @Override
@@ -71,6 +76,10 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
         notifyChange(type);
     }
 
+    public boolean networkChange(Intent intent) {
+        return intent.getAction().equals(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+    }
+
     public void notifyChange(MALApi.ListType anime) {
         if (anime.equals(MALApi.ListType.ANIME))
             AutoSync.anime = true;
@@ -81,6 +90,7 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
             AutoSync.anime = false;
             AutoSync.manga = false;
             nm.cancel(R.id.notification_sync);
+            PrefManager.setAutosyncDone(true);
         }
     }
 }
