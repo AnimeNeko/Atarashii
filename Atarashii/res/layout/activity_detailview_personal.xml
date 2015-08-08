@@ -1,54 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swiperefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-        <com.github.ksoichiro.android.observablescrollview.ObservableScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/scrollView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
-            <RelativeLayout
+            <!-- Basic card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/basic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:layout_height="match_parent"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_basic"
+                custom:header_Title_Color="@color/white" />
 
-                <!-- Basic card -->
-                <net.somethingdreadful.MAL.Card
-                    android:id="@+id/basic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    custom:header_Color="@color/card_green"
-                    custom:header_Title="@string/card_name_basic"
-                    custom:header_Title_Color="@color/white" />
+            <!-- Other card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/other"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/basic"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_other"
+                custom:header_Title_Color="@color/white" />
 
-                <!-- Other card -->
-                <net.somethingdreadful.MAL.Card
-                    android:id="@+id/other"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/basic"
-                    android:layout_marginTop="8dp"
-                    custom:header_Color="@color/card_green"
-                    custom:header_Title="@string/card_name_other"
-                    custom:header_Title_Color="@color/white" />
-
-                <!-- Media rewatch card -->
-                <net.somethingdreadful.MAL.Card
-                    android:id="@+id/rewatch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/other"
-                    android:layout_marginTop="8dp"
-                    custom:header_Color="@color/card_green"
-                    custom:header_Title="@string/card_name_rewatch"
-                    custom:header_Title_Color="@color/white" />
-            </RelativeLayout>
-        </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-</FrameLayout>
+            <!-- Media rewatch card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/rewatch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/other"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_rewatch"
+                custom:header_Title_Color="@color/white" />
+        </RelativeLayout>
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

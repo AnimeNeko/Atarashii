@@ -2,9 +2,9 @@ package net.somethingdreadful.MAL.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.view.ViewGroup;
 
 import net.somethingdreadful.MAL.DetailView;
@@ -22,6 +22,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     int maxCount = 4;
     FragmentManager fm;
     public ViewGroup container;
+    private long fragmentId = 0;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
@@ -38,11 +39,9 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     public void hidePersonal(boolean hidePersonal) {
         if (hidePersonal != this.hidePersonal) {
             this.hidePersonal = hidePersonal;
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.fragment, new DetailViewReviews()).commit();
             TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
-            tabs.removeTabAt(3);
-
+            tabs.removeTabAt(2);
+            notifyChangeInPosition(2);
             count = hidePersonal ? count - 1 : count;
             this.notifyDataSetChanged();
         }
@@ -85,5 +84,24 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return fragmentId + position;
+    }
+
+    /**
+     * Notify that the position of a fragment has been changed.
+     * Create a new ID for each position to force recreation of the fragment
+     * @param number number of items which have been changed
+     */
+    public void notifyChangeInPosition(int number) {
+        fragmentId += getCount() + number;
     }
 }
