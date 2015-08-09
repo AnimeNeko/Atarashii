@@ -24,13 +24,12 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckFinishedListener, OnClickListener {
+public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
     String MalUser;
     String MalPass;
     Context context;

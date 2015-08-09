@@ -24,12 +24,11 @@ import net.somethingdreadful.MAL.forum.ForumsPosts;
 import net.somethingdreadful.MAL.forum.ForumsTopics;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumActivity extends AppCompatActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTaskFinishedListener {
+public class ForumActivity extends AppCompatActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTask.ForumNetworkTaskListener {
     Menu menu;
     MenuItem search;
     public ForumsMain main;

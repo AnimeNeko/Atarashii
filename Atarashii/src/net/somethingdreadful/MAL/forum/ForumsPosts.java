@@ -22,12 +22,11 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener {
+public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener {
     View view;
     HtmlUtil htmlUtil;
     ForumActivity activity;

@@ -17,12 +17,11 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.util.ArrayList;
 
-public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTaskCallbackListener {
+public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTask.NetworkTaskListener {
     static NotificationManager nm;
     static boolean anime = false;
     static boolean manga = false;

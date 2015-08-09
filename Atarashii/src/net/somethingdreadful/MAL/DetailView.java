@@ -40,7 +40,6 @@ import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
@@ -49,7 +48,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
 
     public ListType type;
     public Anime animeRecord;

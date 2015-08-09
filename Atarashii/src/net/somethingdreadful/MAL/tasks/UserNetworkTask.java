@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class UserNetworkTask extends AsyncTask<String, Void, User> {
     Context context;
     boolean forcesync;
-    UserNetworkTaskFinishedListener callback;
+    UserNetworkTaskListener callback;
 
-    public UserNetworkTask(Context context, boolean forcesync, UserNetworkTaskFinishedListener callback) {
+    public UserNetworkTask(Context context, boolean forcesync, UserNetworkTaskListener callback) {
         this.context = context;
         this.forcesync = forcesync;
         this.callback = callback;
@@ -66,5 +66,9 @@ public class UserNetworkTask extends AsyncTask<String, Void, User> {
     protected void onPostExecute(User result) {
         if (callback != null)
             callback.onUserNetworkTaskFinished(result);
+    }
+
+    public interface UserNetworkTaskListener {
+        void onUserNetworkTaskFinished(User result);
     }
 }

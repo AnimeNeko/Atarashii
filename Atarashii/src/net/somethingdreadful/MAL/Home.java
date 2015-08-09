@@ -48,12 +48,11 @@ import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
-import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener {
     IGF af;
     IGF mf;
     Menu menu;

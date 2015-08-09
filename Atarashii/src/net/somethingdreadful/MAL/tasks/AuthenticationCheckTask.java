@@ -11,10 +11,10 @@ import net.somethingdreadful.MAL.api.response.OAuth;
 import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 
 public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
-    private AuthenticationCheckFinishedListener callback;
+    private AuthenticationCheckListener callback;
     private String username;
 
-    public AuthenticationCheckTask(AuthenticationCheckFinishedListener callback) {
+    public AuthenticationCheckTask(AuthenticationCheckListener callback) {
         this.callback = callback;
     }
 
@@ -45,5 +45,9 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
         if (callback != null) {
             callback.onAuthenticationCheckFinished(result, username);
         }
+    }
+
+    public interface AuthenticationCheckListener {
+        void onAuthenticationCheckFinished(boolean result, String username);
     }
 }

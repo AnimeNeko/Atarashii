@@ -25,12 +25,11 @@ import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumsMain extends Fragment implements ForumNetworkTaskFinishedListener {
+public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener {
     ForumActivity activity;
     View view;
     ForumMain record;

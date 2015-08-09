@@ -28,14 +28,14 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     Activity activity;
     Context context;
     Bundle data;
-    NetworkTaskCallbackListener callback;
+    NetworkTaskListener callback;
     APIAuthenticationErrorListener authErrorCallback;
     Object taskResult;
     TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
             TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
 
-    public NetworkTask(TaskJob job, MALApi.ListType type, Activity activity, Bundle data, NetworkTaskCallbackListener callback, APIAuthenticationErrorListener authErrorCallback) {
+    public NetworkTask(TaskJob job, MALApi.ListType type, Activity activity, Bundle data, NetworkTaskListener callback, APIAuthenticationErrorListener authErrorCallback) {
         if (job == null || type == null || activity == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
@@ -46,7 +46,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.authErrorCallback = authErrorCallback;
     }
 
-    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskCallbackListener callback, APIAuthenticationErrorListener authErrorCallback) {
+    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback, APIAuthenticationErrorListener authErrorCallback) {
         if (job == null || type == null || activity == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
@@ -246,5 +246,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             else
                 callback.onNetworkTaskError(job, type, data, cancelled);
         }
+    }
+
+    public interface NetworkTaskListener {
+        public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
+        public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
     }
 }

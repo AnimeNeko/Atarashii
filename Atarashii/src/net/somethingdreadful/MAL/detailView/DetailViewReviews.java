@@ -21,7 +21,6 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailViewReviews extends Fragment implements NetworkTaskCallbackListener {
+public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
     View view;
     HtmlUtil htmlUtil;
     DetailView activity;

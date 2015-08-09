@@ -13,11 +13,11 @@ import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import java.util.ArrayList;
 
 public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>> {
-    FriendsNetworkTaskFinishedListener callback;
+    FriendsNetworkTaskListener callback;
     private Context context;
     private boolean forcesync;
 
-    public FriendsNetworkTask(Context context, boolean forcesync, FriendsNetworkTaskFinishedListener callback) {
+    public FriendsNetworkTask(Context context, boolean forcesync, FriendsNetworkTaskListener callback) {
         this.context = context;
         this.forcesync = forcesync;
         this.callback = callback;
@@ -58,5 +58,9 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
     protected void onPostExecute(ArrayList<User> result) {
         if (callback != null)
             callback.onFriendsNetworkTaskFinished(result);
+    }
+
+    public interface FriendsNetworkTaskListener {
+        void onFriendsNetworkTaskFinished(ArrayList<User> result);
     }
 }

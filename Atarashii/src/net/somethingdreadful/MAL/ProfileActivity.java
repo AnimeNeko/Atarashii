@@ -20,12 +20,11 @@ import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
 import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.profile.ProfileHistory;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
-import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ProfileActivity extends AppCompatActivity implements UserNetworkTaskFinishedListener {
+public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
     Context context;
     public User record;
     ProfileFriends friends;

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
     Context context;
-    ForumNetworkTaskFinishedListener callback;
+    ForumNetworkTaskListener callback;
     ForumJob type;
     int id;
 
-    public ForumNetworkTask(Context context, ForumNetworkTaskFinishedListener callback, ForumJob type, int id) {
+    public ForumNetworkTask(Context context, ForumNetworkTaskListener callback, ForumJob type, int id) {
         this.context = context;
         this.callback = callback;
         this.type = type;
@@ -66,5 +66,9 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
     protected void onPostExecute(ForumMain result) {
         if (callback != null)
             callback.onForumNetworkTaskFinished(result, type);
+    }
+
+    public interface ForumNetworkTaskListener {
+        public void onForumNetworkTaskFinished(ForumMain result, ForumJob task);
     }
 }

@@ -27,7 +27,6 @@ import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
 import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.io.BufferedReader;
@@ -42,7 +41,7 @@ import java.util.Collections;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class BackupActivity extends AppCompatActivity implements NetworkTaskCallbackListener, APIAuthenticationErrorListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener {
+public class BackupActivity extends AppCompatActivity implements NetworkTask.NetworkTaskListener, APIAuthenticationErrorListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener {
     ProgressDialog dialog;
     ArrayList<Anime> animeList;
     ArrayList<Manga> mangaList;
