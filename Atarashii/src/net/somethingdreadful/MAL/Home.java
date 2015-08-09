@@ -366,27 +366,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
         callbackCounter++;
 
-        if (type.equals(MALApi.ListType.ANIME))
-            callbackAnimeError = error;
-        else
-            callbackMangaError = error;
-
         if (callbackCounter >= 2) {
             callbackCounter = 0;
 
             if (job.equals(TaskJob.FORCESYNC)) {
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
-                if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Theme.Snackbar(this, R.string.toast_error_SyncFailed);
-                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync);
-            } else {
-                if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Theme.Snackbar(this, R.string.toast_error_Records);
-                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records);
-                // no else here, there is nothing to be shown when everything went well
             }
         }
     }

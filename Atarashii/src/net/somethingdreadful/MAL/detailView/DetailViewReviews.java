@@ -116,7 +116,7 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
                 toggle(false);
                 record = result;
             } else {
-                Theme.Snackbar(activity, R.string.toast_error_Records);
+                Theme.Snackbar(activity, R.string.toast_error_reviews);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailViewReviews.apply(): " + e.getMessage());
@@ -131,6 +131,5 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
 
     @Override
     public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
-        Theme.Snackbar(activity, R.string.toast_error_Records);
     }
 }

@@ -37,8 +37,8 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
                 ArrayList<String> args = new ArrayList<String>();
                 args.add(AccountService.getUsername());
                 args.add("");
-                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
-                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
 
                 nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)

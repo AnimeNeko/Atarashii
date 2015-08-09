@@ -150,7 +150,6 @@ public class BackupActivity extends AppCompatActivity implements NetworkTaskCall
     @Override
     public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
         dialog.dismiss();
-        Theme.Snackbar(this, R.string.toast_error_Records);
     }
 
     /**

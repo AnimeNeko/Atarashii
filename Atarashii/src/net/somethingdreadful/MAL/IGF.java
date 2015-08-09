@@ -341,7 +341,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
-            networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
+            networkTask = new NetworkTask(taskjob, listType, activity, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
             if (!username.equals("") && isList()) {
                 args.add(username);

@@ -349,7 +349,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         DatabaseManager dbMan = new DatabaseManager(this);
         if (type == null) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.getRecordFromDB(): ");
-            Theme.Snackbar(this, R.string.toast_error_Records);
+            if (isAdded())
+                Theme.Snackbar(this, R.string.toast_error_Records);
             return false;
         } else if (type.equals(ListType.ANIME)) {
             animeRecord = dbMan.getAnime(recordID, username);
@@ -655,10 +656,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (MALApi.isNetworkAvailable(context))
-            Theme.Snackbar(this, R.string.toast_error_DetailsError);
-        else
-            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
     }
 
     @Override

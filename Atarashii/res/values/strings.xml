@@ -23,6 +23,11 @@
 
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">No network connection detected.</string>
+    <string name="toast_error_api">API error detected, please notify the developers!</string>
+    <string name="toast_error_reviews">There are no reviews available.</string>
+    <string name="toast_error_maintenance">API unavailable, maintenance in progress!</string>
+    <string name="toast_error_no_anime">No anime results found.</string>
+    <string name="toast_error_no_manga">No manga results found.</string>
     <string name="toast_error_UserRecord">Userprofile is empty!</string>
     <string name="toast_error_Search_Anime">Error while searching for anime records.</string>
     <string name="toast_error_Search_Manga">Error while searching for manga records.</string>
