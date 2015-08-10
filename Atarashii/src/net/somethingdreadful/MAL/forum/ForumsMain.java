@@ -76,7 +76,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetwor
      */
     private void getRecords() {
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.BOARD, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new ForumNetworkTask(activity, this, activity, ForumJob.BOARD, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         else
             toggle(2);
     }

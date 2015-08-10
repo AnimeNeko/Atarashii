@@ -91,9 +91,9 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
         dialog.setMessage(getString(R.string.dialog_message_Verifying));
         dialog.show();
         if (MalPass != null)
-            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
+            new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
         else
-            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
+            new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
     }
 
     @Override

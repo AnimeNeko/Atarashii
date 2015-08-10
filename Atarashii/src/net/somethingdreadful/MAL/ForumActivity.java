@@ -307,9 +307,9 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
     @Override
     public void onSendClicked(String message, String subject, ForumJob task, int id) {
         if (task == ForumJob.ADDTOPIC && !message.equals("") && !subject.equals(""))
-            new ForumNetworkTask(this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subject, message);
+            new ForumNetworkTask(this, this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subject, message);
         else if (!message.equals(""))
-            new ForumNetworkTask(this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, message);
+            new ForumNetworkTask(this, this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, message);
     }
 
     @Override

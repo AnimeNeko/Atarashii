@@ -112,7 +112,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
         toggle(1);
         topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
+            new ForumNetworkTask(activity, this, activity, ForumJob.SEARCH, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
         else
             toggle(2);
         return ForumJob.SEARCH;
@@ -130,7 +130,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
+            new ForumNetworkTask(activity, this, activity, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
         else
             toggle(2);
     }

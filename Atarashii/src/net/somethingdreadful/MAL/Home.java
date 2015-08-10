@@ -101,7 +101,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
             ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
-            new UserNetworkTask(context, false, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
+            new UserNetworkTask(context, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);

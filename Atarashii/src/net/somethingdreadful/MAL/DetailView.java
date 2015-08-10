@@ -569,14 +569,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         try {
             if (type.equals(ListType.ANIME)) {
                 if (animeRecord.isDirty() && !animeRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
                 else if (animeRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
             } else if (type.equals(ListType.MANGA)) {
                 if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
                 else if (mangaRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onPause(): " + e.getMessage());
