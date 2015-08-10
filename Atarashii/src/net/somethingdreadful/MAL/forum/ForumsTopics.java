@@ -26,12 +26,11 @@ import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     View view;
     public ForumJob task;
     ForumActivity activity;
@@ -113,7 +112,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         toggle(1);
         topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.SEARCH, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
+            new ForumNetworkTask(activity, this, activity, ForumJob.SEARCH, 0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
         else
             toggle(2);
         return ForumJob.SEARCH;
@@ -131,7 +130,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTaskFinishedLi
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
+            new ForumNetworkTask(activity, this, activity, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
         else
             toggle(2);
     }

@@ -48,12 +48,11 @@ import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
-import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener {
     IGF af;
     IGF mf;
     Menu menu;
@@ -102,7 +101,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             username = AccountService.getUsername();
             ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
             ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
-            new UserNetworkTask(context, false, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
+            new UserNetworkTask(context, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);
@@ -366,27 +365,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
         callbackCounter++;
 
-        if (type.equals(MALApi.ListType.ANIME))
-            callbackAnimeError = error;
-        else
-            callbackMangaError = error;
-
         if (callbackCounter >= 2) {
             callbackCounter = 0;
 
             if (job.equals(TaskJob.FORCESYNC)) {
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
-                if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Theme.Snackbar(this, R.string.toast_error_SyncFailed);
-                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync);
-            } else {
-                if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Theme.Snackbar(this, R.string.toast_error_Records);
-                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records);
-                // no else here, there is nothing to be shown when everything went well
             }
         }
     }

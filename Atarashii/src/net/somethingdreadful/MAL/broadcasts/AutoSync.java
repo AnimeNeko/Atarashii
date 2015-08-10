@@ -17,12 +17,11 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.util.ArrayList;
 
-public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTaskCallbackListener {
+public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTask.NetworkTaskListener {
     static NotificationManager nm;
     static boolean anime = false;
     static boolean manga = false;
@@ -37,8 +36,8 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
                 ArrayList<String> args = new ArrayList<String>();
                 args.add(AccountService.getUsername());
                 args.add("");
-                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
-                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, new Bundle(), this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
 
                 nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)

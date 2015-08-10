@@ -21,7 +21,6 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailViewReviews extends Fragment implements NetworkTaskCallbackListener {
+public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
     View view;
     HtmlUtil htmlUtil;
     DetailView activity;
@@ -116,7 +115,7 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
                 toggle(false);
                 record = result;
             } else {
-                Theme.Snackbar(activity, R.string.toast_error_Records);
+                Theme.Snackbar(activity, R.string.toast_error_reviews);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailViewReviews.apply(): " + e.getMessage());
@@ -131,6 +130,5 @@ public class DetailViewReviews extends Fragment implements NetworkTaskCallbackLi
 
     @Override
     public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
-        Theme.Snackbar(activity, R.string.toast_error_Records);
     }
 }

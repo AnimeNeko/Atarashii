@@ -112,30 +112,6 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
 
     @Override
     public void onRecordsLoadingFinished(ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
-        if (cancelled) {
-            return;
-        }
-
-        callbackCounter++;
-
-        if (type.equals(ListType.ANIME)) {
-            callbackAnimeError = error;
-            callbackAnimeResultEmpty = resultEmpty;
-        } else {
-            callbackMangaError = error;
-            callbackMangaResultEmpty = resultEmpty;
-        }
-
-        if (callbackCounter >= 2) {
-            callbackCounter = 0;
-
-            if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                Theme.Snackbar(this, R.string.toast_error_Search);
-            else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Search_Anime : R.string.toast_error_Search_Manga);
-            else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
-                Theme.Snackbar(this, R.string.toast_error_nothingFound);
-        }
     }
 
     @Override

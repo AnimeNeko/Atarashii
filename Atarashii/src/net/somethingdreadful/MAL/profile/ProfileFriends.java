@@ -25,14 +25,13 @@ import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
-import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
+public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
     GridView Gridview;
     private ProfileActivity activity;
     FriendsGridviewAdapter<User> listadapter;
@@ -103,7 +102,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getName());
+        new FriendsNetworkTask(activity, forcesync, this, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getName());
     }
 
     @Override

@@ -38,7 +38,6 @@ import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
 import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
@@ -49,7 +48,7 @@ import java.util.Collections;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTaskCallbackListener, RecordStatusUpdatedReceiver.RecordStatusUpdatedListener {
+public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTask.NetworkTaskListener, RecordStatusUpdatedReceiver.RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
     Context context;
     public TaskJob taskjob;
@@ -235,10 +234,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void setProgressPlusOne(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -257,7 +256,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (anime.getEpisodes() > 0)
                 anime.setWatchedEpisodes(anime.getEpisodes());
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             if (manga.getChapters() > 0)
@@ -265,7 +264,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (manga.getVolumes() > 0)
                 manga.setVolumesRead(manga.getVolumes());
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -341,7 +340,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
-            networkTask = new NetworkTask(taskjob, listType, context, data, this, getAuthErrorCallback());
+            networkTask = new NetworkTask(taskjob, listType, activity, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<String>();
             if (!username.equals("") && isList()) {
                 args.add(username);

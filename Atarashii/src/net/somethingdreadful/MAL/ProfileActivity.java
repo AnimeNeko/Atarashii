@@ -20,12 +20,11 @@ import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
 import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.profile.ProfileHistory;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
-import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ProfileActivity extends AppCompatActivity implements UserNetworkTaskFinishedListener {
+public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
     Context context;
     public User record;
     ProfileFriends friends;
@@ -62,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 setText();
             } else {
                 refreshing(true);
-                new UserNetworkTask(context, forcesync, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
+                new UserNetworkTask(context, forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
             }
         }
 
@@ -186,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 username = record.getName();
             else
                 username = getIntent().getStringExtra("username");
-            new UserNetworkTask(context, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
+            new UserNetworkTask(context, true, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
         }
     }
 

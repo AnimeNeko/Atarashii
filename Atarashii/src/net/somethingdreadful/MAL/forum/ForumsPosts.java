@@ -22,12 +22,11 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.response.ForumMain;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
-import net.somethingdreadful.MAL.tasks.ForumNetworkTaskFinishedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedListener {
+public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener {
     View view;
     HtmlUtil htmlUtil;
     ForumActivity activity;
@@ -93,7 +92,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTaskFinishedLis
             toggle(true);
         this.page = page;
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page));
+            new ForumNetworkTask(activity, this, activity, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page));
     }
 
     /**

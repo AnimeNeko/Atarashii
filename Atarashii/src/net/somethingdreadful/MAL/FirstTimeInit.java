@@ -24,13 +24,12 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckFinishedListener, OnClickListener {
+public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
     String MalUser;
     String MalPass;
     Context context;
@@ -92,9 +91,9 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
         dialog.setMessage(getString(R.string.dialog_message_Verifying));
         dialog.show();
         if (MalPass != null)
-            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
+            new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
         else
-            new AuthenticationCheckTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
+            new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
     }
 
     @Override

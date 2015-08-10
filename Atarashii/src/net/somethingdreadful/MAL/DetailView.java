@@ -40,7 +40,6 @@ import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.NetworkTaskCallbackListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
@@ -49,7 +48,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTaskCallbackListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
 
     public ListType type;
     public Anime animeRecord;
@@ -349,7 +348,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         DatabaseManager dbMan = new DatabaseManager(this);
         if (type == null) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.getRecordFromDB(): ");
-            Theme.Snackbar(this, R.string.toast_error_Records);
+            if (isAdded())
+                Theme.Snackbar(this, R.string.toast_error_Records);
             return false;
         } else if (type.equals(ListType.ANIME)) {
             animeRecord = dbMan.getAnime(recordID, username);
@@ -569,14 +569,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         try {
             if (type.equals(ListType.ANIME)) {
                 if (animeRecord.isDirty() && !animeRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
                 else if (animeRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
             } else if (type.equals(ListType.MANGA)) {
                 if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
                 else if (mangaRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.onPause(): " + e.getMessage());
@@ -655,10 +655,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (MALApi.isNetworkAvailable(context))
-            Theme.Snackbar(this, R.string.toast_error_DetailsError);
-        else
-            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
     }
 
     @Override
