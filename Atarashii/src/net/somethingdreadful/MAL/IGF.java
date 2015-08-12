@@ -498,7 +498,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     resultList = (ArrayList<Anime>) result;
                 else
                     resultList = (ArrayList<Manga>) result;
-            } catch (ClassCastException e) {
+            } catch (Exception e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
                 Crashlytics.logException(e);
                 resultList = null;

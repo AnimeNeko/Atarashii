@@ -229,22 +229,18 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
             Crashlytics.logException(e);
-            return isArrayList() ? new ArrayList<>() : null;
+            return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
         }
         return taskResult;
     }
 
     @Override
     protected void onPostExecute(Object result) {
-        doCallback(result, false);
-    }
-
-    private void doCallback(Object result, boolean cancelled) {
         if (callback != null) {
             if (result != null)
-                callback.onNetworkTaskFinished(taskResult, job, type, data, cancelled);
+                callback.onNetworkTaskFinished(taskResult, job, type, data, false);
             else
-                callback.onNetworkTaskError(job, type, data, cancelled);
+                callback.onNetworkTaskError(job, type, data, false);
         }
     }
 

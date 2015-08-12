@@ -76,7 +76,7 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
     }
 
     public boolean networkChange(Intent intent) {
-        return intent.getAction().equals(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+        return intent != null && intent.getAction().equals(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
     }
 
     public void notifyChange(MALApi.ListType anime) {

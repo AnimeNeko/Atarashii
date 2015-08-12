@@ -8,35 +8,24 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_detail_view">DetailView</string>
     <string name="title_activity_profile">User profile</string>
-    <string name="title_activity_friends">My friends</string>
-    <string name="title_activity_logout">Logout</string>
     <string name="title_activity_forum">Forum</string>
     <string name="title_activity_backup">Backup</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
     <string name="menu_inverse">Inverse List</string>
-    <string name="menu_settings">Settings</string>
     <string name="menu_sync">Full Sync</string>
     <string name="menu_backup">Backup</string>
-    <string name="menu_sortType">Sort</string>
 
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">No network connection detected.</string>
     <string name="toast_error_api">API error detected, please notify the developers!</string>
     <string name="toast_error_reviews">There are no reviews available.</string>
     <string name="toast_error_maintenance">API unavailable, maintenance in progress!</string>
-    <string name="toast_error_no_anime">No anime results found.</string>
-    <string name="toast_error_no_manga">No manga results found.</string>
     <string name="toast_error_UserRecord">Userprofile is empty!</string>
-    <string name="toast_error_Search_Anime">Error while searching for anime records.</string>
-    <string name="toast_error_Search_Manga">Error while searching for manga records.</string>
     <string name="toast_error_Search">Error while searching! Please try again later.</string>
     <string name="toast_error_Anime_Sync">Sync error while getting animelist!</string>
     <string name="toast_error_Manga_Sync">Sync error while getting mangalist!</string>
-    <string name="toast_error_SyncFailed">Sync failed! Please try again later.</string>
-    <string name="toast_error_Anime_Records">Error while getting anime records.</string>
-    <string name="toast_error_Manga_Records">Error while getting manga records.</string>
     <string name="toast_error_Records">Error while getting records. Please try again later.</string>
     <string name="toast_error_DetailsError">Atarashii can\'t load the details!</string>
     <string name="toast_error_VerifyProblem">Check your credentials and try again.</string>
@@ -72,16 +61,13 @@
     <string name="dialog_title_share_via">Share via</string>
     <string name="dialog_title_Verifying">Verifying</string>
     <string name="dialog_title_rating">Rating</string>
-    <string name="dialog_title_logout">Confirm Logout</string>
     <string name="dialog_title_watched_update">I\'ve watched</string>
     <string name="dialog_title_read_update">I\'ve read</string>
     <string name="dialog_title_status">Status</string>
-    <string name="dialog_title_sync">Synchronization</string>
     <string name="dialog_title_edit_comment">Edit comment</string>
     <string name="dialog_title_add_comment">Add comment</string>
     <string name="dialog_title_add_topic">Create topic</string>
     <string name="dialog_title_id_search">ID search</string>
-    <string name="dialog_title_update_password">Update password</string>
     <string name="dialog_title_update_navigation">Update background</string>
     <string name="dialog_hint_tags">Separate your tags with a comma</string>
     <string name="dialog_hint_comment">Enter you comment</string>
@@ -93,13 +79,10 @@
     <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
     <string name="dialog_message_share">Which list do you want to share?</string>
     <string name="dialog_message_Verifying">Making sure your account is OK. Hold tight a sec.</string>
-    <string name="dialog_message_update_password">It looks like your password has changed. Please enter the new one below.</string>
-    <string name="dialog_message_new_password_wrong">The new password you have entered is wrong.</string>
     <string name="dialog_message_update_navigation">Enter the Image URL below.</string>
     <string name="dialog_message_created_by">Created by</string>
     <string name="dialog_message_last_post">Last post by</string>
     <string name="dialog_message_forum_child">Do you want to view the $child1; or $child2; category?</string>
-    <string name="dialog_message_on">on </string>
     <string name="dialog_message_username">It is possible that the chosen backup is not your backup!</string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_update">Update</string>
@@ -110,7 +93,6 @@
     <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_label_logout">Logout</string>
     <string name="dialog_label_remove">Remove</string>
-    <string name="dialog_label_confirm">Confirm</string>
     <string name="dialog_label_send">Send</string>
     <string name="dialog_message_backup_reading">Reading records</string>
     <string name="dialog_message_backup_requesting">Requesting records</string>
@@ -161,7 +143,6 @@
     </string-array>
 
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Friends since</string>
     <string name="unknown">unknown</string>
 
     <!-- BackupActivity Strings -->
@@ -223,10 +204,8 @@
 
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Synopsis</string>
-    <string name="card_name_progress">Progress</string>
     <string name="card_name_stats">Statistics</string>
     <string name="card_name_info">Information</string>
-    <string name="card_name_rating">Rating</string>
     <string name="card_name_personal">Personal</string>
     <string name="card_name_relations">Relations</string>
     <string name="card_name_titles">Alternative Titles</string>
@@ -259,7 +238,6 @@
     <string name="card_content_start">Start Date</string>
     <string name="card_content_end">End Date</string>
     <string name="card_content_producers">Producers</string>
-    <string name="card_content_aired">Aired</string>
     <string name="card_content_genres">Genres</string>
     <string name="card_content_classification">Classification</string>
     <string name="card_content_ranked">Rank</string>
@@ -281,7 +259,6 @@
     <string name="card_content_english">English</string>
     <string name="card_content_synonyms">Synonyms</string>
     <string name="card_offline_error">No network connection available.</string>
-    <string name="card_offline_button_caption">Try again</string>
     <string name="card_offline_title">You\'re offline!</string>
     <string name="episodepicker_hint">Enter your score</string>
 
@@ -412,21 +389,6 @@
     <string name="listType_rewatching">Rewatching</string>
     <string name="listType_rereading">Re-reading</string>
 
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-    <string-array name="array_ratings_text">
-        <item>Unrated</item>
-        <item>1: Appalling</item>
-        <item>2: Horrible</item>
-        <item>3: Very Bad</item>
-        <item>4: Bad</item>
-        <item>5: Average</item>
-        <item>6: Fine</item>
-        <item>7: Good</item>
-        <item>8: Very Good</item>
-        <item>9: Great</item>
-        <item>10: Masterpiece</item>
-    </string-array>
-
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
         <item>Everything</item>
@@ -446,7 +408,7 @@
     </string-array>
 
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray">
+    <string-array name="localeArray" translatable="false">
         <item>Arabic</item>
         <item>Dutch</item>
         <item>English</item>
