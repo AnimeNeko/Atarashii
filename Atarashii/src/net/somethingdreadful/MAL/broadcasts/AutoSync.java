@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.PrefManager;
@@ -28,6 +31,10 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (context == null) {
+            Crashlytics.log(Log.ERROR, "MALX", "AutoSync.onReceive(): context is null");
+            return;
+        }
         PrefManager.create(context);
         if (MALApi.isNetworkAvailable(context)) {
             Intent notificationIntent = new Intent(context, Home.class);

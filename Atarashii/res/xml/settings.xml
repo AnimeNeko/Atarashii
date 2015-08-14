@@ -75,6 +75,30 @@
             android:summary="@string/preference_summary_autosync"
             android:title="@string/preference_autosync" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_backup">
+        <Preference
+            android:key="backup"
+            android:summary="@string/preference_summary_backup"
+            android:title="@string/title_activity_backup" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="autobackup"
+            android:summary="@string/preference_summary_synchronisation"
+            android:title="@string/preference_synchronisation" />
+        <ListPreference
+            android:defaultValue="10080"
+            android:dependency="autobackup"
+            android:dialogTitle="@string/preference_backupsync"
+            android:entries="@array/syncArray"
+            android:entryValues="@array/syncValuesArray"
+            android:key="backup_time"
+            android:summary="@string/preference_summary_backupsync"
+            android:title="@string/preference_backupsync" />
+        <Preference
+            android:key="backup_length"
+            android:summary="@string/preference_summary_autobackup"
+            android:title="@string/preference_backuplength" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_language_title">
         <ListPreference
             android:dialogTitle="@string/preference_language"
@@ -95,10 +119,6 @@
             android:key="darkTheme"
             android:summary="@string/preference_summary_theme"
             android:title="@string/preference_Theme" />
-        <Preference
-            android:key="backup"
-            android:summary="@string/preference_summary_backup"
-            android:title="@string/title_activity_backup" />
         <Preference
             android:key="reset"
             android:summary="@string/preference_summary_Reset"

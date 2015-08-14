@@ -143,8 +143,11 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
 
     @Override
     public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
-        if (result != null && result.getList() != null)
+        if (result != null && result.getList() != null) {
             apply(result);
+        }
+        toggle(0);
+        activity.setTitle(getString(R.string.title_activity_forum));
     }
 
     public void apply(ForumMain result) {
@@ -186,7 +189,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
         // don't do anything if there is nothing in the list
         if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
             return;
-        if (totalItemCount - firstVisibleItem <= visibleItemCount && !loading && page < (task == ForumJob.SUBBOARD ? subBoard.getPages() : topic.getPages())) {
+        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading) {
             loading = true;
             getRecords(page + 1, task);
             activity.setTitle(getString(R.string.layout_card_loading));

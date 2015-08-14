@@ -182,9 +182,17 @@ public class MALManager {
     }
 
     public boolean cleanDirtyAnimeRecords(String username) {
+        return cleanDirtyAnimeRecords(username, true);
+    }
+
+    public boolean cleanDirtyMangaRecords(String username) {
+        return cleanDirtyMangaRecords(username, true);
+    }
+
+    public boolean cleanDirtyAnimeRecords(String username, boolean dirtyOnly) {
         boolean totalSuccess = true;
 
-        ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList(username);
+        ArrayList<Anime> dirtyAnimes = dirtyOnly ? dbMan.getDirtyAnimeList(username) : getAnimeListFromDB(MALApi.ListType.ANIME.toString(), username);
 
         if (dirtyAnimes != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
@@ -204,10 +212,10 @@ public class MALManager {
         return totalSuccess;
     }
 
-    public boolean cleanDirtyMangaRecords(String username) {
+    public boolean cleanDirtyMangaRecords(String username, boolean dirtyOnly) {
         boolean totalSuccess = true;
 
-        ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList(username);
+        ArrayList<Manga> dirtyMangas = dirtyOnly ? dbMan.getDirtyMangaList(username) : getMangaListFromDB(MALApi.ListType.MANGA.toString(), username);
 
         if (dirtyMangas != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
