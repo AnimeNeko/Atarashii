@@ -14,43 +14,27 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.BackupGridviewAdapter;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.Backup;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
-import net.somethingdreadful.MAL.tasks.NetworkTask;
-import net.somethingdreadful.MAL.tasks.TaskJob;
+import net.somethingdreadful.MAL.tasks.BackupTask;
+import net.somethingdreadful.MAL.tasks.RestoreTask;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class BackupActivity extends AppCompatActivity implements NetworkTask.NetworkTaskListener, APIAuthenticationErrorListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener {
+public class BackupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener, BackupTask.BackupTaskListener, RestoreTask.RestoreTaskListener {
     ProgressDialog dialog;
-    ArrayList<Anime> animeList;
-    ArrayList<Manga> mangaList;
     @InjectView(R.id.listview)
     GridView Gridview;
     BackupGridviewAdapter backupGridviewAdapter;
     ArrayList<File> files = new ArrayList<>();
-    boolean animeLoaded = false;
-    boolean mangaLoaded = false;
     int position = 0;
     @InjectView(R.id.progressBar)
     ProgressBar progressBar;
@@ -111,44 +95,10 @@ public class BackupActivity extends AppCompatActivity implements NetworkTask.Net
                 dialog.setMessage(getString(R.string.dialog_message_backup_requesting));
                 dialog.show();
 
-                // AnimeList request
-                ArrayList<String> animelistArgs = new ArrayList<String>();
-                animelistArgs.add(AccountService.getUsername());
-                animelistArgs.add(MALManager.listSortFromInt(0, MALApi.ListType.ANIME));
-                new NetworkTask(TaskJob.GETLIST, MALApi.ListType.MANGA, this, new Bundle(), this, this)
-                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animelistArgs.toArray(new String[animelistArgs.size()]));
-
-                // MangaList request
-                ArrayList<String> mangalistArgs = new ArrayList<String>();
-                mangalistArgs.add(AccountService.getUsername());
-                mangalistArgs.add(MALManager.listSortFromInt(0, MALApi.ListType.ANIME));
-                new NetworkTask(TaskJob.GETLIST, MALApi.ListType.ANIME, this, new Bundle(), this, this)
-                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangalistArgs.toArray(new String[mangalistArgs.size()]));
+                new BackupTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
-        if (type.equals(MALApi.ListType.ANIME)) {
-            animeList = (ArrayList<Anime>) result;
-            animeLoaded = true;
-        } else {
-            mangaList = (ArrayList<Manga>) result;
-            mangaLoaded = true;
-        }
-
-        if (animeLoaded && mangaLoaded) {
-            animeLoaded = false;
-            mangaLoaded = false;
-            saveBackup();
-        }
-    }
-
-    @Override
-    public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
-        dialog.dismiss();
     }
 
     /**
@@ -163,57 +113,17 @@ public class BackupActivity extends AppCompatActivity implements NetworkTask.Net
     }
 
     /**
-     * Saves the backup
-     */
-    private void saveBackup() {
-        dialog.setMessage(getString(R.string.dialog_message_backup_converting));
-
-        Backup backup = new Backup();
-        backup.setAccountType(AccountService.accountType);
-        backup.setUsername(AccountService.getUsername());
-        backup.setAnimeList(animeList);
-        backup.setMangaList(mangaList);
-        String jsonResult = (new Gson()).toJson(backup);
-
-        dialog.setMessage(getString(R.string.dialog_message_backup_saving));
-        try {
-            // creates directory if it doesn't exists
-            File directory = new File(Environment.getExternalStorageDirectory() + "/Atarashii/");
-            directory.mkdirs();
-
-            // creates the file itself
-            File file = new File(directory, "Backup" + System.currentTimeMillis() + "_" + AccountService.getUsername() + ".json");
-            file.createNewFile();
-
-            // writes the details in the files
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(file));
-            outputStreamWriter.write(jsonResult);
-            outputStreamWriter.close();
-
-            // notify user
-            dialog.dismiss();
-            Theme.Snackbar(this, R.string.toast_info_backup_saved);
-            Crashlytics.log(Log.INFO, "MALX", "BackupActivity.saveBackup(): Backup has been created");
-            getListFiles();
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.saveBackup(): " + e.getMessage());
-            Crashlytics.logException(e);
-            dialog.dismiss();
-        }
-    }
-
-    /**
      * Refresh the backup list
      */
     public void refresh() {
         Gridview.setAdapter(backupGridviewAdapter);
         try {
             backupGridviewAdapter.supportAddAll(files);
+            backupGridviewAdapter.notifyDataSetChanged();
         } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.refresh(): " + e.getMessage());
             Crashlytics.logException(e);
-            Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.refresh(): " + e.getMessage());
         }
-        backupGridviewAdapter.notifyDataSetChanged();
         toggle(0);
     }
 
@@ -230,34 +140,7 @@ public class BackupActivity extends AppCompatActivity implements NetworkTask.Net
         dialog.setMessage(getString(R.string.dialog_message_backup_reading));
         dialog.show();
 
-        try {
-            StringBuilder backupJson = new StringBuilder();
-            FileInputStream fIn = new FileInputStream(new File(filename));
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fIn));
-            String buffer;
-            while ((buffer = bufferedReader.readLine()) != null)
-                backupJson.append(buffer);
-            bufferedReader.close();
-            dialog.setMessage(getString(R.string.dialog_message_backup_converting));
-            Backup backup = (new Gson()).fromJson(backupJson.toString(), Backup.class);
-            if (backup.getAccountType().equals(AccountService.accountType)) {
-                DatabaseManager databaseManager = new DatabaseManager(this);
-                databaseManager.restoreLists(backup.getAnimeList(), backup.getMangaList());
-                Theme.Snackbar(this, R.string.toast_info_backup_revert);
-            } else {
-                Theme.Snackbar(this, R.string.toast_info_backup_list);
-            }
-            dialog.dismiss();
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.restoreBackup(): " + e.getMessage());
-            Crashlytics.logException(e);
-            dialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
+        new RestoreTask(this, this, filename).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -304,5 +187,54 @@ public class BackupActivity extends AppCompatActivity implements NetworkTask.Net
         file.delete();
         onRefresh();
         Theme.Snackbar(this, R.string.toast_info_backup_remove);
+    }
+
+    @Override
+    public void onBackupTaskFinished() {
+        Theme.Snackbar(this, R.string.toast_info_backup_saved);
+
+        // run UI changes on the main activity
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getListFiles();
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onBackupTaskFailed() {
+        // run UI changes on the main activity
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onRestoreTaskFinished() {
+        Theme.Snackbar(this, R.string.toast_info_backup_revert);
+
+        // run UI changes on the main activity
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onRestoreTaskFailed() {
+        // run UI changes on the main activity
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        });
     }
 }

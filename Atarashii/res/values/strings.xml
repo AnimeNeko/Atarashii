@@ -95,9 +95,7 @@
     <string name="dialog_label_remove">Remove</string>
     <string name="dialog_label_send">Send</string>
     <string name="dialog_message_backup_reading">Reading records</string>
-    <string name="dialog_message_backup_requesting">Requesting records</string>
-    <string name="dialog_message_backup_converting">Converting records</string>
-    <string name="dialog_message_backup_saving">Saving backup</string>
+    <string name="dialog_message_backup_requesting">Creating backup.</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -344,7 +342,12 @@
     <string name="preference_category_synchronisation">Sync</string>
     <string name="preference_category_sharing">Other settings</string>
     <string name="preference_category_profile">Profile</string>
+    <string name="preference_category_backup">Backup</string>
+    <string name="preference_backupsync">Auto backup interval</string>
     <string name="preference_autoDate">Update the dates automatically</string>
+    <string name="preference_backuplength">The amount of backups.</string>
+    <string name="preference_summary_backupsync">Automatic backup the anime/manga list after a certain time.</string>
+    <string name="preference_summary_autobackup">The max backup items that are allowed.</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_Theme">Dark Theme</string>
     <string name="preference_list_columns_portrait">Portrait list columns</string>
@@ -445,7 +448,12 @@
         <item>10 Hours</item>
         <item>12 Hours</item>
         <item>24 Hours</item>
-        <item>48 Hours</item>
+        <item>2 days</item>
+        <item>3 days</item>
+        <item>4 days</item>
+        <item>5 days</item>
+        <item>6 days</item>
+        <item>7 days</item>
     </string-array>
     <string-array name="syncValuesArray" translatable="false">
         <item>240</item>
@@ -455,6 +463,11 @@
         <item>720</item>
         <item>1440</item>
         <item>2880</item>
+        <item>4320</item>
+        <item>5760</item>
+        <item>7200</item>
+        <item>8640</item>
+        <item>10080</item>
     </string-array>
 
     <string-array name="classificationArray">
