@@ -47,7 +47,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     }
 
     public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback, APIAuthenticationErrorListener authErrorCallback) {
-        if (job == null || type == null || activity == null)
+        if (job == null || type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
         this.type = type;
@@ -76,7 +76,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             return null;
         }
 
-        if (!MALApi.isNetworkAvailable(getContext())) {
+        if (!MALApi.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GET)) {
             if (activity != null)
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
@@ -224,7 +224,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 return isArrayList() ? new ArrayList<>() : null;
             } else {
                 Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));
-                Theme.Snackbar(activity, R.string.toast_error_maintenance);
+                if (activity != null)
+                    Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
