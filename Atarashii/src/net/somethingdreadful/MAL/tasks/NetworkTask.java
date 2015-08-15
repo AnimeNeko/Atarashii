@@ -47,7 +47,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     }
 
     public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback, APIAuthenticationErrorListener authErrorCallback) {
-        if (job == null || type == null || activity == null)
+        if (job == null || type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
         this.type = type;
