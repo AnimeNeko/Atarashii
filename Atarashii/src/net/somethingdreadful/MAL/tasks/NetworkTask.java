@@ -224,7 +224,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 return isArrayList() ? new ArrayList<>() : null;
             } else {
                 Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));
-                Theme.Snackbar(activity, R.string.toast_error_maintenance);
+                if (activity != null)
+                    Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
