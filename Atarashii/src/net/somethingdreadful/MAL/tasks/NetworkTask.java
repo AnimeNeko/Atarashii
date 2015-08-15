@@ -76,7 +76,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             return null;
         }
 
-        if (!MALApi.isNetworkAvailable(getContext())) {
+        if (!MALApi.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GET)) {
             if (activity != null)
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
