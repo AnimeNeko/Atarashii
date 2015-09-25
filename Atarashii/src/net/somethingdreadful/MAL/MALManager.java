@@ -208,7 +208,7 @@ public class MALManager {
         Manga manga_api = AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id).createBaseModel();
 
         if (manga_api != null) {
-            dbMan.saveManga(manga_api, false, username);
+            dbMan.saveManga(manga_api, false, AccountService.getUsername());
             return AccountService.isMAL() ? manga_api : dbMan.getManga(id, AccountService.getUsername());
         }
         return manga;
@@ -219,7 +219,7 @@ public class MALManager {
         Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id).createBaseModel();
 
         if (anime_api != null) {
-            dbMan.saveAnime(anime_api, false, username);
+            dbMan.saveAnime(anime_api, false, AccountService.getUsername());
             return AccountService.isMAL() ? anime_api : dbMan.getAnime(id, AccountService.getUsername());
         }
         return anime;
