@@ -163,7 +163,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
 
             fansubs.setText(activity.nullCheck(activity.animeRecord.getFansubGroup()));
             storage.setText(getString(R.array.storageArray, activity.animeRecord.getStorage()));
-            storageCount.setText(Integer.toString(activity.animeRecord.getStorageValue()));
+            storageCount.setText(Float.toString(activity.animeRecord.getStorageValue()));
             dowloaded.setText(activity.nullCheck(Integer.toString(activity.animeRecord.getEpsDownloaded())));
 
             priority.setText(getString(R.array.priorityRewatchArray, activity.animeRecord.getRewatchValue()));
@@ -282,7 +282,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 break;
             case R.id.capacityPanel:
                 Bundle args9 = bundle(R.id.capacityPanel, R.string.dialog_title_storage_value);
-                args9.putInt("current", activity.animeRecord.getStorageValue());
+                args9.putInt("current", Math.round(activity.animeRecord.getStorageValue()));
                 args9.putInt("max", 10);
                 activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args9);
                 break;

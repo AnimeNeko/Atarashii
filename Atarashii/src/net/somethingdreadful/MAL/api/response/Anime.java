@@ -39,7 +39,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter @SerializedName("watching_start") private String watchingStart;
     @Getter @SerializedName("watching_end") private String watchingEnd;
     private boolean rewatching;
-    @Getter @SerializedName("storage_value") private int storageValue;
+    @Getter @SerializedName("storage_value") private float storageValue;
     @Getter private int storage;
     @Setter @Getter @SerializedName("alternative_versions") private ArrayList<RecordStub> alternativeVersions;
     @Setter @Getter @SerializedName("character_anime") private ArrayList<RecordStub> characterAnime;
@@ -112,7 +112,7 @@ public class Anime extends GenericRecord implements Serializable {
         result.setEpisodes(c.getInt(columnNames.indexOf("episodesTotal")));
         result.setWatchingStart(c.getString(columnNames.indexOf("watchedStart")), false);
         result.setStorage(c.getInt(columnNames.indexOf("storage")), false);
-        result.setStorageValue(c.getInt(columnNames.indexOf("storageValue")), false);
+        result.setStorageValue(c.getFloat(columnNames.indexOf("storageValue")), false);
         result.setWatchingEnd(c.getString(columnNames.indexOf("watchedEnd")), false);
         result.setMembersScore(c.getFloat(columnNames.indexOf("memberScore")));
         result.setScore(c.getInt(columnNames.indexOf("myScore")), false);
@@ -295,7 +295,7 @@ public class Anime extends GenericRecord implements Serializable {
         setWatchingEnd(end, true);
     }
 
-    public void setStorageValue(int value, boolean markDirty) {
+    public void setStorageValue(float value, boolean markDirty) {
         this.storageValue = value;
         if (markDirty) {
             addDirtyField("storageValue");

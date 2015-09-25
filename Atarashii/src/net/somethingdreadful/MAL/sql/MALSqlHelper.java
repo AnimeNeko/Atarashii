@@ -128,7 +128,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + "downloaded integer, "
             + "rewatch integer, "
             + "storage integer, "
-            + "storageValue integer, "
+            + "storageValue float, "
             + "rewatchCount integer, "
             + "rewatchValue integer, "
             + "comments varchar, "
@@ -333,7 +333,7 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             + ");";
 
     protected static final String DATABASE_NAME = "MAL.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
     private static MALSqlHelper instance;
 
     public MALSqlHelper(Context context) {
@@ -651,6 +651,18 @@ public class MALSqlHelper extends SQLiteOpenHelper {
             db.execSQL("drop table " + TABLE_MANGALIST);
             db.execSQL(CREATE_MANGALIST_TABLE);
             db.execSQL("insert into " + TABLE_MANGALIST + " select * from temp_table;");
+            db.execSQL("drop table temp_table;");
+        }
+
+        if (oldVersion < 12) {
+            /*
+             * In version 12 We fixed an MAL bug that caused crashes due float in the storage value
+             */
+            // update animelist table
+            db.execSQL("create table temp_table as select * from " + TABLE_ANIMELIST);
+            db.execSQL("drop table " + TABLE_ANIMELIST);
+            db.execSQL(CREATE_ANIMELIST_TABLE);
+            db.execSQL("insert into " + TABLE_ANIMELIST + " select * from temp_table;");
             db.execSQL("drop table temp_table;");
         }
     }
