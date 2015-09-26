@@ -15,7 +15,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "21.1.1"
 
     defaultConfig {
@@ -44,13 +44,13 @@ android {
     }
     productFlavors {
         Production {
-            versionCode 19
-            versionName '2.1.1'
+            versionCode 20
+            versionName '2.1.2'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 52
-            versionName '2.1 RC 4'
+            versionCode 53
+            versionName '2.1 RC 5'
         }
     }
 }
