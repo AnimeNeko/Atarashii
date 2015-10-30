@@ -38,7 +38,7 @@ public class AccountService extends Service {
      * This is used for Account upgrade purpose
      */
     private static void onUpgrade() {
-        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + Integer.toString(accountVersion) + ".");
+        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + String.valueOf(accountVersion) + ".");
         setAccountVersion(accountVersion);
         switch (accountVersion){
             case 1:
@@ -224,7 +224,7 @@ public class AccountService extends Service {
      * @param prefs If true it will remove all the prefrences saved.
      */
     public static void clearData(boolean prefs) {
-        MALSqlHelper.getHelper(context).deleteDatabase(context);
+        DatabaseTest.deleteDatabase(context);
         if (prefs)
             PrefManager.clear();
         AccountService.deleteAccount();
