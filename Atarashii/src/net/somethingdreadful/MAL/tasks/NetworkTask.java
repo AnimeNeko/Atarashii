@@ -221,6 +221,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         break;
                 }
                 Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
+                Crashlytics.logException(re);
                 return isArrayList() ? new ArrayList<>() : null;
             } else {
                 Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));

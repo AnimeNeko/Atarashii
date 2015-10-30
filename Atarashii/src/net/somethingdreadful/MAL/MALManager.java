@@ -246,10 +246,12 @@ public class MALManager {
     }
 
     public Anime getAnimeRecord(int id) {
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.getAnimeRecord(): Downloading " + id);
         return AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
     }
 
     public Manga getMangaRecord(int id) {
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.getMangaRecord(): Downloading " + id);
         return AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
     }
 
@@ -293,6 +295,7 @@ public class MALManager {
     }
 
     public boolean writeAnimeDetails(Anime anime) {
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.writeAnimeDetails(): Updating " + anime.getId());
         boolean result;
         if (anime.getDeleteFlag())
             result = AccountService.isMAL() ? malApi.deleteAnimeFromList(anime.getId()) : alApi.deleteAnimeFromList(anime.getId());
@@ -302,6 +305,7 @@ public class MALManager {
     }
 
     public boolean writeMangaDetails(Manga manga) {
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.writeMangaDetails(): Updating " + manga.getId());
         boolean result;
         if (manga.getDeleteFlag())
             result = AccountService.isMAL() ? malApi.deleteMangaFromList(manga.getId()) : alApi.deleteMangaFromList(manga.getId());
