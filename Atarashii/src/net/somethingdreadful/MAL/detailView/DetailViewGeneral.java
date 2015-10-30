@@ -27,7 +27,7 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;

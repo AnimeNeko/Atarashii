@@ -21,7 +21,6 @@ import android.widget.ViewFlipper;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;

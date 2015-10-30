@@ -7,17 +7,16 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
+import net.somethingdreadful.MAL.api.BaseModels.History;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
+import net.somethingdreadful.MAL.database.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;

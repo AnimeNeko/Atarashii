@@ -21,7 +21,7 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
+import net.somethingdreadful.MAL.database.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.widgets.Widget1;

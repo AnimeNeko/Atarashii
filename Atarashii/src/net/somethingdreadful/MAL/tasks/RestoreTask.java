@@ -11,9 +11,9 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.BaseModels.Backup;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.Backup;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
+import net.somethingdreadful.MAL.database.DatabaseManager;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.response.RecordStub;
+import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

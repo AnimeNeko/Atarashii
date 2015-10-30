@@ -10,8 +10,9 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import java.util.ArrayList;
 

@@ -11,10 +11,10 @@ import com.google.gson.Gson;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.Backup;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.Backup;
 
 import java.io.File;
 import java.io.FileOutputStream;

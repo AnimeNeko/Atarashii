@@ -18,7 +18,7 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import org.apache.commons.lang3.text.WordUtils;
 

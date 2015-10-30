@@ -16,9 +16,9 @@ import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.widgets.Widget1;
 
 import retrofit.RetrofitError;

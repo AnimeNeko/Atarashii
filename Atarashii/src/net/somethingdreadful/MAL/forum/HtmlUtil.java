@@ -6,11 +6,11 @@ import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.Forum;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.History;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
+import net.somethingdreadful.MAL.api.MALModels.Forum;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 
 import java.io.IOException;
 import java.io.InputStream;

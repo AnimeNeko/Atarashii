@@ -12,9 +12,9 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
+import net.somethingdreadful.MAL.api.ALModels.OAuth;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
 
 import retrofit.RetrofitError;
 

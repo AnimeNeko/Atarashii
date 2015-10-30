@@ -18,7 +18,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.PrefManager;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import net.somethingdreadful.MAL.database.DatabaseTest;
 
 public class AccountService extends Service {
     public static AccountType accountType;

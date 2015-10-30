@@ -5,7 +5,7 @@ import android.webkit.JavascriptInterface;
 
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.response.Forum;
+import net.somethingdreadful.MAL.api.MALModels.Forum;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class PostsInterface {

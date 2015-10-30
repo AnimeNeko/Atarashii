@@ -17,7 +17,7 @@ import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import butterknife.ButterKnife;

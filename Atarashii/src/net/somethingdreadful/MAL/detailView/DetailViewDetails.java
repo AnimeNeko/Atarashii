@@ -17,11 +17,10 @@ import android.widget.TextView;
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 
 import java.io.Serializable;
 
