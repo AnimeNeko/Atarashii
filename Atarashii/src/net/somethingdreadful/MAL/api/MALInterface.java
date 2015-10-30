@@ -1,14 +1,12 @@
 package net.somethingdreadful.MAL.api;
 
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.AnimeList;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
+import net.somethingdreadful.MAL.api.MALModels.Profile;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -98,7 +96,7 @@ public interface MALInterface {
     Profile getProfile(@Path("username") String username);
 
     @GET("/friends/{username}")
-    ArrayList<User> getFriends(@Path("username") String username);
+    ArrayList<net.somethingdreadful.MAL.api.MALModels.Friend> getFriends(@Path("username") String username);
 
     @GET("/forum")
     ForumMain getForum();
@@ -140,5 +138,5 @@ public interface MALInterface {
     ArrayList<Reviews> getMangaReviews(@Path("id") int id, @Query("page") int page);
 
     @GET("/history/{username}")
-    ArrayList<History> getActivity(@Path("username") String username);
+    ArrayList<net.somethingdreadful.MAL.api.MALModels.History> getActivity(@Path("username") String username);
 }
