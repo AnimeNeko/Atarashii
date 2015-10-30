@@ -67,15 +67,6 @@ public class DateTools {
         }
     }
 
-    public static class Comparators {
-        public static Comparator<History> historyComparator = new Comparator<History>() {
-            @Override
-            public int compare(History lhs, History rhs) {
-                return getmilis(rhs.getRawCreatedAt()).compareTo(getmilis(lhs.getRawCreatedAt()));
-            }
-        };
-    }
-
     private static String getDateString(Date date, boolean withTime) {
         if (date == null)
             return "";

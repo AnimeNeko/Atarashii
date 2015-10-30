@@ -112,10 +112,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         if (AccountService.isMAL())
                             mManager.verifyAuthentication();
 
-                        if (isAnimeTask())
-                            mManager.cleanDirtyAnimeRecords(params[0]);
-                        else
-                            mManager.cleanDirtyMangaRecords(params[0]);
                         taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(params[0]) : mManager.downloadAndStoreMangaList(params[0]);
                         if (taskResult != null && params.length == 2)
                             taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1]) : mManager.getMangaListFromDB(params[1]);
@@ -138,10 +134,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
                         Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
-                        if (AccountService.isMAL())
                             taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
-                        else
-                            taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)).createBaseModel() : mManager.getMangaRecord(data.getInt("recordID", -1)).createBaseModel();
                     }
                     break;
                 case GETDETAILS:
