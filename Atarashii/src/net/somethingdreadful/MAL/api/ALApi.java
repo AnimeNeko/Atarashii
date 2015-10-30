@@ -7,15 +7,17 @@ import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseAnimeList;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseMangaList;
+import net.somethingdreadful.MAL.api.ALModels.Follow;
+import net.somethingdreadful.MAL.api.ALModels.History;
+import net.somethingdreadful.MAL.api.ALModels.OAuth;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -27,7 +29,6 @@ import retrofit.client.ApacheClient;
 import retrofit.converter.GsonConverter;
 
 public class ALApi {
-    // Anilist
     private static String anilistURL = "http://anilist.co/api";
     private static String accesToken;
 
@@ -80,20 +81,24 @@ public class ALApi {
         return auth;
     }
 
-    public ArrayList<History> getActivity(String username) {
-        return service.getActivity(username);
+    public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username) {
+        return History.convertBaseHistoryList(service.getActivity(username));
     }
 
     public Profile getCurrentUser() {
-        return service.getCurrentUser();
+        return service.getCurrentUser().createBaseModel();
     }
 
-    public AnimeList getAnimeList(String username) {
-        return service.getAnimeList(username);
+    public Profile getProfile(String name) {
+        return service.getProfile(name).createBaseModel();
     }
 
-    public MangaList getMangaList(String username) {
-        return service.getMangaList(username);
+    public UserList getAnimeList(String username) {
+        return service.getAnimeList(username).createBaseModel();
+    }
+
+    public UserList getMangaList(String username) {
+        return service.getMangaList(username).createBaseModel();
     }
 
     public void getAccesToken() {
@@ -103,63 +108,63 @@ public class ALApi {
     }
 
     public Anime getAnime(int id) {
-        return service.getAnime(id);
+        return service.getAnime(id).createBaseModel();
     }
 
     public Manga getManga(int id) {
-        return service.getManga(id);
+        return service.getManga(id).createBaseModel();
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        return AnimeList.getData(service.searchAnime(query, page));
+        return BrowseAnimeList.convertBaseArray(service.searchAnime(query, page));
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        return MangaList.getData(service.searchManga(query, page));
+        return BrowseMangaList.convertBaseArray(service.searchManga(query, page));
     }
 
-    public ArrayList<Manga> getUpcomingManga(int page) {
-        return service.getUpcomingManga(page).getData();
+    public BrowseList getUpcomingManga(int page) {
+        return service.getUpcomingManga(page).createBaseModel();
     }
 
-    public ArrayList<Anime> getUpcomingAnime(int page) {
-        return service.getUpcomingAnime(page).getData();
+    public BrowseList getUpcomingAnime(int page) {
+        return service.getUpcomingAnime(page).createBaseModel();
     }
 
-    public ArrayList<Manga> getJustAddedManga(int page) {
-        return service.getJustAddedManga(page).getData();
+    public BrowseList getJustAddedManga(int page) {
+        return service.getJustAddedManga(page).createBaseModel();
     }
 
-    public ArrayList<Anime> getJustAddedAnime(int page) {
-        return service.getJustAddedAnime(page).getData();
+    public BrowseList getJustAddedAnime(int page) {
+        return service.getJustAddedAnime(page).createBaseModel();
     }
 
-    public ArrayList<Anime> getAiringAnime(int page) {
-        return service.getAiringAnime(page).getData();
+    public BrowseList getAiringAnime(int page) {
+        return service.getAiringAnime(page).createBaseModel();
     }
 
-    public ArrayList<Manga> getAiringManga(int page) {
-        return service.getAiringManga(page).getData();
+    public BrowseList getPublishingManga(int page) {
+        return service.getAiringManga(page).createBaseModel();
     }
 
-    public ArrayList<Anime> getYearAnime(int year, int page) {
-        return service.getYearAnime(year, page).getData();
+    public BrowseList getYearAnime(int year, int page) {
+        return service.getYearAnime(year, page).createBaseModel();
     }
 
-    public ArrayList<Manga> getYearManga(int year, int page) {
-        return service.getYearManga(year, page).getData();
+    public BrowseList getYearManga(int year, int page) {
+        return service.getYearManga(year, page).createBaseModel();
     }
 
-    public ArrayList<User> getFollowers(String user) {
-        return service.getFollowers(user);
+    public ArrayList<Profile> getFollowers(String user) {
+        return Follow.convertBaseFollowList(service.getFollowers(user));
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
         boolean result;
         if (anime.getCreateFlag())
-            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getPersonalComments(), anime.getRewatchCount()).getStatus() == 200;
+            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()).getStatus() == 200;
         else
-            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getPersonalComments(), anime.getRewatchCount()).getStatus() == 200;
+            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()).getStatus() == 200;
         return result;
     }
 
@@ -180,15 +185,11 @@ public class ALApi {
         return result;
     }
 
-    public Profile getProfile(String name) {
-        return service.getProfile(name);
-    }
-
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {
-        return service.getAnimeReviews(id, page);
+        return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(service.getAnimeReviews(id, page));
     }
 
     public ArrayList<Reviews> getMangaReviews(int id, int page) {
-        return service.getMangaReviews(id, page);
+        return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(service.getMangaReviews(id, page));
     }
 }
