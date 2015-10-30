@@ -653,7 +653,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     viewHolder.actionButton.setVisibility(View.GONE);
                     if (AccountService.isMAL()) {
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
-                        viewHolder.progressCount.setText(Integer.toString(position + 1));
+                        viewHolder.progressCount.setText(String.valueOf(position + 1));
                         viewHolder.flavourText.setText(R.string.label_Number);
                     } else if (listType.equals(ListType.ANIME) && ((Anime) record).getAiring() != null) {
                         viewHolder.progressCount.setVisibility(View.GONE);
@@ -664,9 +664,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     }
                 } else {
                     if (listType.equals(ListType.ANIME))
-                        viewHolder.progressCount.setText(Integer.toString(((Anime) record).getWatchedEpisodes()));
+                        viewHolder.progressCount.setText(String.valueOf(((Anime) record).getWatchedEpisodes()));
                     else
-                        viewHolder.progressCount.setText(Integer.toString(useSecondaryAmounts ? ((Manga) record).getVolumesRead() : ((Manga) record).getChaptersRead()));
+                        viewHolder.progressCount.setText(String.valueOf(useSecondaryAmounts ? ((Manga) record).getVolumesRead() : ((Manga) record).getChaptersRead()));
 
                     if ((listType.equals(ListType.ANIME) ? ((Anime) record).getWatchedStatus() : ((Manga) record).getReadStatus()) != null) {
                         switch (listType.equals(ListType.ANIME) ? ((Anime) record).getWatchedStatus() : ((Manga) record).getReadStatus()) {

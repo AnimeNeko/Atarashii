@@ -117,7 +117,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     public String nullCheck(int number) {
-        return (number == 0 ? "?" : Integer.toString(number));
+        return (number == 0 ? "?" : String.valueOf(number));
     }
 
     public String getDate(String string) {
@@ -256,23 +256,23 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      * Date picker dialog
      */
     public void onDialogDismissed(boolean startDate, int year, int month, int day) {
-        String monthString = Integer.toString(month);
+        String monthString = String.valueOf(month);
         if (monthString.length() == 1)
             monthString = "0" + monthString;
 
-        String dayString = Integer.toString(day);
+        String dayString = String.valueOf(day);
         if (dayString.length() == 1)
             dayString = "0" + dayString;
         if (type.equals(ListType.ANIME)) {
             if (startDate)
-                animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                animeRecord.setWatchingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
             else
-                animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                animeRecord.setWatchingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         } else {
             if (startDate)
-                mangaRecord.setReadingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                mangaRecord.setReadingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
             else
-                mangaRecord.setReadingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                mangaRecord.setReadingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         }
         setText();
     }
@@ -332,9 +332,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         String shareText = PrefManager.getCustomShareText();
         shareText = shareText.replace("$title;", actionBar.getTitle());
         if (AccountService.isMAL())
-            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         else
-            shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+            shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
         return shareText;
     }
@@ -562,10 +562,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @Override
     public void onPause() {
         super.onPause();
-
         if (animeRecord == null && mangaRecord == null)
             return; // nothing to do
-
         try {
             if (type.equals(ListType.ANIME)) {
                 if (animeRecord.isDirty() && !animeRecord.getDeleteFlag())

@@ -219,7 +219,7 @@ public class Theme extends Application {
                 Double score1 = AccountService.isMAL() ? score : Math.floor(score / 10);
                 return score1 > 0.0 ? String.format("%.0f", score1) : "?";
             case 2:
-                return score > 0 ? Integer.toString((int) score) : "?";
+                return score > 0 ? String.valueOf((int) score) : "?";
             case 3:
                 if (score <= 0)
                     return "?";

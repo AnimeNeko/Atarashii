@@ -55,7 +55,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
              * but an empty result
              */
             if (result == null)
-                result = new ArrayList<User>();
+                result = new ArrayList<>();
         } catch (RetrofitError re) {
             if (re.getResponse() != null && activity != null) {
                 switch (re.getResponse().getStatus()) {
@@ -67,8 +67,8 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
                         Theme.Snackbar(activity, R.string.toast_info_password);
                         break;
                     case 404: // Not Found
-                                Theme.Snackbar(activity, R.string.toast_error_Records);
-                            Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(2): The requested page was not found");
+                        Theme.Snackbar(activity, R.string.toast_error_Records);
+                        Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(2): The requested page was not found");
                         break;
                     case 500: // Internal Server Error
                         Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(3): Internal server error, API bug?");

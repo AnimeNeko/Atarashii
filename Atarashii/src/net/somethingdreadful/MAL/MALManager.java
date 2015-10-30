@@ -237,7 +237,7 @@ public class MALManager {
 
     /**
      * Api Requests
-     *
+     * <p/>
      * All the methods below this block is used to determine and make request to the API.
      */
 

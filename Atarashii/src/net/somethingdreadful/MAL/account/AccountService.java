@@ -92,7 +92,7 @@ public class AccountService extends Service {
         if (account == null) {
             AccountManager accountManager = AccountManager.get(context);
             Account[] myaccount = accountManager.getAccountsByType(".account.SyncAdapter.account");
-            String version = Integer.toString(accountVersion);
+            String version = String.valueOf(accountVersion);
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
                 version = accountManager.getUserData(myaccount[0], "accountVersion");
@@ -144,7 +144,7 @@ public class AccountService extends Service {
         final Account account = new Account(username, ".account.SyncAdapter.account");
         accountManager.addAccountExplicitly(account, password, null);
         accountManager.setUserData(account, "accountType", accountType.toString());
-        accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
+        accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
         AccountService.accountType = accountType;
     }
 
@@ -192,7 +192,7 @@ public class AccountService extends Service {
     public static void setAccountVersion(int accountVersion) {
         if (account != null) {
             AccountManager accountManager = AccountManager.get(context);
-            accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
+            accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
         }
     }
 

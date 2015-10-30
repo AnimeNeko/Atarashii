@@ -64,8 +64,8 @@ public class HtmlUtil {
         if (maxpages == 0) {
             list = list.replace("(page/pages)", pageString);
         } else {
-            list = list.replace("pages", maxpages == -1 ? "?" : Integer.toString(maxpages));
-            list = list.replace("page", Integer.toString(page));
+            list = list.replace("pages", maxpages == -1 ? "?" : String.valueOf(maxpages));
+            list = list.replace("page", String.valueOf(page));
         }
 
         if (Theme.darkTheme) {
@@ -216,8 +216,8 @@ public class HtmlUtil {
                 comment = comment.replace("img src=", "img width=\"100%\" src=");
                 postreal = postreal.replace("image", image);
                 postreal = postreal.replace("Title", title);
-                postreal = postreal.replace("itemID", Integer.toString(post.getId()));
-                postreal = postreal.replace("position", Integer.toString(i));
+                postreal = postreal.replace("itemID", String.valueOf(post.getId()));
+                postreal = postreal.replace("position", String.valueOf(i));
                 postreal = postreal.replace("Subhead", DateTools.parseDate(post.getCreatedAt(), true));
                 postreal = postreal.replace("<!-- place post content here -->", comment);
 
