@@ -33,8 +33,8 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
     }
 
     @Override
-    protected User doInBackground(String... params) {
-        User result = null;
+    protected Profile doInBackground(String... params) {
+        Profile result = null;
         if (params == null) {
             Crashlytics.log(Log.ERROR, "MALX", "UserNetworkTask.doInBackground(): No username to fetch profile");
             return null;
@@ -46,19 +46,17 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
                 mManager.verifyAuthentication();
 
             if (forcesync && MALApi.isNetworkAvailable(context)) {
-                result = mManager.downloadAndStoreProfile(params[0]);
-            } else {
-                result = mManager.getProfileFromDB(params[0]);
-                if ((result == null || (result.getProfile().getDetails().getAccessRank() == null && AccountService.isMAL())) && MALApi.isNetworkAvailable(context))
-                    result = mManager.downloadAndStoreProfile(params[0]);
-                else if (result != null && result.getProfile().getDetails().getAccessRank() == null && AccountService.isMAL())
-                    result = null;
+                result = mManager.getProfile(params[0]);
+            } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
+                result = mManager.getProfileFromDB();
+                if (result == null && MALApi.isNetworkAvailable(context))
+                    result = mManager.getProfile(params[0]);
+            } else if (MALApi.isNetworkAvailable(context)) {
+                result = mManager.getProfile(params[0]);
             }
 
-            if (result != null) {
-                ArrayList<History> activities = mManager.getActivityFromDB(params[0]);
-                if (MALApi.isNetworkAvailable(context) && activities == null || MALApi.isNetworkAvailable(context) && forcesync)
-                    activities = mManager.downloadAndStoreActivity(params[0]);
+            if (result != null && MALApi.isNetworkAvailable(context)) {
+                ArrayList<History> activities = mManager.getActivity(params[0]);
                 result.setActivity(activities);
             }
         } catch (RetrofitError re) {
@@ -102,12 +100,12 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
     }
 
     @Override
-    protected void onPostExecute(User result) {
+    protected void onPostExecute(Profile result) {
         if (callback != null)
             callback.onUserNetworkTaskFinished(result);
     }
 
     public interface UserNetworkTaskListener {
-        void onUserNetworkTaskFinished(User result);
+        void onUserNetworkTaskFinished(Profile result);
     }
 }

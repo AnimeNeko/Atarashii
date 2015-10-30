@@ -27,16 +27,16 @@ import java.util.Collection;
 
 public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
     private Context context;
-    private ArrayList<User> list;
+    private ArrayList<Profile> list;
 
-    public FriendsGridviewAdapter(Context context, ArrayList<User> list) {
+    public FriendsGridviewAdapter(Context context, ArrayList<Profile> list) {
         super(context, R.layout.record_friends_gridview);
         this.context = context;
         this.list = list;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        final User record = (list.get(position));
+        final Profile record = (list.get(position));
         ViewHolder viewHolder;
 
         if (view == null) {
@@ -62,22 +62,22 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
         }
 
         try {
-            String username = record.getName();
+            String username = record.getUsername();
             viewHolder.username.setText(WordUtils.capitalize(username));
-            if (User.isDeveloperRecord(username))
+            if (Profile.isDeveloper(username))
                 viewHolder.username.setTextColor(context.getResources().getColor(R.color.primary)); //Developer
             else
                 viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
 
-            String last_online = record.getProfile().getDetails().getLastOnline();
+            String last_online = record.getDetails().getLastOnline();
             if (last_online != null) {
                 last_online = DateTools.parseDate(last_online, true);
-                viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
+                viewHolder.last_online.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
             }
-            Picasso.with(context).load(record.getProfile().getAvatarUrl())
+            Picasso.with(context).load(record.getImageUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
-                    .transform(new RoundedTransformation(record.getName()))
+                    .transform(new RoundedTransformation(record.getUsername()))
                     .into(viewHolder.avatar);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
@@ -88,7 +88,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
     public void supportAddAll(Collection<? extends T> collection) {
         this.clear();
-        list = (ArrayList<User>) collection;
+        list = (ArrayList<Profile>) collection;
         for (T record : collection) {
             this.add(record);
         }

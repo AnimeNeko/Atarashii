@@ -106,10 +106,8 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     }
 
     @Override
-    public void onAuthenticationCheckFinished(boolean result, String username) {
+    public void onAuthenticationCheckFinished(boolean result) {
         if (result) {
-            if (username == null)
-                AccountService.addAccount(MalUser, MalPass, AccountType.MyAnimeList);
             Crashlytics.setString("site", AccountService.accountType.toString());
             PrefManager.setForceSync(true);
             PrefManager.commitChanges();

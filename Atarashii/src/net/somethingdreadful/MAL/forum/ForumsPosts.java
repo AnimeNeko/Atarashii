@@ -92,7 +92,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetwo
             toggle(true);
         this.page = page;
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, activity, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page));
+            new ForumNetworkTask(activity, this, activity, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(page));
     }
 
     /**

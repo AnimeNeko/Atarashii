@@ -17,7 +17,7 @@ public class ReviewsInterface {
      */
     @JavascriptInterface
     public void viewProfile(String position) {
-        String username = reviews.record.get(Integer.parseInt(position)).getUsername();
+        String username = reviews.record.get(Integer.parseInt(position)).getUser().getUsername();
         Intent profile = new Intent(reviews.activity, net.somethingdreadful.MAL.ProfileActivity.class);
         profile.putExtra("username", username);
         reviews.startActivity(profile);

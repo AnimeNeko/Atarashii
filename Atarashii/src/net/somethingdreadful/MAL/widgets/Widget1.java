@@ -83,7 +83,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                             views.setOnClickPendingIntent(R.id.changeRecord, PendingIntent.getBroadcast(c, widgetRecord.getId() * 100 + 3, changeIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
                             views.setTextViewText(R.id.animeName, widgetRecord.getTitle());
-                            views.setTextViewText(R.id.watchedCount, Integer.toString(watchValue));
+                            views.setTextViewText(R.id.watchedCount, String.valueOf(watchValue));
 
                             views.setImageViewBitmap(R.id.coverImage, bitmap);
                             widgetManager.updateAppWidget(ids[finalI], views);
@@ -118,7 +118,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
         switch (intent.getAction()) {
             case Intent.ACTION_EDIT:
                 if (id > 0) {
-                    Anime anime = db.getAnime(id, AccountService.getUsername());
+                    Anime anime = db.getAnime(id);
                     anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
                     if (anime.getWatchedEpisodes() == anime.getEpisodes()) {
                         anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
@@ -130,7 +130,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                     new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, context, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
                 } else {
                     PrefManager.create(context);
-                    Manga manga = db.getManga(id * -1, AccountService.getUsername());
+                    Manga manga = db.getManga(id * -1);
                     if (PrefManager.getUseSecondaryAmountsEnabled())
                         manga.setVolumesRead(manga.getVolumesRead() + 1);
                     else

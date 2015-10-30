@@ -174,22 +174,22 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                 synopsis.setText(getString(R.string.toast_error_noConnectivity));
         } else {
             synopsis.setMovementMethod(LinkMovementMethod.getInstance());
-            synopsis.setText(record.getSpannedSynopsis());
+            synopsis.setText(record.getSynopsis());
         }
 
         if (activity.type.equals(ListType.ANIME)) {
-            progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
-            progress1Total.setText(activity.animeRecord.getEpisodes() == 0 ? "/?" : "/" + Integer.toString(activity.animeRecord.getEpisodes()));
+            progress1Current.setText(String.valueOf(activity.animeRecord.getWatchedEpisodes()));
+            progress1Total.setText(activity.animeRecord.getEpisodes() == 0 ? "/?" : "/" + String.valueOf(activity.animeRecord.getEpisodes()));
             myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.animeRecord.getScore())));
         } else {
-            progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
-            progress1Total.setText(activity.mangaRecord.getVolumes() == 0 ? "/?" : "/" + Integer.toString(activity.mangaRecord.getVolumes()));
-            progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
-            progress2Total.setText(activity.mangaRecord.getChapters() == 0 ? "/?" : "/" + Integer.toString(activity.mangaRecord.getChapters()));
+            progress1Current.setText(String.valueOf(activity.mangaRecord.getVolumesRead()));
+            progress1Total.setText(activity.mangaRecord.getVolumes() == 0 ? "/?" : "/" + String.valueOf(activity.mangaRecord.getVolumes()));
+            progress2Current.setText(String.valueOf(activity.mangaRecord.getChaptersRead()));
+            progress2Total.setText(activity.mangaRecord.getChapters() == 0 ? "/?" : "/" + String.valueOf(activity.mangaRecord.getChapters()));
             myScore.setText(activity.nullCheck(Theme.getDisplayScore(activity.mangaRecord.getScore())));
         }
 
-        if (!activity.isAdded() && record.getMembersScore() == 0)
+        if (!activity.isAdded() && record.getAverageScore() == null)
             cardMediainfo.setWidth(1, 850);
 
         Picasso.with(activity)

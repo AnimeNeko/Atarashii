@@ -57,17 +57,17 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             // check if the network is available
             if (MALApi.isNetworkAvailable(context)) {
                 // clean dirty records to pull all the changes
-                mManager.cleanDirtyAnimeRecords(AccountService.getUsername());
-                mManager.cleanDirtyMangaRecords(AccountService.getUsername());
+                mManager.cleanDirtyAnimeRecords();
+                mManager.cleanDirtyMangaRecords();
                 animeResult = mManager.downloadAndStoreAnimeList(AccountService.getUsername());
                 mangaResult = mManager.downloadAndStoreMangaList(AccountService.getUsername());
             }
 
             // Get results from the database if there weren't any records
             if (animeResult == null)
-                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), AccountService.getUsername());
+                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME));
             if (mangaResult == null)
-                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), AccountService.getUsername());
+                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME));
 
             // create the backup model and get the string
             Backup backup = new Backup();

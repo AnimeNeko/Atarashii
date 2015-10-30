@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
 import net.somethingdreadful.MAL.DetailView;
+import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
 
 public class ProfileHistoryInterface {
     ProfileHistory history;
@@ -25,7 +25,7 @@ public class ProfileHistoryInterface {
         int id = historyItem.getId();
         Intent detailView = new Intent(history.activity, DetailView.class);
         detailView.putExtra("recordID", id);
-        detailView.putExtra("recordType", (historyItem.getSeries().getSeriesType().equals("anime") ? MALApi.ListType.ANIME : MALApi.ListType.MANGA));
+        detailView.putExtra("recordType", (historyItem.isAnime() ? MALApi.ListType.ANIME : MALApi.ListType.MANGA));
         history.startActivity(detailView);
     }
 }

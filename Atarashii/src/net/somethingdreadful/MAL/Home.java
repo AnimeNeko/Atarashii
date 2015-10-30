@@ -416,13 +416,13 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onUserNetworkTaskFinished(User result) {
+    public void onUserNetworkTaskFinished(Profile result) {
         ImageView image = (ImageView) findViewById(R.id.Image);
         ImageView image2 = (ImageView) findViewById(R.id.NDimage);
         try {
             Picasso.with(context)
-                    .load(result.getProfile().getAvatarUrl())
-                    .transform(new RoundedTransformation(result.getName()))
+                    .load(result.getImageUrl())
+                    .transform(new RoundedTransformation(result.getUsername()))
                     .into(image);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());

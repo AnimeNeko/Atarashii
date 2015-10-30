@@ -62,8 +62,8 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             // check if the network is available
             if (MALApi.isNetworkAvailable(activity)) {
                 // clean dirty records to pull all the changes
-                mManager.cleanDirtyAnimeRecords(AccountService.getUsername(), false);
-                mManager.cleanDirtyMangaRecords(AccountService.getUsername(), false);
+                mManager.cleanDirtyAnimeRecords();
+                mManager.cleanDirtyMangaRecords();
                 mManager.downloadAndStoreAnimeList(AccountService.getUsername());
                 mManager.downloadAndStoreMangaList(AccountService.getUsername());
             }

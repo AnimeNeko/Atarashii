@@ -100,7 +100,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             switch (job) {
                 case GETLIST:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params.length == 2 ? params[1] : Anime.STATUS_WATCHING, params[0]) : mManager.getMangaListFromDB(params.length == 2 ? params[1] : Manga.STATUS_READING, params[0]);
+                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params.length == 2 ? params[1] : Anime.STATUS_WATCHING) : mManager.getMangaListFromDB(params.length == 2 ? params[1] : Manga.STATUS_READING);
                     break;
                 case FORCESYNC:
                     if (params != null) {
@@ -118,22 +118,22 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             mManager.cleanDirtyMangaRecords(params[0]);
                         taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(params[0]) : mManager.downloadAndStoreMangaList(params[0]);
                         if (taskResult != null && params.length == 2)
-                            taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1], params[0]) : mManager.getMangaListFromDB(params[1], params[0]);
+                            taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1]) : mManager.getMangaListFromDB(params[1]);
 
                         Widget1.forceRefresh(getContext());
                     }
                     break;
                 case GETMOSTPOPULAR:
-                    taskResult = isAnimeTask() ? mManager.getMostPopularAnime(page) : mManager.getMostPopularManga(page);
+                    taskResult = isAnimeTask() ? mManager.getMostPopularAnime(page).getAnime() : mManager.getMostPopularManga(page).getManga();
                     break;
                 case GETTOPRATED:
-                    taskResult = isAnimeTask() ? mManager.getTopRatedAnime(page) : mManager.getTopRatedManga(page);
+                    taskResult = isAnimeTask() ? mManager.getTopRatedAnime(page).getAnime() : mManager.getTopRatedManga(page).getManga();
                     break;
                 case GETJUSTADDED:
-                    taskResult = isAnimeTask() ? mManager.getJustAddedAnime(page) : mManager.getJustAddedManga(page);
+                    taskResult = isAnimeTask() ? mManager.getJustAddedAnime(page).getAnime() : mManager.getJustAddedManga(page).getManga();
                     break;
                 case GETUPCOMING:
-                    taskResult = isAnimeTask() ? mManager.getUpcomingAnime(page) : mManager.getUpcomingManga(page);
+                    taskResult = isAnimeTask() ? mManager.getUpcomingAnime(page).getAnime() : mManager.getUpcomingManga(page).getManga();
                     break;
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
@@ -149,15 +149,15 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         if (isAnimeTask()) {
                             Anime record = (Anime) data.getSerializable("record");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
-                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
+                            taskResult = mManager.updateWithDetails(record.getId(), record);
                             if (!AccountService.isMAL())
-                                mManager.getAnime(record.getId(), AccountService.getUsername());
+                                mManager.getAnime(record.getId());
                         } else {
                             Manga record = (Manga) data.getSerializable("record");
                             Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
-                            taskResult = mManager.updateWithDetails(record.getId(), record, "");
+                            taskResult = mManager.updateWithDetails(record.getId(), record);
                             if (!AccountService.isMAL())
-                                mManager.getManga(record.getId(), AccountService.getUsername());
+                                mManager.getManga(record.getId());
                         }
                     break;
                 case SEARCH:

@@ -237,9 +237,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 break;
             case R.id.commentspanel:
                 if (isAnime())
-                    animeRecord.setPersonalComments(message);
+                    animeRecord.setNotes(message);
                 else
-                    mangaRecord.setPersonalComments(message);
+                    mangaRecord.setNotes(message);
                 break;
             case R.id.fansubPanel:
                 animeRecord.setFansubGroup(message);
@@ -352,10 +352,10 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 Theme.Snackbar(this, R.string.toast_error_Records);
             return false;
         } else if (type.equals(ListType.ANIME)) {
-            animeRecord = dbMan.getAnime(recordID, username);
+            animeRecord = dbMan.getAnime(recordID);
             return animeRecord != null;
         } else {
-            mangaRecord = dbMan.getManga(recordID, username);
+            mangaRecord = dbMan.getManga(recordID);
             return mangaRecord != null;
         }
     }

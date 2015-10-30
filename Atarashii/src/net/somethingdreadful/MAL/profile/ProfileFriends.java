@@ -34,8 +34,8 @@ import butterknife.InjectView;
 public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
     GridView Gridview;
     private ProfileActivity activity;
-    FriendsGridviewAdapter<User> listadapter;
-    ArrayList<User> listarray = new ArrayList<>();
+    FriendsGridviewAdapter<Profile> listadapter;
+    ArrayList<Profile> listarray = new ArrayList<>();
 
     @InjectView(R.id.network_Card) Card networkCard;
     @InjectView(R.id.progressBar) ProgressBar progressBar;
@@ -87,7 +87,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     }
 
     @Override
-    public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
+    public void onFriendsNetworkTaskFinished(ArrayList<Profile> result) {
         if (result != null) {
             listarray = result;
             if (result.size() == 0 && !MALApi.isNetworkAvailable(activity))
@@ -102,7 +102,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getName());
+        new FriendsNetworkTask(activity, forcesync, this, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getUsername());
     }
 
     @Override
@@ -114,8 +114,8 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
-        if (listarray.get(position).getProfile().getDetails().getAccessRank() == null)
-            profile.putExtra("username", listarray.get(position).getName());
+        if (listarray.get(position).getDetails().getAccessRank() == null)
+            profile.putExtra("username", listarray.get(position).getUsername());
         else
             profile.putExtra("user", listarray.get(position));
         startActivity(profile);

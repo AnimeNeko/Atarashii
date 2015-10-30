@@ -82,7 +82,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
     public void card() {
         Card namecard = (Card) view.findViewById(R.id.name_card);
-        namecard.Header.setText(WordUtils.capitalize(activity.record.getName()));
+        namecard.Header.setText(WordUtils.capitalize(activity.record.getUsername()));
     }
 
     public void toggle(int number) {
@@ -104,8 +104,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
             webview.loadDataWithBaseURL(null, htmlUtil.convertList(activity.record, 1), "text/html", "utf-8", null);
 
             Picasso.with(context)
-                    .load(activity.record.getProfile()
-                            .getAvatarUrl())
+                    .load(activity.record.getImageUrl())
                     .into(new Target() {
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

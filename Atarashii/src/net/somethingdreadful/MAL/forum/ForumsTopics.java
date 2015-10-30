@@ -130,7 +130,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, activity, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
+            new ForumNetworkTask(activity, this, activity, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(page), type.toString());
         else
             toggle(2);
     }

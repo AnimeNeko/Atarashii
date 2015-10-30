@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import retrofit.RetrofitError;
 
-public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>> {
+public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profile>> {
     FriendsNetworkTaskListener callback;
     private Context context;
     private boolean forcesync;
@@ -32,8 +32,8 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
     }
 
     @Override
-    protected ArrayList<User> doInBackground(String... params) {
-        ArrayList<User> result = null;
+    protected ArrayList<Profile> doInBackground(String... params) {
+        ArrayList<Profile> result = null;
         if (params == null) {
             Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
@@ -42,10 +42,12 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
         try {
             if (forcesync && MALApi.isNetworkAvailable(context)) {
                 result = mManager.downloadAndStoreFriendList(params[0]);
-            } else {
-                result = mManager.getFriendListFromDB(params[0]);
+            } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
+                result = mManager.getFriendListFromDB();
                 if ((result == null || result.isEmpty()) && MALApi.isNetworkAvailable(context))
                     result = mManager.downloadAndStoreFriendList(params[0]);
+            } else {
+                result = mManager.getFriendList(params[0]);
             }
 
             /*
@@ -95,12 +97,12 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
     }
 
     @Override
-    protected void onPostExecute(ArrayList<User> result) {
+    protected void onPostExecute(ArrayList<Profile> result) {
         if (callback != null)
             callback.onFriendsNetworkTaskFinished(result);
     }
 
     public interface FriendsNetworkTaskListener {
-        void onFriendsNetworkTaskFinished(ArrayList<User> result);
+        void onFriendsNetworkTaskFinished(ArrayList<Profile> result);
     }
 }

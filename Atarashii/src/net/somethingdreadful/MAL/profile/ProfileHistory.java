@@ -60,7 +60,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      *
      * @param result The new record
      */
-    public void apply(User result) {
+    public void apply(Profile result) {
         try {
             if (result != null) {
                 webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, 1), "text/html", "utf-8", null);
