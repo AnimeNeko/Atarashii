@@ -18,7 +18,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.response.Forum;
+import net.somethingdreadful.MAL.api.MALModels.Forum;
 import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 

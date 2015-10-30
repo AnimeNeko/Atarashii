@@ -11,12 +11,13 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.21'
 }
 
+apply from: 'local.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 14
@@ -44,18 +45,16 @@ android {
     }
     productFlavors {
         Production {
-            versionCode 17
-            versionName '2.0.1'
+            versionCode 20
+            versionName '2.1.2'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 52
-            versionName '2.1 RC 4'
+            versionCode 54
+            versionName '2.2 Beta 1'
         }
     }
 }
-
-apply from: 'local.gradle'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }

@@ -30,8 +30,8 @@ import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -100,7 +100,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         tv25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webstiteclick = Uri.parse(activity.record.getProfile().getDetails().getWebsite());
+                Uri webstiteclick = Uri.parse(activity.record.getDetails().getWebsite());
                 startActivity(new Intent(Intent.ACTION_VIEW, webstiteclick));
             }
         });
@@ -125,19 +125,19 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
             animecard.setVisibility(View.GONE);
         if (PrefManager.getHideManga())
             mangacard.setVisibility(View.GONE);
-        if (activity.record.getProfile().getMangaStats().getTotalEntries() < 1)  //if manga (total entry) is beneath the int then hide
+        if (activity.record.getMangaStats() == null || activity.record.getMangaStats().getTotalEntries() < 1)  //if manga (total entry) is beneath the int then hide
             mangacard.setVisibility(View.GONE);
-        if (activity.record.getProfile().getAnimeStats().getTotalEntries() < 1)  //if anime (total entry) is beneath the int then hide
+        if (activity.record.getAnimeStats() == null || activity.record.getAnimeStats().getTotalEntries() < 1)  //if anime (total entry) is beneath the int then hide
             animecard.setVisibility(View.GONE);
 
         Card namecard = (Card) view.findViewById(R.id.name_card);
-        namecard.Header.setText(WordUtils.capitalize(activity.record.getName()));
+        namecard.Header.setText(WordUtils.capitalize(activity.record.getUsername()));
     }
 
     public void setcolor() {
         TextView tv8 = (TextView) view.findViewById(R.id.accessranksmall);
-        String name = activity.record.getName();
-        String rank = activity.record.getProfile().getDetails().getAccessRank() != null ? activity.record.getProfile().getDetails().getAccessRank() : "";
+        String name = activity.record.getUsername();
+        String rank = activity.record.getDetails().getAccessRank() != null ? activity.record.getDetails().getAccessRank() : "";
         if (!PrefManager.getTextColor()) {
             setColor(true);
             setColor(false);
@@ -151,7 +151,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
             TextView tv11 = (TextView) view.findViewById(R.id.websitesmall);
             tv11.setTextColor(Color.parseColor("#002EAB"));
         }
-        if (User.isDeveloperRecord(name)) {
+        if (Profile.isDeveloper(name)) {
             tv8.setText(R.string.access_rank_atarashii_developer); //Developer
             tv8.setTextColor(getResources().getColor(R.color.primary)); //Developer
         }
@@ -162,10 +162,10 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         TextView textview;
         if (type) {
             textview = (TextView) view.findViewById(R.id.atimedayssmall); //anime
-            Hue = (int) (activity.record.getProfile().getAnimeStats().getTimeDays() * 2.5);
+            Hue = (int) (activity.record.getAnimeStats().getTimeDays() * 2.5);
         } else {
             textview = (TextView) view.findViewById(R.id.mtimedayssmall); // manga
-            Hue = (int) (activity.record.getProfile().getMangaStats().getTimeDays() * 5);
+            Hue = (int) (activity.record.getMangaStats().getTimeDays() * 5);
         }
         if (Hue > 359)
             Hue = 359;
@@ -197,54 +197,54 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void setText() {
-        if (activity.record.getProfile().getDetails().getBirthday() == null) {
+        if (activity.record.getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {
-            String birthday = DateTools.parseDate(activity.record.getProfile().getDetails().getBirthday(), false);
-            tv1.setText(birthday.equals("") ? activity.record.getProfile().getDetails().getBirthday() : birthday);
+            String birthday = DateTools.parseDate(activity.record.getDetails().getBirthday(), false);
+            tv1.setText(birthday.equals("") ? activity.record.getDetails().getBirthday() : birthday);
         }
-        if (activity.record.getProfile().getDetails().getLocation() == null)
+        if (activity.record.getDetails().getLocation() == null)
             tv2.setText(R.string.not_specified);
          else
-            tv2.setText(activity.record.getProfile().getDetails().getLocation());
-        if (activity.record.getProfile().getDetails().getWebsite() != null && activity.record.getProfile().getDetails().getWebsite().contains("http://") && activity.record.getProfile().getDetails().getWebsite().contains(".")) { // filter fake websites
-            tv25.setText(activity.record.getProfile().getDetails().getWebsite().replace("http://", ""));
+            tv2.setText(activity.record.getDetails().getLocation());
+        if (activity.record.getDetails().getWebsite() != null && activity.record.getDetails().getWebsite().contains("http://") && activity.record.getDetails().getWebsite().contains(".")) { // filter fake websites
+            tv25.setText(activity.record.getDetails().getWebsite().replace("http://", ""));
         } else {
             tv25.setVisibility(View.GONE);
             tv26.setVisibility(View.GONE);
         }
-        tv3.setText(String.valueOf(activity.record.getProfile().getDetails().getComments()));
-        tv4.setText(String.valueOf(activity.record.getProfile().getDetails().getForumPosts()));
-        if (activity.record.getProfile().getDetails().getLastOnline() != null) {
-            String lastOnline = DateTools.parseDate(activity.record.getProfile().getDetails().getLastOnline(), true);
-            tv5.setText(lastOnline.equals("") ? activity.record.getProfile().getDetails().getLastOnline() : lastOnline);
+        tv3.setText(String.valueOf(activity.record.getDetails().getComments()));
+        tv4.setText(String.valueOf(activity.record.getDetails().getForumPosts()));
+        if (activity.record.getDetails().getLastOnline() != null) {
+            String lastOnline = DateTools.parseDate(activity.record.getDetails().getLastOnline(), true);
+            tv5.setText(lastOnline.equals("") ? activity.record.getDetails().getLastOnline() : lastOnline);
         } else
             tv5.setText("-");
-        tv6.setText(getStringFromResourceArray(R.array.gender, R.string.not_specified, activity.record.getProfile().getDetails().getGenderInt()));
-        if (activity.record.getProfile().getDetails().getJoinDate() != null) {
-            String joinDate = DateTools.parseDate(activity.record.getProfile().getDetails().getJoinDate(), false);
-            tv7.setText(joinDate.equals("") ? activity.record.getProfile().getDetails().getJoinDate() : joinDate);
+        tv6.setText(getStringFromResourceArray(R.array.gender, R.string.not_specified, activity.record.getDetails().getGenderInt()));
+        if (activity.record.getDetails().getJoinDate() != null) {
+            String joinDate = DateTools.parseDate(activity.record.getDetails().getJoinDate(), false);
+            tv7.setText(joinDate.equals("") ? activity.record.getDetails().getJoinDate() : joinDate);
         } else
             tv7.setText("-");
-        tv8.setText(activity.record.getProfile().getDetails().getAccessRank());
-        tv9.setText(String.valueOf(activity.record.getProfile().getDetails().getAnimeListViews()));
-        tv10.setText(String.valueOf(activity.record.getProfile().getDetails().getMangaListViews()));
+        tv8.setText(activity.record.getDetails().getAccessRank());
+        tv9.setText(String.valueOf(activity.record.getDetails().getAnimeListViews()));
+        tv10.setText(String.valueOf(activity.record.getDetails().getMangaListViews()));
 
-        tv11.setText(activity.record.getProfile().getAnimeStats().getTimeDays().toString());
-        tv12.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getWatching()));
-        tv13.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getCompleted()));
-        tv14.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getOnHold()));
-        tv15.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getDropped()));
-        tv16.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getPlanToWatch()));
-        tv17.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getTotalEntries()));
+        tv11.setText(activity.record.getAnimeStats().getTimeDays().toString());
+        tv12.setText(String.valueOf(activity.record.getAnimeStats().getWatching()));
+        tv13.setText(String.valueOf(activity.record.getAnimeStats().getCompleted()));
+        tv14.setText(String.valueOf(activity.record.getAnimeStats().getOnHold()));
+        tv15.setText(String.valueOf(activity.record.getAnimeStats().getDropped()));
+        tv16.setText(String.valueOf(activity.record.getAnimeStats().getPlanToWatch()));
+        tv17.setText(String.valueOf(activity.record.getAnimeStats().getTotalEntries()));
 
-        tv18.setText(activity.record.getProfile().getMangaStats().getTimeDays().toString());
-        tv19.setText(String.valueOf(activity.record.getProfile().getMangaStats().getReading()));
-        tv20.setText(String.valueOf(activity.record.getProfile().getMangaStats().getCompleted()));
-        tv21.setText(String.valueOf(activity.record.getProfile().getMangaStats().getOnHold()));
-        tv22.setText(String.valueOf(activity.record.getProfile().getMangaStats().getDropped()));
-        tv23.setText(String.valueOf(activity.record.getProfile().getMangaStats().getPlanToRead()));
-        tv24.setText(String.valueOf(activity.record.getProfile().getMangaStats().getTotalEntries()));
+        tv18.setText(activity.record.getMangaStats().getTimeDays().toString());
+        tv19.setText(String.valueOf(activity.record.getMangaStats().getReading()));
+        tv20.setText(String.valueOf(activity.record.getMangaStats().getCompleted()));
+        tv21.setText(String.valueOf(activity.record.getMangaStats().getOnHold()));
+        tv22.setText(String.valueOf(activity.record.getMangaStats().getDropped()));
+        tv23.setText(String.valueOf(activity.record.getMangaStats().getPlanToRead()));
+        tv24.setText(String.valueOf(activity.record.getMangaStats().getTotalEntries()));
     }
 
     public void refresh() {
@@ -261,8 +261,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                 setcolor();
 
                 Picasso.with(context)
-                        .load(activity.record.getProfile()
-                                .getAvatarUrl())
+                        .load(activity.record.getImageUrl())
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

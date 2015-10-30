@@ -18,7 +18,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.PrefManager;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
+import net.somethingdreadful.MAL.database.DatabaseTest;
 
 public class AccountService extends Service {
     public static AccountType accountType;
@@ -38,7 +38,7 @@ public class AccountService extends Service {
      * This is used for Account upgrade purpose
      */
     private static void onUpgrade() {
-        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + Integer.toString(accountVersion) + ".");
+        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + String.valueOf(accountVersion) + ".");
         setAccountVersion(accountVersion);
         switch (accountVersion){
             case 1:
@@ -67,6 +67,8 @@ public class AccountService extends Service {
      * @return String The username
      */
     public static String getUsername() {
+        if (getAccount() == null)
+            return null;
         String username = getAccount().name;
         Crashlytics.setUserName(username);
         return username;
@@ -78,8 +80,10 @@ public class AccountService extends Service {
      * @return String The password
      */
     public static String getPassword() {
-        AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount();
+        if (account == null)
+            return null;
+        AccountManager accountManager = AccountManager.get(context);
         return accountManager.getPassword(account);
     }
 
@@ -92,7 +96,7 @@ public class AccountService extends Service {
         if (account == null) {
             AccountManager accountManager = AccountManager.get(context);
             Account[] myaccount = accountManager.getAccountsByType(".account.SyncAdapter.account");
-            String version = Integer.toString(accountVersion);
+            String version = String.valueOf(accountVersion);
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
                 version = accountManager.getUserData(myaccount[0], "accountVersion");
@@ -144,7 +148,7 @@ public class AccountService extends Service {
         final Account account = new Account(username, ".account.SyncAdapter.account");
         accountManager.addAccountExplicitly(account, password, null);
         accountManager.setUserData(account, "accountType", accountType.toString());
-        accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
+        accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
         AccountService.accountType = accountType;
     }
 
@@ -192,7 +196,7 @@ public class AccountService extends Service {
     public static void setAccountVersion(int accountVersion) {
         if (account != null) {
             AccountManager accountManager = AccountManager.get(context);
-            accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
+            accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
         }
     }
 
@@ -220,7 +224,7 @@ public class AccountService extends Service {
      * @param prefs If true it will remove all the prefrences saved.
      */
     public static void clearData(boolean prefs) {
-        MALSqlHelper.getHelper(context).deleteDatabase(context);
+        DatabaseTest.deleteDatabase(context);
         if (prefs)
             PrefManager.clear();
         AccountService.deleteAccount();

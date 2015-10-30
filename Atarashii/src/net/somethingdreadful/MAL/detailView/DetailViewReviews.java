@@ -17,8 +17,8 @@ import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -80,7 +80,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
             Bundle bundle = new Bundle();
             bundle.putInt("page", page);
             int id = activity.isAnime() ? activity.animeRecord.getId() : activity.mangaRecord.getId();
-            new NetworkTask(TaskJob.REVIEWS, activity.type, activity, bundle, activity.reviews, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(id));
+            new NetworkTask(TaskJob.REVIEWS, activity.type, activity, bundle, activity.reviews, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(id));
         } else {
             Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
         }

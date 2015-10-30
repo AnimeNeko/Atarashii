@@ -19,7 +19,7 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
@@ -92,7 +92,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetwo
             toggle(true);
         this.page = page;
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, activity, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page));
+            new ForumNetworkTask(activity, this, activity, ForumJob.POSTS, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(page));
     }
 
     /**

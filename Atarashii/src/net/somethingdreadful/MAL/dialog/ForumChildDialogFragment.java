@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import net.somethingdreadful.MAL.ForumActivity;
-import net.somethingdreadful.MAL.api.response.Forum;
+import net.somethingdreadful.MAL.api.MALModels.Forum;
 
 import java.util.ArrayList;
 

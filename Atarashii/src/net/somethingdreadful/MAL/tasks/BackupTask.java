@@ -11,10 +11,10 @@ import com.google.gson.Gson;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.Backup;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.Backup;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,17 +57,17 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             // check if the network is available
             if (MALApi.isNetworkAvailable(context)) {
                 // clean dirty records to pull all the changes
-                mManager.cleanDirtyAnimeRecords(AccountService.getUsername());
-                mManager.cleanDirtyMangaRecords(AccountService.getUsername());
+                mManager.cleanDirtyAnimeRecords();
+                mManager.cleanDirtyMangaRecords();
                 animeResult = mManager.downloadAndStoreAnimeList(AccountService.getUsername());
                 mangaResult = mManager.downloadAndStoreMangaList(AccountService.getUsername());
             }
 
             // Get results from the database if there weren't any records
             if (animeResult == null)
-                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), AccountService.getUsername());
+                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME));
             if (mangaResult == null)
-                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), AccountService.getUsername());
+                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME));
 
             // create the backup model and get the string
             Backup backup = new Backup();

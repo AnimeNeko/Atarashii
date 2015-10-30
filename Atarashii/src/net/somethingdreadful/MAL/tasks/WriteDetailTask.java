@@ -16,9 +16,9 @@ import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.widgets.Widget1;
 
 import retrofit.RetrofitError;
@@ -48,11 +48,10 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
         try {
             if (MALApi.isNetworkAvailable(context)) {
-                if (type.equals(ListType.ANIME)) {
+                if (type.equals(ListType.ANIME))
                     manager.writeAnimeDetails((Anime) gr[0]);
-                } else {
+                else
                     manager.writeMangaDetails((Manga) gr[0]);
-                }
                 gr[0].clearDirty();
             }
         } catch (RetrofitError re) {
@@ -98,18 +97,17 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
         // only update if everything went well!
         if (!error) {
-            String account = AccountService.getUsername();
             if (!job.equals(TaskJob.UPDATE)) {
                 if (ListType.ANIME.equals(type)) {
-                    manager.deleteAnimeFromAnimelist((Anime) gr[0], account);
+                    manager.deleteAnime((Anime) gr[0]);
                 } else {
-                    manager.deleteMangaFromMangalist((Manga) gr[0], account);
+                    manager.deleteManga((Manga) gr[0]);
                 }
             } else {
                 if (type.equals(ListType.ANIME)) {
-                    manager.saveAnimeToDatabase((Anime) gr[0], false, account);
+                    manager.saveAnimeToDatabase((Anime) gr[0]);
                 } else {
-                    manager.saveMangaToDatabase((Manga) gr[0], false, account);
+                    manager.saveMangaToDatabase((Manga) gr[0]);
                 }
             }
         }

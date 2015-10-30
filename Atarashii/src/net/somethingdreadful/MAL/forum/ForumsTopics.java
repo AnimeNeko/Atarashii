@@ -21,8 +21,8 @@ import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.adapters.ForumMainAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.Forum;
-import net.somethingdreadful.MAL.api.response.ForumMain;
+import net.somethingdreadful.MAL.api.MALModels.Forum;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
@@ -130,7 +130,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
         if (page == 1)
             topicsAdapter.clear();
         if (MALApi.isNetworkAvailable(activity))
-            new ForumNetworkTask(activity, this, activity, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(page), type.toString());
+            new ForumNetworkTask(activity, this, activity, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(page), type.toString());
         else
             toggle(2);
     }

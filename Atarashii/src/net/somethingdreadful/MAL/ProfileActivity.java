@@ -12,8 +12,8 @@ import android.view.MenuItem;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
@@ -26,7 +26,7 @@ import butterknife.InjectView;
 
 public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
     Context context;
-    public User record;
+    public Profile record;
     ProfileFriends friends;
     ProfileDetailsAL detailsAL;
     ProfileDetailsMAL detailsMAL;
@@ -49,15 +49,15 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         setTitle(R.string.title_activity_profile); //set title
 
         if (getIntent().getExtras().containsKey("user")) {
-            record = (User) getIntent().getExtras().get("user");
+            record = (Profile) getIntent().getExtras().get("user");
         }
 
         if (bundle != null) {
-            record = (User) bundle.getSerializable("record");
+            record = (Profile) bundle.getSerializable("record");
             setText();
         } else {
             if (getIntent().getExtras().containsKey("user")) {
-                record = (User) getIntent().getExtras().get("user");
+                record = (Profile) getIntent().getExtras().get("user");
                 setText();
             } else {
                 refreshing(true);
@@ -98,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 if (record == null)
                     Theme.Snackbar(this, R.string.toast_info_hold_on);
                 else
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getProfileURL() + record.getName())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getProfileURL() + record.getUsername())));
                 break;
             case R.id.View:
                 showShareDialog(false);
@@ -127,12 +127,12 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     }
 
     private void showShareDialog(boolean type) {
-        if (record == null || record.getName() == null) {
+        if (record == null || record.getUsername() == null) {
             Theme.Snackbar(this, R.string.toast_info_hold_on);
         } else {
             ShareDialogFragment share = new ShareDialogFragment();
             Bundle args = new Bundle();
-            args.putString("title", record.getName());
+            args.putString("title", record.getUsername());
             args.putBoolean("share", type);
             share.setArguments(args);
             share.show(getFragmentManager(), "fragment_share");
@@ -140,7 +140,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     }
 
     @Override
-    public void onUserNetworkTaskFinished(User result) {
+    public void onUserNetworkTaskFinished(Profile result) {
         record = result;
         refresh();
         refreshing(false);
@@ -182,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             isLoading = true;
             String username;
             if (record != null)
-                username = record.getName();
+                username = record.getUsername();
             else
                 username = getIntent().getStringExtra("username");
             new UserNetworkTask(context, true, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);

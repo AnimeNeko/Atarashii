@@ -10,14 +10,15 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
 
 import java.util.ArrayList;
 
 import retrofit.RetrofitError;
 
-public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>> {
+public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profile>> {
     FriendsNetworkTaskListener callback;
     private Context context;
     private boolean forcesync;
@@ -31,8 +32,8 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
     }
 
     @Override
-    protected ArrayList<User> doInBackground(String... params) {
-        ArrayList<User> result = null;
+    protected ArrayList<Profile> doInBackground(String... params) {
+        ArrayList<Profile> result = null;
         if (params == null) {
             Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
@@ -41,10 +42,12 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
         try {
             if (forcesync && MALApi.isNetworkAvailable(context)) {
                 result = mManager.downloadAndStoreFriendList(params[0]);
-            } else {
-                result = mManager.getFriendListFromDB(params[0]);
+            } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
+                result = mManager.getFriendListFromDB();
                 if ((result == null || result.isEmpty()) && MALApi.isNetworkAvailable(context))
                     result = mManager.downloadAndStoreFriendList(params[0]);
+            } else {
+                result = mManager.getFriendList(params[0]);
             }
 
             /*
@@ -52,7 +55,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
              * but an empty result
              */
             if (result == null)
-                result = new ArrayList<User>();
+                result = new ArrayList<>();
         } catch (RetrofitError re) {
             if (re.getResponse() != null && activity != null) {
                 switch (re.getResponse().getStatus()) {
@@ -64,8 +67,8 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
                         Theme.Snackbar(activity, R.string.toast_info_password);
                         break;
                     case 404: // Not Found
-                                Theme.Snackbar(activity, R.string.toast_error_Records);
-                            Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(2): The requested page was not found");
+                        Theme.Snackbar(activity, R.string.toast_error_Records);
+                        Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(2): The requested page was not found");
                         break;
                     case 500: // Internal Server Error
                         Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(3): Internal server error, API bug?");
@@ -94,12 +97,12 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<User>>
     }
 
     @Override
-    protected void onPostExecute(ArrayList<User> result) {
+    protected void onPostExecute(ArrayList<Profile> result) {
         if (callback != null)
             callback.onFriendsNetworkTaskFinished(result);
     }
 
     public interface FriendsNetworkTaskListener {
-        void onFriendsNetworkTaskFinished(ArrayList<User> result);
+        void onFriendsNetworkTaskFinished(ArrayList<Profile> result);
     }
 }

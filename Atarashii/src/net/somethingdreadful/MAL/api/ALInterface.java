@@ -1,15 +1,15 @@
 package net.somethingdreadful.MAL.api;
 
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.OAuth;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseAnimeList;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseMangaList;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.ALModels.AnimeManga.UserList;
+import net.somethingdreadful.MAL.api.ALModels.Follow;
+import net.somethingdreadful.MAL.api.ALModels.History;
+import net.somethingdreadful.MAL.api.ALModels.OAuth;
+import net.somethingdreadful.MAL.api.ALModels.Profile;
 
 import java.util.ArrayList;
 
@@ -39,10 +39,10 @@ public interface ALInterface {
     ArrayList<History> getActivity(@Path("username") String username);
 
     @GET("/user/{username}/animelist")
-    AnimeList getAnimeList(@Path("username") String username);
+    UserList getAnimeList(@Path("username") String username);
 
     @GET("/user/{username}/mangalist")
-    MangaList getMangaList(@Path("username") String username);
+    UserList getMangaList(@Path("username") String username);
 
     @FormUrlEncoded
     @POST("/auth/access_token")
@@ -62,31 +62,31 @@ public interface ALInterface {
     ArrayList<Manga> searchManga(@Path("query") String query, @Query("page") int page);
 
     @GET("/anime/browse/upcoming")
-    AnimeList getUpcomingAnime(@Query("page") int page);
+    BrowseAnimeList getUpcomingAnime(@Query("page") int page);
 
     @GET("/manga/browse/upcoming")
-    MangaList getUpcomingManga(@Query("page") int page);
+    BrowseMangaList getUpcomingManga(@Query("page") int page);
 
     @GET("/anime/browse/recent")
-    AnimeList getJustAddedAnime(@Query("page") int page);
+    BrowseAnimeList getJustAddedAnime(@Query("page") int page);
 
     @GET("/manga/browse/recent")
-    MangaList getJustAddedManga(@Query("page") int page);
+    BrowseMangaList getJustAddedManga(@Query("page") int page);
 
     @GET("/manga/browse/publishing")
-    MangaList getAiringManga(@Query("page") int page);
+    BrowseMangaList getAiringManga(@Query("page") int page);
 
     @GET("/anime/browse/airing")
-    AnimeList getAiringAnime(@Query("page") int page);
+    BrowseMangaList getAiringAnime(@Query("page") int page);
 
     @GET("/manga/browse/year/{year}")
-    MangaList getYearManga(@Path("year") int year, @Query("page") int page);
+    BrowseMangaList getYearManga(@Path("year") int year, @Query("page") int page);
 
     @GET("/anime/browse/year/{year}")
-    AnimeList getYearAnime(@Path("year") int year, @Query("page") int page);
+    BrowseAnimeList getYearAnime(@Path("year") int year, @Query("page") int page);
 
     @GET("/user/{username}/following")
-    ArrayList<User> getFollowers(@Path("username") String username);
+    ArrayList<Follow> getFollowers(@Path("username") String username);
 
     @FormUrlEncoded
     @POST("/animelist")
@@ -114,6 +114,8 @@ public interface ALInterface {
     Response updateManga(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
                          @Field("volumes_read") int volumes, @Field("score_raw") float score);
 
+    /*
+    TODO: Add forum support
     @GET("/forum/recent")
     ForumMain getForumRecent();
 
@@ -150,6 +152,7 @@ public interface ALInterface {
 
     @GET("/forum/thread/{id}")
     ForumMain getPosts(@Path("id") int id, @Query("page") int page);
+    */
 
     @GET("/anime/{id}/reviews")
     ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);

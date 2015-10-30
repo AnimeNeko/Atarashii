@@ -24,10 +24,11 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
+import net.somethingdreadful.MAL.database.DatabaseManager;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
@@ -36,7 +37,6 @@ import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
-import net.somethingdreadful.MAL.sql.DatabaseManager;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
@@ -117,7 +117,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     public String nullCheck(int number) {
-        return (number == 0 ? "?" : Integer.toString(number));
+        return (number == 0 ? "?" : String.valueOf(number));
     }
 
     public String getDate(String string) {
@@ -237,9 +237,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 break;
             case R.id.commentspanel:
                 if (isAnime())
-                    animeRecord.setPersonalComments(message);
+                    animeRecord.setNotes(message);
                 else
-                    mangaRecord.setPersonalComments(message);
+                    mangaRecord.setNotes(message);
                 break;
             case R.id.fansubPanel:
                 animeRecord.setFansubGroup(message);
@@ -256,23 +256,23 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      * Date picker dialog
      */
     public void onDialogDismissed(boolean startDate, int year, int month, int day) {
-        String monthString = Integer.toString(month);
+        String monthString = String.valueOf(month);
         if (monthString.length() == 1)
             monthString = "0" + monthString;
 
-        String dayString = Integer.toString(day);
+        String dayString = String.valueOf(day);
         if (dayString.length() == 1)
             dayString = "0" + dayString;
         if (type.equals(ListType.ANIME)) {
             if (startDate)
-                animeRecord.setWatchingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                animeRecord.setWatchingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
             else
-                animeRecord.setWatchingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                animeRecord.setWatchingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         } else {
             if (startDate)
-                mangaRecord.setReadingStart(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                mangaRecord.setReadingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
             else
-                mangaRecord.setReadingEnd(Integer.toString(year) + "-" + monthString + "-" + dayString);
+                mangaRecord.setReadingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         }
         setText();
     }
@@ -332,9 +332,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         String shareText = PrefManager.getCustomShareText();
         shareText = shareText.replace("$title;", actionBar.getTitle());
         if (AccountService.isMAL())
-            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         else
-            shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + Integer.toString(recordID));
+            shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
         return shareText;
     }
@@ -352,10 +352,10 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 Theme.Snackbar(this, R.string.toast_error_Records);
             return false;
         } else if (type.equals(ListType.ANIME)) {
-            animeRecord = dbMan.getAnime(recordID, username);
+            animeRecord = dbMan.getAnime(recordID);
             return animeRecord != null;
         } else {
-            mangaRecord = dbMan.getManga(recordID, username);
+            mangaRecord = dbMan.getManga(recordID);
             return mangaRecord != null;
         }
     }
@@ -532,10 +532,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 addToList();
                 break;
             case R.id.action_viewTopic:
-                Intent forumActivity = new Intent(this, ForumActivity.class);
-                forumActivity.putExtra("id", recordID);
-                forumActivity.putExtra("listType", type);
-                startActivity(forumActivity);
+                if (MALApi.isNetworkAvailable(context)) {
+                    Intent forumActivity = new Intent(this, ForumActivity.class);
+                    forumActivity.putExtra("id", recordID);
+                    forumActivity.putExtra("listType", type);
+                    startActivity(forumActivity);
+                } else {
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                }
                 break;
             case R.id.action_ViewMALPage:
                 Uri malurl;
@@ -562,10 +566,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @Override
     public void onPause() {
         super.onPause();
-
         if (animeRecord == null && mangaRecord == null)
             return; // nothing to do
-
         try {
             if (type.equals(ListType.ANIME)) {
                 if (animeRecord.isDirty() && !animeRecord.getDeleteFlag())

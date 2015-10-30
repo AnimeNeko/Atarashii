@@ -41,8 +41,8 @@ import com.squareup.picasso.Picasso;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
@@ -416,13 +416,13 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onUserNetworkTaskFinished(User result) {
+    public void onUserNetworkTaskFinished(Profile result) {
         ImageView image = (ImageView) findViewById(R.id.Image);
         ImageView image2 = (ImageView) findViewById(R.id.NDimage);
         try {
             Picasso.with(context)
-                    .load(result.getProfile().getAvatarUrl())
-                    .transform(new RoundedTransformation(result.getName()))
+                    .load(result.getImageUrl())
+                    .transform(new RoundedTransformation(result.getUsername()))
                     .into(image);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());

@@ -138,7 +138,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                     : activity.mangaRecord.getReadStatusInt()));
 
         if (activity.isAnime()) {
-            progress1Current.setText(Integer.toString(activity.animeRecord.getWatchedEpisodes()));
+            progress1Current.setText(String.valueOf(activity.animeRecord.getWatchedEpisodes()));
             progress1Total.setText(nullCheckOf(activity.animeRecord.getEpisodes()));
 
             myStartDate.setText(activity.nullCheck(activity.animeRecord.getWatchingStart()));
@@ -149,12 +149,12 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myEndDate.setText(activity.getDate(activity.animeRecord.getWatchingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.animeRecord.getPriority()));
             myTags.setText(activity.animeRecord.getPersonalTagsString().equals("") ? getString(R.string.card_content_none) : activity.animeRecord.getPersonalTagsString());
-            comments.setText(activity.nullCheck(activity.animeRecord.getPersonalComments()));
+            comments.setText(activity.nullCheck(activity.animeRecord.getNotes()));
 
             fansubs.setText(activity.nullCheck(activity.animeRecord.getFansubGroup()));
             storage.setText(getString(R.array.storageArray, activity.animeRecord.getStorage()));
-            storageCount.setText(Integer.toString(activity.animeRecord.getStorageValue()));
-            dowloaded.setText(activity.nullCheck(Integer.toString(activity.animeRecord.getEpsDownloaded())));
+            storageCount.setText(String.valueOf(activity.animeRecord.getStorageValue()));
+            dowloaded.setText(activity.nullCheck(String.valueOf(activity.animeRecord.getEpsDownloaded())));
 
             priority.setText(getString(R.array.priorityRewatchArray, activity.animeRecord.getRewatchValue()));
             rewatchCount2.setText(activity.nullCheck(activity.animeRecord.getRewatchCount()));
@@ -162,10 +162,10 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             cardOther.findViewById(R.id.capacityPanel).setVisibility((activity.animeRecord.getStorage() == 0 || activity.animeRecord.getStorage() == 3) ? View.GONE : View.VISIBLE);
 
         } else {
-            progress1Current.setText(Integer.toString(activity.mangaRecord.getVolumesRead()));
+            progress1Current.setText(String.valueOf(activity.mangaRecord.getVolumesRead()));
             progress1Total.setText(nullCheckOf(activity.mangaRecord.getVolumes()));
 
-            progress2Current.setText(Integer.toString(activity.mangaRecord.getChaptersRead()));
+            progress2Current.setText(String.valueOf(activity.mangaRecord.getChaptersRead()));
             progress2Total.setText(nullCheckOf(activity.mangaRecord.getChapters()));
 
             myStartDate.setText(activity.nullCheck(activity.mangaRecord.getReadingStart()));
@@ -176,7 +176,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myEndDate.setText(activity.getDate(activity.mangaRecord.getReadingEnd()));
             myPriority.setText(getString(R.array.priorityArray, activity.mangaRecord.getPriority()));
             myTags.setText(activity.mangaRecord.getPersonalTagsString().equals("") ? getString(R.string.card_content_none) : activity.mangaRecord.getPersonalTagsString());
-            comments.setText(activity.nullCheck(activity.mangaRecord.getPersonalComments()));
+            comments.setText(activity.nullCheck(activity.mangaRecord.getNotes()));
 
             cardOther.setVisibility(View.GONE);
 
@@ -252,7 +252,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             case R.id.commentspanel:
                 Bundle args6 = bundle(R.id.commentspanel, R.string.dialog_title_comment);
                 args6.putBoolean("BBCode", false);
-                args6.putString("message", activity.isAnime() ? activity.animeRecord.getPersonalComments() : activity.mangaRecord.getPersonalComments());
+                args6.putString("message", activity.isAnime() ? activity.animeRecord.getNotes() : activity.mangaRecord.getNotes());
                 args6.putString("hint", getString(R.string.dialog_hint_comment));
                 activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(activity), args6);
                 break;
@@ -272,7 +272,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 break;
             case R.id.capacityPanel:
                 Bundle args9 = bundle(R.id.capacityPanel, R.string.dialog_title_storage_value);
-                args9.putInt("current", activity.animeRecord.getStorageValue());
+                args9.putDouble("current", activity.animeRecord.getStorageValue());
                 args9.putInt("max", 10);
                 activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args9);
                 break;

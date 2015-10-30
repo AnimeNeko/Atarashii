@@ -62,7 +62,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 numberPicker.clearFocus();
                 numberInput.clearFocus();
-                int value = Theme.getRawScore(!inputScore ? Integer.toString(numberPicker.getValue()) : numberInput.getText().toString());
+                int value = Theme.getRawScore(!inputScore ? String.valueOf(numberPicker.getValue()) : numberInput.getText().toString());
                 if (!AccountService.isMAL() && isRating())
                     callback.onUpdated(value, getArguments().getInt("id"));
                 else

@@ -11,15 +11,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.response.AnimeManga.AnimeList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.response.AnimeManga.MangaList;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.Profile;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.AnimeList;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.MangaList;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
+import net.somethingdreadful.MAL.api.MALModels.Friend;
+import net.somethingdreadful.MAL.api.MALModels.History;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -36,21 +38,22 @@ import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 public class MALApi {
-    // Use version 1.0 of the API interface
+    // Use version 2.0 of the API interface
     private static final String API_HOST = "https://api.atarashiiapp.com/2";
     private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
 
     private MALInterface service;
     private String username;
 
-
     public MALApi() {
         username = AccountService.getUsername();
         setupRESTService(username, AccountService.getPassword());
     }
 
+    /*
+     * Only use for verifying.
+     */
     public MALApi(String username, String password) {
-        this.username = username;
         setupRESTService(username, password);
     }
 
@@ -89,9 +92,10 @@ public class MALApi {
             return response.getStatus() == 200;
         } catch (RetrofitError e) {
             if (e.getResponse() != null)
-                Crashlytics.log(Log.ERROR, "MALX", "MALApi.getListTypeString: " + e.getResponse().getStatus());
+                Crashlytics.log(Log.ERROR, "MALX", "MALApi.isAuth: " + e.getResponse().getStatus());
             else
-                Crashlytics.log(Log.ERROR, "MALX", "MALApi.getListTypeString: " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "MALX", "MALApi.isAuth: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -101,27 +105,27 @@ public class MALApi {
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        return service.searchAnime(query, page);
+        return AnimeList.convertBaseArray(service.searchAnime(query, page));
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        return service.searchManga(query, page);
+        return MangaList.convertBaseArray(service.searchManga(query, page));
     }
 
-    public AnimeList getAnimeList() {
-        return service.getAnimeList(username);
+    public UserList getAnimeList() {
+        return AnimeList.createBaseModel(service.getAnimeList(username));
     }
 
-    public MangaList getMangaList() {
-        return service.getMangaList(username);
+    public UserList getMangaList() {
+        return MangaList.createBaseModel(service.getMangaList(username));
     }
 
     public Anime getAnime(int id) {
-        return service.getAnime(id);
+        return service.getAnime(id).createBaseModel();
     }
 
     public Manga getManga(int id) {
-        return service.getManga(id);
+        return service.getManga(id).createBaseModel();
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
@@ -213,44 +217,43 @@ public class MALApi {
         return service.deleteManga(id).getStatus() == 200;
     }
 
-    public ArrayList<Anime> getMostPopularAnime(int page) {
-        return service.getPopularAnime(page);
+    public BrowseList getMostPopularAnime(int page) {
+        return AnimeList.convertBaseBrowseList(service.getPopularAnime(page));
     }
 
-    public ArrayList<Manga> getMostPopularManga(int page) {
-        return service.getPopularManga(page);
+    public BrowseList getMostPopularManga(int page) {
+        return MangaList.convertBaseBrowseList(service.getPopularManga(page));
     }
 
-    public ArrayList<Anime> getTopRatedAnime(int page) {
-        return service.getTopRatedAnime(page);
+    public BrowseList getTopRatedAnime(int page) {
+        return AnimeList.convertBaseBrowseList(service.getTopRatedAnime(page));
     }
 
-    public ArrayList<Manga> getTopRatedManga(int page) {
-        return service.getTopRatedManga(page);
+    public BrowseList getTopRatedManga(int page) {
+        return MangaList.convertBaseBrowseList(service.getTopRatedManga(page));
     }
 
-    public ArrayList<Anime> getJustAddedAnime(int page) {
-        return service.getJustAddedAnime(page);
+    public BrowseList getJustAddedAnime(int page) {
+        return AnimeList.convertBaseBrowseList(service.getJustAddedAnime(page));
     }
 
-    public ArrayList<Manga> getJustAddedManga(int page) {
-        return service.getJustAddedManga(page);
+    public BrowseList getJustAddedManga(int page) {
+        return MangaList.convertBaseBrowseList(service.getJustAddedManga(page));
     }
 
-    public ArrayList<Anime> getUpcomingAnime(int page) {
-        return service.getUpcomingAnime(page);
+    public BrowseList getUpcomingAnime(int page) {
+        return AnimeList.convertBaseBrowseList(service.getUpcomingAnime(page));
     }
 
-    public ArrayList<Manga> getUpcomingManga(int page) {
-        return service.getUpcomingManga(page);
+    public BrowseList getUpcomingManga(int page) {
+        return MangaList.convertBaseBrowseList(service.getUpcomingManga(page));
     }
-
     public Profile getProfile(String user) {
-        return service.getProfile(user);
+        return service.getProfile(user).createBaseModel();
     }
 
-    public ArrayList<User> getFriends(String user) {
-        return service.getFriends(user);
+    public ArrayList<Profile> getFriends(String user) {
+        return Friend.convertBaseFriendList(service.getFriends(user));
     }
 
     public ForumMain getForum() {
@@ -294,15 +297,15 @@ public class MALApi {
     }
 
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {
-        return service.getAnimeReviews(id, page);
+        return net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews.convertBaseArray(service.getAnimeReviews(id, page));
     }
 
     public ArrayList<Reviews> getMangaReviews(int id, int page) {
-        return service.getMangaReviews(id, page);
+        return net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews.convertBaseArray(service.getMangaReviews(id, page));
     }
 
-    public ArrayList<History> getActivity(String username) {
-        return service.getActivity(username);
+    public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username) {
+        return History.convertBaseHistoryList(service.getActivity(username));
     }
 
     public enum ListType {

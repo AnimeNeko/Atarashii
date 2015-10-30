@@ -6,11 +6,11 @@ import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.response.Forum;
-import net.somethingdreadful.MAL.api.response.ForumMain;
-import net.somethingdreadful.MAL.api.response.UserProfile.History;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.History;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
+import net.somethingdreadful.MAL.api.MALModels.Forum;
+import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,8 +64,8 @@ public class HtmlUtil {
         if (maxpages == 0) {
             list = list.replace("(page/pages)", pageString);
         } else {
-            list = list.replace("pages", maxpages == -1 ? "?" : Integer.toString(maxpages));
-            list = list.replace("page", Integer.toString(page));
+            list = list.replace("pages", maxpages == -1 ? "?" : String.valueOf(maxpages));
+            list = list.replace("page", String.valueOf(page));
         }
 
         if (Theme.darkTheme) {
@@ -185,7 +185,7 @@ public class HtmlUtil {
      * @param page The page number
      * @return String The HTML source
      */
-    public String convertList(User record, int page) {
+    public String convertList(Profile record, int page) {
         ArrayList<History> list = record.getActivity();
         String result = "";
         if (list != null) {
@@ -201,13 +201,13 @@ public class HtmlUtil {
                     case "text":
                         comment = post.getValue();
                         image = post.getUsers().get(0).getImageUrl();
-                        title = post.getUsers().get(0).getDisplayName();
+                        title = post.getUsers().get(0).getUsername();
                         break;
                     case "list":
                         if (post.getSeries() != null) {
-                            comment = post.getUsers().get(0).getDisplayName() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitleRomaji();
-                            image = post.getSeries().getImageUrlLge();
-                            title = post.getSeries().getTitleRomaji();
+                            comment = post.getUsers().get(0).getUsername() + " " + post.getStatus() + " " + post.getValue() + " of " + post.getSeries().getTitle();
+                            image = post.getSeries().getImageUrl();
+                            title = post.getSeries().getTitle();
                         }
                         break;
                 }
@@ -216,8 +216,8 @@ public class HtmlUtil {
                 comment = comment.replace("img src=", "img width=\"100%\" src=");
                 postreal = postreal.replace("image", image);
                 postreal = postreal.replace("Title", title);
-                postreal = postreal.replace("itemID", Integer.toString(post.getId()));
-                postreal = postreal.replace("position", Integer.toString(i));
+                postreal = postreal.replace("itemID", String.valueOf(post.getId()));
+                postreal = postreal.replace("position", String.valueOf(i));
                 postreal = postreal.replace("Subhead", DateTools.parseDate(post.getCreatedAt(), true));
                 postreal = postreal.replace("<!-- place post content here -->", comment);
 
@@ -250,14 +250,14 @@ public class HtmlUtil {
                 postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"edit('itemID', 'position')\" src=\"http://i.imgur.com/uZ0TbNv.png\"/>");
             else
                 postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"quote('itemID', 'position')\" src=\"http://i.imgur.com/yYtLVTV.png\"/>");
-            if (User.isDeveloperRecord(post.getUsername()))
+            if (Profile.isDeveloper(post.getUsername()))
                 postreal = postreal.replace("=\"title\">", "=\"developer\">");
             if (!post.getProfile().getDetails().getAccessRank().equals("Member"))
                 postreal = postreal.replace("=\"title\">", "=\"staff\">");
             postreal = postreal.replace("image", post.getProfile().getAvatarUrl() != null ? post.getProfile().getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
             postreal = postreal.replace("Title", post.getUsername());
-            postreal = postreal.replace("itemID", Integer.toString(post.getId()));
-            postreal = postreal.replace("position", Integer.toString(i));
+            postreal = postreal.replace("itemID", String.valueOf(post.getId()));
+            postreal = postreal.replace("position", String.valueOf(i));
             postreal = postreal.replace("Subhead", DateTools.parseDate(post.getTime(), true));
             postreal = postreal.replace("<!-- place post content here -->", comment);
 
@@ -282,12 +282,12 @@ public class HtmlUtil {
             String comment = review.getReview().replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
             comment = AccountService.isMAL() ? comment : convertALComment(comment);
 
-            if (User.isDeveloperRecord(review.getUsername()))
+            if (review.getUser().isDeveloper())
                 reviewreal = reviewreal.replace("=\"title\">", "=\"developer\">");
-            reviewreal = reviewreal.replace("image", review.getAvatarUrl() != null ? review.getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
-            reviewreal = reviewreal.replace("Title", review.getUsername());
-            reviewreal = reviewreal.replace("itemID", Integer.toString(i));
-            reviewreal = reviewreal.replace("position", Integer.toString(i));
+            reviewreal = reviewreal.replace("image", review.getUser().getImageUrl());
+            reviewreal = reviewreal.replace("Title", review.getUser().getUsername());
+            reviewreal = reviewreal.replace("itemID", String.valueOf(i));
+            reviewreal = reviewreal.replace("position", String.valueOf(i));
             reviewreal = reviewreal.replace("Subhead", DateTools.parseDate(review.getDate(), !AccountService.isMAL()));
             reviewreal = reviewreal.replace("<!-- place post content here -->", comment);
 

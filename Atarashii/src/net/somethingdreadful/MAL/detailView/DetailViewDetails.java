@@ -17,11 +17,10 @@ import android.widget.TextView;
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.AnimeManga.GenericRecord;
 
 import java.io.Serializable;
 
@@ -164,7 +163,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         toggleView(true);
         activity.setMenu();
 
-        synopsis.setText(record.getSpannedSynopsis());
+        synopsis.setText(record.getSynopsis());
         synopsis.setMovementMethod(LinkMovementMethod.getInstance());
         genres.setText("\u200F" + TextUtils.join(", ", activity.getGenresString(record.getGenresInt())));
         if (activity.type.equals(MALApi.ListType.ANIME)) {
@@ -190,20 +189,17 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             producersRow.setVisibility(View.GONE);
         }
 
-        if (!AccountService.isMAL())
-            score.setText(Theme.getDisplayScore(record.getMembersScore()));
-        else
-            score.setText(Float.toString(record.getMembersScore()));
-        ranked.setText(Integer.toString(record.getRank()));
-        popularity.setText(Integer.toString(record.getPopularityRank()));
-        members.setText(Integer.toString(record.getMembersCount()));
-        favorites.setText(Integer.toString(record.getFavoritedCount()));
+        score.setText(record.getAverageScore());
+        ranked.setText(String.valueOf(record.getRank()));
+        popularity.setText(String.valueOf(record.getPopularity()));
+        members.setText(String.valueOf(record.getAverageScoreCount()));
+        favorites.setText(String.valueOf(record.getFavoritedCount()));
 
         relation.clear();
         title.clear();
 
         if (activity.type.equals(MALApi.ListType.ANIME)) {
-            relation.addRelations(activity.animeRecord.getMangaAdaptions(), getString(R.string.card_content_adaptions));
+            relation.addRelations(activity.animeRecord.getMangaAdaptations(), getString(R.string.card_content_adaptions));
             relation.addRelations(activity.animeRecord.getParentStory(), getString(R.string.card_content_parentstory));
             relation.addRelations(activity.animeRecord.getPrequels(), getString(R.string.card_content_prequel));
             relation.addRelations(activity.animeRecord.getSequels(), getString(R.string.card_content_sequel));
@@ -214,17 +210,23 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
             relation.addRelations(activity.animeRecord.getOther(), getString(R.string.card_content_other));
 
+            /*
+            TODO: Enable this
+
             title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
             title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
             title.addTitles(activity.animeRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
+            */
         } else {
             relation.addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
             relation.addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
             relation.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
-
+            /*
+            TODO: Enable this
             title.addTitles(activity.mangaRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
             title.addTitles(activity.mangaRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
             title.addTitles(activity.mangaRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
+            */
         }
 
         relation.notifyDataSetChanged();

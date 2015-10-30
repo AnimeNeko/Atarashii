@@ -17,7 +17,7 @@ import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.response.UserProfile.User;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import butterknife.ButterKnife;
@@ -60,7 +60,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      *
      * @param result The new record
      */
-    public void apply(User result) {
+    public void apply(Profile result) {
         try {
             if (result != null) {
                 webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, 1), "text/html", "utf-8", null);

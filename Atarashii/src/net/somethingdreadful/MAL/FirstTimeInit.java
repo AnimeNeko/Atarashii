@@ -21,7 +21,6 @@ import android.widget.ViewFlipper;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
@@ -35,14 +34,22 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     Context context;
     ProgressDialog dialog;
 
-    @InjectView(R.id.edittext_malUser) EditText malUser;
-    @InjectView(R.id.edittext_malPass) EditText malPass;
-    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
-    @InjectView(R.id.button_connectToMal) Button connectButton;
-    @InjectView(R.id.registerButton) Button registerButton;
-    @InjectView(R.id.webview) WebView webview;
-    @InjectView(R.id.myanimelist) TextView myanimelist;
-    @InjectView(R.id.anilist) TextView anilist;
+    @InjectView(R.id.edittext_malUser)
+    EditText malUser;
+    @InjectView(R.id.edittext_malPass)
+    EditText malPass;
+    @InjectView(R.id.viewFlipper)
+    ViewFlipper viewFlipper;
+    @InjectView(R.id.button_connectToMal)
+    Button connectButton;
+    @InjectView(R.id.registerButton)
+    Button registerButton;
+    @InjectView(R.id.webview)
+    WebView webview;
+    @InjectView(R.id.myanimelist)
+    TextView myanimelist;
+    @InjectView(R.id.anilist)
+    TextView anilist;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,16 +91,20 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     }
 
     private void tryConnection() {
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setTitle(getString(R.string.dialog_title_Verifying));
-        dialog.setMessage(getString(R.string.dialog_message_Verifying));
-        dialog.show();
-        if (MalPass != null)
-            new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
-        else
-            new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
+        if (MALApi.isNetworkAvailable(this)) {
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setTitle(getString(R.string.dialog_title_Verifying));
+            dialog.setMessage(getString(R.string.dialog_message_Verifying));
+            dialog.show();
+            if (MalPass != null)
+                new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
+            else
+                new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
+        } else {
+            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+        }
     }
 
     @Override
@@ -107,10 +118,8 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     }
 
     @Override
-    public void onAuthenticationCheckFinished(boolean result, String username) {
+    public void onAuthenticationCheckFinished(boolean result) {
         if (result) {
-            if (username == null)
-                AccountService.addAccount(MalUser, MalPass, AccountType.MyAnimeList);
             Crashlytics.setString("site", AccountService.accountType.toString());
             PrefManager.setForceSync(true);
             PrefManager.commitChanges();
