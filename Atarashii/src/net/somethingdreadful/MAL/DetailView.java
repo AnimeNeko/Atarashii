@@ -532,10 +532,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 addToList();
                 break;
             case R.id.action_viewTopic:
-                Intent forumActivity = new Intent(this, ForumActivity.class);
-                forumActivity.putExtra("id", recordID);
-                forumActivity.putExtra("listType", type);
-                startActivity(forumActivity);
+                if (MALApi.isNetworkAvailable(context)) {
+                    Intent forumActivity = new Intent(this, ForumActivity.class);
+                    forumActivity.putExtra("id", recordID);
+                    forumActivity.putExtra("listType", type);
+                    startActivity(forumActivity);
+                } else {
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                }
                 break;
             case R.id.action_ViewMALPage:
                 Uri malurl;
