@@ -67,6 +67,8 @@ public class AccountService extends Service {
      * @return String The username
      */
     public static String getUsername() {
+        if (getAccount() == null)
+            return null;
         String username = getAccount().name;
         Crashlytics.setUserName(username);
         return username;
@@ -78,8 +80,10 @@ public class AccountService extends Service {
      * @return String The password
      */
     public static String getPassword() {
-        AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount();
+        if (account == null)
+            return null;
+        AccountManager accountManager = AccountManager.get(context);
         return accountManager.getPassword(account);
     }
 
