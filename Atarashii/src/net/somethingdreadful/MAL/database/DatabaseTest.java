@@ -8,9 +8,6 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 public class DatabaseTest extends SQLiteOpenHelper {
-    private static DatabaseTest instance;
-    private Context context;
-
     public static final String NAME = "MAL.db";
     public static final int VERSION = 13;
 
@@ -120,16 +117,11 @@ public class DatabaseTest extends SQLiteOpenHelper {
             + "value varchar"
             + ");";
 
-    public DatabaseTest(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
-
     public DatabaseTest(Context context) {
         super(context, NAME, null, VERSION);
     }
 
     public static void deleteDatabase(Context context) {
-        instance = null;
         context.deleteDatabase(NAME);
     }
 

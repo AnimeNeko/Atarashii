@@ -2,8 +2,10 @@ package net.somethingdreadful.MAL.api.MALModels;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,15 +88,27 @@ public class History implements Serializable {
         if (type.equals("anime")) {
             model.setAnime(new Anime());
             model.getAnime().setId(getItem().getId());
-            model.getAnime().setEpisodes(getItem().getEpisodes());
+            model.setValue(String.valueOf(getItem().getEpisodes()));
+            model.setStatus("watched episode");
             model.getAnime().setTitle(getItem().getTitle());
+            model.getAnime().setImageUrl("http://cdn.myanimelist.net/images/na_series.gif");
         } else {
             model.setManga(new Manga());
             model.getManga().setId(getItem().getId());
-            model.getManga().setChapters(getItem().getChapters());
+            model.setValue(String.valueOf(getItem().getChapters()));
+            model.setStatus("read chapter");
             model.getManga().setTitle(getItem().getTitle());
+            model.getManga().setImageUrl("http://cdn.myanimelist.net/images/na_series.gif");
         }
         model.setCreatedAt(getTimeUpdated());
+        model.setActivityType("list");
+
+        // set User
+        ArrayList<Profile> users = new ArrayList<>();
+        Profile user = new Profile();
+        user.setUsername(AccountService.getUsername());
+        users.add(user);
+        model.setUsers(users);
         return model;
     }
 

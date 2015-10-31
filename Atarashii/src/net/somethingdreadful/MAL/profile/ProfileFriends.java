@@ -113,11 +113,15 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
-        if (listarray.get(position).getDetails().getAccessRank() == null)
-            profile.putExtra("username", listarray.get(position).getUsername());
-        else
-            profile.putExtra("user", listarray.get(position));
-        startActivity(profile);
+        if (MALApi.isNetworkAvailable(activity)) {
+            Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
+            if (listarray.get(position).getDetails().getAccessRank() == null)
+                profile.putExtra("username", listarray.get(position).getUsername());
+            else
+                profile.putExtra("user", listarray.get(position));
+            startActivity(profile);
+        } else {
+            Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+        }
     }
 }
