@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -245,7 +247,7 @@ public class DatabaseManager {
                 result.add(Anime.fromCursor(cursor));
             while (cursor.moveToNext());
         }
-        Log.e("MALX", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
+        Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
         cursor.close();
         return result;
     }
@@ -258,7 +260,7 @@ public class DatabaseManager {
             while (cursor.moveToNext());
         }
         cursor.close();
-        Log.e("MALX", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
+        Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
         return result;
     }
 
