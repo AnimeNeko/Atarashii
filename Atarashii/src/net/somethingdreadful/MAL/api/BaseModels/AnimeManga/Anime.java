@@ -223,7 +223,7 @@ public class Anime extends GenericRecord implements Serializable {
      * Website: MyanimeList
      */
     @Getter
-    private double storageValue;
+    private float storageValue;
 
     /**
      * The number of episodes downloaded by the user
@@ -292,7 +292,7 @@ public class Anime extends GenericRecord implements Serializable {
         this.storage = storage;
     }
 
-    public void setStorageValue(double storageValue) {
+    public void setStorageValue(float storageValue) {
         if (!fromCursor)
             addDirtyField("storageValue");
         this.storageValue = storageValue;
