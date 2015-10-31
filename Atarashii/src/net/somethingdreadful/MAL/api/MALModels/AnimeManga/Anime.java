@@ -179,7 +179,7 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter
     @Setter
     @SerializedName("storage_value")
-    private double storageValue;
+    private float storageValue;
 
     /**
      * The number of episodes downloaded by the user
