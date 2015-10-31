@@ -36,7 +36,7 @@ public class HtmlUtil {
      * @param hide String resource id
      * @param show String resource id
      */
-    private void setSpoilerText(int hide, int show){
+    private void setSpoilerText(int hide, int show) {
         spoilerStructure = spoilerStructure
                 .replace("Hide spoiler", context.getString(hide).toUpperCase())
                 .replace("Show spoiler", context.getString(show).toUpperCase());
@@ -48,11 +48,11 @@ public class HtmlUtil {
     /**
      * Creates from the given data the list.
      *
-     * @param result The post list
+     * @param result   The post list
      * @param maxpages The maximum amount of pages
-     * @param page   The current page number
+     * @param page     The current page number
      * @return String The html source
-     *
+     * <p/>
      * note: if the maxpages equals -1 it will show a questionmark instead a pageString message.
      */
     private String buildList(String result, int maxpages, Integer page) {
@@ -182,7 +182,7 @@ public class HtmlUtil {
      * Convert a user activity array into a HTML list.
      *
      * @param record The UserActivity object that contains the list which should be converted in a HTML list
-     * @param page The page number
+     * @param page   The page number
      * @return String The HTML source
      */
     public String convertList(Profile record, int page) {
@@ -270,7 +270,7 @@ public class HtmlUtil {
     /**
      * Convert a forum array into a HTML list.
      *
-     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
+     * @param record The ForumMain object that contains the list which should be converted in a HTML list
      * @return String The HTML source
      */
     public String convertList(ArrayList<Reviews> record, int page) {
