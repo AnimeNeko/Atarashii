@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL.api.MALModels.AnimeManga;
 
+import com.google.gson.annotations.SerializedName;
+
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import java.io.Serializable;
@@ -43,6 +45,7 @@ public class Reviews implements Serializable {
      */
     @Setter
     @Getter
+    @SerializedName("watched_episodes")
     private int watchedEpisodes;
 
     /**
@@ -57,6 +60,7 @@ public class Reviews implements Serializable {
      */
     @Setter
     @Getter
+    @SerializedName("chapters_read")
     private int chaptersRead;
 
     /**
@@ -71,6 +75,7 @@ public class Reviews implements Serializable {
      */
     @Setter
     @Getter
+    @SerializedName("helpful_total")
     private int helpfulTotal;
 
     /**
@@ -78,6 +83,7 @@ public class Reviews implements Serializable {
      */
     @Setter
     @Getter
+    @SerializedName("avatar_url")
     private String avatarUrl;
 
     /**
@@ -91,9 +97,10 @@ public class Reviews implements Serializable {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews();
         model.setDate(getDate());
         model.setRating(getRating());
+        model.setReview(getReview());
         Profile profile =  new Profile();
         profile.setUsername(getUsername());
-        profile.setImageUrl(getAvatarUrl());
+        profile.setImageUrl(getAvatarUrl() == null ? "http://cdn.myanimelist.net/images/na_series.gif" : getAvatarUrl());
         model.setUser(profile);
         return model;
     }
