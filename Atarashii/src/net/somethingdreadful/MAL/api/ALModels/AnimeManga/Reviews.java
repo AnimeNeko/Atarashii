@@ -54,8 +54,10 @@ public class Reviews implements Serializable {
         model.setReview(getText());
         model.setUser(getUser().createBaseModel());
         model.setDate(getDate());
-        model.setAnime(getAnime().createBaseModel());
-        model.setManga(getManga().createBaseModel());
+        if (getAnime() != null)
+            model.setAnime(getAnime().createBaseModel());
+        if (getManga() != null)
+            model.setManga(getManga().createBaseModel());
         return model;
     }
 
