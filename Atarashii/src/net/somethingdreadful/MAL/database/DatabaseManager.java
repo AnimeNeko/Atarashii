@@ -35,17 +35,19 @@ public class DatabaseManager {
             cv.put("airingTime", anime.getAiring().getTime());
             cv.put("nextEpisode", anime.getAiring().getNextEpisode());
         }
-        cv.put("watchedStatus", anime.getWatchedStatus());
-        cv.put("watchedEpisodes", anime.getWatchedEpisodes());
-        cv.put("watchingStart", anime.getWatchingStart());
-        cv.put("watchingEnd", anime.getWatchingEnd());
-        cv.put("fansubGroup", anime.getFansubGroup());
-        cv.put("storage", anime.getStorage());
-        cv.put("storageValue", anime.getStorageValue());
-        cv.put("epsDownloaded", anime.getEpsDownloaded());
-        cv.put("rewatching", anime.getRewatching());
-        cv.put("rewatchCount", anime.getRewatchCount());
-        cv.put("rewatchValue", anime.getRewatchValue());
+        if (AccountService.isMAL()) {
+            cv.put("watchedStatus", anime.getWatchedStatus());
+            cv.put("watchedEpisodes", anime.getWatchedEpisodes());
+            cv.put("watchingStart", anime.getWatchingStart());
+            cv.put("watchingEnd", anime.getWatchingEnd());
+            cv.put("fansubGroup", anime.getFansubGroup());
+            cv.put("storage", anime.getStorage());
+            cv.put("storageValue", anime.getStorageValue());
+            cv.put("epsDownloaded", anime.getEpsDownloaded());
+            cv.put("rewatching", anime.getRewatching());
+            cv.put("rewatchCount", anime.getRewatchCount());
+            cv.put("rewatchValue", anime.getRewatchValue());
+        }
 
         Query.newQuery(db).updateRecord(DatabaseTest.TABLE_ANIME, cv, anime.getId());
         Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_ALTERNATIVE, anime.getId(), anime.getAlternativeVersions());
@@ -94,15 +96,17 @@ public class DatabaseManager {
         ContentValues cv = listDetails(manga);
         cv.put("chapters", manga.getChapters());
         cv.put("volumes", manga.getVolumes());
-        cv.put("readStatus", manga.getReadStatus());
-        cv.put("chaptersRead", manga.getChaptersRead());
-        cv.put("volumesRead", manga.getVolumesRead());
-        cv.put("readingStart", manga.getReadingStart());
-        cv.put("readingEnd", manga.getReadingEnd());
-        cv.put("chapDownloaded", manga.getChapDownloaded());
-        cv.put("rereading", manga.getRereading());
-        cv.put("rereadCount", manga.getRereadCount());
-        cv.put("rereadValue", manga.getRereadValue());
+        if (AccountService.isMAL()) {
+            cv.put("readStatus", manga.getReadStatus());
+            cv.put("chaptersRead", manga.getChaptersRead());
+            cv.put("volumesRead", manga.getVolumesRead());
+            cv.put("readingStart", manga.getReadingStart());
+            cv.put("readingEnd", manga.getReadingEnd());
+            cv.put("chapDownloaded", manga.getChapDownloaded());
+            cv.put("rereading", manga.getRereading());
+            cv.put("rereadCount", manga.getRereadCount());
+            cv.put("rereadValue", manga.getRereadValue());
+        }
 
         Query.newQuery(db).updateRecord(DatabaseTest.TABLE_MANGA, cv, manga.getId());
         Query.newQuery(db).updateRelation(DatabaseTest.TABLE_MANGA_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_RELATED, manga.getId(), manga.getRelatedManga());
