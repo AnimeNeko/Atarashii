@@ -9,6 +9,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -315,35 +316,38 @@ public class DatabaseManager {
         cv.put("imageUrl", profile.getImageUrl());
         cv.put("imageUrlBanner", profile.getImageUrlBanner());
         cv.put("notifications", profile.getNotifications());
-        cv.put("lastOnline", profile.getDetails().getLastOnline());
-        cv.put("status", profile.getDetails().getStatus());
-        cv.put("gender", profile.getDetails().getGender());
-        cv.put("birthday", profile.getDetails().getBirthday());
-        cv.put("location", profile.getDetails().getLocation());
-        cv.put("website", profile.getDetails().getWebsite());
-        cv.put("joinDate", profile.getDetails().getJoinDate());
-        cv.put("accessRank", profile.getDetails().getAccessRank());
 
-        cv.put("animeListViews", profile.getDetails().getAnimeListViews());
-        cv.put("mangaListViews", profile.getDetails().getMangaListViews());
-        cv.put("forumPosts", profile.getDetails().getForumPosts());
-        cv.put("comments", profile.getDetails().getComments());
+        if (AccountService.isMAL()) {
+            cv.put("lastOnline", profile.getDetails().getLastOnline());
+            cv.put("status", profile.getDetails().getStatus());
+            cv.put("gender", profile.getDetails().getGender());
+            cv.put("birthday", profile.getDetails().getBirthday());
+            cv.put("location", profile.getDetails().getLocation());
+            cv.put("website", profile.getDetails().getWebsite());
+            cv.put("joinDate", profile.getDetails().getJoinDate());
+            cv.put("accessRank", profile.getDetails().getAccessRank());
 
-        cv.put("AnimetimeDays", profile.getAnimeStats().getTimeDays());
-        cv.put("Animewatching", profile.getAnimeStats().getWatching());
-        cv.put("Animecompleted", profile.getAnimeStats().getCompleted());
-        cv.put("AnimeonHold", profile.getAnimeStats().getOnHold());
-        cv.put("Animedropped", profile.getAnimeStats().getDropped());
-        cv.put("AnimeplanToWatch", profile.getAnimeStats().getPlanToWatch());
-        cv.put("AnimetotalEntries", profile.getAnimeStats().getTotalEntries());
+            cv.put("animeListViews", profile.getDetails().getAnimeListViews());
+            cv.put("mangaListViews", profile.getDetails().getMangaListViews());
+            cv.put("forumPosts", profile.getDetails().getForumPosts());
+            cv.put("comments", profile.getDetails().getComments());
 
-        cv.put("MangatimeDays", profile.getMangaStats().getTimeDays());
-        cv.put("Mangareading", profile.getMangaStats().getReading());
-        cv.put("Mangacompleted", profile.getMangaStats().getCompleted());
-        cv.put("MangaonHold", profile.getMangaStats().getOnHold());
-        cv.put("Mangadropped", profile.getMangaStats().getDropped());
-        cv.put("MangaplanToRead", profile.getMangaStats().getPlanToRead());
-        cv.put("MangatotalEntries", profile.getMangaStats().getTotalEntries());
+            cv.put("AnimetimeDays", profile.getAnimeStats().getTimeDays());
+            cv.put("Animewatching", profile.getAnimeStats().getWatching());
+            cv.put("Animecompleted", profile.getAnimeStats().getCompleted());
+            cv.put("AnimeonHold", profile.getAnimeStats().getOnHold());
+            cv.put("Animedropped", profile.getAnimeStats().getDropped());
+            cv.put("AnimeplanToWatch", profile.getAnimeStats().getPlanToWatch());
+            cv.put("AnimetotalEntries", profile.getAnimeStats().getTotalEntries());
+
+            cv.put("MangatimeDays", profile.getMangaStats().getTimeDays());
+            cv.put("Mangareading", profile.getMangaStats().getReading());
+            cv.put("Mangacompleted", profile.getMangaStats().getCompleted());
+            cv.put("MangaonHold", profile.getMangaStats().getOnHold());
+            cv.put("Mangadropped", profile.getMangaStats().getDropped());
+            cv.put("MangaplanToRead", profile.getMangaStats().getPlanToRead());
+            cv.put("MangatotalEntries", profile.getMangaStats().getTotalEntries());
+        }
 
         Query.newQuery(db).updateRecord(DatabaseTest.TABLE_PROFILE, cv, profile.getUsername());
     }
