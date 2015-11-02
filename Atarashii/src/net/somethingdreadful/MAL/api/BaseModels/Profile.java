@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.api.BaseModels;
 import android.database.Cursor;
 
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.account.AccountService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ public class Profile implements Serializable {
     /**
      * List of developers.
      */
-    static String[] developers = {"ratan12", "motoko"};
+    static String[] developersMAL = {"ratan12", "motoko"};
+    static String[] developersAL = {"ratan12", "MotokoAoyama"};
 
     /**
      * The username of the requested profile.
@@ -125,6 +127,7 @@ public class Profile implements Serializable {
     public static boolean isDeveloper(String username) {
         if (username == null)
             return false;
+        String[] developers = AccountService.isMAL() ? developersMAL : developersAL;
         return Arrays.asList(developers).contains(username.toLowerCase(Locale.US));
     }
 
