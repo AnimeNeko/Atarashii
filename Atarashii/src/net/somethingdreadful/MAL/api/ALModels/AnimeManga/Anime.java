@@ -45,7 +45,7 @@ public class Anime extends GenericRecord implements Serializable {
         private int nextEpisode;
     }
 
-    public class ListStats {
+    public class ListStats implements Serializable {
         @Getter
         @Setter
         @SerializedName("plan_to_watch")
