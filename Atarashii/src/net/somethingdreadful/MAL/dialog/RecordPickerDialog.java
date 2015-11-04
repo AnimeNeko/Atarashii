@@ -27,7 +27,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.widgets.Widget1;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCallbackListener, APIAuthenticationErrorListener, ViewPager.OnPageChangeListener {
     IGF af;
@@ -37,7 +37,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
     ActionBar actionBar;
     IGFPagerAdapter mIGFPagerAdapter;
 
-    @InjectView(R.id.pager) ViewPager mViewPager;
+    @Bind(R.id.pager) ViewPager mViewPager;
 
     String username;
     boolean callbackAnimeError = false;
@@ -59,7 +59,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
             setContentView(R.layout.activity_home);
             // Creates the adapter to return the Animu and Mango fragments
             mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager(), false);
-            ButterKnife.inject(this);
+            ButterKnife.bind(this);
 
             username = AccountService.getUsername();
 

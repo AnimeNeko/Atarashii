@@ -26,7 +26,7 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ForumActivity extends AppCompatActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTask.ForumNetworkTaskListener {
     Menu menu;
@@ -38,7 +38,7 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
     public ForumsTopics topics;
     public boolean closeOnBack = false;
 
-    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @Bind(R.id.viewFlipper) ViewFlipper viewFlipper;
 
     public boolean discussion = false;
     public ForumJob task = ForumJob.BOARD;
@@ -48,7 +48,7 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
         super.onCreate(bundle);
         Theme.setTheme(this, R.layout.activity_forum, false);
         Theme.setActionBar(this);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         handleIntent(getIntent());
 

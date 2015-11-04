@@ -26,7 +26,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
     View view;
@@ -34,8 +34,8 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     DetailView activity;
     public ArrayList<Reviews> record;
 
-    @InjectView(R.id.webview) ObservableWebView webview;
-    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @Bind(R.id.webview) ObservableWebView webview;
+    @Bind(R.id.viewFlipper) ViewFlipper viewFlipper;
 
     public int id;
     public int page = 0;
@@ -45,7 +45,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         htmlUtil = new HtmlUtil(activity);
 

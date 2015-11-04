@@ -46,7 +46,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTask.NetworkTaskListener, RecordStatusUpdatedReceiver.RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
@@ -58,9 +58,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     ListViewAdapter<GenericRecord> ga;
     ArrayList<GenericRecord> gl = new ArrayList<>();
 
-    @InjectView(R.id.gridview) GridView Gridview;
-    @InjectView(R.id.viewFlipper) ViewFlipper viewflipper;
-    @InjectView(R.id.swiperefresh) SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.gridview) GridView Gridview;
+    @Bind(R.id.viewFlipper) ViewFlipper viewflipper;
+    @Bind(R.id.swiperefresh) SwipeRefreshLayout swipeRefresh;
 
     RecordStatusUpdatedReceiver recordStatusReceiver;
 
@@ -101,7 +101,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);

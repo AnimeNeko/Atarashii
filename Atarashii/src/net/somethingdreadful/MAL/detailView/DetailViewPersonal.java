@@ -27,7 +27,7 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
     public SwipeRefreshLayout swipeRefresh;
@@ -38,25 +38,25 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     Card cardOther;
     Card cardRewatch;
 
-    @InjectView(R.id.statusText) TextView status;
-    @InjectView(R.id.progress1Text1) TextView progress1Total;
-    @InjectView(R.id.progress1Text2) TextView progress1Current;
-    @InjectView(R.id.progress2Text1) TextView progress2Total;
-    @InjectView(R.id.progress2Text2) TextView progress2Current;
-    @InjectView(R.id.myScore) TextView myScore;
-    @InjectView(R.id.myStartDate) TextView myStartDate;
-    @InjectView(R.id.myEndDate) TextView myEndDate;
-    @InjectView(R.id.myPriority) TextView myPriority;
-    @InjectView(R.id.myTags) TextView myTags;
-    @InjectView(R.id.comments) TextView comments;
+    @Bind(R.id.statusText) TextView status;
+    @Bind(R.id.progress1Text1) TextView progress1Total;
+    @Bind(R.id.progress1Text2) TextView progress1Current;
+    @Bind(R.id.progress2Text1) TextView progress2Total;
+    @Bind(R.id.progress2Text2) TextView progress2Current;
+    @Bind(R.id.myScore) TextView myScore;
+    @Bind(R.id.myStartDate) TextView myStartDate;
+    @Bind(R.id.myEndDate) TextView myEndDate;
+    @Bind(R.id.myPriority) TextView myPriority;
+    @Bind(R.id.myTags) TextView myTags;
+    @Bind(R.id.comments) TextView comments;
 
-    @InjectView(R.id.fansubs) TextView fansubs;
-    @InjectView(R.id.storage) TextView storage;
-    @InjectView(R.id.storage_amount) TextView storageCount;
-    @InjectView(R.id.downloaded) TextView dowloaded;
+    @Bind(R.id.fansubs) TextView fansubs;
+    @Bind(R.id.storage) TextView storage;
+    @Bind(R.id.storage_amount) TextView storageCount;
+    @Bind(R.id.downloaded) TextView dowloaded;
 
-    @InjectView(R.id.priority) TextView priority;
-    @InjectView(R.id.count2Text2) TextView rewatchCount2;
+    @Bind(R.id.priority) TextView priority;
+    @Bind(R.id.count2Text2) TextView rewatchCount2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         cardOther.setContent(R.layout.card_detailview_personal_other);
         cardRewatch.setContent(R.layout.card_detailview_personal_rewatch);
 
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         cardBasic.setAllPadding(0, 0, 0, 0);
         cardOther.setAllPadding(0, 0, 0, 0);

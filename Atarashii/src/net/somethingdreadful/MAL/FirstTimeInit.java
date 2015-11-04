@@ -26,7 +26,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
     String MalUser;
@@ -34,21 +34,21 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     Context context;
     ProgressDialog dialog;
 
-    @InjectView(R.id.edittext_malUser)
+    @Bind(R.id.edittext_malUser)
     EditText malUser;
-    @InjectView(R.id.edittext_malPass)
+    @Bind(R.id.edittext_malPass)
     EditText malPass;
-    @InjectView(R.id.viewFlipper)
+    @Bind(R.id.viewFlipper)
     ViewFlipper viewFlipper;
-    @InjectView(R.id.button_connectToMal)
+    @Bind(R.id.button_connectToMal)
     Button connectButton;
-    @InjectView(R.id.registerButton)
+    @Bind(R.id.registerButton)
     Button registerButton;
-    @InjectView(R.id.webview)
+    @Bind(R.id.webview)
     WebView webview;
-    @InjectView(R.id.myanimelist)
+    @Bind(R.id.myanimelist)
     TextView myanimelist;
-    @InjectView(R.id.anilist)
+    @Bind(R.id.anilist)
     TextView anilist;
 
     @Override
@@ -56,7 +56,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
         Theme.setActionBar(this);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         context = getApplicationContext();
 

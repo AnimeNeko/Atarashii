@@ -50,7 +50,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener {
     IGF af;
@@ -65,10 +65,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     ActionBarDrawerToggle mDrawerToggle;
     NavigationDrawerAdapter mNavigationDrawerAdapter;
 
-    @InjectView(R.id.about) RelativeLayout about;
-    @InjectView(R.id.listview) ListView DrawerList;
-    @InjectView(R.id.logout) RelativeLayout logout;
-    @InjectView(R.id.settings) RelativeLayout settings;
+    @Bind(R.id.about) RelativeLayout about;
+    @Bind(R.id.listview) ListView DrawerList;
+    @Bind(R.id.logout) RelativeLayout logout;
+    @Bind(R.id.settings) RelativeLayout settings;
 
     String username;
 
@@ -94,7 +94,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-            ButterKnife.inject(this);
+            ButterKnife.bind(this);
 
             DrawerLayout.setDrawerListener(new DrawerListener());
             DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);

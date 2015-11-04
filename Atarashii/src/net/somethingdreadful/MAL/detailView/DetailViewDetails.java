@@ -25,7 +25,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
     View view;
@@ -41,30 +41,30 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     DetailViewRelationsAdapter relation;
     DetailViewRelationsAdapter title;
 
-    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
-    @InjectView(R.id.SynopsisContent) TextView  synopsis;
-    @InjectView(R.id.type) TextView type;
-    @InjectView(R.id.episodes) TextView episodes;
-    @InjectView(R.id.episodesLabel) TextView episodesLabel;
-    @InjectView(R.id.volumes) TextView volumes;
-    @InjectView(R.id.volumesLabel) TextView volumesLabel;
-    @InjectView(R.id.status) TextView status;
-    @InjectView(R.id.start) TextView start;
-    @InjectView(R.id.startRow) TableRow startRow;
-    @InjectView(R.id.end) TextView end;
-    @InjectView(R.id.endRow) TableRow endRow;
-    @InjectView(R.id.classification) TextView classification;
-    @InjectView(R.id.classificationLabel) TextView classificationLabel;
-    @InjectView(R.id.genres) TextView genres;
-    @InjectView(R.id.producers) TextView producers;
-    @InjectView(R.id.producersRow) TableRow producersRow;
+    @Bind(R.id.SynopsisContent) TextView  synopsis;
+    @Bind(R.id.type) TextView type;
+    @Bind(R.id.episodes) TextView episodes;
+    @Bind(R.id.episodesLabel) TextView episodesLabel;
+    @Bind(R.id.volumes) TextView volumes;
+    @Bind(R.id.volumesLabel) TextView volumesLabel;
+    @Bind(R.id.status) TextView status;
+    @Bind(R.id.start) TextView start;
+    @Bind(R.id.startRow) TableRow startRow;
+    @Bind(R.id.end) TextView end;
+    @Bind(R.id.endRow) TableRow endRow;
+    @Bind(R.id.classification) TextView classification;
+    @Bind(R.id.classificationLabel) TextView classificationLabel;
+    @Bind(R.id.genres) TextView genres;
+    @Bind(R.id.producers) TextView producers;
+    @Bind(R.id.producersRow) TableRow producersRow;
 
-    @InjectView(R.id.score) TextView score;
-    @InjectView(R.id.ranked) TextView ranked;
-    @InjectView(R.id.popularity) TextView popularity;
-    @InjectView(R.id.members) TextView members;
-    @InjectView(R.id.favorites) TextView favorites;
+    @Bind(R.id.score) TextView score;
+    @Bind(R.id.ranked) TextView ranked;
+    @Bind(R.id.popularity) TextView popularity;
+    @Bind(R.id.members) TextView members;
+    @Bind(R.id.favorites) TextView favorites;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -131,7 +131,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardTitles.setContent(R.layout.card_detailview_details_relations);
         
         // set all the views
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         if (!AccountService.isMAL()) {
             producers.setVisibility(View.GONE);
