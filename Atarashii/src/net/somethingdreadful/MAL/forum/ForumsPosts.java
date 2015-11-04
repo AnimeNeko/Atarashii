@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
-import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.R;
@@ -23,8 +23,8 @@ import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener {
     View view;
@@ -32,8 +32,9 @@ public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetwo
     ForumActivity activity;
     public ForumMain record;
 
-    @InjectView(R.id.webview) ObservableWebView webview;
-    @InjectView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @Bind(R.id.webview)
+    WebView webview;
+    @Bind(R.id.viewFlipper) ViewFlipper viewFlipper;
 
     public int id;
     public int page = 0;
@@ -43,7 +44,7 @@ public class ForumsPosts extends Fragment implements ForumNetworkTask.ForumNetwo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.fragment_forum_posts, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         htmlUtil = new HtmlUtil(activity);
 

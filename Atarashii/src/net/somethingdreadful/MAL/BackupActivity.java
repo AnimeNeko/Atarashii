@@ -26,19 +26,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class BackupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener, BackupTask.BackupTaskListener, RestoreTask.RestoreTaskListener {
     ProgressDialog dialog;
-    @InjectView(R.id.listview)
+    @Bind(R.id.listview)
     GridView Gridview;
     BackupGridviewAdapter backupGridviewAdapter;
     ArrayList<File> files = new ArrayList<>();
     int position = 0;
-    @InjectView(R.id.progressBar)
+    @Bind(R.id.progressBar)
     ProgressBar progressBar;
-    @InjectView(R.id.swiperefresh)
+    @Bind(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
 
     @Override
@@ -47,7 +47,7 @@ public class BackupActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_backup);
         Theme.setBackground(this, findViewById(R.id.friends_parent), Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
         Theme.setActionBar(this);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         backupGridviewAdapter = new BackupGridviewAdapter<>(this, files, this);
         backupGridviewAdapter.setNotifyOnChange(true);

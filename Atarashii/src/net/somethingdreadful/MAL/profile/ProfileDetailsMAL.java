@@ -36,7 +36,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 import org.apache.commons.lang3.text.WordUtils;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View view;
@@ -46,36 +46,36 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     Context context;
     private ProfileActivity activity;
 
-    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
-    @InjectView(R.id.progressBar) ProgressBar progressBar;
-    @InjectView(R.id.network_Card) Card networkCard;
+    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.network_Card) Card networkCard;
 
-    @InjectView(R.id.birthdaysmall) TextView tv1;
-    @InjectView(R.id.locationsmall) TextView tv2;
-    @InjectView(R.id.commentspostssmall) TextView tv3;
-    @InjectView(R.id.forumpostssmall) TextView tv4;
-    @InjectView(R.id.lastonlinesmall) TextView tv5;
-    @InjectView(R.id.gendersmall) TextView tv6;
-    @InjectView(R.id.joindatesmall) TextView tv7;
-    @InjectView(R.id.accessranksmall) TextView tv8;
-    @InjectView(R.id.animelistviewssmall) TextView tv9;
-    @InjectView(R.id.mangalistviewssmall) TextView tv10;
-    @InjectView(R.id.atimedayssmall) TextView tv11;
-    @InjectView(R.id.awatchingsmall) TextView tv12;
-    @InjectView(R.id.acompletedpostssmall) TextView tv13;
-    @InjectView(R.id.aonholdsmall) TextView tv14;
-    @InjectView(R.id.adroppedsmall) TextView tv15;
-    @InjectView(R.id.aplantowatchsmall) TextView tv16;
-    @InjectView(R.id.atotalentriessmall) TextView tv17;
-    @InjectView(R.id.mtimedayssmall) TextView tv18;
-    @InjectView(R.id.mwatchingsmall) TextView tv19;
-    @InjectView(R.id.mcompletedpostssmall) TextView tv20;
-    @InjectView(R.id.monholdsmall) TextView tv21;
-    @InjectView(R.id.mdroppedsmall) TextView tv22;
-    @InjectView(R.id.mplantowatchsmall) TextView tv23;
-    @InjectView(R.id.mtotalentriessmall) TextView tv24;
-    @InjectView(R.id.websitesmall) TextView tv25;
-    @InjectView(R.id.websitefront) TextView tv26;
+    @Bind(R.id.birthdaysmall) TextView tv1;
+    @Bind(R.id.locationsmall) TextView tv2;
+    @Bind(R.id.commentspostssmall) TextView tv3;
+    @Bind(R.id.forumpostssmall) TextView tv4;
+    @Bind(R.id.lastonlinesmall) TextView tv5;
+    @Bind(R.id.gendersmall) TextView tv6;
+    @Bind(R.id.joindatesmall) TextView tv7;
+    @Bind(R.id.accessranksmall) TextView tv8;
+    @Bind(R.id.animelistviewssmall) TextView tv9;
+    @Bind(R.id.mangalistviewssmall) TextView tv10;
+    @Bind(R.id.atimedayssmall) TextView tv11;
+    @Bind(R.id.awatchingsmall) TextView tv12;
+    @Bind(R.id.acompletedpostssmall) TextView tv13;
+    @Bind(R.id.aonholdsmall) TextView tv14;
+    @Bind(R.id.adroppedsmall) TextView tv15;
+    @Bind(R.id.aplantowatchsmall) TextView tv16;
+    @Bind(R.id.atotalentriessmall) TextView tv17;
+    @Bind(R.id.mtimedayssmall) TextView tv18;
+    @Bind(R.id.mwatchingsmall) TextView tv19;
+    @Bind(R.id.mcompletedpostssmall) TextView tv20;
+    @Bind(R.id.monholdsmall) TextView tv21;
+    @Bind(R.id.mdroppedsmall) TextView tv22;
+    @Bind(R.id.mplantowatchsmall) TextView tv23;
+    @Bind(R.id.mtotalentriessmall) TextView tv24;
+    @Bind(R.id.websitesmall) TextView tv25;
+    @Bind(R.id.websitefront) TextView tv26;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -90,7 +90,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         animecard.setContent(R.layout.card_profile_anime);
         mangacard.setContent(R.layout.card_profile_manga);
 
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);

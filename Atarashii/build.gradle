@@ -66,14 +66,14 @@ dependencies {
     compile 'com.android.support:support-v13:22.+'
     compile 'com.android.support:cardview-v7:22.+'
     compile 'com.android.support:appcompat-v7:22.+'
-    compile 'com.google.code.gson:gson:2.3.+'
-    compile 'com.github.ksoichiro:android-observablescrollview:1.5.+'
-    compile 'org.apache.commons:commons-lang3:3.2.1'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton:butterknife:6.1.0'
-    provided 'org.projectlombok:lombok:1.16.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
+    compile 'com.jakewharton:butterknife:7.0.1'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'org.projectlombok:lombok:1.16.4'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
 }

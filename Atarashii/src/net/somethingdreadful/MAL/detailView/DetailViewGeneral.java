@@ -35,7 +35,7 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class DetailViewGeneral extends Fragment implements Serializable, Card.onCardClickListener {
     View view;
@@ -48,16 +48,16 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     Card cardMediainfo;
     Card cardPersonal;
 
-    @InjectView(R.id.SynopsisContent) TextView synopsis;
-    @InjectView(R.id.mediaType) TextView mediaType;
-    @InjectView(R.id.mediaStatus) TextView mediaStatus;
-    @InjectView(R.id.statusText) TextView status;
-    @InjectView(R.id.progress1Text1) TextView progress1Total;
-    @InjectView(R.id.progress1Text2) TextView progress1Current;
-    @InjectView(R.id.progress2Text1) TextView progress2Total;
-    @InjectView(R.id.progress2Text2) TextView progress2Current;
-    @InjectView(R.id.myScore) TextView myScore;
-    @InjectView(R.id.Image) ImageView image;
+    @Bind(R.id.SynopsisContent) TextView synopsis;
+    @Bind(R.id.mediaType) TextView mediaType;
+    @Bind(R.id.mediaStatus) TextView mediaStatus;
+    @Bind(R.id.statusText) TextView status;
+    @Bind(R.id.progress1Text1) TextView progress1Total;
+    @Bind(R.id.progress1Text2) TextView progress1Current;
+    @Bind(R.id.progress2Text1) TextView progress2Total;
+    @Bind(R.id.progress2Text2) TextView progress2Current;
+    @Bind(R.id.myScore) TextView myScore;
+    @Bind(R.id.Image) ImageView image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
 
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         cardPersonal.setAllPadding(0, 0, 0, 0);
         cardPersonal.setOnClickListener(R.id.status, this);

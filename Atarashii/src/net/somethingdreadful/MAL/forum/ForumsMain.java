@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.crashlytics.android.Crashlytics;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ForumActivity;
@@ -26,8 +26,8 @@ import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener {
     ForumActivity activity;
@@ -37,18 +37,19 @@ public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetwor
     ForumMainAdapter animemangaAdapter;
     ForumMainAdapter generalAdapter;
 
-    @InjectView(R.id.general) ListView general;
-    @InjectView(R.id.scrollView) ObservableScrollView content;
-    @InjectView(R.id.animemanga) ListView animeManga;
-    @InjectView(R.id.myanimelist) ListView myAnimeList;
-    @InjectView(R.id.network_Card) Card networkCard;
-    @InjectView(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.general) ListView general;
+    @Bind(R.id.scrollView)
+    ScrollView content;
+    @Bind(R.id.animemanga) ListView animeManga;
+    @Bind(R.id.myanimelist) ListView myAnimeList;
+    @Bind(R.id.network_Card) Card networkCard;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_main, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         myanimelistAdapter = new ForumMainAdapter(activity, myAnimeList, getFragmentManager(), ForumJob.BOARD);
         animemangaAdapter = new ForumMainAdapter(activity, animeManga, getFragmentManager(), ForumJob.BOARD);

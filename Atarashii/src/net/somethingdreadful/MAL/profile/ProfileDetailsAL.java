@@ -29,7 +29,7 @@ import net.somethingdreadful.MAL.forum.HtmlUtil;
 import org.apache.commons.lang3.text.WordUtils;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View view;
@@ -37,12 +37,12 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     private HtmlUtil htmlUtil;
     private ProfileActivity activity;
 
-    @InjectView(R.id.webview) WebView webview;
+    @Bind(R.id.webview) WebView webview;
     Card imagecard;
     Card activitycard;
-    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
-    @InjectView(R.id.progressBar) ProgressBar progressBar;
-    @InjectView(R.id.network_Card) Card networkCard;
+    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.network_Card) Card networkCard;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -55,7 +55,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
         activitycard.setContent(R.layout.card_profile_webview);
         activitycard.setPadding(0);
 
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         htmlUtil = new HtmlUtil(activity);
         webview.getSettings().setJavaScriptEnabled(true);

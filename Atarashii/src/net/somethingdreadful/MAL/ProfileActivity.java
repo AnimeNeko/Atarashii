@@ -22,7 +22,7 @@ import net.somethingdreadful.MAL.profile.ProfileHistory;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
     Context context;
@@ -33,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     ProfileHistory history;
     boolean isLoading = false;
 
-    @InjectView(R.id.pager) ViewPager viewPager;
+    @Bind(R.id.pager) ViewPager viewPager;
 
     boolean forcesync = false;
 
@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         super.onCreate(bundle);
         Theme.setTheme(this, R.layout.theme_viewpager, true);
         Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         context = getApplicationContext();
 

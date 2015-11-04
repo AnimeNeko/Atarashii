@@ -28,7 +28,7 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     View view;
@@ -39,10 +39,10 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
     public ForumMainAdapter topicsAdapter;
     public MALApi.ListType type = MALApi.ListType.MANGA;
 
-    @InjectView(R.id.progressBar) ProgressBar progressBar;
-    @InjectView(R.id.content) RelativeLayout content;
-    @InjectView(R.id.network_Card) Card networkCard;
-    @InjectView(R.id.list) ListView topics;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.content) RelativeLayout content;
+    @Bind(R.id.network_Card) Card networkCard;
+    @Bind(R.id.list) ListView topics;
 
     public int id;
     public int page = 0;
@@ -52,7 +52,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         view = inflater.inflate(R.layout.activity_forum_topics, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         topicsAdapter = new ForumMainAdapter(activity, topics, getFragmentManager(), ForumJob.TOPICS);
 

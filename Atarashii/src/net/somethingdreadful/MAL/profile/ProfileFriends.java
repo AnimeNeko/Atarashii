@@ -29,7 +29,7 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
     GridView Gridview;
@@ -37,9 +37,9 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     FriendsGridviewAdapter<Profile> listadapter;
     ArrayList<Profile> listarray = new ArrayList<>();
 
-    @InjectView(R.id.network_Card) Card networkCard;
-    @InjectView(R.id.progressBar) ProgressBar progressBar;
-    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.network_Card) Card networkCard;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
     boolean forcesync = false;
 
@@ -47,7 +47,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.friends, container, false);
         Theme.setBackground(activity, view, Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         Gridview = (GridView) view.findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);

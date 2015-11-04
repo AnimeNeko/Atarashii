@@ -21,20 +21,20 @@ import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private HtmlUtil htmlUtil;
     public ProfileActivity activity;
 
-    @InjectView(R.id.webview) WebView webview;
-    @InjectView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.webview) WebView webview;
+    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_profile_history, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         htmlUtil = new HtmlUtil(activity);
         webview.getSettings().setJavaScriptEnabled(true);
