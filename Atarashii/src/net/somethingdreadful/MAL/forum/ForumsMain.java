@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.crashlytics.android.Crashlytics;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ForumActivity;
@@ -26,8 +26,8 @@ import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener {
     ForumActivity activity;
@@ -38,7 +38,8 @@ public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetwor
     ForumMainAdapter generalAdapter;
 
     @Bind(R.id.general) ListView general;
-    @Bind(R.id.scrollView) ObservableScrollView content;
+    @Bind(R.id.scrollView)
+    ScrollView content;
     @Bind(R.id.animemanga) ListView animeManga;
     @Bind(R.id.myanimelist) ListView myAnimeList;
     @Bind(R.id.network_Card) Card networkCard;

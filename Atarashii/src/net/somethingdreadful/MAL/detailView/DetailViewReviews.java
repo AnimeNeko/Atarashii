@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
-import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
@@ -25,8 +25,8 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
     View view;
@@ -34,7 +34,8 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     DetailView activity;
     public ArrayList<Reviews> record;
 
-    @Bind(R.id.webview) ObservableWebView webview;
+    @Bind(R.id.webview)
+    WebView webview;
     @Bind(R.id.viewFlipper) ViewFlipper viewFlipper;
 
     public int id;
