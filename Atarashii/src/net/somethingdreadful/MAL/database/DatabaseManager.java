@@ -450,14 +450,14 @@ public class DatabaseManager {
     }
 
     public boolean deleteAnime(int id) {
-        boolean result = db.delete(DatabaseTest.TABLE_ANIME, "anime_id = ?", new String[]{String.valueOf(id)}) == 1;
+        boolean result = db.delete(DatabaseTest.TABLE_ANIME, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
         if (result)
             cleanupAnimeTable();
         return result;
     }
 
     public boolean deleteManga(int id) {
-        boolean result = db.delete(DatabaseTest.TABLE_MANGA, "manga_id = ?", new String[]{String.valueOf(id)}) == 1;
+        boolean result = db.delete(DatabaseTest.TABLE_MANGA, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
         if (result)
             cleanupMangaTable();
         return result;
