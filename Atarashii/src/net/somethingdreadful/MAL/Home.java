@@ -118,6 +118,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             if (Theme.darkTheme) {
                 DrawerLayout.findViewById(R.id.scrollView).setBackgroundColor(getResources().getColor(R.color.bg_dark));
                 DrawerLayout.findViewById(R.id.divider).setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                ((ImageView) DrawerLayout.findViewById(R.id.supportImg)).setImageDrawable(getResources().getDrawable(R.drawable.mobihelp_ic_conversation_dark));
                 ((TextView) DrawerLayout.findViewById(R.id.logoutText)).setTextColor(getResources().getColor(R.color.text_dark));
                 ((TextView) DrawerLayout.findViewById(R.id.settingsText)).setTextColor(getResources().getColor(R.color.text_dark));
                 ((TextView) DrawerLayout.findViewById(R.id.supportText)).setTextColor(getResources().getColor(R.color.text_dark));

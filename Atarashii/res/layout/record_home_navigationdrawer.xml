@@ -157,7 +157,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/mobihelp_ic_conversation_light" />
+                        android:src="@drawable/mobihelp_ic_conversation_light"
+                        android:id="@+id/supportImg" />
 
                     <TextView
                         android:id="@+id/supportText"
