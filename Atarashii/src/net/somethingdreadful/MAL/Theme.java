@@ -55,7 +55,7 @@ public class Theme extends Application {
         config = new Configuration();
         config.locale = locale;
         setLanguage(); //Change language when it is started
-        Crashlytics.setString("Language", locale.toString());
+        Theme.setCrashData("Language", locale.toString());
     }
 
     @Override
@@ -292,5 +292,16 @@ public class Theme extends Application {
             default:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
+    }
+
+    /**
+     * Log information about the requests.
+     *
+     * @param name The name of the parameter
+     * @param data The log value/info
+     */
+    public static void setCrashData(String name, String data) {
+        Mobihelp.addCustomData(name, data);
+        Crashlytics.setString(name, data);
     }
 }
