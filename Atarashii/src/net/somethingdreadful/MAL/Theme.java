@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.freshdesk.mobihelp.Mobihelp;
+import com.freshdesk.mobihelp.MobihelpConfig;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -36,6 +38,13 @@ public class Theme extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MobihelpConfig mobihelpConfig = new MobihelpConfig(
+                "https://atarashii.freshdesk.com",
+                BuildConfig.MOBIHELP_KEY,
+                BuildConfig.MOBIHELP_SECRET);
+        Mobihelp.init(this, mobihelpConfig);
+
         Fabric.with(this, new Crashlytics());
         context = getApplicationContext();
         PrefManager.create(getApplicationContext());

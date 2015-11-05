@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.freshdesk.mobihelp.Mobihelp;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -49,8 +50,8 @@ import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener {
     IGF af;
@@ -69,6 +70,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     @Bind(R.id.listview) ListView DrawerList;
     @Bind(R.id.logout) RelativeLayout logout;
     @Bind(R.id.settings) RelativeLayout settings;
+    @Bind(R.id.support) RelativeLayout support;
 
     String username;
 
@@ -89,6 +91,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 myList = savedInstanceState.getBoolean("myList");
 
             Theme.setTheme(this, R.layout.activity_home, false);
+
             mIGFPagerAdapter = (IGFPagerAdapter) Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
             actionBar = getSupportActionBar();
 
@@ -106,8 +109,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             logout.setOnClickListener(this);
             settings.setOnClickListener(this);
             about.setOnClickListener(this);
+            support.setOnClickListener(this);
             Theme.setBackground(this, logout);
             Theme.setBackground(this, settings);
+            Theme.setBackground(this, support);
             Theme.setBackground(this, about);
 
             if (Theme.darkTheme) {
@@ -115,6 +120,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 DrawerLayout.findViewById(R.id.divider).setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
                 ((TextView) DrawerLayout.findViewById(R.id.logoutText)).setTextColor(getResources().getColor(R.color.text_dark));
                 ((TextView) DrawerLayout.findViewById(R.id.settingsText)).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) DrawerLayout.findViewById(R.id.supportText)).setTextColor(getResources().getColor(R.color.text_dark));
                 ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
             }
 
@@ -398,6 +404,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 break;
             case R.id.settings:
                 startActivity(new Intent(this, Settings.class));
+                break;
+            case R.id.support:
+                Mobihelp.showSupport(this);
                 break;
             case R.id.about:
                 startActivity(new Intent(this, AboutActivity.class));

@@ -146,11 +146,37 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/support"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/settings">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/mobihelp_ic_conversation_light" />
+
+                    <TextView
+                        android:id="@+id/supportText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="72dp"
+                        android:alpha="0.87"
+                        android:text="@string/mobihelp_activity_title_solution_list"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_below="@id/settings"
-                    android:layout_marginBottom="8dp">
+                    android:layout_below="@id/support">
 
                     <ImageView
                         android:layout_width="24dp"
