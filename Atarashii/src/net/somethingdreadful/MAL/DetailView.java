@@ -25,6 +25,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -305,7 +306,11 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         if (!isEmpty()) {
             if (type.equals(ListType.ANIME)) {
                 animeRecord.setCreateFlag(true);
-                animeRecord.setWatchedStatus(PrefManager.getAddList());
+                // If the anime hasn't aired mark is planned
+                if (animeRecord.getStatusInt() != 2)
+                    animeRecord.setWatchedStatus(PrefManager.getAddList());
+                else
+                    animeRecord.setWatchedStatus(GenericRecord.STATUS_PLANTOWATCH);
             } else {
                 mangaRecord.setCreateFlag(true);
                 mangaRecord.setReadStatus(PrefManager.getAddList());
