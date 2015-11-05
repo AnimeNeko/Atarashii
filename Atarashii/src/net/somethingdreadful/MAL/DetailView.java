@@ -315,6 +315,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 mangaRecord.setCreateFlag(true);
                 mangaRecord.setReadStatus(PrefManager.getAddList());
             }
+            PageAdapter.hidePersonal(false);
             setText();
         }
     }
