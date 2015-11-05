@@ -40,10 +40,12 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
         if (hidePersonal != this.hidePersonal) {
             this.hidePersonal = hidePersonal;
             TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
-            tabs.removeTabAt(2);
+                tabs.removeTabAt(2);
+            if (!hidePersonal)
+                tabs.addTab(tabs.newTab().setText(getPageTitle(2)), 2);
             notifyChangeInPosition(2);
             count = hidePersonal ? count - 1 : count;
-            this.notifyDataSetChanged();
+            notifyDataSetChanged();
         }
     }
 

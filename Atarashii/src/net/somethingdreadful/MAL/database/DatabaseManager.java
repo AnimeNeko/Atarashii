@@ -247,6 +247,7 @@ public class DatabaseManager {
 
     private ArrayList<Anime> getAnimeList(Cursor cursor) {
         ArrayList<Anime> result = new ArrayList<>();
+        GenericRecord.setFromCursor(true);
         if (cursor.moveToFirst()) {
             do
                 result.add(Anime.fromCursor(cursor));
@@ -254,11 +255,13 @@ public class DatabaseManager {
         }
         Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
         cursor.close();
+        GenericRecord.setFromCursor(false);
         return result;
     }
 
     private ArrayList<Manga> getMangaList(Cursor cursor) {
         ArrayList<Manga> result = new ArrayList<>();
+        GenericRecord.setFromCursor(true);
         if (cursor.moveToFirst()) {
             do
                 result.add(Manga.fromCursor(cursor));
@@ -266,6 +269,7 @@ public class DatabaseManager {
         }
         cursor.close();
         Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
+        GenericRecord.setFromCursor(false);
         return result;
     }
 
@@ -450,14 +454,14 @@ public class DatabaseManager {
     }
 
     public boolean deleteAnime(int id) {
-        boolean result = db.delete(DatabaseTest.TABLE_ANIME, "anime_id = ?", new String[]{String.valueOf(id)}) == 1;
+        boolean result = db.delete(DatabaseTest.TABLE_ANIME, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
         if (result)
             cleanupAnimeTable();
         return result;
     }
 
     public boolean deleteManga(int id) {
-        boolean result = db.delete(DatabaseTest.TABLE_MANGA, "manga_id = ?", new String[]{String.valueOf(id)}) == 1;
+        boolean result = db.delete(DatabaseTest.TABLE_MANGA, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
         if (result)
             cleanupMangaTable();
         return result;

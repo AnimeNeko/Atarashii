@@ -10,6 +10,7 @@ import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import lombok.Getter;
@@ -257,15 +258,23 @@ public class Anime extends GenericRecord implements Serializable {
     private int rewatchValue;
 
     public void setWatchedStatus(String watchedStatus) {
-        if (!fromCursor)
-            addDirtyField("watchedStatus");
-        this.watchedStatus = watchedStatus;
+        if (this.watchedStatus == null || !this.watchedStatus.equals(watchedStatus)) {
+            this.watchedStatus = watchedStatus;
+            if (!fromCursor) {
+                addDirtyField("watchedStatus");
+                checkProgress();
+            }
+        }
     }
 
     public void setWatchedEpisodes(int watchedEpisodes) {
-        if (!fromCursor)
-            addDirtyField("watchedEpisodes");
-        this.watchedEpisodes = watchedEpisodes;
+        if (this.watchedEpisodes != watchedEpisodes) {
+            this.watchedEpisodes = watchedEpisodes;
+            if (!fromCursor) {
+                addDirtyField("watchedEpisodes");
+                checkProgress();
+            }
+        }
     }
 
     public void setWatchingStart(String watchingStart) {
@@ -322,6 +331,54 @@ public class Anime extends GenericRecord implements Serializable {
         this.rewatchValue = rewatchValue;
     }
 
+    public void checkProgress() {
+        boolean completed = false;
+
+        // Automatically set the max episode on completed
+        if (getWatchedStatus().equals(GenericRecord.STATUS_COMPLETED) && getEpisodes() > 0) {
+            setWatchedEpisodes(getEpisodes());
+            completed = true;
+        }
+
+        // Automatically set the progress when the max episode has reached
+        if (getWatchedEpisodes() == getEpisodes() && getEpisodes() > 0) {
+            setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+            completed = true;
+        }
+
+        if (completed) {
+            // Automatically set the progress when the record has been finished
+            if (getRewatching() || (getRewatchCount() > 0)) {
+                setRewatchCount(getRewatchCount() + 1);
+                setRewatching(false);
+            }
+
+            // Automatically set the end date on completed if it is empty
+            if (getWatchingEnd() == null || getWatchingEnd().equals("")) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                setWatchingEnd(year + "-" + month + "-" + day);
+            }
+        }
+
+        // Automatically set the progress when the episode 1 has been watched
+        if (getWatchedStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getWatchedEpisodes() == 1) {
+            setWatchedStatus(GenericRecord.STATUS_WATCHING);
+        }
+
+        // Automatically set the start date on start if it is empty
+        if (getWatchedStatus().equals(GenericRecord.STATUS_WATCHING) && getWatchedEpisodes() == 1) {
+            if (getWatchingStart() == null || getWatchingStart().equals("")) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                setWatchingStart(year + "-" + month + "-" + day);
+            }
+        }
+    }
 
     public Integer getClassificationInt() {
         String[] classification = {

@@ -132,6 +132,7 @@ public class Manga extends GenericRecord implements Serializable {
 
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga();
+        net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(true);
         createGeneralBaseModel(model);
         model.setChapters(getChapters());
         model.setVolumes(getVolumes());
@@ -147,6 +148,7 @@ public class Manga extends GenericRecord implements Serializable {
         model.setRereading(getRereading() ? 1 : 0);
         model.setRereadCount(getRereadCount());
         model.setRereadValue(getRereadValue());
+        net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(false);
         return model;
     }
 }

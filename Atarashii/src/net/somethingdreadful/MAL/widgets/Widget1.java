@@ -120,13 +120,6 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                 if (id > 0) {
                     Anime anime = db.getAnime(id);
                     anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-                    if (anime.getWatchedEpisodes() == anime.getEpisodes()) {
-                        anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-                        if (anime.getRewatching()) {
-                            anime.setRewatchCount(anime.getRewatchCount() + 1);
-                            anime.setRewatching(false);
-                        }
-                    }
                     new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, context, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
                 } else {
                     PrefManager.create(context);

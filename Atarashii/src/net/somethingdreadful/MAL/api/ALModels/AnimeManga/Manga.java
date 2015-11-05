@@ -48,10 +48,12 @@ public class Manga extends GenericRecord implements Serializable {
 
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga();
+        net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(true);
         createGeneralBaseModel(model);
         model.setStatus(getPublishingStatus());
         model.setChapters(getTotalChapters());
         model.setVolumes(getTotalVolumes());
+        net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(false);
         return model;
     }
 }

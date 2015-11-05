@@ -220,6 +220,7 @@ public class Anime extends GenericRecord implements Serializable {
 
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime();
+        net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(true);
         createGeneralBaseModel(model);
         model.setEpisodes(getEpisodes());
         model.setStatus(getStatus());
@@ -247,6 +248,7 @@ public class Anime extends GenericRecord implements Serializable {
         model.setRewatching(getRewatching());
         model.setRewatchCount(getRewatchCount());
         model.setRewatchValue(getRewatchValue());
+        net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(false);
         return model;
     }
 }
