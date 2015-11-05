@@ -1,0 +1,80 @@
+<resources>
+
+    <string name="mobihelp_activity_title_solution_list">Støtte</string>
+    <string name="mobihelp_activity_title_tickets_list">Samtaler</string>
+    <string name="mobihelp_activity_title_feedback">Starte en samtale</string>
+    <string name="mobihelp_activity_title_feedback_only">Tilbakemelding</string>
+    <string name="mobihelp_activity_title_solution_article">Løsning</string>
+    <string name="mobihelp_label_contact_us">Kontakt oss</string>
+    <string name="mobihelp_label_contact_us_description_text">Hvis du ikke finner det du leter etter, kontakter du oss</string>
+    <string name="mobihelp_label_my_conversations">Mine samtaler</string>
+    <string name="mobihelp_label_support_solutions_list_label">Løsninger</string>
+    <string name="mobihelp_label_request_review">Klikk her for å vurdere appen i Play Store</string>
+    <string name="mobihelp_autoreply_message">Takk for din tilbakemelding. Vår støtte representant vil ta kontakt med deg innen kort tid.</string>
+    <string name="mobihelp_default_anon_user_name">Mobihelp-bruker</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">E-post</string>
+    <string name="mobihelp_hint_feedback">Hva tenker du på?</string>
+    <string name="mobihelp_hint_name">Navn</string>
+    <string name="mobihelp_hint_required_field">(obligatorisk)</string>
+    <string name="mobihelp_hint_optional_field">(valgfritt)</string>
+    <string name="mobihelp_hint_enter_text_here">Skriv inn meldingen her</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Søk i kunnskapsbasen</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Ikke koblet til Internett!</string>
+    <string name="mobihelp_error_name_not_present">Angi et navn</string>
+    <string name="mobihelp_error_email_not_present">Angi en e-postadresse</string>
+    <string name="mobihelp_error_email_not_valid">Angi en gyldig e-postadresse</string>
+    <string name="mobihelp_error_description_not_present">Angi en beskrivelse av problemet</string>
+    <string name="mobihelp_error_genreic_retry_message">Prøv igjen om en stund</string>
+
+    <!-- Menu Items -->
+    <string name="mobihelp_menu_item_title_search_solutions">Søk</string>
+    <string name="mobihelp_menu_item_title_contact_us">Kontakt oss</string>
+    <string name="mobihelp_menu_item_title_submit">Send inn</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Send</string>
+    <string name="mobihelp_content_description_device_screenshot">Skjermbilde av enhet</string>
+    <string name="mobihelp_tickets_list_empty_message">Tapp her for å starte en ny samtale</string>
+    <string name="mobihelp_solutions_list_empty_message">Ingen løsninger er tilgjengelige</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Takk! Tilbakemeldingen er sendt.</string>
+    <string name="mobihelp_message_request_succeded">Sendingen var vellykket</string>
+    <string name="mobihelp_message_request_failed">Kunne ikke sende. Prøv igjen senere.</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">Kunne ikke laste opp denne artikkelen</string>
+    <string name="mobihelp_message_support_agent">støtte</string>
+    <string name="mobihelp_message_pending">sender...</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">Ta deg tid til å vurdere denne appen hvis du liker den. Takk for at du støtter oss!</string>
+    <string name="mobihelp_rating_dialog_title">Vurder</string>
+    <string name="mobihelp_rating_dialog_rate_button">Vurder</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Ikke nå</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Tilbakemelding</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">akkurat nå</string>
+    <string name="mobihelp_time_n_mins_ago">{mins} minutter siden</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one">{hours} time siden</item>
+        <item quantity="other">{hours} timer siden</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one">{weeks} uke siden</item>
+        <item quantity="other">{weeks} uker siden</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one">{months} måned siden</item>
+        <item quantity="other">{months} måneder siden</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">1 dag siden</string>
+    <string name="mobihelp_time_n_days_ago">{days} dager siden</string>
+    <string name="mobihelp_time_more_than_a_year_ago">over ett år siden</string>
+
+</resources>

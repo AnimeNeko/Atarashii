@@ -1,0 +1,80 @@
+<resources>
+
+    <string name="mobihelp_activity_title_solution_list">Support</string>
+    <string name="mobihelp_activity_title_tickets_list">Konversationer</string>
+    <string name="mobihelp_activity_title_feedback">Starta en konversation</string>
+    <string name="mobihelp_activity_title_feedback_only">Feedback</string>
+    <string name="mobihelp_activity_title_solution_article">Lösning</string>
+    <string name="mobihelp_label_contact_us">Kontakta oss</string>
+    <string name="mobihelp_label_contact_us_description_text">Kontakta oss om du inte hittar det du letar efter</string>
+    <string name="mobihelp_label_my_conversations">Mina konversationer</string>
+    <string name="mobihelp_label_support_solutions_list_label">Lösningar</string>
+    <string name="mobihelp_label_request_review">Klicka här för att betygsätta appen i Play Store</string>
+    <string name="mobihelp_autoreply_message">Tack för din feedback. Vår support representant kommer att komma i kontakt med dig inom kort.</string>
+    <string name="mobihelp_default_anon_user_name">Mobihelp-användare</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">E-postadress</string>
+    <string name="mobihelp_hint_feedback">Vad har du på hjärtat?</string>
+    <string name="mobihelp_hint_name">Namn</string>
+    <string name="mobihelp_hint_required_field">(Obligatoriskt)</string>
+    <string name="mobihelp_hint_optional_field">(Valfritt)</string>
+    <string name="mobihelp_hint_enter_text_here">Ange meddelandet här</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Sök vår kunskapsdatabas</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Du är inte ansluten till internet!</string>
+    <string name="mobihelp_error_name_not_present">Ange ett namn</string>
+    <string name="mobihelp_error_email_not_present">Ange en e-postadress</string>
+    <string name="mobihelp_error_email_not_valid">Ange en giltig e-postadress</string>
+    <string name="mobihelp_error_description_not_present">Ange en beskrivning av problemet</string>
+    <string name="mobihelp_error_genreic_retry_message">Försök igen lite senare</string>
+
+    <!-- Menu Items -->
+    <string name="mobihelp_menu_item_title_search_solutions">Sök</string>
+    <string name="mobihelp_menu_item_title_contact_us">Kontakta oss</string>
+    <string name="mobihelp_menu_item_title_submit">Skicka in</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Skicka</string>
+    <string name="mobihelp_content_description_device_screenshot">Skärmbild från enhet</string>
+    <string name="mobihelp_tickets_list_empty_message">Tryck här för att starta en ny konversation</string>
+    <string name="mobihelp_solutions_list_empty_message">Det finns inga lösningar tillgängliga</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Tack! Din feedback har skickats!</string>
+    <string name="mobihelp_message_request_succeded">Skickat</string>
+    <string name="mobihelp_message_request_failed">Det gick inte att skicka. Försök igen senare</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">Det gick inte att läsa in den här artikeln</string>
+    <string name="mobihelp_message_support_agent">support</string>
+    <string name="mobihelp_message_pending">skickar...</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">Betygsätt gärna den här appen om du gillar den Tack för ditt stöd!</string>
+    <string name="mobihelp_rating_dialog_title">Betygsätt</string>
+    <string name="mobihelp_rating_dialog_rate_button">Betygsätt</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Inte nu</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Feedback</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">just nu</string>
+    <string name="mobihelp_time_n_mins_ago">{mins} minuter sedan</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one">{hours} timme sedan</item>
+        <item quantity="other">{hours} timmar sedan</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one">{weeks} vecka sedan</item>
+        <item quantity="other">{weeks} veckor sedan</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one">{months} månad sedan</item>
+        <item quantity="other">{months} månader sedan</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">1 dag sedan</string>
+    <string name="mobihelp_time_n_days_ago">{days} dagar sedan</string>
+    <string name="mobihelp_time_more_than_a_year_ago">mer än ett år sedan</string>
+
+</resources>

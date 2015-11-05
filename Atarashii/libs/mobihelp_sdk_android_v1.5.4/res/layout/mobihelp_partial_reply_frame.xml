@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mobihelp_conversation_reply_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp" >
+
+    <ImageView
+        android:id="@+id/mobihelp_conversation_attach_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/mobihelp_content_description_action_attach_image"
+        android:scaleType="centerInside"
+        android:src="?attr/mh_ic_attach" />
+
+    <EditText
+        android:id="@+id/mobihelp_conversation_reply_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@string/mobihelp_hint_enter_text_here"
+        android:inputType="textMultiLine|textCapSentences"
+        android:maxLines="4"
+        android:singleLine="false" />
+
+    <ImageView
+        android:id="@+id/mobihelp_conversation_send_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/mobihelp_content_description_send_message"
+        android:background="?attr/selectableItemBackground"
+        android:minHeight="40dp"
+        android:minWidth="48dp"
+        android:scaleType="centerInside"
+        android:src="?attr/mh_ic_send" />
+
+</LinearLayout>

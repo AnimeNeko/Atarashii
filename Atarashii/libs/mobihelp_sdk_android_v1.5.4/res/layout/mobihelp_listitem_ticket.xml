@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp" >
+
+    <TextView
+        android:id="@+id/mobihelp_ticket_listitem_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="72dp"
+        android:ellipsize="end"
+        android:paddingBottom="2dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:singleLine="true"
+        android:text="Subject"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/mobihelp_ticket_listitem_last_updated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mobihelp_ticket_listitem_subject"
+        android:layout_below="@+id/mobihelp_ticket_listitem_subject"
+        android:layout_marginRight="72dp"
+        android:ellipsize="end"
+        android:paddingBottom="2dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp"
+        android:singleLine="true"
+        android:text="Status"
+        android:textColor="@android:color/secondary_text_dark" />
+
+    <TextView
+        android:id="@+id/mobihelp_ticket_listitem_unread_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:drawableLeft="@drawable/mobihelp_ic_unread_count"
+        android:padding="4dp"
+        android:text="5"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

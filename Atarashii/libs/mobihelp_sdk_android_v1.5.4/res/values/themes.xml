@@ -1,0 +1,34 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Default Mobihelp theme, dependent on API level. This theme is replaced
+        by Mobihelp Theme from res/values-vXX/themes.xml on newer devices.
+    -->
+    <style name="Theme.MobihelpSDK" parent="@style/Theme.Base.Mobihelp">
+        <item name="mh_ic_menu_search">@drawable/mobihelp_ic_action_search_dark</item>
+        <item name="mh_ic_menu_submit">@drawable/mobihelp_ic_action_submit_dark</item>
+        <item name="mh_ic_menu_contact_us">@drawable/mobihelp_ic_action_contact_us_dark</item>
+        <item name="mh_ic_conversations">@drawable/mobihelp_ic_conversation_dark</item>
+        <item name="mh_ic_send">@drawable/mobihelp_ic_action_send_dark</item>
+        <item name="mh_ic_attach">@drawable/mobihelp_ic_action_attach_dark</item>
+    </style>
+
+    <style name="Theme.MobihelpSDK.Light" parent="@style/Theme.Base.Mobihelp.Light">
+        <item name="mh_ic_menu_search">@drawable/mobihelp_ic_action_search_light</item>
+        <item name="mh_ic_menu_submit">@drawable/mobihelp_ic_action_submit_light</item>
+        <item name="mh_ic_menu_contact_us">@drawable/mobihelp_ic_action_contact_us_light</item>
+        <item name="mh_ic_conversations">@drawable/mobihelp_ic_conversation_light</item>
+        <item name="mh_ic_send">@drawable/mobihelp_ic_action_send_light</item>
+        <item name="mh_ic_attach">@drawable/mobihelp_ic_action_attach_light</item>
+    </style>
+
+    <style name="Theme.MobihelpSDK.Light.DarkActionBar" parent="@style/Theme.Base.Mobihelp.Light.DarkActionBar">
+        <item name="mh_ic_menu_search">@drawable/mobihelp_ic_action_search_dark</item>
+        <item name="mh_ic_menu_submit">@drawable/mobihelp_ic_action_submit_dark</item>
+        <item name="mh_ic_menu_contact_us">@drawable/mobihelp_ic_action_contact_us_dark</item>
+        <item name="mh_ic_conversations">@drawable/mobihelp_ic_conversation_light</item>
+        <item name="mh_ic_send">@drawable/mobihelp_ic_action_send_light</item>
+        <item name="mh_ic_attach">@drawable/mobihelp_ic_action_attach_light</item>
+    </style>
+
+</resources>

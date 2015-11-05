@@ -1,0 +1,140 @@
+<resources>
+
+    <!-- Title of Support Screen (Solution List Activity) -->
+    <string name="mobihelp_activity_title_solution_list">Support</string>
+
+    <!-- Title of Tickets List Activity -->
+    <string name="mobihelp_activity_title_tickets_list">Conversations</string>
+
+    <!-- Title of Feedback Activity for 2 way conversations -->
+    <string name="mobihelp_activity_title_feedback">Start a conversation</string>
+
+    <!-- Title of Feedback Activity for feedback -->
+    <string name="mobihelp_activity_title_feedback_only">Feedback</string>
+
+    <!-- Title of Attachment Handler Activity -->
+    <string name="mobihelp_activity_title_attachment_handler">Attachment</string>
+
+    <!-- Default title for Solution Article incase solution doesnot have a valid title -->
+    <string name="mobihelp_activity_title_solution_article">Solution</string>
+
+	<!-- Text for "Contact Us" button in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_contact_us">Contact Us</string>
+
+    <string name="mobihelp_label_need_more_help">Need More Help ?</string>
+
+    <!-- Text below the Contact Us button in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_contact_us_description_text">If you don\'t find what you are looking for, Contact Us</string>
+
+    <!-- Text for "My Conversations" in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_my_conversations">My Conversations</string>
+
+    <!-- Text for "Solutions" label view in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_support_solutions_list_label">Solutions</string>
+
+    <!-- Text for request review item in the conversation view of ticket (Conversation Activity) -->
+    <string name="mobihelp_label_request_review">Click here to review the app in PlayStore</string>
+
+    <!-- Text for Autoreply message in conversations -->
+    <string name="mobihelp_autoreply_message">Thank you for your feedback. Our support representative will get in touch with you shortly.</string>
+
+    <!-- Text for "View Solution" option to view linked solutions within the app -->
+    <string name="mobihelp_label_view_solution">View Solution</string>
+
+    <!-- Default name for anonymous users or users who did not provide a name when name is optional -->
+    <string name="mobihelp_default_anon_user_name">MobihelpUser</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">E-Mail</string>
+    <string name="mobihelp_hint_feedback">What\'s on your mind?</string>
+    <string name="mobihelp_hint_name">Name</string>
+    <string name="mobihelp_hint_required_field">(Required)</string>
+    <string name="mobihelp_hint_optional_field">(Optional)</string>
+    <string name="mobihelp_hint_enter_text_here">Type Message Here</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Search our knowledge base</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Not connected to Internet !</string>
+    <string name="mobihelp_error_name_not_present">Please Enter a Name</string>
+    <string name="mobihelp_error_email_not_present">Please Enter an Email Address</string>
+	<string name="mobihelp_error_email_not_valid">Please Enter a Valid E-Mail Address</string>
+    <string name="mobihelp_error_description_not_present">Please Enter a Problem Description</string>
+    <string name="mobihelp_error_genreic_retry_message">Please try again after sometime</string>
+    <string name="mobihelp_error_image_not_found">Image not found ! Could have been moved or deleted</string>
+    <string name="mobihelp_error_attachment_too_large">Attachment too large!</string>
+    <string name="mobihelp_error_invalid_image">Invalid Image!</string>
+    <string name="mobihelp_error_note_text_empty">Please enter text for reply</string>
+    <string name="mobihelp_error_support_section_disabled">Support section is currently unavailable!</string>
+	<string name="mobihelp_error_unable_to_launch_app_store">Unable to launch AppStore for review</string>
+	<string name="mobihelp_error_waiting_for_image_to_load">Waiting for Image to load.</string>
+	<string name="mobihelp_error_no_matching_solution_articles_found">No matching solution articles found !</string>
+
+    <!-- Menu Items -->
+
+    <!-- Title for "Search" menu item in Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_menu_item_title_search_solutions">Search</string>
+
+    <!-- Title for "Contact Us" menu item in Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_menu_item_title_contact_us">Contact Us</string>
+
+    <!-- Title for "Submit" menu item in Feedback Screen (Feedback Activity) -->
+    <string name="mobihelp_menu_item_title_submit">Submit</string>
+
+    <!-- Text for attachment related items -->
+    <string name="mobihelp_dialog_select_picture_title">Select Picture</string>
+    <string name="mobihelp_content_description_action_attach_image">Attach Image</string>
+    <string name="mobihelp_content_description_attachment">Attachment Image</string>
+    <string name="mobihelp_attachment_default_message">Image attached</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Send</string>
+    <string name="mobihelp_content_description_device_screenshot">Device Screenshot</string>
+    <string name="mobihelp_tickets_list_empty_message">Tap here to start a new conversation</string>
+    <string name="mobihelp_solutions_list_empty_message">There are no solutions available</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Thank You! Your Feedback has been sent!</string>
+    <string name="mobihelp_message_request_succeded">Sent successfully</string>
+    <string name="mobihelp_message_request_failed">Failed to send. Please try later</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">Unable to load this article</string>
+    <string name="mobihelp_message_support_agent">support</string>
+    <string name="mobihelp_message_pending">sending...</string>
+    <string name="mobihelp_close_confirmation_message">Did we help solve your issue?</string>
+    <string name="mobihelp_message_conversation_ended">This conversation has ended.</string>
+    <string name="mobihelp_message_start_new_conversation">Start a new conversation</string>
+    <string name="mobihelp_message_vote_successful">Thank you for your Feedback!</string>
+    <string name="mobihelp_solutions_vote_prompt">Was this solution helpful?</string>
+
+    <!-- Label text for UI elements -->
+    <string name="mobihelp_label_yes">Yes</string>
+    <string name="mobihelp_label_no">No</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
+    <string name="mobihelp_rating_dialog_title">Rate</string>
+    <string name="mobihelp_rating_dialog_rate_button">Rate</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Not Now</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Feedback</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">just now</string>
+    <string name="mobihelp_time_n_mins_ago">{mins} mins ago</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one">{hours} hr ago</item>
+        <item quantity="other">{hours} hrs ago</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one">{weeks} week ago</item>
+        <item quantity="other">{weeks} weeks ago</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one">{months} month ago</item>
+        <item quantity="other">{months} months ago</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">a day ago</string>
+    <string name="mobihelp_time_n_days_ago">{days} days ago</string>
+    <string name="mobihelp_time_more_than_a_year_ago">more than a year ago</string>
+
+</resources>

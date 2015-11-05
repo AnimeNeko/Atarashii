@@ -1,0 +1,80 @@
+<resources>
+
+    <string name="mobihelp_activity_title_solution_list">Support</string>
+    <string name="mobihelp_activity_title_tickets_list">Konversationen</string>
+    <string name="mobihelp_activity_title_feedback">Konversation beginnen</string>
+    <string name="mobihelp_activity_title_feedback_only">Feedback</string>
+    <string name="mobihelp_activity_title_solution_article">Lösung</string>
+    <string name="mobihelp_label_contact_us">Kontakt</string>
+    <string name="mobihelp_label_contact_us_description_text">Wenn Sie nichts Passendes gefunden haben, kontaktieren Sie uns.</string>
+    <string name="mobihelp_label_my_conversations">Meine Konversationen</string>
+    <string name="mobihelp_label_support_solutions_list_label">Lösungen</string>
+    <string name="mobihelp_label_request_review">Hier klicken, um die App im Play Store zu bewerten</string>
+    <string name="mobihelp_autoreply_message">Vielen Dank für Ihre Rückmeldung. Unsere Support-Mitarbeiter werden in Kürze mit Ihnen zu bekommen.</string>
+    <string name="mobihelp_default_anon_user_name">Mobihelp-Benutzer</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">E-Mail-Adresse</string>
+    <string name="mobihelp_hint_feedback">Was denken Sie?</string>
+    <string name="mobihelp_hint_name">Name</string>
+    <string name="mobihelp_hint_required_field">(erforderlich)</string>
+    <string name="mobihelp_hint_optional_field">(optional)</string>
+    <string name="mobihelp_hint_enter_text_here">Nachricht hier eingeben</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Unsere Wissensdatenbank durchsuchen</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Keine Internetverbindung!</string>
+    <string name="mobihelp_error_name_not_present">Bitte einen Namen eingeben</string>
+    <string name="mobihelp_error_email_not_present">Bitte eine E-Mail-Adresse eingeben</string>
+    <string name="mobihelp_error_email_not_valid">Bitte eine gültige E-Mail-Adresse eingeben</string>
+    <string name="mobihelp_error_description_not_present">Bitte eine Problembeschreibung eingeben</string>
+    <string name="mobihelp_error_genreic_retry_message">Versuchen Sie es bitte später erneut.</string>
+
+    <!-- Menu Items -->
+    <string name="mobihelp_menu_item_title_search_solutions">Suchen</string>
+    <string name="mobihelp_menu_item_title_contact_us">Kontakt</string>
+    <string name="mobihelp_menu_item_title_submit">Senden</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Senden</string>
+    <string name="mobihelp_content_description_device_screenshot">Geräte-Screenshot</string>
+    <string name="mobihelp_tickets_list_empty_message">Hier tippen für eine neue Konversation</string>
+    <string name="mobihelp_solutions_list_empty_message">Es sind keine Lösungen verfügbar.</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Vielen Dank! Ihr Feedback wurde gesendet.</string>
+    <string name="mobihelp_message_request_succeded">Erfolgreich gesendet</string>
+    <string name="mobihelp_message_request_failed">Fehler beim Senden. Versuchen Sie es später.</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">Dieser Artikel kann nicht geladen werden</string>
+    <string name="mobihelp_message_support_agent">Support</string>
+    <string name="mobihelp_message_pending">wird gesendet...</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">Wenn Sie diese App mögen, nehmen Sie sich kurz Zeit, um sie zu bewerten. Vielen Dank für Ihre Unterstützung!</string>
+    <string name="mobihelp_rating_dialog_title">Bewerten</string>
+    <string name="mobihelp_rating_dialog_rate_button">Bewerten</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Nicht jetzt</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Feedback</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">jetzt</string>
+    <string name="mobihelp_time_n_mins_ago">vor {mins} Minuten</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one">vor {hours} Stunde</item>
+        <item quantity="other">vor {hours} Stunden</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one">vor {weeks} Woche</item>
+        <item quantity="other">vor {weeks} Wochen</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one">vor {months} Monat</item>
+        <item quantity="other">vor {months} Monaten</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">gestern</string>
+    <string name="mobihelp_time_n_days_ago">vor {days} Tagen</string>
+    <string name="mobihelp_time_more_than_a_year_ago">vor mehr als einem Jahr</string>
+
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:freshapp="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/mobihelp_menu_item_search_solutions"
+        android:icon="?attr/mh_ic_menu_search"
+        android:title="@string/mobihelp_menu_item_title_search_solutions"
+        freshapp:actionViewClass="android.support.v7.widget.SearchView"
+        freshapp:showAsAction="always|collapseActionView"/>
+    <item
+        android:id="@+id/mobihelp_menu_item_contact_us"
+        android:icon="?attr/mh_ic_menu_contact_us"
+        android:title="@string/mobihelp_menu_item_title_contact_us"
+        freshapp:showAsAction="always"/>
+
+</menu>
