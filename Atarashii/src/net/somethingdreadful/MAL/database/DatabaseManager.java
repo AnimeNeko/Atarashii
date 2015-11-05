@@ -247,6 +247,7 @@ public class DatabaseManager {
 
     private ArrayList<Anime> getAnimeList(Cursor cursor) {
         ArrayList<Anime> result = new ArrayList<>();
+        GenericRecord.setFromCursor(true);
         if (cursor.moveToFirst()) {
             do
                 result.add(Anime.fromCursor(cursor));
@@ -254,11 +255,13 @@ public class DatabaseManager {
         }
         Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
         cursor.close();
+        GenericRecord.setFromCursor(false);
         return result;
     }
 
     private ArrayList<Manga> getMangaList(Cursor cursor) {
         ArrayList<Manga> result = new ArrayList<>();
+        GenericRecord.setFromCursor(true);
         if (cursor.moveToFirst()) {
             do
                 result.add(Manga.fromCursor(cursor));
@@ -266,6 +269,7 @@ public class DatabaseManager {
         }
         cursor.close();
         Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
+        GenericRecord.setFromCursor(false);
         return result;
     }
 
