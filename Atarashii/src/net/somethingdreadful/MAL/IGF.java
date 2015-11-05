@@ -253,8 +253,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void setMarkAsComplete(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
-            if (anime.getEpisodes() > 0)
-                anime.setWatchedEpisodes(anime.getEpisodes());
             gl.remove(anime);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
