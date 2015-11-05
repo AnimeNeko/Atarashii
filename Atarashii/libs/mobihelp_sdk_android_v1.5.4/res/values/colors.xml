@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Color of unread ticket count text in Support Page-->
+    <color name="mobihelp_ticket_unread_count_bubble_text">@color/mobihelp_white</color>
+    <color name="mobihelp_background_grey">#696969</color>
+
+    <!-- Background Color of unread ticket count text -->
+    <color name="mobihelp_unread_count_indicator_bg">#cc1500</color>
+
+    <!-- Color for conversation list item -->
+    <!-- Color for all text entered by user in the conversation view -->
+    <color name="mobihelp_conversation_user_text">@color/mobihelp_white</color>
+
+    <!-- Color for all text from agent/customer support executive in the conversation view -->
+    <color name="mobihelp_conversation_agent_text">#040404</color>
+
+    <!-- Color for the text accompanying a in-conversation review request -->
+    <color name="mobihelp_conversation_review_request_text">#7d7d7d</color>
+
+    <!-- Divider colors -->
+    <color name="mobihelp_divider_light">#c7c7c7</color>
+    <color name="mobihelp_divider_dark">#bbb</color>
+    <color name="mobihelp_divider_black">#000</color>
+
+    <!-- Misc -->
+    <color name="mobihelp_white">#EFEFEF</color>
+
+</resources>

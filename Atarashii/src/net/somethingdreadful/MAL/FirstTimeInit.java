@@ -18,15 +18,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.crashlytics.android.Crashlytics;
-
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
     String MalUser;
@@ -120,7 +118,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     @Override
     public void onAuthenticationCheckFinished(boolean result) {
         if (result) {
-            Crashlytics.setString("site", AccountService.accountType.toString());
+            Theme.setCrashData("site", AccountService.accountType.toString());
             PrefManager.setForceSync(true);
             PrefManager.commitChanges();
             dialog.dismiss();

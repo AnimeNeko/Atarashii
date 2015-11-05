@@ -1,0 +1,110 @@
+<resources>
+
+    <!-- Title of Support Screen (Solution List Activity) -->
+    <string name="mobihelp_activity_title_solution_list">Soporte</string>
+
+    <!-- Title of Tickets List Activity -->
+    <string name="mobihelp_activity_title_tickets_list">Conversaciones</string>
+
+    <!-- Title of Feedback Activity for 2 way conversations -->
+    <string name="mobihelp_activity_title_feedback">Iniciar una conversación</string>
+
+	<!-- Title of Feedback Activity for feedback -->
+    <string name="mobihelp_activity_title_feedback_only">Retroalimentación</string>
+
+    <!-- Default title for Solution Article incase solution doesnot have a valid title -->
+    <string name="mobihelp_activity_title_solution_article">Solución</string>
+
+    <!-- Text for "Contact Us" button in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_contact_us">Contáctanos</string>
+
+    <!-- Text below the Contact Us button in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_contact_us_description_text">Si no encuentras lo que necesitas, contáctanos</string>
+
+    <!-- Text for "My Conversations" in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_my_conversations">Mis conversaciones</string>
+
+    <!-- Text for "Solutions" label view in the Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_label_support_solutions_list_label">Soluciones</string>
+
+    <!-- Text for request review item in the conversation view of ticket (Conversation Activity) -->
+    <string name="mobihelp_label_request_review">Haz clic aquí para revisar la aplicación en Play Store</string>
+
+    <!-- Text for Autoreply message in conversations -->
+    <string name="mobihelp_autoreply_message">Gracias por sus comentarios. Nuestro representante de soporte se pondrá en contacto con usted en breve.</string>
+
+    <!-- Default name for anonymous users or users who did not provide a name when name is optional -->
+    <string name="mobihelp_default_anon_user_name">MobihelpUser</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">Correo electrónico</string>
+    <string name="mobihelp_hint_feedback">¿Tiene alguna consulta?</string>
+    <string name="mobihelp_hint_name">Nombre</string>
+    <string name="mobihelp_hint_required_field">(requerido)</string>
+    <string name="mobihelp_hint_optional_field">(opcional)</string>
+    <string name="mobihelp_hint_enter_text_here">Escribe aquí tu mensaje</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Buscar en la base de conocimiento</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">¡No estás conectado a Internet!</string>
+    <string name="mobihelp_error_name_not_present">Por favor introduce tu nombre</string>
+    <string name="mobihelp_error_email_not_present">Por favor introduce tu dirección de correo electrónico</string>
+	<string name="mobihelp_error_email_not_valid">Por favor introduce una dirección de correo electrónico válida</string>
+    <string name="mobihelp_error_description_not_present">Por favor introduce la descripción de tu problema</string>
+    <string name="mobihelp_error_genreic_retry_message">Por favor espera un poco y vuelve a intentar</string>
+
+    <!-- Menu Items -->
+
+    <!-- Title for "Search" menu item in Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_menu_item_title_search_solutions">Buscar</string>
+
+    <!-- Title for "Contact Us" menu item in Support Screen (Solution Article List Activity) -->
+    <string name="mobihelp_menu_item_title_contact_us">Contáctanos</string>
+
+    <!-- Title for "Submit" menu item in Feedback Screen (Feedback Activity) -->
+    <string name="mobihelp_menu_item_title_submit">Enviar</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Enviar</string>
+    <string name="mobihelp_content_description_device_screenshot">Captura de pantalla del dispositivo</string>
+    <string name="mobihelp_tickets_list_empty_message">Pulsa aquí para comenzar una nueva conversación</string>
+    <string name="mobihelp_solutions_list_empty_message">No hay soluciones disponibles</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">¡Gracias! tu retroalimentación se ha enviado</string>
+    <string name="mobihelp_message_request_succeded">Enviado con éxito</string>
+    <string name="mobihelp_message_request_failed">Fallo en el envío. Por favor, intentarlo más tarde</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">No es posible cargar este artículo</string>
+    <string name="mobihelp_message_support_agent">soporte</string>
+    <string name="mobihelp_message_pending">enviando..</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">Si te ha gustado esta aplicación, por favor toma un momento para calificarla. ¡Gracias!</string>
+    <string name="mobihelp_rating_dialog_title">Calificar</string>
+    <string name="mobihelp_rating_dialog_rate_button">Calificar</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Ahora no</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Retroalimentación</string>
+
+	<!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">en este momento</string>
+    <string name="mobihelp_time_n_mins_ago">hace {mins} mins</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one">hace {hours} hora</item>
+        <item quantity="other">hace {hours} horas</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one">hace {weeks} semana</item>
+        <item quantity="other">hace {weeks} semanas</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one">hace {months} mes</item>
+        <item quantity="other">hace {months} meses</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">hace un día</string>
+    <string name="mobihelp_time_n_days_ago">hace {days} días</string>
+    <string name="mobihelp_time_more_than_a_year_ago">hace más de un año</string>
+
+
+</resources>

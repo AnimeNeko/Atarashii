@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.freshdesk.mobihelp.Mobihelp;
+import com.freshdesk.mobihelp.MobihelpConfig;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -36,6 +38,13 @@ public class Theme extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MobihelpConfig mobihelpConfig = new MobihelpConfig(
+                "https://atarashii.freshdesk.com",
+                BuildConfig.MOBIHELP_KEY,
+                BuildConfig.MOBIHELP_SECRET);
+        Mobihelp.init(this, mobihelpConfig);
+
         Fabric.with(this, new Crashlytics());
         context = getApplicationContext();
         PrefManager.create(getApplicationContext());
@@ -46,7 +55,7 @@ public class Theme extends Application {
         config = new Configuration();
         config.locale = locale;
         setLanguage(); //Change language when it is started
-        Crashlytics.setString("Language", locale.toString());
+        Theme.setCrashData("Language", locale.toString());
     }
 
     @Override
@@ -283,5 +292,16 @@ public class Theme extends Application {
             default:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
+    }
+
+    /**
+     * Log information about the requests.
+     *
+     * @param name The name of the parameter
+     * @param data The log value/info
+     */
+    public static void setCrashData(String name, String data) {
+        Mobihelp.addCustomData(name, data);
+        Crashlytics.setString(name, data);
     }
 }

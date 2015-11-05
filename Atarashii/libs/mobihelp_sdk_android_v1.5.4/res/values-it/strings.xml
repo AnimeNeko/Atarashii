@@ -1,0 +1,80 @@
+<resources>
+
+    <string name="mobihelp_activity_title_solution_list">Supporto</string>
+    <string name="mobihelp_activity_title_tickets_list">Conversazioni</string>
+    <string name="mobihelp_activity_title_feedback">Avvia una conversazione</string>
+    <string name="mobihelp_activity_title_feedback_only">Feedback</string>
+    <string name="mobihelp_activity_title_solution_article">Soluzione</string>
+    <string name="mobihelp_label_contact_us">Contattaci</string>
+    <string name="mobihelp_label_contact_us_description_text">Se non trovi quello che stai cercando, contattaci</string>
+    <string name="mobihelp_label_my_conversations">Le mie conversazioni</string>
+    <string name="mobihelp_label_support_solutions_list_label">Soluzioni</string>
+    <string name="mobihelp_label_request_review">Fai clic qui per recensire l’app su PlayStore</string>
+    <string name="mobihelp_autoreply_message">Grazie per il suggerimento. Il nostro rappresentante del supporto si metterà in contatto con voi.</string>
+    <string name="mobihelp_default_anon_user_name">Utente Mobihelp</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">E-mail</string>
+    <string name="mobihelp_hint_feedback">A cosa stai pensando?</string>
+    <string name="mobihelp_hint_name">Nome</string>
+    <string name="mobihelp_hint_required_field">(Obbligatorio)</string>
+    <string name="mobihelp_hint_optional_field">(Facoltativo)</string>
+    <string name="mobihelp_hint_enter_text_here">Digita qui il messaggio</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Cerca nella nostra Knowledge Base</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Non connesso a Internet</string>
+    <string name="mobihelp_error_name_not_present">Inserisci un nome</string>
+    <string name="mobihelp_error_email_not_present">Inserisci un indirizzo e-mail</string>
+    <string name="mobihelp_error_email_not_valid">Inserisci un indirizzo e-mail valido</string>
+    <string name="mobihelp_error_description_not_present">Inserisci una descrizione del problema</string>
+    <string name="mobihelp_error_genreic_retry_message">Riprova più tardi</string>
+
+    <!-- Menu Items -->
+    <string name="mobihelp_menu_item_title_search_solutions">Cerca</string>
+    <string name="mobihelp_menu_item_title_contact_us">Contattaci</string>
+    <string name="mobihelp_menu_item_title_submit">Invia</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Invia</string>
+    <string name="mobihelp_content_description_device_screenshot">Screenshot dispositivo</string>
+    <string name="mobihelp_tickets_list_empty_message">Tocca qui per avviare una nuova conversazione</string>
+    <string name="mobihelp_solutions_list_empty_message">Non sono disponibili soluzioni</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Grazie. I tuoi suggerimenti sono stati inviati.</string>
+    <string name="mobihelp_message_request_succeded">Invio completato</string>
+    <string name="mobihelp_message_request_failed">"Errore nell'invio. Riprova in un secondo momento"</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">"Impossibile caricare l'articolo"</string>
+    <string name="mobihelp_message_support_agent">supporto</string>
+    <string name="mobihelp_message_pending">invio in corso...</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">"Se ti piace utilizzare l’app, ti invitiamo a dargli un voto. Grazie per il tuo sostegno!"</string>
+    <string name="mobihelp_rating_dialog_title">Vota</string>
+    <string name="mobihelp_rating_dialog_rate_button">Vota</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Non adesso</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Feedback</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">proprio ora</string>
+    <string name="mobihelp_time_n_mins_ago">{mins} minuti fa</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one">{hours} ora fa</item>
+        <item quantity="other">{hours} ore fa</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one">{weeks} settimana fa</item>
+        <item quantity="other">{weeks} settimane fa</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one">{months} mese fa</item>
+        <item quantity="other">{months} mesi fa</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">1 giorno fa</string>
+    <string name="mobihelp_time_n_days_ago">{days} giorni fa</string>
+    <string name="mobihelp_time_more_than_a_year_ago">più di un anno fa</string>
+
+</resources>

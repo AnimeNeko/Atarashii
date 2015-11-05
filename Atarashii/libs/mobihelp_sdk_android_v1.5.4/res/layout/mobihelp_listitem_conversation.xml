@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobihelp_conversion_listitem_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp" >
+
+    <TextView
+        android:id="@+id/mobihelp_conversion_listitem_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:text="@string/mobihelp_message_support_agent"
+        android:textColor="@android:color/secondary_text_dark"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/mobihelp_conversion_listitem_message_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mobihelp_conversion_listitem_name"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/mobihelp_conversation_listitem_attachment_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/mobihelp_content_description_attachment"
+            android:minHeight="80dp"
+            android:minWidth="80dp"
+            android:scaleType="fitStart"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/mobihelp_conversion_listitem_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:gravity="center_vertical"
+            android:padding="2dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mobihelp_conversion_listitem_status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/mobihelp_conversion_listitem_message_wrapper"
+        android:layout_alignRight="@id/mobihelp_conversion_listitem_message_wrapper"
+        android:layout_below="@id/mobihelp_conversion_listitem_message_wrapper"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:text="@string/mobihelp_message_pending"
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
+
+</RelativeLayout>

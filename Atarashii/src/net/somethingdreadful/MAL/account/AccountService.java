@@ -16,8 +16,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.freshdesk.mobihelp.Mobihelp;
 
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.database.DatabaseTest;
 
 public class AccountService extends Service {
@@ -70,6 +72,7 @@ public class AccountService extends Service {
         if (getAccount() == null)
             return null;
         String username = getAccount().name;
+        Mobihelp.setUserFullName(context, username);
         Crashlytics.setUserName(username);
         return username;
     }
@@ -100,8 +103,8 @@ public class AccountService extends Service {
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
                 version = accountManager.getUserData(myaccount[0], "accountVersion");
-                Crashlytics.setString("Site", AccountService.accountType.toString());
-                Crashlytics.setString("accountVersion", version);
+                Theme.setCrashData("Site", AccountService.accountType.toString());
+                Theme.setCrashData("accountVersion", version);
             }
             account = myaccount.length > 0 ? myaccount[0] : null;
             if (version == null || accountVersion != Integer.parseInt(version))
@@ -227,6 +230,7 @@ public class AccountService extends Service {
         DatabaseTest.deleteDatabase(context);
         if (prefs)
             PrefManager.clear();
+        Mobihelp.clearUserData(context);
         AccountService.deleteAccount();
     }
 

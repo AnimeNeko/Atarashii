@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mobihelp_solution_article_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <TextView
+        android:id="@+id/mobihelp_solution_article_title"
+       	android:layout_width="match_parent"
+       	android:maxLines="3"
+        android:padding="12dp"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+       	android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/mobihelp_solution_article_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mobihelp_article_thick_border"
+        android:layout_below="@id/mobihelp_solution_article_title"
+        android:background="@color/mobihelp_divider_light" />
+
+     <include layout="@layout/mobihelp_voting_frame"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+         android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
