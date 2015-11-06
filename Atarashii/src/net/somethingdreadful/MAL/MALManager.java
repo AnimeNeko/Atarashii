@@ -102,7 +102,7 @@ public class MALManager {
     }
 
     public Manga updateWithDetails(int id, Manga manga) {
-        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails() : Downloading anime " + id);
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails() : Downloading manga " + id);
         Manga manga_api = AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
 
         if (manga_api != null) {
@@ -113,7 +113,7 @@ public class MALManager {
     }
 
     public Anime updateWithDetails(int id, Anime anime) {
-        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails() : Downloading manga " + id);
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails() : Downloading anime " + id);
         Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
 
         if (anime_api != null) {
