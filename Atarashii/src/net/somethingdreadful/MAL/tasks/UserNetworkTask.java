@@ -95,6 +95,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
             Crashlytics.log(Log.ERROR, "MALX", "UserNetworkTask.doInBackground(5): task unknown API error (?): " + e.getMessage());
             Crashlytics.logException(e);
         }
+        mManager.closeDB();
 
         return result;
     }

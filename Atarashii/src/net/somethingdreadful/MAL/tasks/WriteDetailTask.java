@@ -111,6 +111,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 }
             }
         }
+        manager.closeDB();
 
         return null;
     }

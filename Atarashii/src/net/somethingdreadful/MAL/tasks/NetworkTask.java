@@ -226,6 +226,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             Crashlytics.logException(e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
         }
+        mManager.closeDB();
         return taskResult;
     }
 

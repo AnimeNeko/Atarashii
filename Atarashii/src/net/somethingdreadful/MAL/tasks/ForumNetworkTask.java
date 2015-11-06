@@ -107,6 +107,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
             Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(6): " + String.format("%s-task unknown API error on id %s: %s", type.toString(), id, e.getMessage()));
             Crashlytics.logException(e);
         }
+        mManager.closeDB();
         return result;
     }
 
