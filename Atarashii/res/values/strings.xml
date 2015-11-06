@@ -256,6 +256,7 @@
     <string name="card_content_japanese">Japanese</string>
     <string name="card_content_english">English</string>
     <string name="card_content_synonyms">Synonyms</string>
+    <string name="card_content_romaji">Romaji</string>
     <string name="card_offline_error">No network connection available.</string>
     <string name="card_offline_title">You\'re offline!</string>
     <string name="episodepicker_hint">Enter your score</string>

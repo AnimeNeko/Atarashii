@@ -51,11 +51,39 @@ public class GenericRecord implements Serializable {
     private int id;
 
     /**
-     * Title of the record
+     * Title of the record (Preference)
      */
     @Setter
     @Getter
     private String title;
+
+    /**
+     * Title of the record (Romaji)
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> titleRomaji;
+
+    /**
+     * Title of the record (Japanese)
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> titleJapanese;
+
+    /**
+     * Title of the record (English)
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> titleEnglish;
+
+    /**
+     * Title of the record (Synonyms)
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> titleSynonyms;
 
     /**
      * Type of record
