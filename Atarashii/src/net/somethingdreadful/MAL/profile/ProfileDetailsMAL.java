@@ -35,8 +35,8 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View view;

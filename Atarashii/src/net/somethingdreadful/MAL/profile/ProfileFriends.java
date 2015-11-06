@@ -28,8 +28,8 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
     GridView Gridview;

@@ -21,8 +21,8 @@ import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.profile.ProfileHistory;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
     Context context;

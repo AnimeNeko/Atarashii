@@ -10,10 +10,10 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.MALApi.ListType;
 
 public class StatusPickerDialogFragment extends DialogFragment implements OnCheckedChangeListener {
 

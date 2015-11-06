@@ -25,8 +25,8 @@ import net.somethingdreadful.MAL.forum.ForumsTopics;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ForumActivity extends AppCompatActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTask.ForumNetworkTaskListener {
     Menu menu;

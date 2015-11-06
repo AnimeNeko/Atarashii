@@ -24,8 +24,8 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import java.io.Serializable;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
     View view;
