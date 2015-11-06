@@ -175,6 +175,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                 onUpdate(context, AppWidgetManager.getInstance(context), ids);
                 break;
         }
+        db.close();
     }
 
     @Override

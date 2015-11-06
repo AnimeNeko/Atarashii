@@ -52,6 +52,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             if (backup.getAccountType().equals(AccountService.accountType)) {
                 DatabaseManager databaseManager = new DatabaseManager(activity);
                 databaseManager.restoreLists(backup.getAnimeList(), backup.getMangaList());
+                databaseManager.close();
             } else {
                 Theme.Snackbar(activity, R.string.toast_info_backup_list);
                 return null;

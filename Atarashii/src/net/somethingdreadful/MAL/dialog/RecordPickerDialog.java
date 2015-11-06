@@ -261,6 +261,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         else
             succeeded = db.addWidgetRecord(id, listType);
 
+        db.close();
         if (succeeded) {
             Intent updateWidgetIntent = new Intent(context, Widget1.class);
             updateWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);

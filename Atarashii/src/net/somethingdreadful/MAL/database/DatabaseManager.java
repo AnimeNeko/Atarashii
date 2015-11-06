@@ -569,4 +569,11 @@ public class DatabaseManager {
             cleanupMangaTable();
         return result;
     }
+
+    public void close() {
+        if (db.inTransaction())
+            db.endTransaction();
+        if (db.isOpen())
+            db.close();
+    }
 }
