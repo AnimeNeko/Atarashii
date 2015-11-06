@@ -11,6 +11,7 @@ import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import lombok.Getter;
@@ -116,21 +117,33 @@ public class Manga extends GenericRecord implements Serializable {
     private int rereadValue;
 
     public void setReadStatus(String readStatus) {
-        if (!fromCursor)
-            addDirtyField("readStatus");
-        this.readStatus = readStatus;
+        if (this.readStatus == null || !this.readStatus.equals(readStatus)) {
+            this.readStatus = readStatus;
+            if (!fromCursor) {
+                addDirtyField("readStatus");
+                checkProgress();
+            }
+        }
     }
 
     public void setChaptersRead(int chaptersRead) {
-        if (!fromCursor)
-            addDirtyField("chaptersRead");
-        this.chaptersRead = chaptersRead;
+        if (this.chaptersRead != chaptersRead) {
+            this.chaptersRead = chaptersRead;
+            if (!fromCursor) {
+                addDirtyField("chaptersRead");
+                checkProgress();
+            }
+        }
     }
 
     public void setVolumesRead(int volumesRead) {
-        if (!fromCursor)
-            addDirtyField("volumesRead");
-        this.volumesRead = volumesRead;
+        if (this.volumesRead != volumesRead) {
+            this.volumesRead = volumesRead;
+            if (!fromCursor) {
+                addDirtyField("volumesRead");
+                checkProgress();
+            }
+        }
     }
 
     public void setReadingStart(String readingStart) {
@@ -169,6 +182,64 @@ public class Manga extends GenericRecord implements Serializable {
         this.rereadValue = rereadValue;
     }
 
+    public void checkProgress() {
+        boolean completed = false;
+        boolean started = false;
+
+        // Automatically set the max chapters and volumes on completed
+        if (getReadStatus().equals(GenericRecord.STATUS_COMPLETED) && getChapters() > 0) {
+            setChaptersRead(getChapters());
+            if (getVolumes() > 0)
+                setVolumesRead(getVolumes());
+            completed = true;
+        }
+
+        // Automatically set the progress when the max chapters has reached
+        if (getChaptersRead() == getChapters() && getChapters() > 0) {
+            setReadStatus(GenericRecord.STATUS_COMPLETED);
+            completed = true;
+        }
+
+        if (completed) {
+            // Automatically set the progress when the record has been finished
+            if (getRereading() || (getRereadCount() > 0)) {
+                setRereadCount(getRereadCount() + 1);
+                setRereading(false);
+            }
+
+            // Automatically set the end date on completed if it is empty
+            if (getReadingEnd() == null || getReadingEnd().equals("")) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                setReadingEnd(year + "-" + month + "-" + day);
+            }
+        }
+
+        // Automatically set the progress when the chapter 1 has been read
+        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getChaptersRead() == 1) {
+            setReadStatus(GenericRecord.STATUS_READING);
+            started = true;
+        }
+
+        // Automatically set the progress when the volume 1 has been read
+        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getVolumesRead() == 1 && getChaptersRead() == 0) {
+            setReadStatus(GenericRecord.STATUS_READING);
+            started = true;
+        }
+
+        // Automatically set the start date on start if it is empty
+        if (getReadStatus().equals(GenericRecord.STATUS_READING) && started) {
+            if (getReadingStart() == null || getReadingStart().equals("")) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                setReadingStart(year + "-" + month + "-" + day);
+            }
+        }
+    }
 
     public int getReadStatusInt() {
         return getUserStatusInt(getReadStatus());
