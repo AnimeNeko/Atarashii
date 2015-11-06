@@ -114,7 +114,7 @@ public class History implements Serializable {
 
     public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> historyArrayList = new ArrayList<>();
-        for (History history: histories) {
+        for (History history : histories) {
             historyArrayList.add(history.createBaseModel());
         }
         return historyArrayList;

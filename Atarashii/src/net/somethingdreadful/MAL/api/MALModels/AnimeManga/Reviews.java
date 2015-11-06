@@ -98,16 +98,16 @@ public class Reviews implements Serializable {
         model.setDate(getDate());
         model.setRating(getRating());
         model.setReview(getReview());
-        Profile profile =  new Profile();
+        Profile profile = new Profile();
         profile.setUsername(getUsername());
         profile.setImageUrl(getAvatarUrl() == null ? "http://cdn.myanimelist.net/images/na_series.gif" : getAvatarUrl());
         model.setUser(profile);
         return model;
     }
 
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews> convertBaseArray(ArrayList<Reviews> MALArray){
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews> convertBaseArray(ArrayList<Reviews> MALArray) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews> base = new ArrayList<>();
-        for (Reviews reviews: MALArray) {
+        for (Reviews reviews : MALArray) {
             base.add(reviews.createBaseModel());
         }
         return base;

@@ -181,7 +181,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                     return res.getString(notFoundStringId);
                 else
                     return types[index];
-            }catch (Exception e) {
+            } catch (Exception e) {
                 return res.getString(notFoundStringId);
             }
         } catch (Exception e) {
@@ -205,7 +205,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         }
         if (activity.record.getDetails().getLocation() == null)
             tv2.setText(R.string.not_specified);
-         else
+        else
             tv2.setText(activity.record.getDetails().getLocation());
         if (activity.record.getDetails().getWebsite() != null && activity.record.getDetails().getWebsite().contains("http://") && activity.record.getDetails().getWebsite().contains(".")) { // filter fake websites
             tv25.setText(activity.record.getDetails().getWebsite().replace("http://", ""));
@@ -282,7 +282,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                         });
                 toggle(0);
             }
-        }catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.refresh(): has been closed too fast");
         }
     }

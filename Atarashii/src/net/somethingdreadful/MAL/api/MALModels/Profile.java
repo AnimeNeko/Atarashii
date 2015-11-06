@@ -263,7 +263,7 @@ public class Profile implements Serializable {
         @SerializedName("total_entries")
         private int totalEntries;
     }
-    
+
     public net.somethingdreadful.MAL.api.BaseModels.Profile createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.Profile model = new net.somethingdreadful.MAL.api.BaseModels.Profile();
         model.setDetails(getDetails());
@@ -273,7 +273,7 @@ public class Profile implements Serializable {
         return model;
     }
 
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.Profile> convertBaseList(ArrayList<Profile> MALprofiles){
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.Profile> convertBaseList(ArrayList<Profile> MALprofiles) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.Profile> profiles = new ArrayList<>();
         for (Profile profile : MALprofiles) {
             profiles.add(profile.createBaseModel());

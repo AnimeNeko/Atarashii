@@ -29,7 +29,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * Map of other titles for the record
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Setter

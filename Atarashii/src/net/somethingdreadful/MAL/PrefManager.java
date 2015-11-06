@@ -21,7 +21,7 @@ public class PrefManager {
 
     /**
      * Remove the old account info.
-     *
+     * <p/>
      * The username & password were saved in Atarashii! < 2.0.
      * Currently we are using this to remove the old username and password.
      *
@@ -36,14 +36,14 @@ public class PrefManager {
 
     /**
      * Remove the preferences.
-     *
+     * <p/>
      * Reset all the preferences
      *
      * @see Home
      */
     public static void clear() {
-            prefEditor.clear();
-            prefEditor.commit();
+        prefEditor.clear();
+        prefEditor.commit();
     }
 
     /**
@@ -230,7 +230,7 @@ public class PrefManager {
 
     /**
      * Set the score display type.
-     *
+     * <p/>
      * 1. 0 - 10
      * 2. 0 - 100
      * 3. 0 - 5
@@ -317,7 +317,7 @@ public class PrefManager {
     /**
      * Get the amount of the IGF columns.
      *
-     * @param columns The amount of columns
+     * @param columns  The amount of columns
      * @param portrait The screen orientation
      */
     public static void setIGFColumns(int columns, boolean portrait) {

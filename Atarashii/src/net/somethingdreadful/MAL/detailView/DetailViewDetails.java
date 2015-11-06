@@ -129,7 +129,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardMediaStats.setContent(R.layout.card_detailview_details_mediastats);
         cardRelations.setContent(R.layout.card_detailview_details_relations);
         cardTitles.setContent(R.layout.card_detailview_details_relations);
-        
+
         // set all the views
         ButterKnife.bind(this, view);
 

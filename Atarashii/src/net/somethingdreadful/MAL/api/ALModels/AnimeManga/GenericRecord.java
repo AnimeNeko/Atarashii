@@ -78,7 +78,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * The hashtag source of this record.
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Getter
@@ -87,7 +87,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * The information source of this record.
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Getter
@@ -96,7 +96,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * Boolean value which indicates if the records is for elder people.
-     *
+     * <p/>
      * TODO: Add UI support? not sure though.
      */
     @Getter
@@ -150,7 +150,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * URL of an image (rectangle) of the record used for the banner.
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Getter

@@ -248,6 +248,7 @@ public class MALApi {
     public BrowseList getUpcomingManga(int page) {
         return MangaList.convertBaseBrowseList(service.getUpcomingManga(page));
     }
+
     public Profile getProfile(String user) {
         return service.getProfile(user).createBaseModel();
     }

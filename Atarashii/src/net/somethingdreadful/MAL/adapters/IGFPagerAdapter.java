@@ -15,7 +15,7 @@ public class IGFPagerAdapter extends FragmentPagerAdapter {
     /**
      * Init page adapter
      *
-     * @param fm The fragment manager.
+     * @param fm    The fragment manager.
      * @param popup If this page adapter is used for the Home.class or searchActivity.class
      */
     public IGFPagerAdapter(FragmentManager fm, boolean popup) {

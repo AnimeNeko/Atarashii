@@ -100,7 +100,7 @@ public class Theme extends Application {
      * This method should only be used for activities with tabs.
      *
      * @param activity The view activity
-     * @param adapter The page adapter
+     * @param adapter  The page adapter
      * @return FragmentPagerAdapter The page adapter
      */
     public static FragmentPagerAdapter setActionBar(AppCompatActivity activity, FragmentPagerAdapter adapter) {

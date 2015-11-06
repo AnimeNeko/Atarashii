@@ -81,7 +81,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
         }
-        
+
         int page = 1;
 
         if (data != null && data.containsKey("page")) {
@@ -134,7 +134,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
                         Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
-                            taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
+                        taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
                     }
                     break;
                 case GETDETAILS:

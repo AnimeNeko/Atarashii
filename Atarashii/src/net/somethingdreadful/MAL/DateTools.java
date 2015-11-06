@@ -17,7 +17,7 @@ public class DateTools {
     /**
      * Parse a date with an ISO8601 string.
      *
-     * @param ISO8601 The ISO8601 String
+     * @param ISO8601  The ISO8601 String
      * @param withTime Use true when you want also the time (hours & minutes)
      * @return String The readable string.
      */
@@ -28,7 +28,7 @@ public class DateTools {
     /**
      * Parse a date with miliseconds.
      *
-     * @param time The time in miliseconds
+     * @param time     The time in miliseconds
      * @param withTime Use true when you want also the time (hours & minutes)
      * @return String The readable string.
      */
@@ -38,14 +38,14 @@ public class DateTools {
         return getDateString(calander.getTime(), withTime);
     }
 
-    public static Long getmilis(String time){
+    public static Long getmilis(String time) {
         Calendar calander = Calendar.getInstance();
         calander.setTime(parseISO8601(time));
         return calander.getTimeInMillis();
     }
 
     private static Date parseISO8601(String ISO8601) {
-        switch (ISO8601.length()){
+        switch (ISO8601.length()) {
             case 4: // 2015-05
                 return getDate("yyyy", ISO8601);
             case 7: // 2015-05

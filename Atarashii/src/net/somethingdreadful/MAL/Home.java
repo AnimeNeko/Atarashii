@@ -131,7 +131,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             DrawerList.setOnItemClickListener(new DrawerItemClickListener());
             DrawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, (Toolbar) findViewById(R.id.actionbar) , R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
 
             networkReceiver = new BroadcastReceiver() {
