@@ -91,6 +91,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             if (callback != null) {
                 callback.onBackupTaskFinished();
             }
+            mManager.closeDB();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "BackupTask.saveBackup(): " + e.getMessage());
             Crashlytics.logException(e);

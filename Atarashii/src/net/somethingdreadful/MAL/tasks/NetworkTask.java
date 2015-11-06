@@ -12,9 +12,9 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.widgets.Widget1;
 
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
         }
-        
+
         int page = 1;
 
         if (data != null && data.containsKey("page")) {
@@ -134,7 +134,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GET:
                     if (data != null && data.containsKey("recordID")) {
                         Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
-                            taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
+                        taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
                     }
                     break;
                 case GETDETAILS:
@@ -226,6 +226,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             Crashlytics.logException(e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
         }
+        mManager.closeDB();
         return taskResult;
     }
 

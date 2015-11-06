@@ -159,7 +159,7 @@ public class ForumsMain extends Fragment implements ForumNetworkTask.ForumNetwor
 
     /**
      * Handle the viewFlipper.
-     *
+     * <p/>
      * 0 = The real content
      * 1 = The progress indicator
      * 2 = The network not available card

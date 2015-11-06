@@ -188,7 +188,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void onUpdated(int number, int id) {
         switch (id) {
             case R.id.progress1:
-                    animeRecord.setWatchedEpisodes(number);
+                animeRecord.setWatchedEpisodes(number);
                 break;
             case R.id.scorePanel:
                 if (isAnime())
@@ -356,12 +356,15 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             Crashlytics.log(Log.ERROR, "MALX", "DetailView.getRecordFromDB(): ");
             if (isAdded())
                 Theme.Snackbar(this, R.string.toast_error_Records);
+            dbMan.close();
             return false;
         } else if (type.equals(ListType.ANIME)) {
             animeRecord = dbMan.getAnime(recordID);
+            dbMan.close();
             return animeRecord != null;
         } else {
             mangaRecord = dbMan.getManga(recordID);
+            dbMan.close();
             return mangaRecord != null;
         }
     }

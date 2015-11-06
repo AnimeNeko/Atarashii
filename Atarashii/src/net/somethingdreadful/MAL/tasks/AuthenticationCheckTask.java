@@ -63,7 +63,7 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
                         break;
                 }
             } else {
-                 Theme.Snackbar(activity, R.string.toast_error_maintenance);
+                Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "AuthenticationCheckTask.doInBackground(2): " + e.getMessage());

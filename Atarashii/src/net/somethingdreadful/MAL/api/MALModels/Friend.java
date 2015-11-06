@@ -44,7 +44,7 @@ public class Friend implements Serializable {
 
     public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.Profile> convertBaseFriendList(ArrayList<Friend> follows) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.Profile> profiles = new ArrayList<>();
-        for (Friend follower: follows) {
+        for (Friend follower : follows) {
             profiles.add(follower.createBaseModel());
         }
         return profiles;

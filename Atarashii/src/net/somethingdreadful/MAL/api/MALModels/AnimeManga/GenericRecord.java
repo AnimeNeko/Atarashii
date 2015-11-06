@@ -29,8 +29,6 @@ public class GenericRecord implements Serializable {
 
     /**
      * Map of other titles for the record
-     *
-     * TODO: Add UI support
      */
     @Setter
     @Getter
@@ -162,7 +160,10 @@ public class GenericRecord implements Serializable {
 
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
         model.setId(getId());
-        model.setTitle(getTitle());
+        model.setTitle(getTitle()); // MAL is using default romaji
+        model.setTitleEnglish(getOtherTitles().get("english"));
+        model.setTitleJapanese(getOtherTitles().get("japanese"));
+        model.setTitleSynonyms(getOtherTitles().get("synonyms"));
         model.setRank(getRank());
         model.setPopularity(getPopularityRank());
         model.setImageUrl(getImageUrl());

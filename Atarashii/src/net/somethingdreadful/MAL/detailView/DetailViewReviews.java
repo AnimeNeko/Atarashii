@@ -68,6 +68,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         state.putSerializable("record", record);
         super.onSaveInstanceState(state);
     }
+
     /**
      * Get the requested records.
      *

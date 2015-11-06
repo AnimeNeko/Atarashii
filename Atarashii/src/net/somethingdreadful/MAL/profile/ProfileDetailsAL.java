@@ -28,8 +28,8 @@ import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View view;

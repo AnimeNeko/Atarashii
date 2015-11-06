@@ -24,8 +24,8 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import java.io.Serializable;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
     View view;
@@ -129,7 +129,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardMediaStats.setContent(R.layout.card_detailview_details_mediastats);
         cardRelations.setContent(R.layout.card_detailview_details_relations);
         cardTitles.setContent(R.layout.card_detailview_details_relations);
-        
+
         // set all the views
         ButterKnife.bind(this, view);
 
@@ -210,23 +210,19 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
             relation.addRelations(activity.animeRecord.getOther(), getString(R.string.card_content_other));
 
-            /*
-            TODO: Enable this
-
-            title.addTitles(activity.animeRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
-            title.addTitles(activity.animeRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
-            title.addTitles(activity.animeRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
-            */
+            title.addTitles(activity.animeRecord.getTitleRomaji(), getString(R.string.card_content_romaji));
+            title.addTitles(activity.animeRecord.getTitleJapanese(), getString(R.string.card_content_japanese));
+            title.addTitles(activity.animeRecord.getTitleEnglish(), getString(R.string.card_content_english));
+            title.addTitles(activity.animeRecord.getTitleSynonyms(), getString(R.string.card_content_synonyms));
         } else {
             relation.addRelations(activity.mangaRecord.getAnimeAdaptations(), getString(R.string.card_content_adaptions));
             relation.addRelations(activity.mangaRecord.getRelatedManga(), getString(R.string.card_content_related));
             relation.addRelations(activity.mangaRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
-            /*
-            TODO: Enable this
-            title.addTitles(activity.mangaRecord.getOtherTitlesJapanese(), getString(R.string.card_content_japanese));
-            title.addTitles(activity.mangaRecord.getOtherTitlesEnglish(), getString(R.string.card_content_english));
-            title.addTitles(activity.mangaRecord.getOtherTitlesSynonyms(), getString(R.string.card_content_synonyms));
-            */
+
+            title.addTitles(activity.mangaRecord.getTitleRomaji(), getString(R.string.card_content_romaji));
+            title.addTitles(activity.mangaRecord.getTitleJapanese(), getString(R.string.card_content_japanese));
+            title.addTitles(activity.mangaRecord.getTitleEnglish(), getString(R.string.card_content_english));
+            title.addTitles(activity.mangaRecord.getTitleSynonyms(), getString(R.string.card_content_synonyms));
         }
 
         relation.notifyDataSetChanged();

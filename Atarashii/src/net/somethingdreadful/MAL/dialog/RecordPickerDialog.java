@@ -26,8 +26,8 @@ import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.widgets.Widget1;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCallbackListener, APIAuthenticationErrorListener, ViewPager.OnPageChangeListener {
     IGF af;
@@ -261,6 +261,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         else
             succeeded = db.addWidgetRecord(id, listType);
 
+        db.close();
         if (succeeded) {
             Intent updateWidgetIntent = new Intent(context, Widget1.class);
             updateWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);

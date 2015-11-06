@@ -99,7 +99,7 @@ public class Table {
     /**
      * Create the profile table.
      */
-    public void createProfile(){
+    public void createProfile() {
         queryString += "create table "
                 + DatabaseTest.TABLE_PROFILE + "("
                 + "username varchar UNIQUE, "
@@ -141,7 +141,7 @@ public class Table {
     /**
      * Create tags table.
      *
-     * @param table The table name
+     * @param table     The table name
      * @param refTable1 The table that should get referenced
      * @param refTable2 The table that will be referenced with
      */
@@ -167,7 +167,7 @@ public class Table {
     /**
      * Create relation table.
      *
-     * @param table The table name
+     * @param table     The table name
      * @param refTable1 The table that should get referenced
      * @param refTable2 The table that will be referenced with
      */
@@ -184,7 +184,7 @@ public class Table {
     public void run() {
         try {
             db.execSQL(queryString);
-        } catch (Exception e){
+        } catch (Exception e) {
             Crashlytics.log(Log.INFO, "MALX", "Table.run(" + toString() + "): " + e.getMessage());
         }
     }

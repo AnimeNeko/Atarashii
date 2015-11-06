@@ -40,7 +40,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
         if (hidePersonal != this.hidePersonal) {
             this.hidePersonal = hidePersonal;
             TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
-                tabs.removeTabAt(2);
+            tabs.removeTabAt(2);
             if (!hidePersonal)
                 tabs.addTab(tabs.newTab().setText(getPageTitle(2)), 2);
             notifyChangeInPosition(2);
@@ -101,6 +101,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     /**
      * Notify that the position of a fragment has been changed.
      * Create a new ID for each position to force recreation of the fragment
+     *
      * @param number number of items which have been changed
      */
     public void notifyChangeInPosition(int number) {

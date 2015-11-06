@@ -19,7 +19,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-public class SearchActivity extends AppCompatActivity implements IGF.IGFCallbackListener{
+public class SearchActivity extends AppCompatActivity implements IGF.IGFCallbackListener {
     public String query;
     IGF af;
     IGF mf;

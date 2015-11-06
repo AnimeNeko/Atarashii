@@ -27,8 +27,8 @@ import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetworkTaskListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     View view;
@@ -167,7 +167,7 @@ public class ForumsTopics extends Fragment implements ForumNetworkTask.ForumNetw
 
     /**
      * Handle the viewFlipper.
-     *
+     * <p/>
      * 0 = The real content
      * 1 = The progress indicator
      * 2 = The network not available card

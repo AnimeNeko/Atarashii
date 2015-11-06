@@ -20,8 +20,8 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private HtmlUtil htmlUtil;

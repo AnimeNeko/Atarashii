@@ -26,8 +26,8 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
     public SwipeRefreshLayout swipeRefresh;

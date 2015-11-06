@@ -78,7 +78,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * The hashtag source of this record.
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Getter
@@ -87,7 +87,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * The information source of this record.
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Getter
@@ -96,7 +96,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * Boolean value which indicates if the records is for elder people.
-     *
+     * <p/>
      * TODO: Add UI support? not sure though.
      */
     @Getter
@@ -150,7 +150,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * URL of an image (rectangle) of the record used for the banner.
-     *
+     * <p/>
      * TODO: Add UI support
      */
     @Getter
@@ -176,6 +176,10 @@ public class GenericRecord implements Serializable {
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
         model.setId(getId());
         model.setTitle(getTitleRomaji());
+        model.setTitleEnglish(createTitleArray(getTitleEnglish()));
+        model.setTitleJapanese(createTitleArray(getTitleJapanese()));
+        model.setTitleRomaji(createTitleArray(getTitleRomaji()));
+        model.setTitleSynonyms(getSynonyms());
         model.setType(getType());
         model.setImageUrl(getImageUrlLge());
         model.setStartDate(getStartDate());
@@ -186,5 +190,11 @@ public class GenericRecord implements Serializable {
         model.setAverageScore(getAverageScore());
         model.setGenres(getGenres());
         return model;
+    }
+
+    public ArrayList<String> createTitleArray(String title) {
+        ArrayList<String> titleArray = new ArrayList<>();
+        titleArray.add(title);
+        return titleArray;
     }
 }

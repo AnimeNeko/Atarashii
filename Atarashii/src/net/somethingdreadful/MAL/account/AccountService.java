@@ -42,7 +42,7 @@ public class AccountService extends Service {
     private static void onUpgrade() {
         Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + String.valueOf(accountVersion) + ".");
         setAccountVersion(accountVersion);
-        switch (accountVersion){
+        switch (accountVersion) {
             case 1:
                 // We support now all Anilist scores, the user needs to log out (2.1 beta 3).
                 if (!accountType.equals(AccountType.MyAnimeList))
@@ -171,7 +171,7 @@ public class AccountService extends Service {
 
     /**
      * Get the accesToken.
-     *
+     * <p/>
      * Note: this method will return null if the accesToken is expired!
      *
      * @return String accesToken
