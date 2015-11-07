@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
@@ -29,6 +30,14 @@ public class AboutActivity extends AppCompatActivity {
         createLinks((TextView) findViewById(R.id.community_card_content));
         createLinks((TextView) findViewById(R.id.translations_card_content));
         createLinks((TextView) findViewById(R.id.notlisted_content));
+
+        Card atarashii = (Card) findViewById(R.id.atarashii_card);
+
+        try {
+            atarashii.Header.setText(getString(R.string.app_name) + " " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         NfcHelper.disableBeam(this);
     }
