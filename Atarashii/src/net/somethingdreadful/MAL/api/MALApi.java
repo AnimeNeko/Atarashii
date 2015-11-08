@@ -9,6 +9,10 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.Authenticator;
+import com.squareup.okhttp.Credentials;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -23,24 +27,24 @@ import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.api.MALModels.Friend;
 import net.somethingdreadful.MAL.api.MALModels.History;
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpProtocolParams;
-
+import java.io.IOException;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.ApacheClient;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 public class MALApi {
     // Use version 2.0 of the API interface
     private static final String API_HOST = "https://api.atarashiiapp.com/2";
-    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ")";
+
+    //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
+    private static final String okUa = com.squareup.okhttp.internal.Version.userAgent();
+    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
 
     private MALInterface service;
     private String username;
@@ -68,10 +72,29 @@ public class MALApi {
     }
 
     private void setupRESTService(String username, String password) {
-        DefaultHttpClient client = new DefaultHttpClient();
-        HttpProtocolParams.setUserAgent(client.getParams(), USER_AGENT);
-        client.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                new UsernamePasswordCredentials(username, password));
+        OkHttpClient client = new OkHttpClient();
+
+        client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
+
+        final String credential = Credentials.basic(username, password);
+
+        client.setAuthenticator(new Authenticator() {
+            @Override
+            public Request authenticate(Proxy proxy, com.squareup.okhttp.Response response) throws IOException {
+                if (credential.equals(response.request().header("Authorization"))) {
+                    return null; //If we already failed when trying the credentials, exit and don't retry
+                }
+
+                return response.request().newBuilder()
+                        .header("Authorization", credential)
+                        .build();
+            }
+
+            @Override
+            public Request authenticateProxy(Proxy proxy, com.squareup.okhttp.Response response) throws IOException {
+                return null;
+            }
+        });
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -79,7 +102,7 @@ public class MALApi {
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new ApacheClient(client))
+                .setClient(new OkClient(client))
                 .setEndpoint(API_HOST)
                 .setConverter(new GsonConverter(gson))
                 .build();

@@ -1,9 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
 import android.net.Uri;
+import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.OkHttpClient;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -19,18 +21,20 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.util.ArrayList;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.ApacheClient;
+import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 public class ALApi {
     private static String anilistURL = "http://anilist.co/api";
     private static String accesToken;
+
+    //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
+    private static final String okUa = com.squareup.okhttp.internal.Version.userAgent();
+    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
 
     ALInterface service;
 
@@ -52,6 +56,10 @@ public class ALApi {
     }
 
     private void setupRESTService() {
+        OkHttpClient client = new OkHttpClient();
+
+        client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
+
         if (accesToken == null && AccountService.getAccount() != null)
             accesToken = AccountService.getAccesToken();
 
@@ -61,7 +69,7 @@ public class ALApi {
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new ApacheClient(new DefaultHttpClient()))
+                .setClient(new OkClient(client))
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
