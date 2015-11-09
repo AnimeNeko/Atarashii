@@ -79,7 +79,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'org.projectlombok:lombok:1.16.4'
+    provided 'org.projectlombok:lombok:1.16.6'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') { transitive = true; }
     compile project(':mobihelp_sdk_android_v1.5.4')
 }
