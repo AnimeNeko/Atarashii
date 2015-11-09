@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.freshdesk.mobihelp.Mobihelp;
 import com.freshdesk.mobihelp.MobihelpConfig;
 
@@ -45,7 +46,11 @@ public class Theme extends Application {
                 BuildConfig.MOBIHELP_SECRET);
         Mobihelp.init(this, mobihelpConfig);
 
-        Fabric.with(this, new Crashlytics());
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+                .build();
+        Fabric.with(this, crashlyticsKit);
+
         context = getApplicationContext();
         PrefManager.create(getApplicationContext());
         AccountService.create(getApplicationContext());
