@@ -22,6 +22,7 @@
         app:backgroundTintMode="@color/white"
         app:tabIndicatorColor="@color/white"
         app:tabMode="fixed"
+        app:tabMaxWidth="0dp"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="#B3FFFFFF" />
 
