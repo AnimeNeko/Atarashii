@@ -46,6 +46,11 @@ public class Query {
         return this;
     }
 
+    public Query andIsNotNull(String column1) {
+        queryString += " AND " + column1 + " IS NOT NULL ";
+        return this;
+    }
+
     public Query andEquals(String column1, String value) {
         queryString += " AND " + column1 + " = '" + value + "'";
         return this;

@@ -507,9 +507,9 @@ public class DatabaseManager {
      */
     private boolean checkWidgetID(int id, MALApi.ListType type) {
         if (type.equals(MALApi.ListType.ANIME))
-            return Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).isNotNull("widget").run().getCount() > 0;
+            return Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
         else
-            return Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).isNotNull("widget").run().getCount() > 0;
+            return Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
     }
 
     public void removeWidgetRecord() {
