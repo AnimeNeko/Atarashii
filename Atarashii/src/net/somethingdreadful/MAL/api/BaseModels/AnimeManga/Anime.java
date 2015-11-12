@@ -257,6 +257,20 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter
     private int rewatchValue;
 
+    public void setAllDirty() {
+        addDirtyField("watchedStatus");
+        addDirtyField("watchedEpisodes");
+        addDirtyField("watchingStart");
+        addDirtyField("watchingEnd");
+        addDirtyField("fansubGroup");
+        addDirtyField("storage");
+        addDirtyField("storageValue");
+        addDirtyField("epsDownloaded");
+        addDirtyField("rewatching");
+        addDirtyField("rewatchCount");
+        addDirtyField("rewatchValue");
+    }
+
     public void setWatchedStatus(String watchedStatus) {
         if (this.watchedStatus == null || !this.watchedStatus.equals(watchedStatus)) {
             this.watchedStatus = watchedStatus;

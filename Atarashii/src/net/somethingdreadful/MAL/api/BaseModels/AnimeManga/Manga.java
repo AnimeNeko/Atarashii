@@ -116,6 +116,18 @@ public class Manga extends GenericRecord implements Serializable {
     @SerializedName("reread_value")
     private int rereadValue;
 
+    public void setAllDirty() {
+        addDirtyField("readStatus");
+        addDirtyField("chaptersRead");
+        addDirtyField("volumesRead");
+        addDirtyField("readingStart");
+        addDirtyField("readingEnd");
+        addDirtyField("chapDownloaded");
+        addDirtyField("rereading");
+        addDirtyField("rereadCount");
+        addDirtyField("rereadValue");
+    }
+
     public void setReadStatus(String readStatus) {
         if (this.readStatus == null || !this.readStatus.equals(readStatus)) {
             this.readStatus = readStatus;
