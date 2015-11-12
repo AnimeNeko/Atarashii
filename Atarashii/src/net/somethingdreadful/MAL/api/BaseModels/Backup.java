@@ -11,8 +11,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Backup implements Serializable {
-    @Setter @Getter private ArrayList<Anime> animeList;
-    @Setter @Getter private ArrayList<Manga> mangaList;
-    @Setter @Getter private String username;
-    @Setter @Getter private AccountType accountType;
+    @Setter
+    private ArrayList<Anime> animeList;
+    @Setter
+    private ArrayList<Manga> mangaList;
+    @Setter
+    @Getter
+    private String username;
+    @Setter
+    @Getter
+    private AccountType accountType;
+
+    public ArrayList<Anime> getAnimeList() {
+        ArrayList<Anime> result = new ArrayList<>();
+        for (Anime anime : animeList) {
+            anime.setAllDirty();
+            result.add(anime);
+        }
+        return result;
+    }
+
+    public ArrayList<Manga> getMangaList() {
+        ArrayList<Manga> result = new ArrayList<>();
+        for (Manga manga : mangaList) {
+            manga.setAllDirty();
+            result.add(manga);
+        }
+        return result;
+    }
 }
