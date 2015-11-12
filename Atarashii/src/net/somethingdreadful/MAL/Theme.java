@@ -215,10 +215,12 @@ public class Theme extends Application {
      * @param stringResID The string resource ID
      */
     public static void Snackbar(Activity activity, int stringResID) {
-        Snackbar snack = Snackbar.make(activity.getWindow().getDecorView(), stringResID, Snackbar.LENGTH_LONG);
-        TextView tv = (TextView) snack.getView().findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        snack.show();
+        if (activity != null) {
+            Snackbar snack = Snackbar.make(activity.getWindow().getDecorView(), stringResID, Snackbar.LENGTH_LONG);
+            TextView tv = (TextView) snack.getView().findViewById(android.support.design.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            snack.show();
+        }
     }
 
     /**
