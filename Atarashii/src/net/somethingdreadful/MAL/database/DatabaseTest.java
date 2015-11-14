@@ -166,6 +166,53 @@ public class DatabaseTest extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Crashlytics.log(Log.VERBOSE, "MALX", "MALSQLHelper.OnUpgrade: Upgrading database from version " + oldVersion + " to " + newVersion);
+        Crashlytics.log(Log.INFO, "MALX", "DatabaseTest.OnUpgrade(): Upgrading database from version " + oldVersion + " to " + newVersion);
+        /**
+         * Date: 14-11-2015
+         * Database version: 13
+         * Application version: 2.2 Beta 1
+         *
+         * The models have been updated.
+         * Instead of using 1 model for 2 websites (MAL & AL) we are using now separate models.
+         * It will be easy to maintain.
+         */
+        try {
+            if (oldVersion < 13) {
+                // Drop existing tables if they exist
+                db.execSQL("DROP TABLE IF EXISTS anime");
+                db.execSQL("DROP TABLE IF EXISTS manga");
+                db.execSQL("DROP TABLE IF EXISTS friends");
+                db.execSQL("DROP TABLE IF EXISTS profile");
+                db.execSQL("DROP TABLE IF EXISTS friendlist");
+                db.execSQL("DROP TABLE IF EXISTS animelist");
+                db.execSQL("DROP TABLE IF EXISTS mangalist");
+                db.execSQL("DROP TABLE IF EXISTS producer");
+                db.execSQL("DROP TABLE IF EXISTS anime_producer");
+                db.execSQL("DROP TABLE IF EXISTS rel_anime_anime");
+                db.execSQL("DROP TABLE IF EXISTS rel_anime_manga");
+                db.execSQL("DROP TABLE IF EXISTS rel_manga_manga");
+                db.execSQL("DROP TABLE IF EXISTS rel_manga_anime");
+                db.execSQL("DROP TABLE IF EXISTS genres");
+                db.execSQL("DROP TABLE IF EXISTS anime_genres");
+                db.execSQL("DROP TABLE IF EXISTS manga_genres");
+                db.execSQL("DROP TABLE IF EXISTS tags");
+                db.execSQL("DROP TABLE IF EXISTS anime_tags");
+                db.execSQL("DROP TABLE IF EXISTS anime_personaltags");
+                db.execSQL("DROP TABLE IF EXISTS manga_tags");
+                db.execSQL("DROP TABLE IF EXISTS manga_personaltags");
+                db.execSQL("DROP TABLE IF EXISTS animeothertitles");
+                db.execSQL("DROP TABLE IF EXISTS mangaothertitles");
+                db.execSQL("DROP TABLE IF EXISTS activities");
+                db.execSQL("DROP TABLE IF EXISTS activities_users");
+
+                // Create new tables to replace the old ones
+                onCreate(db);
+            }
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "MALX", "DatabaseTest.OnUpgrade(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+
+        Crashlytics.log(Log.INFO, "MALX", "DatabaseTest.OnUpgrade(): Database upgrade finished");
     }
 }
