@@ -37,7 +37,7 @@ public class History implements Serializable {
     @Setter
     @Getter
     @SerializedName("activity_type")
-    private String activityType = "list";
+    private String activityType;
     @Setter
     @Getter
     private ArrayList<Profile> users;
@@ -109,7 +109,7 @@ public class History implements Serializable {
         private String type;
     }
 
-    public net.somethingdreadful.MAL.api.BaseModels.History createBaseModel() {
+    public net.somethingdreadful.MAL.api.BaseModels.History createBaseModel(String username) {
         net.somethingdreadful.MAL.api.BaseModels.History model = new net.somethingdreadful.MAL.api.BaseModels.History();
         if (getSeries().getSeriesType().equals("anime")) {
             model.setAnime(new Anime());
@@ -129,14 +129,24 @@ public class History implements Serializable {
             model.getManga().setChapters(getSeries().getTotalChapters());
             model.getManga().setVolumes(getSeries().getTotalVolumes());
         }
+        model.setStatus(getStatus());
+        model.setValue(getValue());
+        model.setActivityType("list");
         model.setCreatedAt(getCreatedAt());
+
+        // set username
+        ArrayList<Profile> users = new ArrayList<>();
+        Profile profile = new Profile();
+        profile.setUsername(username);
+        users.add(profile);
+        model.setUsers(users);
         return model;
     }
 
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories) {
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories, String username) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> historyArrayList = new ArrayList<>();
         for (History history : histories) {
-            historyArrayList.add(history.createBaseModel());
+            historyArrayList.add(history.createBaseModel(username));
         }
         return historyArrayList;
     }

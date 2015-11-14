@@ -341,7 +341,7 @@ public class DatabaseManager {
                 ContentValues cv = new ContentValues();
                 cv.put("username", profile.getUsername());
                 cv.put("imageUrl", profile.getImageUrl());
-                cv.put("lastOnline", profile.getDetails().getLastOnline());
+                cv.put("lastOnline", AccountService.isMAL() ? profile.getDetails().getLastOnline() : "");
                 Query.newQuery(db).updateRecord(DatabaseTest.TABLE_FRIENDLIST, cv, profile.getUsername());
             }
             db.setTransactionSuccessful();
