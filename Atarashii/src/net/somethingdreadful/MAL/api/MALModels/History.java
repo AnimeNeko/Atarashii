@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL.api.MALModels;
 
 import com.google.gson.annotations.SerializedName;
 
-import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
@@ -83,7 +82,7 @@ public class History implements Serializable {
         private String timeUpdated;
     }
 
-    public net.somethingdreadful.MAL.api.BaseModels.History createBaseModel() {
+    public net.somethingdreadful.MAL.api.BaseModels.History createBaseModel(String username) {
         net.somethingdreadful.MAL.api.BaseModels.History model = new net.somethingdreadful.MAL.api.BaseModels.History();
         if (type.equals("anime")) {
             model.setAnime(new Anime());
@@ -106,16 +105,16 @@ public class History implements Serializable {
         // set User
         ArrayList<Profile> users = new ArrayList<>();
         Profile user = new Profile();
-        user.setUsername(AccountService.getUsername());
+        user.setUsername(username);
         users.add(user);
         model.setUsers(users);
         return model;
     }
 
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories) {
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories, String username) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> historyArrayList = new ArrayList<>();
         for (History history : histories) {
-            historyArrayList.add(history.createBaseModel());
+            historyArrayList.add(history.createBaseModel(username));
         }
         return historyArrayList;
     }
