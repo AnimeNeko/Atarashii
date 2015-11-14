@@ -37,7 +37,7 @@ public class History implements Serializable {
     @Setter
     @Getter
     @SerializedName("activity_type")
-    private String activityType = "list";
+    private String activityType;
     @Setter
     @Getter
     private ArrayList<Profile> users;
@@ -129,6 +129,7 @@ public class History implements Serializable {
             model.getManga().setChapters(getSeries().getTotalChapters());
             model.getManga().setVolumes(getSeries().getTotalVolumes());
         }
+        model.setActivityType("list");
         model.setCreatedAt(getCreatedAt());
         return model;
     }
