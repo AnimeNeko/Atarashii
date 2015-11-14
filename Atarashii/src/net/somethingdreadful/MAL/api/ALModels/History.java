@@ -129,6 +129,8 @@ public class History implements Serializable {
             model.getManga().setChapters(getSeries().getTotalChapters());
             model.getManga().setVolumes(getSeries().getTotalVolumes());
         }
+        model.setStatus(getStatus());
+        model.setValue(getValue());
         model.setActivityType("list");
         model.setCreatedAt(getCreatedAt());
         return model;
