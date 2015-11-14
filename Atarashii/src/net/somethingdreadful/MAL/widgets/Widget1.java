@@ -98,6 +98,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                         }
                     });
         }
+        db.close();
     }
 
     public static void forceRefresh(Context context) {
