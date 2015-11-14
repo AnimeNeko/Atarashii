@@ -30,7 +30,7 @@ public class AccountService extends Service {
     /**
      * The account version will be used to peform
      */
-    private static int accountVersion = 1;
+    private static int accountVersion = 2;
 
     public static void create(Context context) {
         AccountService.context = context;
@@ -47,6 +47,9 @@ public class AccountService extends Service {
                 // We support now all Anilist scores, the user needs to log out (2.1 beta 3).
                 if (!accountType.equals(AccountType.MyAnimeList))
                     deleteAccount();
+            case 2:
+                // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
+                deleteAccount();
         }
     }
 
