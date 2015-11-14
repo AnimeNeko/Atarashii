@@ -188,7 +188,7 @@ public class HtmlUtil {
     public String convertList(Profile record, int page) {
         ArrayList<History> list = record.getActivity();
         String result = "";
-        if (list != null) {
+        if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 History post = list.get(i);
                 String postreal = postStructure;

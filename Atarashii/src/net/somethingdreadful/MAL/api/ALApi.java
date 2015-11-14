@@ -90,7 +90,7 @@ public class ALApi {
     }
 
     public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username) {
-        return History.convertBaseHistoryList(service.getActivity(username));
+        return History.convertBaseHistoryList(service.getActivity(username), username);
     }
 
     public Profile getCurrentUser() {
