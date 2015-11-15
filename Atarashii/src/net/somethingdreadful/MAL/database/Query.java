@@ -160,7 +160,7 @@ public class Query {
     }
 
     /**
-     * update Links for records.
+     * Update Links for records.
      *
      * @param id       The anime/manga ID
      * @param list     Arraylist of strings
@@ -198,6 +198,13 @@ public class Query {
         }
     }
 
+    /**
+     * Get a record by the ID.
+     *
+     * @param table The table where the record should be in
+     * @param item  The title of the record
+     * @return int Number of record
+     */
     private int getRecordId(String table, String item) {
         Integer result = null;
         Cursor cursor = Query.newQuery(db).selectFrom("*", table).where("title", item).run();
@@ -243,6 +250,15 @@ public class Query {
         return result;
     }
 
+    /**
+     * Get relations.
+     *
+     * @param Id            The record ID
+     * @param relationTable The table that contains relations
+     * @param relationType  The type of the relation (String with number)
+     * @param anime         True if the RecordStub are anime items
+     * @return Arraylist of RecordStub
+     */
     public ArrayList<RecordStub> getRelation(Integer Id, String relationTable, String relationType, boolean anime) {
         ArrayList<RecordStub> result = null;
 
@@ -270,6 +286,16 @@ public class Query {
         return result;
     }
 
+    /**
+     * Get ArrayLists that are separated in the DB.
+     *
+     * @param id       The record ID
+     * @param relTable The main table
+     * @param table    The table which is separated in anime or manga records
+     * @param column   The column name of the id's
+     * @param anime    If the record is an anime.
+     * @return
+     */
     public ArrayList<String> getArrayList(int id, String relTable, String table, String column, boolean anime) {
         ArrayList<String> result = null;
 
