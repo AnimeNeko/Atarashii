@@ -17,10 +17,10 @@ public class Table {
     public void createOtherTitles(String table, String ListTypeTable) {
         queryString += "CREATE TABLE "
                 + table + "("
-                + getTagsColumn(table) + " integer NOT NULL REFERENCES " + ListTypeTable + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
+                + DatabaseTest.COLUMN_ID + " integer NOT NULL REFERENCES " + ListTypeTable + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
                 + "titleType integer NOT NULL, "
                 + "title varchar NOT NULL, "
-                + "PRIMARY KEY(" + getTagsColumn(table) + ", titleType, title)"
+                + "PRIMARY KEY(" + DatabaseTest.COLUMN_ID + ",titleType , title)"
                 + ");";
         run();
     }

@@ -160,7 +160,7 @@ public class Query {
     }
 
     /**
-     * update Links for records.
+     * Update Links for records.
      *
      * @param id       The anime/manga ID
      * @param list     Arraylist of strings
@@ -193,11 +193,89 @@ public class Query {
                 }
             }
         } catch (Exception e) {
-            log("updateRelation", e.getMessage(), true);
+            log("updateLink", e.getMessage(), true);
+        }
+    }
+
+    /**
+     * Update titles for records.
+     *
+     * @param id The anime/manga ID
+     * @param anime True if the record is an anime type
+     * @param jp Arraylist of strings
+     * @param en Arraylist of strings
+     * @param sy Arraylist of strings
+     */
+    public void updateTitles(int id, boolean anime, ArrayList<String> jp, ArrayList<String> en, ArrayList<String> sy, ArrayList<String> ro) {
+        String table = anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES;
+        // delete old links
+        db.delete(table, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_JAPANESE, jp);
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_ENGLISH, en);
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_SYNONYM, sy);
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_ROMAJI, ro);
+    }
+
+    /**
+     * Update Links for records.
+     *
+     * @param id        The anime/manga ID
+     * @param table     The table name where the record should be put
+     * @param titleType The type of title
+     * @param list      Arraylist of strings
+     */
+    private void updateTitles(int id, String table, int titleType, ArrayList<String> list) {
+        if (id <= 0)
+            log("updateLink", "error saving relation: id <= 0", true);
+        if (list == null || list.size() == 0)
+            return;
+
+        try {
+            for (String item : list) {
+                ContentValues gcv = new ContentValues();
+                gcv.put(DatabaseTest.COLUMN_ID, id);
+                gcv.put("titleType", titleType);
+                gcv.put("title", item);
+                db.insert(table, null, gcv);
+            }
+        } catch (Exception e) {
+            log("updateTitles", e.getMessage(), true);
             e.printStackTrace();
         }
     }
 
+    /**
+     * Get titles from the database.
+     *
+     * @param id The anime or manga ID
+     * @param anime True if the record is an anime
+     * @param titleType The title type
+     * @return
+     */
+    public ArrayList<String> getTitles(int id, boolean anime, int titleType) {
+        ArrayList<String> result = new ArrayList<>();
+        Cursor cursor = selectFrom("*", anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES)
+                .where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andEquals("titleType", String.valueOf(titleType))
+                .run();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                result.add(cursor.getString(2));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a record by the ID.
+     *
+     * @param table The table where the record should be in
+     * @param item  The title of the record
+     * @return int Number of record
+     */
     private int getRecordId(String table, String item) {
         Integer result = null;
         Cursor cursor = Query.newQuery(db).selectFrom("*", table).where("title", item).run();
@@ -243,6 +321,15 @@ public class Query {
         return result;
     }
 
+    /**
+     * Get relations.
+     *
+     * @param Id            The record ID
+     * @param relationTable The table that contains relations
+     * @param relationType  The type of the relation (String with number)
+     * @param anime         True if the RecordStub are anime items
+     * @return Arraylist of RecordStub
+     */
     public ArrayList<RecordStub> getRelation(Integer Id, String relationTable, String relationType, boolean anime) {
         ArrayList<RecordStub> result = null;
 
@@ -270,6 +357,16 @@ public class Query {
         return result;
     }
 
+    /**
+     * Get ArrayLists that are separated in the DB.
+     *
+     * @param id       The record ID
+     * @param relTable The main table
+     * @param table    The table which is separated in anime or manga records
+     * @param column   The column name of the id's
+     * @param anime    If the record is an anime.
+     * @return
+     */
     public ArrayList<String> getArrayList(int id, String relTable, String table, String column, boolean anime) {
         ArrayList<String> result = null;
 
