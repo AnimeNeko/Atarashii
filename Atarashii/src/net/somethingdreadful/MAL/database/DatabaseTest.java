@@ -103,6 +103,7 @@ public class DatabaseTest extends SQLiteOpenHelper {
     public static final int TITLE_TYPE_JAPANESE = 0;
     public static final int TITLE_TYPE_ENGLISH = 1;
     public static final int TITLE_TYPE_SYNONYM = 2;
+    public static final int TITLE_TYPE_ROMAJI = 3;
 
     private static final String CREATE_ACTIVITIES_TABLE = "CREATE TABLE "
             + TABLE_ACTIVITIES + "("

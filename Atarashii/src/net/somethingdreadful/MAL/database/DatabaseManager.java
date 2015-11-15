@@ -68,6 +68,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_ANIME_TAGS, anime.getId(), anime.getTags(), "tag_id");
             Query.newQuery(db).updateLink(DatabaseTest.TABLE_PRODUCER, DatabaseTest.TABLE_ANIME_PRODUCER, anime.getId(), anime.getProducers(), "producer_id");
             Query.newQuery(db).updateLink(DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_ANIME_PERSONALTAGS, anime.getId(), anime.getPersonalTags(), "tag_id");
+            Query.newQuery(db).updateTitles(anime.getId(), true, anime.getTitleJapanese(), anime.getTitleEnglish(), anime.getTitleSynonyms(), anime.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnime(): " + e.getMessage());
@@ -139,6 +140,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_MANGA_GENRES, manga.getId(), manga.getGenres(), "genre_id");
             Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_MANGA_TAGS, manga.getId(), manga.getTags(), "tag_id");
             Query.newQuery(db).updateLink(DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_MANGA_PERSONALTAGS, manga.getId(), manga.getPersonalTags(), "tag_id");
+            Query.newQuery(db).updateTitles(manga.getId(), false, manga.getTitleJapanese(), manga.getTitleEnglish(), manga.getTitleSynonyms(), manga.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveManga(): " + e.getMessage());
@@ -216,6 +218,10 @@ public class DatabaseManager {
         Anime result = null;
         if (cursor.moveToFirst()) {
             result = Anime.fromCursor(cursor);
+            result.setTitleEnglish(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_ENGLISH));
+            result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_SYNONYM));
+            result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_JAPANESE));
+            result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_ROMAJI));
             result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_ALTERNATIVE, true));
             result.setCharacterAnime(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_CHARACTER, true));
             result.setSideStories(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SIDE_STORY, true));
@@ -241,6 +247,10 @@ public class DatabaseManager {
         Manga result = null;
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
+            result.setTitleEnglish(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_ENGLISH));
+            result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_SYNONYM));
+            result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_JAPANESE));
+            result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_ROMAJI));
             result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_MANGA_GENRES, "genre_id", false));
             result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_MANGA_TAGS, "tag_id", false));
             result.setPersonalTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_MANGA_PERSONALTAGS, "tag_id", false));

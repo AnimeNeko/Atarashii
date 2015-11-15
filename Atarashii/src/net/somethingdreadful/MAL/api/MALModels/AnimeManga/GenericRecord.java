@@ -164,6 +164,7 @@ public class GenericRecord implements Serializable {
         model.setTitleEnglish(getOtherTitles().get("english"));
         model.setTitleJapanese(getOtherTitles().get("japanese"));
         model.setTitleSynonyms(getOtherTitles().get("synonyms"));
+        model.setTitleRomaji(getTitleArray());
         model.setRank(getRank());
         model.setPopularity(getPopularityRank());
         model.setImageUrl(getImageUrl());
@@ -180,6 +181,12 @@ public class GenericRecord implements Serializable {
         model.setPriority(getPriority());
         model.setNotes(getPersonalComments());
         return model;
+    }
+
+    public ArrayList<String> getTitleArray() {
+        ArrayList<String> title = new ArrayList<>();
+        title.add(getTitle());
+        return title;
     }
 
     public String getImageUrl() {

@@ -193,9 +193,80 @@ public class Query {
                 }
             }
         } catch (Exception e) {
-            log("updateRelation", e.getMessage(), true);
+            log("updateLink", e.getMessage(), true);
+        }
+    }
+
+    /**
+     * Update titles for records.
+     *
+     * @param id The anime/manga ID
+     * @param anime True if the record is an anime type
+     * @param jp Arraylist of strings
+     * @param en Arraylist of strings
+     * @param sy Arraylist of strings
+     */
+    public void updateTitles(int id, boolean anime, ArrayList<String> jp, ArrayList<String> en, ArrayList<String> sy, ArrayList<String> ro) {
+        String table = anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES;
+        // delete old links
+        db.delete(table, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_JAPANESE, jp);
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_ENGLISH, en);
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_SYNONYM, sy);
+        updateTitles(id, table, DatabaseTest.TITLE_TYPE_ROMAJI, ro);
+    }
+
+    /**
+     * Update Links for records.
+     *
+     * @param id        The anime/manga ID
+     * @param table     The table name where the record should be put
+     * @param titleType The type of title
+     * @param list      Arraylist of strings
+     */
+    private void updateTitles(int id, String table, int titleType, ArrayList<String> list) {
+        if (id <= 0)
+            log("updateLink", "error saving relation: id <= 0", true);
+        if (list == null || list.size() == 0)
+            return;
+
+        try {
+            for (String item : list) {
+                ContentValues gcv = new ContentValues();
+                gcv.put(DatabaseTest.COLUMN_ID, id);
+                gcv.put("titleType", titleType);
+                gcv.put("title", item);
+                db.insert(table, null, gcv);
+            }
+        } catch (Exception e) {
+            log("updateTitles", e.getMessage(), true);
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get titles from the database.
+     *
+     * @param id The anime or manga ID
+     * @param anime True if the record is an anime
+     * @param titleType The title type
+     * @return
+     */
+    public ArrayList<String> getTitles(int id, boolean anime, int titleType) {
+        ArrayList<String> result = new ArrayList<>();
+        Cursor cursor = selectFrom("*", anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES)
+                .where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andEquals("titleType", String.valueOf(titleType))
+                .run();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                result.add(cursor.getString(2));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return result;
     }
 
     /**
