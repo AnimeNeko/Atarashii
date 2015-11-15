@@ -305,6 +305,7 @@ public class MALManager {
             result = AccountService.isMAL() ? malApi.deleteAnimeFromList(anime.getId()) : alApi.deleteAnimeFromList(anime.getId());
         else
             result = AccountService.isMAL() ? malApi.addOrUpdateAnime(anime) : alApi.addOrUpdateAnime(anime);
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.writeAnimeDetails(): successfully updated: " + result);
         return result;
     }
 

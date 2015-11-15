@@ -35,9 +35,11 @@ public class DatabaseManager {
             cv.put("airingTime", anime.getAiring().getTime());
             cv.put("nextEpisode", anime.getAiring().getNextEpisode());
         }
-        if (AccountService.isMAL()) {
+        if (anime.getWatchedStatus() != null) { // AniList does not provide this in the details
             cv.put("watchedStatus", anime.getWatchedStatus());
             cv.put("watchedEpisodes", anime.getWatchedEpisodes());
+        }
+        if (AccountService.isMAL()) {
             cv.put("watchingStart", anime.getWatchingStart());
             cv.put("watchingEnd", anime.getWatchingEnd());
             cv.put("fansubGroup", anime.getFansubGroup());
@@ -114,10 +116,12 @@ public class DatabaseManager {
         ContentValues cv = listDetails(manga);
         cv.put("chapters", manga.getChapters());
         cv.put("volumes", manga.getVolumes());
-        if (AccountService.isMAL()) {
+        if (manga.getReadStatus() != null) { // AniList does not provide this in the details
             cv.put("readStatus", manga.getReadStatus());
             cv.put("chaptersRead", manga.getChaptersRead());
             cv.put("volumesRead", manga.getVolumesRead());
+        }
+        if (AccountService.isMAL()) {
             cv.put("readingStart", manga.getReadingStart());
             cv.put("readingEnd", manga.getReadingEnd());
             cv.put("chapDownloaded", manga.getChapDownloaded());
