@@ -291,7 +291,7 @@ public class GenericRecord implements Serializable {
     }
 
     public String getSynopsisString() {
-        return getSynopsis() != null ? getSynopsis().toString() : null;
+        return getSynopsis() != null ? synopsis.replace("/n/n/n/n", "/n/n") : null;
     }
 
     // Note: @Getter is not working on booleans
