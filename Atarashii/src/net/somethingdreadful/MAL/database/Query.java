@@ -167,21 +167,21 @@ public class Query {
      * @param refTable The table where the references will be placed
      * @param table    The table where the records will be placed
      * @param column   The references column name
-     *
-    Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_ANIME_GENRES, anime.getId(), anime.getGenres(), "genre_id");
+     *                 <p/>
+     *                 Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_ANIME_GENRES, anime.getId(), anime.getGenres(), "genre_id");
      */
     public void updateLink(String table, String refTable, int id, ArrayList<String> list, String column) {
         if (id <= 0)
-            log("updateLink", "error saving relation: id <= 0", true);
+            log("updateLink", "error saving link: id <= 0", true);
         if (list == null || list.size() == 0)
             return;
 
+        String columnID = refTable.contains("anime") ? "anime_id" : "manga_id";
+        // delete old links
+        db.delete(refTable, columnID + " = ?", new String[]{String.valueOf(id)});
+
         try {
             for (String item : list) {
-                String columnID = refTable.contains("anime") ? "anime_id" : "manga_id";
-
-                // delete old links
-                db.delete(refTable, columnID + " = ?", new String[]{String.valueOf(id)});
                 int linkID = getRecordId(table, item);
 
                 if (linkID != -1) {
@@ -200,11 +200,11 @@ public class Query {
     /**
      * Update titles for records.
      *
-     * @param id The anime/manga ID
+     * @param id    The anime/manga ID
      * @param anime True if the record is an anime type
-     * @param jp Arraylist of strings
-     * @param en Arraylist of strings
-     * @param sy Arraylist of strings
+     * @param jp    Arraylist of strings
+     * @param en    Arraylist of strings
+     * @param sy    Arraylist of strings
      */
     public void updateTitles(int id, boolean anime, ArrayList<String> jp, ArrayList<String> en, ArrayList<String> sy, ArrayList<String> ro) {
         String table = anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES;
@@ -227,7 +227,7 @@ public class Query {
      */
     private void updateTitles(int id, String table, int titleType, ArrayList<String> list) {
         if (id <= 0)
-            log("updateLink", "error saving relation: id <= 0", true);
+            log("updateTitles", "error saving relation: id <= 0", true);
         if (list == null || list.size() == 0)
             return;
 
@@ -248,8 +248,8 @@ public class Query {
     /**
      * Get titles from the database.
      *
-     * @param id The anime or manga ID
-     * @param anime True if the record is an anime
+     * @param id        The anime or manga ID
+     * @param anime     True if the record is an anime
      * @param titleType The title type
      * @return
      */
@@ -331,7 +331,7 @@ public class Query {
      * @return Arraylist of RecordStub
      */
     public ArrayList<RecordStub> getRelation(Integer Id, String relationTable, String relationType, boolean anime) {
-        ArrayList<RecordStub> result = null;
+        ArrayList<RecordStub> result = new ArrayList<>();
 
         try {
             String name = "mr.title";
@@ -342,7 +342,6 @@ public class Query {
                     .where("rr." + DatabaseTest.COLUMN_ID, String.valueOf(Id)).andEquals("rr.relationType", relationType).run();
 
             if (cursor != null && cursor.moveToFirst()) {
-                result = new ArrayList<>();
                 do {
                     RecordStub recordStub = new RecordStub();
                     recordStub.setId(cursor.getInt(0), anime);
@@ -368,21 +367,19 @@ public class Query {
      * @return
      */
     public ArrayList<String> getArrayList(int id, String relTable, String table, String column, boolean anime) {
-        ArrayList<String> result = null;
+        ArrayList<String> result = new ArrayList<>();
 
         try {
-            String recID = (anime ? DatabaseTest.TABLE_ANIME : DatabaseTest.TABLE_MANGA) + DatabaseTest.COLUMN_ID;
-            Cursor cursor = selectFrom(recID, relTable + " g")
-                    .innerJoinOn(table + " ag", "ag." + column, "g." + DatabaseTest.COLUMN_ID)
-                    .where(anime ? "ag.anime_id" : "ag.manga_id", String.valueOf(id)).run();
+            Cursor cursor = selectFrom("*", table)
+                    .innerJoinOn(relTable, table + "." + column, relTable + "." + DatabaseTest.COLUMN_ID)
+                    .where(anime ? "anime_id" : "manga_id", String.valueOf(id))
+                    .run();
 
             if (cursor != null && cursor.moveToFirst()) {
-                result = new ArrayList<>();
                 do
-                    result.add(cursor.getString(0));
-                while
-                        (cursor.moveToNext());
-                cursor.close();
+                    result.add(cursor.getString(3));
+                while (cursor.moveToNext());
+                    cursor.close();
             }
         } catch (Exception e) {
             log("getArrayList", e.getMessage(), true);

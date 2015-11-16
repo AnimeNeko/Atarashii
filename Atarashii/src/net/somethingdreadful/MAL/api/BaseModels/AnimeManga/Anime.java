@@ -447,7 +447,7 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setParentStoryArray(ArrayList<RecordStub> recordStubs) {
-        if (recordStubs != null)
+        if (recordStubs != null && recordStubs.size() > 0)
             setParentStory(recordStubs.get(0));
     }
 
