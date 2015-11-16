@@ -176,7 +176,7 @@ public class Table {
                 + DatabaseTest.COLUMN_ID + " integer NOT NULL REFERENCES " + refTable1 + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
                 + "relationId integer NOT NULL REFERENCES " + refTable2 + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
                 + "relationType integer NOT NULL, "
-                + "PRIMARY KEY(" + DatabaseTest.COLUMN_ID + ", relationId)"
+                + "PRIMARY KEY(" + DatabaseTest.COLUMN_ID + ", relationType, relationId)"
                 + ");";
         run();
     }
