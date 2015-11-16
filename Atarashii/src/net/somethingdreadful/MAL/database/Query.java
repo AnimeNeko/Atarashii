@@ -368,21 +368,19 @@ public class Query {
      * @return
      */
     public ArrayList<String> getArrayList(int id, String relTable, String table, String column, boolean anime) {
-        ArrayList<String> result = null;
+        ArrayList<String> result = new ArrayList<>();
 
         try {
-            String recID = (anime ? DatabaseTest.TABLE_ANIME : DatabaseTest.TABLE_MANGA) + DatabaseTest.COLUMN_ID;
-            Cursor cursor = selectFrom(recID, relTable + " g")
-                    .innerJoinOn(table + " ag", "ag." + column, "g." + DatabaseTest.COLUMN_ID)
-                    .where(anime ? "ag.anime_id" : "ag.manga_id", String.valueOf(id)).run();
+            Cursor cursor = selectFrom("*", table)
+                    .innerJoinOn(relTable, table + "." + column, relTable + "." + DatabaseTest.COLUMN_ID)
+                    .where(anime ? "anime_id" : "manga_id", String.valueOf(id))
+                    .run();
 
             if (cursor != null && cursor.moveToFirst()) {
-                result = new ArrayList<>();
                 do
-                    result.add(cursor.getString(0));
-                while
-                        (cursor.moveToNext());
-                cursor.close();
+                    result.add(cursor.getString(3));
+                while (cursor.moveToNext());
+                    cursor.close();
             }
         } catch (Exception e) {
             log("getArrayList", e.getMessage(), true);
