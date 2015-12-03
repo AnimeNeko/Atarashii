@@ -22,7 +22,7 @@ public class DatabaseManager {
     SQLiteDatabase db;
 
     public DatabaseManager(Context context) {
-        this.db = new DatabaseTest(context).getWritableDatabase();
+        this.db = DatabaseTest.getInstance(context).getWritableDatabase();
     }
 
     public void saveAnime(Anime anime) {
@@ -582,12 +582,5 @@ public class DatabaseManager {
         if (result)
             cleanupMangaTable();
         return result;
-    }
-
-    public void close() {
-        if (db.inTransaction())
-            db.endTransaction();
-        if (db.isOpen())
-            db.close();
     }
 }

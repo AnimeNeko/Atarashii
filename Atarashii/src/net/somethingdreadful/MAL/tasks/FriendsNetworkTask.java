@@ -92,8 +92,6 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
             Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(5): task unknown API error (?): " + e.getMessage());
             Crashlytics.logException(e);
         }
-        mManager.closeDB();
-
         return result;
     }
 

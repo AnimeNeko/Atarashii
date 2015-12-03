@@ -36,10 +36,6 @@ public class MALManager {
         this.context = context;
     }
 
-    public void closeDB() {
-        dbMan.close();
-    }
-
     public static String listSortFromInt(int i, MALApi.ListType type) {
         switch (i) {
             case 0:

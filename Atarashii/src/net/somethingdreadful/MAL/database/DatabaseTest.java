@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 public class DatabaseTest extends SQLiteOpenHelper {
     public static final String NAME = "MAL.db";
     public static final int VERSION = 13;
+    private static DatabaseTest instance;
 
     public static final String TABLE_ANIME = "anime";
     public static final String TABLE_MANGA = "manga";
@@ -119,6 +120,12 @@ public class DatabaseTest extends SQLiteOpenHelper {
 
     public DatabaseTest(Context context) {
         super(context, NAME, null, VERSION);
+    }
+
+    public static synchronized DatabaseTest getInstance(Context context) {
+        if (instance == null)
+            instance = new DatabaseTest(context.getApplicationContext());
+        return instance;
     }
 
     public static void deleteDatabase(Context context) {
