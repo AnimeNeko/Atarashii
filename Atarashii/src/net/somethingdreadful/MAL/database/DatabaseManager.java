@@ -337,7 +337,7 @@ public class DatabaseManager {
 
     public ArrayList<Profile> getFriendList() {
         ArrayList<Profile> result = new ArrayList<>();
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_FRIENDLIST).run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_FRIENDLIST).OrderBy(1, "username").run();
 
         if (cursor.moveToFirst()) {
             do

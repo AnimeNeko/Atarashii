@@ -20,6 +20,8 @@ import net.somethingdreadful.MAL.database.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MALManager {
     MALApi malApi;
@@ -124,9 +126,10 @@ public class MALManager {
     }
 
     public ArrayList<Profile> downloadAndStoreFriendList(String user) {
+        ArrayList<Profile> result =  new ArrayList<>();
         try {
             Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
-            ArrayList<Profile> result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
+            result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
 
             if (result != null && result.size() > 0 && AccountService.getUsername().equals(user))
                 dbMan.saveFriendList(result);
@@ -134,11 +137,20 @@ public class MALManager {
             Crashlytics.log(Log.ERROR, "MALX", "MALManager.downloadAndStoreFriendList(): " + e.getMessage());
             Crashlytics.logException(e);
         }
-        return dbMan.getFriendList();
+
+        return sortFriendlist(result);
     }
 
-    public ArrayList<Profile> getFriendList(String user) {
-        return AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
+    private ArrayList<Profile> sortFriendlist(ArrayList<Profile> result){
+        //sort friendlist
+        Collections.sort(result != null ? result : new ArrayList<Profile>(), new Comparator<Profile>() {
+            @Override
+            public int compare(Profile profile1, Profile profile2)
+            {
+                return  profile1.getUsername().toLowerCase().compareTo(profile2.getUsername().toLowerCase());
+            }
+        });
+        return result;
     }
 
     public ArrayList<Profile> getFriendListFromDB() {

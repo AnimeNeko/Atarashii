@@ -47,7 +47,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
                 if ((result == null || result.isEmpty()) && MALApi.isNetworkAvailable(context))
                     result = mManager.downloadAndStoreFriendList(params[0]);
             } else {
-                result = mManager.getFriendList(params[0]);
+                result = mManager.downloadAndStoreFriendList(params[0]);
             }
 
             /*
