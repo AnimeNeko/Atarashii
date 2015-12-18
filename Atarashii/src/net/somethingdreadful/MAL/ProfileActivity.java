@@ -48,21 +48,12 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
 
         setTitle(R.string.title_activity_profile); //set title
 
-        if (getIntent().getExtras().containsKey("user")) {
-            record = (Profile) getIntent().getExtras().get("user");
-        }
-
         if (bundle != null) {
             record = (Profile) bundle.getSerializable("record");
             setText();
         } else {
-            if (getIntent().getExtras().containsKey("user")) {
-                record = (Profile) getIntent().getExtras().get("user");
-                setText();
-            } else {
-                refreshing(true);
-                new UserNetworkTask(context, forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
-            }
+            refreshing(true);
+            new UserNetworkTask(context, forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
         }
 
         NfcHelper.disableBeam(this);
