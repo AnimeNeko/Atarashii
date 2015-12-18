@@ -22,7 +22,13 @@ public class DateTools {
      * @return String The readable string.
      */
     public static String parseDate(String ISO8601, boolean withTime) {
-        return ISO8601 == null ? "?" : getDateString(parseISO8601(ISO8601), withTime);
+        String result;
+        if (ISO8601 == null)
+            return "?";
+        else
+            result = getDateString(parseISO8601(ISO8601), withTime);
+
+        return result == null ? ISO8601 : result;
     }
 
     /**
