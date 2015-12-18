@@ -115,10 +115,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (MALApi.isNetworkAvailable(activity)) {
             Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
-            if (listarray.get(position).getDetails().getAccessRank() == null)
-                profile.putExtra("username", listarray.get(position).getUsername());
-            else
-                profile.putExtra("user", listarray.get(position));
+            profile.putExtra("username", listarray.get(position).getUsername());
             startActivity(profile);
         } else {
             Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
