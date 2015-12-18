@@ -43,8 +43,6 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
         activity.setHistory(this);
         if (activity.record != null)
             refresh();
-        else
-            activity.getRecords();
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);

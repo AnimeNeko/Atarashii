@@ -185,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 username = record.getUsername();
             else
                 username = getIntent().getStringExtra("username");
-            new UserNetworkTask(context, true, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, username);
+            new UserNetworkTask(context, true, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
         }
     }
 
