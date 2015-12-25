@@ -84,7 +84,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
 
     public void setListener() {
         swipeRefresh.setOnRefreshListener(activity);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
 
