@@ -102,7 +102,7 @@ public interface MALInterface {
     ForumMain getForum();
 
     @GET("/forum/{id}")
-    ForumMain getTopics(@Path("id") int id, @Query("page") int page);
+    ForumMain getCategoryTopics(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/anime/{id}")
     ForumMain getAnime(@Path("id") int id, @Query("page") int page);

@@ -1,263 +1,70 @@
 package net.somethingdreadful.MAL;
 
-import android.app.FragmentManager;
-import android.app.SearchManager;
-import android.content.ComponentName;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ViewFlipper;
+import android.webkit.WebView;
 
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.MALModels.ForumMain;
-import net.somethingdreadful.MAL.dialog.ForumChildDialogFragment;
-import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
-import net.somethingdreadful.MAL.forum.ForumsMain;
-import net.somethingdreadful.MAL.forum.ForumsPosts;
-import net.somethingdreadful.MAL.forum.ForumsTopics;
+import com.crashlytics.android.Crashlytics;
+
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.forum.ForumInterface;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import lombok.Getter;
+import lombok.Setter;
 
-public class ForumActivity extends AppCompatActivity implements MessageDialogFragment.onSendClickListener, ForumNetworkTask.ForumNetworkTaskListener {
-    Menu menu;
-    MenuItem search;
-    public ForumsMain main;
-    FragmentManager manager;
-    public ForumsPosts posts;
-    public String message = "";
-    public ForumsTopics topics;
-    public boolean closeOnBack = false;
+public class ForumActivity extends AppCompatActivity implements ForumNetworkTask.ForumNetworkTaskListener {
+    @Bind(R.id.webview)
+    WebView webview;
+    testforumhtmlunit test;
 
-    @Bind(R.id.viewFlipper) ViewFlipper viewFlipper;
-
-    public boolean discussion = false;
-    public ForumJob task = ForumJob.BOARD;
-
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Theme.setTheme(this, R.layout.activity_forum, false);
         Theme.setActionBar(this);
         ButterKnife.bind(this);
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(new ForumInterface(this), "Forum");
 
-        handleIntent(getIntent());
-
-        manager = getFragmentManager();
-        main = (ForumsMain) manager.findFragmentById(R.id.main);
-        topics = (ForumsTopics) manager.findFragmentById(R.id.topics);
-        posts = (ForumsPosts) manager.findFragmentById(R.id.posts);
-
-        if (getIntent() != null) {
-            int id = getIntent().getIntExtra("id", 0);
-            if (id != 0) {
-                topics.type = (MALApi.ListType) getIntent().getSerializableExtra("listType");
-                getDiscussion(id);
-                closeOnBack = true;
-            }
-        }
-
+        test = new testforumhtmlunit(this);
         if (bundle != null) {
-            viewFlipper.setDisplayedChild(bundle.getInt("child"));
-            task = (ForumJob) bundle.getSerializable("task");
-            discussion = bundle.getBoolean("discussion");
+            test.setForumMenuLayout(bundle.getString("forumMenuLayout"));
         }
+        getRecords(ForumJob.MENU, 0);
     }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
-        state.putInt("child", viewFlipper.getDisplayedChild());
-        state.putSerializable("task", task);
-        state.putBoolean("discussion", discussion);
+        state.putString("forumMenuLayout", test.getForumMenuLayout());
         super.onSaveInstanceState(state);
     }
 
-    /**
-     * Switch the view to the topics fragment.
-     *
-     * @param id The board id
-     */
-    public void getTopics(int id) {
-        viewFlipper.setDisplayedChild(1);
-        setTask(topics.setId(id, ForumJob.TOPICS));
-    }
-
-    /**
-     * Switch the view to the topics fragment.
-     *
-     * @param query The query
-     */
-    public void getTopics(String query) {
-        viewFlipper.setDisplayedChild(1);
-        setTask(topics.setId(query));
-    }
-
-    /**
-     * Switch the view to the topics fragment to show subBoards.
-     *
-     * @param id The subBoard id
-     */
-    public void getSubBoard(int id) {
-        viewFlipper.setDisplayedChild(1);
-        topics.type = ((id == 1 || id == 2) ? MALApi.ListType.ANIME : MALApi.ListType.MANGA);
-        setTask(topics.setId(id, ForumJob.SUBBOARD));
-    }
-
-    /**
-     * Switch the view to the topics posts.
-     *
-     * @param id The id of the topic
-     */
-    public void getPosts(int id) {
-        viewFlipper.setDisplayedChild(2);
-        setTask(posts.setId(id));
-    }
-
-    /**
-     * Create the edithor dialog.
-     *
-     * @param id      The comment id
-     * @param message The comment text
-     * @param task    The task to peform
-     */
-    public void getComments(int id, String message, ForumJob task) {
-        MessageDialogFragment info = new MessageDialogFragment().setListeners(this);
-        Bundle args = new Bundle();
-        args.putInt("id", id);
-        args.putString("message", message);
-        args.putSerializable("task", task);
-        info.setArguments(args);
-        info.show(getFragmentManager(), "fragment_forum");
-    }
-
-    /**
-     * Switch the view to the discussion view.
-     *
-     * @param id The comment id
-     */
-    public void getDiscussion(int id) {
-        viewFlipper.setDisplayedChild(1);
-        setTask(topics.setId(id, ForumJob.DISCUSSION));
-        discussion = true;
-    }
-
-    /**
-     * Handle the back and home buttons.
-     */
-    public void back() {
-        switch (task) {
-            case BOARD:
-                finish();
+    public void getRecords(ForumJob job, int id) {
+        switch (job) {
+            case MENU:
+                if (!test.menuExists())
+                    new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                else
+                    test.setForumMenu(null);
                 break;
-            case SUBBOARD:
-                setTask(ForumJob.BOARD);
-                viewFlipper.setDisplayedChild(0);
+            case CATEGORY:
+                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
                 break;
-            case DISCUSSION:
-                if (closeOnBack)
-                    finish();
-                setTask(ForumJob.SUBBOARD);
-                topics.task = ForumJob.SUBBOARD;
-                topics.topicsAdapter.clear();
-                topics.apply(topics.subBoard);
-                discussion = false;
+            case TOPIC:
+                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
                 break;
-            case TOPICS:
-            case SEARCH:
-                setTask(ForumJob.BOARD);
-                viewFlipper.setDisplayedChild(0);
-                break;
-            case POSTS:
-                if (discussion) {
-                    setTask(ForumJob.DISCUSSION);
-                } else
-                    setTask(ForumJob.TOPICS);
-                viewFlipper.setDisplayedChild(1);
-                break;
-        }
-        message = "";
-    }
-
-    /**
-     * Refresh the displayed view.
-     */
-    public void refresh() {
-        if (task == ForumJob.TOPICS)
-            topics.getRecords(topics.page, topics.task);
-        else
-            posts.getRecords(posts.page);
-    }
-
-    /**
-     * Change the task & change the menu items.
-     *
-     * @param task The new ForumTask
-     */
-    public void setTask(ForumJob task) {
-        this.task = task;
-        if (menu != null) {
-            menu.findItem(R.id.action_add).setVisible((task == ForumJob.POSTS || task == ForumJob.TOPICS) && getTopicStatus() && viewFlipper.getDisplayedChild() != 3);
-            menu.findItem(R.id.action_send).setVisible(viewFlipper.getDisplayedChild() == 3);
-            menu.findItem(R.id.action_ViewMALPage).setVisible(viewFlipper.getDisplayedChild() != 3);
-            search.setVisible(task == ForumJob.BOARD);
-        }
-    }
-
-    /**
-     * Checks if the ID allows to add a topics
-     *
-     * @return boolean If true then the ID allows to add comments
-     */
-    public boolean getTopicStatus() {
-        return task != ForumJob.TOPICS || (topics.id != 5 && topics.id != 14 && topics.id != 15 && topics.id != 17);
-    }
-
-    @Override
-    public void onBackPressed() {
-        back();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_forum, menu);
-        this.menu = menu;
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        ComponentName cn = new ComponentName(this, ForumActivity.class);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
-        search = searchItem;
-
-        setTask(task);
-        return true;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
-    }
-
-    /**
-     * Handle the intent for the searchView
-     *
-     * @param intent The intent given by android
-     */
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            getTopics(query);
-            topics.task = ForumJob.SEARCH;
-            search.collapseActionView();
         }
     }
 
@@ -265,64 +72,148 @@ public class ForumActivity extends AppCompatActivity implements MessageDialogFra
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                back();
+                finish();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webview.canGoBack())
+            webview.goBack();
+        else
+            finish();
+    }
+
+    @Override
+    public void onForumNetworkTaskFinished(ArrayList<Forum> forum, ForumJob job) {
+        switch (job) {
+            case MENU:
+                test.setForumMenu(forum);
                 break;
-            case R.id.action_ViewMALPage:
-                startActivity(new Intent(Intent.ACTION_VIEW, getUri()));
+            case CATEGORY:
+                test.setForumList(forum);
                 break;
-            case R.id.action_add:
-                if (task == ForumJob.POSTS)
-                    getComments(posts.id, message, ForumJob.ADDCOMMENT);
-                else if (task == ForumJob.TOPICS)
-                    getComments(topics.id, null, ForumJob.ADDTOPIC);
+            case TOPIC:
+                test.setForumComments(forum);
                 break;
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Get the Uri depending on the ForumTask.
-     *
-     * @return Uri The uri of the desired URL to launch
-     */
-    public Uri getUri() {
-        switch (task) {
-            case BOARD:
-                return Uri.parse("http://myanimelist.net/forum/");
-            case SUBBOARD:
-                return Uri.parse("http://myanimelist.net/forum/?subboard=" + topics.id);
-            case DISCUSSION:
-                if (ForumChildDialogFragment.DBModificationRequest)
-                    return Uri.parse("http://myanimelist.net/forum/?topicid=" + topics.id);
-                else
-                    return Uri.parse("http://myanimelist.net/forum/?" + (topics.type == MALApi.ListType.ANIME ? "anime" : "manga") + "id=" + topics.id);
-            case TOPICS:
-                return Uri.parse("http://myanimelist.net/forum/?board=" + topics.id);
-            case POSTS:
-                return Uri.parse("http://myanimelist.net/forum/?topicid=" + posts.id);
+    public class testforumhtmlunit {
+        Context context;
+        @Getter
+        @Setter
+        String forumMenuLayout;
+        String forumMenuTiles;
+        String forumListLayout;
+        String forumListTiles;
+        String forumCommentsLayout;
+        String forumCommentsTiles;
+        String spoilerStructure;
+
+        public testforumhtmlunit(Context context) {
+            forumMenuLayout = getString(context, R.raw.forum_menu);
+            forumMenuTiles = getString(context, R.raw.forum_menu_tiles);
+            forumListLayout = getString(context, R.raw.forum_list);
+            forumListTiles = getString(context, R.raw.forum_list_tiles);
+            forumCommentsLayout = getString(context, R.raw.forum_comment);
+            forumCommentsTiles = getString(context, R.raw.forum_comment_tiles);
+            spoilerStructure = getString(context, R.raw.forum_comment_spoiler_structure);
+            this.context = context;
         }
-        return null;
-    }
 
-    @Override
-    public void onSendClicked(String message, String subject, ForumJob task, int id) {
-        if (task == ForumJob.ADDTOPIC && !message.equals("") && !subject.equals(""))
-            new ForumNetworkTask(this, this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, subject, message);
-        else if (!message.equals(""))
-            new ForumNetworkTask(this, this, this, task, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, message);
-    }
+        public boolean menuExists() {
+            return !forumMenuLayout.contains("<!-- insert here the tiles -->");
+        }
 
-    @Override
-    public void onForumNetworkTaskFinished(ForumMain result, ForumJob task) {
-        if (task == ForumJob.ADDCOMMENT)
-            Theme.Snackbar(this, R.string.toast_info_comment_add);
-        if (task == ForumJob.ADDTOPIC || task == ForumJob.ADDCOMMENT || task == ForumJob.UPDATECOMMENT)
-            Theme.Snackbar(this, R.string.toast_info_comment_added);
-        refresh();
-    }
+        public void setForumMenu(ArrayList<Forum> menu) {
+            if (menu != null && menu.size() > 0) {
+                String forumArray = "";
+                String tempTile;
+                for (Forum item : menu) {
+                    tempTile = forumMenuTiles;
+                    tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
+                    tempTile = tempTile.replace("<!-- header -->", item.getName());
+                    tempTile = tempTile.replace("<!-- description -->", item.getDescription());
+                    tempTile = tempTile.replace("<!-- last reply -->", getString(context, R.string.dialog_message_last_post));
+                    forumArray = forumArray + tempTile;
+                }
+                forumMenuLayout = forumMenuLayout.replace("<!-- insert here the tiles -->", forumArray);
+            }
+            if (menuExists())
+                webview.loadData(forumMenuLayout, "text/html", "UTF-8");
+        }
 
-    @Override
-    public void onCloseClicked(String message) {
-        this.message = message;
+        public void setForumList(ArrayList<Forum> forumList) {
+            if (forumList != null && forumList.size() > 0) {
+                String tempForumList;
+                String forumArray = "";
+                String tempTile;
+                for (Forum item : forumList) {
+                    tempTile = forumListTiles;
+                    tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
+                    tempTile = tempTile.replace("<!-- title -->", item.getName());
+                    tempTile = tempTile.replace("<!-- username -->", item.getReply().getUsername());
+                    tempTile = tempTile.replace("<!-- time -->", DateTools.parseDate(item.getReply().getTime(), true));
+                    forumArray = forumArray + tempTile;
+                }
+                tempForumList = forumListLayout.replace("<!-- insert here the tiles -->", forumArray);
+                webview.loadData(tempForumList, "text/html", "UTF-8");
+            }
+        }
+
+        public void setForumComments(ArrayList<Forum> forumList) {
+            if (forumList != null && forumList.size() > 0) {
+                String tempForumList;
+                String rank;
+                String comment;
+                String forumArray = "";
+                String tempTile;
+                for (Forum item : forumList) {
+                    comment = item.getComment();
+                    rank = item.getProfile().getSpecialAccesRank(item.getUsername());
+                    // Spoiler rebuild
+                    comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+
+                    tempTile = forumCommentsTiles;
+                    tempTile = tempTile.replace("<!-- username -->", item.getUsername());
+                    tempTile = tempTile.replace("<!-- time -->", DateTools.parseDate(item.getTime(), true));
+                    tempTile = tempTile.replace("<!-- comment -->", comment);
+                    if (item.getProfile().getAvatarUrl().contains("xmlhttp-loader"))
+                        tempTile = tempTile.replace("<!-- profile image -->", "http://cdn.myanimelist.net/images/na.gif");
+                    else
+                        tempTile = tempTile.replace("<!-- profile image -->", item.getProfile().getAvatarUrl());
+                    if (!rank.equals(""))
+                        tempTile = tempTile.replace("<!-- access rank -->", rank);
+                    else
+                        tempTile = tempTile.replace("<span class=\"forum__mod\"><!-- access rank --></span>", "");
+
+                    forumArray = forumArray + tempTile;
+                }
+                tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
+                webview.loadData(tempForumList, "text/html", "UTF-8");
+            }
+        }
+
+        /**
+         * Get the string of the given resource file.
+         *
+         * @param context  The application context
+         * @param resource The resource of which string we need
+         * @return String the wanted string
+         */
+        @SuppressWarnings("StatementWithEmptyBody")
+        private String getString(Context context, int resource) {
+            try {
+                InputStream inputStream = context.getResources().openRawResource(resource);
+                byte[] buffer = new byte[inputStream.available()];
+                while (inputStream.read(buffer) != -1) ;
+                return new String(buffer);
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+            }
+            return "";
+        }
     }
 }

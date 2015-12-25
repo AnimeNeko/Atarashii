@@ -39,7 +39,6 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         String title = getArguments().getString("title", null);
         id = getArguments().getInt("id");
 
-        subject.setVisibility(task == ForumJob.ADDTOPIC ? View.VISIBLE : View.GONE);
         setHeader(title);
         setClickListener();
 
@@ -70,12 +69,6 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
             header.setText(title);
         else
             switch (task) {
-                case UPDATECOMMENT:
-                    header.setText(getString(R.string.dialog_title_edit_comment));
-                    break;
-                case ADDTOPIC:
-                    header.setText(getString(R.string.dialog_title_add_topic));
-                    break;
                 default:
                     header.setText(getString(R.string.dialog_title_add_comment));
                     break;

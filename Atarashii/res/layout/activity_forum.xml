@@ -3,30 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ViewFlipper
-        android:id="@+id/viewFlipper"
+    <WebView
+        android:id="@+id/webview"
+        android:layout_marginTop="56dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="56dp">
+        android:layout_height="match_parent"/>
 
-        <fragment
-            android:id="@+id/main"
-            android:name="net.somethingdreadful.MAL.forum.ForumsMain"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/topics"
-            android:name="net.somethingdreadful.MAL.forum.ForumsTopics"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/posts"
-            android:name="net.somethingdreadful.MAL.forum.ForumsPosts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </ViewFlipper>
 
     <include layout="@layout/theme_viewpager_notabs" />
 </RelativeLayout>

@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.tasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,23 +9,19 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.MALModels.Forum;
-import net.somethingdreadful.MAL.api.MALModels.ForumMain;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 
 import java.util.ArrayList;
 
 import retrofit.RetrofitError;
 
-public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
-    Context context;
+public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> {
     ForumNetworkTaskListener callback;
     ForumJob type;
     int id;
     Activity activity;
 
-    public ForumNetworkTask(Context context, ForumNetworkTaskListener callback, Activity activity, ForumJob type, int id) {
-        this.context = context;
+    public ForumNetworkTask(ForumNetworkTaskListener callback, Activity activity, ForumJob type, int id) {
         this.callback = callback;
         this.type = type;
         this.id = id;
@@ -34,15 +29,22 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
     }
 
     @Override
-    protected ForumMain doInBackground(String... params) {
-        ForumMain result = new ForumMain();
-        MALManager mManager = new MALManager(context);
+    protected ArrayList<Forum> doInBackground(String... params) {
+        ArrayList<Forum> result = new ArrayList<>();
+        MALManager mManager = new MALManager(activity);
 
         try {
             switch (type) {
-                case BOARD:
-                    result = mManager.getForum();
+                case MENU: // list with all categories
+                    result = mManager.getForumCategories();
                     break;
+                case CATEGORY: // list with all topics of a certain category
+                    result = mManager.getCategoryTopics(id, Integer.parseInt(params[0]));
+                    break;
+                case TOPIC: // list with all comments of users
+                    result = mManager.getTopic(id, Integer.parseInt(params[0]));
+                    break;
+                /*
                 case SUBBOARD:
                     result = mManager.getSubBoards(id, Integer.parseInt(params[0]));
                     break;
@@ -69,7 +71,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
                     break;
                 case SEARCH:
                     result = mManager.search(params[0]);
-                    break;
+                    break;*/
             }
         } catch (RetrofitError re) {
             if (re.getResponse() != null && activity != null) {
@@ -110,12 +112,12 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
     }
 
     @Override
-    protected void onPostExecute(ForumMain result) {
+    protected void onPostExecute(ArrayList<Forum> result) {
         if (callback != null)
             callback.onForumNetworkTaskFinished(result, type);
     }
 
     public interface ForumNetworkTaskListener {
-        void onForumNetworkTaskFinished(ForumMain result, ForumJob task);
+        void onForumNetworkTaskFinished(ArrayList<Forum> result, ForumJob task);
     }
 }

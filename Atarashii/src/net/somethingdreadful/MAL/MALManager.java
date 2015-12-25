@@ -9,6 +9,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
@@ -267,20 +268,8 @@ public class MALManager {
         return AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
     }
 
-    public ForumMain getForum() {
-        return malApi.getForum();
-    }
-
-    public ForumMain getTopics(int id, int page) {
-        return malApi.getTopics(id, page);
-    }
-
     public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
         return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
-    }
-
-    public ForumMain getPosts(int id, int page) {
-        return malApi.getPosts(id, page);
     }
 
     public ForumMain getSubBoards(int id, int page) {
@@ -374,6 +363,19 @@ public class MALManager {
 
     public ArrayList<Reviews> getMangaReviews(int id, int page) {
         return AccountService.isMAL() ? malApi.getMangaReviews(id, page) : alApi.getMangaReviews(id, page);
+    }
+
+    public ArrayList<Forum> getForumCategories() {
+        return malApi.getForum().createBaseModel();
+    }
+
+
+    public ArrayList<Forum> getCategoryTopics(int id, int page) {
+        return malApi.getCategoryTopics(id, page).createBaseModel();
+    }
+
+    public ArrayList<Forum> getTopic(int id, int page) {
+        return malApi.getPosts(id, page).createBaseModel();
     }
 
     public boolean deleteAnime(Anime anime) {

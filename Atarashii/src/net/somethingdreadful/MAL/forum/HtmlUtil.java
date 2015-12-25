@@ -6,10 +6,10 @@ import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALModels.Forum;
 import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class HtmlUtil {
     public HtmlUtil(Context context) {
         structure = getString(context, R.raw.forum_post_structure);
         postStructure = getString(context, R.raw.forum_post_post_structure);
-        spoilerStructure = getString(context, R.raw.forum_post_spoiler_structure);
+        spoilerStructure = getString(context, R.raw.forum_comment_spoiler_structure);
         this.context = context;
     }
 

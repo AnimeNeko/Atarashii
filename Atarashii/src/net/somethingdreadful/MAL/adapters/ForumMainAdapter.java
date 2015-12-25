@@ -15,10 +15,9 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.MALModels.Forum;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
@@ -71,15 +70,6 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
                         InformationDialogFragment info = new InformationDialogFragment();
                         Bundle args = new Bundle();
                         args.putString("title", record.getName());
-                        if (task == ForumJob.BOARD)
-                            args.putString("message", record.getDescription());
-                        else
-                            args.putString("message", context.getString(R.string.dialog_message_created_by)
-                                    + " " + record.getUsername()
-                                    + "\n"
-                                    + context.getString(R.string.dialog_message_last_post)
-                                    + " " + record.getReply().getUsername()
-                                    + ", " + DateTools.parseDate(record.getReply().getTime(), true));
                         info.setArguments(args);
                         info.show(fm, "fragment_forum");
 
@@ -96,8 +86,6 @@ public class ForumMainAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void supportAddAll(Collection<? extends T> collection) {
-        if (task == ForumJob.BOARD)
-            listview.getLayoutParams().height = (int) (((48 + 1) * collection.size() - 1) * (context.getResources().getDisplayMetrics().densityDpi / 160f));
         for (T record : collection) {
             this.add(record);
         }
