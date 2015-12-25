@@ -85,7 +85,6 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
 
         PrefManager.deleteAccount();
         NfcHelper.disableBeam(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void tryConnection() {
