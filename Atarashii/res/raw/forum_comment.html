@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        .quotetext {
+            background-color: rgba(0,150,200,0.1);
+            padding:5px;
+            padding-left:10px;
+            padding-right:10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        input.spoilerbutton {display:block;margin:5px 0;}
+        input.spoilerbutton[value="Show spoiler"] + .spoiler {display: none;}
+        input.spoilerbutton[value="Hide spoiler"] + .spoiler {display: show;}
+        input.spoilerbutton {
+            outline:none;
+            display: block;
+            background-color: #0096C8;
+            border: none;
+            border-radius: 3px;
+            color: #FFFFFF;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px 0px;
+            box-sizing: border-box;
+            height: 36px;
+            padding: 0px 8px;
+            margin: 6px 4px;
+            text-transform: uppercase;
+        }
+        input.spoilerbutton:active {background-color: #1976D2;}
+        .comment markdown {
+            display:block;
+            padding-left:5px;
+            padding-top:8px
+        }
+        .comment__user {
+            display:block;
+            float:left;
+            margin-right:5px;
+            margin-top:1px;
+            width:60px
+        }
+        .comment__avatar {
+            -moz-border-radius:2px;
+            -webkit-border-radius:2px;
+            border-radius:2px;
+            height:60px;
+            transition:0.15s;
+            width:60px
+        }
+        .comment__body {
+            -moz-border-radius:2px;
+            -webkit-border-radius:2px;
+            border-radius:2px;
+            background:#FFF;
+            border:solid 1px #EEE;
+            font-size:0.95em;
+            min-height:45px;
+            overflow:auto;
+            padding:5px 7px 5px 7px;
+            margin:5px;
+        }
+        .comment__name {
+            border-bottom:solid 1px #eee;
+            color:#022f70;
+            display:block;
+            font-weight:600;
+            padding-bottom:3px;
+            padding-left:4px
+        }
+        time-ago {
+            color:#3E454F;
+            float:right;
+            font-size:0.85em;
+            margin-right:10px;
+            opacity:0.4
+        }
+        .forum__mod {
+            background:#458EDB;
+            border-radius:2px;
+            color:#FFF;
+            font-size:0.9em;
+            margin-left:5px;
+            padding:0px 5px;
+            position:relative;
+            top:-1px
+        }
+        body {
+            background-color:#f2f2f2;
+            font-family:"Open Sans",Arial,sans-serif;
+            font-size:14px
+        }
+        body:after {
+            -webkit-box-sizing:border-box;
+        }
+        #container-main:before, a {color:inherit;text-decoration:none}
+
+
+        markdown {margin-top:0}
+    </style>
+</head>
+<body>
+<!-- insert here the tiles -->
+</body>
+</html>
