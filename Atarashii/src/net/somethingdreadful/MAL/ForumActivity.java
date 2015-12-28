@@ -45,8 +45,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         test = new testforumhtmlunit(this);
         if (bundle != null) {
             test.setForumMenuLayout(bundle.getString("forumMenuLayout"));
+            webview.restoreState(bundle.getBundle("webview"));
+        } else {
+            getRecords(ForumJob.MENU, 0);
         }
-        getRecords(ForumJob.MENU, 0);
     }
 
     public void setLoading(boolean loading) {
@@ -56,6 +58,9 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     @Override
     public void onSaveInstanceState(Bundle state) {
         state.putString("forumMenuLayout", test.getForumMenuLayout());
+        Bundle webviewState = new Bundle();
+        webview.saveState(webviewState);
+        state.putBundle("webview", webviewState);
         super.onSaveInstanceState(state);
     }
 
@@ -191,9 +196,8 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 String forumArray = "";
                 String tempTile;
                 for (Forum item : forumList) {
-                    comment = item.getComment();
                     rank = item.getProfile().getSpecialAccesRank(item.getUsername());
-                    // Spoiler rebuild
+                    comment = item.getComment();
                     comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
 
                     tempTile = forumCommentsTiles;
@@ -208,7 +212,6 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                         tempTile = tempTile.replace("<!-- access rank -->", rank);
                     else
                         tempTile = tempTile.replace("<span class=\"forum__mod\"><!-- access rank --></span>", "");
-
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
