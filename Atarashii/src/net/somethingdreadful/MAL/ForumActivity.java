@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -26,6 +28,8 @@ import lombok.Setter;
 public class ForumActivity extends AppCompatActivity implements ForumNetworkTask.ForumNetworkTaskListener {
     @Bind(R.id.webview)
     WebView webview;
+    @Bind(R.id.progress1)
+    ProgressBar progress;
     testforumhtmlunit test;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
@@ -45,6 +49,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         getRecords(ForumJob.MENU, 0);
     }
 
+    public void setLoading(boolean loading) {
+        progress.setVisibility(loading ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle state) {
         state.putString("forumMenuLayout", test.getForumMenuLayout());
@@ -52,6 +60,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     }
 
     public void getRecords(ForumJob job, int id) {
+        setLoading(true);
         switch (job) {
             case MENU:
                 if (!test.menuExists())
@@ -98,6 +107,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 test.setForumComments(forum);
                 break;
         }
+        setLoading(false);
     }
 
     public class testforumhtmlunit {
