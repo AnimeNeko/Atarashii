@@ -143,10 +143,20 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 String tempTile;
                 for (Forum item : menu) {
                     tempTile = forumMenuTiles;
-                    tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
                     tempTile = tempTile.replace("<!-- header -->", item.getName());
                     tempTile = tempTile.replace("<!-- description -->", item.getDescription());
                     tempTile = tempTile.replace("<!-- last reply -->", getString(context, R.string.dialog_message_last_post));
+
+                    if (item.getChildren() != null) {
+                        tempTile = tempTile.replace("onClick=\"tileClick(<!-- id -->)\"", "");
+
+                        for (int i = 0; i < item.getChildren().size(); i++) {
+                            Forum child = item.getChildren().get(0);
+                            tempTile = tempTile.replace(child.getName(), "<a onClick=\"tileClick(" + child.getId() + ")\">" + child.getName() + "</a>");
+                        }
+                    } else {
+                        tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
+                    }
                     forumArray = forumArray + tempTile;
                 }
                 forumMenuLayout = forumMenuLayout.replace("<!-- insert here the tiles -->", forumArray);
