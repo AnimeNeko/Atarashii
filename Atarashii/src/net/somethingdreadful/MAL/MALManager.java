@@ -254,10 +254,6 @@ public class MALManager {
      * All the methods below this block is used to determine and make request to the API.
      */
 
-    public ForumMain search(String query) {
-        return malApi.search(query);
-    }
-
     public Anime getAnimeRecord(int id) {
         Crashlytics.log(Log.DEBUG, "MALX", "MALManager.getAnimeRecord(): Downloading " + id);
         return AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
@@ -381,6 +377,11 @@ public class MALManager {
     public boolean deleteManga(Manga manga) {
         return dbMan.deleteManga(manga.getId());
     }
+
+    public ArrayList<Forum> search(String query) {
+        return malApi.search(query).createBaseModel();
+    }
+
     public ArrayList<Forum> getSubCategory(int id, int page) {
         return malApi.getSubBoards(id, page).createBaseModel();
     }

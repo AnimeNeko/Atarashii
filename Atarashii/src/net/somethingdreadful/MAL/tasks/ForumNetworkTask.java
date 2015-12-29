@@ -47,8 +47,10 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                 case TOPIC: // list with all comments of users
                     result = mManager.getTopic(id, Integer.parseInt(params[0]));
                     break;
-                /*
+                case SEARCH:
+                    result = mManager.search(params[0]);
                     break;
+                /*
                 case DISCUSSION:
                     if (params[1].equals(MALApi.ListType.ANIME.toString()))
                         result = mManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.ANIME);
@@ -69,9 +71,6 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                     break;
                 case UPDATECOMMENT:
                     result.setList(mManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null);
-                    break;
-                case SEARCH:
-                    result = mManager.search(params[0]);
                     break;*/
             }
         } catch (RetrofitError re) {

@@ -1,10 +1,17 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -31,6 +38,9 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     @Bind(R.id.progress1)
     ProgressBar progress;
     testforumhtmlunit test;
+    MenuItem search;
+    Menu menu;
+    String query;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -51,6 +61,64 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_forum, menu);
+        this.menu = menu;
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        ComponentName cn = new ComponentName(this, ForumActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+        search = searchItem;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            case R.id.action_ViewMALPage:
+                String[] details = webview.getTitle().split(" ");
+                switch (details[0]) {
+                    case "M": // main board
+                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/")));
+                        break;
+                    case "S": // sub board
+                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?subboard=" + details[1])));
+                        break;
+                    case "T": // topic list
+                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?board=" + details[1])));
+                        break;
+                    case "C": // commments
+                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?topicid=" + details[1])));
+                        break;
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    /**
+     * Handle the intent for the searchView
+     *
+     * @param intent The intent given by android
+     */
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+            getRecords(ForumJob.SEARCH, 0);
+            search.collapseActionView();
+        }
+    }
+
     public void setLoading(boolean loading) {
         progress.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
@@ -65,7 +133,9 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     }
 
     public void getRecords(ForumJob job, int id) {
+        test.setSubBoard(false);
         setLoading(true);
+        test.setId(id);
         switch (job) {
             case MENU:
                 if (!test.menuExists())
@@ -74,22 +144,16 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     test.setForumMenu(null);
                 break;
             case SUBCATEGORY:
+                test.setSubBoard(true);
             case CATEGORY:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
                 break;
             case TOPIC:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
+            case SEARCH:
+                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
                 break;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-        }
-        return true;
     }
 
     @Override
@@ -106,6 +170,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             case MENU:
                 test.setForumMenu(forum);
                 break;
+            case SEARCH:
             case CATEGORY:
             case SUBCATEGORY:
                 test.setForumList(forum);
@@ -128,6 +193,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         String forumCommentsLayout;
         String forumCommentsTiles;
         String spoilerStructure;
+        @Getter
+        @Setter
+        int id;
+        boolean subBoard = false;
 
         public testforumhtmlunit(Context context) {
             forumMenuLayout = getString(context, R.raw.forum_menu);
@@ -138,6 +207,14 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             forumCommentsTiles = getString(context, R.raw.forum_comment_tiles);
             spoilerStructure = getString(context, R.raw.forum_comment_spoiler_structure);
             this.context = context;
+        }
+
+        public void setSubBoard(boolean subBoard) {
+            this.subBoard = subBoard;
+        }
+
+        public boolean getSubBoard() {
+            return this.subBoard;
         }
 
         public boolean menuExists() {
@@ -167,6 +244,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     forumArray = forumArray + tempTile;
                 }
                 forumMenuLayout = forumMenuLayout.replace("<!-- insert here the tiles -->", forumArray);
+                forumMenuLayout = forumMenuLayout.replace("<!-- title -->", "M 0"); // M = menu, 0 = id
             }
             if (menuExists())
                 webview.loadData(forumMenuLayout, "text/html", "UTF-8");
@@ -186,6 +264,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumListLayout.replace("<!-- insert here the tiles -->", forumArray);
+                tempForumList = tempForumList.replace("<!-- title -->", (getSubBoard() ? "S " : "T ") + getId()); // T = Topics || S = subboard, id
                 webview.loadData(tempForumList, "text/html", "UTF-8");
             }
         }
@@ -217,6 +296,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
+                tempForumList = tempForumList.replace("<!-- title -->", "C " + getId()); // C = Comments, id
                 webview.loadData(tempForumList, "text/html", "UTF-8");
             }
         }
