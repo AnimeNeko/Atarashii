@@ -73,6 +73,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 else
                     test.setForumMenu(null);
                 break;
+            case SUBCATEGORY:
             case CATEGORY:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
                 break;
@@ -106,6 +107,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 test.setForumMenu(forum);
                 break;
             case CATEGORY:
+            case SUBCATEGORY:
                 test.setForumList(forum);
                 break;
             case TOPIC:
@@ -156,8 +158,8 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                         tempTile = tempTile.replace("onClick=\"tileClick(<!-- id -->)\"", "");
 
                         for (int i = 0; i < item.getChildren().size(); i++) {
-                            Forum child = item.getChildren().get(0);
-                            tempTile = tempTile.replace(child.getName(), "<a onClick=\"tileClick(" + child.getId() + ")\">" + child.getName() + "</a>");
+                            Forum child = item.getChildren().get(i);
+                            tempTile = tempTile.replace(child.getName(), "<a onClick=\"subTileClick(" + child.getId() + ")\">" + child.getName() + "</a>");
                         }
                     } else {
                         tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));

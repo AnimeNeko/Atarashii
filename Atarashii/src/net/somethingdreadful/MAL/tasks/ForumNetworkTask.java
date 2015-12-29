@@ -41,12 +41,13 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                 case CATEGORY: // list with all topics of a certain category
                     result = mManager.getCategoryTopics(id, Integer.parseInt(params[0]));
                     break;
+                case SUBCATEGORY:
+                    result = mManager.getSubCategory(id, Integer.parseInt(params[0]));
+                    break;
                 case TOPIC: // list with all comments of users
                     result = mManager.getTopic(id, Integer.parseInt(params[0]));
                     break;
                 /*
-                case SUBBOARD:
-                    result = mManager.getSubBoards(id, Integer.parseInt(params[0]));
                     break;
                 case DISCUSSION:
                     if (params[1].equals(MALApi.ListType.ANIME.toString()))

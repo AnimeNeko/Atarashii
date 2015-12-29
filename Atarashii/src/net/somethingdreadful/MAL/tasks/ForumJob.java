@@ -1,5 +1,5 @@
 package net.somethingdreadful.MAL.tasks;
 
 public enum ForumJob {
-    MENU, CATEGORY, TOPIC
+    MENU, CATEGORY, SUBCATEGORY, TOPIC, SEARCH
 }

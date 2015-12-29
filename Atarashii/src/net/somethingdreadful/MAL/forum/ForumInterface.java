@@ -26,6 +26,19 @@ public class ForumInterface {
     }
 
     /**
+     * Get the topics from a certain category.
+     */
+    @JavascriptInterface
+    public void subTileClick(final String id) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                forum.getRecords(ForumJob.SUBCATEGORY, Integer.parseInt(id));
+            }
+        });
+    }
+
+    /**
      * Get the posts from a certain topic.
      */
     @JavascriptInterface
