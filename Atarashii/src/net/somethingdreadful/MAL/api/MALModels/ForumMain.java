@@ -53,10 +53,10 @@ public class ForumMain implements Serializable {
         ArrayList<Forum> model = new ArrayList<>();
         if (getMyAnimeList() != null)
             model.addAll(getMyAnimeList());
-        if (getGeneral() != null)
-            model.addAll(getGeneral());
         if (getAnimeManga() != null)
             model.addAll(getAnimeManga());
+        if (getGeneral() != null)
+            model.addAll(getGeneral());
         if (getList() != null)
             model.addAll(getList());
         return model;
