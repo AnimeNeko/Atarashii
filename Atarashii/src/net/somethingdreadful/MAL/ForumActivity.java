@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
@@ -34,6 +36,7 @@ import lombok.Setter;
 
 public class ForumActivity extends AppCompatActivity implements ForumNetworkTask.ForumNetworkTaskListener {
     @Bind(R.id.webview)
+    public
     WebView webview;
     @Bind(R.id.progress1)
     ProgressBar progress;
@@ -51,13 +54,18 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         ButterKnife.bind(this);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.addJavascriptInterface(new ForumInterface(this), "Forum");
+        webview.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                setLoading(false);
+            }
+        });
 
         test = new testforumhtmlunit(this);
         if (bundle != null) {
             test.setForumMenuLayout(bundle.getString("forumMenuLayout"));
             webview.restoreState(bundle.getBundle("webview"));
         } else {
-            getRecords(ForumJob.MENU, 0);
+            getRecords(ForumJob.MENU, 0, "1");
         }
     }
 
@@ -80,6 +88,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
             case R.id.action_ViewMALPage:
                 String[] details = webview.getTitle().split(" ");
                 switch (details[0]) {
@@ -114,7 +123,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
-            getRecords(ForumJob.SEARCH, 0);
+            getRecords(ForumJob.SEARCH, 0, "1");
             search.collapseActionView();
         }
     }
@@ -132,10 +141,11 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         super.onSaveInstanceState(state);
     }
 
-    public void getRecords(ForumJob job, int id) {
+    public void getRecords(ForumJob job, int id, String page) {
         test.setSubBoard(false);
         setLoading(true);
         test.setId(id);
+        test.setPage(page);
         switch (job) {
             case MENU:
                 if (!test.menuExists())
@@ -146,10 +156,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             case SUBCATEGORY:
                 test.setSubBoard(true);
             case CATEGORY:
-                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
+                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
                 break;
             case TOPIC:
-                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(1));
+                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
             case SEARCH:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
                 break;
@@ -179,7 +189,6 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 test.setForumComments(forum);
                 break;
         }
-        setLoading(false);
     }
 
     public class testforumhtmlunit {
@@ -196,6 +205,9 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         @Getter
         @Setter
         int id;
+        @Getter
+        @Setter
+        String page;
         boolean subBoard = false;
 
         public testforumhtmlunit(Context context) {
@@ -247,7 +259,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 forumMenuLayout = forumMenuLayout.replace("<!-- title -->", "M 0"); // M = menu, 0 = id
             }
             if (menuExists())
-                webview.loadData(forumMenuLayout, "text/html", "UTF-8");
+                loadWebview(forumMenuLayout);
         }
 
         public void setForumList(ArrayList<Forum> forumList) {
@@ -265,7 +277,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 }
                 tempForumList = forumListLayout.replace("<!-- insert here the tiles -->", forumArray);
                 tempForumList = tempForumList.replace("<!-- title -->", (getSubBoard() ? "S " : "T ") + getId()); // T = Topics || S = subboard, id
-                webview.loadData(tempForumList, "text/html", "UTF-8");
+                if (Integer.parseInt(getPage()) != 1) {
+                    tempForumList = tempForumList.replace("Forum.topicList(" + getPage(), "Forum.topicList(" + (Integer.parseInt(getPage()) + 1)); // T = Topics || S = subboard, id
+                }
+                loadWebview(tempForumList);
             }
         }
 
@@ -297,7 +312,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 }
                 tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
                 tempForumList = tempForumList.replace("<!-- title -->", "C " + getId()); // C = Comments, id
-                webview.loadData(tempForumList, "text/html", "UTF-8");
+                if (Integer.parseInt(getPage()) != 1) {
+                    tempForumList = tempForumList.replace("Forum.commentList(" + getPage(), "Forum.commentList(" + (Integer.parseInt(getPage()) + 1)); // T = Topics || S = subboard, id
+                }
+                loadWebview(tempForumList);
             }
         }
 
