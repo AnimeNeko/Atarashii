@@ -111,23 +111,25 @@ public class History implements Serializable {
 
     public net.somethingdreadful.MAL.api.BaseModels.History createBaseModel(String username) {
         net.somethingdreadful.MAL.api.BaseModels.History model = new net.somethingdreadful.MAL.api.BaseModels.History();
-        if (getSeries().getSeriesType().equals("anime")) {
-            model.setAnime(new Anime());
-            model.getAnime().setId(getSeries().getId());
-            model.getAnime().setTitle(getSeries().getTitleRomaji());
-            model.getAnime().setImageUrl(getSeries().getImageUrlLge());
-            model.getAnime().setStatus(getSeries().getAiringStatus());
-            model.getAnime().setAverageScore(String.valueOf(getSeries().getAverageScore()));
-            model.getAnime().setEpisodes(getSeries().getTotalEpisodes());
-        } else if (getSeries().getSeriesType().equals("manga")) {
-            model.setManga(new Manga());
-            model.getManga().setId(getSeries().getId());
-            model.getManga().setTitle(getSeries().getTitleRomaji());
-            model.getManga().setImageUrl(getSeries().getImageUrlLge());
-            model.getManga().setStatus(getSeries().getPublishingStatus());
-            model.getManga().setAverageScore(String.valueOf(getSeries().getAverageScore()));
-            model.getManga().setChapters(getSeries().getTotalChapters());
-            model.getManga().setVolumes(getSeries().getTotalVolumes());
+        if (getSeries() != null && getSeries().getSeriesType() != null) {
+            if (getSeries().getSeriesType().equals("anime")) {
+                model.setAnime(new Anime());
+                model.getAnime().setId(getSeries().getId());
+                model.getAnime().setTitle(getSeries().getTitleRomaji());
+                model.getAnime().setImageUrl(getSeries().getImageUrlLge());
+                model.getAnime().setStatus(getSeries().getAiringStatus());
+                model.getAnime().setAverageScore(String.valueOf(getSeries().getAverageScore()));
+                model.getAnime().setEpisodes(getSeries().getTotalEpisodes());
+            } else if (getSeries().getSeriesType().equals("manga")) {
+                model.setManga(new Manga());
+                model.getManga().setId(getSeries().getId());
+                model.getManga().setTitle(getSeries().getTitleRomaji());
+                model.getManga().setImageUrl(getSeries().getImageUrlLge());
+                model.getManga().setStatus(getSeries().getPublishingStatus());
+                model.getManga().setAverageScore(String.valueOf(getSeries().getAverageScore()));
+                model.getManga().setChapters(getSeries().getTotalChapters());
+                model.getManga().setVolumes(getSeries().getTotalVolumes());
+            }
         }
         model.setStatus(getStatus());
         model.setValue(getValue());
