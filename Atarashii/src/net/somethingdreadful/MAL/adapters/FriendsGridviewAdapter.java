@@ -69,10 +69,10 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             else
                 viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
 
-            String last_online = record.getDetails().getLastOnline();
-            if (last_online != null) {
-                last_online = DateTools.parseDate(last_online, true);
-                viewHolder.last_online.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
+            if (record.getDetails() != null && record.getDetails().getLastOnline() != null) {
+                String last_online = record.getDetails().getLastOnline();
+                    last_online = DateTools.parseDate(last_online, true);
+                    viewHolder.last_online.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
             }
             Picasso.with(context).load(record.getImageUrl())
                     .error(R.drawable.cover_error)
