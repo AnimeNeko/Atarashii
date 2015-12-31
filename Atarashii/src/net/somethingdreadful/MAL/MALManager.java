@@ -53,7 +53,7 @@ public class MALManager {
             case 5:
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_PLANTOWATCH : Manga.STATUS_PLANTOREAD;
             case 6:
-                return Anime.STATUS_REWATCHING;
+                return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_REWATCHING : Manga.STATUS_REREADING;
             default:
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
         }

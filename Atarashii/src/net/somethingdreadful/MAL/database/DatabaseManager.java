@@ -291,7 +291,19 @@ public class DatabaseManager {
     }
 
     public ArrayList<Manga> getMangaList(String ListType) {
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).where("readStatus", ListType).run();
+        Cursor cursor;
+        Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA);
+        switch (ListType) {
+            case "": // All
+                cursor = query.OrderBy(1, "title").run();
+                break;
+            case "rereading": // rewatching/rereading
+                cursor = query.whereEqGr("rereadCount", "1").andEquals("readStatus", "reading").OrderBy(1, "title").run();
+                break;
+            default: // normal lists
+                cursor = query.where("readStatus", ListType).OrderBy(1, "title").run();
+                break;
+        }
         return getMangaList(cursor);
     }
 
