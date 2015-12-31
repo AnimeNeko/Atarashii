@@ -233,6 +233,16 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             return !forumMenuLayout.contains("<!-- insert here the tiles -->");
         }
 
+        private void loadWebview(String html) {
+            if (Theme.darkTheme) {
+                html = html.replace("#f2f2f2;", "#212121;"); // hover tags
+                html = html.replace("#FFF;", "#313131;"); // body
+                html = html.replace("#022f70;", "#0078a0;"); // selection tags
+            }
+            html = html.replace("data:text/html,", "");
+            webview.loadData(html, "text/html", "UTF-8");
+        }
+
         public void setForumMenu(ArrayList<Forum> menu) {
             if (menu != null && menu.size() > 0) {
                 String forumArray = "";
