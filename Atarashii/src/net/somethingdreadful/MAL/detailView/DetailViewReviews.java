@@ -111,13 +111,16 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      */
     public void apply(ArrayList<Reviews> result) {
         try {
-            activity.setTitle(getString(R.string.title_activity_forum));
-            if (result != null) {
-                webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, page), "text/html", "utf-8", null);
-                toggle(false);
-                record = result;
-            } else {
-                Theme.Snackbar(activity, R.string.toast_error_reviews);
+            // The activity could be destroyed when this is being loaded because the user pressed back
+            if (activity != null) {
+                activity.setTitle(getString(R.string.title_activity_forum));
+                if (result != null) {
+                    webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, page), "text/html", "utf-8", null);
+                    toggle(false);
+                    record = result;
+                } else {
+                    Theme.Snackbar(activity, R.string.toast_error_reviews);
+                }
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DetailViewReviews.apply(): " + e.getMessage());
