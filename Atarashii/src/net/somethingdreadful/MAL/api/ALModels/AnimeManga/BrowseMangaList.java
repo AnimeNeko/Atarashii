@@ -47,8 +47,10 @@ public class BrowseMangaList {
 
     public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> convertBaseArray(ArrayList<Manga> ALArray) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> base = new ArrayList<>();
-        for (Manga manga : ALArray) {
-            base.add(manga.createBaseModel());
+        if (ALArray != null) {
+            for (Manga manga : ALArray) {
+                base.add(manga.createBaseModel());
+            }
         }
         return base;
     }
