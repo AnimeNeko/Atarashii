@@ -5,10 +5,7 @@
     <string name="title_activity_settings">設定</string>
     <string name="title_activity_about">このアプリについて</string>
     <string name="title_activity_profile">ユーザープロフィール</string>
-    <string name="title_activity_friends">フレンド</string>
-    <string name="title_activity_logout">ログアウト</string>
     <!-- All (Actionbar Actions) Strings -->
-    <string name="menu_settings">設定</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_UserRecord">ユーザープロフィールは空っぽです。</string>
     <string name="toast_info_disabled">このフィーチャーはしばらく無効になっています。</string>
@@ -16,6 +13,7 @@
     <string name="dialog_title_downloaded">ダウンロードしたエピソード</string>
     <!-- ProfileActivity (Contents) Strings -->
     <!-- FriendsActivity Strings -->
+    <!-- BackupActivity Strings -->
     <!-- ForumActivity Strings -->
     <!-- FirstTimeInit (Contents) Strings -->
     <!-- IGF (MyList Cover) Strings -->
@@ -30,28 +28,9 @@
     <!-- AboutActivity (contents) Strings -->
     <!-- Preferences (contents) Strings -->
     <!-- Dialog_Status_picker (ListType) Strings -->
-    <!-- RatingPickerDialogFragment (Rating) Items -->
     <!-- Settings (ListPreference Entries) Items -->
     <!-- Settings (LocalePreference Entries) Items -->
     <!-- Settings (ListPreference Entries) Items -->
-    <!-- Date (Date format output) Items -->
-    <string name="dateformat">yy-MM-dd</string>
-    <string name="datetimeformat">yy-MM-dd HH:mm</string>
-    <string name="datetimeformat_yesterday">「昨日」、HH:mm</string>
-    <string name="datetimeformat_tomorrow">「明日」、HH:mm</string>
-    <string name="datetimeformat_dayname">EEEE HH:mm</string>
-    <plurals name="minutes_ago">
-        <item quantity="other">%d分前</item>
-    </plurals>
-    <plurals name="minutes_left">
-        <item quantity="other">%d分後</item>
-    </plurals>
-    <plurals name="hours_left">
-        <item quantity="other">%d時間後</item>
-    </plurals>
-    <plurals name="hours_ago">
-        <item quantity="other">%d時間前</item>
-    </plurals>
     <string-array name="genresArray">
         <item>メカ</item>
         <item>軍事</item>

@@ -6,39 +6,43 @@
     <string name="title_activity_about">Hakkında</string>
     <string name="title_activity_detail_view">Detay Görünümü</string>
     <string name="title_activity_profile">Kullanıcı Profili</string>
-    <string name="title_activity_friends">Arkadaşlarım</string>
-    <string name="title_activity_logout">Çıkış</string>
     <string name="title_activity_forum">Forum</string>
+    <string name="title_activity_backup">Yedekle</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Listeyi Değiştir</string>
     <string name="menu_inverse">Sıralamayı Değiştir</string>
-    <string name="menu_settings">Ayarlar</string>
     <string name="menu_sync">Tam Senkronizasyon</string>
-    <string name="menu_sortType">Sırala</string>
+    <string name="menu_backup">Yedek</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">İnternet bağlantısı bulunamadı.</string>
+    <string name="toast_error_api">API hatası tespit edildi, lüfen geliştiricye bildiriniz!</string>
+    <string name="toast_error_reviews">Yorum yapılmamış.</string>
+    <string name="toast_error_maintenance">API kullanılamıyor, bakım devam ediyor!</string>
     <string name="toast_error_UserRecord">Kullanıcı profili boş!</string>
-    <string name="toast_error_Search_Anime">Anime kayıtlarını ararken hata oluştu.</string>
-    <string name="toast_error_Search_Manga">Manga kayıtlarını ararken hata oluştu.</string>
     <string name="toast_error_Search">Ararken hata oluştu. Sonra tekrar deneyin.</string>
     <string name="toast_error_Anime_Sync">Anime listesini senkronize ederken hata oluştu.</string>
     <string name="toast_error_Manga_Sync">Manga listesini senkronize ederken hata oluştu.</string>
-    <string name="toast_error_SyncFailed">Senkronize başarısız oldu. Sonra tekrar deneyin.</string>
-    <string name="toast_error_Anime_Records">Anime kayıtları alınırken hata oluştu.</string>
-    <string name="toast_error_Manga_Records">Manga kayıtları alınırken hata oluştu.</string>
     <string name="toast_error_Records">Kayıtlar alınırken hata oluştu. Sonra tekrar deneyin.</string>
     <string name="toast_error_DetailsError">Atarashii detayları yükleyemedi</string>
     <string name="toast_error_VerifyProblem">Kimliğini kontrol et ve yeniden dene.</string>
     <string name="toast_error_Friends">Arkadaş listesi alınırken senkronizasyon hatası oluştu.</string>
     <string name="toast_error_nothingFound">Anime veya manga sonuçları bulunamadı.</string>
     <string name="toast_info_SyncMessage">Her şey senkronize ediliyor. Bu biraz zaman alabilir.</string>
+    <string name="toast_info_password">Kullanıcı adı ve şifre eşleşmiyor!</string>
     <string name="toast_info_Copied">Başlık başarıyla panoya kopyalandı.</string>
     <string name="toast_info_hold_on">Biraz bekleyin, bilgiyi hala yüklüyoruz.</string>
     <string name="toast_info_comment_add">Yorum başarıyla gönderildi.</string>
     <string name="toast_info_comment_added">5 dakikaya görünür</string>
     <string name="toast_info_disabled">Bu özellik şu an devre dışı.</string>
     <string name="toast_info_disabled_youtube">Yorumlar Youtube videolarıyla desteklenmemektedir :(</string>
+    <string name="toast_info_backup_saved">Yedek oluşturuldu!</string>
+    <string name="toast_info_backup_revert">Değişiklikler eski haline döndü.</string>
+    <string name="toast_info_backup_remove">Yedek kaldırıldı!</string>
+    <string name="toast_info_backup_list">Yedek bu site ile uyumlu değil!</string>
+    <string name="toast_info_widget_exists">Önceden kayıtlı bir widget zaten var!</string>
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_userername">Kullanıcı adı uyuşmuyor</string>
+    <string name="dialog_title_restore">Listeleri onar?</string>
     <string name="dialog_title_view">Göster</string>
     <string name="dialog_title_tags">Etiketlerim</string>
     <string name="dialog_title_storage_value">Depolama değeri</string>
@@ -52,33 +56,29 @@
     <string name="dialog_title_share_via">Paylaş</string>
     <string name="dialog_title_Verifying">Doğrulanıyor</string>
     <string name="dialog_title_rating">Değerlendirme</string>
-    <string name="dialog_title_logout">Çıkışı Onayla</string>
     <string name="dialog_title_watched_update">İzledim</string>
     <string name="dialog_title_read_update">Okudum</string>
     <string name="dialog_title_status">Durum</string>
-    <string name="dialog_title_sync">Senkronize edildi</string>
     <string name="dialog_title_edit_comment">Yorum yap</string>
     <string name="dialog_title_add_comment">Yorum ekle</string>
     <string name="dialog_title_add_topic">Konu oluştur</string>
     <string name="dialog_title_id_search">ID Araması</string>
-    <string name="dialog_title_update_password">Şifreyi güncelle</string>
     <string name="dialog_title_update_navigation">Arka planda güncelle</string>
     <string name="dialog_hint_tags">Etiketlerini virgül ile ayır</string>
     <string name="dialog_hint_comment">Yorumunu gir</string>
     <string name="dialog_hint_fansub">Fansub Grubuna gir</string>
     <string name="dialog_message_view">Hangi listeyi görmek istiyorsunuz?</string>
+    <string name="dialog_message_restore">Bazı kayıtlar listeden silinmiş olabilir!</string>
     <string name="dialog_message_logout">Çıkış yapmak istediğinizden emin misiniz? Bu işlem tüm saklanan verileri silinmesine sebep olacaktır.</string>
     <string name="dialog_message_id_search">Lütfen Anime veya Manga arama butonuna basın. Anime veya Manga ID\'lerin aynı olmadığını unutma!</string>
     <string name="dialog_message_remove">Kesinlikle emin misiniz? Bir defa gitti mi, bir daha geri gelmez. En azından kolay bir şekilde değil.</string>
     <string name="dialog_message_share">Hangi listeyi paylaşmak istiyorsunuz?</string>
     <string name="dialog_message_Verifying">Kullanıcı bilgileriniz kontrol ediliyor. Biraz bekleyin.</string>
-    <string name="dialog_message_update_password">Görünüşe göre şifren değişmiş. Lütfen yenisini aşağıya gir.</string>
-    <string name="dialog_message_new_password_wrong">Yeni şifreyi yanlış girdin.</string>
     <string name="dialog_message_update_navigation">Aşağıya resim linkini gir.</string>
     <string name="dialog_message_created_by">Oluşturan</string>
     <string name="dialog_message_last_post">Son gönderim</string>
     <string name="dialog_message_forum_child">$child1; ya da $child2; kategorisini göstermek istiyor musun?</string>
-    <string name="dialog_message_on">...tarihinde</string>
+    <string name="dialog_message_username">Seçilen yedek, senin yedeğin olmayabilir!</string>
     <string name="dialog_label_cancel">İptal</string>
     <string name="dialog_label_update">Güncelle</string>
     <string name="dialog_label_anime">Anime</string>
@@ -88,8 +88,9 @@
     <string name="dialog_title_remove">Listeden kaldır</string>
     <string name="dialog_label_logout">Çıkış</string>
     <string name="dialog_label_remove">Kaldır</string>
-    <string name="dialog_label_confirm">Onayla</string>
     <string name="dialog_label_send">Gönder</string>
+    <string name="dialog_message_backup_reading">Kayıtlar okunuyor</string>
+    <string name="dialog_message_backup_requesting">Yedek oluşturuluyor.</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username;, Atarashii\'yi kullanarak bir anime listesi paylaştı: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">$username;, Atarashii\'yi kullanarak bir manga listesi paylaştı: http://myanimelist.net/mangalist/$name;!</string>
@@ -120,16 +121,22 @@
     <string name="layout_card_anime_total">Toplam</string>
     <string name="layout_card_manga_reading">Okunuyor</string>
     <string name="layout_card_manga_plan">Planlanıyor</string>
-    <string name="action_viewListOnMAL">Listeye MAL\'da bak</string>
+    <string name="action_viewListOnMAL">Listeyi Tarayıcıda Göster</string>
+    <string name="action_viewtopic">Yorumları göster</string>
     <string name="not_specified">Belirtilmemiş</string>
     <string name="no_activity">Hareket Yok</string>
+    <string name="no_history">Tarih Yok</string>
+    <string name="no_reviews">Yorum  Yok</string>
+    <string name="read_more">Daha fazlasını oku</string>
+    <string name="show_less">Daha az göster</string>
     <string-array name="gender">
         <item>Bayan</item>
         <item>Erkek</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Beri arkadaşlar</string>
     <string name="unknown">bilinmiyor</string>
+    <!-- BackupActivity Strings -->
+    <string name="creation_date">Oluşturulma Tarihi</string>
     <!-- ForumActivity Strings -->
     <string name="action_add">Yorum veya konu ekle</string>
     <string name="form_hint_title">Konu başlığı</string>
@@ -174,15 +181,15 @@
     <!-- Tab names Strings -->
     <string name="tab_name_general">Genel</string>
     <string name="tab_name_personal">Kişisel</string>
+    <string name="tab_name_reviews">Yorumlar</string>
     <string name="tab_name_details">Detaylar</string>
     <string name="tab_name_friends">Arkadaşlar</string>
     <string name="tab_name_following">Takip Ediliyor</string>
+    <string name="tab_name_history">Tarih</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Özet</string>
-    <string name="card_name_progress">Durum</string>
     <string name="card_name_stats">İstatistikler</string>
     <string name="card_name_info">Bilgi</string>
-    <string name="card_name_rating">İzlenme Oranı</string>
     <string name="card_name_personal">Kişisel</string>
     <string name="card_name_relations">İlgili</string>
     <string name="card_name_titles">Alternatif İsimler</string>
@@ -201,7 +208,7 @@
     <string name="card_content_storage">Depolama</string>
     <string name="card_content_storage_amount">Depolama Kapasitesi (GB)</string>
     <string name="card_content_downloaded">İndirilen</string>
-    <string name="card_content_count">Hesap</string>
+    <string name="card_content_count">Tekrar Sayısı</string>
     <string name="card_content_episodes">Bölüm</string>
     <string name="card_content_status">Durum</string>
     <string name="card_content_mal_score">Skor</string>
@@ -214,7 +221,6 @@
     <string name="card_content_start">Başlama Tarihi</string>
     <string name="card_content_end">Bitiş Tarihi</string>
     <string name="card_content_producers">Prodiktör</string>
-    <string name="card_content_aired">Bitti</string>
     <string name="card_content_genres">Tür</string>
     <string name="card_content_classification">Derecelendirme</string>
     <string name="card_content_ranked">Derece</string>
@@ -235,8 +241,8 @@
     <string name="card_content_japanese">Japonca</string>
     <string name="card_content_english">İngilizce</string>
     <string name="card_content_synonyms">Eşanlamlılar</string>
+    <string name="card_content_romaji">Romanji</string>
     <string name="card_offline_error">İnternet bağlantısı bulunamadı.</string>
-    <string name="card_offline_button_caption">Yeniden dene</string>
     <string name="card_offline_title">Çevrimdışısın!</string>
     <string name="episodepicker_hint">Puanınızı girin</string>
     <!-- DetailView (Actionbar actions) Strings -->
@@ -319,13 +325,22 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Topluluğumuza katılın!</a> Google+\'da bulunan topluluğumuz, geliştiricilerle irtibata geçmek veya görüşlerinizi paylaşmak için en güzel yer. Sorunlar, özellik talepleri, durum güncellemeleri, herşey burada. Söz, ısırmayız!</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Varsayılan Liste</string>
-    <string name="summary_DefaultList">Uygulama açıldığında hangi listeyi görmek istersiniz?</string>
+    <string name="dialog_DefaultaddList">Varsayılan listeye ekle</string>
     <string name="preference_category_list">Liste</string>
     <string name="preference_category_synchronisation">Senkronizasyon</string>
     <string name="preference_category_sharing">Diğer Ayarlar</string>
     <string name="preference_category_profile">Profil</string>
+    <string name="preference_category_backup">Yedekle</string>
+    <string name="preference_backupsync">Otomatik yedekleme aralığı</string>
+    <string name="preference_autoDate">Otomatikman tarihi yedekle</string>
+    <string name="preference_backuplength">Yedeklerin miktarı.</string>
+    <string name="preference_summary_backupsync">Belli bir süre sonra anime/manga listesini otomatik yenile.</string>
+    <string name="preference_summary_autobackup">İzin verilen en fazla yedek öğesi.</string>
     <string name="preference_synchronisation">Otomatik senkronizasyon</string>
     <string name="preference_Theme">Koyu Tema</string>
+    <string name="preference_list_columns_portrait">Dİk liste sütunları</string>
+    <string name="preference_list_columns_landscape">Peyzaj Liste sütunları</string>
+    <string name="preference_Reset">Ayarları sıfırla</string>
     <string name="preference_TraditionalList">Geleneksel listeyi kullan</string>
     <string name="preference_customShareText">Kişisel Paylaşım Metni</string>
     <string name="preference_displayVolumes">Kapaklarda Ciltleri kullan</string>
@@ -336,9 +351,14 @@
     <string name="preference_profileTextColors">Renkli yazıları devre dışı bırak</string>
     <string name="preference_profileAnimeHide">Anime detaylarını herzaman gizle</string>
     <string name="preference_profileMangaHide">Manga detaylarını her zaman gizle</string>
+    <string name="summary_DefaultList">Uygulama açıldığında hangi listeyi görmek istersiniz?</string>
+    <string name="preference_summary_autoDate">Bir anime ya da manganın başlama-bitiş tarihini güncelle.</string>
     <string name="preference_summary_TraditionList">Kapak resimleri yerine geleneksel liste stilini kullan. Değişikliklerin fark etmesi için uygulamanın yeniden başlaması gerekir.</string>
+    <string name="preference_summary_AddList">Bir anime/ manga ekleyeceğinde bu listeye kaydolunacak.</string>
     <string name="preference_summary_synchronisation">Seçilirse, Atarshii arka planda senkronize edecek.</string>
     <string name="preference_summary_theme">Seçilirse Atarashii, koyu temayı kullanacak.</string>
+    <string name="preference_summary_Reset">Atarashii bütün ayarları varsayılana sıfırlayacak.</string>
+    <string name="preference_summary_list_columns">Burada Atarashii kullanarak olması gereken sütunların miktarını değiştirin.</string>
     <string name="preference_summary_Language">İstediğiniz varsayılan dili değiştirmek için. Yeniden başlatma gerekir.</string>
     <string name="preference_summary_customShareText">Varsayılan paylaşım metnini beğenmiyor musunuz? Kendinizinkini oluşturun! Başlık yerine $title; link yerine de $link kullanın. Gerisini biz hallederiz.</string>
     <string name="preference_summary_autosync">Oto-senkronizasyon bir süreliğine arka planda çalışacak.</string>
@@ -346,6 +366,7 @@
     <string name="preference_summary_profileTextColors">Profil sayfasını siyah yazı renki kullanmaya zorla</string>
     <string name="preference_summary_profileAnimeHide">Anime detaylarını tüm profillerde gizle</string>
     <string name="preference_summary_profileMangaHide">Manga detaylarını tüm profillerde gizle</string>
+    <string name="preference_summary_backup">Anime list. veya manga list. yedekle.</string>
     <string name="preference_android_synchronisation">Anime/Manga kayıtları</string>
     <string name="preference_default_customShareText">MyAnimeList\'de $title;\'a bak!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -357,31 +378,6 @@
     <string name="listType_InProgress">Devam Edilen</string>
     <string name="listType_rewatching">Yeniden izlenme</string>
     <string name="listType_rereading">Yeniden Okunuyor.</string>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-    <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>Puan Verilmemiş</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>1: Korkunç</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>2: Berbat</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>3: Çok Kötü</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>4: Kötü</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>5: Orta</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>6: Fena Değil</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>7: İyi</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>8: Çok İyi</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>9: Harika</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>10: Şaheser</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -398,7 +394,7 @@
         <item>Planlanıyor</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray">
+    <string-array name="localeArray" translatable="false">
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Arapça</item>
     <!-- Settings (LocalePreference Entries) Items -->
@@ -442,30 +438,18 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>24 Saat</item>
     <!-- Settings (ListPreference Entries) Items -->
-        <item>48 Saat</item>
+        <item>2 Gün</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>3 Gün</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Gün</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>5 Gün</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 Gün</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>7 Gün</item>
     </string-array>
-    <!-- Date (Date format output) Items -->
-    <string name="dateformat">dd-MM-yy</string>
-    <string name="datetimeformat">dd-MM-yy, h:mm a</string>
-    <string name="datetimeformat_yesterday">\'Dün\', h:mm a</string>
-    <string name="datetimeformat_tomorrow">Yarın\', h:mm a</string>
-    <string name="datetimeformat_dayname">EEEE, h:mm a</string>
-    <plurals name="minutes_ago">
-        <item quantity="one">Bir dakika önce</item>
-        <item quantity="other">%d dakika önce</item>
-    </plurals>
-    <plurals name="minutes_left">
-        <item quantity="one">%d dakika içinde</item>
-        <item quantity="other">%d dakika içinde</item>
-    </plurals>
-    <plurals name="hours_left">
-        <item quantity="one">Bir saat önce</item>
-        <item quantity="other">%d saat önce</item>
-    </plurals>
-    <plurals name="hours_ago">
-        <item quantity="one">Bir saat önce</item>
-        <item quantity="other">%d saat önce</item>
-    </plurals>
     <string-array name="classificationArray">
         <item>G - Herkes</item>
         <item>PG - Çocuklar</item>

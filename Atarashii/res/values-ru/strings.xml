@@ -6,39 +6,43 @@
     <string name="title_activity_about">О программе</string>
     <string name="title_activity_detail_view">Подробности</string>
     <string name="title_activity_profile">Профиль</string>
-    <string name="title_activity_friends">Мои друзья</string>
-    <string name="title_activity_logout">Выйти из учетной записи</string>
     <string name="title_activity_forum">Форум</string>
+    <string name="title_activity_backup">Резервное копирование</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Переключить список</string>
     <string name="menu_inverse">Инвертировать список</string>
-    <string name="menu_settings">Настройки</string>
     <string name="menu_sync">Полная синхронизация</string>
-    <string name="menu_sortType">Сортировка</string>
+    <string name="menu_backup">Резервное копирование</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">Отсутствует соединение с сетью.</string>
+    <string name="toast_error_api">Обнаружена ошибка API, пожалуйста, уведомите разработчиков!</string>
+    <string name="toast_error_reviews">Доступные рецензии отсутствуют.</string>
+    <string name="toast_error_maintenance">API недоступен, идет техобслуживание!</string>
     <string name="toast_error_UserRecord">Пользовательский профиль пуст!</string>
-    <string name="toast_error_Search_Anime">Ошибка во время поиска записей об аниме.</string>
-    <string name="toast_error_Search_Manga">Ошибка во время поиска записей о манге.</string>
     <string name="toast_error_Search">Ошибка при поиске! Пожалуйста, повторите попытку позже.</string>
     <string name="toast_error_Anime_Sync">Ошибка синхронизации при загрузке списка аниме!</string>
     <string name="toast_error_Manga_Sync">Ошибка синхронизации при загрузке списка манги!</string>
-    <string name="toast_error_SyncFailed">Синхронизация не удалась! Пожалуйста, повторите попытку позже.</string>
-    <string name="toast_error_Anime_Records">Ошибка при загрузке записей аниме.</string>
-    <string name="toast_error_Manga_Records">Ошибка при загрузке записей манги.</string>
     <string name="toast_error_Records">Ошибка при загрузке записей. Пожалуйста, повторите попытку позже.</string>
     <string name="toast_error_DetailsError">Atarashii не смог загрузить данные!</string>
     <string name="toast_error_VerifyProblem">Проверьте свои учетные данные и повторите попытку.</string>
     <string name="toast_error_Friends">Ошибка синхронизации при загрузке списка друзей!</string>
     <string name="toast_error_nothingFound">Не найдено аниме или манги по вашему запросу.</string>
     <string name="toast_info_SyncMessage">Полная синхронизация. Процесс может занять несколько секунд.</string>
+    <string name="toast_info_password">Комбинация имени профиля и пароля не совпадает!</string>
     <string name="toast_info_Copied">Название успешно скопировано в буфер обмена!</string>
     <string name="toast_info_hold_on">Подождите немного, производится процесс загрузки информации.</string>
     <string name="toast_info_comment_add">Комментарий успешно отправлен.</string>
     <string name="toast_info_comment_added">Это может занять около 5 минут до того, как это станет видимым</string>
     <string name="toast_info_disabled">Функция в данный момент недоступна :(</string>
     <string name="toast_info_disabled_youtube">Комментарии с сервисом YouTube не поддерживаются :(</string>
+    <string name="toast_info_backup_saved">Была создана резервная копия!</string>
+    <string name="toast_info_backup_revert">Изменения отменены!</string>
+    <string name="toast_info_backup_remove">Резервная копия удалена!</string>
+    <string name="toast_info_backup_list">Резервная копия не совместима с данным сайтом!</string>
+    <string name="toast_info_widget_exists">Виджет с выбранной записью уже существует!</string>
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_userername">Ошибка в имени профиля</string>
+    <string name="dialog_title_restore">Восстановить списки?</string>
     <string name="dialog_title_view">Вид</string>
     <string name="dialog_title_tags">Мои теги</string>
     <string name="dialog_title_storage_value">Количество</string>
@@ -52,33 +56,29 @@
     <string name="dialog_title_share_via">Поделиться при помощи</string>
     <string name="dialog_title_Verifying">Проверка</string>
     <string name="dialog_title_rating">Рейтинг</string>
-    <string name="dialog_title_logout">Подтвердить выход из учетной записи</string>
     <string name="dialog_title_watched_update">Я посмотрел</string>
     <string name="dialog_title_read_update">Я прочёл</string>
     <string name="dialog_title_status">Состояние</string>
-    <string name="dialog_title_sync">Синхронизация</string>
     <string name="dialog_title_edit_comment">Редактировать комментарий</string>
     <string name="dialog_title_add_comment">Добавить комментарий</string>
     <string name="dialog_title_add_topic">Создать тему</string>
     <string name="dialog_title_id_search">Поиск ID</string>
-    <string name="dialog_title_update_password">Изменить пароль</string>
     <string name="dialog_title_update_navigation">Изменить фоновое изображение</string>
     <string name="dialog_hint_tags">Разделите свои теги запятой</string>
     <string name="dialog_hint_comment">Введите свой комментарий</string>
     <string name="dialog_hint_fansub">Введите свою фансаб-группу</string>
     <string name="dialog_message_view">Какой из списков вы хотите просмотреть?</string>
+    <string name="dialog_message_restore">Данное действие может удалить некоторые записи в вашем списке!</string>
     <string name="dialog_message_logout">Вы уверены, что хотите выйти из учетной записи? Это удалит все сохраненные данные и изображения.</string>
     <string name="dialog_message_id_search">Пожалуйста, нажмите на кнопку Аниме или Манга для поиска. Помните, что ID аниме и манги различаются!</string>
     <string name="dialog_message_remove">Абсолютно уверены? То, что пропало, уже не вернешь. Не так легко, во всяком случае.</string>
     <string name="dialog_message_share">Каким списком вы хотели бы поделиться?</string>
     <string name="dialog_message_Verifying">Проверяем, что ваша учётная запись в порядке. Подождите.</string>
-    <string name="dialog_message_update_password">Похоже, ваш пароль изменился. Пожалуйста, введите новый ниже.</string>
-    <string name="dialog_message_new_password_wrong">Новый пароль был введен неправильно.</string>
     <string name="dialog_message_update_navigation">Введите URL изображения ниже.</string>
     <string name="dialog_message_created_by">Создано</string>
     <string name="dialog_message_last_post">Последнее сообщение</string>
     <string name="dialog_message_forum_child">Вы желайте посмотреть категорию $child1; или $child2;?</string>
-    <string name="dialog_message_on">в</string>
+    <string name="dialog_message_username">Возможно, что выбранная резервная копия - не ваша!</string>
     <string name="dialog_label_cancel">Отмена</string>
     <string name="dialog_label_update">Обновить</string>
     <string name="dialog_label_anime">Аниме</string>
@@ -88,8 +88,9 @@
     <string name="dialog_title_remove">Удалить из списка</string>
     <string name="dialog_label_logout">Выйти</string>
     <string name="dialog_label_remove">Удалить</string>
-    <string name="dialog_label_confirm">Подтвердить</string>
     <string name="dialog_label_send">Отправить</string>
+    <string name="dialog_message_backup_reading">Чтение записей</string>
+    <string name="dialog_message_backup_requesting">Создание резервной копии.</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; поделился списком аниме с помощью Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">$username; поделился списком манги с помощью Atarashii: http://myanimelist.net/mangalist/$name;!</string>
@@ -120,16 +121,22 @@
     <string name="layout_card_anime_total">Всего записей</string>
     <string name="layout_card_manga_reading">Читает</string>
     <string name="layout_card_manga_plan">Планирует прочитать</string>
-    <string name="action_viewListOnMAL">Посмотреть список на MAL</string>
+    <string name="action_viewListOnMAL">Посмотреть список в браузере</string>
+    <string name="action_viewtopic">Посмотреть обсуждение</string>
     <string name="not_specified">не указано</string>
     <string name="no_activity">Нет активности</string>
+    <string name="no_history">Нет истории</string>
+    <string name="no_reviews">Нет рецензий</string>
+    <string name="read_more">подробнее</string>
+    <string name="show_less">свернуть</string>
     <string-array name="gender">
         <item>Женский</item>
         <item>Мужской</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Друзья с</string>
     <string name="unknown">неизвестно</string>
+    <!-- BackupActivity Strings -->
+    <string name="creation_date">Дата создания</string>
     <!-- ForumActivity Strings -->
     <string name="action_add">Добавить комментарий или тему</string>
     <string name="form_hint_title">Заголовок темы</string>
@@ -174,15 +181,15 @@
     <!-- Tab names Strings -->
     <string name="tab_name_general">Общие</string>
     <string name="tab_name_personal">Мои данные</string>
+    <string name="tab_name_reviews">Рецензии</string>
     <string name="tab_name_details">Подробности</string>
     <string name="tab_name_friends">Друзья</string>
     <string name="tab_name_following">Подписки</string>
+    <string name="tab_name_history">История</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Синопсис</string>
-    <string name="card_name_progress">Прогресс</string>
     <string name="card_name_stats">Статистика</string>
     <string name="card_name_info">Информация</string>
-    <string name="card_name_rating">Рейтинг</string>
     <string name="card_name_personal">Мои данные</string>
     <string name="card_name_relations">Связи</string>
     <string name="card_name_titles">Альтернативные названия</string>
@@ -214,7 +221,6 @@
     <string name="card_content_start">Начато</string>
     <string name="card_content_end">Завершено</string>
     <string name="card_content_producers">Продюсеры</string>
-    <string name="card_content_aired">Трансляция</string>
     <string name="card_content_genres">Жанры</string>
     <string name="card_content_classification">Классификация</string>
     <string name="card_content_ranked">Позиция</string>
@@ -236,7 +242,6 @@
     <string name="card_content_english">Английский</string>
     <string name="card_content_synonyms">Синонимы</string>
     <string name="card_offline_error">Отсутствует соединение с сетью.</string>
-    <string name="card_offline_button_caption">Повторите попытку</string>
     <string name="card_offline_title">Вы не в сети!</string>
     <string name="episodepicker_hint">Введите вашу оценку</string>
     <!-- DetailView (Actionbar actions) Strings -->
@@ -319,13 +324,22 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Join our Community!</a> Сообщество Atarashii! в Google+ - отличное место для взаимодействия с разработчиками и высказывания своих мыслей. Проблемы, просьбы о реализации функций, обновления - все там есть. Мы не кусаемся, честно.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Список по умолчанию</string>
-    <string name="summary_DefaultList">Какой список вы бы хотели видеть при запуске приложения?</string>
+    <string name="dialog_DefaultaddList">Список по умолчанию для добавления</string>
     <string name="preference_category_list">Список</string>
     <string name="preference_category_synchronisation">Синхронизация</string>
     <string name="preference_category_sharing">Другие настройки</string>
     <string name="preference_category_profile">Профиль</string>
+    <string name="preference_category_backup">Резервное копирование</string>
+    <string name="preference_backupsync">Интервал автоматического создания резервных копий</string>
+    <string name="preference_autoDate">Обновлять даты автоматически</string>
+    <string name="preference_backuplength">Количество резервных копий.</string>
+    <string name="preference_summary_backupsync">Автоматически создавать резервную копию списка аниме/манги после определенного времени.</string>
+    <string name="preference_summary_autobackup">Максимальное количество резервных копий.</string>
     <string name="preference_synchronisation">Авто-синхронизация</string>
     <string name="preference_Theme">Тёмная тема</string>
+    <string name="preference_list_columns_portrait">Вертикальный вид колонок в списке</string>
+    <string name="preference_list_columns_landscape">Горизонтальный вид колонок в списке</string>
+    <string name="preference_Reset">Сброс настроек</string>
     <string name="preference_TraditionalList">Использовать традиционный список</string>
     <string name="preference_customShareText">Настроить текст для функции \"Поделиться\"</string>
     <string name="preference_displayVolumes">Использовать тома на обложках</string>
@@ -336,9 +350,14 @@
     <string name="preference_profileTextColors">Выключить цвета текста</string>
     <string name="preference_profileAnimeHide">Всегда скрывать подробности об аниме</string>
     <string name="preference_profileMangaHide">Всегда скрывать подробности о манге</string>
+    <string name="summary_DefaultList">Какой список вы бы хотели видеть при запуске приложения?</string>
+    <string name="preference_summary_autoDate">Обновлять дату автоматически, когда вы начинаете или заканчиваете аниме или мангу.</string>
     <string name="preference_summary_TraditionList">Использовать компактный список вместо обложек. Требует перезапуска программы.</string>
+    <string name="preference_summary_AddList">Когда вы добавляете аниме/мангу, в данный лист будет добавлена запись.</string>
     <string name="preference_summary_synchronisation">Если отмечено, Atarashii будет синхронизироваться в фоновом режиме.</string>
     <string name="preference_summary_theme">Если отмечено, Atarashii будет использовать тёмную тему.</string>
+    <string name="preference_summary_Reset">Atarashii восстановит все настройки по умолчанию.</string>
+    <string name="preference_summary_list_columns">Изменить используемое Atarashii количество колонок.</string>
     <string name="preference_summary_Language">Меняет язык по умолчанию на желаемый. Требует перезапуска программы.</string>
     <string name="preference_summary_customShareText">Не нравится текст для функции \"Поделиться\" по умолчанию? Создайте свой собственный! Используйте $title; и $link; там, где расположены название и ссылка на MAL, а мы сделаем все остальное.</string>
     <string name="preference_summary_autosync">Время до запуска фоновой автоматической синхронизации.</string>
@@ -346,6 +365,7 @@
     <string name="preference_summary_profileTextColors">Принудительно использовать черный цвет текста на странице профиля.</string>
     <string name="preference_summary_profileAnimeHide">Скрывать подробности об аниме во всех профилях.</string>
     <string name="preference_summary_profileMangaHide">Скрывать подробности о манге во всех профилях.</string>
+    <string name="preference_summary_backup">Резервное копирование списков аниме и манги.</string>
     <string name="preference_android_synchronisation">Записи аниме/манги</string>
     <string name="preference_default_customShareText">Взгляните на $title; на MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -357,31 +377,6 @@
     <string name="listType_InProgress">В процессе</string>
     <string name="listType_rewatching">Пересматриваю</string>
     <string name="listType_rereading">Перечитываю</string>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-    <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>Без оценки</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>1: Ужасающе</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>2: Кошмарно</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>3: Очень плохо</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>4: Плохо</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>5: Средне</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>6: Неплохо</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>7: Хорошо</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>8: Очень хорошо</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>9: Отлично</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>10: Шедевр</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -398,7 +393,7 @@
         <item>Планируется посмотреть</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray">
+    <string-array name="localeArray" translatable="false">
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Арабский</item>
     <!-- Settings (LocalePreference Entries) Items -->
@@ -439,38 +434,18 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>24 часа</item>
     <!-- Settings (ListPreference Entries) Items -->
-        <item>48 часов</item>
+        <item>2 дня</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>3 дня</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 дня</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>5 дней</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 дней</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>7 дней</item>
     </string-array>
-    <!-- Date (Date format output) Items -->
-    <string name="dateformat">dd.MM.yy</string>
-    <string name="datetimeformat">dd.MM.yy, HH:mm</string>
-    <string name="datetimeformat_yesterday">\'Вчера\', HH:mm</string>
-    <string name="datetimeformat_tomorrow">\'Завтра\', h:mm a</string>
-    <string name="datetimeformat_dayname">EEEE, HH:mm</string>
-    <plurals name="minutes_ago">
-        <item quantity="one">Минуту назад</item>
-        <item quantity="other">%d минут назад</item>
-        <item quantity="few">%d минут назад</item>
-        <item quantity="many">%d минут назад</item>
-    </plurals>
-    <plurals name="minutes_left">
-        <item quantity="one">В %d минуту</item>
-        <item quantity="other">В %d минуты</item>
-        <item quantity="few">В %d минуты</item>
-        <item quantity="many">В %d минуты</item>
-    </plurals>
-    <plurals name="hours_left">
-        <item quantity="one">%d час назад</item>
-        <item quantity="other">%d часов назад</item>
-        <item quantity="few">%d часов назад</item>
-        <item quantity="many">%d часов назад</item>
-    </plurals>
-    <plurals name="hours_ago">
-        <item quantity="one">Час назад</item>
-        <item quantity="other">%d ч. назад</item>
-        <item quantity="few">%d ч. назад</item>
-        <item quantity="many">%d ч. назад</item>
-    </plurals>
     <string-array name="classificationArray">
         <item>G - Для всех возрастов</item>
         <item>PG - Для детей</item>

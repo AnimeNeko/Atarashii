@@ -6,26 +6,22 @@
     <string name="title_activity_about">Over</string>
     <string name="title_activity_detail_view">Detailoverzicht</string>
     <string name="title_activity_profile">Gebruikersprofiel</string>
-    <string name="title_activity_friends">Mijn vrienden</string>
-    <string name="title_activity_logout">Uitloggen</string>
     <string name="title_activity_forum">Forum</string>
+    <string name="title_activity_backup">Backup</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Lijst veranderen</string>
     <string name="menu_inverse">Omgekeerde lijst</string>
-    <string name="menu_settings">Instellingen</string>
     <string name="menu_sync">Volledige Sync</string>
-    <string name="menu_sortType">Sorteren</string>
+    <string name="menu_backup">Backup</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">Geen verbinding gedetecteerd.</string>
+    <string name="toast_error_api">API fout gedetecteerd, informeer de ontwikkelaars AUB.</string>
+    <string name="toast_error_reviews">Er zijn geen recensies beschikbaar</string>
+    <string name="toast_error_maintenance">API onbereikbaar, onderhoud in vooruitgang!</string>
     <string name="toast_error_UserRecord">Gebruikersprofiel is leeg!</string>
-    <string name="toast_error_Search_Anime">Fout bij zoeken naar animerecords.</string>
-    <string name="toast_error_Search_Manga">Fout bij zoeken naar mangarecords.</string>
     <string name="toast_error_Search">Fout tijdens zoeken! Probeer het later opnieuw.</string>
     <string name="toast_error_Anime_Sync">Synchronisatiefout tijdens het downloaden van de animelijst!</string>
     <string name="toast_error_Manga_Sync">Synchronisatiefout tijdens het downloaden van de mangalijst!</string>
-    <string name="toast_error_SyncFailed">Sync gefaald! Probeer later opnieuw.</string>
-    <string name="toast_error_Anime_Records">Fout tijdens het downloaden van de anime items!</string>
-    <string name="toast_error_Manga_Records">Fout tijdens het downloaden van de manga items!</string>
     <string name="toast_error_Records">Fout tijdens het downloaden van de items. Probeer later opnieuw.</string>
     <string name="toast_error_DetailsError">Atarashii! kan de details niet laden!</string>
     <string name="toast_error_VerifyProblem">Controleer je inloggegevens en probeer opnieuw.</string>
@@ -39,6 +35,7 @@
     <string name="toast_info_disabled">Deze functie is momenteel uitgeschakeld :(</string>
     <string name="toast_info_disabled_youtube">Reacties met Youtube-filmpjes worden niet ondersteund :(</string>
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_restore">Herstel lijsten?</string>
     <string name="dialog_title_view">Bekijken</string>
     <string name="dialog_title_tags">Mijn tags</string>
     <string name="dialog_title_storage_value">Opslagwaarde</string>
@@ -52,33 +49,28 @@
     <string name="dialog_title_share_via">Delen met</string>
     <string name="dialog_title_Verifying">Verifiëren</string>
     <string name="dialog_title_rating">Waardering</string>
-    <string name="dialog_title_logout">Uitloggen bevestigen</string>
     <string name="dialog_title_watched_update">Ik bekeek al</string>
     <string name="dialog_title_read_update">Ik las al</string>
     <string name="dialog_title_status">Status</string>
-    <string name="dialog_title_sync">Synchronisatie</string>
     <string name="dialog_title_edit_comment">Reactie bewerken</string>
     <string name="dialog_title_add_comment">Reactie toevoegen</string>
     <string name="dialog_title_add_topic">Onderwerp maken</string>
     <string name="dialog_title_id_search">Zoeken op ID</string>
-    <string name="dialog_title_update_password">Wachtwoord bijwerken</string>
     <string name="dialog_title_update_navigation">Verander achtergrond</string>
     <string name="dialog_hint_tags">Scheid je tags met een komma</string>
     <string name="dialog_hint_comment">Vul je reactie in</string>
     <string name="dialog_hint_fansub">Vul je fansubgroep in</string>
     <string name="dialog_message_view">Welke lijst wil je bekijken?</string>
+    <string name="dialog_message_restore">Dit kan sommige items verwijderen in je lijst!</string>
     <string name="dialog_message_logout">Weet je zeker dat je wilt uitloggen? Dit zal alle opgeslagen data en foto\'s verwijderen.</string>
     <string name="dialog_message_id_search">Druk op de knop Anime of Manga om te zoeken. Onthou dat Anime- en Manga-ID\'s niet hetzelfde zijn!</string>
     <string name="dialog_message_remove">Weet je het zeker? Eenmaal verwijderd is het voorgoed weg en kan je het niet herstellen. Niet makkelijk in ieder geval.</string>
     <string name="dialog_message_share">Welke lijst wil je delen?</string>
     <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblikje...</string>
-    <string name="dialog_message_update_password">Het lijkt erop dat je wachtwoord gewijzigd werd. Vul a.u.b. het nieuwe hieronder in.</string>
-    <string name="dialog_message_new_password_wrong">Het nieuwe wachtwoord dat je ingaf is verkeerd.</string>
     <string name="dialog_message_update_navigation">Voer de URL van de afbeelding hieronder.</string>
     <string name="dialog_message_created_by">Gemaakt door</string>
     <string name="dialog_message_last_post">Laatste bericht door</string>
     <string name="dialog_message_forum_child">Wil je de categorie $child1; of $child2; bekijken?</string>
-    <string name="dialog_message_on">op</string>
     <string name="dialog_label_cancel">Annuleren</string>
     <string name="dialog_label_update">Bijwerken</string>
     <string name="dialog_label_anime">Anime</string>
@@ -88,7 +80,6 @@
     <string name="dialog_title_remove">Verwijderen van lijst</string>
     <string name="dialog_label_logout">Uitloggen</string>
     <string name="dialog_label_remove">Verwijder</string>
-    <string name="dialog_label_confirm">Bevestig</string>
     <string name="dialog_label_send">Verzenden</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; deelde een animelijst met Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -120,16 +111,19 @@
     <string name="layout_card_anime_total">Totaal</string>
     <string name="layout_card_manga_reading">Lezend</string>
     <string name="layout_card_manga_plan">Gepland</string>
-    <string name="action_viewListOnMAL">Lijst bekijken op MAL</string>
+    <string name="action_viewListOnMAL">Lijst bekijken op internet</string>
     <string name="not_specified">niet gespecificeerd</string>
     <string name="no_activity">Geen activiteit</string>
+    <string name="no_history">Geen geschiedenis</string>
+    <string name="no_reviews">Geen reviews</string>
+    <string name="read_more">lees meer</string>
     <string-array name="gender">
         <item>Vrouw</item>
         <item>Man</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Vrienden sinds</string>
     <string name="unknown">onbekend</string>
+    <!-- BackupActivity Strings -->
     <!-- ForumActivity Strings -->
     <string name="action_add">Voeg een reactie of onderwerp toe</string>
     <string name="form_hint_title">Onderwerptitel</string>
@@ -177,12 +171,11 @@
     <string name="tab_name_details">Details</string>
     <string name="tab_name_friends">Vrienden</string>
     <string name="tab_name_following">Volgend</string>
+    <string name="tab_name_history">Geschiedenis</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Samenvatting</string>
-    <string name="card_name_progress">Vooruitgang</string>
     <string name="card_name_stats">Statistieken</string>
     <string name="card_name_info">Informatie</string>
-    <string name="card_name_rating">Waardering</string>
     <string name="card_name_personal">Persoonlijk</string>
     <string name="card_name_relations">Geretaleerd</string>
     <string name="card_name_titles">Alternatieve Titels</string>
@@ -214,7 +207,6 @@
     <string name="card_content_start">Startdatum</string>
     <string name="card_content_end">Einddatum</string>
     <string name="card_content_producers">Producers</string>
-    <string name="card_content_aired">Uitgezonden</string>
     <string name="card_content_genres">Genres</string>
     <string name="card_content_classification">Classificatie</string>
     <string name="card_content_ranked">Rank</string>
@@ -235,8 +227,8 @@
     <string name="card_content_japanese">Japans</string>
     <string name="card_content_english">Engels</string>
     <string name="card_content_synonyms">Synoniemen</string>
+    <string name="card_content_romaji">Romaji</string>
     <string name="card_offline_error">Geen internet verbinding beschikbaar.</string>
-    <string name="card_offline_button_caption">Probeer het opnieuw</string>
     <string name="card_offline_title">Je bent offline!</string>
     <string name="episodepicker_hint">Geef je score op</string>
     <!-- DetailView (Actionbar actions) Strings -->
@@ -319,11 +311,11 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Word lid van onze Gemeenschap!</a> De Atarashii!-gemeenschap op Google+ is een geweldige plek om te communiceren met de ontwikkelaars en om ons te laten weten wat je denkt. Problemen, functieverzoeken, status-updates, het is er allemaal. We bijten niet, belooft.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Standaardlijst</string>
-    <string name="summary_DefaultList">Welke lijst wil je openen bij het opstarten?</string>
     <string name="preference_category_list">Lijst</string>
     <string name="preference_category_synchronisation">Synchronisatie</string>
     <string name="preference_category_sharing">Andere instellingen</string>
     <string name="preference_category_profile">Profiel</string>
+    <string name="preference_category_backup">Backup</string>
     <string name="preference_synchronisation">Auto-synchronisatie</string>
     <string name="preference_Theme">Donkere thema</string>
     <string name="preference_TraditionalList">Gebruik de traditionele lijst</string>
@@ -336,9 +328,11 @@
     <string name="preference_profileTextColors">Tekstkleuren uitschakelen</string>
     <string name="preference_profileAnimeHide">Verberg altijd animedetails</string>
     <string name="preference_profileMangaHide">Verberg altijd mangadetails</string>
+    <string name="summary_DefaultList">Welke lijst wil je openen bij het opstarten?</string>
     <string name="preference_summary_TraditionList">Gebruik de lijstweergave in plaats van de tegelachtige stijl. Opnieuw opstarten is noodzakelijk om de wijziging door te voeren.</string>
     <string name="preference_summary_synchronisation">Indien aangevinkt, zal Atarashii synchroniseren in de achtergrond.</string>
     <string name="preference_summary_theme">Indien aangevinkt, zal Atarashii een donkere thema gebruiken.</string>
+    <string name="preference_summary_list_columns">Verander hier de hoeveelheid kolommen dat Atarashii zou moeten gebruiken</string>
     <string name="preference_summary_Language">Verander de standaardtaal naar de gewenste taal. Vereist een herstart om toegepast te worden.</string>
     <string name="preference_summary_customShareText">Vind je de standaardtekst bij het delen niet leuk? Maak er zelf een! Gebruik $title; en $link; op de plaats van de titel en link naar MAL, wij zullen de rest voor je doen.</string>
     <string name="preference_summary_autosync">Tijd totdat auto-sync gaat sychroniseren in de achtergrond.</string>
@@ -357,31 +351,6 @@
     <string name="listType_InProgress">Mee bezig</string>
     <string name="listType_rewatching">Herbekijken</string>
     <string name="listType_rereading">Herlezen</string>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-    <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>Ongewaardeerd</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>1: Verschrikkelijk</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>2: Afschuwelijk</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>3: Heel slecht</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>4: Slecht</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>5: Gewoon</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>6: Aardig</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>7: Goed</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>8: Heel goed</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>9: Fantastisch</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>10: Meesterwerk</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -398,7 +367,7 @@
         <item>Van plan te kijken</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray">
+    <string-array name="localeArray" translatable="false">
     <!-- Settings (LocalePreference Entries) Items -->
         <item>Arabisch</item>
     <!-- Settings (LocalePreference Entries) Items -->
@@ -439,30 +408,18 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>24 Uren</item>
     <!-- Settings (ListPreference Entries) Items -->
-        <item>48 Uren</item>
+        <item>2 Dagen</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>3 Dagen</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Dagen</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>5 Dagen</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>6 Dagen</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>7 Dagen</item>
     </string-array>
-    <!-- Date (Date format output) Items -->
-    <string name="dateformat">dd-MM-yy</string>
-    <string name="datetimeformat">dd-MM-yy HH:mm</string>
-    <string name="datetimeformat_yesterday">\'Gisteren\', HH:mm</string>
-    <string name="datetimeformat_tomorrow">\'Morgen\', h:mm a</string>
-    <string name="datetimeformat_dayname">HH:mm EEEE</string>
-    <plurals name="minutes_ago">
-        <item quantity="one">Een minuut geleden</item>
-        <item quantity="other">%d minuten geleden</item>
-    </plurals>
-    <plurals name="minutes_left">
-        <item quantity="one">In %d minuut</item>
-        <item quantity="other">In %d minuten</item>
-    </plurals>
-    <plurals name="hours_left">
-        <item quantity="one">Na %d uur</item>
-        <item quantity="other">Na %d uren</item>
-    </plurals>
-    <plurals name="hours_ago">
-        <item quantity="one">Een uur geleden</item>
-        <item quantity="other">%d Uren geleden</item>
-    </plurals>
     <string-array name="classificationArray">
         <item>G - Alle leeftijden</item>
         <item>PG - Kinderen</item>
