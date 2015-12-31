@@ -22,6 +22,7 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -57,6 +58,9 @@ public class ALApi {
 
     private void setupRESTService() {
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(45, TimeUnit.SECONDS);
+        client.setReadTimeout(45, TimeUnit.SECONDS);
+        client.setWriteTimeout(45, TimeUnit.SECONDS);
 
         client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
 

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -73,6 +74,9 @@ public class MALApi {
 
     private void setupRESTService(String username, String password) {
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(45, TimeUnit.SECONDS);
+        client.setReadTimeout(45, TimeUnit.SECONDS);
+        client.setWriteTimeout(45, TimeUnit.SECONDS);
 
         client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
 
