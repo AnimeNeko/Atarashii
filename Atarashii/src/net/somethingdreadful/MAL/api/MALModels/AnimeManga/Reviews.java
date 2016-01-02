@@ -107,8 +107,10 @@ public class Reviews implements Serializable {
 
     public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews> convertBaseArray(ArrayList<Reviews> MALArray) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews> base = new ArrayList<>();
-        for (Reviews reviews : MALArray) {
-            base.add(reviews.createBaseModel());
+        if (MALArray != null) {
+            for (Reviews reviews : MALArray) {
+                base.add(reviews.createBaseModel());
+            }
         }
         return base;
     }
