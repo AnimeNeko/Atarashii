@@ -40,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        Theme.create(this);
         Theme.setTheme(this, R.layout.theme_viewpager, true);
         Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);

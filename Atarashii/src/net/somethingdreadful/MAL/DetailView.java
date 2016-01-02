@@ -69,6 +69,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Theme.create(this);
         Theme.setTheme(this, R.layout.activity_detailview, true);
         PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
 
