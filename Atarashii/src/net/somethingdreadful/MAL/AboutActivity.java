@@ -12,7 +12,6 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Theme.create(this);
         Theme.setTheme(this, R.layout.activity_about, true);
         Theme.setActionBar(this);
         setTitle(R.string.title_activity_about);

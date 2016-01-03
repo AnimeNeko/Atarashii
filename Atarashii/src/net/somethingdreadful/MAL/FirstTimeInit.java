@@ -52,7 +52,6 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Theme.create(this);
         setContentView(R.layout.activity_firstrun);
         Theme.setActionBar(this);
         ButterKnife.bind(this);

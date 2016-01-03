@@ -32,13 +32,14 @@ public class Theme extends Application {
 
     public static boolean darkTheme;
     private static float density;
-    private static Locale locale;
-    private static Configuration config;
-    public static Context context = null;
+    Locale locale;
+    Configuration config;
+    static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         MobihelpConfig mobihelpConfig = new MobihelpConfig(
                 "https://atarashii.freshdesk.com",
                 BuildConfig.MOBIHELP_KEY,
@@ -49,27 +50,17 @@ public class Theme extends Application {
                 .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
                 .build();
         Fabric.with(this, crashlyticsKit);
-    }
 
-    /**
-     * Init appHelper
-     *
-     * @param activity An Activity
-     */
-    public static void create(Activity activity) {
-        if (context == null) {
-            context = activity.getApplicationContext();
+        context = getApplicationContext();
+        PrefManager.create(getApplicationContext());
+        AccountService.create(getApplicationContext());
 
-            PrefManager.create(context);
-            AccountService.create(context);
-
-            locale = PrefManager.getLocale();
-            darkTheme = PrefManager.getDarkTheme();
-            config = new Configuration();
-            config.locale = locale;
-            setLanguage(); //Change language when it is started
-            Theme.setCrashData("Language", locale.toString());
-        }
+        locale = PrefManager.getLocale();
+        darkTheme = PrefManager.getDarkTheme();
+        config = new Configuration();
+        config.locale = locale;
+        setLanguage(); //Change language when it is started
+        Theme.setCrashData("Language", locale.toString());
     }
 
     @Override
@@ -90,8 +81,8 @@ public class Theme extends Application {
     /**
      * Changes the language to the preferred one.
      */
-    public static void setLanguage() {
-        Resources res = context.getResources();
+    public void setLanguage() {
+        Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
     }
 
@@ -173,7 +164,6 @@ public class Theme extends Application {
      * @param card     If the contents contains a card
      */
     public static void setTheme(Activity activity, int view, boolean card) {
-        Theme.create(activity);
         if (view != 0)
             activity.setContentView(view);
         if (darkTheme) {
