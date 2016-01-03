@@ -44,7 +44,6 @@ public class BackupActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Theme.create(this);
         setContentView(R.layout.activity_backup);
         Theme.setBackground(this, findViewById(R.id.friends_parent), Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
         Theme.setActionBar(this);

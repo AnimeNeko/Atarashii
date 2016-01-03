@@ -84,7 +84,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        Theme.create(this);
+        Theme.context = context;
         if (AccountService.getAccount() != null) {
             //The following is state handling code
             networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
