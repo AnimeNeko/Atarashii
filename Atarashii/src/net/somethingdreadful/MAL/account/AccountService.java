@@ -8,11 +8,8 @@ import android.accounts.NetworkErrorException;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -51,19 +48,6 @@ public class AccountService extends Service {
                 // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
                 deleteAccount();
         }
-    }
-
-    /**
-     * Get the provider whose behavior is being controlled.
-     *
-     * @return String The provider
-     */
-    public static String getAuth() throws PackageManager.NameNotFoundException {
-        PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-        if (TextUtils.isDigitsOnly(pInfo.versionName.replace(".", "")))
-            return ".account.Provider";
-        else
-            return ".beta.account.Provider";
     }
 
     /**
@@ -117,7 +101,12 @@ public class AccountService extends Service {
     }
 
     public static boolean isMAL() {
-        getAccount();
+        try {
+            getAccount();
+            return accountType.equals(AccountType.MyAnimeList);
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
         return accountType.equals(AccountType.MyAnimeList);
     }
 
