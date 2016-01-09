@@ -112,7 +112,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     public void apply(ArrayList<Reviews> result) {
         try {
             // The activity could be destroyed when this is being loaded because the user pressed back
-            if (activity != null) {
+            if (activity != null && isAdded()) {
                 activity.setTitle(getString(R.string.title_activity_forum));
                 if (result != null) {
                     webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, page), "text/html", "utf-8", null);
