@@ -461,7 +461,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     @Override
     public void onPositiveButtonClicked() {
         AccountService.clearData(true);
-        startActivity(new Intent(this, Home.class));
+        startActivity(new Intent(this, FirstTimeInit.class));
         finish();
     }
 
