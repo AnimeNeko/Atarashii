@@ -39,6 +39,11 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
     @Override
     protected Object doInBackground(String... params) {
         try {
+            if (AccountService.getAccount() == null) {
+                callback.onBackupTaskFailed();
+                return null;
+            }
+
             MALManager mManager = new MALManager(context);
             PrefManager.create(context);
             mManager.verifyAuthentication();
