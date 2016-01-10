@@ -242,7 +242,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 html = html.replace("markdown {", "markdown {color:#E3E3E3;"); // comment body color
             }
             html = html.replace("data:text/html,", "");
-            webview.loadData(html, "text/html", "UTF-8");
+            webview.loadData(html, "text/html; charset=utf-8", "UTF-8");
         }
 
         public void setForumMenu(ArrayList<Forum> menu) {
