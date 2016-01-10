@@ -238,7 +238,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 html = html.replace("#FFF;", "#313131;"); // body
                 html = html.replace("#EEE;", "#212121;"); // body border
                 html = html.replace("#022f70;", "#0078a0;"); // selection tags
-                html = html.replace("#3E454F;", "#999999;"); // time ago
+                html = html.replace("#3E454F;", "#A3A3A3;"); // time ago
                 html = html.replace("markdown {", "markdown {color:#E3E3E3;"); // comment body color
             }
             html = html.replace("data:text/html,", "");
