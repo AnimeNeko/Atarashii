@@ -26,8 +26,6 @@ import java.util.ArrayList;
 
 public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTask.NetworkTaskListener {
     static NotificationManager nm;
-    static boolean anime = false;
-    static boolean manga = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,7 +34,8 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
             return;
         }
         PrefManager.create(context);
-        if (MALApi.isNetworkAvailable(context)) {
+        AccountService.create(context);
+        if (MALApi.isNetworkAvailable(context) && AccountService.getAccount() != null) {
             Intent notificationIntent = new Intent(context, Home.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             if (networkChange(intent) && !PrefManager.getAutosyncDone() || !networkChange(intent)) {
@@ -69,34 +68,23 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
 
     @Override
     public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        notifyChange(type);
+        nm.cancel(R.id.notification_sync);
+        PrefManager.setAutosyncDone(false);
     }
 
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
-        notifyChange(type);
+        nm.cancel(R.id.notification_sync);
+        PrefManager.setAutosyncDone(true);
     }
 
     @Override
     public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
-        notifyChange(type);
+        nm.cancel(R.id.notification_sync);
+        PrefManager.setAutosyncDone(false);
     }
 
     public boolean networkChange(Intent intent) {
         return intent != null && intent.getAction() != null && intent.getAction().equals(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
-    }
-
-    public void notifyChange(MALApi.ListType anime) {
-        if (anime.equals(MALApi.ListType.ANIME))
-            AutoSync.anime = true;
-        else
-            AutoSync.manga = true;
-
-        if (AutoSync.anime && AutoSync.manga) {
-            AutoSync.anime = false;
-            AutoSync.manga = false;
-            nm.cancel(R.id.notification_sync);
-            PrefManager.setAutosyncDone(true);
-        }
     }
 }
