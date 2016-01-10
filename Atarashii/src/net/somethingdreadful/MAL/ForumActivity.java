@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -237,7 +236,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             if (Theme.darkTheme) {
                 html = html.replace("#f2f2f2;", "#212121;"); // hover tags
                 html = html.replace("#FFF;", "#313131;"); // body
+                html = html.replace("#EEE;", "#212121;"); // body border
                 html = html.replace("#022f70;", "#0078a0;"); // selection tags
+                html = html.replace("#3E454F;", "#999999;"); // time ago
+                html = html.replace("markdown {", "markdown {color:#E3E3E3;"); // comment body color
             }
             html = html.replace("data:text/html,", "");
             webview.loadData(html, "text/html", "UTF-8");
