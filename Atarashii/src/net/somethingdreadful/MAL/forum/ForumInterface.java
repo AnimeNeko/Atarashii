@@ -1,8 +1,10 @@
 package net.somethingdreadful.MAL.forum;
 
+import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
 import net.somethingdreadful.MAL.ForumActivity;
+import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class ForumInterface {
@@ -75,6 +77,21 @@ public class ForumInterface {
             public void run() {
                 String[] details = forum.webview.getTitle().split(" ");
                 forum.getRecords(ForumJob.TOPIC, Integer.parseInt(details[1]), page);
+            }
+        });
+    }
+
+    /**
+     * Open the userprofile.
+     */
+    @JavascriptInterface
+    public void profileClick(final String username) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent Profile = new Intent(forum, ProfileActivity.class);
+                Profile.putExtra("username", username);
+                forum.startActivity(Profile);
             }
         });
     }
