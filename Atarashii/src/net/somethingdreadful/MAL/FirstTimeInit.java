@@ -124,13 +124,19 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
             Intent goHome = new Intent(context, Home.class);
             startActivity(goHome);
             finish();
-        } else {
+        } else if (!isDestroyed()) {
             dialog.dismiss();
             if (MALApi.isNetworkAvailable(this))
                 Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
             else
                 Theme.Snackbar(this, R.string.toast_error_noConnectivity);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        dialog.dismiss();
+        super.onDestroy();
     }
 
     @Override
