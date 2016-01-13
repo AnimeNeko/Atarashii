@@ -168,6 +168,8 @@ public class UserList {
                     manga.setType(detail.getManga().getType());
                     manga.setReadStatus(detail.getListStatus());
                     manga.setPriority(detail.getPriorty());
+                    manga.setChaptersRead(detail.getChaptersRead());
+                    manga.setVolumesRead(detail.getVolumesRead());
                     manga.setRereading(detail.getRewatched() ? 1 : 0);
                     manga.setNotes(detail.getNotes());
                     manga.setScore(detail.getScoreraw());
