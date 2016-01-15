@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL.profile;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -43,7 +42,6 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     Card imagecard;
     Card animecard;
     Card mangacard;
-    Context context;
     private ProfileActivity activity;
 
     @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
@@ -250,7 +248,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     public void refresh() {
         try {
             if (activity.record == null) {
-                if (MALApi.isNetworkAvailable(context)) {
+                if (MALApi.isNetworkAvailable(activity)) {
                     Theme.Snackbar(activity, R.string.toast_error_UserRecord);
                 } else {
                     toggle(2);
@@ -260,7 +258,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                 setText();
                 setcolor();
 
-                Picasso.with(context)
+                Picasso.with(activity)
                         .load(activity.record.getImageUrl())
                         .into(new Target() {
                             @Override
