@@ -462,7 +462,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     public void onPositiveButtonClicked() {
         AccountService.clearData(true);
         startActivity(new Intent(this, FirstTimeInit.class));
-        finish();
+        System.exit(0);
     }
 
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
