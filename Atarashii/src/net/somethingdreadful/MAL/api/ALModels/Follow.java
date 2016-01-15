@@ -36,8 +36,10 @@ public class Follow implements Serializable {
 
     public static ArrayList<Profile> convertBaseFollowList(ArrayList<Follow> follows) {
         ArrayList<Profile> profiles = new ArrayList<>();
-        for (Follow follower : follows) {
-            profiles.add(follower.createBaseModel());
+        if (follows != null) {
+            for (Follow follower : follows) {
+                profiles.add(follower.createBaseModel());
+            }
         }
         return profiles;
     }
