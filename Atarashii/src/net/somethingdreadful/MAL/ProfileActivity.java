@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
@@ -53,6 +56,10 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             setText();
         } else {
             refreshing(true);
+            Answers.getInstance().logContentView(new ContentViewEvent()
+                    .putContentName("Profile")
+                    .putContentType("Profile")
+                    .putContentId("P" + getIntent().getStringExtra("username")));
             new UserNetworkTask(context, forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
         }
 

@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
@@ -124,6 +126,9 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 Theme.setCrashData("site", AccountService.accountType.toString());
                 PrefManager.setForceSync(true);
                 PrefManager.commitChanges();
+                Answers.getInstance().logLogin(new LoginEvent()
+                        .putMethod(AccountService.accountType.toString())
+                        .putSuccess(true));
                 dialog.dismiss();
                 Intent goHome = new Intent(context, Home.class);
                 startActivity(goHome);
@@ -136,6 +141,9 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
             }
         } catch (Exception e) {
+            Answers.getInstance().logLogin(new LoginEvent()
+                    .putMethod(AccountService.accountType.toString())
+                    .putSuccess(false));
             Crashlytics.log(Log.ERROR, "MALX", "FirstTimeInit.onAuthenticationCheckFinished(): " + e.getMessage());
             Crashlytics.logException(e);
         }

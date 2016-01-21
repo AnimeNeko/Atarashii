@@ -13,11 +13,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SearchEvent;
+
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 public class SearchActivity extends AppCompatActivity implements IGF.IGFCallbackListener {
     public String query;
@@ -68,6 +73,8 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
                     af.searchRecords(query);
                     mf.searchRecords(query);
                 }
+                Answers.getInstance().logSearch(new SearchEvent()
+                        .putQuery(query));
             }
         }
     }
@@ -107,7 +114,7 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
         else
             mf = igf;
         if (query != null && !TextUtils.isDigitsOnly(query)) // there is already a search to do
-            igf.searchRecords(query);
+            igf.searchRecords(WordUtils.capitalize(query));
     }
 
     @Override

@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -601,6 +603,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("DetailView")
+                .putContentType(String.valueOf(listType))
+                .putContentId(String.valueOf(listType).charAt(0) + String.valueOf(gl.get(position).getId())));
         callback.onItemClick(gl.get(position).getId(), listType, username);
     }
 
