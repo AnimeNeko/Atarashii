@@ -112,6 +112,7 @@
     <string name="layout_card_manga_reading">Lezend</string>
     <string name="layout_card_manga_plan">Gepland</string>
     <string name="action_viewListOnMAL">Lijst bekijken op internet</string>
+    <string name="action_viewtopic">Bekijk discussie</string>
     <string name="not_specified">niet gespecificeerd</string>
     <string name="no_activity">Geen activiteit</string>
     <string name="no_history">Geen geschiedenis</string>
@@ -124,6 +125,7 @@
     <!-- FriendsActivity Strings -->
     <string name="unknown">onbekend</string>
     <!-- BackupActivity Strings -->
+    <string name="creation_date">Aanmaakdatum</string>
     <!-- ForumActivity Strings -->
     <string name="action_add">Voeg een reactie of onderwerp toe</string>
     <string name="form_hint_title">Onderwerptitel</string>
@@ -367,32 +369,6 @@
         <item>Van plan te kijken</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Arabisch</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Nederlands</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Engels</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Frans</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Duits</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Grieks</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Pools</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugees (Brazilië)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugees (Portugal)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Russisch</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Spaans</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turks</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

@@ -353,32 +353,6 @@
         <item>Σε αναμονή για παρακολούθηση</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Αραβικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Ολλανδικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Αγγλικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Γαλλικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Γερμανικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Ελληνικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Πολωνικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Πορτογαλικά Βραζιλίας</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Πορτογαλικά Πορτογαλίας</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Ρωσσικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Ισπανικά</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Τουρκικά</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

@@ -394,32 +394,6 @@
         <item>Planeando ver</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Árabe</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alemán</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Inglés</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Francés</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alemán</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Griego</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polaco</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugués (Brasil)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugués (Portugal)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Ruso</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Español</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turco</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

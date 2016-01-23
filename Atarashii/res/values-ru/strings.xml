@@ -393,32 +393,6 @@
         <item>Планируется посмотреть</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Арабский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Голландский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Английский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Французский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Немецкий</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Греческий</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Польский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Португальский (Бразилия)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Португальский (Португалия)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Русский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Испанский</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Турецкий</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

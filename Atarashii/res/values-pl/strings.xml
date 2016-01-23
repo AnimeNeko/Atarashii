@@ -17,6 +17,7 @@
     <string name="toast_error_noConnectivity">Nie wykryto połączenia sieciowego.</string>
     <string name="toast_error_api">Wykryto błąd w API, prosimy o poinformowanie deweloperów!</string>
     <string name="toast_error_reviews">Brak dostępnych opinii.</string>
+    <string name="toast_error_maintenance">API niedostępne, konserwacja w toku!</string>
     <string name="toast_error_UserRecord">Profil użytkownika jest pusty!</string>
     <string name="toast_error_Search">Błąd podczas szukania! Proszę spróbować później.</string>
     <string name="toast_error_Anime_Sync">Wystąpił błąd podczas pobierania listy anime!</string>
@@ -324,17 +325,21 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Dołącz do naszej społeczności!</a>Grupa społeczności Atarashii! na Google+ jest świetnym miejscem do interakcji z twórcami i dania nam znać co myślisz. Problemy, propozycje nowych funkcji, aktualizacje statusów, to wszystko jest tam. Nie gryziemy, obiecujemy</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Domyślna Lista</string>
+    <string name="dialog_DefaultaddList">Domyślna lista dla nowo dodanych</string>
     <string name="preference_category_list">Lista</string>
     <string name="preference_category_synchronisation">Synchronizacja</string>
     <string name="preference_category_sharing">Inne ustawienia</string>
     <string name="preference_category_profile">Profil</string>
     <string name="preference_category_backup">Kopia zapasowa</string>
+    <string name="preference_backupsync">Interwał Automatycznych kopii</string>
     <string name="preference_autoDate">Automatyczna aktualizacja daty</string>
     <string name="preference_backuplength">Ilość kopii zapasowych.</string>
     <string name="preference_summary_backupsync">Automatyczne tworzenie kopii zapasowych listy anime/mang po pewnym czasie.</string>
     <string name="preference_summary_autobackup">Maksymalna dozwolona liczba kopii zapasowych.</string>
     <string name="preference_synchronisation">Automatyczna synchronizacja</string>
     <string name="preference_Theme">Ciemny Motyw</string>
+    <string name="preference_list_columns_portrait">Kolumny dla listy typu Portret</string>
+    <string name="preference_list_columns_landscape">Kolumny dla listy typu Pejzaż</string>
     <string name="preference_Reset">Resetuj ustawienia</string>
     <string name="preference_TraditionalList">Użyj Tradycyjnej Listy</string>
     <string name="preference_customShareText">Niestandardowy Tekst Udostępniania</string>
@@ -389,32 +394,6 @@
         <item>Zaplanowane</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Arabski</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Holenderski</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Angielski</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Francuski</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Niemiecki</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Grecki</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polski</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugalski (Brazylia)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugalski (Portugalia)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Rosyjski</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Hiszpański</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turecki</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

@@ -419,6 +419,8 @@
         <item>French</item>
         <item>German</item>
         <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Italian</item>
         <item>Polish</item>
         <item>Portuguese (Brazil)</item>
         <item>Portuguese (Portugal)</item>
@@ -427,18 +429,20 @@
         <item>Turkish</item>
     </string-array>
     <string-array name="localeValuesArray" translatable="false">
-        <item>ar</item>
-        <item>nl</item>
-        <item>en</item>
-        <item>fr</item>
-        <item>de</item>
-        <item>el</item>
-        <item>pl</item>
-        <item>pt-pt</item>
-        <item>pt-br</item>
-        <item>ru</item>
-        <item>es</item>
-        <item>tr</item>
+        <item>ar</item> <!-- Arabic -->
+        <item>nl</item> <!-- Dutch -->
+        <item>en</item> <!-- English -->
+        <item>fr</item> <!-- French -->
+        <item>de</item> <!-- German -->
+        <item>el</item> <!-- Greek -->
+        <item>he</item> <!-- Hebrew -->
+        <item>it</item> <!-- Italian -->
+        <item>pl</item> <!-- Polish -->
+        <item>pt-pt</item> <!-- Portuguese (Brazil) -->
+        <item>pt-br</item> <!-- Portuguese (Portugal) -->
+        <item>ru</item> <!-- Russian -->
+        <item>es</item> <!-- Spanish -->
+        <item>tr</item> <!-- Turkish -->
     </string-array>
 
     <!-- Settings (ListPreference Entries) Items -->

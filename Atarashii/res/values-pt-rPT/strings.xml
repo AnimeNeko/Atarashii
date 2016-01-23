@@ -353,32 +353,6 @@
         <item>Planeado</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Arábico</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Holandês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Inglês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Francês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alemão</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Grego</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polaco</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Português do Brasil</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Português de Portugal</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Russo</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Espanhol</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turco</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

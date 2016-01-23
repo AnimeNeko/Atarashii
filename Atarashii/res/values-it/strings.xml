@@ -394,32 +394,6 @@
         <item>Da vedere</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Arabo</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Olandese</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Inglese</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Francese</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Tedesco</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Greco</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polacco</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portoghese (Brasile)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portoghese (Portogallo)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Russo</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Spagnolo</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turco</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

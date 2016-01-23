@@ -393,32 +393,6 @@
         <item>מתכנן לצפות</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>ערבית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>הולנדית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>אנגלית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>צרפתית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>גרמנית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>יוונית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>פולנית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>פורטוגזית (ברזיל)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>פורטוגזית (פורטוגל)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>רוסית</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>ספרד</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>טורקית</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

@@ -330,8 +330,13 @@
     <string name="preference_category_sharing">Outras configurações</string>
     <string name="preference_category_profile">Perfil</string>
     <string name="preference_category_backup">Backup</string>
+    <string name="preference_backupsync">Intervalo entre backups automáticos</string>
+    <string name="preference_autoDate">Atualizar as datas automaticamente</string>
+    <string name="preference_backuplength">Quantidade de backups.</string>
+    <string name="preference_summary_backupsync">Fazer backup automático de listas de animes e mangás após um certo tempo.</string>
     <string name="preference_synchronisation">Sincronizar automaticamente</string>
     <string name="preference_Theme">Tema escuro</string>
+    <string name="preference_Reset">Configurações de reset</string>
     <string name="preference_TraditionalList">Usar lista tradicional</string>
     <string name="preference_customShareText">Personalizar texto de compartilhamento</string>
     <string name="preference_displayVolumes">Mostrar o volume na capa</string>
@@ -343,9 +348,12 @@
     <string name="preference_profileAnimeHide">Esconder os detalhes do anime</string>
     <string name="preference_profileMangaHide">Esconder os detalhes do mangá</string>
     <string name="summary_DefaultList">Qual lista você gostaria que o aplicativo carregasse quando iniciar?</string>
+    <string name="preference_summary_autoDate">Atualizar automaticante a data em que você começou ou terminou um anime ou mangá.</string>
     <string name="preference_summary_TraditionList">Use a lista no estilo tried-and-true em vez do estilo coverflow-esque. Requer a reinicialização do aplicativo para aplicar a mudança.</string>
     <string name="preference_summary_synchronisation">Se marcado, o Atarashii irá sincronizar em segundo plano.</string>
     <string name="preference_summary_theme">Se marcado, o Atarashii irá usar o tema escuro.</string>
+    <string name="preference_summary_Reset">Atarashii irá restaurar todas as preferencias modificadas para o default.</string>
+    <string name="preference_summary_list_columns">Mude aqui a quantidade de colunas que o Atarashii deve usar.</string>
     <string name="preference_summary_Language">Mudar o idioma padrão para o seu desejado. Necessário reiniciar para ter efeito.</string>
     <string name="preference_summary_customShareText">Não gosta do texto de compartilhamento padrão? Crie seu próprio! Use $title; e $link; no lugar do título e link para a MAL, nós faremos o resto.</string>
     <string name="preference_summary_autosync">Tempo até a sincronização automática ser executada em segundo plano.</string>
@@ -353,6 +361,7 @@
     <string name="preference_summary_profileTextColors">Forçar a página do perfil a usar somente a cor preta nos textos.</string>
     <string name="preference_summary_profileAnimeHide">Esconder todos os detalhes do anime no perfil.</string>
     <string name="preference_summary_profileMangaHide">Esconder todos os detalhes do mangá no perfil.</string>
+    <string name="preference_summary_backup">Fazer backup de lista de animes e mangás.</string>
     <string name="preference_android_synchronisation">Dados de Anime/Manga</string>
     <string name="preference_default_customShareText">Confira $title; em MyAnimeLIst\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -380,32 +389,6 @@
         <item>Planejando assistir</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Árabe</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Holandês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Inglês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Francês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alemão</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Grego</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polonês</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Português (Brasil)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Português (Portugal)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Russo</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Espanhol</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turco</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

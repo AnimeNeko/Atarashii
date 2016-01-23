@@ -394,32 +394,6 @@
         <item>Planlanıyor</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Arapça</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alman</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>İngilizce</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Fransızca</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Almanca</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Yunanca</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polonca</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portekizce (Brezilya)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portekizce (Portekiz)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Rusça</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>İspanyolca</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Türkçe</item>
-    </string-array>
     <string-array name="localeValuesArray" translatable="false">
         <item>tr</item>
     </string-array>

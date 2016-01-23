@@ -395,32 +395,6 @@ Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project
         <item>Planifié</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Arabe</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Néerlandais</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Anglais</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Français</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Allemand</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Grec</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polonais</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugais (Brésil)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugais (Portugal)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Russe</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Espagnol</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turc</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

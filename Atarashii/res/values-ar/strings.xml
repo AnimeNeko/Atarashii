@@ -287,32 +287,6 @@
         <item>مخطط</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray" translatable="false">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>العربية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الهولاندية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الإنجليزية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الفرنسية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الألمانية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>اليونانية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>البولاندية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>البرتغالية (البرازيل)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>البرتغالية (البرتغال)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الروسية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الإسبانية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>التركية</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
