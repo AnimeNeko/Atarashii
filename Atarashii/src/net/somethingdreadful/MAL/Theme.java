@@ -40,6 +40,9 @@ public class Theme extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AccountService.create(getApplicationContext());
+        PrefManager.create(getApplicationContext());
+        context = getApplicationContext();
 
         MobihelpConfig mobihelpConfig = new MobihelpConfig(
                 "https://atarashii.freshdesk.com",
@@ -52,10 +55,6 @@ public class Theme extends Application {
                 .build();
         Fabric.with(this, crashlyticsKit);
         Fabric.with(this, new Answers());
-
-        context = getApplicationContext();
-        PrefManager.create(getApplicationContext());
-        AccountService.create(getApplicationContext());
 
         locale = PrefManager.getLocale();
         darkTheme = PrefManager.getDarkTheme();
