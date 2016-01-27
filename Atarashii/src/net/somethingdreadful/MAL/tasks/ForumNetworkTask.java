@@ -104,8 +104,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ForumMain> {
                 Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(6): " + String.format("%s-task unknown API error on id %s: %s", type.toString(), id, e.getMessage()));
-            Crashlytics.logException(e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);
         }
         return result;
     }

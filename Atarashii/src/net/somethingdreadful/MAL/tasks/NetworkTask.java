@@ -222,8 +222,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task error on job %s: %s", type.toString(), job.name(), e.getMessage()));
-            Crashlytics.logException(e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
         }
         return taskResult;

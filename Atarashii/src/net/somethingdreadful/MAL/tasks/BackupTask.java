@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -96,8 +97,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             if (callback != null)
                 callback.onBackupTaskFinished();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "BackupTask.saveBackup(): " + e.getMessage());
-            Crashlytics.logException(e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "saveBackup()", e);
             if (callback != null) {
                 callback.onBackupTaskFailed();
             }

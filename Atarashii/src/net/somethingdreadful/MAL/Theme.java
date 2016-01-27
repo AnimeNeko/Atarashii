@@ -13,11 +13,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.freshdesk.mobihelp.Mobihelp;
 import com.freshdesk.mobihelp.MobihelpConfig;
@@ -68,6 +70,19 @@ public class Theme extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setLanguage(); //Change language after orientation.
+    }
+
+    /**
+     * Log task crashes
+     *
+     * @param className The class name when the crash was caught.
+     * @param message The extra message to deliver.
+     * @param e The Error that has been caught.
+     */
+    public static void logTaskCrash(String className, String message, Exception e) {
+        Crashlytics.log(Log.ERROR, "MALX", className + "." + message + ": " + e.getMessage());
+        Crashlytics.logException(e);
+        Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, e.getMessage()));
     }
 
     /**

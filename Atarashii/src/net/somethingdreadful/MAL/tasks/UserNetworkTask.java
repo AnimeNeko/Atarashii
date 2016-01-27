@@ -92,8 +92,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
                 Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "UserNetworkTask.doInBackground(5): task unknown API error (?): " + e.getMessage());
-            Crashlytics.logException(e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(5): task unknown API error (?)", e);
         }
         return result;
     }

@@ -73,8 +73,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             if (callback != null)
                 callback.onRestoreTaskFinished();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "RestoreTask.restoreBackup(): " + e.getMessage());
-            Crashlytics.logException(e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "restoreBackup()", e);
             if (callback != null) {
                 callback.onRestoreTaskFailed();
             }
