@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumInterface;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ForumActivity extends AppCompatActivity implements ForumNetworkTask.ForumNetworkTaskListener {
+public class ForumActivity extends AppCompatActivity implements ForumNetworkTask.ForumNetworkTaskListener, NumberPickerDialogFragment.onUpdateClickListener {
     @Bind(R.id.webview)
     public
     WebView webview;
@@ -190,6 +191,11 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
         }
     }
 
+    @Override
+    public void onUpdated(int number, int id) {
+        getRecords(ForumJob.TOPIC, Integer.parseInt(String.valueOf(id)), String.valueOf(number));
+    }
+
     public class testforumhtmlunit {
         Context context;
         @Getter
@@ -303,10 +309,13 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 String comment;
                 String forumArray = "";
                 String tempTile;
+                int maxPages = forumList.get(0).getMaxPages();
                 for (Forum item : forumList) {
                     rank = item.getProfile().getSpecialAccesRank(item.getUsername());
                     comment = item.getComment();
                     comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+                    comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+                    comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
 
                     tempTile = forumCommentsTiles;
                     tempTile = tempTile.replace("<!-- username -->", item.getUsername());
@@ -323,10 +332,18 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
-                tempForumList = tempForumList.replace("<!-- title -->", "C " + getId()); // C = Comments, id
-                if (Integer.parseInt(getPage()) != 1) {
-                    tempForumList = tempForumList.replace("Forum.commentList(" + getPage(), "Forum.commentList(" + (Integer.parseInt(getPage()) + 1)); // T = Topics || S = subboard, id
+                tempForumList = tempForumList.replace("<!-- title -->", "C " + getId() + " " + maxPages); // C = Comments, id, maxPages
+                if (Integer.parseInt(getPage()) == 1) {
+                    tempForumList = tempForumList.replace("class=\"previous\"", "class=\"previous\" style=\"visibility: hidden;\"");
+                } else if (Integer.parseInt(getPage()) == maxPages) {
+                    tempForumList = tempForumList.replace("class=\"next\"", "class=\"next\" style=\"visibility: hidden;\"");
+                } else {
+                    tempForumList = tempForumList.replace("Forum.prevCommentList(" + getPage(), "Forum.prevCommentList(" + (Integer.parseInt(getPage()) - 1));
+                    tempForumList = tempForumList.replace("Forum.nextCommentList(" + getPage(), "Forum.nextCommentList(" + (Integer.parseInt(getPage()) + 1));
                 }
+                tempForumList = tempForumList.replace("<!-- page -->", getPage());
+                tempForumList = tempForumList.replace("<!-- next -->", context.getString(R.string.next));
+                tempForumList = tempForumList.replace("<!-- previous -->", context.getString(R.string.previous));
                 loadWebview(tempForumList);
             }
         }

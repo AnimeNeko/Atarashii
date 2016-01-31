@@ -57,8 +57,10 @@ public class ForumMain implements Serializable {
             model.addAll(getAnimeManga());
         if (getGeneral() != null)
             model.addAll(getGeneral());
-        if (getList() != null)
+        if (getList() != null) {
             model.addAll(getList());
+            model.get(0).setMaxPages(getPages());
+        }
         return model;
     }
 }

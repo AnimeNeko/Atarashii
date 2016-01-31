@@ -1,10 +1,14 @@
 package net.somethingdreadful.MAL.forum;
 
+import android.app.FragmentManager;
 import android.content.Intent;
+import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.ProfileActivity;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class ForumInterface {
@@ -68,10 +72,47 @@ public class ForumInterface {
     }
 
     /**
-     * Get more pages certain comments.
+     * Get next comment page.
      */
     @JavascriptInterface
-    public void commentList(final String page) {
+    public void nextCommentList(final String page) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String[] details = forum.webview.getTitle().split(" ");
+                forum.getRecords(ForumJob.TOPIC, Integer.parseInt(details[1]), page);
+            }
+        });
+    }
+
+    /**
+     * Get comment page.
+     */
+    @JavascriptInterface
+    public void pagePicker(final String page) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String[] details = forum.webview.getTitle().split(" ");
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", Integer.parseInt(details[1]));
+                bundle.putString("title", forum.getString(R.string.Page_number));
+                bundle.putInt("current", Integer.parseInt(page));
+                bundle.putInt("max", Integer.parseInt(details[2]));
+                bundle.putInt("min", 1);
+                FragmentManager fm = forum.getFragmentManager();
+                NumberPickerDialogFragment dialogFragment = new NumberPickerDialogFragment().setOnSendClickListener(forum);
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(fm, "fragment_page");
+            }
+        });
+    }
+
+    /**
+     * Get previous comment page.
+     */
+    @JavascriptInterface
+    public void prevCommentList(final String page) {
         forum.runOnUiThread(new Runnable() {
             @Override
             public void run() {

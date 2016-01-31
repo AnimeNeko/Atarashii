@@ -150,6 +150,9 @@
     <string name="action_add">Add a comment or topic</string>
     <string name="form_hint_title">Topic title</string>
     <string name="form_hint_message">Message</string>
+    <string name="Page_number">Page number</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="init_hint_choose">Welcome to Atarashii!\nPlease choose your preferred site.</string>

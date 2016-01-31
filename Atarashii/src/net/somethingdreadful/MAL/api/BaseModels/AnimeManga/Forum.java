@@ -74,6 +74,15 @@ public class Forum implements Serializable {
     private String time;
 
     /**
+     * The max amount of pages
+     *
+     * Note: Only the first item will contain this
+     */
+    @Setter
+    @Getter
+    private int maxPages;
+
+    /**
      * The userprofile for the user details in topics
      */
     @Setter
