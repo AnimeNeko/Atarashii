@@ -72,6 +72,34 @@ public class ForumInterface {
     }
 
     /**
+     * Get next topic page.
+     */
+    @JavascriptInterface
+    public void nextTopicList(final String page) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String[] details = forum.webview.getTitle().split(" ");
+                forum.getRecords(ForumJob.CATEGORY, Integer.parseInt(details[1]), page);
+            }
+        });
+    }
+
+    /**
+     * Get topic comment page.
+     */
+    @JavascriptInterface
+    public void prevTopicList(final String page) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String[] details = forum.webview.getTitle().split(" ");
+                forum.getRecords(ForumJob.CATEGORY, Integer.parseInt(details[1]), page);
+            }
+        });
+    }
+
+    /**
      * Get next comment page.
      */
     @JavascriptInterface

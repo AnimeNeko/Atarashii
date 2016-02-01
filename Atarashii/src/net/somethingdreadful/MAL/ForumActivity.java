@@ -155,11 +155,13 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 break;
             case SUBCATEGORY:
                 test.setSubBoard(true);
+                break;
             case CATEGORY:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
                 break;
             case TOPIC:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
+                break;
             case SEARCH:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
                 break;
@@ -193,7 +195,18 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
 
     @Override
     public void onUpdated(int number, int id) {
-        getRecords(ForumJob.TOPIC, Integer.parseInt(String.valueOf(id)), String.valueOf(number));
+        String[] details = webview.getTitle().split(" ");
+        switch (details[0]) {
+            case "S": // sub board
+                getRecords(ForumJob.SUBCATEGORY, Integer.parseInt(String.valueOf(id)), String.valueOf(number));
+                break;
+            case "T": // topic list
+                getRecords(ForumJob.CATEGORY, Integer.parseInt(String.valueOf(id)), String.valueOf(number));
+                break;
+            case "C": // commments
+                getRecords(ForumJob.TOPIC, Integer.parseInt(String.valueOf(id)), String.valueOf(number));
+                break;
+        }
     }
 
     public class testforumhtmlunit {
@@ -255,22 +268,26 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             if (menu != null && menu.size() > 0) {
                 String forumArray = "";
                 String tempTile;
+                String description;
                 for (Forum item : menu) {
                     tempTile = forumMenuTiles;
-                    tempTile = tempTile.replace("<!-- header -->", item.getName());
-                    tempTile = tempTile.replace("<!-- description -->", item.getDescription());
-                    tempTile = tempTile.replace("<!-- last reply -->", getString(context, R.string.dialog_message_last_post));
+                    description = item.getDescription();
 
                     if (item.getChildren() != null) {
                         tempTile = tempTile.replace("onClick=\"tileClick(<!-- id -->)\"", "");
+                        description = description + " ";
 
                         for (int i = 0; i < item.getChildren().size(); i++) {
                             Forum child = item.getChildren().get(i);
-                            tempTile = tempTile.replace(child.getName(), "<a onClick=\"subTileClick(" + child.getId() + ")\">" + child.getName() + "</a>");
+                            description = description + "<a onClick=\"subTileClick(" + child.getId() + ")\">" + child.getName() + "</a>" + (i < item.getChildren().size() - 1 ? ", " : "");
                         }
                     } else {
                         tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
                     }
+
+                    tempTile = tempTile.replace("<!-- header -->", item.getName());
+                    tempTile = tempTile.replace("<!-- description -->", description);
+                    tempTile = tempTile.replace("<!-- last reply -->", getString(context, R.string.dialog_message_last_post));
                     forumArray = forumArray + tempTile;
                 }
                 forumMenuLayout = forumMenuLayout.replace("<!-- insert here the tiles -->", forumArray);
@@ -285,6 +302,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 String tempForumList;
                 String forumArray = "";
                 String tempTile;
+                int maxPages = forumList.get(0).getMaxPages();
                 for (Forum item : forumList) {
                     tempTile = forumListTiles;
                     tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
@@ -294,10 +312,18 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumListLayout.replace("<!-- insert here the tiles -->", forumArray);
-                tempForumList = tempForumList.replace("<!-- title -->", (getSubBoard() ? "S " : "T ") + getId()); // T = Topics || S = subboard, id
-                if (Integer.parseInt(getPage()) != 1) {
-                    tempForumList = tempForumList.replace("Forum.topicList(" + getPage(), "Forum.topicList(" + (Integer.parseInt(getPage()) + 1)); // T = Topics || S = subboard, id
+                tempForumList = tempForumList.replace("<!-- title -->", (getSubBoard() ? "S " : "T ") + getId() + " " + maxPages); // T = Topics || S = subboard, id
+                if (Integer.parseInt(getPage()) == 1) {
+                    tempForumList = tempForumList.replace("class=\"previous\"", "class=\"previous\" style=\"visibility: hidden;\"");
                 }
+                if (Integer.parseInt(getPage()) == maxPages) {
+                    tempForumList = tempForumList.replace("class=\"next\"", "class=\"next\" style=\"visibility: hidden;\"");
+                }
+                tempForumList = tempForumList.replace("Forum.prevTopicList(" + getPage(), "Forum.prevTopicList(" + (Integer.parseInt(getPage()) - 1));
+                tempForumList = tempForumList.replace("Forum.nextTopicList(" + getPage(), "Forum.nextTopicList(" + (Integer.parseInt(getPage()) + 1));
+                tempForumList = tempForumList.replace("<!-- page -->", getPage());
+                tempForumList = tempForumList.replace("<!-- next -->", context.getString(R.string.next));
+                tempForumList = tempForumList.replace("<!-- previous -->", context.getString(R.string.previous));
                 loadWebview(tempForumList);
             }
         }
