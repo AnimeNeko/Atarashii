@@ -14,6 +14,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -123,7 +124,13 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
-            getRecords(ForumJob.SEARCH, 0, "1");
+            if (query.equals("Atarashii:clear")) {
+                webview.clearCache(true);
+                CookieManager.getInstance().removeAllCookie();
+                finish();
+            } else {
+                getRecords(ForumJob.SEARCH, 0, "1");
+            }
             search.collapseActionView();
         }
     }
@@ -340,7 +347,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     rank = item.getProfile().getSpecialAccesRank(item.getUsername());
                     comment = item.getComment();
                     comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
-                    comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+                    comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
                     comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
 
                     tempTile = forumCommentsTiles;
@@ -361,12 +368,12 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 tempForumList = tempForumList.replace("<!-- title -->", "C " + getId() + " " + maxPages); // C = Comments, id, maxPages
                 if (Integer.parseInt(getPage()) == 1) {
                     tempForumList = tempForumList.replace("class=\"previous\"", "class=\"previous\" style=\"visibility: hidden;\"");
-                } else if (Integer.parseInt(getPage()) == maxPages) {
-                    tempForumList = tempForumList.replace("class=\"next\"", "class=\"next\" style=\"visibility: hidden;\"");
-                } else {
-                    tempForumList = tempForumList.replace("Forum.prevCommentList(" + getPage(), "Forum.prevCommentList(" + (Integer.parseInt(getPage()) - 1));
-                    tempForumList = tempForumList.replace("Forum.nextCommentList(" + getPage(), "Forum.nextCommentList(" + (Integer.parseInt(getPage()) + 1));
                 }
+                if (Integer.parseInt(getPage()) == maxPages) {
+                    tempForumList = tempForumList.replace("class=\"next\"", "class=\"next\" style=\"visibility: hidden;\"");
+                }
+                tempForumList = tempForumList.replace("Forum.prevCommentList(" + getPage(), "Forum.prevCommentList(" + (Integer.parseInt(getPage()) - 1));
+                tempForumList = tempForumList.replace("Forum.nextCommentList(" + getPage(), "Forum.nextCommentList(" + (Integer.parseInt(getPage()) + 1));
                 tempForumList = tempForumList.replace("<!-- page -->", getPage());
                 tempForumList = tempForumList.replace("<!-- next -->", context.getString(R.string.next));
                 tempForumList = tempForumList.replace("<!-- previous -->", context.getString(R.string.previous));
