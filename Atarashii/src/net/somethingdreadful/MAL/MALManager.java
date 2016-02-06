@@ -268,10 +268,6 @@ public class MALManager {
         return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
     }
 
-    public Boolean addComment(int id, String message) {
-        return malApi.addComment(id, message);
-    }
-
     public Boolean updateComment(int id, String message) {
         return malApi.updateComment(id, message);
     }
@@ -384,5 +380,9 @@ public class MALManager {
 
     public ArrayList<Forum> getSubCategory(int id, int page) {
         return malApi.getSubBoards(id, page).createBaseModel();
+    }
+
+    public boolean addComment(int id, String message) {
+        return malApi.addComment(id, message);
     }
 }

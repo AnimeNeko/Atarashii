@@ -50,6 +50,11 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                 case SEARCH:
                     result = mManager.search(params[0]);
                     break;
+                case ADDCOMMENT:
+                    result = mManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                    if (result != null)
+                        result = mManager.getTopic(id, Integer.parseInt(params[1]));
+                    break;
                 /*
                 case DISCUSSION:
                     if (params[1].equals(MALApi.ListType.ANIME.toString()))

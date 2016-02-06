@@ -7,158 +7,228 @@
       function prevCommentList() {Forum.prevCommentList(2);}
       function profileClick(username) {Forum.profileClick(username);}
       function pagePicker() {Forum.pagePicker(<!-- page -->);}
+
+      function bold() {insertAtCursor(document.getElementById("textarea"),"[b][/b]");}
+      function italics() {insertAtCursor(document.getElementById("textarea"),"[i][/i]");}
+      function strike() {insertAtCursor(document.getElementById("textarea"),"[s][/s]");}
+      function spoiler() {insertAtCursor(document.getElementById("textarea"),"[spoiler][/spoiler]");}
+      function url() {insertAtCursor(document.getElementById("textarea"),"[url=][/url]");}
+      function image() {insertAtCursor(document.getElementById("textarea"),"[img][/img]");}
+      function youtube() {insertAtCursor(document.getElementById("textarea"),"[yt][/yt]");}
+      function list() {insertAtCursor(document.getElementById("textarea"),"[list][/list]");}
+      function size() {insertAtCursor(document.getElementById("textarea"),"[size=][/size]");}
+      function center() {insertAtCursor(document.getElementById("textarea"),"[center][/center]");}
+      function quote() {insertAtCursor(document.getElementById("textarea"),"[quote][/quote]");}
+      function send() {Forum.sendComment(document.getElementById("textarea").value);}
+
+    function insertAtCursor(myField, myValue) {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+    }
     </script>
     <style type="text/css">
         .quotetext {
-            background-color: rgba(0,150,200,0.08);
-            padding:5px;
-            padding-left:10px;
-            padding-right:10px;
-            margin-top: 5px;
-            margin-bottom: 5px;
+        background-color: rgba(0,150,200,0.08);
+        padding:5px;
+        padding-left:10px;
+        padding-right:10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         }
         input.spoilerbutton {display:block;margin:5px 0;}
         input.spoilerbutton[value="Show spoiler"] + .spoiler {display: none;}
         input.spoilerbutton[value="Hide spoiler"] + .spoiler {display: show;}
         input.spoilerbutton {
-            outline:none;
-            display: block;
-            background-color: #0096C8;
-            border: none;
-            border-radius: 3px;
-            color: #FFFFFF;
-            box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px 0px;
-            box-sizing: border-box;
-            height: 36px;
-            padding: 0px 8px;
-            margin: 6px 4px;
-            text-transform: uppercase;
+        outline:none;
+        display: block;
+        background-color: #0096C8;
+        border: none;
+        border-radius: 3px;
+        color: #FFFFFF;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px 0px;
+        box-sizing: border-box;
+        height: 36px;
+        padding: 0px 8px;
+        margin: 6px 4px;
+        text-transform: uppercase;
         }
         input.spoilerbutton:active {background-color: #1976D2;}
         .comment markdown {
-            display:block;
-            padding-left:4px;
-            padding-top:8px;
+        display:block;
+        padding-left:4px;
+        padding-top:8px;
         }
         .comment__user {
-            display:block;
-            float:left;
-            margin-right:2px;
-            width:60px;
+        display:block;
+        float:left;
+        margin-right:2px;
+        width:60px;
         }
         .comment__avatar {
-            -moz-border-radius:2px;
-            -webkit-border-radius:2px;
-            border-radius:2px;
-            height:58px;
-            transition:0.15s;
-            width:58px;
+        -moz-border-radius:2px;
+        -webkit-border-radius:2px;
+        border-radius:2px;
+        height:58px;
+        transition:0.15s;
+        width:58px;
         }
         .comment__body {
-            -moz-border-radius:2px;
-            -webkit-border-radius:2px;
-            border-radius:2px;
-            background:#FFF;
-            font-size:0.95em;
-            min-height:50px;
-            overflow:auto;
-            padding:4px;
+        -moz-border-radius:2px;
+        -webkit-border-radius:2px;
+        border-radius:2px;
+        background:#FFF;
+        font-size:0.95em;
+        min-height:50px;
+        overflow:auto;
+        padding:4px;
         }
 
         .comment {
-            margin:4px 8px 4px 8px;
+        margin:4px 8px 4px 8px;
         }
 
         .comment__name {
-            border-bottom:solid 1px #EEE;
-            color:#022f70;
-            display:block;
-            font-weight:600;
-            padding-bottom:4px;
-            padding-left:4px;
+        border-bottom:solid 1px #EEE;
+        color:#022f70;
+        display:block;
+        font-weight:600;
+        padding-bottom:4px;
+        padding-left:4px;
         }
         time-ago {
-            color:#3E454F;
-            float:right;
-            font-size:0.80em;
-            margin-top:1px;
-            margin-right:10px;
-            opacity:0.4;
+        color:#3E454F;
+        float:right;
+        font-size:0.80em;
+        margin-top:1px;
+        margin-right:10px;
+        opacity:0.4;
         }
         .forum__mod {
-            background:#458EDB;
-            border-radius:2px;
-            color:#FFFFFF;
-            font-size:0.9em;
-            margin-left:5px;
-            padding:0px 5px;
-            position:relative;
-            top:-1px;
+        background:#458EDB;
+        border-radius:2px;
+        color:#FFFFFF;
+        font-size:0.9em;
+        margin-left:5px;
+        padding:0px 5px;
+        position:relative;
+        top:-1px;
         }
         body {
-            background-color:#f2f2f2;
-            font-family:"Open Sans",Arial,sans-serif;
-            font-size:14px;
-            margin: 8px 0px 0px 0px;
+        background-color:#f2f2f2;
+        font-family:"Open Sans",Arial,sans-serif;
+        font-size:14px;
+        margin: 8px 0px 0px 0px;
         }
         body:after {
-            -webkit-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
         }
         #container-main:before, a {color:inherit;text-decoration:none;}
 
         markdown {margin-top:0;}
 
         .previous {
-            background: #458EDB;
-            border-radius: 0px 3px 3px 0px;
-            color: #fff;
-            display: inline-block;
-            margin-top: 4px;
-            margin-bottom: 8px;
-            padding: 10px;
-            padding-left: 20px;
-            padding-right: 15px;
-            font-family: sans-serif;
-            font-weight: bold;
+        background: #458EDB;
+        border-radius: 0px 3px 3px 0px;
+        color: #fff;
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 8px;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 15px;
+        font-family: sans-serif;
+        font-weight: bold;
         }
 
         .next {
-            background: #458EDB;
-            border-radius: 3px 0 0 3px;
-            color: #fff;
-            display: inline-block;
-            margin-top: 4px;
-            margin-bottom: 8px;
-            padding: 10px;
-            padding-left: 15px;
-            padding-right: 20px;
-            font-family: sans-serif;
-            font-weight: bold;
-            float: right;
+        background: #458EDB;
+        border-radius: 3px 0 0 3px;
+        color: #fff;
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 8px;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 20px;
+        font-family: sans-serif;
+        font-weight: bold;
+        float: right;
         }
 
         .page {
-            background: #458EDB;
-            border-radius: 3px 3px 3px 3px;
-            color: #fff;
-            margin-top: 4px;
-            font-family: sans-serif;
-            font-weight: bold;
-            margin-bottom: 8px;
-            padding: 10px;
-            padding-left: 15px;
-            padding-right: 15px;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, 0%);
+        background: #458EDB;
+        border-radius: 3px 3px 3px 3px;
+        color: #fff;
+        margin-top: 4px;
+        font-family: sans-serif;
+        font-weight: bold;
+        margin-bottom: 8px;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        }
+        .markEditor{outline:none;}
+        .btn-group {
+        background:#f2f2f2;
+        overflow:hidden;
+        }
+        button {
+        background:#f2f2f2;
+        border:none;
+        color:#577CB1;
+        float:left;
+        padding:5px 10px;
+        outline:none;
+        }
+        button:hover {
+        color:#334c6f
+        }
+        .comment-write {
+        margin: 8px 14px 4px 8px;
+        }
+        .comment-write textarea {
+        height:80px;
+        width:100%;
+        }
+        .send {
+        float: right;
+        color:#007f00;
+        }
+        .send:hover {
+        color:#334c6f;
         }
     </style>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- insert here the tiles -->
-
+<div class="comment-write">
+    <div class="mark-editor">
+        <div class="btn-group">
+            <button title="Bold" type="button" onclick="bold()"><i class="fa fa-bold fa-lg"></i></button>
+            <button title="Italic" type="button" onclick="italics()"><i class="fa fa-italic fa-lg"></i></button>
+            <button title="Strikethrough" type="button" onclick="strike()"><i class="fa fa-strikethrough fa-lg"></i></button>
+            <button title="Spoiler!" type="button" onclick="spoiler()"><i class="fa fa-exclamation-circle fa-lg"></i></button>
+            <button title="Link" type="button" onclick="url()"><i class="fa fa-link fa-lg"></i></button>
+            <button title="Image" type="button" onclick="image()"><i class="fa fa-picture-o fa-lg"></i></button>
+            <button title="Youtube Video" type="button" onclick="youtube()"><i class="fa fa-youtube-play fa-lg"></i></button>
+            <button title="WebM Video" type="button" onclick="youtube()"><i class="fa fa-play-circle-o fa-lg"></i></button>
+            <button title="Ordered List" type="button" onclick="list()"><i class="fa fa-list-ol fa-lg"></i></button>
+            <button title="Unordered List" type="button" onclick="list()"><i class="fa fa-list-ul fa-lg"></i></button>
+            <button title="Header" type="button" onclick="size()"><i class="fa fa-header fa-lg"></i></button>
+            <button title="Center" type="button" onclick="center()"><i class="fa fa-align-center fa-lg"></i></button>
+            <button title="Quote" type="button" onclick="quote()"><i class="fa fa-quote-right fa-lg"></i></button>
+            <button title="Send" type="button" onclick="send()" class="send"><i class="fa fa-paper-plane fa-lg"></i></button>
+        </div>
+        <textarea class="markEditor" id="textarea"></textarea>
+    </div>
+</div>
 </body>
-<span class="previous" onClick="prevCommentList()"><!-- previous --></span>
-<span class="next" onClick="nextCommentList()"><!-- next --></span>
-<span class="page" onClick="pagePicker()"><!-- page --></span>
+<span class="previous" onClick="prevCommentList()">Previous</span>
+<span class="next" onClick="nextCommentList()">Next</span>
+<span class="page" onClick="pagePicker()">1</span>
 </html>

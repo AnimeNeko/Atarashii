@@ -197,6 +197,11 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             case TOPIC:
                 test.setForumComments(forum);
                 break;
+            case ADDCOMMENT:
+                Theme.Snackbar(this, forum != null ? R.string.toast_info_comment_added : R.string.toast_error_Records);
+                if (forum != null)
+                    test.setForumComments(forum);
+                break;
         }
     }
 
@@ -365,7 +370,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
-                tempForumList = tempForumList.replace("<!-- title -->", "C " + getId() + " " + maxPages); // C = Comments, id, maxPages
+                tempForumList = tempForumList.replace("<!-- title -->", "C " + getId() + " " + maxPages + " " + getPage()); // C = Comments, id, maxPages, page
                 if (Integer.parseInt(getPage()) == 1) {
                     tempForumList = tempForumList.replace("class=\"previous\"", "class=\"previous\" style=\"visibility: hidden;\"");
                 }

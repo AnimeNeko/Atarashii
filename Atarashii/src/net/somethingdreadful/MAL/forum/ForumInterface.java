@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.forum;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 
@@ -10,6 +11,7 @@ import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
+import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
 public class ForumInterface {
     ForumActivity forum;
@@ -95,6 +97,23 @@ public class ForumInterface {
             public void run() {
                 String[] details = forum.webview.getTitle().split(" ");
                 forum.getRecords(ForumJob.CATEGORY, Integer.parseInt(details[1]), page);
+            }
+        });
+    }
+
+    /**
+     * Send a comment.
+     */
+    @JavascriptInterface
+    public void sendComment(final String comment) {
+        forum.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (comment != "") {
+                    forum.setLoading(true);
+                    String[] details = forum.webview.getTitle().split(" ");
+                    new ForumNetworkTask(forum, forum, ForumJob.ADDCOMMENT, Integer.parseInt(details[1])).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, comment, details[3]);
+                }
             }
         });
     }
