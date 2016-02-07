@@ -9,6 +9,7 @@ import android.webkit.JavascriptInterface;
 import net.somethingdreadful.MAL.ForumActivity;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
@@ -109,10 +110,12 @@ public class ForumInterface {
         forum.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (comment != "") {
+                if (!comment.equals("") && comment.length() > 16) {
                     forum.setLoading(true);
                     String[] details = forum.webview.getTitle().split(" ");
                     new ForumNetworkTask(forum, forum, ForumJob.ADDCOMMENT, Integer.parseInt(details[1])).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, comment, details[3]);
+                } else {
+                    Theme.Snackbar(forum, R.string.toast_info_comment);
                 }
             }
         });
