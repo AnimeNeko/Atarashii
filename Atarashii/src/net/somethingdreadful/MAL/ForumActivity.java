@@ -162,10 +162,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 break;
             case SUBCATEGORY:
                 test.setSubBoard(true);
-                break;
             case CATEGORY:
-                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
-                break;
             case TOPIC:
                 new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
                 break;
