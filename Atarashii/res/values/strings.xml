@@ -31,6 +31,7 @@
     <string name="toast_error_VerifyProblem">Check your credentials and try again.</string>
     <string name="toast_error_Friends">Sync error while getting friendlist!</string>
     <string name="toast_error_nothingFound">No anime or manga results found.</string>
+    <string name="toast_error_convert">The comment could not be converted!</string>
     <string name="toast_info_SyncMessage">Syncing everything. This could take a few seconds.</string>
     <string name="toast_info_password">Username and password combination doesn\'t match!</string>
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>

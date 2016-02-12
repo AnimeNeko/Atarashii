@@ -55,6 +55,9 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                     if (result != null)
                         result = mManager.getTopic(id, Integer.parseInt(params[1]));
                     break;
+                case UPDATECOMMENT:
+                    result = mManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                    break;
                 /*
                 case DISCUSSION:
                     if (params[1].equals(MALApi.ListType.ANIME.toString()))

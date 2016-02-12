@@ -353,7 +353,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
 
                     tempTile = forumCommentsTiles;
+                    if (item.getUsername().equalsIgnoreCase(AccountService.getUsername()))
+                        tempTile = tempTile.replace("fa-quote-right fa-lg\" id=\"quote\"", "fa-pencil fa-lg\" id=\"edit\"");
                     tempTile = tempTile.replace("<!-- username -->", item.getUsername());
+                    tempTile = tempTile.replace("<!-- comment id -->", Integer.toString(item.getId()));
                     tempTile = tempTile.replace("<!-- time -->", DateTools.parseDate(item.getTime(), true));
                     tempTile = tempTile.replace("<!-- comment -->", comment);
                     if (item.getProfile().getAvatarUrl().contains("xmlhttp-loader"))
