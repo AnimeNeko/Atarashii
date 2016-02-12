@@ -11,6 +11,7 @@ import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
@@ -232,11 +233,30 @@ public class ForumInterface {
             public void run() {
                 if (comment.length() > 16) {
                     forum.setLoading(true);
-                    String[] details = forum.webview.getTitle().split(" ");
-                    if (messageID.equals("0"))
-                        new ForumNetworkTask(forum, forum, ForumJob.ADDCOMMENT, Integer.parseInt(details[1])).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, comment, details[3]);
-                    else
-                        new ForumNetworkTask(forum, forum, ForumJob.UPDATECOMMENT, Integer.parseInt(messageID)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, comment, details[3]);
+                    final String[] details = forum.webview.getTitle().split(" ");
+
+
+                    ChooseDialogFragment lcdf = new ChooseDialogFragment();
+                    Bundle bundle = new Bundle();
+                    if (messageID.equals("0")) {
+                        bundle.putString("title", forum.getString(R.string.dialog_title_add_comment));
+                        bundle.putString("message", forum.getString(R.string.dialog_message_add_comment));
+                    } else {
+                        bundle.putString("title", forum.getString(R.string.dialog_title_edit_comment));
+                        bundle.putString("message", forum.getString(R.string.dialog_message_edit_comment));
+                    }
+                    bundle.putString("positive", forum.getString(android.R.string.yes));
+                    lcdf.setArguments(bundle);
+                    lcdf.setCallback(new ChooseDialogFragment.onClickListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            if (messageID.equals("0"))
+                                new ForumNetworkTask(forum, forum, ForumJob.ADDCOMMENT, Integer.parseInt(details[1])).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, comment, details[3]);
+                            else
+                                new ForumNetworkTask(forum, forum, ForumJob.UPDATECOMMENT, Integer.parseInt(messageID)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, comment, details[3]);
+                        }
+                    });
+                    lcdf.show(forum.getFragmentManager(), "fragment_sendComment");
                 } else {
                     Theme.Snackbar(forum, R.string.toast_info_comment);
                 }
