@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumInterface;
@@ -45,6 +46,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     MenuItem search;
     Menu menu;
     String query;
+    boolean loading = false;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -149,26 +151,29 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     }
 
     public void getRecords(ForumJob job, int id, String page) {
-        test.setSubBoard(false);
-        setLoading(true);
-        test.setId(id);
-        test.setPage(page);
-        switch (job) {
-            case MENU:
-                if (!test.menuExists())
-                    new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                else
-                    test.setForumMenu(null);
-                break;
-            case SUBCATEGORY:
-                test.setSubBoard(true);
-            case CATEGORY:
-            case TOPIC:
-                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
-                break;
-            case SEARCH:
-                new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
-                break;
+        if (!loading) {
+            loading = true;
+            test.setSubBoard(false);
+            setLoading(true);
+            test.setId(id);
+            test.setPage(page);
+            switch (job) {
+                case MENU:
+                    if (!test.menuExists())
+                        new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    else
+                        test.setForumMenu(null);
+                    break;
+                case SUBCATEGORY:
+                    test.setSubBoard(true);
+                case CATEGORY:
+                case TOPIC:
+                    new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, page);
+                    break;
+                case SEARCH:
+                    new ForumNetworkTask(this, this, job, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
+                    break;
+            }
         }
     }
 
@@ -200,6 +205,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     test.setForumComments(forum);
                 break;
         }
+        loading = false;
     }
 
     @Override
