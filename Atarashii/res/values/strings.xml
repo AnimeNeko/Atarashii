@@ -86,6 +86,8 @@
     <string name="dialog_message_last_post">Last post by</string>
     <string name="dialog_message_forum_child">Do you want to view the $child1; or $child2; category?</string>
     <string name="dialog_message_username">It is possible that the chosen backup is not your backup!</string>
+    <string name="dialog_message_edit_comment">Are you sure that your comment should be updated?</string>
+    <string name="dialog_message_add_comment">Do you really want to add a new comment?</string>
     <string name="dialog_label_cancel">Cancel</string>
     <string name="dialog_label_update">Update</string>
     <string name="dialog_label_anime">Anime</string>
