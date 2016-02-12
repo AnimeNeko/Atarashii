@@ -199,6 +199,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             case TOPIC:
                 test.setForumComments(forum);
                 break;
+            case UPDATECOMMENT:
+                Theme.Snackbar(this, forum != null ? R.string.toast_info_comment_added : R.string.toast_error_Records);
+                setLoading(false);
+                break;
             case ADDCOMMENT:
                 Theme.Snackbar(this, forum != null ? R.string.toast_info_comment_added : R.string.toast_error_Records);
                 if (forum != null)
