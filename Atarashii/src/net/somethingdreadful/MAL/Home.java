@@ -144,6 +144,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     checkNetworkAndDisplayCrouton();
+                    myListChanged();
                 }
             };
         } else {
@@ -288,10 +289,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     public void myListChanged() {
-        menu.findItem(R.id.menu_listType).setVisible(myList);
-        menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
-        menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
-        menu.findItem(R.id.action_search).setVisible(networkAvailable);
+        if (menu != null) {
+            menu.findItem(R.id.menu_listType).setVisible(myList);
+            menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
+            menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
+            menu.findItem(R.id.action_search).setVisible(networkAvailable);
+        }
     }
 
     private void syncNotify() {
