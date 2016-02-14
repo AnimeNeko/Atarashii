@@ -20,7 +20,7 @@ import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, NumberPickerDialogFragment.onUpdateClickListener {
     private Context context;
-    AlarmManager alarmMgr;
+    private AlarmManager alarmMgr;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         return false;
     }
 
-    public void makeNumberpicker(Bundle bundle) {
+    private void makeNumberpicker(Bundle bundle) {
         NumberPickerDialogFragment numberPickerDialogFragment = new NumberPickerDialogFragment().setOnSendClickListener(this);
         numberPickerDialogFragment.setArguments(bundle);
         numberPickerDialogFragment.show(getActivity().getFragmentManager(), "numberPickerDialogFragment");

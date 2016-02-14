@@ -42,11 +42,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     WebView webview;
     @Bind(R.id.progress1)
     ProgressBar progress;
-    testforumhtmlunit test;
-    MenuItem search;
-    Menu menu;
-    String query;
-    boolean loading = false;
+    private testforumhtmlunit test;
+    private MenuItem search;
+    private String query;
+    private boolean loading = false;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -75,8 +74,6 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_forum, menu);
-        this.menu = menu;
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -229,16 +226,16 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
     }
 
     public class testforumhtmlunit {
-        Context context;
+        final Context context;
         @Getter
         @Setter
         String forumMenuLayout;
-        String forumMenuTiles;
-        String forumListLayout;
-        String forumListTiles;
-        String forumCommentsLayout;
-        String forumCommentsTiles;
-        String spoilerStructure;
+        final String forumMenuTiles;
+        final String forumListLayout;
+        final String forumListTiles;
+        final String forumCommentsLayout;
+        final String forumCommentsTiles;
+        final String spoilerStructure;
         @Getter
         @Setter
         int id;

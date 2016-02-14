@@ -52,37 +52,39 @@ import butterknife.ButterKnife;
 
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTask.NetworkTaskListener, RecordStatusUpdatedReceiver.RecordStatusUpdatedListener {
     public ListType listType = ListType.ANIME; // just to have it proper initialized
-    Context context;
+    private Context context;
     public TaskJob taskjob;
-    Activity activity;
-    NetworkTask networkTask;
-    IGFCallbackListener callback;
-    ListViewAdapter<GenericRecord> ga;
-    ArrayList<GenericRecord> gl = new ArrayList<>();
+    private Activity activity;
+    private NetworkTask networkTask;
+    private IGFCallbackListener callback;
+    private ListViewAdapter<GenericRecord> ga;
+    private ArrayList<GenericRecord> gl = new ArrayList<>();
 
-    @Bind(R.id.gridview) GridView Gridview;
-    @Bind(R.id.viewFlipper) ViewFlipper viewflipper;
-    @Bind(R.id.swiperefresh) SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.gridview)
+    GridView Gridview;
+    @Bind(R.id.viewFlipper)
+    ViewFlipper viewflipper;
+    @Bind(R.id.swiperefresh)
+    SwipeRefreshLayout swipeRefresh;
 
-    RecordStatusUpdatedReceiver recordStatusReceiver;
+    private RecordStatusUpdatedReceiver recordStatusReceiver;
 
-    int page = 1;
+    private int page = 1;
     public int list = -1;
-    int resource;
-    int height = 0;
-    boolean loading = true;
-    boolean useSecondaryAmounts;
-    boolean hasmorepages = false;
-    boolean clearAfterLoading = false;
+    private int resource;
+    private int height = 0;
+    private boolean loading = true;
+    private boolean useSecondaryAmounts;
+    private boolean hasmorepages = false;
+    private boolean clearAfterLoading = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
-    boolean swipeRefreshEnabled = true;
+    private boolean swipeRefreshEnabled = true;
 
-    String query;
+    private String query;
 
     // use setter to change this!
     private String username;
-    private boolean ownList = false; // not set directly, is set by setUsername()
     public boolean popup;
 
     @Override
@@ -129,12 +131,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
         if (isOnHomeActivity())
             swipeRefresh.setOnRefreshListener((Home) getActivity());
-        swipeRefresh.setColorScheme(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light
-        );
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(swipeRefreshEnabled);
 
         if (gl.size() > 0) // there are already records, fragment has been rotated
@@ -169,7 +166,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Set the numbers columns for the best overview.
      */
     @SuppressLint("InlinedApi")
-    public void setColumns() {
+    private void setColumns() {
         int screenWidth = Theme.convert(context.getResources().getConfiguration().screenWidthDp);
         if (PrefManager.getTraditionalListEnabled()) {
             Gridview.setNumColumns(1); //remain in the listview mode
@@ -233,7 +230,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param anime The Anime record that should increase by one
      * @param manga The manga record that should increase by one
      */
-    public void setProgressPlusOne(Anime anime, Manga manga) {
+    private void setProgressPlusOne(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
@@ -252,7 +249,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param anime The Anime record that should be marked as complete
      * @param manga The manga record that should be marked as complete
      */
-    public void setMarkAsComplete(Anime anime, Manga manga) {
+    private void setMarkAsComplete(Anime anime, Manga manga) {
         if (listType.equals(ListType.ANIME)) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             gl.remove(anime);
@@ -341,7 +338,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             Bundle data = new Bundle();
             data.putInt("page", page);
             networkTask = new NetworkTask(taskjob, listType, activity, data, this, getAuthErrorCallback());
-            ArrayList<String> args = new ArrayList<String>();
+            ArrayList<String> args = new ArrayList<>();
             if (!username.equals("") && isList()) {
                 args.add(username);
                 if (isList())
@@ -373,7 +370,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     /**
      * Reset the page number of anime/manga lists.
      */
-    public void resetPage() {
+    private void resetPage() {
         page = 1;
         if (Gridview != null) {
             Gridview.requestFocusFromTouch();
@@ -389,15 +386,15 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     /**
      * Set the adapter anime/manga.
      */
-    public void setAdapter() {
-        ga = new ListViewAdapter<GenericRecord>(context, resource, popup);
+    private void setAdapter() {
+        ga = new ListViewAdapter<>(context, resource, popup);
         ga.setNotifyOnChange(true);
     }
 
     /**
      * Refresh all the covers.
      */
-    public void refresh() {
+    private void refresh() {
         try {
             filterTime();
             if (ga == null)
@@ -431,7 +428,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param job The current taskjob to compare with
      * @return boolean If true then the list is of the logged in user
      */
-    public boolean isList(TaskJob job) {
+    private boolean isList(TaskJob job) {
         return job != null && (job.equals(TaskJob.GETLIST) || job.equals(TaskJob.FORCESYNC));
     }
 
@@ -440,7 +437,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      *
      * @return boolean If true then the list is of the logged in user
      */
-    public boolean isList() {
+    private boolean isList() {
         return isList(taskjob);
     }
 
@@ -467,7 +464,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     private void filterTime() {
         if (!AccountService.isMAL() && taskjob == TaskJob.GETMOSTPOPULAR && PrefManager.getAiringOnly() && listType == ListType.ANIME) {
-            ArrayList<GenericRecord> record = new ArrayList<GenericRecord>();
+            ArrayList<GenericRecord> record = new ArrayList<>();
             for (GenericRecord gr : gl)
                 if (((Anime) gr).getAiring() != null)
                     record.add(gr);
@@ -584,7 +581,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void setUsername(String username) {
         this.username = username;
-        ownList = !(username == null || username.equals("")) && AccountService.getUsername().equals(username);
     }
 
     // user updated record on DetailsView, so update the list if necessary
@@ -622,7 +618,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
-        boolean popup;
+        final boolean popup;
 
         public ListViewAdapter(Context context, int resource, boolean popup) {
             super(context, resource);

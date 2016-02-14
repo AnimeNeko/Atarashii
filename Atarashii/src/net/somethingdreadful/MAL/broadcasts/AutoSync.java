@@ -25,7 +25,7 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import java.util.ArrayList;
 
 public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTask.NetworkTaskListener {
-    static NotificationManager nm;
+    private static NotificationManager nm;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -39,7 +39,7 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
             Intent notificationIntent = new Intent(context, Home.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             if (networkChange(intent) && !PrefManager.getAutosyncDone() || !networkChange(intent)) {
-                ArrayList<String> args = new ArrayList<String>();
+                ArrayList<String> args = new ArrayList<>();
                 args.add(AccountService.getUsername());
                 args.add("");
                 new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
@@ -84,7 +84,7 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
         PrefManager.setAutosyncDone(false);
     }
 
-    public boolean networkChange(Intent intent) {
+    private boolean networkChange(Intent intent) {
         return intent != null && intent.getAction() != null && intent.getAction().equals(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
     }
 }

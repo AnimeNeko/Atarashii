@@ -1,9 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="net.somethingdreadful.MAL"
-    android:versionCode="38"
-    android:versionName="2.0 beta 1"
-    tools:replace="android:versionName,android:versionCode">
+    package="net.somethingdreadful.MAL">
 
     <application
         android:icon="@drawable/icon_beta"

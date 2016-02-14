@@ -26,22 +26,14 @@ import org.apache.commons.lang3.text.WordUtils;
 
 public class SearchActivity extends AppCompatActivity implements IGF.IGFCallbackListener {
     public String query;
-    IGF af;
-    IGF mf;
-    IGFPagerAdapter mIGFPagerAdapter;
-    SearchView searchView;
-
-    boolean callbackAnimeError = false;
-    boolean callbackMangaError = false;
-    boolean callbackAnimeResultEmpty = false;
-    boolean callbackMangaResultEmpty = false;
-    int callbackCounter = 0;
+    private IGF af;
+    private IGF mf;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.theme_viewpager);
-        mIGFPagerAdapter = (IGFPagerAdapter) Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
+        Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
     }
 
     @Override
@@ -66,9 +58,6 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
                 FragmentManager fm = getFragmentManager();
                 (new SearchIdDialogFragment()).show(fm, "fragment_id_search");
             } else {
-                if (searchView != null) {
-                    searchView.setQuery(query, false);
-                }
                 if (af != null && mf != null) {
                     af.searchRecords(query);
                     mf.searchRecords(query);

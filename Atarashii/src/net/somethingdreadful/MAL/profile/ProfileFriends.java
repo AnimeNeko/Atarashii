@@ -32,16 +32,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
-    GridView Gridview;
+    private GridView Gridview;
     private ProfileActivity activity;
-    FriendsGridviewAdapter<Profile> listadapter;
-    ArrayList<Profile> listarray = new ArrayList<>();
+    private FriendsGridviewAdapter<Profile> listadapter;
+    private ArrayList<Profile> listarray = new ArrayList<>();
 
-    @Bind(R.id.network_Card) Card networkCard;
-    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.network_Card)
+    Card networkCard;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
     @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
-    boolean forcesync = false;
+    private boolean forcesync = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -54,7 +56,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
         listadapter = new FriendsGridviewAdapter<>(activity, listarray);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
         activity.setFriends(this);
@@ -74,7 +76,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
         networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
-    public void refresh() {
+    private void refresh() {
         Gridview.setAdapter(listadapter);
         try {
             listadapter.supportAddAll(listarray);

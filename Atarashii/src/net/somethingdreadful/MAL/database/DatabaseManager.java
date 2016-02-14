@@ -19,7 +19,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 import java.util.ArrayList;
 
 public class DatabaseManager {
-    SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
     public DatabaseManager(Context context) {
         this.db = DatabaseTest.getInstance(context).getWritableDatabase();
@@ -89,7 +89,7 @@ public class DatabaseManager {
      *
      * @param anime The Anime model
      */
-    public void saveAnimeList(Anime anime) {
+    private void saveAnimeList(Anime anime) {
         ContentValues cv = new ContentValues();
         cv.put(DatabaseTest.COLUMN_ID, anime.getId());
         cv.put("title", anime.getTitle());
@@ -161,7 +161,7 @@ public class DatabaseManager {
      *
      * @param manga The Anime model
      */
-    public void saveMangaList(Manga manga) {
+    private void saveMangaList(Manga manga) {
         ContentValues cv = new ContentValues();
         cv.put(DatabaseTest.COLUMN_ID, manga.getId());
         cv.put("title", manga.getTitle());
@@ -501,14 +501,13 @@ public class DatabaseManager {
         return true;
     }
 
-    public boolean updateWidgetRecord(int oldId, MALApi.ListType oldType, int id, MALApi.ListType type) {
+    public boolean updateWidgetRecord(int oldId, int id, MALApi.ListType type) {
         if (checkWidgetID(id, type))
             return false;
 
         // Remove old record
         ContentValues cv = new ContentValues();
         cv.putNull("widget");
-        boolean anime = oldType.equals(MALApi.ListType.ANIME);
 
         try {
             db.beginTransaction();

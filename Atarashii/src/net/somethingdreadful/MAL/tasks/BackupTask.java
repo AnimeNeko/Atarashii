@@ -30,7 +30,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
     private final Context context;
     private ArrayList<Anime> animeResult;
     private ArrayList<Manga> mangaResult;
-    private ArrayList<File> files = new ArrayList<>();
+    private final ArrayList<File> files = new ArrayList<>();
 
     public BackupTask(BackupTaskListener callback, Context context) {
         this.callback = callback;

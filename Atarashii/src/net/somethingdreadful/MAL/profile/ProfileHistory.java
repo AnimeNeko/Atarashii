@@ -27,10 +27,11 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
     private HtmlUtil htmlUtil;
     public ProfileActivity activity;
 
-    @Bind(R.id.webview) WebView webview;
+    @Bind(R.id.webview)
+    WebView webview;
     @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_profile_history, container, false);
@@ -46,7 +47,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
         NfcHelper.disableBeam(activity);
@@ -58,7 +59,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      *
      * @param result The new record
      */
-    public void apply(Profile result) {
+    private void apply(Profile result) {
         try {
             if (result != null) {
                 webview.loadDataWithBaseURL(null, htmlUtil.convertList(result, 1), "text/html", "utf-8", null);

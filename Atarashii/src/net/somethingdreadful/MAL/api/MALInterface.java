@@ -22,7 +22,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
-public interface MALInterface {
+interface MALInterface {
     @GET("/account/verify_credentials")
     Response verifyAuthentication();
 

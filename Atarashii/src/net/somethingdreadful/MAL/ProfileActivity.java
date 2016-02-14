@@ -28,17 +28,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
-    Context context;
+    private Context context;
     public Profile record;
-    ProfileFriends friends;
-    ProfileDetailsAL detailsAL;
-    ProfileDetailsMAL detailsMAL;
-    ProfileHistory history;
-    boolean isLoading = false;
+    private ProfileFriends friends;
+    private ProfileDetailsAL detailsAL;
+    private ProfileDetailsMAL detailsMAL;
+    private ProfileHistory history;
+    private boolean isLoading = false;
 
-    @Bind(R.id.pager) ViewPager viewPager;
+    @Bind(R.id.pager)
+    ViewPager viewPager;
 
-    boolean forcesync = false;
+    private final boolean forcesync = false;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -107,11 +108,11 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         return true;
     }
 
-    public String getProfileURL() {
+    private String getProfileURL() {
         return AccountService.isMAL() ? "http://myanimelist.net/profile/" : "http://anilist.co/user/";
     }
 
-    public void refresh() {
+    private void refresh() {
         if (record == null) {
             if (MALApi.isNetworkAvailable(context)) {
                 Theme.Snackbar(this, R.string.toast_error_UserRecord);
@@ -145,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         isLoading = false;
     }
 
-    public void setText() {
+    private void setText() {
         if (detailsMAL != null)
             detailsMAL.refresh();
         if (detailsAL != null)
@@ -201,7 +202,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             viewPager.setCurrentItem(1);
     }
 
-    public void toggle(int number) {
+    private void toggle(int number) {
         if (detailsMAL != null)
             detailsMAL.toggle(number);
         if (detailsAL != null)

@@ -194,7 +194,7 @@ public class Manga extends GenericRecord implements Serializable {
         this.rereadValue = rereadValue;
     }
 
-    public void checkProgress() {
+    private void checkProgress() {
         boolean completed = false;
         boolean started = false;
 

@@ -7,8 +7,8 @@ import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.MALApi;
 
-public class ProfileHistoryInterface {
-    ProfileHistory history;
+class ProfileHistoryInterface {
+    private final ProfileHistory history;
 
     ProfileHistoryInterface(ProfileHistory history) {
         this.history = history;

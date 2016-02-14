@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import retrofit.RetrofitError;
 
 public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> {
-    ForumNetworkTaskListener callback;
-    ForumJob type;
-    int id;
-    Activity activity;
+    private final ForumNetworkTaskListener callback;
+    private final ForumJob type;
+    private final int id;
+    private final Activity activity;
 
     public ForumNetworkTask(ForumNetworkTaskListener callback, Activity activity, ForumJob type, int id) {
         this.callback = callback;

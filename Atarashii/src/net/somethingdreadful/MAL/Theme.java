@@ -35,8 +35,8 @@ public class Theme extends Application {
 
     public static boolean darkTheme;
     private static float density;
-    Locale locale;
-    Configuration config;
+    private Locale locale;
+    private Configuration config;
     static Context context;
 
     @Override
@@ -98,7 +98,7 @@ public class Theme extends Application {
     /**
      * Changes the language to the preferred one.
      */
-    public void setLanguage() {
+    private void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
     }

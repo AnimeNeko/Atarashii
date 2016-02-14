@@ -25,10 +25,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class MALManager {
-    MALApi malApi;
-    ALApi alApi;
-    DatabaseManager dbMan;
-    Context context;
+    private MALApi malApi;
+    private ALApi alApi;
+    private final DatabaseManager dbMan;
 
     public MALManager(Context context) {
         if (AccountService.isMAL())
@@ -36,7 +35,6 @@ public class MALManager {
         else
             alApi = new ALApi();
         dbMan = new DatabaseManager(context);
-        this.context = context;
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
@@ -189,17 +187,9 @@ public class MALManager {
     }
 
     public boolean cleanDirtyAnimeRecords() {
-        return cleanDirtyAnimeRecords(true);
-    }
-
-    public boolean cleanDirtyMangaRecords() {
-        return cleanDirtyMangaRecords(true);
-    }
-
-    public boolean cleanDirtyAnimeRecords(boolean dirtyOnly) {
         boolean totalSuccess = true;
 
-        ArrayList<Anime> dirtyAnimes = dirtyOnly ? dbMan.getDirtyAnimeList() : getAnimeListFromDB(MALApi.ListType.ANIME.toString());
+        ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList();
 
         if (dirtyAnimes != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
@@ -219,10 +209,10 @@ public class MALManager {
         return totalSuccess;
     }
 
-    public boolean cleanDirtyMangaRecords(boolean dirtyOnly) {
+    public boolean cleanDirtyMangaRecords() {
         boolean totalSuccess = true;
 
-        ArrayList<Manga> dirtyMangas = dirtyOnly ? dbMan.getDirtyMangaList() : getMangaListFromDB(MALApi.ListType.MANGA.toString());
+        ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList();
 
         if (dirtyMangas != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");

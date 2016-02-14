@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -18,14 +19,14 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class MessageDialogFragment extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
 
-    EditText subject;
-    EditText message;
-    TextView header;
-    ForumJob task;
-    int id;
-    View view;
-    onSendClickListener callback;
-    TextView send;
+    private EditText subject;
+    private EditText message;
+    private TextView header;
+    private ForumJob task;
+    private int id;
+    private View view;
+    private onSendClickListener callback;
+    private TextView send;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      *
      * @param BBCode The BBCode string that should be in the message field
      */
+    @SuppressLint("SetTextI18n")
     private void insert(String BBCode) {
         int curPos = message.getSelectionStart();
         String str = message.getText().toString();
@@ -200,11 +202,6 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      */
     public MessageDialogFragment setOnSendClickListener(onSendClickListener callback) {
         this.callback = callback;
-        return this;
-    }
-
-    public MessageDialogFragment setListeners(onSendClickListener callback) {
-        setOnSendClickListener(callback);
         return this;
     }
 

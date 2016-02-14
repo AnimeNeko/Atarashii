@@ -29,14 +29,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
-    View view;
-    HtmlUtil htmlUtil;
+    private View view;
+    private HtmlUtil htmlUtil;
     DetailView activity;
     public ArrayList<Reviews> record;
 
     @Bind(R.id.webview)
     WebView webview;
-    @Bind(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @Bind(R.id.viewFlipper)
+    ViewFlipper viewFlipper;
 
     public int id;
     public int page = 0;
@@ -109,7 +110,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      *
      * @param result The new record
      */
-    public void apply(ArrayList<Reviews> result) {
+    private void apply(ArrayList<Reviews> result) {
         try {
             // The activity could be destroyed when this is being loaded because the user pressed back
             if (activity != null && isAdded()) {

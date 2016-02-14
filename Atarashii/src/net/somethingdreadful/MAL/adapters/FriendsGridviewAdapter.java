@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
-    private Context context;
+    private final Context context;
     private ArrayList<Profile> list;
 
     public FriendsGridviewAdapter(Context context, ArrayList<Profile> list) {

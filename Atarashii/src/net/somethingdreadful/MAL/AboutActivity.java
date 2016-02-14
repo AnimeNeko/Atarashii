@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,7 @@ public class AboutActivity extends AppCompatActivity {
         NfcHelper.disableBeam(this);
     }
 
-    public void createLinks(TextView textView) {
+    private void createLinks(TextView textView) {
         textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

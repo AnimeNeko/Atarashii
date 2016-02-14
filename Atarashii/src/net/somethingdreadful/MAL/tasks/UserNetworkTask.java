@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import retrofit.RetrofitError;
 
 public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
-    Context context;
-    boolean forcesync;
-    UserNetworkTaskListener callback;
-    private Activity activity;
+    private final Context context;
+    private final boolean forcesync;
+    private final UserNetworkTaskListener callback;
+    private final Activity activity;
 
     public UserNetworkTask(Context context, boolean forcesync, UserNetworkTaskListener callback, Activity activity) {
         this.context = context;

@@ -17,7 +17,7 @@ import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
 public class ForumInterface {
-    ForumActivity forum;
+    private final ForumActivity forum;
 
     public ForumInterface(ForumActivity forum) {
         this.forum = forum;
@@ -82,7 +82,7 @@ public class ForumInterface {
         }
     }
 
-    int convertMessageQuote = 0;
+    private int convertMessageQuote = 0;
     private String convertMessageQuote(String HTML) {
         convertMessageQuote = convertMessageQuote + 1;
         if (convertMessageQuote <= 8) {
@@ -94,7 +94,7 @@ public class ForumInterface {
         return HTML;
     }
 
-    int convertUserQuote = 0;
+    private int convertUserQuote = 0;
     private String convertUserQuote(String HTML) {
         convertUserQuote = convertUserQuote + 1;
         if (convertUserQuote <= 8) {
@@ -106,7 +106,7 @@ public class ForumInterface {
         return HTML;
     }
 
-    int convertQuote = 0;
+    private int convertQuote = 0;
     private String convertQuote(String HTML) {
         convertQuote = convertQuote + 1;
         if (convertQuote <= 8) {
@@ -118,7 +118,7 @@ public class ForumInterface {
         return HTML;
     }
 
-    int convertQuoteSpoiler = 0;
+    private int convertQuoteSpoiler = 0;
     private String convertQuoteSpoiler(String HTML) {
         convertQuoteSpoiler = convertQuoteSpoiler + 1;
         if (convertQuoteSpoiler <= 8) {
@@ -130,7 +130,7 @@ public class ForumInterface {
         return HTML;
     }
 
-    int convertSpoiler = 0;
+    private int convertSpoiler = 0;
     private String convertSpoiler(String HTML) {
         convertSpoiler = convertSpoiler + 1;
         if (convertSpoiler <= 8) {

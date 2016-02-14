@@ -6,7 +6,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 public class Table {
-    String queryString = "";
+    private String queryString = "";
     private static SQLiteDatabase db;
 
     public static Table create(SQLiteDatabase db) {
@@ -181,7 +181,7 @@ public class Table {
         run();
     }
 
-    public void run() {
+    private void run() {
         try {
             db.execSQL(queryString);
         } catch (Exception e) {

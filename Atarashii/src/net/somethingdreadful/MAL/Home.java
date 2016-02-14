@@ -19,7 +19,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -49,20 +48,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
-    IGF af;
-    IGF mf;
-    Menu menu;
-    Context context;
-    View mPreviousView;
-    ActionBar actionBar;
-    DrawerLayout DrawerLayout;
-    IGFPagerAdapter mIGFPagerAdapter;
-    BroadcastReceiver networkReceiver;
+    private IGF af;
+    private IGF mf;
+    private Menu menu;
+    private Context context;
+    private BroadcastReceiver networkReceiver;
 
-    String username;
-    boolean networkAvailable;
-    boolean myList = true; //tracks if the user is on 'My List' or not
-    int callbackCounter = 0;
+    private String username;
+    private boolean networkAvailable;
+    private boolean myList = true; //tracks if the user is on 'My List' or not
+    private int callbackCounter = 0;
     @Bind(R.id.navigationView)
     NavigationView navigationView;
     @Bind(R.id.drawerLayout)
@@ -85,8 +80,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             Theme.setTheme(this, R.layout.activity_home, false);
 
             //Initializing IGF
-            mIGFPagerAdapter = (IGFPagerAdapter) Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
-            actionBar = getSupportActionBar();
+            Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
+            getSupportActionBar();
 
             //Initializing ButterKnife
             ButterKnife.bind(this);
@@ -105,14 +100,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             //Initializing navigation toggle button
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
             ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
-                @Override
-                public void onDrawerClosed(View drawerView) {
-                    super.onDrawerClosed(drawerView);
-                }
-                @Override
-                public void onDrawerOpened(View drawerView) {
-                    super.onDrawerOpened(drawerView);
-                }
             };
             drawerLayout.setDrawerListener(drawerToggle);
             drawerToggle.syncState();
@@ -210,7 +197,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         return super.onOptionsItemSelected(item);
     }
 
-    public void getRecords(boolean clear, TaskJob task, int list) {
+    private void getRecords(boolean clear, TaskJob task, int list) {
         if (af != null && mf != null) {
             af.getRecords(clear, task, list);
             mf.getRecords(clear, task, list);
@@ -235,7 +222,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         unregisterReceiver(networkReceiver);
     }
 
-    public void synctask(boolean clear) {
+    private void synctask(boolean clear) {
         getRecords(clear, TaskJob.FORCESYNC, af.list);
     }
 
@@ -279,11 +266,11 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         return true;
     }
 
-    public void setChecked(MenuItem item) {
+    private void setChecked(MenuItem item) {
         item.setChecked(true);
     }
 
-    public void myListChanged() {
+    private void myListChanged() {
         if (menu != null) {
             menu.findItem(R.id.menu_listType).setVisible(myList);
             menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
@@ -325,7 +312,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         lcdf.show(getFragmentManager(), "fragment_LogoutConfirmationDialog");
     }
 
-    public void checkNetworkAndDisplayCrouton() {
+    private void checkNetworkAndDisplayCrouton() {
         if (MALApi.isNetworkAvailable(context) && !networkAvailable)
             synctask(false);
         networkAvailable = MALApi.isNetworkAvailable(context);
@@ -447,7 +434,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public void onPositiveButtonClicked() {
-        AccountService.clearData(true);
+        AccountService.clearData();
         startActivity(new Intent(this, FirstTimeInit.class));
         System.exit(0);
     }

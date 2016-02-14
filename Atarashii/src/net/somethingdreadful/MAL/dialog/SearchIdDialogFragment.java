@@ -14,7 +14,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 
 public class SearchIdDialogFragment extends DialogFragment {
-    int query;
+    private int query;
 
     @Override
     public void onAttach(Activity activity) {

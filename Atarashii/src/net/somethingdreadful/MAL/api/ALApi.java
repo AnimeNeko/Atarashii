@@ -30,14 +30,14 @@ import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 public class ALApi {
-    private static String anilistURL = "http://anilist.co/api";
+    private static final String anilistURL = "http://anilist.co/api";
     private static String accesToken;
 
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
     private static final String okUa = com.squareup.okhttp.internal.Version.userAgent();
     private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
 
-    ALInterface service;
+    private ALInterface service;
 
     public ALApi() {
         setupRESTService();

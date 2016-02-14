@@ -82,7 +82,7 @@ public class History implements Serializable {
         private String timeUpdated;
     }
 
-    public net.somethingdreadful.MAL.api.BaseModels.History createBaseModel(String username) {
+    private net.somethingdreadful.MAL.api.BaseModels.History createBaseModel(String username) {
         net.somethingdreadful.MAL.api.BaseModels.History model = new net.somethingdreadful.MAL.api.BaseModels.History();
         if (type.equals("anime")) {
             model.setAnime(new Anime());

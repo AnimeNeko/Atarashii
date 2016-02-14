@@ -12,8 +12,8 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class ShareDialogFragment extends DialogFragment {
-    String title;
-    boolean share;
+    private String title;
+    private boolean share;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class ShareDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public String getWebsiteURL() {
+    private String getWebsiteURL() {
         return AccountService.isMAL() ? "http://myanimelist.net/" : "http://anilist.co/";
     }
 }

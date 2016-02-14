@@ -27,7 +27,7 @@ public class Follow implements Serializable {
     @SerializedName("image_url_med")
     private String imageUrlMed;
 
-    public Profile createBaseModel() {
+    private Profile createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.Profile model = new net.somethingdreadful.MAL.api.BaseModels.Profile();
         model.setUsername(getDisplayName());
         model.setImageUrl(getImageUrlLge());

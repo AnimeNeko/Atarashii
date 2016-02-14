@@ -16,11 +16,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
-    public Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<String, ArrayList<RecordStub>>();
-    public ArrayList<String> headers = new ArrayList<>();
+    private final Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<>();
+    public final ArrayList<String> headers = new ArrayList<>();
     public int visable;
-    ViewHolder viewHolder;
-    private Context context;
+    private ViewHolder viewHolder;
+    private final Context context;
 
     public DetailViewRelationsAdapter(Context context) {
         this.context = context;
@@ -72,7 +72,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      */
     public void addTitles(ArrayList<String> strings, String header) {
         if (strings != null) {
-            ArrayList<RecordStub> records = new ArrayList<RecordStub>();
+            ArrayList<RecordStub> records = new ArrayList<>();
             for (String stub : strings) {
                 RecordStub record = new RecordStub();
                 record.setTitle(stub);
@@ -90,7 +90,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      */
     public void addRelations(RecordStub recordStub, String header) {
         if (recordStub != null) {
-            ArrayList<RecordStub> record = new ArrayList<RecordStub>();
+            ArrayList<RecordStub> record = new ArrayList<>();
             record.add(recordStub);
             addRelations(record, header);
         }

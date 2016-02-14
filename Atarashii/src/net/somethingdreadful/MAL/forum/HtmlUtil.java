@@ -6,22 +6,20 @@ import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 public class HtmlUtil {
-    private Context context;
-    String structure;
-    String postStructure;
-    String spoilerStructure;
-    String pageString;
+    private final Context context;
+    private String structure;
+    private final String postStructure;
+    private String spoilerStructure;
+    private String pageString;
 
     public HtmlUtil(Context context) {
         structure = getString(context, R.raw.forum_post_structure);
@@ -124,7 +122,7 @@ public class HtmlUtil {
      * @param comment The HTML comment
      * @return String The BBCode comment
      */
-    public String convertALComment(String comment) {
+    private String convertALComment(String comment) {
         comment = comment.replace("\n", "<br>");                                                                                            // New line
 
         comment = comment.replace("~~~img(", "<img width=\"100%\" src=\"").replace(")~~~", "\">");                                          // Image
@@ -226,45 +224,6 @@ public class HtmlUtil {
         }
         pageString = context.getString(R.string.no_history);
         return buildList(result, 0, page);
-    }
-
-    /**
-     * Convert a forum array into a HTML list.
-     *
-     * @param record   The ForumMain object that contains the list which should be converted in a HTML list
-     * @param username The username of the user, this is used for special rights
-     * @return String The HTML source
-     */
-    public String convertList(ForumMain record, String username, int page) {
-        ArrayList<Forum> list = record.getList();
-        String result = "";
-        for (int i = 0; i < list.size(); i++) {
-            Forum post = list.get(i);
-            String postreal = postStructure;
-            String comment = post.getComment();
-
-            comment = comment.replace("data-src=", "width=\"100%\" src=");
-            comment = comment.replace("img src=", "img width=\"100%\" src=");
-
-            if (post.getUsername().equals(username))
-                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"edit('itemID', 'position')\" src=\"http://i.imgur.com/uZ0TbNv.png\"/>");
-            else
-                postreal = postreal.replace("<!-- special right methods -->", "<img class=\"edit\" onClick=\"quote('itemID', 'position')\" src=\"http://i.imgur.com/yYtLVTV.png\"/>");
-            if (Profile.isDeveloper(post.getUsername()))
-                postreal = postreal.replace("=\"title\">", "=\"developer\">");
-            if (!post.getProfile().getDetails().getAccessRank().equals("Member"))
-                postreal = postreal.replace("=\"title\">", "=\"staff\">");
-            postreal = postreal.replace("image", post.getProfile().getAvatarUrl() != null ? post.getProfile().getAvatarUrl() : "http://cdn.myanimelist.net/images/na.gif");
-            postreal = postreal.replace("Title", post.getUsername());
-            postreal = postreal.replace("itemID", String.valueOf(post.getId()));
-            postreal = postreal.replace("position", String.valueOf(i));
-            postreal = postreal.replace("Subhead", DateTools.parseDate(post.getTime(), true));
-            postreal = postreal.replace("<!-- place post content here -->", comment);
-
-            result = result + postreal;
-        }
-        pageString = context.getString(R.string.no_activity);
-        return buildList(result, record.getPages(), page);
     }
 
     /**

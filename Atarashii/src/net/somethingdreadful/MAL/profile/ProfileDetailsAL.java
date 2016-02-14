@@ -3,7 +3,6 @@ package net.somethingdreadful.MAL.profile;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -32,17 +31,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    View view;
-    Context context;
+    private View view;
     private HtmlUtil htmlUtil;
     private ProfileActivity activity;
 
-    @Bind(R.id.webview) WebView webview;
-    Card imagecard;
-    Card activitycard;
+    @Bind(R.id.webview)
+    WebView webview;
+    private Card imagecard;
+    private Card activitycard;
     @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
-    @Bind(R.id.progressBar) ProgressBar progressBar;
-    @Bind(R.id.network_Card) Card networkCard;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
+    @Bind(R.id.network_Card)
+    Card networkCard;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -62,7 +63,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
         activity.setDetails(this);
@@ -80,7 +81,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
         this.activity = (ProfileActivity) activity;
     }
 
-    public void card() {
+    private void card() {
         Card namecard = (Card) view.findViewById(R.id.name_card);
         namecard.Header.setText(WordUtils.capitalize(activity.record.getUsername()));
     }
@@ -93,7 +94,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
     public void refresh() {
         if (activity.record == null) {
-            if (MALApi.isNetworkAvailable(context))
+            if (MALApi.isNetworkAvailable(activity))
                 Theme.Snackbar(activity, R.string.toast_error_UserRecord);
             else
                 toggle(2);
@@ -103,7 +104,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
             webview.loadDataWithBaseURL(null, htmlUtil.convertList(activity.record, 1), "text/html", "utf-8", null);
 
-            Picasso.with(context)
+            Picasso.with(activity)
                     .load(activity.record.getImageUrl())
                     .into(new Target() {
                         @Override

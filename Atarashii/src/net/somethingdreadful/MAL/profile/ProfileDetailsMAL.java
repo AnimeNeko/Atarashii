@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.profile;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -38,42 +39,70 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    View view;
-    Card imagecard;
-    Card animecard;
-    Card mangacard;
+    private View view;
+    private Card imagecard;
+    private Card animecard;
+    private Card mangacard;
     private ProfileActivity activity;
 
     @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
-    @Bind(R.id.progressBar) ProgressBar progressBar;
-    @Bind(R.id.network_Card) Card networkCard;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
+    @Bind(R.id.network_Card)
+    Card networkCard;
 
-    @Bind(R.id.birthdaysmall) TextView tv1;
-    @Bind(R.id.locationsmall) TextView tv2;
-    @Bind(R.id.commentspostssmall) TextView tv3;
-    @Bind(R.id.forumpostssmall) TextView tv4;
-    @Bind(R.id.lastonlinesmall) TextView tv5;
-    @Bind(R.id.gendersmall) TextView tv6;
-    @Bind(R.id.joindatesmall) TextView tv7;
-    @Bind(R.id.accessranksmall) TextView tv8;
-    @Bind(R.id.animelistviewssmall) TextView tv9;
-    @Bind(R.id.mangalistviewssmall) TextView tv10;
-    @Bind(R.id.atimedayssmall) TextView tv11;
-    @Bind(R.id.awatchingsmall) TextView tv12;
-    @Bind(R.id.acompletedpostssmall) TextView tv13;
-    @Bind(R.id.aonholdsmall) TextView tv14;
-    @Bind(R.id.adroppedsmall) TextView tv15;
-    @Bind(R.id.aplantowatchsmall) TextView tv16;
-    @Bind(R.id.atotalentriessmall) TextView tv17;
-    @Bind(R.id.mtimedayssmall) TextView tv18;
-    @Bind(R.id.mwatchingsmall) TextView tv19;
-    @Bind(R.id.mcompletedpostssmall) TextView tv20;
-    @Bind(R.id.monholdsmall) TextView tv21;
-    @Bind(R.id.mdroppedsmall) TextView tv22;
-    @Bind(R.id.mplantowatchsmall) TextView tv23;
-    @Bind(R.id.mtotalentriessmall) TextView tv24;
-    @Bind(R.id.websitesmall) TextView tv25;
-    @Bind(R.id.websitefront) TextView tv26;
+    @Bind(R.id.birthdaysmall)
+    TextView tv1;
+    @Bind(R.id.locationsmall)
+    TextView tv2;
+    @Bind(R.id.commentspostssmall)
+    TextView tv3;
+    @Bind(R.id.forumpostssmall)
+    TextView tv4;
+    @Bind(R.id.lastonlinesmall)
+    TextView tv5;
+    @Bind(R.id.gendersmall)
+    TextView tv6;
+    @Bind(R.id.joindatesmall)
+    TextView tv7;
+    @Bind(R.id.accessranksmall)
+    TextView tv8;
+    @Bind(R.id.animelistviewssmall)
+    TextView tv9;
+    @Bind(R.id.mangalistviewssmall)
+    TextView tv10;
+    @Bind(R.id.atimedayssmall)
+    TextView tv11;
+    @Bind(R.id.awatchingsmall)
+    TextView tv12;
+    @Bind(R.id.acompletedpostssmall)
+    TextView tv13;
+    @Bind(R.id.aonholdsmall)
+    TextView tv14;
+    @Bind(R.id.adroppedsmall)
+    TextView tv15;
+    @Bind(R.id.aplantowatchsmall)
+    TextView tv16;
+    @Bind(R.id.atotalentriessmall)
+    TextView tv17;
+    @Bind(R.id.mtimedayssmall)
+    TextView tv18;
+    @Bind(R.id.mwatchingsmall)
+    TextView tv19;
+    @Bind(R.id.mcompletedpostssmall)
+    TextView tv20;
+    @Bind(R.id.monholdsmall)
+    TextView tv21;
+    @Bind(R.id.mdroppedsmall)
+    TextView tv22;
+    @Bind(R.id.mplantowatchsmall)
+    TextView tv23;
+    @Bind(R.id.mtotalentriessmall)
+    TextView tv24;
+    @Bind(R.id.websitesmall)
+    TextView tv25;
+    @Bind(R.id.websitefront)
+    TextView tv26;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -91,7 +120,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         ButterKnife.bind(this, view);
 
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
         TextView tv25 = (TextView) view.findViewById(R.id.websitesmall);
@@ -118,7 +147,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         this.activity = (ProfileActivity) activity;
     }
 
-    public void card() { //settings for hide a card and text userprofile
+    private void card() { //settings for hide a card and text userprofile
         if (PrefManager.getHideAnime())
             animecard.setVisibility(View.GONE);
         if (PrefManager.getHideManga())
@@ -132,7 +161,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         namecard.Header.setText(WordUtils.capitalize(activity.record.getUsername()));
     }
 
-    public void setcolor() {
+    private void setcolor() {
         TextView tv8 = (TextView) view.findViewById(R.id.accessranksmall);
         String name = activity.record.getUsername();
         String rank = activity.record.getDetails().getAccessRank() != null ? activity.record.getDetails().getAccessRank() : "";
@@ -155,7 +184,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
-    public void setColor(boolean type) {
+    private void setColor(boolean type) {
         int Hue;
         TextView textview;
         if (type) {
@@ -170,17 +199,17 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         textview.setTextColor(Color.HSVToColor(new float[]{Hue, 1, (float) 0.7}));
     }
 
-    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+    private String getStringFromResourceArray(int resArrayId, int index) {
         try { // getResources will cause a crash if an users clicks the profile fast away
             Resources res = getResources();
             try {
                 String[] types = res.getStringArray(resArrayId);
                 if (index < 0 || index >= types.length) // make sure to have a valid array index
-                    return res.getString(notFoundStringId);
+                    return res.getString(R.string.not_specified);
                 else
                     return types[index];
             } catch (Exception e) {
-                return res.getString(notFoundStringId);
+                return res.getString(R.string.not_specified);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.getStringFromResourceArray(): " + e.getMessage());
@@ -194,7 +223,8 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
-    public void setText() {
+    @SuppressLint("SetTextI18n")
+    void setText() {
         if (activity.record.getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {
@@ -218,7 +248,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
             tv5.setText(lastOnline.equals("") ? activity.record.getDetails().getLastOnline() : lastOnline);
         } else
             tv5.setText("-");
-        tv6.setText(getStringFromResourceArray(R.array.gender, R.string.not_specified, activity.record.getDetails().getGenderInt()));
+        tv6.setText(getStringFromResourceArray(R.array.gender, activity.record.getDetails().getGenderInt()));
         if (activity.record.getDetails().getJoinDate() != null) {
             String joinDate = DateTools.parseDate(activity.record.getDetails().getJoinDate(), false);
             tv7.setText(joinDate.equals("") ? activity.record.getDetails().getJoinDate() : joinDate);

@@ -23,7 +23,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
-public interface ALInterface {
+interface ALInterface {
     @FormUrlEncoded
     @POST("/auth/access_token")
     OAuth getAuthCode(@Field("grant_type") String grant_type, @Field("client_id") String client_id, @Field("client_secret") String client_secret,

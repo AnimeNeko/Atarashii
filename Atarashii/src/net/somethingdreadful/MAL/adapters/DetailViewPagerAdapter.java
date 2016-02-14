@@ -16,23 +16,21 @@ import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
-    public int count;
-    boolean hidePersonal = false;
-    DetailView activity;
-    int maxCount = 4;
-    FragmentManager fm;
+    private int count;
+    private boolean hidePersonal = false;
+    private final DetailView activity;
+    private int maxCount = 4;
     public ViewGroup container;
     private long fragmentId = 0;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
-        this.fm = fm;
         this.activity = activity;
         this.maxCount = MALApi.isNetworkAvailable(activity) ? maxCount : maxCount - 1;
         this.count = getMaxcount();
     }
 
-    public int getMaxcount() {
+    private int getMaxcount() {
         return maxCount;
     }
 
@@ -107,7 +105,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
      *
      * @param number number of items which have been changed
      */
-    public void notifyChangeInPosition(int number) {
+    private void notifyChangeInPosition(int number) {
         fragmentId += getCount() + number;
     }
 }

@@ -18,8 +18,8 @@ public class Profile implements Serializable {
     /**
      * List of developers.
      */
-    static String[] developersMAL = {"ratan12", "motoko"};
-    static String[] developersAL = {"ratan12", "motokoaoyama"};
+    private static final String[] developersMAL = {"ratan12", "motoko"};
+    private static final String[] developersAL = {"ratan12", "motokoaoyama"};
 
     /**
      * The username of the requested profile.

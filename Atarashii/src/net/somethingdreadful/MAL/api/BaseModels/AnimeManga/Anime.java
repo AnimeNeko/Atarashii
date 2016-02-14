@@ -346,7 +346,7 @@ public class Anime extends GenericRecord implements Serializable {
         this.rewatchValue = rewatchValue;
     }
 
-    public void checkProgress() {
+    private void checkProgress() {
         boolean completed = false;
         boolean started = false;
 
@@ -459,7 +459,7 @@ public class Anime extends GenericRecord implements Serializable {
         return rewatching;
     }
 
-    public void setRewatching(int cv) {
+    private void setRewatching(int cv) {
         rewatching = cv == 1;
     }
 
