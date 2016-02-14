@@ -68,15 +68,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     @Bind(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
-    int[][] states = new int[][] {
-            new int[] {-android.R.attr.state_checked}, // unchecked
-            new int[] {android.R.attr.state_checked} // checked
-    };
-    int[] colors = new int[] {
-            context.getResources().getColor(R.color.bg_light_card),
-            context.getResources().getColor(R.color.primary)
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +119,16 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
             //Applying dark theme
             if (Theme.darkTheme) {
+                int[][] states = new int[][] {
+                        new int[] {-android.R.attr.state_checked}, // unchecked
+                        new int[] {android.R.attr.state_checked} // checked
+                };
+
+                int[] colors = new int[] {
+                        context.getResources().getColor(R.color.bg_light_card),
+                        context.getResources().getColor(R.color.primary)
+                };
+
                 ColorStateList myList = new ColorStateList(states, colors);
                 navigationView.setBackgroundColor(getResources().getColor(R.color.bg_dark));
                 navigationView.setItemTextColor(myList);
