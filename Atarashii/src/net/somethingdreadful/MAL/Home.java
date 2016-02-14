@@ -10,11 +10,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,14 +26,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -41,7 +40,6 @@ import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
-import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
@@ -53,7 +51,7 @@ import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener {
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
     IGF af;
     IGF mf;
     Menu menu;
@@ -63,77 +61,84 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     DrawerLayout DrawerLayout;
     IGFPagerAdapter mIGFPagerAdapter;
     BroadcastReceiver networkReceiver;
-    ActionBarDrawerToggle mDrawerToggle;
-    NavigationDrawerAdapter mNavigationDrawerAdapter;
-
-    @Bind(R.id.about) RelativeLayout about;
-    @Bind(R.id.listview) ListView DrawerList;
-    @Bind(R.id.logout) RelativeLayout logout;
-    @Bind(R.id.settings) RelativeLayout settings;
-    @Bind(R.id.support) RelativeLayout support;
 
     String username;
 
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
-    boolean callbackAnimeError = false;
-    boolean callbackMangaError = false;
     int callbackCounter = 0;
+    @Bind(R.id.navigationView)
+    NavigationView navigationView;
+    @Bind(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Initializing activity and application
         context = getApplicationContext();
         Theme.context = context;
+
         if (AccountService.getAccount() != null) {
             //The following is state handling code
             networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
             if (savedInstanceState != null)
                 myList = savedInstanceState.getBoolean("myList");
 
+            //Initializing Theme
             Theme.setTheme(this, R.layout.activity_home, false);
 
+            //Initializing IGF
             mIGFPagerAdapter = (IGFPagerAdapter) Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
             actionBar = getSupportActionBar();
 
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            //Initializing ButterKnife
             ButterKnife.bind(this);
 
-            DrawerLayout.setDrawerListener(new DrawerListener());
-            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+            //setup navigation profile information
             username = AccountService.getUsername();
-            ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
-            ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
             new UserNetworkTask(context, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
-            logout.setOnClickListener(this);
-            settings.setOnClickListener(this);
-            about.setOnClickListener(this);
-            support.setOnClickListener(this);
-            Theme.setBackground(this, logout);
-            Theme.setBackground(this, settings);
-            Theme.setBackground(this, support);
-            Theme.setBackground(this, about);
+            //Initializing NavigationView
+            navigationView = (NavigationView) findViewById(R.id.navigationView);
+            navigationView.setNavigationItemSelectedListener(this);
+            navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
+            ((TextView)  navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
+            ((TextView)  navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
+            //Initializing navigation toggle button
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    super.onDrawerClosed(drawerView);
+                }
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
+                }
+            };
+            drawerLayout.setDrawerListener(drawerToggle);
+            drawerToggle.syncState();
+
+            //Applying dark theme
             if (Theme.darkTheme) {
-                DrawerLayout.findViewById(R.id.scrollView).setBackgroundColor(getResources().getColor(R.color.bg_dark));
-                DrawerLayout.findViewById(R.id.divider).setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
-                ((ImageView) DrawerLayout.findViewById(R.id.supportImg)).setImageDrawable(getResources().getDrawable(R.drawable.mobihelp_ic_conversation_dark));
-                ((TextView) DrawerLayout.findViewById(R.id.logoutText)).setTextColor(getResources().getColor(R.color.text_dark));
-                ((TextView) DrawerLayout.findViewById(R.id.settingsText)).setTextColor(getResources().getColor(R.color.text_dark));
-                ((TextView) DrawerLayout.findViewById(R.id.supportText)).setTextColor(getResources().getColor(R.color.text_dark));
-                ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
+                int[][] states = new int[][] {
+                        new int[] {-android.R.attr.state_checked}, // unchecked
+                        new int[] {android.R.attr.state_checked} // checked
+                };
+
+                int[] colors = new int[] {
+                        context.getResources().getColor(R.color.bg_light_card),
+                        context.getResources().getColor(R.color.primary)
+                };
+
+                ColorStateList myList = new ColorStateList(states, colors);
+
+                navigationView.setBackgroundColor(getResources().getColor(R.color.bg_dark));
+                navigationView.setItemTextColor(myList);
+                navigationView.setItemIconTintList(myList);
             }
-
-            NavigationItems mNavigationContent = new NavigationItems(DrawerList, context);
-            mNavigationDrawerAdapter = new NavigationDrawerAdapter(this, mNavigationContent.ITEMS);
-            DrawerList.setAdapter(mNavigationDrawerAdapter);
-            DrawerList.setOnItemClickListener(new DrawerItemClickListener());
-            DrawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
-            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close);
-            mDrawerToggle.syncState();
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -163,9 +168,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
         switch (item.getItemId()) {
             case R.id.listType_all:
                 getRecords(true, TaskJob.GETLIST, 0);
@@ -401,18 +403,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.logout:
-                showLogoutDialog();
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-            case R.id.support:
-                Mobihelp.showSupport(this);
-                break;
-            case R.id.about:
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
             case R.id.Image:
                 Intent Profile = new Intent(context, ProfileActivity.class);
                 Profile.putExtra("username", username);
@@ -465,6 +455,90 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         System.exit(0);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // disable swipeRefresh for other lists
+        af.setSwipeRefreshEnabled(myList);
+        mf.setSwipeRefreshEnabled(myList);
+
+        //Checking if the item should be checked
+        switch (item.getItemId()) {
+            case R.id.nav_profile:
+                break;
+            case R.id.nav_friends:
+                break;
+            case R.id.nav_forum:
+                break;
+            case R.id.nav_settings:
+                break;
+            case R.id.nav_support:
+                break;
+            case R.id.nav_about:
+                break;
+            default:
+                if (item.isChecked())
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
+                break;
+        }
+
+        //Closing drawer on item click
+        drawerLayout.closeDrawers();
+
+        //Performing the action
+        switch (item.getItemId()) {
+            case R.id.nav_list:
+                getRecords(true, TaskJob.GETLIST, af.list);
+                break;
+            case R.id.nav_profile:
+                Intent Profile = new Intent(context, ProfileActivity.class);
+                Profile.putExtra("username", username);
+                startActivity(Profile);
+                break;
+            case R.id.nav_friends:
+                Intent Friends = new Intent(context, ProfileActivity.class);
+                Friends.putExtra("username", username);
+                Friends.putExtra("friends", username);
+                startActivity(Friends);
+                break;
+            case R.id.nav_forum:
+                if (AccountService.isMAL()) {
+                    Intent Forum = new Intent(context, ForumActivity.class);
+                    startActivity(Forum);
+                } else {
+                    Theme.Snackbar(Home.this, R.string.toast_info_disabled);
+                }
+                break;
+            case R.id.nav_rated:
+                getRecords(true, TaskJob.GETTOPRATED, af.list);
+                break;
+            case R.id.nav_popular:
+                getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
+                break;
+            case R.id.nav_added:
+                getRecords(true, TaskJob.GETJUSTADDED, af.list);
+                break;
+            case R.id.nav_upcoming:
+                getRecords(true, TaskJob.GETUPCOMING, af.list);
+                break;
+            case R.id.nav_logout: // Others subgroup
+                showLogoutDialog();
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this, Settings.class));
+                break;
+            case R.id.nav_support:
+                Mobihelp.showSupport(this);
+                break;
+            case R.id.nav_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+        }
+        myListChanged();
+        return false;
+    }
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
@@ -474,46 +548,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 Theme.Snackbar(Home.this, R.string.toast_error_noConnectivity);
             }
             myList = ((position <= 3 && myList) || position == 0);
-            // disable swipeRefresh for other lists
-            af.setSwipeRefreshEnabled(myList);
-            mf.setSwipeRefreshEnabled(myList);
-            switch (position) {
-                case 0:
-                    getRecords(true, TaskJob.GETLIST, af.list);
-                    break;
-                case 1:
-                    Intent Profile = new Intent(context, ProfileActivity.class);
-                    Profile.putExtra("username", username);
-                    startActivity(Profile);
-                    break;
-                case 2:
-                    Intent Friends = new Intent(context, ProfileActivity.class);
-                    Friends.putExtra("username", username);
-                    Friends.putExtra("friends", username);
-                    startActivity(Friends);
-                    break;
-                case 3:
-                    if (AccountService.isMAL()) {
-                        Intent Forum = new Intent(context, ForumActivity.class);
-                        startActivity(Forum);
-                    } else {
-                        Theme.Snackbar(Home.this, R.string.toast_info_disabled);
-                    }
-                    break;
-                case 4:
-                    getRecords(true, TaskJob.GETTOPRATED, af.list);
-                    break;
-                case 5:
-                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
-                    break;
-                case 6:
-                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
-                    break;
-                case 7:
-                    getRecords(true, TaskJob.GETUPCOMING, af.list);
-                    break;
-            }
-            myListChanged();
 
             /*
              * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
@@ -529,31 +563,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             }
 
             DrawerLayout.closeDrawers();
-        }
-    }
-
-    private class DrawerListener implements DrawerLayout.DrawerListener {
-        @Override
-        public void onDrawerOpened(View drawerView) {
-            mDrawerToggle.onDrawerOpened(drawerView);
-            actionBar.setTitle(getTitle());
-        }
-
-        @Override
-        public void onDrawerClosed(View drawerView) {
-            mDrawerToggle.onDrawerClosed(drawerView);
-            actionBar.setTitle(getTitle());
-            drawerView.requestFocusFromTouch();
-        }
-
-        @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-            mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
-        }
-
-        @Override
-        public void onDrawerStateChanged(int newState) {
-            mDrawerToggle.onDrawerStateChanged(newState);
         }
     }
 }
