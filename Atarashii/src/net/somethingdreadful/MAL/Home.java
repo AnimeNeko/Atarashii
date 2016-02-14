@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,9 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -63,7 +60,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     BroadcastReceiver networkReceiver;
 
     String username;
-
     boolean networkAvailable;
     boolean myList = true; //tracks if the user is on 'My List' or not
     int callbackCounter = 0;
@@ -71,6 +67,15 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     NavigationView navigationView;
     @Bind(R.id.drawerLayout)
     DrawerLayout drawerLayout;
+
+    int[][] states = new int[][] {
+            new int[] {-android.R.attr.state_checked}, // unchecked
+            new int[] {android.R.attr.state_checked} // checked
+    };
+    int[] colors = new int[] {
+            context.getResources().getColor(R.color.bg_light_card),
+            context.getResources().getColor(R.color.primary)
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,18 +128,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
             //Applying dark theme
             if (Theme.darkTheme) {
-                int[][] states = new int[][] {
-                        new int[] {-android.R.attr.state_checked}, // unchecked
-                        new int[] {android.R.attr.state_checked} // checked
-                };
-
-                int[] colors = new int[] {
-                        context.getResources().getColor(R.color.bg_light_card),
-                        context.getResources().getColor(R.color.primary)
-                };
-
                 ColorStateList myList = new ColorStateList(states, colors);
-
                 navigationView.setBackgroundColor(getResources().getColor(R.color.bg_dark));
                 navigationView.setItemTextColor(myList);
                 navigationView.setItemIconTintList(myList);
@@ -416,7 +410,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 lcdf.show(getFragmentManager(), "fragment_NDImage");
                 break;
         }
-        DrawerLayout.closeDrawers();
     }
 
     @Override
@@ -540,32 +533,5 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         }
         myListChanged();
         return false;
-    }
-
-    public class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (!networkAvailable && position > 2) {
-                position = 0;
-                Theme.Snackbar(Home.this, R.string.toast_error_noConnectivity);
-            }
-            myList = ((position <= 3 && myList) || position == 0);
-
-            /*
-             * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
-             */
-            if (position != 1 && position != 2 && position != 3) {
-                if (mPreviousView != null)
-                    mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
-                if (Theme.darkTheme)
-                    view.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
-                else
-                    view.setBackgroundColor(Color.parseColor("#E8E8E8"));
-                mPreviousView = view;
-            }
-
-            DrawerLayout.closeDrawers();
-        }
     }
 }
