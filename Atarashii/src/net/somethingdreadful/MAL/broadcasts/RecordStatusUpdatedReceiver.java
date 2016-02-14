@@ -25,6 +25,6 @@ public class RecordStatusUpdatedReceiver extends BroadcastReceiver {
     }
 
     public interface RecordStatusUpdatedListener {
-        public void onRecordStatusUpdated(MALApi.ListType type);
+        void onRecordStatusUpdated(MALApi.ListType type);
     }
 }

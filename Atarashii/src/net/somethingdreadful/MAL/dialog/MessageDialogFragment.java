@@ -188,8 +188,8 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      * The interface for callback
      */
     public interface onSendClickListener {
-        public void onSendClicked(String message, String subject, ForumJob task, int id);
-        public void onCloseClicked(String message);
+        void onSendClicked(String message, String subject, ForumJob task, int id);
+        void onCloseClicked(String message);
     }
 
     /**

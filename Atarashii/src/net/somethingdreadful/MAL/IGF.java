@@ -777,8 +777,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     }
 
     public interface IGFCallbackListener {
-        public void onIGFReady(IGF igf);
-        public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled);
-        public void onItemClick(int id, ListType listType, String username);
+        void onIGFReady(IGF igf);
+        void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled);
+        void onItemClick(int id, ListType listType, String username);
     }
 }

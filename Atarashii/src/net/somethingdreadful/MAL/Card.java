@@ -319,6 +319,6 @@ public class Card extends RelativeLayout {
      * The Interface that will get triggered by the OnClick method.
      */
     public interface onCardClickListener {
-        public void onCardClickListener(int id);
+        void onCardClickListener(int id);
     }
 }

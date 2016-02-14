@@ -116,6 +116,6 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        public void onUpdated(int number, int id);
+        void onUpdated(int number, int id);
     }
 }

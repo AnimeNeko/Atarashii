@@ -46,7 +46,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        public void onUpdated(int number, int id);
+        void onUpdated(int number, int id);
     }
 
     /**
