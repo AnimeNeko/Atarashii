@@ -42,13 +42,11 @@
         android:background="@drawable/highlite_details">
 
         <View
-            android:id="@+id/divider4"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -79,13 +77,11 @@
         android:background="@drawable/highlite_details">
 
         <View
-            android:id="@+id/divider5"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
 
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -116,13 +112,11 @@
         android:background="@drawable/highlite_details">
 
         <View
-            android:id="@+id/divider6"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
 
         <TextView
-            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
