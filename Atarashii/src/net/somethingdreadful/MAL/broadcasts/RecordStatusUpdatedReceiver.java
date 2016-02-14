@@ -8,7 +8,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 public class RecordStatusUpdatedReceiver extends BroadcastReceiver {
     public static final String RECV_IDENT = "net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver";
-    private RecordStatusUpdatedListener callback;
+    private final RecordStatusUpdatedListener callback;
 
     public RecordStatusUpdatedReceiver(RecordStatusUpdatedListener callback) {
         this.callback = callback;
@@ -25,6 +25,6 @@ public class RecordStatusUpdatedReceiver extends BroadcastReceiver {
     }
 
     public interface RecordStatusUpdatedListener {
-        public void onRecordStatusUpdated(MALApi.ListType type);
+        void onRecordStatusUpdated(MALApi.ListType type);
     }
 }

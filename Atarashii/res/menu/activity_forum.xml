@@ -12,16 +12,4 @@
         android:icon="@drawable/ic_language"
         android:title="@string/action_viewMALPage"
         res-auto:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_add"
-        android:title="@string/action_add"
-        res-auto:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_send"
-        android:icon="@drawable/ic_send"
-        android:title="@string/action_add"
-        res-auto:showAsAction="ifRoom" />
 </menu>

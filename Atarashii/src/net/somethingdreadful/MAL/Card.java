@@ -22,17 +22,16 @@ import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 
 
 public class Card extends RelativeLayout {
-    public boolean center;
-    public TextView Header;
-    public ImageView Image;
-    public CardView Card;
-    public RelativeLayout Content;
+    private final boolean center;
+    public final TextView Header;
+    private ImageView Image;
+    private final CardView Card;
+    private final RelativeLayout Content;
 
-    onCardClickListener listener;
+    private onCardClickListener listener;
     private int screenWidth;
-    private int minHeight;
-    private Float density;
-    private LayoutInflater inflater;
+    private final int minHeight;
+    private final LayoutInflater inflater;
 
     public Card(Context context) {
         this(context, null);
@@ -213,7 +212,7 @@ public class Card extends RelativeLayout {
      *
      * @param color The resource id of the color
      */
-    public void setHeaderColor(int color) {
+    private void setHeaderColor(int color) {
         GradientDrawable shape = (GradientDrawable) Header.getBackground();
         shape.setColor(getResources().getColor(color));
     }
@@ -275,7 +274,7 @@ public class Card extends RelativeLayout {
      * @param maxWidth The maximum width in dp
      * @return int The width that the card should be
      */
-    public int getWidth(Integer amount, Integer maxWidth) {
+    private int getWidth(Integer amount, Integer maxWidth) {
         if (amount == 0)
             amount = 1;
         int divider = amount - 1;
@@ -319,6 +318,6 @@ public class Card extends RelativeLayout {
      * The Interface that will get triggered by the OnClick method.
      */
     public interface onCardClickListener {
-        public void onCardClickListener(int id);
+        void onCardClickListener(int id);
     }
 }

@@ -13,7 +13,7 @@ import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.profile.ProfileHistory;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
-    ProfileActivity activity;
+    private final ProfileActivity activity;
 
     public ProfilePagerAdapter(FragmentManager fm, ProfileActivity activity) {
         super(fm);

@@ -22,7 +22,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
-public interface MALInterface {
+interface MALInterface {
     @GET("/account/verify_credentials")
     Response verifyAuthentication();
 
@@ -102,7 +102,7 @@ public interface MALInterface {
     ForumMain getForum();
 
     @GET("/forum/{id}")
-    ForumMain getTopics(@Path("id") int id, @Query("page") int page);
+    ForumMain getCategoryTopics(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/anime/{id}")
     ForumMain getAnime(@Path("id") int id, @Query("page") int page);

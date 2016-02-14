@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,26 +37,35 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DetailViewGeneral extends Fragment implements Serializable, Card.onCardClickListener {
-    View view;
-    Menu menu;
-    DetailView activity;
+    private View view;
+    private DetailView activity;
     public SwipeRefreshLayout swipeRefresh;
 
-    Card cardMain;
-    Card cardSynopsis;
-    Card cardMediainfo;
-    Card cardPersonal;
+    private Card cardMain;
+    private Card cardSynopsis;
+    private Card cardMediainfo;
+    private Card cardPersonal;
 
-    @Bind(R.id.SynopsisContent) TextView synopsis;
-    @Bind(R.id.mediaType) TextView mediaType;
-    @Bind(R.id.mediaStatus) TextView mediaStatus;
-    @Bind(R.id.statusText) TextView status;
-    @Bind(R.id.progress1Text1) TextView progress1Total;
-    @Bind(R.id.progress1Text2) TextView progress1Current;
-    @Bind(R.id.progress2Text1) TextView progress2Total;
-    @Bind(R.id.progress2Text2) TextView progress2Current;
-    @Bind(R.id.myScore) TextView myScore;
-    @Bind(R.id.Image) ImageView image;
+    @Bind(R.id.SynopsisContent)
+    TextView synopsis;
+    @Bind(R.id.mediaType)
+    TextView mediaType;
+    @Bind(R.id.mediaStatus)
+    TextView mediaStatus;
+    @Bind(R.id.statusText)
+    TextView status;
+    @Bind(R.id.progress1Text1)
+    TextView progress1Total;
+    @Bind(R.id.progress1Text2)
+    TextView progress1Current;
+    @Bind(R.id.progress2Text1)
+    TextView progress2Total;
+    @Bind(R.id.progress2Text2)
+    TextView progress2Current;
+    @Bind(R.id.myScore)
+    TextView myScore;
+    @Bind(R.id.Image)
+    ImageView image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +83,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     /*
      * Set all views once
      */
-    public void setViews() {
+    private void setViews() {
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 
         // set all the card views
@@ -102,37 +110,21 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     /*
      * set all the ClickListeners
      */
-    public void setListener() {
+    private void setListener() {
         swipeRefresh.setOnRefreshListener(activity);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
     }
 
     /*
      * Manage the progress card
      */
-    public void setCard() {
+    private void setCard() {
         if (activity.type != null && activity.type.equals(ListType.ANIME)) {
             TextView progress1 = (TextView) view.findViewById(R.id.progress1Label);
             progress1.setText(getString(R.string.card_content_episodes));
             RelativeLayout progress2 = (RelativeLayout) view.findViewById(R.id.progress2);
             progress2.setVisibility(View.GONE);
-        }
-    }
-
-    /*
-     * set the right menu items.
-     */
-    public void setMenu() {
-        if (menu != null) {
-            if (activity.isAdded()) {
-                menu.findItem(R.id.action_Remove).setVisible(true);
-                menu.findItem(R.id.action_addToList).setVisible(false);
-            } else {
-                menu.findItem(R.id.action_Remove).setVisible(false);
-                menu.findItem(R.id.action_addToList).setVisible(true);
-            }
-            menu.findItem(R.id.action_Remove).setVisible(MALApi.isNetworkAvailable(activity) && menu.findItem(R.id.action_Remove).isVisible());
         }
     }
 
@@ -143,7 +135,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
             return;
         GenericRecord record;
-        setMenu();
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
 

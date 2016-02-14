@@ -12,13 +12,13 @@ import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 
 public class MangaPickerDialogFragment extends DialogFragment {
-    NumberPicker chapterPicker;
-    NumberPicker volumePicker;
-    int chaptersTotal;
-    int chaptersRead;
+    private NumberPicker chapterPicker;
+    private NumberPicker volumePicker;
+    private int chaptersTotal;
+    private int chaptersRead;
 
-    int volumesTotal;
-    int volumesRead;
+    private int volumesTotal;
+    private int volumesRead;
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_manga_picker, null);

@@ -19,9 +19,8 @@ import net.somethingdreadful.MAL.api.MALApi;
 import retrofit.RetrofitError;
 
 public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
-    private AuthenticationCheckListener callback;
-    private String username;
-    Activity activity;
+    private final AuthenticationCheckListener callback;
+    private final Activity activity;
 
     public AuthenticationCheckTask(AuthenticationCheckListener callback, Activity activity) {
         this.callback = callback;
@@ -47,7 +46,6 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
                 AccountService.setRefreshToken(auth.refresh_token);
 
                 PrefManager.setNavigationBackground(profile.getImageUrlBanner());
-                username = profile.getUsername();
                 return true;
             }
         } catch (RetrofitError re) {

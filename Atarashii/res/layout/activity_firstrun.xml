@@ -88,7 +88,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -104,7 +103,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/loginForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">

@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -10,9 +11,9 @@ public class PrefManager {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefEditor;
     private static Context context;
-    private static boolean darkTheme;
 
 
+    @SuppressLint("CommitPrefEdits")
     public static void create(Context mContext) {
         context = mContext;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);

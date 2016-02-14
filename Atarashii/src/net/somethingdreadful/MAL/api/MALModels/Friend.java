@@ -34,7 +34,7 @@ public class Friend implements Serializable {
     @Setter
     private Profile profile;
 
-    public net.somethingdreadful.MAL.api.BaseModels.Profile createBaseModel() {
+    private net.somethingdreadful.MAL.api.BaseModels.Profile createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.Profile model = new net.somethingdreadful.MAL.api.BaseModels.Profile();
         model.setUsername(getName());
         model.setImageUrl(getProfile().getAvatarUrl());

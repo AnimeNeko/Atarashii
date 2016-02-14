@@ -32,31 +32,48 @@ import butterknife.ButterKnife;
 public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
     public SwipeRefreshLayout swipeRefresh;
 
-    DetailView activity;
-    View view;
-    Card cardBasic;
-    Card cardOther;
-    Card cardRewatch;
+    private DetailView activity;
+    private View view;
+    private Card cardBasic;
+    private Card cardOther;
+    private Card cardRewatch;
 
-    @Bind(R.id.statusText) TextView status;
-    @Bind(R.id.progress1Text1) TextView progress1Total;
-    @Bind(R.id.progress1Text2) TextView progress1Current;
-    @Bind(R.id.progress2Text1) TextView progress2Total;
-    @Bind(R.id.progress2Text2) TextView progress2Current;
-    @Bind(R.id.myScore) TextView myScore;
-    @Bind(R.id.myStartDate) TextView myStartDate;
-    @Bind(R.id.myEndDate) TextView myEndDate;
-    @Bind(R.id.myPriority) TextView myPriority;
-    @Bind(R.id.myTags) TextView myTags;
-    @Bind(R.id.comments) TextView comments;
+    @Bind(R.id.statusText)
+    TextView status;
+    @Bind(R.id.progress1Text1)
+    TextView progress1Total;
+    @Bind(R.id.progress1Text2)
+    TextView progress1Current;
+    @Bind(R.id.progress2Text1)
+    TextView progress2Total;
+    @Bind(R.id.progress2Text2)
+    TextView progress2Current;
+    @Bind(R.id.myScore)
+    TextView myScore;
+    @Bind(R.id.myStartDate)
+    TextView myStartDate;
+    @Bind(R.id.myEndDate)
+    TextView myEndDate;
+    @Bind(R.id.myPriority)
+    TextView myPriority;
+    @Bind(R.id.myTags)
+    TextView myTags;
+    @Bind(R.id.comments)
+    TextView comments;
 
-    @Bind(R.id.fansubs) TextView fansubs;
-    @Bind(R.id.storage) TextView storage;
-    @Bind(R.id.storage_amount) TextView storageCount;
-    @Bind(R.id.downloaded) TextView dowloaded;
+    @Bind(R.id.fansubs)
+    TextView fansubs;
+    @Bind(R.id.storage)
+    TextView storage;
+    @Bind(R.id.storage_amount)
+    TextView storageCount;
+    @Bind(R.id.downloaded)
+    TextView dowloaded;
 
-    @Bind(R.id.priority) TextView priority;
-    @Bind(R.id.count2Text2) TextView rewatchCount2;
+    @Bind(R.id.priority)
+    TextView priority;
+    @Bind(R.id.count2Text2)
+    TextView rewatchCount2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +90,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         return view;
     }
 
-    public void setCard() {
+    private void setCard() {
         if (activity.type != null && activity.type.equals(MALApi.ListType.ANIME)) {
             TextView progress1 = (TextView) view.findViewById(R.id.progress1Label);
             progress1.setText(getString(R.string.card_content_episodes));
@@ -82,7 +99,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         }
     }
 
-    public void setListener() {
+    private void setListener() {
         swipeRefresh.setOnRefreshListener(activity);
         swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
@@ -298,7 +315,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         }
     }
 
-    public Bundle bundle(int id, int title) {
+    private Bundle bundle(int id, int title) {
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
         bundle.putString("title", getString(title));

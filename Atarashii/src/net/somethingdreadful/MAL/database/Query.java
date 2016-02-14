@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Query {
-    String queryString = "";
+    private String queryString = "";
     private static SQLiteDatabase db;
 
     public static Query newQuery(SQLiteDatabase db) {
@@ -26,7 +26,7 @@ public class Query {
         return this;
     }
 
-    public Query innerJoinOn(String table1, String column1, String column2) {
+    private Query innerJoinOn(String table1, String column1, String column2) {
         queryString += " INNER JOIN " + table1 + " ON " + column1 + " = " + column2;
         return this;
     }
@@ -78,7 +78,6 @@ public class Query {
 
     /**
      * Update or insert records.
-     *
      * @param table The table where the record should be updated
      * @param cv    The ContentValues which should be updated
      * @param id    The ID of the record
@@ -92,7 +91,6 @@ public class Query {
 
     /**
      * Update or insert records.
-     *
      * @param table    The table where the record should be updated
      * @param cv       The ContentValues which should be updated
      * @param username The username of the record
@@ -251,7 +249,8 @@ public class Query {
      * @param id        The anime or manga ID
      * @param anime     True if the record is an anime
      * @param titleType The title type
-     * @return
+     *
+     * @return ArrayList with titles
      */
     public ArrayList<String> getTitles(int id, boolean anime, int titleType) {
         ArrayList<String> result = new ArrayList<>();
@@ -364,7 +363,8 @@ public class Query {
      * @param table    The table which is separated in anime or manga records
      * @param column   The column name of the id's
      * @param anime    If the record is an anime.
-     * @return
+     *
+     * @return The requested arraylist
      */
     public ArrayList<String> getArrayList(int id, String relTable, String table, String column, boolean anime) {
         ArrayList<String> result = new ArrayList<>();

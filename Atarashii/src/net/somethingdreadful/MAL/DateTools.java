@@ -35,19 +35,12 @@ public class DateTools {
      * Parse a date with miliseconds.
      *
      * @param time     The time in miliseconds
-     * @param withTime Use true when you want also the time (hours & minutes)
      * @return String The readable string.
      */
-    public static String parseDate(Long time, boolean withTime) {
+    public static String parseDate(Long time) {
         Calendar calander = Calendar.getInstance();
         calander.setTimeInMillis(time);
-        return getDateString(calander.getTime(), withTime);
-    }
-
-    public static Long getmilis(String time) {
-        Calendar calander = Calendar.getInstance();
-        calander.setTime(parseISO8601(time));
-        return calander.getTimeInMillis();
+        return getDateString(calander.getTime(), true);
     }
 
     private static Date parseISO8601(String ISO8601) {

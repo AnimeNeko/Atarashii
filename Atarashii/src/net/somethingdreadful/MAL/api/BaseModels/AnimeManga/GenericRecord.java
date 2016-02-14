@@ -35,13 +35,13 @@ public class GenericRecord implements Serializable {
     public static final String STATUS_REREADING = "rereading";
     public static final String STATUS_PLANTOREAD = "plan to read";
 
-    String[] genresList = {"Action", "Adventure", "Cars", "Comedy", "Dementia", "Demons", "Drama",
+    private final String[] genresList = {"Action", "Adventure", "Cars", "Comedy", "Dementia", "Demons", "Drama",
             "Ecchi", "Fantasy", "Game", "Harem", "Hentai", "Historical", "Horror",
             "Josei", "Kids", "Magic", "Martial Arts", "Mecha", "Military", "Music",
             "Mystery", "Parody", "Police", "Psychological", "Romance", "Samurai", "School",
             "Sci-Fi", "Seinen", "Shoujo", "Shoujo Ai", "Shounen", "Shounen Ai", "Slice of Life",
             "Space", "Sports", "Super Power", "Supernatural", "Thriller", "Vampire", "Yaoi", "Yuri"};
-    String[] statusList = {"completed", "on-hold", "dropped", "watching", "plan to watch", "reading", "plan to read"};
+    private final String[] statusList = {"completed", "on-hold", "dropped", "watching", "plan to watch", "reading", "plan to read"};
 
     /**
      * The ID of the record
@@ -312,15 +312,15 @@ public class GenericRecord implements Serializable {
         this.createFlag = createFlag == 1;
     }
 
-    public void setDeleteFlag(boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setDeleteFlag() {
+        this.deleteFlag = true;
     }
 
-    public void setCreateFlag(boolean createFlag) {
-        this.createFlag = createFlag;
+    public void setCreateFlag() {
+        this.createFlag = true;
     }
 
-    public void addDirtyField(String field) {
+    void addDirtyField(String field) {
         if (dirty == null)
             dirty = new ArrayList<>();
         if (!dirty.contains((field)))
@@ -332,7 +332,7 @@ public class GenericRecord implements Serializable {
     }
 
     public ArrayList<Integer> getGenresInt() {
-        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<>();
         if (getGenres() != null)
             for (String genre : getGenres())
                 result.add(Arrays.asList(genresList).indexOf(genre));
@@ -372,7 +372,7 @@ public class GenericRecord implements Serializable {
         }
     }
 
-    protected Object getPropertyValue(String property) {
+    private Object getPropertyValue(String property) {
         try {
             Field field = getField(this.getClass(), property);
             if (field != null) {
@@ -405,7 +405,7 @@ public class GenericRecord implements Serializable {
         return (String) value;
     }
 
-    public int getUserStatusInt(String statusString) {
+    int getUserStatusInt(String statusString) {
         return Arrays.asList(statusList).indexOf(statusString);
     }
 
@@ -417,7 +417,7 @@ public class GenericRecord implements Serializable {
         this.tags = tags;
     }
 
-    public static GenericRecord fromCursor(GenericRecord result, Cursor cursor, List<String> columnNames) {
+    static GenericRecord fromCursor(GenericRecord result, Cursor cursor, List<String> columnNames) {
         GenericRecord.setFromCursor(true);
         result.setId(cursor.getInt(columnNames.indexOf(DatabaseTest.COLUMN_ID)));
         result.setTitle(cursor.getString(columnNames.indexOf("title")));

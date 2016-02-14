@@ -9,6 +9,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
@@ -24,10 +25,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class MALManager {
-    MALApi malApi;
-    ALApi alApi;
-    DatabaseManager dbMan;
-    Context context;
+    private MALApi malApi;
+    private ALApi alApi;
+    private final DatabaseManager dbMan;
 
     public MALManager(Context context) {
         if (AccountService.isMAL())
@@ -35,7 +35,6 @@ public class MALManager {
         else
             alApi = new ALApi();
         dbMan = new DatabaseManager(context);
-        this.context = context;
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
@@ -188,17 +187,9 @@ public class MALManager {
     }
 
     public boolean cleanDirtyAnimeRecords() {
-        return cleanDirtyAnimeRecords(true);
-    }
-
-    public boolean cleanDirtyMangaRecords() {
-        return cleanDirtyMangaRecords(true);
-    }
-
-    public boolean cleanDirtyAnimeRecords(boolean dirtyOnly) {
         boolean totalSuccess = true;
 
-        ArrayList<Anime> dirtyAnimes = dirtyOnly ? dbMan.getDirtyAnimeList() : getAnimeListFromDB(MALApi.ListType.ANIME.toString());
+        ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList();
 
         if (dirtyAnimes != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
@@ -218,10 +209,10 @@ public class MALManager {
         return totalSuccess;
     }
 
-    public boolean cleanDirtyMangaRecords(boolean dirtyOnly) {
+    public boolean cleanDirtyMangaRecords() {
         boolean totalSuccess = true;
 
-        ArrayList<Manga> dirtyMangas = dirtyOnly ? dbMan.getDirtyMangaList() : getMangaListFromDB(MALApi.ListType.MANGA.toString());
+        ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList();
 
         if (dirtyMangas != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
@@ -253,10 +244,6 @@ public class MALManager {
      * All the methods below this block is used to determine and make request to the API.
      */
 
-    public ForumMain search(String query) {
-        return malApi.search(query);
-    }
-
     public Anime getAnimeRecord(int id) {
         Crashlytics.log(Log.DEBUG, "MALX", "MALManager.getAnimeRecord(): Downloading " + id);
         return AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
@@ -267,28 +254,8 @@ public class MALManager {
         return AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
     }
 
-    public ForumMain getForum() {
-        return malApi.getForum();
-    }
-
-    public ForumMain getTopics(int id, int page) {
-        return malApi.getTopics(id, page);
-    }
-
     public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
         return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
-    }
-
-    public ForumMain getPosts(int id, int page) {
-        return malApi.getPosts(id, page);
-    }
-
-    public ForumMain getSubBoards(int id, int page) {
-        return malApi.getSubBoards(id, page);
-    }
-
-    public Boolean addComment(int id, String message) {
-        return malApi.addComment(id, message);
     }
 
     public Boolean updateComment(int id, String message) {
@@ -376,11 +343,36 @@ public class MALManager {
         return AccountService.isMAL() ? malApi.getMangaReviews(id, page) : alApi.getMangaReviews(id, page);
     }
 
+    public ArrayList<Forum> getForumCategories() {
+        return malApi.getForum().createBaseModel();
+    }
+
+
+    public ArrayList<Forum> getCategoryTopics(int id, int page) {
+        return malApi.getCategoryTopics(id, page).createBaseModel();
+    }
+
+    public ArrayList<Forum> getTopic(int id, int page) {
+        return malApi.getPosts(id, page).createBaseModel();
+    }
+
     public boolean deleteAnime(Anime anime) {
         return dbMan.deleteAnime(anime.getId());
     }
 
     public boolean deleteManga(Manga manga) {
         return dbMan.deleteManga(manga.getId());
+    }
+
+    public ArrayList<Forum> search(String query) {
+        return malApi.search(query).createBaseModel();
+    }
+
+    public ArrayList<Forum> getSubCategory(int id, int page) {
+        return malApi.getSubBoards(id, page).createBaseModel();
+    }
+
+    public boolean addComment(int id, String message) {
+        return malApi.addComment(id, message);
     }
 }

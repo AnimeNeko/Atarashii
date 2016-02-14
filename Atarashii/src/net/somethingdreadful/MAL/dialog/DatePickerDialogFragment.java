@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    Boolean startDate;
-    DatePickerDialog mDateDialog;
+    private Boolean startDate;
+    private DatePickerDialog mDateDialog;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

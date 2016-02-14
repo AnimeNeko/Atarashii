@@ -47,7 +47,7 @@ public class Reviews implements Serializable {
     @Getter
     private Manga manga;
 
-    public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews createBaseModel() {
+    private net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews();
         model.setId(getId());
         model.setRating(getUserRating());

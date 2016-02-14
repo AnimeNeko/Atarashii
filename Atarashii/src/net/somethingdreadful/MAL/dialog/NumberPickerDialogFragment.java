@@ -19,10 +19,10 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class NumberPickerDialogFragment extends DialogFragment {
-    NumberPicker numberPicker;
-    EditText numberInput;
+    private NumberPicker numberPicker;
+    private EditText numberInput;
     private onUpdateClickListener callback;
-    boolean inputScore = false;
+    private boolean inputScore = false;
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
@@ -90,7 +90,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * @param key The argument name
      * @return int The number of the argument
      */
-    public int getValue(String key) {
+    private int getValue(String key) {
         try {
             if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() != 3 && PrefManager.getScoreType() != 1)
                 inputScore = true;
@@ -116,6 +116,6 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        public void onUpdated(int number, int id);
+        void onUpdated(int number, int id);
     }
 }

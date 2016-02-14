@@ -23,15 +23,15 @@ import java.util.Arrays;
 import retrofit.RetrofitError;
 
 public class NetworkTask extends AsyncTask<String, Void, Object> {
-    TaskJob job;
-    MALApi.ListType type;
-    Activity activity;
-    Context context;
-    Bundle data;
-    NetworkTaskListener callback;
-    APIAuthenticationErrorListener authErrorCallback;
-    Object taskResult;
-    TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
+    private TaskJob job;
+    private MALApi.ListType type;
+    private Activity activity;
+    private Context context;
+    private Bundle data;
+    private NetworkTaskListener callback;
+    private APIAuthenticationErrorListener authErrorCallback;
+    private Object taskResult;
+    private final TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
             TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
 

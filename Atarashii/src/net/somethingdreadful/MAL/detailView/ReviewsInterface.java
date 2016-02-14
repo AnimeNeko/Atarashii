@@ -3,8 +3,8 @@ package net.somethingdreadful.MAL.detailView;
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
-public class ReviewsInterface {
-    DetailViewReviews reviews;
+class ReviewsInterface {
+    private final DetailViewReviews reviews;
 
     ReviewsInterface(DetailViewReviews reviews) {
         this.reviews = reviews;

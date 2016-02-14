@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,10 +33,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
-    String MalUser;
-    String MalPass;
-    Context context;
-    ProgressDialog dialog;
+    private String MalUser;
+    private String MalPass;
+    private Context context;
+    private ProgressDialog dialog;
 
     @Bind(R.id.edittext_malUser)
     EditText malUser;
@@ -54,6 +55,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     @Bind(R.id.anilist)
     TextView anilist;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,19 +29,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCallbackListener, APIAuthenticationErrorListener, ViewPager.OnPageChangeListener {
-    IGF af;
-    IGF mf;
-    Menu menu;
-    Context context;
-    ActionBar actionBar;
-    IGFPagerAdapter mIGFPagerAdapter;
+    private IGF af;
+    private IGF mf;
+    private Menu menu;
+    private Context context;
+    private IGFPagerAdapter mIGFPagerAdapter;
 
-    @Bind(R.id.pager) ViewPager mViewPager;
+    @Bind(R.id.pager)
+    ViewPager mViewPager;
 
-    String username;
-    boolean callbackAnimeError = false;
-    boolean callbackMangaError = false;
-    int callbackCounter = 0;
+    private int callbackCounter = 0;
     private int widgetID;
     private int recordID;
     private MALApi.ListType type;
@@ -53,15 +49,11 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         setResult(RESULT_CANCELED);
         context = getApplicationContext();
         if (AccountService.getAccount() != null) {
-            actionBar = getSupportActionBar();
-            //The following is state handling code
-
             setContentView(R.layout.activity_home);
+
             // Creates the adapter to return the Animu and Mango fragments
             mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager(), false);
             ButterKnife.bind(this);
-
-            username = AccountService.getUsername();
 
             // Set up the ViewPager with the sections adapter.
             mViewPager.setAdapter(mIGFPagerAdapter);
@@ -140,14 +132,14 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
      * On some devices the af & mf will change into null due inactivity.
      * This is a check to prevent any crashes and set it again.
      */
-    public void checkIGF() {
+    private void checkIGF() {
         if (af == null || mf == null) {
             af = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 0);
             mf = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 1);
         }
     }
 
-    public void getRecords(boolean clear, TaskJob task, int list) {
+    private void getRecords(boolean clear, TaskJob task, int list) {
         checkIGF();
         if (af != null && mf != null) {
             af.getRecords(clear, task, list);
@@ -166,7 +158,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         super.onPause();
     }
 
-    public void synctask(boolean clear) {
+    private void synctask(boolean clear) {
         getRecords(clear, TaskJob.FORCESYNC, af.list);
     }
 
@@ -203,7 +195,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         return true;
     }
 
-    public void setChecked(MenuItem item) {
+    private void setChecked(MenuItem item) {
         item.setChecked(true);
     }
 
@@ -257,7 +249,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         DatabaseManager db = new DatabaseManager(context);
         boolean succeeded;
         if (recordID != 0)
-            succeeded = db.updateWidgetRecord(recordID, type, id, listType);
+            succeeded = db.updateWidgetRecord(recordID, id, listType);
         else
             succeeded = db.addWidgetRecord(id, listType);
 

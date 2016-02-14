@@ -17,9 +17,9 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 
 public class StatusPickerDialogFragment extends DialogFragment implements OnCheckedChangeListener {
 
-    RadioGroup radio;
-    ListType type;
-    String currentStatus;
+    private RadioGroup radio;
+    private ListType type;
+    private String currentStatus;
 
     @Override
     public AlertDialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class StatusPickerDialogFragment extends DialogFragment implements OnChec
         return builder.create();
     }
 
-    public View makeRatiobutton() {
+    private View makeRatiobutton() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_status_picker, null);
         radio = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
         type = ((DetailView) getActivity()).type;

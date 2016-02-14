@@ -35,8 +35,8 @@ public class Theme extends Application {
 
     public static boolean darkTheme;
     private static float density;
-    Locale locale;
-    Configuration config;
+    private Locale locale;
+    private Configuration config;
     static Context context;
 
     @Override
@@ -82,6 +82,7 @@ public class Theme extends Application {
     public static void logTaskCrash(String className, String message, Exception e) {
         Crashlytics.log(Log.ERROR, "MALX", className + "." + message + ": " + e.getMessage());
         Crashlytics.logException(e);
+        e.printStackTrace();
         Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, e.getMessage()));
     }
 
@@ -97,7 +98,7 @@ public class Theme extends Application {
     /**
      * Changes the language to the preferred one.
      */
-    public void setLanguage() {
+    private void setLanguage() {
         Resources res = getBaseContext().getResources();
         res.updateConfiguration(config, res.getDisplayMetrics());
     }

@@ -9,7 +9,6 @@
         android:id="@+id/scrollView">
 
         <RelativeLayout
-            android:id="@+id/backgroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
@@ -44,7 +43,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/container2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/container1"

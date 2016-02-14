@@ -30,16 +30,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BackupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener, BackupTask.BackupTaskListener, RestoreTask.RestoreTaskListener {
-    ProgressDialog dialog;
+    private ProgressDialog dialog;
     @Bind(R.id.listview)
     GridView Gridview;
-    BackupGridviewAdapter backupGridviewAdapter;
-    ArrayList<File> files = new ArrayList<>();
-    int position = 0;
+    private BackupGridviewAdapter backupGridviewAdapter;
+    private final ArrayList<File> files = new ArrayList<>();
+    private int position = 0;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
     @Bind(R.id.swiperefresh)
-    public SwipeRefreshLayout swipeRefresh;
+    SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class BackupActivity extends AppCompatActivity implements AdapterView.OnI
         Gridview.setVisibility(View.VISIBLE);
         Gridview.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
         toggle(1);
         getListFiles();
@@ -115,7 +115,7 @@ public class BackupActivity extends AppCompatActivity implements AdapterView.OnI
     /**
      * Refresh the backup list
      */
-    public void refresh() {
+    private void refresh() {
         Gridview.setAdapter(backupGridviewAdapter);
         try {
             backupGridviewAdapter.supportAddAll(files);

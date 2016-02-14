@@ -1,4 +1,6 @@
-package net.somethingdreadful.MAL.api.MALModels;
+package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
+
+import net.somethingdreadful.MAL.api.MALModels.Profile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Forum implements Serializable {
+
     /**
      * The ID used to get topic/board
      */
@@ -69,6 +72,15 @@ public class Forum implements Serializable {
     @Setter
     @Getter
     private String time;
+
+    /**
+     * The max amount of pages
+     *
+     * Note: Only the first item will contain this
+     */
+    @Setter
+    @Getter
+    private int maxPages;
 
     /**
      * The userprofile for the user details in topics

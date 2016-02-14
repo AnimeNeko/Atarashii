@@ -15,7 +15,7 @@ import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 
 public class UpdateImageDialogFragment extends DialogFragment {
-    EditText input;
+    private EditText input;
 
     private View createView() {
         View result = getActivity().getLayoutInflater().inflate(R.layout.dialog_update_nav_image, null);

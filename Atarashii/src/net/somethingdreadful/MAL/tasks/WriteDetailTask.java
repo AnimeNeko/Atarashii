@@ -24,11 +24,11 @@ import net.somethingdreadful.MAL.widgets.Widget1;
 import retrofit.RetrofitError;
 
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
-    Context context;
-    ListType type = ListType.ANIME;
-    TaskJob job;
-    APIAuthenticationErrorListener authErrorCallback;
-    private Activity activity;
+    private final Context context;
+    private ListType type = ListType.ANIME;
+    private final TaskJob job;
+    private final APIAuthenticationErrorListener authErrorCallback;
+    private final Activity activity;
 
     public WriteDetailTask(ListType type, TaskJob job, Context context, APIAuthenticationErrorListener authErrorCallback, Activity activity) {
         this.context = context;

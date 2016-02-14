@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.detailView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -28,43 +29,65 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
-    View view;
-    Card cardSynopsis;
-    Card cardMediainfo;
-    Card cardMediaStats;
-    Card cardRelations;
-    Card cardTitles;
-    Card cardNetwork;
-    DetailView activity;
-    ExpandableListView relations;
-    ExpandableListView titles;
-    DetailViewRelationsAdapter relation;
-    DetailViewRelationsAdapter title;
+    private View view;
+    private Card cardSynopsis;
+    private Card cardMediainfo;
+    private Card cardMediaStats;
+    private Card cardRelations;
+    private Card cardTitles;
+    private Card cardNetwork;
+    private DetailView activity;
+    private ExpandableListView relations;
+    private ExpandableListView titles;
+    private DetailViewRelationsAdapter relation;
+    private DetailViewRelationsAdapter title;
 
-    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
 
-    @Bind(R.id.SynopsisContent) TextView  synopsis;
-    @Bind(R.id.type) TextView type;
-    @Bind(R.id.episodes) TextView episodes;
-    @Bind(R.id.episodesLabel) TextView episodesLabel;
-    @Bind(R.id.volumes) TextView volumes;
-    @Bind(R.id.volumesLabel) TextView volumesLabel;
-    @Bind(R.id.status) TextView status;
-    @Bind(R.id.start) TextView start;
-    @Bind(R.id.startRow) TableRow startRow;
-    @Bind(R.id.end) TextView end;
-    @Bind(R.id.endRow) TableRow endRow;
-    @Bind(R.id.classification) TextView classification;
-    @Bind(R.id.classificationLabel) TextView classificationLabel;
-    @Bind(R.id.genres) TextView genres;
-    @Bind(R.id.producers) TextView producers;
-    @Bind(R.id.producersRow) TableRow producersRow;
+    @Bind(R.id.SynopsisContent)
+    TextView synopsis;
+    @Bind(R.id.type)
+    TextView type;
+    @Bind(R.id.episodes)
+    TextView episodes;
+    @Bind(R.id.episodesLabel)
+    TextView episodesLabel;
+    @Bind(R.id.volumes)
+    TextView volumes;
+    @Bind(R.id.volumesLabel)
+    TextView volumesLabel;
+    @Bind(R.id.status)
+    TextView status;
+    @Bind(R.id.start)
+    TextView start;
+    @Bind(R.id.startRow)
+    TableRow startRow;
+    @Bind(R.id.end)
+    TextView end;
+    @Bind(R.id.endRow)
+    TableRow endRow;
+    @Bind(R.id.classification)
+    TextView classification;
+    @Bind(R.id.classificationLabel)
+    TextView classificationLabel;
+    @Bind(R.id.genres)
+    TextView genres;
+    @Bind(R.id.producers)
+    TextView producers;
+    @Bind(R.id.producersRow)
+    TableRow producersRow;
 
-    @Bind(R.id.score) TextView score;
-    @Bind(R.id.ranked) TextView ranked;
-    @Bind(R.id.popularity) TextView popularity;
-    @Bind(R.id.members) TextView members;
-    @Bind(R.id.favorites) TextView favorites;
+    @Bind(R.id.score)
+    TextView score;
+    @Bind(R.id.ranked)
+    TextView ranked;
+    @Bind(R.id.popularity)
+    TextView popularity;
+    @Bind(R.id.members)
+    TextView members;
+    @Bind(R.id.favorites)
+    TextView favorites;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +111,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     /*
      * The scrollview bugs when you use viewflipper in it!
      */
-    public void toggleView(Boolean show) {
+    private void toggleView(Boolean show) {
         if (show) {
             cardSynopsis.setVisibility(View.VISIBLE);
             cardMediainfo.setVisibility(View.VISIBLE);
@@ -115,7 +138,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     /**
      * Set all views once
      */
-    public void setViews() {
+    private void setViews() {
         // set all the card views
         cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
@@ -155,6 +178,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     /**
      * Place all the text in the right textview
      */
+    @SuppressLint("SetTextI18n")
     public void setText() {
         GenericRecord record = (activity.type.equals(MALApi.ListType.ANIME) ? activity.animeRecord : activity.mangaRecord);
         if (record.getSynopsis() == null)
@@ -243,7 +267,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     /**
      * Handle the click events (expand and collapse)
      */
-    public void clickListeners() {
+    private void clickListeners() {
         titles.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int i) {

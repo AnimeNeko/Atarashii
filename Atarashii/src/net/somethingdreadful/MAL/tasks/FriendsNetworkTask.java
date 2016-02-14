@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import retrofit.RetrofitError;
 
 public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profile>> {
-    FriendsNetworkTaskListener callback;
-    private Context context;
-    private boolean forcesync;
-    Activity activity;
+    private final FriendsNetworkTaskListener callback;
+    private final Context context;
+    private final boolean forcesync;
+    private final Activity activity;
 
     public FriendsNetworkTask(Context context, boolean forcesync, FriendsNetworkTaskListener callback, Activity activity) {
         this.context = context;

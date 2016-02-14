@@ -288,8 +288,8 @@ public class MALApi {
         return service.getForum();
     }
 
-    public ForumMain getTopics(int id, int page) {
-        return service.getTopics(id, page);
+    public ForumMain getCategoryTopics(int id, int page) {
+        return service.getCategoryTopics(id, page);
     }
 
     public ForumMain getAnime(int id, int page) {

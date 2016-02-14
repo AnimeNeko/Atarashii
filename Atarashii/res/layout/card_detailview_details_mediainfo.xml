@@ -5,7 +5,6 @@
     <TableRow>
 
         <TextView
-            android:id="@+id/typeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_media_type"
@@ -71,7 +70,6 @@
     <TableRow android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/statusLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_media_status"
@@ -95,7 +93,6 @@
         android:id="@+id/startRow">
 
         <TextView
-            android:id="@+id/startLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_start"
@@ -120,7 +117,6 @@
         android:id="@+id/endRow">
 
         <TextView
-            android:id="@+id/endLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_end"
@@ -160,7 +156,6 @@
     <TableRow android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/genresLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_genres"
@@ -182,7 +177,6 @@
         android:id="@+id/producersRow">
 
         <TextView
-            android:id="@+id/producersLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_producers"

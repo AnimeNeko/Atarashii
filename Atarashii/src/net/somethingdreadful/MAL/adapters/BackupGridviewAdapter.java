@@ -23,10 +23,10 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
-    private Context context;
+    private final Context context;
     private ArrayList<File> list;
-    private String username;
-    private onClickListener onClickListener;
+    private final String username;
+    private final onClickListener onClickListener;
 
     public BackupGridviewAdapter(Context context, ArrayList<File> list, onClickListener onClickListener) {
         super(context, R.layout.record_friends_gridview);
@@ -75,7 +75,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
 
         try {
             viewHolder.username.setText(fileName.substring(fileName.indexOf('_') + 1).replace(".json", ""));
-            viewHolder.last_online.setText(DateTools.parseDate(Long.parseLong(fileName.substring(6, fileName.indexOf('_'))), true));
+            viewHolder.last_online.setText(DateTools.parseDate(Long.parseLong(fileName.substring(6, fileName.indexOf('_')))));
             if (!username.equals(viewHolder.username.getText()))
                 viewHolder.username.setTextColor(context.getResources().getColor(R.color.card_red));
             else

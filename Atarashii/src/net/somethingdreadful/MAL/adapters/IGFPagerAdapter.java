@@ -9,8 +9,8 @@ import net.somethingdreadful.MAL.IGF;
 import net.somethingdreadful.MAL.api.MALApi;
 
 public class IGFPagerAdapter extends FragmentPagerAdapter {
-    FragmentManager fm;
-    boolean popup = true;
+    private final FragmentManager fm;
+    private boolean popup = true;
 
     /**
      * Init page adapter
@@ -46,7 +46,7 @@ public class IGFPagerAdapter extends FragmentPagerAdapter {
         return MALApi.getListTypeString(getTag(position)).toUpperCase();
     }
 
-    public MALApi.ListType getTag(int position) {
+    private MALApi.ListType getTag(int position) {
         switch (position) {
             case 0:
                 return MALApi.ListType.ANIME;

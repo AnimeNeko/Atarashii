@@ -158,7 +158,7 @@ public class GenericRecord implements Serializable {
     @SerializedName("personal_comments")
     private String personalComments;
 
-    public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
+    net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
         model.setId(getId());
         model.setTitle(getTitle()); // MAL is using default romaji
         model.setTitleEnglish(getOtherTitles().get("english"));
@@ -183,13 +183,13 @@ public class GenericRecord implements Serializable {
         return model;
     }
 
-    public ArrayList<String> getTitleArray() {
+    private ArrayList<String> getTitleArray() {
         ArrayList<String> title = new ArrayList<>();
         title.add(getTitle());
         return title;
     }
 
-    public String getImageUrl() {
+    private String getImageUrl() {
         if (imageUrl != null)
             return imageUrl.replace("t.jpg", "l.jpg");
         else

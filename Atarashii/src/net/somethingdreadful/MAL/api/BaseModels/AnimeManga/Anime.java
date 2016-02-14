@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.text.TextUtils;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
@@ -345,18 +346,18 @@ public class Anime extends GenericRecord implements Serializable {
         this.rewatchValue = rewatchValue;
     }
 
-    public void checkProgress() {
+    private void checkProgress() {
         boolean completed = false;
+        boolean started = false;
 
-        // Automatically set the max episode on completed
-        if (getWatchedStatus().equals(GenericRecord.STATUS_COMPLETED) && getEpisodes() > 0) {
-            setWatchedEpisodes(getEpisodes());
-            completed = true;
+        // Automatically set the status on completed
+        if (getEpisodes() > 0 && getWatchedEpisodes() == getEpisodes() && !getDirty().contains("watchedStatus")) {
+            setWatchedStatus(GenericRecord.STATUS_COMPLETED);
         }
 
-        // Automatically set the progress when the max episode has reached
-        if (getWatchedEpisodes() == getEpisodes() && getEpisodes() > 0) {
-            setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+        // Automatically set the max episode on completed
+        if (getEpisodes() > 0 && getWatchedStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("watchedEpisodes")) {
+            setWatchedEpisodes(getEpisodes());
             completed = true;
         }
 
@@ -368,7 +369,7 @@ public class Anime extends GenericRecord implements Serializable {
             }
 
             // Automatically set the end date on completed if it is empty
-            if (getWatchingEnd() == null || getWatchingEnd().equals("")) {
+            if ((getWatchingEnd() == null || getWatchingEnd().equals("") || getWatchingEnd().equals("0-00-00")) && PrefManager.getAutoDateSetter()) {
                 final Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
@@ -377,20 +378,23 @@ public class Anime extends GenericRecord implements Serializable {
             }
         }
 
+        if (getWatchedStatus().equals(GenericRecord.STATUS_WATCHING) && getWatchedEpisodes() == 0 && !getDirty().contains("watchedEpisodes")) {
+            started = true;
+        }
+
         // Automatically set the progress when the episode 1 has been watched
-        if (getWatchedStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getWatchedEpisodes() == 1) {
+        if (getWatchedStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getWatchedEpisodes() == 1 && !getDirty().contains("watchedStatus")) {
             setWatchedStatus(GenericRecord.STATUS_WATCHING);
+            started = true;
         }
 
         // Automatically set the start date on start if it is empty
-        if (getWatchedStatus().equals(GenericRecord.STATUS_WATCHING) && getWatchedEpisodes() == 1) {
-            if (getWatchingStart() == null || getWatchingStart().equals("")) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                setWatchingStart(year + "-" + month + "-" + day);
-            }
+        if ((getWatchingStart() == null || getWatchingStart().equals("") || getWatchingStart().equals("0-00-00")) && PrefManager.getAutoDateSetter() && started) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            setWatchingStart(year + "-" + month + "-" + day);
         }
     }
 
@@ -455,7 +459,7 @@ public class Anime extends GenericRecord implements Serializable {
         return rewatching;
     }
 
-    public void setRewatching(int cv) {
+    private void setRewatching(int cv) {
         rewatching = cv == 1;
     }
 

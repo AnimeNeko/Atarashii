@@ -42,6 +42,23 @@ public class Profile implements Serializable {
     @SerializedName("manga_stats")
     private MangaStats mangaStats;
 
+    public String getSpecialAccesRank(String username) {
+        String rank = getDetails().getAccessRank();
+        if (rank.contains("IRC"))
+            return "IRC";
+        else if (rank.contains("News"))
+            return "News Team";
+        else if (rank.contains("Social"))
+            return "SMT";
+        else if (rank.contains("Mod"))
+            return "Mod";
+        else if (rank.contains("Admin"))
+            return "Admin";
+        else if (net.somethingdreadful.MAL.api.BaseModels.Profile.isDeveloper(username))
+            return "Atarashii dev";
+        return "";
+    }
+
     public static class Details implements Serializable {
         /**
          * The date of when the user was last online.

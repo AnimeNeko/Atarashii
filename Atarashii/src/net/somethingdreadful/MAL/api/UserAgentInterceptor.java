@@ -6,7 +6,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class UserAgentInterceptor implements Interceptor {
+class UserAgentInterceptor implements Interceptor {
 
     private final String userAgent;
 

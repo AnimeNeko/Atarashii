@@ -27,7 +27,7 @@ public class AccountService extends Service {
     /**
      * The account version will be used to peform
      */
-    private static int accountVersion = 2;
+    private static final int accountVersion = 2;
 
     public static void create(Context context) {
         AccountService.context = context;
@@ -116,7 +116,7 @@ public class AccountService extends Service {
      * @param type The authToken string
      * @return AccountType The type of account
      */
-    public static AccountType getAccountType(String type) {
+    private static AccountType getAccountType(String type) {
         if (AccountType.AniList.toString().equals(type))
             return AccountType.AniList;
         else
@@ -126,7 +126,7 @@ public class AccountService extends Service {
     /**
      * Removes an account from the accountmanager.
      */
-    public static void deleteAccount() {
+    private static void deleteAccount() {
         AccountManager accountManager = AccountManager.get(context);
         accountManager.removeAccount(getAccount(), null, null);
         account = null;
@@ -188,7 +188,7 @@ public class AccountService extends Service {
      *
      * @param accountVersion The new accountversion of the account that will be saved
      */
-    public static void setAccountVersion(int accountVersion) {
+    private static void setAccountVersion(int accountVersion) {
         if (account != null) {
             AccountManager accountManager = AccountManager.get(context);
             accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
@@ -215,13 +215,10 @@ public class AccountService extends Service {
 
     /**
      * Removes the userdata
-     *
-     * @param prefs If true it will remove all the prefrences saved.
      */
-    public static void clearData(boolean prefs) {
+    public static void clearData() {
         DatabaseTest.deleteDatabase(context);
-        if (prefs)
-            PrefManager.clear();
+        PrefManager.clear();
         Mobihelp.clearUserData(context);
         AccountService.deleteAccount();
     }
