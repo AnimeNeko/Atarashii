@@ -9,7 +9,7 @@ import com.crashlytics.android.Crashlytics;
 import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.api.BaseModels.Forum;
 
 import java.util.ArrayList;
 

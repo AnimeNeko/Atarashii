@@ -7,9 +7,10 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
+import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
@@ -344,7 +345,7 @@ public class MALManager {
     }
 
     public ArrayList<Forum> getForumCategories() {
-        return malApi.getForum().createBaseModel();
+        return AccountService.isMAL() ? malApi.getForum().createBaseModel() : ForumAL.getForum();
     }
 
 

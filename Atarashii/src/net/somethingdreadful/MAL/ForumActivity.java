@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumInterface;
 import net.somethingdreadful.MAL.tasks.ForumJob;
