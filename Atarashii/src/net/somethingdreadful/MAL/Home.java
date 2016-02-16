@@ -402,22 +402,22 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public void onUserNetworkTaskFinished(Profile result) {
-        ImageView image = (ImageView) findViewById(R.id.Image);
-        ImageView image2 = (ImageView) findViewById(R.id.NDimage);
+        ImageView image = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.Image);
+        ImageView image2 = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.NDimage);
         try {
             Picasso.with(context)
                     .load(result.getImageUrl())
                     .transform(new RoundedTransformation(result.getUsername()))
                     .into(image);
+            if (PrefManager.getNavigationBackground() != null)
+                Picasso.with(context)
+                        .load(PrefManager.getNavigationBackground())
+                        .into(image2);
+            image.setOnClickListener(this);
+            image2.setOnClickListener(this);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
         }
-        if (PrefManager.getNavigationBackground() != null)
-            Picasso.with(context)
-                    .load(PrefManager.getNavigationBackground())
-                    .into(image2);
-        image.setOnClickListener(this);
-        image2.setOnClickListener(this);
     }
 
     @Override
