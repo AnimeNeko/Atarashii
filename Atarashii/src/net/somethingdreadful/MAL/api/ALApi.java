@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseAnimeList;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseMangaList;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
+import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.ALModels.History;
 import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -195,6 +196,10 @@ public class ALApi {
         else
             result = service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
         return result;
+    }
+
+    public ForumAL getTags(int id, int page) {
+        return service.getTags(id, page);
     }
 
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {

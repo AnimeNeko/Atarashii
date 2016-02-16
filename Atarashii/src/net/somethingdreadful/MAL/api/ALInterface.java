@@ -7,6 +7,7 @@ import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
+import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.ALModels.History;
 import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.ALModels.Profile;
@@ -142,9 +143,6 @@ interface ALInterface {
     @GET("/forum/tag")
     ForumMain getAnime(@Path("tag") int id, @Query("page") int page);
 
-    @GET("/forum/tag")
-    ForumMain getManga(@Path("tag") int id, @Query("page") int page);
-
     @FormUrlEncoded
     @POST("/forum/{id}")
     Response addTopic(@Path("tags") int tags, @Path("tags_anime") int tags_anime, @Path("tags_manga") int tags_manga,
@@ -153,6 +151,9 @@ interface ALInterface {
     @GET("/forum/thread/{id}")
     ForumMain getPosts(@Path("id") int id, @Query("page") int page);
     */
+
+    @GET("/forum/tag")
+    ForumAL getTags(@Query("tags") int id, @Query("page") int page);
 
     @GET("/anime/{id}/reviews")
     ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);

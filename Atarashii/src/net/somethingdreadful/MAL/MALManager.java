@@ -348,9 +348,8 @@ public class MALManager {
         return AccountService.isMAL() ? malApi.getForum().createBaseModel() : ForumAL.getForum();
     }
 
-
     public ArrayList<Forum> getCategoryTopics(int id, int page) {
-        return malApi.getCategoryTopics(id, page).createBaseModel();
+        return AccountService.isMAL() ? malApi.getCategoryTopics(id, page).createBaseModel() : alApi.getTags(id, page).getForumListBase();
     }
 
     public ArrayList<Forum> getTopic(int id, int page) {

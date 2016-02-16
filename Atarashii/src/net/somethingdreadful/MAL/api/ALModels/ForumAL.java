@@ -1,52 +1,74 @@
 package net.somethingdreadful.MAL.api.ALModels;
 
+import android.nfc.Tag;
+
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
 public class ForumAL implements Serializable {
-
     /**
-     * The MyAnimeList category.
+     * Total number of threads.
      */
     @Setter
     @Getter
-    private ArrayList<Forum> MyAnimeList;
+    @SerializedName("total")
+    private Integer total;
 
     /**
-     * The Anime & Manga category.
+     * Total number of threads on each page.
      */
     @Setter
     @Getter
-    @SerializedName("Anime & Manga")
-    private ArrayList<Forum> AnimeManga;
+    @SerializedName("per_page")
+    private Integer perPage;
 
     /**
-     * The General category.
+     * Total number of this page.
      */
     @Setter
     @Getter
-    private ArrayList<Forum> General;
+    @SerializedName("current_page")
+    private Integer currentPage;
 
     /**
-     * A general list for multi use.
+     * Total number of pages.
      */
     @Setter
     @Getter
-    private ArrayList<Forum> list;
+    @SerializedName("last_page")
+    private Integer lastPage;
 
     /**
-     * Amount of pages.
+     * The start thread number.
      */
     @Setter
     @Getter
-    private int pages;
+    @SerializedName("from")
+    private Integer from;
+
+    /**
+     * The last thread number.
+     */
+    @Setter
+    @Getter
+    @SerializedName("to")
+    private Integer to;
+
+    /**
+     * The threads information.
+     */
+    @Setter
+    @Getter
+    @SerializedName("data")
+    private ArrayList<ThreadInfo> data = new ArrayList<>();
 
     public static ArrayList<Forum> getForum() {
         ArrayList<Forum> result = new ArrayList<>();
@@ -74,7 +96,7 @@ public class ForumAL implements Serializable {
     /**
      * Create forum models for AL category board.
      *
-     * @param id The category id
+     * @param id   The category id
      * @param name The category id name
      * @return Forum The created model
      */
@@ -86,19 +108,128 @@ public class ForumAL implements Serializable {
         return forum;
     }
 
+    /**
+     * Create replies for base model.
+     *
+     * @param username Last reply username
+     * @param time Last reply time
+     * @return Forum the reply
+     */
+    public static Forum createReplyConverter(String username, String time) {
+        Forum forum = new Forum();
+        forum.setUsername(username);
+        forum.setTime(time);
+        return forum;
+    }
 
-    public ArrayList<Forum> createBaseModel() {
-        ArrayList<Forum> model = new ArrayList<>();
-        if (getMyAnimeList() != null)
-            model.addAll(getMyAnimeList());
-        if (getAnimeManga() != null)
-            model.addAll(getAnimeManga());
-        if (getGeneral() != null)
-            model.addAll(getGeneral());
-        if (getList() != null) {
-            model.addAll(getList());
-            model.get(0).setMaxPages(getPages());
+    /**
+     * Returns thread list.
+     *
+     * @return Arraylist forums.
+     */
+    public ArrayList<Forum> getForumListBase() {
+        ArrayList<Forum> result = new ArrayList<>();
+        if (getData() != null) {
+            for (ThreadInfo threadInfo : getData()) {
+                Forum forum = new Forum();
+                forum.setId(threadInfo.getId());
+                forum.setName(threadInfo.getTitle());
+                forum.setReply(createReplyConverter(threadInfo.getReplyUser().getDisplayName(), threadInfo.getLastReply()));
+                result.add(forum);
+            }
+            if (result.size() >= 1)
+                result.get(0).setMaxPages(getLastPage());
         }
-        return model;
+        return result;
+    }
+
+    public class ThreadInfo {
+        /**
+         * Tread ID.
+         */
+        @Setter
+        @Getter
+        @SerializedName("id")
+        private Integer id;
+
+        /**
+         * Tread title.
+         */
+        @Setter
+        @Getter
+        @SerializedName("title")
+        private String title;
+
+        /**
+         * TODO: investigate the object type
+         */
+        @Setter
+        @Getter
+        @SerializedName("sticky")
+        private Object sticky;
+
+        /**
+         * Last post time information.
+         */
+        @Setter
+        @Getter
+        @SerializedName("last_reply")
+        private String lastReply;
+
+        /**
+         * The total amount of replies.
+         */
+        @Setter
+        @Getter
+        @SerializedName("reply_count")
+        private Integer replyCount;
+
+        /**
+         * The total amount of views.
+         */
+        @Setter
+        @Getter
+        @SerializedName("view_count")
+        private Integer viewCount;
+
+        /**
+         * All tags for this tread.
+         */
+        @Setter
+        @Getter
+        @SerializedName("tags")
+        private List<Tag> tags = new ArrayList<>();
+
+        /**
+         * All anime tags for this tread.
+         */
+        @Setter
+        @Getter
+        @SerializedName("tags_anime")
+        private List<Object> tagsAnime = new ArrayList<>();
+
+        /**
+         * All manga tags for this tread.
+         */
+        @Setter
+        @Getter
+        @SerializedName("tags_manga")
+        private List<Object> tagsManga = new ArrayList<>();
+
+        /**
+         * Info about tread creator.
+         */
+        @Setter
+        @Getter
+        @SerializedName("user")
+        private Profile user;
+
+        /**
+         * Last reply information.
+         */
+        @Setter
+        @Getter
+        @SerializedName("reply_user")
+        private Profile replyUser;
     }
 }
