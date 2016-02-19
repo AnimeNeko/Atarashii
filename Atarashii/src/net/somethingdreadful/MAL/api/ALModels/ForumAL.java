@@ -112,7 +112,7 @@ public class ForumAL implements Serializable {
      * Create replies for base model.
      *
      * @param username Last reply username
-     * @param time Last reply time
+     * @param time     Last reply time
      * @return Forum the reply
      */
     public static Forum createReplyConverter(String username, String time) {
@@ -134,11 +134,14 @@ public class ForumAL implements Serializable {
                 Forum forum = new Forum();
                 forum.setId(threadInfo.getId());
                 forum.setName(threadInfo.getTitle());
-                forum.setReply(createReplyConverter(threadInfo.getReplyUser().getDisplayName(), threadInfo.getLastReply()));
+                if (threadInfo.getReplyUser() != null)
+                    forum.setReply(createReplyConverter(threadInfo.getReplyUser().getDisplayName(), threadInfo.getLastReply()));
                 result.add(forum);
             }
-            if (result.size() >= 1)
+            if (result.size() >= 1 && getLastPage() != null)
                 result.get(0).setMaxPages(getLastPage());
+            else
+                result.get(0).setMaxPages(1);
         }
         return result;
     }

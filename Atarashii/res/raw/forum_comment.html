@@ -16,7 +16,9 @@
         function url() {insertAtCursor(document.getElementById("textarea"),"[url=][/url]");}
         function image() {insertAtCursor(document.getElementById("textarea"),"[img][/img]");}
         function youtube() {insertAtCursor(document.getElementById("textarea"),"[yt][/yt]");}
+        function webm() {insertAtCursor(document.getElementById("textarea"),"[yt][/yt]");}
         function list() {insertAtCursor(document.getElementById("textarea"),"[list][/list]");}
+        function ulist() {insertAtCursor(document.getElementById("textarea"),"[list][/list]");}
         function size() {insertAtCursor(document.getElementById("textarea"),"[size=][/size]");}
         function center() {insertAtCursor(document.getElementById("textarea"),"[center][/center]");}
         function quote() {insertAtCursor(document.getElementById("textarea"),"[quote][/quote]");}
@@ -109,6 +111,10 @@
 
         .comment {
             margin:4px 8px 4px 8px;
+        }
+
+        .subComment {
+            margin:4px 0px 4px 32px;
         }
 
         .comment__name {
@@ -245,9 +251,9 @@
             <button title="Link" type="button" onclick="url()"><i class="fa fa-link fa-lg"></i></button>
             <button title="Image" type="button" onclick="image()"><i class="fa fa-picture-o fa-lg"></i></button>
             <button title="Youtube Video" type="button" onclick="youtube()"><i class="fa fa-youtube-play fa-lg"></i></button>
-            <button title="WebM Video" type="button" onclick="youtube()"><i class="fa fa-play-circle-o fa-lg"></i></button>
+            <button title="WebM Video" type="button" onclick="webm()"><i class="fa fa-play-circle-o fa-lg"></i></button>
             <button title="Ordered List" type="button" onclick="list()"><i class="fa fa-list-ol fa-lg"></i></button>
-            <button title="Unordered List" type="button" onclick="list()"><i class="fa fa-list-ul fa-lg"></i></button>
+            <button title="Unordered List" type="button" onclick="ulist()"><i class="fa fa-list-ul fa-lg"></i></button>
             <button title="Header" type="button" onclick="size()"><i class="fa fa-header fa-lg"></i></button>
             <button title="Center" type="button" onclick="center()"><i class="fa fa-align-center fa-lg"></i></button>
             <button title="Quote" type="button" onclick="quote()" id="quote"><i class="fa fa-quote-right fa-lg"></i></button>
@@ -259,5 +265,5 @@
 </body>
 <span class="previous" onClick="prevCommentList()">Previous</span>
 <span class="next" onClick="nextCommentList()">Next</span>
-<span class="page" onClick="pagePicker()">1</span>
+<span class="page" onClick="pagePicker()"><!-- page --></span>
 </html>

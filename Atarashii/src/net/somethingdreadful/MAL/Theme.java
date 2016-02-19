@@ -80,10 +80,14 @@ public class Theme extends Application {
      * @param e The Error that has been caught.
      */
     public static void logTaskCrash(String className, String message, Exception e) {
-        Crashlytics.log(Log.ERROR, "MALX", className + "." + message + ": " + e.getMessage());
-        Crashlytics.logException(e);
-        e.printStackTrace();
-        Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, e.getMessage()));
+        try {
+            Crashlytics.log(Log.ERROR, "MALX", className + "." + message + ": " + e.getMessage());
+            Crashlytics.logException(e);
+            e.printStackTrace();
+            Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, e.getMessage()));
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
     }
 
     /**

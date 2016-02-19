@@ -13,6 +13,7 @@ import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseAnimeList;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseMangaList;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
+import net.somethingdreadful.MAL.api.ALModels.ForumThread;
 import net.somethingdreadful.MAL.api.ALModels.History;
 import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -198,8 +199,24 @@ public class ALApi {
         return result;
     }
 
+    public ForumThread getPosts(int id, int page) {
+        return service.getPosts(id, page);
+    }
+
     public ForumAL getTags(int id, int page) {
         return service.getTags(id, page);
+    }
+
+    public boolean addComment(int id, String message) {
+        return service.addComment(id, message).getStatus() == 200;
+    }
+
+    public boolean updateComment(int id, String message) {
+        return service.updateComment(id, message).getStatus() == 200;
+    }
+
+    public ForumAL search(String Query) {
+        return service.search(Query);
     }
 
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {

@@ -323,8 +323,10 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                     tempTile = forumListTiles;
                     tempTile = tempTile.replace("<!-- id -->", String.valueOf(item.getId()));
                     tempTile = tempTile.replace("<!-- title -->", item.getName());
-                    tempTile = tempTile.replace("<!-- username -->", item.getReply().getUsername());
-                    tempTile = tempTile.replace("<!-- time -->", DateTools.parseDate(item.getReply().getTime(), true));
+                    if (item.getReply() != null) {
+                        tempTile = tempTile.replace("<!-- username -->", item.getReply().getUsername());
+                        tempTile = tempTile.replace("<!-- time -->", DateTools.parseDate(item.getReply().getTime(), true));
+                    }
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumListLayout.replace("<!-- insert here the tiles -->", forumArray);
@@ -355,9 +357,22 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 for (Forum item : forumList) {
                     rank = item.getProfile().getSpecialAccesRank(item.getUsername());
                     comment = item.getComment();
-                    comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
-                    comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
-                    comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
+                    if (AccountService.isMAL()) {
+                        comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+                        comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
+                        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
+                    } else {
+                        comment = comment.replaceAll("`((.|\\n)+?)`", "<div class=\"codetext\">$1</div>");
+                        comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
+                        comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
+                        comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
+                        comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
+                        comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
+                        comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
+                        comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img src=\"$2\">");
+                        comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
+                        comment = comment.replace("\n", "<br/>");
+                    }
 
                     tempTile = forumCommentsTiles;
                     if (item.getUsername().equalsIgnoreCase(AccountService.getUsername()))
@@ -374,6 +389,9 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                         tempTile = tempTile.replace("<!-- access rank -->", rank);
                     else
                         tempTile = tempTile.replace("<span class=\"forum__mod\"><!-- access rank --></span>", "");
+                    if (item.getChildren() != null) {
+                        tempTile = tempTile.replace("<!-- child -->", getChildren(item.getChildren()));
+                    }
                     forumArray = forumArray + tempTile;
                 }
                 tempForumList = forumCommentsLayout.replace("<!-- insert here the tiles -->", forumArray);
@@ -389,8 +407,77 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 tempForumList = tempForumList.replace("<!-- page -->", getPage());
                 tempForumList = tempForumList.replace("<!-- next -->", context.getString(R.string.next));
                 tempForumList = tempForumList.replace("<!-- previous -->", context.getString(R.string.previous));
+                if (!AccountService.isMAL()) {
+                    tempForumList = tempForumList.replace("[b][/b]", "____");
+                    tempForumList = tempForumList.replace("[i][/i]", "__");
+                    tempForumList = tempForumList.replace("[s][/s]", "~~~~");
+                    tempForumList = tempForumList.replace("[spoiler][/spoiler]", "~!!~");
+                    tempForumList = tempForumList.replace("[url=][/url]", "[link](URL)");
+                    tempForumList = tempForumList.replace("[img][/img]", "img220(URL)");
+                    tempForumList = tempForumList.replace("[yt][/yt]", "youtube(ID)");
+                    tempForumList = tempForumList.replace("[list][/list]", "1.");
+                    tempForumList = tempForumList.replace("[size=][/size]", "##");
+                    tempForumList = tempForumList.replace("[center][/center]", "~~~~~~");
+                    tempForumList = tempForumList.replace("[quote][/quote]", ">");
+                    tempForumList = tempForumList.replaceAll("webm(.+?),\"(.+?)\"\\);\\}", "webm$1,\"webm(URL)\"\\);}");
+                    tempForumList = tempForumList.replaceAll("ulist(.+?),\"(.+?)\"\\);\\}", "ulist$1,\"- \"\\);}");
+                }
                 loadWebview(tempForumList);
             }
+        }
+
+        public String getChildren(ArrayList<Forum> forumList) {
+            if (forumList != null && forumList.size() > 0) {
+                String rank;
+                String comment;
+                String forumArray = "";
+                String tempTile;
+                for (Forum item : forumList) {
+                    rank = item.getProfile().getSpecialAccesRank(item.getUsername());
+                    comment = item.getComment() == null ? "" : item.getComment();
+                    if (AccountService.isMAL()) {
+                        comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+                        comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
+                        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
+                    } else {
+                        comment = comment.replaceAll("`((.|\\n)+?)`", "<div class=\"codetext\">$1</div>");
+                        comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
+                        comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
+                        comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
+                        comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
+                        comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
+                        comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
+                        comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img value=\"$1\" src=\"$2\">");
+                        comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
+                        comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
+                        comment = comment.replaceAll("(.*)>(.*)", "<h1>$2</h1>");
+                        comment = comment.replace("\n", "<br/>");
+                    }
+
+                    tempTile = forumCommentsTiles;
+                    tempTile = tempTile.replace("<div class=\"comment\">", "<div class=\"subComment\">");
+                    if (item.getUsername().equalsIgnoreCase(AccountService.getUsername()))
+                        tempTile = tempTile.replace("fa-quote-right fa-lg\"", "fa-pencil fa-lg\" id=\"edit\"");
+                    tempTile = tempTile.replace("<!-- username -->", item.getUsername());
+                    tempTile = tempTile.replace("<!-- comment id -->", Integer.toString(item.getId()));
+                    tempTile = tempTile.replace("<!-- time -->", DateTools.parseDate(item.getTime(), true));
+                    tempTile = tempTile.replace("<!-- comment -->", comment);
+                    if (item.getProfile().getAvatarUrl().contains("xmlhttp-loader"))
+                        tempTile = tempTile.replace("<!-- profile image -->", "http://cdn.myanimelist.net/images/na.gif");
+                    else
+                        tempTile = tempTile.replace("<!-- profile image -->", item.getProfile().getAvatarUrl());
+                    if (!rank.equals(""))
+                        tempTile = tempTile.replace("<!-- access rank -->", rank);
+                    else
+                        tempTile = tempTile.replace("<span class=\"forum__mod\"><!-- access rank --></span>", "");
+                    if (item.getChildren() != null) {
+                        tempTile = tempTile.replace("<!-- child -->", getChildren(item.getChildren()));
+                    }
+                    forumArray = forumArray + tempTile;
+                }
+                return forumArray;
+            }
+            return "";
         }
 
         /**
