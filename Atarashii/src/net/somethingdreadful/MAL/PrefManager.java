@@ -250,7 +250,7 @@ public class PrefManager {
      * @return int the score type to display.
      */
     public static int getScoreType() {
-        return prefs.getInt("Score_type", 1);
+        return prefs.getInt("Score_type", 0);
     }
 
     /**

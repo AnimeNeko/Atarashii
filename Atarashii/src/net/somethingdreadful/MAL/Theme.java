@@ -252,12 +252,12 @@ public class Theme extends Application {
      */
     public static String getDisplayScore(float score) {
         switch (PrefManager.getScoreType()) {
-            case 1:
+            case 0:
                 Double score1 = AccountService.isMAL() ? score : Math.floor(score / 10);
                 return score1 > 0.0 ? String.format("%.0f", score1) : "?";
-            case 2:
+            case 1:
                 return score > 0 ? String.valueOf((int) score) : "?";
-            case 3:
+            case 2:
                 if (score <= 0)
                     return "?";
                 else if (score <= 29)
@@ -270,7 +270,7 @@ public class Theme extends Application {
                     return "4";
                 else
                     return "5";
-            case 4:
+            case 3:
                 if (score <= 0)
                     return "?";
                 else if (score <= 30)
@@ -279,7 +279,7 @@ public class Theme extends Application {
                     return ":|";
                 else
                     return ":)";
-            case 5:
+            case 4:
                 float score5 = score / 10;
                 return score5 > 0.0 ? String.format("%.1f", score5) : "?";
             default:
