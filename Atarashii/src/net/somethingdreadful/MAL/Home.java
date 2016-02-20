@@ -94,8 +94,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             navigationView = (NavigationView) findViewById(R.id.navigationView);
             navigationView.setNavigationItemSelectedListener(this);
             navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
-            ((TextView)  navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
-            ((TextView)  navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
             //Initializing navigation toggle button
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -106,12 +106,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
             //Applying dark theme
             if (Theme.darkTheme) {
-                int[][] states = new int[][] {
-                        new int[] {-android.R.attr.state_checked}, // unchecked
-                        new int[] {android.R.attr.state_checked} // checked
+                int[][] states = new int[][]{
+                        new int[]{-android.R.attr.state_checked}, // unchecked
+                        new int[]{android.R.attr.state_checked} // checked
                 };
 
-                int[] colors = new int[] {
+                int[] colors = new int[]{
                         context.getResources().getColor(R.color.bg_light_card),
                         context.getResources().getColor(R.color.primary)
                 };
@@ -427,10 +427,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onPageSelected(int position) {}
+    public void onPageSelected(int position) {
+    }
 
     @Override
-    public void onPageScrollStateChanged(int state) {}
+    public void onPageScrollStateChanged(int state) {
+    }
 
     @Override
     public void onPositiveButtonClicked() {
@@ -487,12 +489,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(Friends);
                 break;
             case R.id.nav_forum:
-                if (AccountService.isMAL()) {
-                    Intent Forum = new Intent(context, ForumActivity.class);
-                    startActivity(Forum);
-                } else {
-                    Theme.Snackbar(Home.this, R.string.toast_info_disabled);
-                }
+                Intent Forum = new Intent(context, ForumActivity.class);
+                startActivity(Forum);
                 break;
             case R.id.nav_rated:
                 getRecords(true, TaskJob.GETTOPRATED, af.list);
