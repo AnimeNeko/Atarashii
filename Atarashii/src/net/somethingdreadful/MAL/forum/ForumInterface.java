@@ -72,7 +72,7 @@ public class ForumInterface {
                 bbCode = bbCode.replaceAll("<span style=\"text-decoration:line-through;\">((.|\\n)+?)</span>", "~~$1~~"); //Strike-thru text
                 bbCode = bbCode.replaceAll("<input class=\"spoilerbutton\"(.+?)spoiler quotetext\">((.|\\n)+?)</div>", "~!$2!~"); //spoiler
                 bbCode = bbCode.replaceAll("<a href=\"((.|\\n)+?)\" rel=\"nofollow\">((.|\\n)+?)</a>", "[$3]($1)"); //Text link
-                bbCode = bbCode.replaceAll("<img value=\"(\\d.+?)\" src=\"(\\w.+?)\">", "img$1($2)"); //image
+                bbCode = bbCode.replaceAll("<img width=\"(\\d.+?)\" src=\"(\\w.+?)\">", "img$1($2)"); //image
                 bbCode = bbCode.replaceAll("<h1>((.|\\n)+?)</h1>", "##$2"); //header text
             }
 
