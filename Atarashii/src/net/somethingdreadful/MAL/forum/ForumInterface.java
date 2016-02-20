@@ -12,7 +12,6 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
-import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
@@ -72,7 +71,7 @@ public class ForumInterface {
                 bbCode = bbCode.replaceAll("<span style=\"text-decoration:line-through;\">((.|\\n)+?)</span>", "~~$1~~"); //Strike-thru text
                 bbCode = bbCode.replaceAll("<input class=\"spoilerbutton\"(.+?)spoiler quotetext\">((.|\\n)+?)</div>", "~!$2!~"); //spoiler
                 bbCode = bbCode.replaceAll("<a href=\"((.|\\n)+?)\" rel=\"nofollow\">((.|\\n)+?)</a>", "[$3]($1)"); //Text link
-                bbCode = bbCode.replaceAll("<img width=\"(\\d.+?)\" src=\"(\\w.+?)\">", "img$1($2)"); //image
+                bbCode = bbCode.replaceAll("<img width=\"(\\d.+?)\" src=\"(\\w.+?)\"></img>", "img$1($2)"); //image
                 bbCode = bbCode.replaceAll("<h1>((.|\\n)+?)</h1>", "##$2"); //header text
             }
 
@@ -84,13 +83,6 @@ public class ForumInterface {
                 forum.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        InformationDialogFragment info = new InformationDialogFragment();
-                        Bundle args = new Bundle();
-                        args.putString("title", "ddd");
-                        args.putString("message", finalBbCode);
-                        info.setArguments(args);
-                        info.show(forum.getFragmentManager(), "fragment_forum");
-
                         forum.webview.loadUrl("javascript:document.getElementById(\"textarea\").scrollIntoView();");
                         if (username.equalsIgnoreCase(AccountService.getUsername())) {
                             forum.webview.loadUrl("javascript:document.getElementById(\"textarea\").setAttribute(\"name\", \"" + messageID + "\");");
