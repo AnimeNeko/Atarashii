@@ -174,9 +174,10 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 viewFlipper.setDisplayedChild(1);
                 break;
             case R.id.anilist:
-                if (MALApi.isNetworkAvailable(this))
+                if (MALApi.isNetworkAvailable(this)) {
+                    webview.loadUrl(ALApi.getAnilistURL());
                     viewFlipper.setDisplayedChild(2);
-                else
+                } else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
         }
