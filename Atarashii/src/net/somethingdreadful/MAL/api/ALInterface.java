@@ -149,7 +149,7 @@ interface ALInterface {
 
     @FormUrlEncoded
     @PUT("/forum/comment")
-    Response updateComment(@Path("id") int id, @Field("comment") String message);
+    Response updateComment(@Field("id") int id, @Field("comment") String message);
 
     @GET("/forum/search/{query}")
     ForumAL search(@Path("query") String query);
