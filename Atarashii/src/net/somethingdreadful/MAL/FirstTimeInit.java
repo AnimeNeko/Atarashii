@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
 
@@ -143,11 +141,10 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
             }
         } catch (Exception e) {
+            Theme.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished", e);
             Answers.getInstance().logLogin(new LoginEvent()
-                    .putMethod(AccountService.accountType.toString())
                     .putSuccess(false));
-            Crashlytics.log(Log.ERROR, "MALX", "FirstTimeInit.onAuthenticationCheckFinished(): " + e.getMessage());
-            Crashlytics.logException(e);
+            Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
         }
     }
 
