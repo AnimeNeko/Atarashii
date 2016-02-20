@@ -95,7 +95,11 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      * @param loading True if the indicator should be shown
      */
     private void toggle(boolean loading) {
-        viewFlipper.setDisplayedChild(loading ? 1 : 0);
+        try {
+            viewFlipper.setDisplayedChild(loading ? 1 : 0);
+        } catch (Exception e) {
+            Theme.Snackbar(activity, R.string.toast_error_reviews);
+        }
     }
 
     @Override
