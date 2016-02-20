@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
+import net.somethingdreadful.MAL.dialog.InformationDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
@@ -75,14 +76,21 @@ public class ForumInterface {
                 bbCode = bbCode.replaceAll("<h1>((.|\\n)+?)</h1>", "##$2"); //header text
             }
 
-            bbCode = bbCode.replace("<br>", "\n"); //new line
-            final String finalBbCode = StringEscapeUtils.unescapeHtml4(bbCode).replaceAll("[^\\x20-\\x7e]", "");
+            bbCode = StringEscapeUtils.unescapeHtml4(bbCode); //clean the code
+            final String finalBbCode = bbCode.replace("<br>", "\\n"); //new line
             if (finalBbCode.contains("<div")) {
                 Theme.Snackbar(forum, R.string.toast_error_convert);
             } else {
                 forum.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        InformationDialogFragment info = new InformationDialogFragment();
+                        Bundle args = new Bundle();
+                        args.putString("title", "ddd");
+                        args.putString("message", finalBbCode);
+                        info.setArguments(args);
+                        info.show(forum.getFragmentManager(), "fragment_forum");
+
                         forum.webview.loadUrl("javascript:document.getElementById(\"textarea\").scrollIntoView();");
                         if (username.equalsIgnoreCase(AccountService.getUsername())) {
                             forum.webview.loadUrl("javascript:document.getElementById(\"textarea\").setAttribute(\"name\", \"" + messageID + "\");");
