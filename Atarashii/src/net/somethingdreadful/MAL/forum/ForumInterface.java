@@ -16,6 +16,8 @@ import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 public class ForumInterface {
     private final ForumActivity forum;
 
@@ -73,7 +75,8 @@ public class ForumInterface {
                 bbCode = bbCode.replaceAll("<h1>((.|\\n)+?)</h1>", "##$2"); //header text
             }
 
-            final String finalBbCode = bbCode.replaceAll("<br>", "\n"); //new line
+            bbCode = bbCode.replace("<br>", "\n"); //new line
+            final String finalBbCode = StringEscapeUtils.unescapeHtml4(bbCode).replaceAll("[^\\x20-\\x7e]", "");
             if (finalBbCode.contains("<div")) {
                 Theme.Snackbar(forum, R.string.toast_error_convert);
             } else {
