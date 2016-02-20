@@ -6,7 +6,6 @@ import net.somethingdreadful.MAL.api.BaseModels.Forum;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -116,7 +115,7 @@ public class ForumThread implements Serializable {
      */
     @Setter
     @Getter
-    private List<Comment> comments = new ArrayList<>();
+    private ArrayList<Comment> comments = new ArrayList<>();
 
     /**
      * Total number of threads.
@@ -156,26 +155,26 @@ public class ForumThread implements Serializable {
         forum.setProfile(profile);
         result.add(forum);
 
-        for (Comment item : getComments()) {
-            Forum forumItem = new Forum();
-            forumItem.setId(item.getId());
-            forumItem.setTime(item.getCreatedAt());
-            forumItem.setComment(item.getComment());
-            forumItem.setUsername(item.getUser().getDisplayName());
-            net.somethingdreadful.MAL.api.MALModels.Profile profileItem = new net.somethingdreadful.MAL.api.MALModels.Profile();
-            profileItem.setAvatarUrl(item.getUser().getImageUrl());
-            forumItem.setProfile(profileItem);
-            forumItem.setChildren(convertBaseModel(item));
-            result.add(forumItem);
-        }
+        if (getComments() != null && getComments().size() > 0)
+            result.addAll(convert(getComments()));
+
         return result;
     }
 
-    public ArrayList<Forum> convertBaseModel(Comment comment) {
+    public ArrayList<Forum> convert(ArrayList<Comment> comments) {
         ArrayList<Forum> result = new ArrayList<>();
-        if (comment.getChildren() != null)
-            for (ForumThread item : comment.getChildren()) {
-                result.addAll(item.convertBaseModel());
+        if (comments != null && comments.size() > 0)
+            for (Comment item : comments) {
+                Forum forumItem = new Forum();
+                forumItem.setId(item.getId());
+                forumItem.setTime(item.getCreatedAt());
+                forumItem.setComment(item.getComment());
+                forumItem.setUsername(item.getUser().getDisplayName());
+                net.somethingdreadful.MAL.api.MALModels.Profile profileItem = new net.somethingdreadful.MAL.api.MALModels.Profile();
+                profileItem.setAvatarUrl(item.getUser().getImageUrl());
+                forumItem.setProfile(profileItem);
+                forumItem.setChildren(convert(item.getChildren()));
+                result.add(forumItem);
             }
         return result;
     }
@@ -306,6 +305,6 @@ public class ForumThread implements Serializable {
         @SerializedName("children")
         @Setter
         @Getter
-        private ArrayList<ForumThread> children = new ArrayList<>();
+        private ArrayList<Comment> children = new ArrayList<>();
     }
 }

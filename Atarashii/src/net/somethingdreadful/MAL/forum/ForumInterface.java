@@ -64,6 +64,7 @@ public class ForumInterface {
                 bbCode = bbCode.replaceAll("<img class=\"userimg img-a-r\" src=\"(.+?)\">", "[img align=right]$1[/img]"); //image right
                 bbCode = bbCode.replaceAll("<div class=\"codetext\">((.|\\n)+?)<div>", "[code]$[/code]"); //code
             } else {
+                bbCode = bbCode.replaceAll("<font color=\"#022f70\"><b>@(\\w+)</b></font>", "@$1");
                 bbCode = bbCode.replaceAll("<div class=\"codetext\">((.|\\n)+?)</div>", "`$1`"); //code
                 bbCode = bbCode.replaceAll("<b>((.|\\n)+?)</b>", "__$1__"); //Bold text
                 bbCode = bbCode.replaceAll("<i>((.|\\n)+?)</i>", "_$1_"); //Italics

@@ -453,6 +453,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                         comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
                         comment = comment.replaceAll("(.*)>(.*)", "<h1>$2</h1>");
                         comment = comment.replace("\n", "<br/>");
+                        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
                     }
 
                     tempTile = forumCommentsTiles;
