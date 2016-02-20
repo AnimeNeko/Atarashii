@@ -369,6 +369,6 @@ public class MALManager {
     }
 
     public boolean updateComment(int id, String message) {
-        return AccountService.isMAL() ? malApi.updateComment(id, message) : alApi.addComment(id, message);
+        return AccountService.isMAL() ? malApi.updateComment(id, message) : alApi.updateComment(id, message);
     }
 }
