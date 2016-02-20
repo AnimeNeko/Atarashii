@@ -35,6 +35,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     private String MalPass;
     private Context context;
     private ProgressDialog dialog;
+    private boolean loaded = false;
 
     @Bind(R.id.edittext_malUser)
     EditText malUser;
@@ -86,7 +87,10 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 }
             }
         });
-        webview.loadUrl(ALApi.getAnilistURL());
+        if (MALApi.isNetworkAvailable(this)) {
+            webview.loadUrl(ALApi.getAnilistURL());
+            loaded = true;
+        }
 
         PrefManager.deleteAccount();
         NfcHelper.disableBeam(this);
@@ -175,7 +179,8 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 break;
             case R.id.anilist:
                 if (MALApi.isNetworkAvailable(this)) {
-                    webview.loadUrl(ALApi.getAnilistURL());
+                    if (!loaded)
+                        webview.loadUrl(ALApi.getAnilistURL());
                     viewFlipper.setDisplayedChild(2);
                 } else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
