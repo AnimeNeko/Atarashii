@@ -74,6 +74,7 @@ public class ForumInterface {
                 bbCode = bbCode.replaceAll("<a href=\"((.|\\n)+?)\" rel=\"nofollow\">((.|\\n)+?)</a>", "[$3]($1)"); //Text link
                 bbCode = bbCode.replaceAll("<img width=\"(\\d.+?)\" src=\"(\\w.+?)\"></img>", "img$1($2)"); //image
                 bbCode = bbCode.replaceAll("<h1>((.|\\n)+?)</h1>", "##$2"); //header text
+                bbCode = bbCode.replaceAll("<div class=\"quotetext\">((.|\\n)+?)</div>", ">$1"); //quote
             }
 
             bbCode = StringEscapeUtils.unescapeHtml4(bbCode); //clean the code
@@ -90,7 +91,10 @@ public class ForumInterface {
                             forum.webview.loadUrl("javascript:updateTextarea(\"" + finalBbCode + "\");");
                         } else {
                             forum.webview.loadUrl("javascript:document.getElementById(\"textarea\").setAttribute(\"name\", \"0\");");
-                            forum.webview.loadUrl("javascript:updateTextarea(\"[quote=" + username + " message=" + messageID + "]" + finalBbCode + "[/quote]\");");
+                            if (AccountService.isMAL())
+                                forum.webview.loadUrl("javascript:updateTextarea(\"[quote=" + username + " message=" + messageID + "]" + finalBbCode + "[/quote]\");");
+                            else
+                                forum.webview.loadUrl("javascript:updateTextarea(\">" + finalBbCode + "\");");
                         }
                     }
                 });

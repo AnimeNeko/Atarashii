@@ -357,23 +357,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 for (Forum item : forumList) {
                     rank = item.getProfile().getSpecialAccesRank(item.getUsername());
                     comment = item.getComment();
-                    if (AccountService.isMAL()) {
-                        comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
-                        comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
-                        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
-                    } else {
-                        comment = comment.replaceAll("`((.|\\n)+?)`", "<div class=\"codetext\">$1</div>");
-                        comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
-                        comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
-                        comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
-                        comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
-                        comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
-                        comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
-                        comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img width=\"$1\" src=\"$2\"></img>");
-                        comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
-                        comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
-                        comment = comment.replace("\n", "<br>");
-                    }
+                    comment = convertComment(comment);
 
                     tempTile = forumCommentsTiles;
                     if (item.getUsername().equalsIgnoreCase(AccountService.getUsername()))
@@ -427,7 +411,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
             }
         }
 
-        public String getChildren(ArrayList<Forum> forumList) {
+        private String getChildren(ArrayList<Forum> forumList) {
             if (forumList != null && forumList.size() > 0) {
                 String rank;
                 String comment;
@@ -436,25 +420,7 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 for (Forum item : forumList) {
                     rank = item.getProfile().getSpecialAccesRank(item.getUsername());
                     comment = item.getComment() == null ? "" : item.getComment();
-                    if (AccountService.isMAL()) {
-                        comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
-                        comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
-                        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
-                    } else {
-                        comment = comment.replaceAll("`((.|\\n)+?)`", "<div class=\"codetext\">$1</div>");
-                        comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
-                        comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
-                        comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
-                        comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
-                        comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
-                        comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
-                        comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img value=\"$1\" src=\"$2\">");
-                        comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
-                        comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
-                        comment = comment.replaceAll("(.*)>(.*)", "<h1>$2</h1>");
-                        comment = comment.replace("\n", "<br/>");
-                        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
-                    }
+                    comment = convertComment(comment);
 
                     tempTile = forumCommentsTiles;
                     tempTile = tempTile.replace("<div class=\"comment\">", "<div class=\"subComment\">");
@@ -480,6 +446,29 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 return forumArray;
             }
             return "";
+        }
+
+        private String convertComment(String comment) {
+            if (AccountService.isMAL()) {
+                comment = comment.replaceAll("<div class=\"spoiler\">((.|\\n)+?)<br>((.|\\n)+?)</span>((.|\\n)+?)</div>", spoilerStructure + "$3</div></input>");
+                comment = comment.replaceAll("<div class=\"hide_button\">((.|\\n)+?)class=\"quotetext\">((.|\\n)+?)</div>", spoilerStructure + "$3</input>");
+                comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
+            } else {
+                comment = comment.replaceAll("(.*)>(.*)", "<div class=\"quotetext\">$2</div>");
+                comment = comment.replaceAll("`((.|\\n)+?)`", "<div class=\"codetext\">$1</div>");
+                comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
+                comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
+                comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
+                comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
+                comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
+                comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
+                comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img width=\"$1\" src=\"$2\">");
+                comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
+                comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
+                comment = comment.replace("\n", "<br>");
+                comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
+            }
+            return comment;
         }
 
         /**
