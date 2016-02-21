@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Locale;
 
@@ -252,6 +251,24 @@ public class PrefManager {
      */
     public static int getScoreType() {
         return prefs.getInt("Score_type", 0);
+    }
+
+    /**
+     * Returns the max score.
+     *
+     * @return int the score type to display.
+     */
+    public static int getMaxScore() {
+        switch (getScoreType()) {
+            case 0:
+                return 10;
+            case 1:
+                return 100;
+            case 2:
+                return 5;
+            default:
+                return 10;
+        }
     }
 
     /**

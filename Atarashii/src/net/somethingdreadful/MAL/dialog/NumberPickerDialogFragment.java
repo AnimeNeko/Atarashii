@@ -92,7 +92,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
      */
     private int getValue(String key) {
         try {
-            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() != 3 && PrefManager.getScoreType() != 1)
+            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() == 4 && PrefManager.getScoreType() == 3)
                 inputScore = true;
             return getArguments().getInt(key);
         } catch (Exception e) {
