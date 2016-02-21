@@ -27,6 +27,7 @@
     <string name="toast_error_VerifyProblem">Controlla le tue credenziali e riprova.</string>
     <string name="toast_error_Friends">Errore di sincronizzazione durante il recupero della lista amici!</string>
     <string name="toast_error_nothingFound">Nessun risultato anime o manga trovato.</string>
+    <string name="toast_error_convert">Non è stato possibile convertire il commento!</string>
     <string name="toast_info_SyncMessage">Sincronizzazione totale in corso. Potrebbero volerci alcuni secondi.</string>
     <string name="toast_info_password">La combinazione di nome utente e password non è corretta!</string>
     <string name="toast_info_Copied">Il titolo è stato copiato con successo negli appunti!</string>
@@ -40,6 +41,7 @@
     <string name="toast_info_backup_remove">Il backup è stato rimosso!</string>
     <string name="toast_info_backup_list">Il backup non è compatibile con questo sito!</string>
     <string name="toast_info_widget_exists">È già presente un widget con gli elementi scelti!</string>
+    <string name="toast_info_comment">Il commento è corto!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_userername">Nome utente errato</string>
     <string name="dialog_title_restore">Ripristinare le liste?</string>
@@ -79,6 +81,8 @@
     <string name="dialog_message_last_post">Ultimo post di</string>
     <string name="dialog_message_forum_child">Vuoi visualizzare la categoria $child1; o $child2;?</string>
     <string name="dialog_message_username">È possibile che il backup scelto non sia un tuo backup!</string>
+    <string name="dialog_message_edit_comment">Sei sicuro di voler aggiornare il tuo commento?</string>
+    <string name="dialog_message_add_comment">Sei sicuro di voler aggiungere un nuovo commento?</string>
     <string name="dialog_label_cancel">Annulla</string>
     <string name="dialog_label_update">Aggiorna</string>
     <string name="dialog_label_anime">Anime</string>
@@ -141,6 +145,9 @@
     <string name="action_add">Aggiungi un commento o un topic</string>
     <string name="form_hint_title">Titolo topic</string>
     <string name="form_hint_message">Messaggio</string>
+    <string name="Page_number">Numero di pagina</string>
+    <string name="next">Successivo</string>
+    <string name="previous">Precedente</string>
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="init_hint_choose">Benvenuto su Atarashii!\nPer favore scegli il sito che preferisci.</string>
     <string name="init_hint_myanimelist">MyAnimeList</string>
@@ -311,7 +318,7 @@
     <string name="translations_card_title">Traduzioni</string>
     <string name="acknowledgements">Atarashii implementa <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> di Michael Johnson e Ratan Dhawtal, <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> di Keyboardsurfer, <a href="http://square.github.io/retrofit/">Retrofit</a> e <a href="http://square.github.io/picasso/">Picasso</a> di Square Inc. e <a href="https://code.google.com/p/google-gson/">google-gson</a> di Google Inc. usata da Retrofit, le quali sono tutte licenziate sotto la licenza <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> \n\n<a href="http://www.atarashiiapp.com/privacy-policy">Come utilizziamo i tuoi dati</a>.</string>
     <string name="app_description">Atarashii! è il modo migliore per accedere a MyAnimeList dal tuo cellulare. Presenta una moderna e bellissima interfaccia per Android assieme a tutte le funzionalità che potresti volere.</string>
-    <string name="contributor_anima_summary">\"Tutte le altre app fanno schifo!\"\n\nFondatore e programmatore principale. Stufo delle UI povere delle altre app e in generale della loro mancanza di manutenzione, ha deciso di creare questa app.</string>
+    <string name="contributor_anima_summary">\&amp;quot;Tutte le altre app fanno schifo!\&amp;quot;\n\nFondatore e programmatore principale. Stufo delle UI povere delle altre app e in generale della loro mancanza di manutenzione, ha deciso di creare questa app.</string>
     <string name="contributor_motokochan_summary">Si focalizza sulla pulizia del codice e sull\'implementazione di piccole caratteristiche. Ha lavorato all\'estensione dell\'applicazione per il supporto dei manga.</string>
     <string name="contributor_apkawa_summary">Ha implementato la ricerca.</string>
     <string name="contributor_dsko_summary">Ha implementato Retrofit per la gestione delle API.</string>
@@ -398,27 +405,27 @@
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 ore</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 ore</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 ore</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 ore</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 ore</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 ore</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>2 giorni</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>3 giorni</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>4 giorni</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>5 giorni</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 giorni</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>7 giorni</item>
     </string-array>
     <string-array name="classificationArray">

@@ -309,9 +309,9 @@
     <string name="acknowledgements_card_title">Informações</string>
     <string name="community_card_title">Comunidade Atarashii</string>
     <string name="translations_card_title">Traduções</string>
-    <string name="acknowledgements">Atarashii! implementou de Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> por Square Inc. e <a href="https://code.google.com/p/google-gson/">google-gson</a> por Google Inc., o qual é usado por Retrofit, que está licenciado sob a licença <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Como utilizamos os seus dados</a>.</string>
+    <string name="acknowledgements">Atarashii! implementou de Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> por Square Inc. e <a href="https://code.google.com/p/google-gson/">google-gson</a> por Google Inc., o qual \u00e9 usado por Retrofit, que est\u00e1 licenciado sob a licen\u00e7a <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Como utilizamos os seus dados</a>.</string>
     <string name="app_description">Atarashii! é a melhor maneira de acessar a MyAnimeList do seu telefone. Possui uma interface Android moderna, muito bem trabalhada, juntamente com todas as  funcionalidades que você poderia pedir.</string>
-    <string name="contributor_anima_summary">\"Todos os outros aplicativos não prestam!\"\n\nFundador e programador principal. Cansado da má UI de outros aplicativos e sua falta geral de manutenção, ele foi e criou este.</string>
+    <string name="contributor_anima_summary">\&amp;quot;Todos os outros aplicativos não prestam!\&amp;quot;\n\nFundador e programador principal. Cansado da má UI de outros aplicativos e sua falta geral de manutenção, ele foi e criou este.</string>
     <string name="contributor_motokochan_summary">Concentra-se em limpeza de código e implementação de pequena característica. Trabalhou para estender a aplicação no suporte de mangá.</string>
     <string name="contributor_apkawa_summary">Implementou a funcionalidade de pesquisa.</string>
     <string name="contributor_dsko_summary">Implementou o retrofit para a manipulação da API.</string>
@@ -325,6 +325,7 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Entre na nossa comunidade!</a> O grupo da comunidade Atarashii! no Google+ é um ótimo lugar para interagir com os desenvolvedores e deixa-los saber o que você pensa. Questões, solicitações de recursos, atualizações de status, está tudo lá. Nós não mordemos, prometo.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Lista padrão</string>
+    <string name="dialog_DefaultaddList">Lista padrão a adicionar</string>
     <string name="preference_category_list">Lista</string>
     <string name="preference_category_synchronisation">Sincronizar</string>
     <string name="preference_category_sharing">Outras configurações</string>
@@ -334,8 +335,11 @@
     <string name="preference_autoDate">Atualizar as datas automaticamente</string>
     <string name="preference_backuplength">Quantidade de backups.</string>
     <string name="preference_summary_backupsync">Fazer backup automático de listas de animes e mangás após um certo tempo.</string>
+    <string name="preference_summary_autobackup">Máximo de backups permitidos</string>
     <string name="preference_synchronisation">Sincronizar automaticamente</string>
     <string name="preference_Theme">Tema escuro</string>
+    <string name="preference_list_columns_portrait">Colunas da lista em modo retrato</string>
+    <string name="preference_list_columns_landscape">Colunas da lista em modo paisagem</string>
     <string name="preference_Reset">Configurações de reset</string>
     <string name="preference_TraditionalList">Usar lista tradicional</string>
     <string name="preference_customShareText">Personalizar texto de compartilhamento</string>
@@ -350,6 +354,7 @@
     <string name="summary_DefaultList">Qual lista você gostaria que o aplicativo carregasse quando iniciar?</string>
     <string name="preference_summary_autoDate">Atualizar automaticante a data em que você começou ou terminou um anime ou mangá.</string>
     <string name="preference_summary_TraditionList">Use a lista no estilo tried-and-true em vez do estilo coverflow-esque. Requer a reinicialização do aplicativo para aplicar a mudança.</string>
+    <string name="preference_summary_AddList">Quando você adicionar um anime / mangá, este será adicionado a esta lista.</string>
     <string name="preference_summary_synchronisation">Se marcado, o Atarashii irá sincronizar em segundo plano.</string>
     <string name="preference_summary_theme">Se marcado, o Atarashii irá usar o tema escuro.</string>
     <string name="preference_summary_Reset">Atarashii irá restaurar todas as preferencias modificadas para o default.</string>
@@ -393,27 +398,27 @@
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>2 dias</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>3 dias</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>4 dias</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>5 dias</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 dias</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>7 dias</item>
     </string-array>
     <string-array name="classificationArray">

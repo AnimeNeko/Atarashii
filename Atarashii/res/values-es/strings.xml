@@ -309,9 +309,9 @@
     <string name="acknowledgements_card_title">Información</string>
     <string name="community_card_title">Comunidad de Atarashii</string>
     <string name="translations_card_title">Traducciones</string>
-    <string name="acknowledgements">Atarashii! fué puesto en marcha por Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> por Square Inc. y <a href="https://code.google.com/p/google-gson/">google-gson</a> por Google Inc. que es utilizado por Retrofit, todos los cuales están bajo la <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> licencia.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Cómo podemos usar tus datos</a>.</string>
+    <string name="acknowledgements">Atarashii! fu\u00e9 puesto en marcha por Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> por Square Inc. y <a href="https://code.google.com/p/google-gson/">google-gson</a> por Google Inc. que es utilizado por Retrofit, todos los cuales est\u00e1n bajo la <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> licencia.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">C\u00f3mo podemos usar tus datos</a>.</string>
     <string name="app_description">Atarashii! Es la mejor forma de acceder a MyAnimeList desde tu móvil. Cuenta con una hermosa y moderna interfaz para Android junto con toda la funcionalidad que podrías pedir.</string>
-    <string name="contributor_anima_summary">\"¡Todas las otras aplicaciones apestan!\" \n\nFundador y programador principal. Cansado de todas las otras aplicaciones con una interfaz muy mala y por lo general con mal mantenimiento, fue y creó esta aplicación.</string>
+    <string name="contributor_anima_summary">\&amp;quot;¡Todas las otras aplicaciones apestan!\&amp;quot; \n\nFundador y programador principal. Cansado de todas las otras aplicaciones con una interfaz muy mala y por lo general con mal mantenimiento, fue y creó esta aplicación.</string>
     <string name="contributor_motokochan_summary">Se enfoca en limpieza de código e implementación de pequeñas funciones. Trabajó en extender la aplicación para el soporte de manga.</string>
     <string name="contributor_apkawa_summary">Implementó la función de búsqueda.</string>
     <string name="contributor_dsko_summary">Implementó retrofit para el manejo de la API.</string>
@@ -398,27 +398,27 @@
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>2 días</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>3 días</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>4 días</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>5 días</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 días</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>7 días</item>
     </string-array>
     <string-array name="classificationArray">

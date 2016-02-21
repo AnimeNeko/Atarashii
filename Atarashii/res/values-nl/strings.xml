@@ -373,27 +373,27 @@
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 Uren</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 Uren</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 Uren</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 Uren</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 Uren</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 Uren</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>2 Dagen</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>3 Dagen</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>4 Dagen</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>5 Dagen</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 Dagen</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>7 Dagen</item>
     </string-array>
     <string-array name="classificationArray">
