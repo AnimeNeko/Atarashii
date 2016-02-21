@@ -207,6 +207,8 @@ public class Manga extends GenericRecord implements Serializable {
         // Automatically set the max chapters on completed
         if (getChapters() > 0 && getReadStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("chaptersRead")) {
             setChaptersRead(getChapters());
+            if (getVolumes() > 0)
+                setVolumesRead(getVolumes());
             completed = true;
         }
 
