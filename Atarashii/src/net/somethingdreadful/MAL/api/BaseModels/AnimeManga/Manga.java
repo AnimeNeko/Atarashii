@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
@@ -198,17 +199,14 @@ public class Manga extends GenericRecord implements Serializable {
         boolean completed = false;
         boolean started = false;
 
-        // Automatically set the max chapters and volumes on completed
-        if (getReadStatus().equals(GenericRecord.STATUS_COMPLETED) && getChapters() > 0) {
-            setChaptersRead(getChapters());
-            if (getVolumes() > 0)
-                setVolumesRead(getVolumes());
-            completed = true;
+        // Automatically set the status on completed
+        if (getChapters() > 0 && getChaptersRead() == getChapters() && !getDirty().contains("readStatus")) {
+            setReadStatus(GenericRecord.STATUS_COMPLETED);
         }
 
-        // Automatically set the progress when the max chapters has reached
-        if (getChaptersRead() == getChapters() && getChapters() > 0) {
-            setReadStatus(GenericRecord.STATUS_COMPLETED);
+        // Automatically set the max chapters on completed
+        if (getChapters() > 0 && getReadStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("chaptersRead")) {
+            setChaptersRead(getChapters());
             completed = true;
         }
 
@@ -220,7 +218,7 @@ public class Manga extends GenericRecord implements Serializable {
             }
 
             // Automatically set the end date on completed if it is empty
-            if (getReadingEnd() == null || getReadingEnd().equals("")) {
+            if ((getReadingEnd() == null || getReadingEnd().equals("") || getReadingEnd().equals("0-00-00")) && PrefManager.getAutoDateSetter()) {
                 final Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
@@ -229,27 +227,23 @@ public class Manga extends GenericRecord implements Serializable {
             }
         }
 
-        // Automatically set the progress when the chapter 1 has been read
-        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getChaptersRead() == 1) {
-            setReadStatus(GenericRecord.STATUS_READING);
+        if (getReadStatus().equals(GenericRecord.STATUS_WATCHING) && getChaptersRead() == 0 && !getDirty().contains("readStatus")) {
             started = true;
         }
 
-        // Automatically set the progress when the volume 1 has been read
-        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getVolumesRead() == 1 && getChaptersRead() == 0) {
-            setReadStatus(GenericRecord.STATUS_READING);
+        // Automatically set the progress when the chapter 1 has been read
+        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getChaptersRead() == 1 && !getDirty().contains("readStatus")) {
+            setReadStatus(GenericRecord.STATUS_WATCHING);
             started = true;
         }
 
         // Automatically set the start date on start if it is empty
-        if (getReadStatus().equals(GenericRecord.STATUS_READING) && started) {
-            if (getReadingStart() == null || getReadingStart().equals("")) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                setReadingStart(year + "-" + month + "-" + day);
-            }
+        if ((getReadingStart() == null || getReadingStart().equals("") || getReadingStart().equals("0-00-00")) && PrefManager.getAutoDateSetter() && started) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            setReadingStart(year + "-" + month + "-" + day);
         }
     }
 
