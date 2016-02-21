@@ -176,7 +176,6 @@ public class AccountService extends Service {
             Long time = System.currentTimeMillis() / 1000;
             Long timeLeft = expireTime - time;
             Crashlytics.log(Log.INFO, "MALX", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
-            Log.e("t", token);
             return timeLeft >= 0 ? token : null;
         } catch (Exception e) {
             Crashlytics.log(Log.INFO, "MALX", "AccountService: The expire time could not be received.");
