@@ -263,6 +263,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                     break;
             }
         }
+        myListChanged();
         return true;
     }
 
