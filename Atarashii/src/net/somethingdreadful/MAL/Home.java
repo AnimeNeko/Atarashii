@@ -447,21 +447,18 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         af.setSwipeRefreshEnabled(myList);
         mf.setSwipeRefreshEnabled(myList);
 
-        //Checking if the item should be checked
+        //Checking if the item should be checked & if the list status has been changed
         switch (item.getItemId()) {
             case R.id.nav_profile:
-                break;
             case R.id.nav_friends:
-                break;
             case R.id.nav_forum:
-                break;
             case R.id.nav_settings:
-                break;
             case R.id.nav_support:
-                break;
             case R.id.nav_about:
                 break;
             default:
+                // Set the list tracker to false. It will be updated later in the code.
+                myList = false;
                 if (item.isChecked())
                     item.setChecked(false);
                 else
@@ -476,6 +473,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         switch (item.getItemId()) {
             case R.id.nav_list:
                 getRecords(true, TaskJob.GETLIST, af.list);
+                myList = true;
                 break;
             case R.id.nav_profile:
                 Intent Profile = new Intent(context, ProfileActivity.class);
