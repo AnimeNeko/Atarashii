@@ -227,13 +227,13 @@ public class Manga extends GenericRecord implements Serializable {
             }
         }
 
-        if (getReadStatus().equals(GenericRecord.STATUS_WATCHING) && getChaptersRead() == 0 && !getDirty().contains("readStatus")) {
+        if (getReadStatus().equals(GenericRecord.STATUS_READING) && getChaptersRead() == 0 && !getDirty().contains("readStatus")) {
             started = true;
         }
 
         // Automatically set the progress when the chapter 1 has been read
-        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getChaptersRead() == 1 && !getDirty().contains("readStatus")) {
-            setReadStatus(GenericRecord.STATUS_WATCHING);
+        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOREAD) && getChaptersRead() == 1 && !getDirty().contains("readStatus")) {
+            setReadStatus(GenericRecord.STATUS_READING);
             started = true;
         }
 
