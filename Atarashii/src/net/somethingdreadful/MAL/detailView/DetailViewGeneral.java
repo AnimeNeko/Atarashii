@@ -241,6 +241,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                 bundle.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
                 bundle.putInt("max", PrefManager.getScoreType() == 3 ? 5 : 10);
                 activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), bundle);
+                break;
         }
     }
 }

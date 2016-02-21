@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -232,11 +233,11 @@ public class PrefManager {
     /**
      * Set the score display type.
      * <p/>
-     * 1. 0 - 10
-     * 2. 0 - 100
-     * 3. 0 - 5
-     * 4. :( & :| & :)
-     * 5. 0.0 - 10.0
+     * 0. 0 - 10
+     * 1. 0 - 100
+     * 2. 0 - 5
+     * 3. :( & :| & :)
+     * 4. 0.0 - 10.0
      *
      * @param type The type number
      */

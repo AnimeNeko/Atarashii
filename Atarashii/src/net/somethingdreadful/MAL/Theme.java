@@ -297,13 +297,13 @@ public class Theme extends Application {
         if (score.equals(""))
             return 0;
         switch (PrefManager.getScoreType()) {
-            case 1:
+            case 0:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
-            case 2:
+            case 1:
                 return TextUtils.isDigitsOnly(score) ? Integer.parseInt(score) : 0;
-            case 3:
+            case 2:
                 return TextUtils.isDigitsOnly(score) ? Integer.parseInt(score) * 20 : 0;
-            case 4:
+            case 3:
                 switch (score) {
                     case ":(":
                         return 33;
@@ -314,7 +314,7 @@ public class Theme extends Application {
                     default:
                         return 0;
                 }
-            case 5:
+            case 4:
                 String scoreStr = score.replaceFirst("\\.", "").replaceFirst(",", "");
                 return TextUtils.isDigitsOnly(scoreStr) ? (int) (Double.parseDouble(score.replace(",", ".")) * 10) : 0;
             default:

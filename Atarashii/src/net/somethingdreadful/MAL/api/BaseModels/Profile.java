@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL.api.BaseModels;
 
 import android.database.Cursor;
 
-import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
 
 import java.io.Serializable;
@@ -102,6 +101,7 @@ public class Profile implements Serializable {
      * Website: AniList
      */
     @Getter
+    @Setter
     private int scoreType;
 
     /**
@@ -129,12 +129,6 @@ public class Profile implements Serializable {
             return false;
         String[] developers = AccountService.isMAL() ? developersMAL : developersAL;
         return Arrays.asList(developers).contains(username.toLowerCase(Locale.US));
-    }
-
-    public void setScoreType(int scoreType) {
-        this.scoreType = scoreType;
-        PrefManager.setScoreType(scoreType);
-        PrefManager.commitChanges();
     }
 
     public static Profile friendFromCursor(Cursor cursor) {

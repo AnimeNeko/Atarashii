@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.ALModels;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.PrefManager;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -74,7 +76,7 @@ public class Profile implements Serializable {
     @Getter
     @Setter
     @SerializedName("score_type")
-    private int scoreType;
+    private int scoreType = -1;
     @Getter
     @Setter
     @SerializedName("custom_list_anime")
@@ -113,6 +115,11 @@ public class Profile implements Serializable {
         model.setCustomAnime(getCustomAnime());
         model.setCustomManga(getCustomManga());
         model.setNotifications(getNotifications());
+
+        if (scoreType != -1) {
+            PrefManager.setScoreType(scoreType);
+            PrefManager.commitChanges();
+        }
         return model;
     }
 }
