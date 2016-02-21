@@ -7,12 +7,17 @@
     <string name="title_activity_detail_view">Λεπτομέρειες</string>
     <string name="title_activity_profile">Προφίλ Χρήστη</string>
     <string name="title_activity_forum">Φόρουμ</string>
+    <string name="title_activity_backup">Αντίγραφο Ασφαλείας</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Εναλλαγή λίστας</string>
     <string name="menu_inverse">Αντίστροφη λίστα</string>
     <string name="menu_sync">Πλήρης συγχρονισμός</string>
+    <string name="menu_backup">Αντίγραφο Ασφαλείας</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">Δεν εντοπίστηκε ενεργή σύνδεση δικτύου.</string>
+    <string name="toast_error_api">Σφάλμα στο API, παρακαλώ ενημερώστε τους δημιουργούς της εφαρμογής!</string>
+    <string name="toast_error_reviews">Δεν υπάρχουν διαθέσιμες κριτικές.</string>
+    <string name="toast_error_maintenance">Μη διαθέσιμο API, συντήρηση σε εξέλιξη!</string>
     <string name="toast_error_UserRecord">Το προφίλ χρήση είναι άδειο!</string>
     <string name="toast_error_Search">Σφάλμα κατά την αναζήτηση. Παρακαλώ δοκιμάστε αργότερα.</string>
     <string name="toast_error_Anime_Sync">Σφάλμα συγχρονισμού κατά τη λήψη της λίστας anime!</string>
@@ -23,13 +28,21 @@
     <string name="toast_error_Friends">Σφάλμα κατά τη λήψη της λίστας των φίλων!</string>
     <string name="toast_error_nothingFound">Δεν βρέθηκαν αποτελέσματα anime ή manga.</string>
     <string name="toast_info_SyncMessage">Συγχρονισμός όλων. Αυτό θα πάρει μερικά δευτερόλεπτα.</string>
+    <string name="toast_info_password">Ο συνδιασμός του ονόματος χρήστη και κωδικού δεν τεροιάζουν!</string>
     <string name="toast_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
     <string name="toast_info_hold_on">Περιμένε λίγο, φορτώνουμε ακόμα πληροφορίες!</string>
     <string name="toast_info_comment_add">Το σχόλιο στάλθηκε επιτυχώς!</string>
     <string name="toast_info_comment_added">Μπορεί να πάρει ως και πέντε λεπτά μέχρι να είναι εμφανής.</string>
     <string name="toast_info_disabled">Το συγκεκριμένο χαρακτηριστικό είναι απανεργοποιημένο :(</string>
     <string name="toast_info_disabled_youtube">Τα σχόλιο με Youtube βίντεο δεν υποστηρίζονται :(</string>
+    <string name="toast_info_backup_saved">Το αντίγραφο ασφαλείας δημιουργήθηκε με επιτυχία!</string>
+    <string name="toast_info_backup_revert">Οι αλλαγές έχουν επανέλθει!</string>
+    <string name="toast_info_backup_remove">Το αντίγραφο ασφαλείας αφαιρέθηκε!</string>
+    <string name="toast_info_backup_list">Το αντίγραφο ασφαλείας δεν είναι συμβατό με αυτό τον ιστότοπο!</string>
+    <string name="toast_info_widget_exists">Το widget με την επιλεγμένη εγγραφή υπάρχει ήδη!</string>
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_userername">Αναντιστοιχία στο όνομα χρήστη</string>
+    <string name="dialog_title_restore">Επαναφορά λιστών;</string>
     <string name="dialog_title_view">Προβολή</string>
     <string name="dialog_title_tags">Οι ετικέτες μου</string>
     <string name="dialog_title_storage_value">Μέγεθος</string>
@@ -55,6 +68,7 @@
     <string name="dialog_hint_comment">Εισάγετε το σχόλιο σας</string>
     <string name="dialog_hint_fansub">Εισάγετε το fansubgroup σας</string>
     <string name="dialog_message_view">Ποια λίστα θέλετε να δείτε;</string>
+    <string name="dialog_message_restore">Αυτό μπορεί να αφαιρέσει μερικές εγγραφές από την λίστα σας!</string>
     <string name="dialog_message_logout">Είστε σίγουροι πως θέλετε να βγείτε; Αυτό θα έχει ως αποτέλεσμα να διαγραφούν όλα τα αποθηκευμένα δεδομένα και εικόνες.</string>
     <string name="dialog_message_id_search">Παρακαλώ πατήστε πάνω στο κουμπί Manga ή Anime για αναζήτηση. Να θυμάστε ότι τα ID των Manga και των Anime δεν είναι ίδια!</string>
     <string name="dialog_message_remove">Είστε απολύτως σίγουροι; Αν το πράξετε, τα δεδομένα θα διαγραφούν και δεν θα μπορούν να επανέλθουν. Όχι εύκολα τουλάχιστον.</string>
@@ -64,6 +78,7 @@
     <string name="dialog_message_created_by">Δημιουργήθηκε από</string>
     <string name="dialog_message_last_post">Τελευταίο σχόλιο από</string>
     <string name="dialog_message_forum_child">Θέλετε να δείτε την $child1; ή $child2; κατηγορία;</string>
+    <string name="dialog_message_username">Είναι πιθανόν το επιλεγμένο αντίγραφο ασφαλείας να μην είναι δικό σας!</string>
     <string name="dialog_label_cancel">Άκυρο</string>
     <string name="dialog_label_update">Αναβάθμιση</string>
     <string name="dialog_label_anime">Anime</string>
@@ -74,6 +89,8 @@
     <string name="dialog_label_logout">Έξοδος</string>
     <string name="dialog_label_remove">Αφαίρεση</string>
     <string name="dialog_label_send">Αποστολή</string>
+    <string name="dialog_message_backup_reading">Ανάγνωση εγγραφών</string>
+    <string name="dialog_message_backup_requesting">Δημιούργια αντιγράφου ασφαλείας.</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">Ο/Η $username; μοιράστηκε ένα anime μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">Ο/Η $username; μοιράστηκε ένα manga μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
@@ -105,8 +122,13 @@
     <string name="layout_card_manga_reading">Σε ανάγνωση</string>
     <string name="layout_card_manga_plan">Για μελλοντική ανάγνωση</string>
     <string name="action_viewListOnMAL">Προβολή λίστας στο MAL</string>
+    <string name="action_viewtopic">Εμφάνιση συζήτησης</string>
     <string name="not_specified">δεν διευκρινίζεται</string>
     <string name="no_activity">Καμία δραστηριότητα</string>
+    <string name="no_history">Δεν υπάρχει ιστορικό</string>
+    <string name="no_reviews">Δεν υπάρχουν αξιλογήσεις</string>
+    <string name="read_more">Διαβάστε περισσότερα</string>
+    <string name="show_less">Εμφάνιση λιγότερων</string>
     <string-array name="gender">
         <item>Γυναίκα</item>
         <item>Άνδρας</item>
@@ -114,6 +136,7 @@
     <!-- FriendsActivity Strings -->
     <string name="unknown">Αγνωστος</string>
     <!-- BackupActivity Strings -->
+    <string name="creation_date">Ημερομηνία δημιουργίας</string>
     <!-- ForumActivity Strings -->
     <string name="action_add">Προσθήκη σχολίου ή θέματος</string>
     <string name="form_hint_title">Τίτλος θέματος</string>
@@ -158,9 +181,11 @@
     <!-- Tab names Strings -->
     <string name="tab_name_general">Γενικές Πληροφορίες</string>
     <string name="tab_name_personal">Προσωπικά</string>
+    <string name="tab_name_reviews">Αξιλογήσεις</string>
     <string name="tab_name_details">Λεπτομέρειες</string>
     <string name="tab_name_friends">Φίλοι</string>
     <string name="tab_name_following">Ακολουθείς</string>
+    <string name="tab_name_history">Ιστορικό</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Περίληψη</string>
     <string name="card_name_stats">Στατιστικά</string>
@@ -283,7 +308,7 @@
     <string name="acknowledgements_card_title">Πληροφορίες</string>
     <string name="community_card_title">Η Κοινότητα του Atarashii</string>
     <string name="translations_card_title">Μεταφράσεις</string>
-    <string name="acknowledgements">Το Atarashii! χρησιμοποιεί το <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> που δημιουργήθηκε από τον Michael Johnson και τον Ratan Dhawtal. Επίσης χρησιμοποιεί την βιβιλοθήκη <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> που δημιουργήθηκε από τον Keyboardsurfer, την βιβιλοθήκη <a href="http://square.github.io/retrofit/">Retrofit</a> και <a href="http://square.github.io/picasso/">Picasso</a>  της Square Inc. και την βιβιλοθήκη <a href="https://code.google.com/p/google-gson/">google-gson</a> της Google Inc.που χρησιμοποείτε από την βιβιλοθήκη Retrofit. Όλες οι βιβλιοθήκες είναι αδειδοτημένες υπό την άδεια  <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Πως χρησιμοποιούμε τα δεδομένα σας</a>.</string>
+    <string name="acknowledgements">\u03a4\u03bf Atarashii! \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b9\u03b5\u03af \u03c4\u03bf <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> \u03c0\u03bf\u03c5 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03ae\u03b8\u03b7\u03ba\u03b5 \u03b1\u03c0\u03cc \u03c4\u03bf\u03bd Michael Johnson \u03ba\u03b1\u03b9 \u03c4\u03bf\u03bd Ratan Dhawtal. \u0395\u03c0\u03af\u03c3\u03b7\u03c2 \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b9\u03b5\u03af \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> \u03c0\u03bf\u03c5 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03ae\u03b8\u03b7\u03ba\u03b5 \u03b1\u03c0\u03cc \u03c4\u03bf\u03bd Keyboardsurfer, \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 <a href="http://square.github.io/retrofit/">Retrofit</a> \u03ba\u03b1\u03b9 <a href="http://square.github.io/picasso/">Picasso</a>  \u03c4\u03b7\u03c2 Square Inc. \u03ba\u03b1\u03b9 \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 <a href="https://code.google.com/p/google-gson/">google-gson</a> \u03c4\u03b7\u03c2 Google Inc.\u03c0\u03bf\u03c5 \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b5\u03af\u03c4\u03b5 \u03b1\u03c0\u03cc \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 Retrofit. \u038c\u03bb\u03b5\u03c2 \u03bf\u03b9 \u03b2\u03b9\u03b2\u03bb\u03b9\u03bf\u03b8\u03ae\u03ba\u03b5\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b1\u03b4\u03b5\u03b9\u03b4\u03bf\u03c4\u03b7\u03bc\u03ad\u03bd\u03b5\u03c2 \u03c5\u03c0\u03cc \u03c4\u03b7\u03bd \u03ac\u03b4\u03b5\u03b9\u03b1  <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">\u03a0\u03c9\u03c2 \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b9\u03bf\u03cd\u03bc\u03b5 \u03c4\u03b1 \u03b4\u03b5\u03b4\u03bf\u03bc\u03ad\u03bd\u03b1 \u03c3\u03b1\u03c2</a>.</string>
     <string name="app_description">Το Atarashii! είναι ο καλύτερος τρόπος πρόσβασης του MyAnimeList από το κινητό σας. Έχει ένα όμορφο και μοντέρνο σχεδιασμό μαζί με ότι άλλο θα χρειαζόταν κάποιος χρήστης του MyAnimeList.</string>
     <string name="contributor_anima_summary">\"All the other apps suck!\"\n\nΙδρυτής και κύριος προγραμματιστής. Βαρέθηκε το κακό σχεδιασμό των άλλων εφαρμογών και τη μη υποστήριξη τους και έτσι δημιούργησε το Atarashii!</string>
     <string name="contributor_motokochan_summary">Εστιάζει στη αναμόρφωση του κώδικα και προσθήκη μικρών χαρακτηριστικών. Δούλεψε πάνω στην επέκταση της εφαρμογής για την υποστήριξη των Manga.</string>
@@ -299,12 +324,22 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">Μπείτε στη κοινότητα μας!</a> Η κοινότητα του Atarashii! στο Google+ είναι ένα ενδιαφέρον μέρος για να επικοινωνήσετε με τους προγραμματιστές και να τους πείτε τι σκέφτεστε. Προβλήματα, αιτήματα για νέα χαρακτηριστικά, ενημερώσεις, όλα είναι εκεί. Δεν δαγκώνουμε, δοκιμάστε μας.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Προκαθορισμένη Λίστα</string>
+    <string name="dialog_DefaultaddList">Προεπιλεγμένη λίστα προσθήκης</string>
     <string name="preference_category_list">Λίστα</string>
     <string name="preference_category_synchronisation">Συγχρονισμός</string>
     <string name="preference_category_sharing">Άλλες ρυθμίσεις</string>
     <string name="preference_category_profile">Συγχρονισμός Προφίλ</string>
+    <string name="preference_category_backup">Αντίγραφο ασφαλείας</string>
+    <string name="preference_backupsync">Διάστημα αυτόματου αντιγράφου ασφαλείας</string>
+    <string name="preference_autoDate">Αυτόματη ενημέρωση των ημερομηνιών</string>
+    <string name="preference_backuplength">Το μέγεθος των αντιγράφων ασφαλείας</string>
+    <string name="preference_summary_backupsync">Αυτόματη δημιουργία αντιγράφου ασφαλείας των λιστών anime/manga μετά από ένα συγκεκριμένο χρονικό διάστημα.</string>
+    <string name="preference_summary_autobackup">Ο μέγιστος αριθμός αντικειμένων που επιτρέπεται στο αντίγραφο ασφαλείας.</string>
     <string name="preference_synchronisation">Αυτόματος Συγχρονισμός</string>
     <string name="preference_Theme">Σκοτεινό θέμα</string>
+    <string name="preference_list_columns_portrait">Λίστα στηλών κάθετα</string>
+    <string name="preference_list_columns_landscape">Λίστα στηλών οριζόντια</string>
+    <string name="preference_Reset">Επαναφορά ρυθμίσεων</string>
     <string name="preference_TraditionalList">Χρήση Παλαιάς Λίστας</string>
     <string name="preference_customShareText">Κείμενο διαμοιρασμού</string>
     <string name="preference_displayVolumes">Τόμοι στα Πλακίδια</string>
@@ -316,9 +351,13 @@
     <string name="preference_profileAnimeHide">Μόνιμη απόκρυψη των λεπτομερειών των anime</string>
     <string name="preference_profileMangaHide">Μόνιμη απόκρυψη των λεπτομερειών των manga</string>
     <string name="summary_DefaultList">Ποια λίστα θέλετε να φορτώνει η εφαρμογή όταν ανοίγει;</string>
+    <string name="preference_summary_autoDate">Αυτόματη ενημέρωση των ενημερωση των ημερομηνιών όταν ξεκινάτε ή τελειώνετε ένα anime ή manga.</string>
     <string name="preference_summary_TraditionList">Χρησιμοποιήστε το δοκιμασμένο τρόπο προβολής λίστας αντί για αυτόν με τη χρήση πλακιδίων. Χρειάζεται επανεκκίνηση της εφαρμογής για να λειτουργήσει.</string>
+    <string name="preference_summary_AddList">Όταν προσθέτετε ένα anime ή manga θα προστεθεί μία εγγραφή σε αυτή τη λίστα.</string>
     <string name="preference_summary_synchronisation">Αν τσεκαριστεί, το Atarashii θα συχγρονίζει στο παρασκήνιο.</string>
     <string name="preference_summary_theme">Αν είναι επιλεγμένος, η εφαρμογή θα χρησιμοποιήσει το σκοτεινό θέμα.</string>
+    <string name="preference_summary_Reset">Το Atarashii θα επαναφέρει όλες τις αλλαγές των ρυθμίσεων, στις προεπιλεγμένες στις προεπιλεγμένες τιμές.</string>
+    <string name="preference_summary_list_columns">Εδώ μπορείτε να αλλάξετε των αριθμών των στηλών που μπορεί να χρησιμοποιεί το Atarashii.</string>
     <string name="preference_summary_Language">Αλλάξτε την προεπιλεγμένη γλώσσας σε όποια που επιθυμείτε. Για την εφαρμογή της νέας γλώσσας απαιτείται επανεκκίνηση της εφαρμογής.</string>
     <string name="preference_summary_customShareText">Δεν σας αρέσει το κείμενο κοινοποίησης; Δημιουργήστε το δικό σας! Χρησιμοποιήστε το $tittle; και $link; στη θέση του τίτλου και του συνδέσμου στο MAL αντίστοιχα, τα υπόλοιπα θα τα κάνουμε εμείς.</string>
     <string name="preference_summary_autosync">Χρόνος μέχρι να γίνει συγχρονισμός αυτόματα στο παρασκήνιο.</string>
@@ -326,6 +365,7 @@
     <string name="preference_summary_profileTextColors">Εξαναγκάστε τη σελίδα προφίλ να χρησιμοποιεί μαύρο χρώμα κειμένου.</string>
     <string name="preference_summary_profileAnimeHide">Απόκρυψη λεπτομερειών anime σε όλα τα προφίλ.</string>
     <string name="preference_summary_profileMangaHide">Απόκρυψη λεπτομερειών manga σε όλα τα προφίλ.</string>
+    <string name="preference_summary_backup">Δημιουργήστε ένα αντίγραφο των λιστών anime και manga.</string>
     <string name="preference_android_synchronisation">Αρχεία Anime/Manga</string>
     <string name="preference_default_customShareText">Δείτε το $title; στο MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -357,18 +397,28 @@
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 Ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 Ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 Ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 Ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 Ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 Ώρες</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>48 Ώρες</item>
+    <!-- Spanish -->
+        <item>3 ημέρες</item>
+    <!-- Spanish -->
+        <item>4 ημέρες</item>
+    <!-- Spanish -->
+        <item>5 ημέρες</item>
+    <!-- Spanish -->
+        <item>6 ημέρες</item>
+    <!-- Spanish -->
+        <item>7 ημέρες</item>
     </string-array>
     <string-array name="classificationArray">
         <item>G - Όλες οι ηλικές</item>

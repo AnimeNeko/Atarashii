@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
 
@@ -37,6 +35,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     private String MalPass;
     private Context context;
     private ProgressDialog dialog;
+    private boolean loaded = false;
 
     @Bind(R.id.edittext_malUser)
     EditText malUser;
@@ -88,7 +87,10 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 }
             }
         });
-        webview.loadUrl(ALApi.getAnilistURL());
+        if (MALApi.isNetworkAvailable(this)) {
+            webview.loadUrl(ALApi.getAnilistURL());
+            loaded = true;
+        }
 
         PrefManager.deleteAccount();
         NfcHelper.disableBeam(this);
@@ -125,6 +127,8 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     public void onAuthenticationCheckFinished(boolean result) {
         try {
             if (result) {
+                // load account before requesting the information
+                AccountService.getAccount();
                 Theme.setCrashData("site", AccountService.accountType.toString());
                 PrefManager.setForceSync(true);
                 PrefManager.commitChanges();
@@ -143,11 +147,10 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
             }
         } catch (Exception e) {
+            Theme.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished", e);
             Answers.getInstance().logLogin(new LoginEvent()
-                    .putMethod(AccountService.accountType.toString())
                     .putSuccess(false));
-            Crashlytics.log(Log.ERROR, "MALX", "FirstTimeInit.onAuthenticationCheckFinished(): " + e.getMessage());
-            Crashlytics.logException(e);
+            Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
         }
     }
 
@@ -175,9 +178,11 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 viewFlipper.setDisplayedChild(1);
                 break;
             case R.id.anilist:
-                if (MALApi.isNetworkAvailable(this))
+                if (MALApi.isNetworkAvailable(this)) {
+                    if (!loaded)
+                        webview.loadUrl(ALApi.getAnilistURL());
                     viewFlipper.setDisplayedChild(2);
-                else
+                } else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
         }

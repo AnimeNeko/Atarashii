@@ -283,9 +283,9 @@
     <string name="acknowledgements_card_title">Informação</string>
     <string name="community_card_title">Comunidade Atarashii!</string>
     <string name="translations_card_title">Traduções</string>
-    <string name="acknowledgements">O Atarashii! implementa a <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> de Michael Johnson\'s e Ratan Dhawtal\'s , <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> do Keyboardsurfer\'s, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> da Square Inc. e <a href="https://code.google.com/p/google-gson/">google-gson</a> pela Google Inc. que é usada pela Retrofit. Todas elas estão sobre a licença <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Como usamos as tuas informações</a>.</string>
+    <string name="acknowledgements">O Atarashii! implementa a <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> de Michael Johnson\'s e Ratan Dhawtal\'s , <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> do Keyboardsurfer\'s, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> da Square Inc. e <a href="https://code.google.com/p/google-gson/">google-gson</a> pela Google Inc. que \u00e9 usada pela Retrofit. Todas elas est\u00e3o sobre a licen\u00e7a <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Como usamos as tuas informa\u00e7\u00f5es</a>.</string>
     <string name="app_description">O Atarashii! é a melhor maneira de aceder ao MyAnimeList através do seu telemóvel. Possuí uma interface Android moderna e maravilhosa, criada de forma a conter todas as funcionalidades que se poderia querer.</string>
-    <string name="contributor_anima_summary">\"Todas as outras aplicações são uma bosta!\" \n\nFundador e principal programador. Cansado da pobre interface de outras aplicações e sua falta de manutenção, ele resolveu criar a sua.</string>
+    <string name="contributor_anima_summary">\&amp;quot;Todas as outras aplicações são uma bosta!\&amp;quot; \n\nFundador e principal programador. Cansado da pobre interface de outras aplicações e sua falta de manutenção, ele resolveu criar a sua.</string>
     <string name="contributor_motokochan_summary">Foca-se na limpeza de código e implementação de pequenas melhorias. Trabalhou na expansão do suporte para mangas.</string>
     <string name="contributor_apkawa_summary">Implementou a procura.</string>
     <string name="contributor_dsko_summary">Implementou a remodelação do manuseamento da API.</string>
@@ -357,17 +357,17 @@
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 Horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>48 horas</item>
     </string-array>
     <string-array name="classificationArray">

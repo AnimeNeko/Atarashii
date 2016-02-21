@@ -249,7 +249,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             case R.id.scorePanel:
                 Bundle args3 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
                 args3.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
-                args3.putInt("max", PrefManager.getScoreType() == 3 ? 5 : 10);
+                args3.putInt("max", PrefManager.getMaxScore());
                 activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
                 break;
             case R.id.priorityPanel:

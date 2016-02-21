@@ -2,7 +2,7 @@ package net.somethingdreadful.MAL.api.MALModels;
 
 import com.google.gson.annotations.SerializedName;
 
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.api.BaseModels.Forum;
 
 import java.io.Serializable;
 import java.util.ArrayList;

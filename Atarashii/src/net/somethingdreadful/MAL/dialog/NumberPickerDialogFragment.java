@@ -62,10 +62,10 @@ public class NumberPickerDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 numberPicker.clearFocus();
                 numberInput.clearFocus();
-                int value = Theme.getRawScore(!inputScore ? String.valueOf(numberPicker.getValue()) : numberInput.getText().toString());
-                if (!AccountService.isMAL() && isRating())
+                if (!AccountService.isMAL() && isRating()) {
+                    int value = Theme.getRawScore(!inputScore ? String.valueOf(numberPicker.getValue()) : numberInput.getText().toString());
                     callback.onUpdated(value, getArguments().getInt("id"));
-                else
+                } else
                     callback.onUpdated(numberPicker.getValue(), getArguments().getInt("id"));
                 dismiss();
             }
@@ -92,7 +92,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
      */
     private int getValue(String key) {
         try {
-            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() != 3 && PrefManager.getScoreType() != 1)
+            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() == 4 && PrefManager.getScoreType() == 3)
                 inputScore = true;
             return getArguments().getInt(key);
         } catch (Exception e) {

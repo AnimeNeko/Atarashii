@@ -7,9 +7,10 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
+import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Forum;
+import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
@@ -258,14 +259,6 @@ public class MALManager {
         return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
     }
 
-    public Boolean updateComment(int id, String message) {
-        return malApi.updateComment(id, message);
-    }
-
-    public Boolean addTopic(int id, String title, String message) {
-        return malApi.addTopic(id, title, message);
-    }
-
     public void verifyAuthentication() {
         if (AccountService.isMAL())
             malApi.verifyAuthentication();
@@ -344,16 +337,15 @@ public class MALManager {
     }
 
     public ArrayList<Forum> getForumCategories() {
-        return malApi.getForum().createBaseModel();
+        return AccountService.isMAL() ? malApi.getForum().createBaseModel() : ForumAL.getForum();
     }
 
-
     public ArrayList<Forum> getCategoryTopics(int id, int page) {
-        return malApi.getCategoryTopics(id, page).createBaseModel();
+        return AccountService.isMAL() ? malApi.getCategoryTopics(id, page).createBaseModel() : alApi.getTags(id, page).getForumListBase();
     }
 
     public ArrayList<Forum> getTopic(int id, int page) {
-        return malApi.getPosts(id, page).createBaseModel();
+        return AccountService.isMAL() ? malApi.getPosts(id, page).createBaseModel() : alApi.getPosts(id, page).convertBaseModel();
     }
 
     public boolean deleteAnime(Anime anime) {
@@ -365,7 +357,7 @@ public class MALManager {
     }
 
     public ArrayList<Forum> search(String query) {
-        return malApi.search(query).createBaseModel();
+        return AccountService.isMAL() ? malApi.search(query).createBaseModel() : alApi.search(query).getForumListBase();
     }
 
     public ArrayList<Forum> getSubCategory(int id, int page) {
@@ -373,6 +365,10 @@ public class MALManager {
     }
 
     public boolean addComment(int id, String message) {
-        return malApi.addComment(id, message);
+        return AccountService.isMAL() ? malApi.addComment(id, message) : alApi.addComment(id, message);
+    }
+
+    public boolean updateComment(int id, String message) {
+        return AccountService.isMAL() ? malApi.updateComment(id, message) : alApi.updateComment(id, message);
     }
 }

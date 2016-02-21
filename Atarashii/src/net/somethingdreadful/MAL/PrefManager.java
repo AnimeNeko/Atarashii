@@ -232,11 +232,11 @@ public class PrefManager {
     /**
      * Set the score display type.
      * <p/>
-     * 1. 0 - 10
-     * 2. 0 - 100
-     * 3. 0 - 5
-     * 4. :( & :| & :)
-     * 5. 0.0 - 10.0
+     * 0. 0 - 10
+     * 1. 0 - 100
+     * 2. 0 - 5
+     * 3. :( & :| & :)
+     * 4. 0.0 - 10.0
      *
      * @param type The type number
      */
@@ -250,7 +250,25 @@ public class PrefManager {
      * @return int the score type to display.
      */
     public static int getScoreType() {
-        return prefs.getInt("Score_type", 1);
+        return prefs.getInt("Score_type", 0);
+    }
+
+    /**
+     * Returns the max score.
+     *
+     * @return int the score type to display.
+     */
+    public static int getMaxScore() {
+        switch (getScoreType()) {
+            case 0:
+                return 10;
+            case 1:
+                return 100;
+            case 2:
+                return 5;
+            default:
+                return 10;
+        }
     }
 
     /**

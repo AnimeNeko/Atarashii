@@ -94,8 +94,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             navigationView = (NavigationView) findViewById(R.id.navigationView);
             navigationView.setNavigationItemSelectedListener(this);
             navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
-            ((TextView)  navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
-            ((TextView)  navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
             //Initializing navigation toggle button
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -106,12 +106,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
             //Applying dark theme
             if (Theme.darkTheme) {
-                int[][] states = new int[][] {
-                        new int[] {-android.R.attr.state_checked}, // unchecked
-                        new int[] {android.R.attr.state_checked} // checked
+                int[][] states = new int[][]{
+                        new int[]{-android.R.attr.state_checked}, // unchecked
+                        new int[]{android.R.attr.state_checked} // checked
                 };
 
-                int[] colors = new int[] {
+                int[] colors = new int[]{
                         context.getResources().getColor(R.color.bg_light_card),
                         context.getResources().getColor(R.color.primary)
                 };
@@ -263,6 +263,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                     break;
             }
         }
+        myListChanged();
         return true;
     }
 
@@ -402,22 +403,22 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public void onUserNetworkTaskFinished(Profile result) {
-        ImageView image = (ImageView) findViewById(R.id.Image);
-        ImageView image2 = (ImageView) findViewById(R.id.NDimage);
+        ImageView image = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.Image);
+        ImageView image2 = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.NDimage);
         try {
             Picasso.with(context)
                     .load(result.getImageUrl())
                     .transform(new RoundedTransformation(result.getUsername()))
                     .into(image);
+            if (PrefManager.getNavigationBackground() != null)
+                Picasso.with(context)
+                        .load(PrefManager.getNavigationBackground())
+                        .into(image2);
+            image.setOnClickListener(this);
+            image2.setOnClickListener(this);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
         }
-        if (PrefManager.getNavigationBackground() != null)
-            Picasso.with(context)
-                    .load(PrefManager.getNavigationBackground())
-                    .into(image2);
-        image.setOnClickListener(this);
-        image2.setOnClickListener(this);
     }
 
     @Override
@@ -427,10 +428,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onPageSelected(int position) {}
+    public void onPageSelected(int position) {
+    }
 
     @Override
-    public void onPageScrollStateChanged(int state) {}
+    public void onPageScrollStateChanged(int state) {
+    }
 
     @Override
     public void onPositiveButtonClicked() {
@@ -445,21 +448,18 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         af.setSwipeRefreshEnabled(myList);
         mf.setSwipeRefreshEnabled(myList);
 
-        //Checking if the item should be checked
+        //Checking if the item should be checked & if the list status has been changed
         switch (item.getItemId()) {
             case R.id.nav_profile:
-                break;
             case R.id.nav_friends:
-                break;
             case R.id.nav_forum:
-                break;
             case R.id.nav_settings:
-                break;
             case R.id.nav_support:
-                break;
             case R.id.nav_about:
                 break;
             default:
+                // Set the list tracker to false. It will be updated later in the code.
+                myList = false;
                 if (item.isChecked())
                     item.setChecked(false);
                 else
@@ -474,6 +474,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         switch (item.getItemId()) {
             case R.id.nav_list:
                 getRecords(true, TaskJob.GETLIST, af.list);
+                myList = true;
                 break;
             case R.id.nav_profile:
                 Intent Profile = new Intent(context, ProfileActivity.class);
@@ -487,12 +488,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(Friends);
                 break;
             case R.id.nav_forum:
-                if (AccountService.isMAL()) {
-                    Intent Forum = new Intent(context, ForumActivity.class);
-                    startActivity(Forum);
-                } else {
-                    Theme.Snackbar(Home.this, R.string.toast_info_disabled);
-                }
+                if (MALApi.isNetworkAvailable(this))
+                    startActivity(new Intent(context, ForumActivity.class));
+                else
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
             case R.id.nav_rated:
                 getRecords(true, TaskJob.GETTOPRATED, af.list);

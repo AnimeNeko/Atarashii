@@ -1,4 +1,4 @@
-package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
+package net.somethingdreadful.MAL.api.BaseModels;
 
 import net.somethingdreadful.MAL.api.MALModels.Profile;
 

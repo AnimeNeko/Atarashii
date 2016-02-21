@@ -16,6 +16,8 @@ import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 public class ForumInterface {
     private final ForumActivity forum;
 
@@ -36,32 +38,47 @@ public class ForumInterface {
                 }
             });
         } else {
-            bbCode = convertMessageQuote(bbCode);
-            bbCode = convertUserQuote(bbCode);
-            bbCode = convertQuote(bbCode);
-            bbCode = convertQuoteSpoiler(bbCode);
-            bbCode = convertSpoiler(bbCode);
-            bbCode = bbCode.replace(" target=\"_blank", ""); //image trash
-            bbCode = bbCode.replaceAll("<b>((.|\\n)+?)</b>", "[b]$1[/b]"); //Bold text
-            bbCode = bbCode.replaceAll("<i>((.|\\n)+?)</i>", "[i]$1[/i]"); //Italics
-            bbCode = bbCode.replaceAll("<u>((.|\\n)+?)</u>", "[u]$1[/u]"); //Underlined text
-            bbCode = bbCode.replaceAll("<ul>((.|\\n)+?)</ul>", "[list]$1[/list]"); //list
-            bbCode = bbCode.replaceAll("<ol>((.|\\n)+?)</ol>", "[list=1]$1[/list]"); //list
-            bbCode = bbCode.replaceAll("<li>((.|\\n)+?)</li>", "[*]$1"); //list items
-            bbCode = bbCode.replaceAll("<pre>((.|\\n)+?)</pre>", "$1"); //unknown
-            bbCode = bbCode.replaceAll("<a (.+?)>\\[b]@(.+?)\\[/b](.+?)</a>", "@$2"); //@ mention
-            bbCode = bbCode.replaceAll("<span style=\"text-decoration:line-through;\">((.|\\n)+?)</span>", "[s]$1[/s]"); //Strike-thru text
-            bbCode = bbCode.replaceAll("<span style=\"font-size: (\\d+?)%;\">((.|\\n)+?)</span>", "[size=$1]$2[/size]"); //resized text
-            bbCode = bbCode.replaceAll("<span style=\"color: (\\w+?)\">((.|\\n)+?)</span>", "[color=$1]$2[/color]"); //colored text
-            bbCode = bbCode.replaceAll("<div style=\"text-align: center;\">((.|\\n)+?)</div>", "[center]$1[/center]"); //centered text
-            bbCode = bbCode.replaceAll("<div style=\"text-align: right;\">((.|\\n)+?)</div>", "[right]$1[/right]"); //right text
-            bbCode = bbCode.replaceAll("<a href=\"(.+?)\" rel=\"nofollow\">((.|\\n)+?)</a>", "[url=$1]$2[/url]"); //Text link
-            bbCode = bbCode.replaceAll("<img class=\"userimg\" src=\"(.+?)\">", "[img]$1[/img]"); //image
-            bbCode = bbCode.replaceAll("<img class=\"userimg img-a-l\" src=\"(.+?)\">", "[img align=left]$1[/img]"); //image left
-            bbCode = bbCode.replaceAll("<img class=\"userimg img-a-r\" src=\"(.+?)\">", "[img align=right]$1[/img]"); //image right
-            bbCode = bbCode.replaceAll("<div class=\"codetext\">((.|\\n)+?)<div>", "[code]$[/code]"); //code
+            if (AccountService.isMAL()) {
+                bbCode = convertMessageQuote(bbCode);
+                bbCode = convertUserQuote(bbCode);
+                bbCode = convertQuote(bbCode);
+                bbCode = convertQuoteSpoiler(bbCode);
+                bbCode = convertSpoiler(bbCode);
+                bbCode = bbCode.replace(" target=\"_blank", ""); //image trash
+                bbCode = bbCode.replaceAll("<b>((.|\\n)+?)</b>", "[b]$1[/b]"); //Bold text
+                bbCode = bbCode.replaceAll("<i>((.|\\n)+?)</i>", "[i]$1[/i]"); //Italics
+                bbCode = bbCode.replaceAll("<u>((.|\\n)+?)</u>", "[u]$1[/u]"); //Underlined text
+                bbCode = bbCode.replaceAll("<ul>((.|\\n)+?)</ul>", "[list]$1[/list]"); //list
+                bbCode = bbCode.replaceAll("<ol>((.|\\n)+?)</ol>", "[list=1]$1[/list]"); //list
+                bbCode = bbCode.replaceAll("<li>((.|\\n)+?)</li>", "[*]$1"); //list items
+                bbCode = bbCode.replaceAll("<pre>((.|\\n)+?)</pre>", "$1"); //unknown
+                bbCode = bbCode.replaceAll("<a (.+?)>\\[b]@(.+?)\\[/b](.+?)</a>", "@$2"); //@ mention
+                bbCode = bbCode.replaceAll("<span style=\"text-decoration:line-through;\">((.|\\n)+?)</span>", "[s]$1[/s]"); //Strike-thru text
+                bbCode = bbCode.replaceAll("<span style=\"font-size: (\\d+?)%;\">((.|\\n)+?)</span>", "[size=$1]$2[/size]"); //resized text
+                bbCode = bbCode.replaceAll("<span style=\"color: (\\w+?)\">((.|\\n)+?)</span>", "[color=$1]$2[/color]"); //colored text
+                bbCode = bbCode.replaceAll("<div style=\"text-align: center;\">((.|\\n)+?)</div>", "[center]$1[/center]"); //centered text
+                bbCode = bbCode.replaceAll("<div style=\"text-align: right;\">((.|\\n)+?)</div>", "[right]$1[/right]"); //right text
+                bbCode = bbCode.replaceAll("<a href=\"(.+?)\" rel=\"nofollow\">((.|\\n)+?)</a>", "[url=$1]$2[/url]"); //Text link
+                bbCode = bbCode.replaceAll("<img class=\"userimg\" src=\"(.+?)\">", "[img]$1[/img]"); //image
+                bbCode = bbCode.replaceAll("<img class=\"userimg img-a-l\" src=\"(.+?)\">", "[img align=left]$1[/img]"); //image left
+                bbCode = bbCode.replaceAll("<img class=\"userimg img-a-r\" src=\"(.+?)\">", "[img align=right]$1[/img]"); //image right
+                bbCode = bbCode.replaceAll("<div class=\"codetext\">((.|\\n)+?)<div>", "[code]$[/code]"); //code
+            } else {
+                bbCode = bbCode.replaceAll("<font color=\"#022f70\"><b>@(\\w+)</b></font>", "@$1");
+                bbCode = bbCode.replaceAll("<div class=\"codetext\">((.|\\n)+?)</div>", "`$1`"); //code
+                bbCode = bbCode.replaceAll("<b>((.|\\n)+?)</b>", "__$1__"); //Bold text
+                bbCode = bbCode.replaceAll("<i>((.|\\n)+?)</i>", "_$1_"); //Italics
+                bbCode = bbCode.replaceAll("<center>((.|\\n)+?)</center>", "~~~$1~~~"); //centered text
+                bbCode = bbCode.replaceAll("<span style=\"text-decoration:line-through;\">((.|\\n)+?)</span>", "~~$1~~"); //Strike-thru text
+                bbCode = bbCode.replaceAll("<input class=\"spoilerbutton\"(.+?)spoiler quotetext\">((.|\\n)+?)</div>", "~!$2!~"); //spoiler
+                bbCode = bbCode.replaceAll("<a href=\"((.|\\n)+?)\" rel=\"nofollow\">((.|\\n)+?)</a>", "[$3]($1)"); //Text link
+                bbCode = bbCode.replaceAll("<img width=\"(\\d.+?)\" src=\"(\\w.+?)\"></img>", "img$1($2)"); //image
+                bbCode = bbCode.replaceAll("<h1>((.|\\n)+?)</h1>", "##$2"); //header text
+                bbCode = bbCode.replaceAll("<div class=\"quotetext\">((.|\\n)+?)</div>", ">$1"); //quote
+            }
 
-            final String finalBbCode = bbCode.replaceAll("<br>", "\n"); //new line
+            bbCode = StringEscapeUtils.unescapeHtml4(bbCode); //clean the code
+            final String finalBbCode = bbCode.replace("<br>", "\\n"); //new line
             if (finalBbCode.contains("<div")) {
                 Theme.Snackbar(forum, R.string.toast_error_convert);
             } else {
@@ -74,7 +91,10 @@ public class ForumInterface {
                             forum.webview.loadUrl("javascript:updateTextarea(\"" + finalBbCode + "\");");
                         } else {
                             forum.webview.loadUrl("javascript:document.getElementById(\"textarea\").setAttribute(\"name\", \"0\");");
-                            forum.webview.loadUrl("javascript:updateTextarea(\"[quote=" + username + " message=" + messageID + "]" + finalBbCode + "[/quote]\");");
+                            if (AccountService.isMAL())
+                                forum.webview.loadUrl("javascript:updateTextarea(\"[quote=" + username + " message=" + messageID + "]" + finalBbCode + "[/quote]\");");
+                            else
+                                forum.webview.loadUrl("javascript:updateTextarea(\">" + finalBbCode + "\");");
                         }
                     }
                 });
@@ -83,6 +103,7 @@ public class ForumInterface {
     }
 
     private int convertMessageQuote = 0;
+
     private String convertMessageQuote(String HTML) {
         convertMessageQuote = convertMessageQuote + 1;
         if (convertMessageQuote <= 8) {
@@ -95,6 +116,7 @@ public class ForumInterface {
     }
 
     private int convertUserQuote = 0;
+
     private String convertUserQuote(String HTML) {
         convertUserQuote = convertUserQuote + 1;
         if (convertUserQuote <= 8) {
@@ -107,6 +129,7 @@ public class ForumInterface {
     }
 
     private int convertQuote = 0;
+
     private String convertQuote(String HTML) {
         convertQuote = convertQuote + 1;
         if (convertQuote <= 8) {
@@ -119,6 +142,7 @@ public class ForumInterface {
     }
 
     private int convertQuoteSpoiler = 0;
+
     private String convertQuoteSpoiler(String HTML) {
         convertQuoteSpoiler = convertQuoteSpoiler + 1;
         if (convertQuoteSpoiler <= 8) {
@@ -131,6 +155,7 @@ public class ForumInterface {
     }
 
     private int convertSpoiler = 0;
+
     private String convertSpoiler(String HTML) {
         convertSpoiler = convertSpoiler + 1;
         if (convertSpoiler <= 8) {

@@ -7,6 +7,8 @@ import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
+import net.somethingdreadful.MAL.api.ALModels.ForumAL;
+import net.somethingdreadful.MAL.api.ALModels.ForumThread;
 import net.somethingdreadful.MAL.api.ALModels.History;
 import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.ALModels.Profile;
@@ -128,31 +130,35 @@ interface ALInterface {
     @GET("/forum/thread/{id}")
     ForumMain getTopics(@Path("id") int id, @Query("page") int page);
 
-    @FormUrlEncoded
-    @POST("/forum/comment")
-    Response addComment(@Field("thread_id") int id, @Field("comment") String message);
-
-    @FormUrlEncoded
-    @PUT("/forum/comment")
-    Response updateComment(@Path("id") int id, @Field("comment") String message);
-
     @GET("/forum/search/{query}")
     ForumMain search(@Path("query") String query);
 
     @GET("/forum/tag")
     ForumMain getAnime(@Path("tag") int id, @Query("page") int page);
 
-    @GET("/forum/tag")
-    ForumMain getManga(@Path("tag") int id, @Query("page") int page);
-
     @FormUrlEncoded
     @POST("/forum/{id}")
     Response addTopic(@Path("tags") int tags, @Path("tags_anime") int tags_anime, @Path("tags_manga") int tags_manga,
                       @Field("title") String title, @Field("body") String body);
 
-    @GET("/forum/thread/{id}")
-    ForumMain getPosts(@Path("id") int id, @Query("page") int page);
     */
+
+    @FormUrlEncoded
+    @POST("/forum/comment")
+    Response addComment(@Field("thread_id") int id, @Field("comment") String message);
+
+    @FormUrlEncoded
+    @PUT("/forum/comment")
+    Response updateComment(@Field("id") int id, @Field("comment") String message);
+
+    @GET("/forum/search/{query}")
+    ForumAL search(@Path("query") String query);
+
+    @GET("/forum/thread/{id}")
+    ForumThread getPosts(@Path("id") int id, @Query("page") int page);
+
+    @GET("/forum/tag")
+    ForumAL getTags(@Query("tags") int id, @Query("page") int page);
 
     @GET("/anime/{id}/reviews")
     ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);
