@@ -12,14 +12,14 @@ import lombok.Setter;
 
 public class ForumThread implements Serializable {
     /**
-     * Total number of threads.
+     * The thread id.
      */
     @Setter
     @Getter
     private Integer id;
 
     /**
-     * Total number of threads.
+     * The user thread creator id.
      */
     @Setter
     @Getter
@@ -28,42 +28,42 @@ public class ForumThread implements Serializable {
 
 
     /**
-     * Total number of threads.
+     * The thread title.
      */
     @Setter
     @Getter
     private String title;
 
     /**
-     * Total number of threads.
+     * The thread content.
      */
     @Setter
     @Getter
     private String body;
 
     /**
-     * Total number of threads.
+     * The Comment comment.
      */
     @Setter
     @Getter
     private String comment;
 
     /**
-     * Total number of threads.
+     * If the thread is sticky.
      */
     @Setter
     @Getter
     private Integer sticky;
 
     /**
-     * Total number of threads.
+     * If the thread is locked.
      */
     @Setter
     @Getter
     private Object locked;
 
     /**
-     * Total number of threads.
+     * TODO: watch what this is
      */
     @Setter
     @Getter
@@ -71,7 +71,7 @@ public class ForumThread implements Serializable {
     private String lastReply;
 
     /**
-     * Total number of threads.
+     * TODO: watch what this is
      */
     @Setter
     @Getter
@@ -79,7 +79,7 @@ public class ForumThread implements Serializable {
     private Integer lastReplyUser;
 
     /**
-     * Total number of threads.
+     * Total number of replies.
      */
     @Setter
     @Getter
@@ -87,7 +87,7 @@ public class ForumThread implements Serializable {
     private Integer replyCount;
 
     /**
-     * Total number of threads.
+     * Total number of views.
      */
     @Setter
     @Getter
@@ -95,7 +95,7 @@ public class ForumThread implements Serializable {
     private Integer viewCount;
 
     /**
-     * Total number of threads.
+     * The date of the deleted post/thread.
      */
     @Setter
     @Getter
@@ -103,7 +103,7 @@ public class ForumThread implements Serializable {
     private String deletedAt;
 
     /**
-     * Total number of threads.
+     * The date of the created post/thread.
      */
     @Setter
     @Getter
@@ -111,21 +111,21 @@ public class ForumThread implements Serializable {
     private String createdAt;
 
     /**
-     * Total number of threads.
+     * Arraylist of replies.
      */
     @Setter
     @Getter
     private ArrayList<Comment> comments = new ArrayList<>();
 
     /**
-     * Total number of threads.
+     * If you are a sub.
      */
     @Setter
     @Getter
     private Boolean subscribed;
 
     /**
-     * Total number of threads.
+     * Page information.
      */
     @Setter
     @Getter
@@ -133,7 +133,7 @@ public class ForumThread implements Serializable {
     private PageData pageData;
 
     /**
-     * Total number of threads.
+     * The user info of the replied user.
      */
     @Setter
     @Getter
@@ -181,7 +181,7 @@ public class ForumThread implements Serializable {
 
     public class PageData {
         /**
-         * Total number of threads.
+         * TODO: watch what this is
          */
         @Setter
         @Getter
@@ -189,7 +189,7 @@ public class ForumThread implements Serializable {
         private Integer totalRoot;
 
         /**
-         * Total number of threads.
+         * Total number of comments per page.
          */
         @Setter
         @Getter
@@ -197,7 +197,7 @@ public class ForumThread implements Serializable {
         private Integer perPage;
 
         /**
-         * Total number of threads.
+         * The page number.
          */
         @Setter
         @Getter
@@ -205,7 +205,7 @@ public class ForumThread implements Serializable {
         private Integer currentPage;
 
         /**
-         * Total number of threads.
+         * Total amount of pages.
          */
         @Setter
         @Getter
@@ -213,14 +213,14 @@ public class ForumThread implements Serializable {
         private Integer lastPage;
 
         /**
-         * Total number of threads.
+         * First page number.
          */
         @Setter
         @Getter
         private Integer from;
 
         /**
-         * Total number of threads.
+         * Last page number.
          */
         @Setter
         @Getter
@@ -229,14 +229,14 @@ public class ForumThread implements Serializable {
 
     public class Comment {
         /**
-         * Total number of threads.
+         * The comment ID.
          */
         @Setter
         @Getter
         private Integer id;
 
         /**
-         * Total number of threads.
+         * The id of the parent comment.
          */
         @SerializedName("parent_id")
         @Setter
@@ -244,7 +244,7 @@ public class ForumThread implements Serializable {
         private Object parentId;
 
         /**
-         * Total number of threads.
+         * TODO: watch what this is
          */
         @Setter
         @Getter
@@ -252,7 +252,7 @@ public class ForumThread implements Serializable {
         private Integer depth;
 
         /**
-         * Total number of threads.
+         * The replied userID
          */
         @SerializedName("user_id")
         @Setter
@@ -260,7 +260,7 @@ public class ForumThread implements Serializable {
         private Integer userId;
 
         /**
-         * Total number of threads.
+         * Thread ID
          */
         @SerializedName("thread_id")
         @Setter
@@ -268,7 +268,7 @@ public class ForumThread implements Serializable {
         private Integer threadId;
 
         /**
-         * Total number of threads.
+         * The comment.
          */
         @SerializedName("comment")
         @Setter
@@ -276,7 +276,7 @@ public class ForumThread implements Serializable {
         private String comment;
 
         /**
-         * Total number of threads.
+         * The create date.
          */
         @SerializedName("created_at")
         @Setter
@@ -284,7 +284,7 @@ public class ForumThread implements Serializable {
         private String createdAt;
 
         /**
-         * Total number of threads.
+         * The updated date.
          */
         @SerializedName("updated_at")
         @Setter
@@ -292,7 +292,7 @@ public class ForumThread implements Serializable {
         private String updatedAt;
 
         /**
-         * Total number of threads.
+         * The user info of the comment
          */
         @SerializedName("user")
         @Setter
@@ -300,7 +300,7 @@ public class ForumThread implements Serializable {
         private Profile user;
 
         /**
-         * Total number of threads.
+         * Sub comments.
          */
         @SerializedName("children")
         @Setter
