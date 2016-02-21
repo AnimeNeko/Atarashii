@@ -487,8 +487,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(Friends);
                 break;
             case R.id.nav_forum:
-                Intent Forum = new Intent(context, ForumActivity.class);
-                startActivity(Forum);
+                if (MALApi.isNetworkAvailable(this))
+                    startActivity(new Intent(context, ForumActivity.class));
+                else
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
             case R.id.nav_rated:
                 getRecords(true, TaskJob.GETTOPRATED, af.list);
