@@ -103,8 +103,12 @@ public class Theme extends Application {
      * Changes the language to the preferred one.
      */
     private void setLanguage() {
-        Resources res = getBaseContext().getResources();
-        res.updateConfiguration(config, res.getDisplayMetrics());
+        try {
+            Resources res = getBaseContext().getResources();
+            res.updateConfiguration(config, res.getDisplayMetrics());
+        } catch (Exception e) {
+            Theme.logTaskCrash("Theme", "setLanguage", e);
+        }
     }
 
     /**
