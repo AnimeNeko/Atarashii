@@ -35,11 +35,11 @@ public class DatabaseManager {
             cv.put("airingTime", anime.getAiring().getTime());
             cv.put("nextEpisode", anime.getAiring().getNextEpisode());
         }
-        if (anime.getWatchedStatus() != null) { // AniList does not provide this in the details
+
+        // AniList does not provide this in the details
+        if (AccountService.isMAL()) {
             cv.put("watchedStatus", anime.getWatchedStatus());
             cv.put("watchedEpisodes", anime.getWatchedEpisodes());
-        }
-        if (AccountService.isMAL()) {
             cv.put("watchingStart", anime.getWatchingStart());
             cv.put("watchingEnd", anime.getWatchingEnd());
             cv.put("fansubGroup", anime.getFansubGroup());
@@ -101,6 +101,15 @@ public class DatabaseManager {
         cv.put("score", anime.getScore());
         cv.put("watchedStatus", anime.getWatchedStatus());
 
+        // AniList details only
+        if (!AccountService.isMAL()) {
+            cv.put("popularity", anime.getPopularity());
+            cv.put("averageScore", anime.getAverageScore());
+            cv.put("priority", anime.getPriority());
+            cv.put("rewatching", anime.getRewatching());
+            cv.put("notes", anime.getNotes());
+        }
+
         try {
             db.beginTransaction();
             Query.newQuery(db).updateRecord(DatabaseTest.TABLE_ANIME, cv, anime.getId());
@@ -117,12 +126,12 @@ public class DatabaseManager {
         ContentValues cv = listDetails(manga);
         cv.put("chapters", manga.getChapters());
         cv.put("volumes", manga.getVolumes());
-        if (manga.getReadStatus() != null) { // AniList does not provide this in the details
+
+        // AniList does not provide this in the details
+        if (AccountService.isMAL()) {
             cv.put("readStatus", manga.getReadStatus());
             cv.put("chaptersRead", manga.getChaptersRead());
             cv.put("volumesRead", manga.getVolumesRead());
-        }
-        if (AccountService.isMAL()) {
             cv.put("readingStart", manga.getReadingStart());
             cv.put("readingEnd", manga.getReadingEnd());
             cv.put("chapDownloaded", manga.getChapDownloaded());
@@ -197,15 +206,19 @@ public class DatabaseManager {
         cv.put("status", record.getStatus());
         cv.put("startDate", record.getStartDate());
         cv.put("endDate", record.getEndDate());
-        cv.put("score", record.getScore());
-        cv.put("priority", record.getPriority());
+
+        // MyAnimeList details only
+        if (AccountService.isMAL()) {
+            cv.put("score", record.getScore());
+            cv.put("priority", record.getPriority());
+            cv.put("averageScoreCount", record.getAverageScoreCount());
+            cv.put("rank", record.getRank());
+            cv.put("notes", record.getNotes());
+            cv.put("favoritedCount", record.getFavoritedCount());
+        }
         cv.put("classification", record.getClassification());
         cv.put("averageScore", record.getAverageScore());
-        cv.put("averageScoreCount", record.getAverageScoreCount());
         cv.put("popularity", record.getPopularity());
-        cv.put("rank", record.getRank());
-        cv.put("notes", record.getNotes());
-        cv.put("favoritedCount", record.getFavoritedCount());
         cv.put("dirty", record.getDirty() != null ? new Gson().toJson(record.getDirty()) : null);
         cv.put("createFlag", record.getCreateFlag());
         cv.put("deleteFlag", record.getDeleteFlag());
