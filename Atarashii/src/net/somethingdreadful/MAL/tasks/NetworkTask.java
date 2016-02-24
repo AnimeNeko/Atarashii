@@ -112,6 +112,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         if (AccountService.isMAL())
                             mManager.verifyAuthentication();
 
+                        mManager.cleanDirtyAnimeRecords();
+                        mManager.cleanDirtyMangaRecords();
+
                         taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(params[0]) : mManager.downloadAndStoreMangaList(params[0]);
                         if (taskResult != null && params.length == 2)
                             taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1]) : mManager.getMangaListFromDB(params[1]);
