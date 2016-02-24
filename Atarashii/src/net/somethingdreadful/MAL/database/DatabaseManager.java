@@ -36,6 +36,12 @@ public class DatabaseManager {
             cv.put("nextEpisode", anime.getAiring().getNextEpisode());
         }
 
+        // The app is offline
+        if (anime.getWatchedStatus() != null) {
+            cv.put("watchedStatus", anime.getWatchedStatus());
+            cv.put("watchedEpisodes", anime.getWatchedEpisodes());
+        }
+
         // AniList does not provide this in the details
         if (AccountService.isMAL()) {
             cv.put("watchedStatus", anime.getWatchedStatus());
@@ -127,11 +133,15 @@ public class DatabaseManager {
         cv.put("chapters", manga.getChapters());
         cv.put("volumes", manga.getVolumes());
 
-        // AniList does not provide this in the details
-        if (AccountService.isMAL()) {
+        // The app is offline
+        if (manga.getReadStatus() != null) {
             cv.put("readStatus", manga.getReadStatus());
             cv.put("chaptersRead", manga.getChaptersRead());
             cv.put("volumesRead", manga.getVolumesRead());
+        }
+
+        // AniList does not provide this in the details
+        if (AccountService.isMAL()) {
             cv.put("readingStart", manga.getReadingStart());
             cv.put("readingEnd", manga.getReadingEnd());
             cv.put("chapDownloaded", manga.getChapDownloaded());
