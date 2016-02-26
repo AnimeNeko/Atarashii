@@ -7,8 +7,7 @@
         android:id="@+id/coverImage"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/transpanel" />
+        android:scaleType="centerCrop" />
 
     <include layout="@layout/record_igf_panel" />
 </FrameLayout>
