@@ -304,7 +304,7 @@ public class DatabaseManager {
                 cursor = query.OrderBy(1, "title").run();
                 break;
             case "rewatching": // rewatching/rereading
-                cursor = query.whereEqGr("rewatchCount", "1").andEquals("watchedStatus", "watching").OrderBy(1, "title").run();
+                cursor = query.whereEqGr("rewatchCount", "1").andOrEquals("watchedStatus", "watching", "rewatching", "true").OrderBy(1, "title").run();
                 break;
             default: // normal lists
                 cursor = query.where("watchedStatus", ListType).OrderBy(1, "title").run();
