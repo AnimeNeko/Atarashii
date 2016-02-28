@@ -132,13 +132,18 @@ public class UserList {
                     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime anime = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime();
                     anime.setId(detail.getAnime().getId());
                     anime.setTitle(detail.getAnime().getTitleRomaji());
-                    anime.setImageUrl(detail.getAnime().getImageUrlLge());
                     anime.setType(detail.getAnime().getType());
+                    anime.setImageUrl(detail.getAnime().getImageUrlLge());
+                    anime.setPopularity(detail.getAnime().getPopularity());
+                    anime.setStatus(detail.getAnime().getAiringStatus());
+                    anime.setAverageScore(detail.getAnime().getAverageScore());
+                    anime.setEpisodes(detail.getAnime().getTotalEpisodes());
+
                     anime.setWatchedStatus(detail.getListStatus());
+                    anime.setScore(detail.getScoreraw());
                     anime.setPriority(detail.getPriorty());
                     anime.setRewatching(detail.getRewatched());
                     anime.setNotes(detail.getNotes());
-                    anime.setScore(detail.getScoreraw());
                     anime.setWatchedEpisodes(detail.getEpisodesWatched());
                     newList.add(anime);
                 }
