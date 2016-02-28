@@ -268,7 +268,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     private void setChecked(MenuItem item) {
-        item.setChecked(true);
+        if (item != null)
+            item.setChecked(true);
     }
 
     private void myListChanged() {
