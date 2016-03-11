@@ -105,22 +105,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             drawerToggle.syncState();
 
             //Applying dark theme
-            if (Theme.darkTheme) {
-                int[][] states = new int[][]{
-                        new int[]{-android.R.attr.state_checked}, // unchecked
-                        new int[]{android.R.attr.state_checked} // checked
-                };
-
-                int[] colors = new int[]{
-                        context.getResources().getColor(R.color.bg_light_card),
-                        context.getResources().getColor(R.color.primary)
-                };
-
-                ColorStateList myList = new ColorStateList(states, colors);
-                navigationView.setBackgroundColor(getResources().getColor(R.color.bg_dark));
-                navigationView.setItemTextColor(myList);
-                navigationView.setItemIconTintList(myList);
-            }
+                applyDarkTheme();
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -135,6 +120,26 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             finish();
         }
         NfcHelper.disableBeam(this);
+    }
+
+    /**
+     * Apply dark theme if an user enabled it in the settings.
+     */
+    public void applyDarkTheme() {
+        int[][] states = new int[][]{
+                new int[]{-android.R.attr.state_checked}, // unchecked
+                new int[]{android.R.attr.state_checked} // checked
+        };
+
+        int[] colors = new int[]{
+                context.getResources().getColor(R.color.bg_light_card),
+                context.getResources().getColor(R.color.primary)
+        };
+
+        ColorStateList myList = new ColorStateList(states, colors);
+        navigationView.setBackgroundColor(getResources().getColor(R.color.bg_dark));
+        navigationView.setItemTextColor(myList);
+        navigationView.setItemIconTintList(myList);
     }
 
     @Override
