@@ -129,7 +129,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
             if (result) {
                 // load account before requesting the information
                 AccountService.getAccount();
-                Theme.setCrashData("site", AccountService.accountType.toString());
+                Theme.setCrashData("Site", AccountService.accountType.toString());
                 PrefManager.setForceSync(true);
                 PrefManager.commitChanges();
                 Answers.getInstance().logLogin(new LoginEvent()
