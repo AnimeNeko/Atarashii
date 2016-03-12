@@ -81,7 +81,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         return view;
     }
 
-    /*
+    /**
      * Set all views once
      */
     private void setViews() {
@@ -108,7 +108,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         cardPersonal.setOnClickListener(R.id.scorePanel, this);
     }
 
-    /*
+    /**
      * set all the ClickListeners
      */
     private void setListener() {
@@ -117,7 +117,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         swipeRefresh.setEnabled(true);
     }
 
-    /*
+    /**
      * Manage the progress card
      */
     private void setCard() {
@@ -129,7 +129,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         }
     }
 
-    /*
+    /**
      * Place all the text in the right textview
      */
     public void setText() {

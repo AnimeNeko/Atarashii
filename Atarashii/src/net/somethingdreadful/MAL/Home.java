@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
@@ -216,7 +215,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         registerReceiver(networkReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onPause() {
         super.onPause();
