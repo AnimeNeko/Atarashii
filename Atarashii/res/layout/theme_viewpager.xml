@@ -30,11 +30,11 @@
         android:id="@+id/pager"
         android:layout_below="@id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <ImageView
         android:layout_below="@id/tabs"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@drawable/toolbar_shadow"/>
+        android:background="@drawable/toolbar_shadow" />
 </RelativeLayout>
