@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
-
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
@@ -77,16 +76,20 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         username = getIntent().getStringExtra("username");
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
-
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 
         if (savedInstanceState != null) {
             animeRecord = (Anime) savedInstanceState.getSerializable("anime");
             mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
         }
+
+        if (isEmpty())
+            getRecord(false);
+        else
+            setText();
     }
 
-    /*
+    /**
      * Set text in all fragments
      */
     private void setText() {
@@ -125,28 +128,28 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         return (isEmpty(string) ? getString(R.string.unknown) : DateTools.parseDate(string, false));
     }
 
-    /*
+    /**
      * show or hide the personal card
      */
     public void hidePersonal(boolean hide) {
         PageAdapter.hidePersonal(hide);
     }
 
-    /*
+    /**
      * Checks if the records are null to prevent nullpointerexceptions
      */
     public boolean isEmpty() {
         return animeRecord == null && mangaRecord == null;
     }
 
-    /*
+    /**
      * Checks if this record is in our list
      */
     public boolean isAdded() {
         return !isEmpty() && (ListType.ANIME.equals(type) ? animeRecord.getWatchedStatus() != null : mangaRecord.getReadStatus() != null);
     }
 
-    /*
+    /**
      * Set refreshing on all SwipeRefreshViews
      */
     private void setRefreshing(Boolean show) {
@@ -164,7 +167,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         }
     }
 
-    /*
+    /**
      * Show the dialog with the tag
      */
     public void showDialog(String tag, DialogFragment dialog) {
@@ -172,7 +175,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         dialog.show(fm, "fragment_" + tag);
     }
 
-    /*
+    /**
      * Show the dialog with the tag
      */
     public void showDialog(String tag, DialogFragment dialog, Bundle args) {
@@ -181,7 +184,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         dialog.show(fm, "fragment_" + tag);
     }
 
-    /*
+    /**
      * Episode picker dialog
      */
     @Override
@@ -253,7 +256,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void onCloseClicked(String message) {
     }
 
-    /*
+    /**
      * Date picker dialog
      */
     public void onDialogDismissed(boolean startDate, int year, int month, int day) {
@@ -282,7 +285,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         return type.equals(MALApi.ListType.ANIME);
     }
 
-    /*
+    /**
      * Set the right menu items.
      */
     public void setMenu() {
@@ -299,7 +302,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         }
     }
 
-    /*
+    /**
      * Add record to list
      */
     private void addToList() {
@@ -320,7 +323,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         }
     }
 
-    /*
+    /**
      * Open the share dialog
      */
     private void Share() {
@@ -331,7 +334,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
-    /*
+    /**
      * Make the share text for the share dialog
      */
     private String makeShareText() {
@@ -345,7 +348,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         return shareText;
     }
 
-    /*
+    /**
      * Check if the database contains the record.
      *
      * If it does contains the record it will set it.
@@ -366,7 +369,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         }
     }
 
-    /*
+    /**
      * Check if  the record contains all the details.
      *
      * Without this function the fragments will call setText while it isn't loaded.
@@ -376,7 +379,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         return (!isEmpty()) && (type.equals(ListType.ANIME) ? animeRecord.getSynopsis() != null : mangaRecord.getSynopsis() != null);
     }
 
-    /*
+    /**
      * Get the translation from strings.xml
      */
     private String getStringFromResourceArray(int resArrayId, int index) {
@@ -393,7 +396,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         }
     }
 
-    /*
+    /**
      * Get the anime or manga mediatype translations
      */
     public String getTypeString(int typesInt) {
@@ -403,7 +406,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             return getStringFromResourceArray(R.array.mediaType_Manga, typesInt);
     }
 
-    /*
+    /**
      * Get the anime or manga status translations
      */
     public String getStatusString(int statusInt) {
@@ -413,7 +416,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             return getStringFromResourceArray(R.array.mediaStatus_Manga, statusInt);
     }
 
-    /*
+    /**
      * Get the anime or manga genre translations
      */
     public ArrayList<String> getGenresString(ArrayList<Integer> genresInt) {
@@ -424,7 +427,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         return genres;
     }
 
-    /*
+    /**
      * Get the anime or manga classification translations
      */
     public String getClassificationString(Integer classificationInt) {
@@ -435,7 +438,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         return getStringFromResourceArray(R.array.mediaStatus_User, statusInt);
     }
 
-    /*
+    /**
      * Get the records (Anime/Manga)
      *
      * Try to fetch them from the Database first to get reading/watching details.
@@ -671,18 +674,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         finish();
     }
 
-    /*
+    /**
      * Set the fragment to future use
      */
     public void setGeneral(DetailViewGeneral general) {
         this.general = general;
-        if (isEmpty())
-            getRecord(false);
-        else
-            setText();
     }
 
-    /*
+    /**
      * Set the fragment to future use
      */
     public void setDetails(DetailViewDetails details) {
@@ -697,7 +696,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         this.reviews = reviews;
     }
 
-    /*
+    /**
      * handle the loading indicator
      */
     private void toggleLoadingIndicator(boolean show) {
@@ -706,7 +705,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     }
 
-    /*
+    /**
      * handle the offline card
      */
     private void toggleNoNetworkCard(boolean show) {
