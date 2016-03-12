@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -27,6 +27,7 @@ public class Card extends RelativeLayout {
     private ImageView Image;
     private final CardView Card;
     private final RelativeLayout Content;
+    private Context context;
 
     private onCardClickListener listener;
     private int screenWidth;
@@ -43,6 +44,7 @@ public class Card extends RelativeLayout {
 
     public Card(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
 
         // Get attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Card, 0, 0);
@@ -68,7 +70,7 @@ public class Card extends RelativeLayout {
         if (divide != 0 || maxWidth != 0)
             setWidth(divide, maxWidth);
         Header.setText(TitleText);
-        Header.setTextColor(getResources().getColor(TitleColor));
+        Header.setTextColor(ContextCompat.getColor(context, TitleColor));
         setHeaderColor(HeaderColor);
         if (content != 0)
             setContent(content);
@@ -86,11 +88,11 @@ public class Card extends RelativeLayout {
         if (this.findViewById(R.id.ListView) != null)
             setPadding(0);
         if (Theme.darkTheme) {
-            Content.setBackgroundColor(getResources().getColor(R.color.bg_dark));
+            Content.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
             initLoop(Content);
             if (this.findViewById(R.id.ListView) != null) {
                 ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.ListView);
-                ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_dark_card));
+                ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.bg_dark_card));
                 listView.setDivider(colorDrawable);
                 listView.setChildDivider(colorDrawable);
                 listView.setDividerHeight(Theme.convert(1));
@@ -102,12 +104,12 @@ public class Card extends RelativeLayout {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
             if (child instanceof TextView)
-                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) child).setTextColor(ContextCompat.getColor(context, R.color.text_dark));
             else if (child instanceof RelativeLayout) {
                 initLoop((RelativeLayout) child);
                 Theme.setBackground(getContext(), child);
             } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
-                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                child.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark_card));
         }
     }
 
@@ -120,14 +122,14 @@ public class Card extends RelativeLayout {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
             if (child instanceof TextView)
-                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) child).setTextColor(ContextCompat.getColor(context, R.color.text_dark));
             else if (child instanceof RelativeLayout) {
                 initLoop((RelativeLayout) child);
                 Theme.setBackground(getContext(), child);
             } else if (child instanceof TableRow) {
                 initLoop((TableRow) child);
             } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
-                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                child.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark_card));
         }
     }
 
@@ -214,7 +216,7 @@ public class Card extends RelativeLayout {
      */
     private void setHeaderColor(int color) {
         GradientDrawable shape = (GradientDrawable) Header.getBackground();
-        shape.setColor(getResources().getColor(color));
+        shape.setColor(ContextCompat.getColor(context, color));
     }
 
     /**
@@ -298,8 +300,8 @@ public class Card extends RelativeLayout {
         if (screenWidth == 0) {
             try {
                 screenWidth = Theme.convert(getResources().getConfiguration().screenWidthDp);
-            } catch (NoSuchFieldError e) {
-                screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+            } catch (Exception e) {
+                Theme.logTaskCrash(this.getClass().getSimpleName(), e.getMessage(), e);
             }
         }
         return screenWidth;

@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,7 +135,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
 
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             if (Theme.darkTheme)
-                viewHolder.name.setTextColor(context.getResources().getColor(R.color.text_dark));
+                viewHolder.name.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
 
             convertView.setTag(viewHolder);
         } else {
@@ -166,12 +167,12 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.record_details_listview_header, parent, false);
             if (Theme.darkTheme)
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.card_dark_green));
+                convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.card_dark_green));
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
         if (Theme.darkTheme)
-            name.setTextColor(context.getResources().getColor(R.color.text_dark));
+            name.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
         name.setText(headers.get(groupPos));
         return convertView;
     }

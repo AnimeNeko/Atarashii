@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +49,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
             viewHolder.friends_last = (TextView) view.findViewById(R.id.friends_last);
             viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
-            viewHolder.avatar.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_settings_backup_restore_grey));
+            viewHolder.avatar.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_settings_backup_restore_grey));
             viewHolder.removeButton = (ImageView) view.findViewById(R.id.removeButton);
             viewHolder.removeButton.setVisibility(View.VISIBLE);
             viewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
             });
 
             if (Theme.darkTheme) {
-                viewHolder.username.setTextColor(context.getResources().getColor(R.color.text_dark));
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
                 Theme.setBackground(context, view);
             }
 
@@ -77,9 +77,9 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder.username.setText(fileName.substring(fileName.indexOf('_') + 1).replace(".json", ""));
             viewHolder.last_online.setText(DateTools.parseDate(Long.parseLong(fileName.substring(6, fileName.indexOf('_')))));
             if (!username.equals(viewHolder.username.getText()))
-                viewHolder.username.setTextColor(context.getResources().getColor(R.color.card_red));
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.card_red));
             else
-                viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.BLACK);
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, Theme.darkTheme ? R.color.text_dark : android.R.color.black));
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.ListViewAdapter(): " + e.getMessage());
             Crashlytics.logException(e);

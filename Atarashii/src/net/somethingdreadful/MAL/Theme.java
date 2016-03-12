@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +33,6 @@ import java.util.Locale;
 import io.fabric.sdk.android.Fabric;
 
 public class Theme extends Application {
-
     public static boolean darkTheme;
     private static float density;
     private Locale locale;
@@ -144,7 +144,7 @@ public class Theme extends Application {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
         if (adapter instanceof IGFPagerAdapter)
-            viewPager.setBackgroundColor(activity.getResources().getColor(R.color.bg_dark));
+            viewPager.setBackgroundColor(ContextCompat.getColor(activity,R.color.bg_dark));
 
         tabs.setupWithViewPager(viewPager);
         return adapter;
@@ -193,9 +193,9 @@ public class Theme extends Application {
             activity.setContentView(view);
         if (darkTheme) {
             activity.setTheme(R.style.AtarashiiDarkBg);
-            activity.getWindow().getDecorView().setBackgroundColor(activity.getResources().getColor(card ? R.color.bg_dark_card : R.color.bg_dark));
+            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity,card ? R.color.bg_dark_card : R.color.bg_dark));
         } else {
-            activity.getWindow().getDecorView().setBackgroundColor(activity.getResources().getColor(card ? R.color.bg_light_card : R.color.bg_light));
+            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity,card ? R.color.bg_light_card : R.color.bg_light));
         }
     }
 
@@ -218,9 +218,9 @@ public class Theme extends Application {
      */
     public static void setBackground(Context c, View view, int id) {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackgroundDrawable(c.getResources().getDrawable(id));
+            view.setBackgroundDrawable(ContextCompat.getDrawable(c, id));
         } else {
-            view.setBackground(c.getResources().getDrawable(id));
+            view.setBackground(ContextCompat.getDrawable(c, id));
         }
     }
 

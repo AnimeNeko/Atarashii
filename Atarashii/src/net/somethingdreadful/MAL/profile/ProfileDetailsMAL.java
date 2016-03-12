@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -180,7 +181,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         }
         if (Profile.isDeveloper(name)) {
             tv8.setText(R.string.access_rank_atarashii_developer); //Developer
-            tv8.setTextColor(getResources().getColor(R.color.primary)); //Developer
+            tv8.setTextColor(ContextCompat.getColor(activity,R.color.primary)); //Developer
         }
     }
 

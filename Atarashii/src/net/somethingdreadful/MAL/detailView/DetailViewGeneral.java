@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -195,9 +196,9 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
                         try {
-                            BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.cover_error);
+                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
                             cardMain.wrapImage(225, 320);
-                            image.setImageBitmap(bitmap.getBitmap());
+                            image.setImageDrawable(drawable);
                         } catch (Exception e) {
                             Crashlytics.log(Log.ERROR, "MALX", "DetailViewGeneral.setText(): " + e.getMessage());
                         }

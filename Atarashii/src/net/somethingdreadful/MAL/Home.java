@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
@@ -12,9 +11,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -91,21 +91,19 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             new UserNetworkTask(context, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
             //Initializing NavigationView
-            navigationView = (NavigationView) findViewById(R.id.navigationView);
             navigationView.setNavigationItemSelectedListener(this);
             navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
             //Initializing navigation toggle button
-            drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
             ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
             };
-            drawerLayout.setDrawerListener(drawerToggle);
+            drawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
 
             //Applying dark theme
-                applyDarkTheme();
+            applyDarkTheme();
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -132,12 +130,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         };
 
         int[] colors = new int[]{
-                context.getResources().getColor(R.color.bg_light_card),
-                context.getResources().getColor(R.color.primary)
+                ContextCompat.getColor(context, R.color.bg_light_card),
+                ContextCompat.getColor(context, R.color.primary)
         };
 
         ColorStateList myList = new ColorStateList(states, colors);
-        navigationView.setBackgroundColor(getResources().getColor(R.color.bg_dark));
+        navigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark));
         navigationView.setItemTextColor(myList);
         navigationView.setItemIconTintList(myList);
     }
@@ -286,26 +284,21 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         }
     }
 
+    /**
+     * Creates the sync notification.
+     */
     private void syncNotify() {
         Intent notificationIntent = new Intent(context, Home.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
-                .setContentIntent(contentIntent)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setOngoing(true)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_info_SyncMessage));
-        Notification syncNotification;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                syncNotificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
-            }
-            syncNotification = syncNotificationBuilder.build();
-        } else {
-            syncNotification = syncNotificationBuilder.getNotification();
-        }
-        nm.notify(R.id.notification_sync, syncNotification);
+                .setContentText(getString(R.string.toast_info_SyncMessage))
+                .setContentIntent(contentIntent);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(R.id.notification_sync, mBuilder.build());
     }
 
     private void showLogoutDialog() {

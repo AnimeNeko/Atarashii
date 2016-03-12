@@ -58,7 +58,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
             // Set up the ViewPager with the sections adapter.
             mViewPager.setAdapter(mIGFPagerAdapter);
             mViewPager.setPageMargin(32);
-            mViewPager.setOnPageChangeListener(this);
+            mViewPager.addOnPageChangeListener(this);
 
             widgetID = AppWidgetManager.INVALID_APPWIDGET_ID;
             Intent intent = getIntent();

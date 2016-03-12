@@ -2,6 +2,7 @@ package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
 
             if (Theme.darkTheme) {
-                viewHolder.username.setTextColor(context.getResources().getColor(R.color.text_dark));
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
                 Theme.setBackground(context, view);
             }
 
@@ -65,9 +66,9 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             String username = record.getUsername();
             viewHolder.username.setText(WordUtils.capitalize(username));
             if (Profile.isDeveloper(username))
-                viewHolder.username.setTextColor(context.getResources().getColor(R.color.primary)); //Developer
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.primary)); //Developer
             else
-                viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
+                viewHolder.username.setTextColor(Theme.darkTheme ? ContextCompat.getColor(context, R.color.text_dark) : Color.parseColor("#212121"));
 
             if (record.getDetails() != null && record.getDetails().getLastOnline() != null) {
                 String last_online = record.getDetails().getLastOnline();
