@@ -83,6 +83,7 @@ public class Query {
 
     /**
      * Update or insert records.
+     *
      * @param table The table where the record should be updated
      * @param cv    The ContentValues which should be updated
      * @param id    The ID of the record
@@ -96,6 +97,7 @@ public class Query {
 
     /**
      * Update or insert records.
+     *
      * @param table    The table where the record should be updated
      * @param cv       The ContentValues which should be updated
      * @param username The username of the record
@@ -254,7 +256,6 @@ public class Query {
      * @param id        The anime or manga ID
      * @param anime     True if the record is an anime
      * @param titleType The title type
-     *
      * @return ArrayList with titles
      */
     public ArrayList<String> getTitles(int id, boolean anime, int titleType) {
@@ -368,7 +369,6 @@ public class Query {
      * @param table    The table which is separated in anime or manga records
      * @param column   The column name of the id's
      * @param anime    If the record is an anime.
-     *
      * @return The requested arraylist
      */
     public ArrayList<String> getArrayList(int id, String relTable, String table, String column, boolean anime) {
@@ -384,7 +384,7 @@ public class Query {
                 do
                     result.add(cursor.getString(3));
                 while (cursor.moveToNext());
-                    cursor.close();
+                cursor.close();
             }
         } catch (Exception e) {
             log("getArrayList", e.getMessage(), true);

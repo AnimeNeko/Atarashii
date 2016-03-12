@@ -243,6 +243,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
     public interface NetworkTaskListener {
         void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
+
         void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
     }
 }

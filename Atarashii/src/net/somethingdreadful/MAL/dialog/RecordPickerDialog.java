@@ -281,8 +281,10 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
     }
 
     @Override
-    public void onPageSelected(int position) {}
+    public void onPageSelected(int position) {
+    }
 
     @Override
-    public void onPageScrollStateChanged(int state) {}
+    public void onPageScrollStateChanged(int state) {
+    }
 }

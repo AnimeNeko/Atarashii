@@ -39,7 +39,8 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     WebView webview;
     private Card imagecard;
     private Card activitycard;
-    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
     @Bind(R.id.network_Card)

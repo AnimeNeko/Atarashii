@@ -76,8 +76,8 @@ public class Theme extends Application {
      * Log task crashes
      *
      * @param className The class name when the crash was caught.
-     * @param message The extra message to deliver.
-     * @param e The Error that has been caught.
+     * @param message   The extra message to deliver.
+     * @param e         The Error that has been caught.
      */
     public static void logTaskCrash(String className, String message, Exception e) {
         try {
@@ -144,7 +144,7 @@ public class Theme extends Application {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
         if (adapter instanceof IGFPagerAdapter)
-            viewPager.setBackgroundColor(ContextCompat.getColor(activity,R.color.bg_dark));
+            viewPager.setBackgroundColor(ContextCompat.getColor(activity, R.color.bg_dark));
 
         tabs.setupWithViewPager(viewPager);
         return adapter;
@@ -193,9 +193,9 @@ public class Theme extends Application {
             activity.setContentView(view);
         if (darkTheme) {
             activity.setTheme(R.style.AtarashiiDarkBg);
-            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity,card ? R.color.bg_dark_card : R.color.bg_dark));
+            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_dark_card : R.color.bg_dark));
         } else {
-            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity,card ? R.color.bg_light_card : R.color.bg_light));
+            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_light_card : R.color.bg_light));
         }
     }
 

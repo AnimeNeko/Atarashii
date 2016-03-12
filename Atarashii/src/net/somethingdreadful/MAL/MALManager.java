@@ -10,10 +10,10 @@ import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
-import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
+import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -126,7 +126,7 @@ public class MALManager {
     }
 
     public ArrayList<Profile> downloadAndStoreFriendList(String user) {
-        ArrayList<Profile> result =  new ArrayList<>();
+        ArrayList<Profile> result = new ArrayList<>();
         try {
             Crashlytics.log(Log.DEBUG, "MALX", "MALManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
             result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
@@ -141,13 +141,12 @@ public class MALManager {
         return sortFriendlist(result);
     }
 
-    private ArrayList<Profile> sortFriendlist(ArrayList<Profile> result){
+    private ArrayList<Profile> sortFriendlist(ArrayList<Profile> result) {
         //sort friendlist
         Collections.sort(result != null ? result : new ArrayList<Profile>(), new Comparator<Profile>() {
             @Override
-            public int compare(Profile profile1, Profile profile2)
-            {
-                return  profile1.getUsername().toLowerCase().compareTo(profile2.getUsername().toLowerCase());
+            public int compare(Profile profile1, Profile profile2) {
+                return profile1.getUsername().toLowerCase().compareTo(profile2.getUsername().toLowerCase());
             }
         });
         return result;

@@ -72,8 +72,8 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
             if (record.getDetails() != null && record.getDetails().getLastOnline() != null) {
                 String last_online = record.getDetails().getLastOnline();
-                    last_online = DateTools.parseDate(last_online, true);
-                    viewHolder.last_online.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
+                last_online = DateTools.parseDate(last_online, true);
+                viewHolder.last_online.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
             }
             Picasso.with(context).load(record.getImageUrl())
                     .error(R.drawable.cover_error)

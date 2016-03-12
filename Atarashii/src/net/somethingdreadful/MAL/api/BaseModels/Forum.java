@@ -75,7 +75,7 @@ public class Forum implements Serializable {
 
     /**
      * The max amount of pages
-     *
+     * <p/>
      * Note: Only the first item will contain this
      */
     @Setter

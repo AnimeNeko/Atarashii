@@ -83,6 +83,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
 
     public interface RestoreTaskListener {
         void onRestoreTaskFinished();
+
         void onRestoreTaskFailed();
     }
 }

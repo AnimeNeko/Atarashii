@@ -34,7 +34,7 @@ public class DateTools {
     /**
      * Parse a date with miliseconds.
      *
-     * @param time     The time in miliseconds
+     * @param time The time in miliseconds
      * @return String The readable string.
      */
     public static String parseDate(Long time) {

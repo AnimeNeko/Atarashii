@@ -46,7 +46,8 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     private Card mangacard;
     private ProfileActivity activity;
 
-    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
     @Bind(R.id.network_Card)
@@ -181,7 +182,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         }
         if (Profile.isDeveloper(name)) {
             tv8.setText(R.string.access_rank_atarashii_developer); //Developer
-            tv8.setTextColor(ContextCompat.getColor(activity,R.color.primary)); //Developer
+            tv8.setTextColor(ContextCompat.getColor(activity, R.color.primary)); //Developer
         }
     }
 

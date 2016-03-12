@@ -29,7 +29,8 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Bind(R.id.webview)
     WebView webview;
-    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override

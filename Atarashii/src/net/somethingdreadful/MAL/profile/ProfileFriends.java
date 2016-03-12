@@ -41,7 +41,8 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     Card networkCard;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
-    @Bind(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @Bind(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
 
     private boolean forcesync = false;
 

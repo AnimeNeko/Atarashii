@@ -191,6 +191,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      */
     public interface onSendClickListener {
         void onSendClicked(String message, String subject, ForumJob task, int id);
+
         void onCloseClicked(String message);
     }
 
