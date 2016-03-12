@@ -1,13 +1,12 @@
 package net.somethingdreadful.MAL.api;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 
-class UserAgentInterceptor implements Interceptor {
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
+class UserAgentInterceptor implements Interceptor {
     private final String userAgent;
 
     public UserAgentInterceptor(String userAgent) {
@@ -15,7 +14,7 @@ class UserAgentInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(Interceptor.Chain chain) throws IOException {
         Request originalRequest = chain.request();
         Request requestWithUserAgent = originalRequest.newBuilder()
                 .removeHeader("User-Agent")

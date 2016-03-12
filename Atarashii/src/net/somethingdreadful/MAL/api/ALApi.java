@@ -5,7 +5,7 @@ import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
+import com.jakewharton.retrofit.Ok3Client;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -26,9 +26,9 @@ import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 public class ALApi {
@@ -36,7 +36,7 @@ public class ALApi {
     private static String accesToken;
 
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
-    private static final String okUa = com.squareup.okhttp.internal.Version.userAgent();
+    private static final String okUa = okhttp3.internal.Version.userAgent();
     private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
 
     private ALInterface service;
@@ -59,11 +59,10 @@ public class ALApi {
     }
 
     private void setupRESTService() {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(45, TimeUnit.SECONDS);
-        client.setReadTimeout(45, TimeUnit.SECONDS);
-        client.setWriteTimeout(45, TimeUnit.SECONDS);
-
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.connectTimeout(60, TimeUnit.SECONDS);
+        client.writeTimeout(60, TimeUnit.SECONDS);
+        client.readTimeout(60, TimeUnit.SECONDS);
         client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
 
         if (accesToken == null && AccountService.getAccount() != null)
@@ -75,7 +74,7 @@ public class ALApi {
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new OkClient(client))
+                .setClient(new Ok3Client(client.build()))
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
