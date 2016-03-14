@@ -396,4 +396,20 @@ public class PrefManager {
     public static boolean getAutoBackup() {
         return prefs.getBoolean("autobackup", false);
     }
+
+    /**
+     * Get AniList title language.
+     *
+     * @return String The language name
+     */
+    public static String getTitleNameLang() {
+        return prefs.getString("titleNameLang", "romaji");
+    }
+
+    /**
+     * set AniList title language.
+     */
+    public static void setTitleNameLang(String titleName) {
+        prefEditor.putString("titleNameLang", titleName);
+    }
 }

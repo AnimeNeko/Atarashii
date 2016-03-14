@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.ALModels.AnimeManga;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.PrefManager;
+
 import java.util.ArrayList;
 
 import lombok.Getter;
@@ -24,6 +26,9 @@ public class UserList {
     @Getter
     @Setter
     private int notifications;
+    @Getter
+    @SerializedName("title_language")
+    private String titleLanguage;
 
     class Lists {
         @Getter
@@ -109,6 +114,8 @@ public class UserList {
 
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList();
+        PrefManager.setTitleNameLang(getTitleLanguage());
+        PrefManager.commitChanges();
         model.setAnimeList(combineArrayAnime());
         model.setMangaList(combineArrayManga());
         return model;
@@ -130,15 +137,15 @@ public class UserList {
             for (ListDetails detail : list) {
                 if (detail.getManga() == null) {
                     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime anime = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime();
-                    anime.setId(detail.getAnime().getId());
-                    anime.setTitle(detail.getAnime().getTitleRomaji());
-                    anime.setType(detail.getAnime().getType());
-                    anime.setImageUrl(detail.getAnime().getImageUrlLge());
-                    anime.setPopularity(detail.getAnime().getPopularity());
-                    anime.setStatus(detail.getAnime().getAiringStatus());
-                    anime.setAverageScore(detail.getAnime().getAverageScore());
-                    anime.setEpisodes(detail.getAnime().getTotalEpisodes());
-
+                    Anime AD = detail.getAnime();
+                    anime.setId(AD.getId());
+                    anime.setTitle(GenericRecord.getLanguageTitle(AD.getTitleRomaji(), AD.getTitleEnglish(), AD.getTitleJapanese()));
+                    anime.setType(AD.getType());
+                    anime.setImageUrl(AD.getImageUrlLge());
+                    anime.setPopularity(AD.getPopularity());
+                    anime.setStatus(AD.getAiringStatus());
+                    anime.setAverageScore(AD.getAverageScore());
+                    anime.setEpisodes(AD.getTotalEpisodes());
                     anime.setWatchedStatus(detail.getListStatus());
                     anime.setScore(detail.getScoreraw());
                     anime.setPriority(detail.getPriorty());
@@ -167,10 +174,11 @@ public class UserList {
             for (ListDetails detail : list) {
                 if (detail.getAnime() == null) {
                     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga manga = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga();
-                    manga.setId(detail.getManga().getId());
-                    manga.setTitle(detail.getManga().getTitleRomaji());
-                    manga.setImageUrl(detail.getManga().getImageUrlLge());
-                    manga.setType(detail.getManga().getType());
+                    Manga MD = detail.getManga();
+                    manga.setId(MD.getId());
+                    manga.setTitle(GenericRecord.getLanguageTitle(MD.getTitleRomaji(), MD.getTitleEnglish(), MD.getTitleJapanese()));
+                    manga.setImageUrl(MD.getImageUrlLge());
+                    manga.setType(MD.getType());
                     manga.setReadStatus(detail.getListStatus());
                     manga.setPriority(detail.getPriorty());
                     manga.setChaptersRead(detail.getChaptersRead());

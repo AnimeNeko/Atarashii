@@ -2,6 +2,8 @@ package net.somethingdreadful.MAL.api.ALModels.AnimeManga;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.somethingdreadful.MAL.PrefManager;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -175,10 +177,10 @@ public class GenericRecord implements Serializable {
 
     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
         model.setId(getId());
-        model.setTitle(getTitleRomaji());
         model.setTitleEnglish(createTitleArray(getTitleEnglish()));
         model.setTitleJapanese(createTitleArray(getTitleJapanese()));
         model.setTitleRomaji(createTitleArray(getTitleRomaji()));
+        model.setTitle(getLanguageTitle(getTitleRomaji(), getTitleEnglish(), getTitleJapanese()));
         model.setTitleSynonyms(getSynonyms());
         model.setType(getType());
         model.setImageUrl(getImageUrlLge());
@@ -196,5 +198,18 @@ public class GenericRecord implements Serializable {
         ArrayList<String> titleArray = new ArrayList<>();
         titleArray.add(title);
         return titleArray;
+    }
+
+    public static String getLanguageTitle(String romaji, String english, String japanese){
+        switch (PrefManager.getTitleNameLang()) {
+            case "romaji":
+                return romaji;
+            case "english":
+                return english;
+            case "japanese":
+                return japanese;
+            default:
+                return romaji;
+        }
     }
 }
