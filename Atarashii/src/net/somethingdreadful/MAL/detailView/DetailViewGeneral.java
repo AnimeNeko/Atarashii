@@ -78,6 +78,9 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         setListener();
 
         activity.setGeneral(this);
+
+        if (activity.isDone())
+            setText();
         return view;
     }
 
