@@ -102,7 +102,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             drawerToggle.syncState();
 
             //Applying dark theme
-            applyDarkTheme();
+            if (Theme.darkTheme)
+                applyDarkTheme();
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
