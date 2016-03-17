@@ -6,7 +6,7 @@
         android:id="@+id/rewatchPriorityPanel"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
         android:id="@+id/countPanel"
         android:layout_width="match_parent"
         android:layout_height="57dp"
-        android:background="@drawable/highlite_details"
+        android:background="@drawable/highlite"
         android:layout_below="@id/divider1">
 
         <TextView

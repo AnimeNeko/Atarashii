@@ -8,7 +8,7 @@
         android:layout_height="56dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <TextView
             android:id="@+id/textView"
@@ -39,7 +39,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/fansubPanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"
@@ -74,7 +74,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/storagePanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"
@@ -109,7 +109,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/capacityPanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"

@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/container"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"
@@ -50,7 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/startDatePanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"
@@ -85,7 +85,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/endDatePanel"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"
@@ -120,7 +120,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/priorityPanel"
-        android:background="@drawable/highlite_details"
+        android:background="@drawable/highlite"
         android:minHeight="56dp">
 
         <View
@@ -163,7 +163,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tagsPanel"
-        android:background="@drawable/highlite_details"
+        android:background="@drawable/highlite"
         android:minHeight="56dp">
 
         <View

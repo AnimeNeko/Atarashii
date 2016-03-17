@@ -230,7 +230,7 @@ public class Theme extends Application {
      * @return int The id of the default card drawable
      */
     private static int getDrawable() {
-        return darkTheme ? R.drawable.highlite_details_dark : R.drawable.highlite_details;
+        return darkTheme ? R.drawable.highlite_dark : R.drawable.highlite;
     }
 
     /**

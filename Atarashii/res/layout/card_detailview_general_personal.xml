@@ -6,7 +6,7 @@
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_below="@id/divider1"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <TextView
             android:id="@+id/progress1Label"
@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:layout_below="@id/progress1"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"
@@ -123,7 +123,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/progress2"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <View
             android:layout_width="fill_parent"

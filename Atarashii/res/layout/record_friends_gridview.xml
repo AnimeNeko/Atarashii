@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="72dp"
     android:layout_gravity="center"
-    android:background="@drawable/highlite_friendlist"
+    android:background="@drawable/highlite"
     android:orientation="horizontal">
 
     <ImageView
