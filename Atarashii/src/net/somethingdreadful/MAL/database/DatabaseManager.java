@@ -225,6 +225,9 @@ public class DatabaseManager {
             cv.put("rank", record.getRank());
             cv.put("notes", record.getNotes());
             cv.put("favoritedCount", record.getFavoritedCount());
+        } else if (record.getNotes() != null) {
+            cv.put("score", record.getScore());
+            cv.put("notes", record.getNotes());
         }
         cv.put("classification", record.getClassification());
         cv.put("averageScore", record.getAverageScore());
