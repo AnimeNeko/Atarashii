@@ -39,7 +39,6 @@ import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
-import net.somethingdreadful.MAL.tasks.ForumJob;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
@@ -231,7 +230,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     @Override
-    public void onSendClicked(String message, String subject, ForumJob task, int id) {
+    public void onSendClicked(String message, int id) {
         switch (id) {
             case R.id.tagsPanel:
                 if (isAnime())

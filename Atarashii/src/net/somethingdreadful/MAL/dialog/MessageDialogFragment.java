@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -18,8 +17,6 @@ import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class MessageDialogFragment extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
-
-    private EditText subject;
     private EditText message;
     private TextView header;
     private ForumJob task;
@@ -87,16 +84,8 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
 
         header = (TextView) view.findViewById(R.id.dialog_message_header);
         send = (TextView) view.findViewById(R.id.dialog_message_send);
-        subject = (EditText) view.findViewById(R.id.dialog_message_title);
         message = (EditText) view.findViewById(R.id.dialog_message_message);
 
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_bold));
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_italic));
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_underlined));
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_striped));
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_spoiler));
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_center));
-        Theme.setBackground(getActivity(), view.findViewById(R.id.dialog_message_close));
         Theme.setBackground(getActivity(), send);
         view.findViewById(R.id.dialog_message_close).setOnLongClickListener(this);
 
@@ -105,33 +94,9 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
     }
 
     /**
-     * This will insert a BBCode in the message field.
-     * note: It also changes the cursor position
-     *
-     * @param BBCode The BBCode string that should be in the message field
-     */
-    @SuppressLint("SetTextI18n")
-    private void insert(String BBCode) {
-        int curPos = message.getSelectionStart();
-        String str = message.getText().toString();
-        String str1 = str.substring(0, curPos);
-        String str2 = str.substring(curPos);
-        message.setText(str1 + BBCode + str2);
-        message.setSelection(curPos + ((BBCode.length() - 1) / 2));
-    }
-
-    /**
      * Add all the onClickListener events.
      */
     private void setClickListener() {
-        if (getArguments().getBoolean("BBCode", true)) {
-            view.findViewById(R.id.dialog_message_bold).setOnClickListener(this);
-            view.findViewById(R.id.dialog_message_italic).setOnClickListener(this);
-            view.findViewById(R.id.dialog_message_underlined).setOnClickListener(this);
-            view.findViewById(R.id.dialog_message_striped).setOnClickListener(this);
-            view.findViewById(R.id.dialog_message_spoiler).setOnClickListener(this);
-            view.findViewById(R.id.dialog_message_center).setOnClickListener(this);
-        }
         view.findViewById(R.id.dialog_message_close).setOnClickListener(this);
         send.setOnClickListener(this);
     }
@@ -147,34 +112,14 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
             case R.id.dialog_message_close:
                 if (callback != null) {
                     message.clearFocus();
-                    callback.onCloseClicked(message.getText().toString() != null ? message.getText().toString() : "");
+                    callback.onCloseClicked(message.getText().toString());
                 }
                 if (message.isEnabled())
                     dismiss();
                 break;
-            case R.id.dialog_message_bold:
-                insert("[b][/b]");
-                break;
-            case R.id.dialog_message_italic:
-                insert("[i][/i]");
-                break;
-            case R.id.dialog_message_underlined:
-                insert("[u][/u]");
-                break;
-            case R.id.dialog_message_striped:
-                insert("[s][/s]");
-                break;
-            case R.id.dialog_message_spoiler:
-                insert("[spoiler][/spoiler]");
-                break;
-            case R.id.dialog_message_center:
-                insert("[center][/center]");
-                break;
             case R.id.dialog_message_send:
-                subject.clearFocus();
                 message.clearFocus();
-                if (message.getText().toString() != null && !message.getText().toString().equals(""))
-                    callback.onSendClicked(message.getText().toString(), subject.getText().toString(), task, id);
+                callback.onSendClicked(message.getText().toString(), id);
                 dismiss();
                 break;
         }
@@ -190,7 +135,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
      * The interface for callback
      */
     public interface onSendClickListener {
-        void onSendClicked(String message, String subject, ForumJob task, int id);
+        void onSendClicked(String message, int id);
 
         void onCloseClicked(String message);
     }
@@ -207,7 +152,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
     }
 
     /**
-     * This will let the dialog remain on the sceen after an orientation.
+     * This will let the dialog remain on the screen after an orientation.
      */
     @Override
     public void onDestroyView() {
