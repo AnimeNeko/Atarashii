@@ -22,5 +22,6 @@
 
     <!-- IGF grid colors -->
     <color name="panel_griditem">#AF000000</color>
-    <color name="griditem_selected">#20ffffff</color>
+    <color name="material_selected">#20ffffff</color>
+    <color name="griditem_selected">#40ffffff</color>
 </resources>
