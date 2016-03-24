@@ -230,8 +230,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         if (activity.record.getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {
-            String birthday = DateTools.parseDate(activity.record.getDetails().getBirthday(), false);
-            tv1.setText(birthday.equals("") ? activity.record.getDetails().getBirthday() : birthday);
+            tv1.setText(activity.record.getDetails().getBirthday());
         }
         if (activity.record.getDetails().getLocation() == null)
             tv2.setText(R.string.not_specified);
