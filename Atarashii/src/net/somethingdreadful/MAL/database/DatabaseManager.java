@@ -304,7 +304,7 @@ public class DatabaseManager {
         Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME);
         switch (ListType) {
             case "": // All
-                cursor = query.OrderBy(1, "title").run();
+                cursor = query.isNotNull("status").OrderBy(1, "title").run();
                 break;
             case "rewatching": // rewatching/rereading
                 cursor = query.whereEqGr("rewatchCount", "1").andOrEquals("watchedStatus", "watching", "rewatching", "true").OrderBy(1, "title").run();
@@ -321,7 +321,7 @@ public class DatabaseManager {
         Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA);
         switch (ListType) {
             case "": // All
-                cursor = query.OrderBy(1, "title").run();
+                cursor = query.isNotNull("status").OrderBy(1, "title").run();
                 break;
             case "rereading": // rewatching/rereading
                 cursor = query.whereEqGr("rereadCount", "1").andEquals("readStatus", "reading").OrderBy(1, "title").run();
