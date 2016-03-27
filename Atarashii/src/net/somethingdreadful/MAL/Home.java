@@ -442,10 +442,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // disable swipeRefresh for other lists
-        af.setSwipeRefreshEnabled(myList);
-        mf.setSwipeRefreshEnabled(myList);
-
         //Checking if the item should be checked & if the list status has been changed
         switch (item.getItemId()) {
             case R.id.nav_profile:
@@ -464,6 +460,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                     item.setChecked(true);
                 break;
         }
+
+        // disable swipeRefresh for other lists
+        af.setSwipeRefreshEnabled(myList);
+        mf.setSwipeRefreshEnabled(myList);
 
         //Closing drawer on item click
         drawerLayout.closeDrawers();
