@@ -6,8 +6,10 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -279,6 +282,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         public TextView subTitle3;
         public TextView content;
         public ImageView imageView;
+        public RelativeLayout header;
 
         public reviewAdapterHolder(View itemView) {
             super(itemView);
@@ -288,6 +292,10 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
             subTitle3 = (TextView) itemView.findViewById(R.id.Cardsub3);
             content = (TextView) itemView.findViewById(R.id.content);
             imageView = (ImageView) itemView.findViewById(R.id.coverImage);
+            header = (RelativeLayout) itemView.findViewById(R.id.header);
+
+            GradientDrawable shape = (GradientDrawable) header.getBackground();
+            shape.setColor(ContextCompat.getColor(activity, R.color.card_green));
 
             imageView.setOnClickListener(this);
             content.setOnClickListener(this);
