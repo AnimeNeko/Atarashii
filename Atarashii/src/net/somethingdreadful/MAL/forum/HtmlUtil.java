@@ -5,8 +5,6 @@ import android.content.Context;
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
@@ -26,21 +24,6 @@ public class HtmlUtil {
         postStructure = getString(context, R.raw.forum_post_post_structure);
         spoilerStructure = getString(context, R.raw.forum_comment_spoiler_structure);
         this.context = context;
-    }
-
-    /**
-     * Change the spoiler text with resource id's
-     *
-     * @param hide String resource id
-     * @param show String resource id
-     */
-    private void setSpoilerText(int hide, int show) {
-        spoilerStructure = spoilerStructure
-                .replace("Hide spoiler", context.getString(hide).toUpperCase())
-                .replace("Show spoiler", context.getString(show).toUpperCase());
-        structure = structure
-                .replace("Hide spoiler", context.getString(hide).toUpperCase())
-                .replace("Show spoiler", context.getString(show).toUpperCase());
     }
 
     /**
@@ -113,33 +96,6 @@ public class HtmlUtil {
         comment = comment.replace("</li>", "");
         comment = comment.replace("<!--link-->", "");
 
-        return comment;
-    }
-
-    /**
-     * convert a AL comment into a HTML comment.
-     *
-     * @param comment The HTML comment
-     * @return String The BBCode comment
-     */
-    private String convertALComment(String comment) {
-        comment = comment.replace("\n", "<br>");                                                                                            // New line
-
-        comment = comment.replace("~~~img(", "<img width=\"100%\" src=\"").replace(")~~~", "\">");                                          // Image
-        comment = comment.replaceAll("~~~(.+?)~~~", "<center>$1</center>");                                                                 // Center
-        comment = comment.replaceAll("__(.+?)__", "<b>$1</b>");                                                                             // Text bold
-        comment = comment.replaceAll("_(.+?)_", "<em>$1</em>");                                                                             // Text Italic
-        comment = comment.replaceAll("~~(.+?)~~", "<em>$1</em>");                                                                           // Text strike
-
-        String[] spaces = comment.split("<br><br>");
-        int length = 0;
-        for (String line : spaces) {
-            length = length + line.length() + 8;
-            if (length > 300) {
-                comment = comment.substring(0, length - 4) + spoilerStructure + comment.substring(length, comment.length());
-                break;
-            }
-        }
         return comment;
     }
 
@@ -224,44 +180,5 @@ public class HtmlUtil {
         }
         pageString = context.getString(R.string.no_history);
         return buildList(result, 0, page);
-    }
-
-    /**
-     * Convert a forum array into a HTML list.
-     *
-     * @param record The ForumMain object that contains the list which should be converted in a HTML list
-     * @return String The HTML source
-     */
-    public String convertList(ArrayList<Reviews> record, int page) {
-        setSpoilerText(R.string.show_less, R.string.read_more);
-        String result = "";
-        for (int i = 0; i < record.size(); i++) {
-            Reviews review = record.get(i);
-            String reviewreal = postStructure;
-            String comment = review.getReview().replace("<span style=\"display: none;\"", spoilerStructure + "<span ") + "</div></input>";
-            comment = AccountService.isMAL() ? comment : convertALComment(comment);
-
-            if (review.getUser().isDeveloper())
-                reviewreal = reviewreal.replace("=\"title\">", "=\"developer\">");
-            reviewreal = reviewreal.replace("image", review.getUser().getImageUrl());
-            reviewreal = reviewreal.replace("Title", review.getUser().getUsername());
-            reviewreal = reviewreal.replace("itemID", String.valueOf(i));
-            reviewreal = reviewreal.replace("position", String.valueOf(i));
-            reviewreal = reviewreal.replace("Subhead", DateTools.parseDate(review.getDate(), !AccountService.isMAL()));
-            reviewreal = reviewreal.replace("<!-- place post content here -->", comment);
-
-            result = result + reviewreal;
-        }
-        pageString = context.getString(R.string.no_reviews);
-
-        int maxPage;
-        if (record.size() == 0)
-            maxPage = 0;
-        else if (record.size() < 20 && AccountService.isMAL())
-            maxPage = page;
-        else
-            maxPage = AccountService.isMAL() ? -1 : 0;
-
-        return buildList(result, maxPage, page);
     }
 }

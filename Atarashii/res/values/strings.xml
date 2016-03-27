@@ -267,6 +267,9 @@
     <string name="card_offline_error">No network connection available.</string>
     <string name="card_offline_title">You\'re offline!</string>
     <string name="episodepicker_hint">Enter your score</string>
+    <string name="card_content_rating">Overall Rating:</string>
+    <string name="card_content_chapseen">Chapters Read:</string>
+    <string name="card_content_episeen">Episodes Seen:</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>

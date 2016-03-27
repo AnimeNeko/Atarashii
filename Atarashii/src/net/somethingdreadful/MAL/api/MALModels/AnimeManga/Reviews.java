@@ -98,6 +98,8 @@ public class Reviews implements Serializable {
         model.setDate(getDate());
         model.setRating(getRating());
         model.setReview(getReview());
+        model.setEpisodesSeen(getWatchedEpisodes());
+        model.setChaptersRead(getChaptersRead());
         Profile profile = new Profile();
         profile.setUsername(getUsername());
         profile.setImageUrl(getAvatarUrl() == null ? "http://cdn.myanimelist.net/images/na_series.gif" : getAvatarUrl());
