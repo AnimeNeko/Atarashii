@@ -174,6 +174,8 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         private String episeen;
         private String image;
         private String title;
+        private String review;
+        private String shortReview;
 
         public reviewAdapter(Context context) {
             this.context = context;
@@ -192,13 +194,28 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         @Override
         public void onBindViewHolder(reviewAdapterHolder holder, int position) {
             try {
+                // Get the preview part for the reviews
+                review = record.get(position).getReview();
+                if (review.length() > 250) {
+                    int i = review.indexOf("<br>", 220); // Check for new lines
+                    if (i == -1)
+                        i = review.indexOf(".", 220); // Check for dots to be sure...
+                    if (i == -1)
+                        i = review.indexOf(" ", 220); // If the review does not contain spaces...
+                    if (i == -1)
+                        shortReview = review.substring(0, 220); // Don't even bother to understand this
+                    shortReview = review.substring(0, i);
+                } else {
+                    shortReview = review;
+                }
+
                 image = record.get(position).getUser().getImageUrl();
                 title = record.get(position).getUser().getUsername();
                 holder.title.setText(WordUtils.capitalize(title));
                 holder.subTitle.setText(DateTools.parseDate(record.get(position).getDate(), !AccountService.isMAL()));
                 holder.subTitle2.setText(rating + " " + record.get(position).getRating() + (!AccountService.isMAL() ? "/100" : ""));
                 holder.subTitle3.setText(activity.isAnime() ? record.get(position).getEpisodesSeen(episeen) : record.get(position).getChaptersRead(chapseen));
-                holder.content.setText(Html.fromHtml(record.get(position).getShortReview()));
+                holder.content.setText(Html.fromHtml(shortReview));
 
                 Picasso.with(context)
                         .load(image)
@@ -228,7 +245,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         }
 
         @Override
-        public void onScrollStateChanged (RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
 
             visibleItemCount = recyclerView.getChildCount();

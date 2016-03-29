@@ -68,25 +68,6 @@ public class Reviews implements Serializable {
     @Getter
     private Profile user;
 
-    /**
-     * Return only a small part.
-     *
-     * @return A small part of the entire review
-     */
-    public String getShortReview() {
-        if (getReview().length() > 250) {
-            int i = getReview().indexOf("<br>", 220); // Check for new lines
-            if (i == -1)
-                i = getReview().indexOf(".", 220); // Check for dots to be sure...
-            if (i == -1)
-                i = getReview().indexOf(" ", 220); // If the review does not contain spaces...
-            if (i == -1)
-                return getReview().substring(0, 220); // Don't even bother to understand this
-            return getReview().substring(0, i);
-        }
-        return getReview();
-    }
-
     public void setEpisodesSeen(int episodesSeen) {
         if (episodesSeen > 0)
             this.episodesSeen = String.valueOf(episodesSeen);
