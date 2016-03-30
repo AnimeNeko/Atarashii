@@ -1,16 +1,22 @@
 package net.somethingdreadful.MAL.database;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
+import net.somethingdreadful.MAL.FirstTimeInit;
+import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
+
 public class DatabaseTest extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
     private static final int VERSION = 14;
     private static DatabaseTest instance;
+    private Context context;
 
     public static final String TABLE_ANIME = "anime";
     public static final String TABLE_MANGA = "manga";
@@ -120,6 +126,7 @@ public class DatabaseTest extends SQLiteOpenHelper {
 
     public DatabaseTest(Context context) {
         super(context, NAME, null, VERSION);
+        this.context = context;
     }
 
     public static synchronized DatabaseTest getInstance(Context context) {
@@ -240,8 +247,17 @@ public class DatabaseTest extends SQLiteOpenHelper {
                 db.execSQL("UPDATE "+ TABLE_MANGA + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseTest.OnUpgrade(): " + e.getMessage());
-            Crashlytics.logException(e);
+            // log database failures
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "onUpgrade()", e);
+
+            // Delete database and remove account
+            DatabaseTest.deleteDatabase(context);
+            AccountService.create(context);
+            AccountService.deleteAccount();
+
+            // Restart application
+            context.startActivity(new Intent(context, FirstTimeInit.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            System.exit(0);
         }
 
         Crashlytics.log(Log.INFO, "MALX", "DatabaseTest.OnUpgrade(): Database upgrade finished");

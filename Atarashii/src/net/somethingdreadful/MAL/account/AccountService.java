@@ -126,7 +126,7 @@ public class AccountService extends Service {
     /**
      * Removes an account from the accountmanager.
      */
-    private static void deleteAccount() {
+    public static void deleteAccount() {
         AccountManager accountManager = AccountManager.get(context);
         accountManager.removeAccount(getAccount(), null, null);
         account = null;

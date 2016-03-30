@@ -84,7 +84,7 @@ public class Theme extends Application {
             Crashlytics.log(Log.ERROR, "MALX", className + "." + message + ": " + e.getMessage());
             Crashlytics.logException(e);
             e.printStackTrace();
-            Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, e.getMessage()));
+            Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, message));
         } catch (Exception e2) {
             e2.printStackTrace();
         }
