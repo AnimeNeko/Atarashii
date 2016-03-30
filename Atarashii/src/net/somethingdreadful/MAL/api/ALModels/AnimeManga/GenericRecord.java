@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.api.ALModels.AnimeManga;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.ListStats;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -175,6 +176,14 @@ public class GenericRecord implements Serializable {
     @Setter
     private ArrayList<String> genres;
 
+    /**
+     * Stats of users related to this anime or manga
+     */
+    @Getter
+    @Setter
+    @SerializedName("list_stats")
+    private ListStats listStats;
+
     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
         model.setId(getId());
         model.setTitleEnglish(createTitleArray(getTitleEnglish()));
@@ -191,6 +200,7 @@ public class GenericRecord implements Serializable {
         model.setSynopsis(getDescription());
         model.setAverageScore(getAverageScore());
         model.setGenres(getGenres());
+        model.setListStats(getListStats());
         return model;
     }
 

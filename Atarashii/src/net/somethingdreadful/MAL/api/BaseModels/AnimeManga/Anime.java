@@ -57,15 +57,6 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     /**
-     * The statics all user which indicates on which status they placed it.
-     * <p/>
-     * Website: AniList
-     */
-    @Getter
-    @Setter
-    private net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.ListStats listStats;
-
-    /**
      * The Airing information about an anime.
      * <p/>
      * Website: AniList

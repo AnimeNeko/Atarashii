@@ -3,7 +3,7 @@
     android:layout_height="fill_parent">
 
     <TextView
-        android:id="@+id/score"
+        android:id="@+id/infoValue1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -13,42 +13,38 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/score"
+        android:layout_alignBaseline="@id/infoValue1"
         android:layout_alignParentLeft="true"
         android:text="@string/card_content_mal_score"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/score"
-        android:id="@+id/MALstats">
-
         <TextView
-            android:id="@+id/ranked"
+            android:id="@+id/infoValue2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
+            android:layout_below="@id/infoValue1"
             android:text="@string/layout_card_loading"
             android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/ranked"
+            android:layout_alignBaseline="@id/infoValue2"
             android:layout_alignParentLeft="true"
             android:text="@string/card_content_ranked"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/infoText2" />
 
         <TextView
-            android:id="@+id/popularity"
+            android:id="@+id/infoValue3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/ranked"
+            android:layout_below="@id/infoValue2"
             android:layout_marginTop="8dp"
             android:text="@string/layout_card_loading"
             android:textSize="16sp" />
@@ -56,18 +52,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/popularity"
+            android:layout_alignBaseline="@id/infoValue3"
             android:layout_alignParentLeft="true"
             android:text="@string/card_content_popularity"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/infoText3" />
 
         <TextView
-            android:id="@+id/members"
+            android:id="@+id/infoValue4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/popularity"
+            android:layout_below="@id/infoValue3"
             android:layout_marginTop="8dp"
             android:text="@string/layout_card_loading"
             android:textSize="16sp" />
@@ -75,29 +72,50 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/members"
+            android:layout_alignBaseline="@id/infoValue4"
             android:layout_alignParentLeft="true"
             android:text="@string/card_content_members"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/infoText4" />
 
-        <TextView
-            android:id="@+id/favorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/members"
-            android:layout_marginTop="8dp"
-            android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/infoValue5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/infoValue4"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/favorites"
-            android:layout_alignParentLeft="true"
-            android:text="@string/card_content_favorites"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/infoValue5"
+        android:layout_alignParentLeft="true"
+        android:text="@string/card_content_favorites"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/infoText5" />
+
+    <TextView
+        android:id="@+id/infoValue6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/infoValue5"
+        android:layout_marginTop="8dp"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/infoValue6"
+        android:layout_alignParentLeft="true"
+        android:text="@string/card_content_favorites"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/infoText6" />
 </RelativeLayout>

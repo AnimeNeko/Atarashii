@@ -30,7 +30,6 @@ public class DatabaseManager {
         cv.put("duration", anime.getDuration());
         cv.put("episodes", anime.getEpisodes());
         cv.put("youtubeId", anime.getYoutubeId());
-        //cv.put("listStats", anime.getListStats()); TODO: investigate what this really is
         if (anime.getAiring() != null) {
             cv.put("airingTime", anime.getAiring().getTime());
             cv.put("nextEpisode", anime.getAiring().getNextEpisode());
@@ -225,9 +224,15 @@ public class DatabaseManager {
             cv.put("rank", record.getRank());
             cv.put("notes", record.getNotes());
             cv.put("favoritedCount", record.getFavoritedCount());
-        } else if (record.getNotes() != null) {
+        } else if (record.getNotes() != null) { // Offline details
             cv.put("score", record.getScore());
             cv.put("notes", record.getNotes());
+        } else { // AniList details only
+            cv.put("lsPlanned", record.getListStats().getPlanned());
+            cv.put("lsReadWatch", record.getListStats().getReadWatch());
+            cv.put("lsCompleted", record.getListStats().getCompleted());
+            cv.put("lsOnHold", record.getListStats().getOnHold());
+            cv.put("lsDropped", record.getListStats().getDropped());
         }
         cv.put("classification", record.getClassification());
         cv.put("averageScore", record.getAverageScore());

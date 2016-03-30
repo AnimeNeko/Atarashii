@@ -9,7 +9,7 @@ import com.crashlytics.android.Crashlytics;
 
 public class DatabaseTest extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
-    private static final int VERSION = 13;
+    private static final int VERSION = 14;
     private static DatabaseTest instance;
 
     public static final String TABLE_ANIME = "anime";
@@ -174,16 +174,16 @@ public class DatabaseTest extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Crashlytics.log(Log.INFO, "MALX", "DatabaseTest.OnUpgrade(): Upgrading database from version " + oldVersion + " to " + newVersion);
-        /**
-         * Date: 14-11-2015
-         * Database version: 13
-         * Application version: 2.2 Beta 1
-         *
-         * The models have been updated.
-         * Instead of using 1 model for 2 websites (MAL & AL) we are using now separate models.
-         * It will be easy to maintain.
-         */
         try {
+            /**
+             * Date: 14-11-2015
+             * Database version: 13
+             * Application version: 2.2 Beta 1
+             *
+             * The models have been updated.
+             * Instead of using 1 model for 2 websites (MAL & AL) we are using now separate models.
+             * It will be easy to maintain.
+             */
             if (oldVersion < 13) {
                 // Drop existing tables if they exist
                 db.execSQL("DROP TABLE IF EXISTS anime");
@@ -214,6 +214,30 @@ public class DatabaseTest extends SQLiteOpenHelper {
 
                 // Create new tables to replace the old ones
                 onCreate(db);
+            }
+
+            /**
+             * Date: 16-03-2016
+             * Database version: 14
+             * Application version: 2.2.5
+             *
+             * The models have been updated.
+             * We added new list stats for AL users.
+             */
+            if (oldVersion < 14) {
+                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsPlanned integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsReadWatch integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsCompleted integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsOnHold integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsDropped integer default 0");
+                db.execSQL("UPDATE "+ TABLE_ANIME + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
+
+                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsPlanned integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsReadWatch integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsCompleted integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsOnHold integer default 0");
+                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsDropped integer default 0");
+                db.execSQL("UPDATE "+ TABLE_MANGA + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseTest.OnUpgrade(): " + e.getMessage());

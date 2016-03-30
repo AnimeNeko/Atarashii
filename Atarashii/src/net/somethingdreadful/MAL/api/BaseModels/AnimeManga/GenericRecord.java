@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import net.somethingdreadful.MAL.database.DatabaseTest;
 
@@ -261,6 +262,15 @@ public class GenericRecord implements Serializable {
      */
     private boolean deleteFlag;
 
+    /**
+     * The statics all user which indicates on which status they placed it.
+     * <p/>
+     * Website: AniList
+     */
+    @Getter
+    @Setter
+    private ListStats listStats;
+
     @Setter
     @Getter
     public static boolean fromCursor = false;
@@ -440,6 +450,18 @@ public class GenericRecord implements Serializable {
         result.setDeleteFlag(cursor.getInt(columnNames.indexOf("deleteFlag")));
         if (!cursor.isNull(columnNames.indexOf("dirty")))
             result.setDirty(new Gson().fromJson(cursor.getString(columnNames.indexOf("dirty")), ArrayList.class));
+
+        if (!AccountService.isMAL()) {
+            ListStats listStats = new ListStats();
+            listStats.setPlanToRead(cursor.getInt(columnNames.indexOf("lsPlanned")));
+            listStats.setPlanToWatch(cursor.getInt(columnNames.indexOf("lsPlanned")));
+            listStats.setWatching(cursor.getInt(columnNames.indexOf("lsReadWatch")));
+            listStats.setReading(cursor.getInt(columnNames.indexOf("lsReadWatch")));
+            listStats.setCompleted(cursor.getInt(columnNames.indexOf("lsCompleted")));
+            listStats.setOnHold(cursor.getInt(columnNames.indexOf("lsOnHold")));
+            listStats.setDropped(cursor.getInt(columnNames.indexOf("lsDropped")));
+            result.setListStats(listStats);
+        }
         return result;
     }
 }

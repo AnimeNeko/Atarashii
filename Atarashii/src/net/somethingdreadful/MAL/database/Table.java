@@ -48,8 +48,12 @@ public class Table {
                 + "dirty varchar, "
                 + "createFlag integer, "
                 + "deleteFlag integer, "
-                + "widget integer, ";
-
+                + "widget integer, "
+                + "lsPlanned integer, "
+                + "lsReadWatch integer, "
+                + "lsCompleted integer, "
+                + "lsOnHold integer, "
+                + "lsDropped integer, ";
 
         if (table.equals(DatabaseTest.TABLE_ANIME))
             queryString += "duration integer, "

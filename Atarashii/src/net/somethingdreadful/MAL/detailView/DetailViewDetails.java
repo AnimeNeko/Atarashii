@@ -78,16 +78,28 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     @Bind(R.id.producersRow)
     TableRow producersRow;
 
-    @Bind(R.id.score)
-    TextView score;
-    @Bind(R.id.ranked)
-    TextView ranked;
-    @Bind(R.id.popularity)
-    TextView popularity;
-    @Bind(R.id.members)
-    TextView members;
-    @Bind(R.id.favorites)
-    TextView favorites;
+    @Bind(R.id.infoValue1)
+    TextView infoValue1;
+    @Bind(R.id.infoText2)
+    TextView infoText2;
+    @Bind(R.id.infoValue2)
+    TextView infoValue2;
+    @Bind(R.id.infoText3)
+    TextView infoText3;
+    @Bind(R.id.infoValue3)
+    TextView infoValue3;
+    @Bind(R.id.infoText4)
+    TextView infoText4;
+    @Bind(R.id.infoValue4)
+    TextView infoValue4;
+    @Bind(R.id.infoText5)
+    TextView infoText5;
+    @Bind(R.id.infoValue5)
+    TextView infoValue5;
+    @Bind(R.id.infoText6)
+    TextView infoText6;
+    @Bind(R.id.infoValue6)
+    TextView infoValue6;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -170,8 +182,6 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         titles = (ExpandableListView) cardTitles.findViewById(R.id.ListView);
         titles.setAdapter(title);
 
-        view.findViewById(R.id.MALstats).setVisibility(AccountService.isMAL() ? View.VISIBLE : View.GONE);
-
         clickListeners();
     }
 
@@ -213,11 +223,27 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             producersRow.setVisibility(View.GONE);
         }
 
-        score.setText(record.getAverageScore());
-        ranked.setText(String.valueOf(record.getRank()));
-        popularity.setText(String.valueOf(record.getPopularity()));
-        members.setText(String.valueOf(record.getAverageScoreCount()));
-        favorites.setText(String.valueOf(record.getFavoritedCount()));
+        // Information card
+        infoValue1.setText(record.getAverageScore());
+        if (AccountService.isMAL()) {
+            infoValue2.setText(String.valueOf(record.getRank()));
+            infoValue3.setText(String.valueOf(record.getPopularity()));
+            infoValue4.setText(String.valueOf(record.getAverageScoreCount()));
+            infoValue5.setText(String.valueOf(record.getFavoritedCount()));
+            infoValue6.setVisibility(View.GONE);
+            infoText6.setVisibility(View.GONE);
+        } else {
+            infoValue2.setText(String.valueOf(record.getListStats().getPlanned()));
+            infoValue3.setText(String.valueOf(record.getListStats().getReadWatch()));
+            infoValue4.setText(String.valueOf(record.getListStats().getCompleted()));
+            infoValue5.setText(String.valueOf(record.getListStats().getOnHold()));
+            infoValue6.setText(String.valueOf(record.getListStats().getDropped()));
+            infoText2.setText(getString(R.string.listType_planned));
+            infoText3.setText(getString(R.string.listType_InProgress));
+            infoText4.setText(getString(R.string.listType_Completed));
+            infoText5.setText(getString(R.string.listType_onhold));
+            infoText6.setText(getString(R.string.listType_dropped));
+        }
 
         relation.clear();
         title.clear();

@@ -26,10 +26,6 @@ public class Anime extends GenericRecord implements Serializable {
 
     @Getter
     @Setter
-    @SerializedName("list_stats")
-    private ListStats listStats;
-    @Getter
-    @Setter
     private Airing airing;
 
     public static class Airing implements Serializable {
@@ -45,26 +41,6 @@ public class Anime extends GenericRecord implements Serializable {
         private int nextEpisode;
     }
 
-    public class ListStats implements Serializable {
-        @Getter
-        @Setter
-        @SerializedName("plan_to_watch")
-        private int planToWatch;
-        @Getter
-        @Setter
-        private int watching;
-        @Getter
-        @Setter
-        private int completed;
-        @Getter
-        @Setter
-        @SerializedName("on_hold")
-        private int onHold;
-        @Getter
-        @Setter
-        private int dropped;
-    }
-
     public net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime();
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(true);
@@ -74,7 +50,6 @@ public class Anime extends GenericRecord implements Serializable {
         model.setStatus(getAiringStatus());
         model.setEpisodes(getTotalEpisodes());
         model.setYoutubeId(getYoutubeId());
-        model.setListStats(getListStats());
         model.setAiring(getAiring());
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(false);
         return model;
