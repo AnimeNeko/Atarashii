@@ -47,10 +47,8 @@ public class DatabaseManager {
             cv.put("watchedEpisodes", anime.getWatchedEpisodes());
             cv.put("watchingStart", anime.getWatchingStart());
             cv.put("watchingEnd", anime.getWatchingEnd());
-            cv.put("fansubGroup", anime.getFansubGroup());
             cv.put("storage", anime.getStorage());
             cv.put("storageValue", anime.getStorageValue());
-            cv.put("epsDownloaded", anime.getEpsDownloaded());
             cv.put("rewatching", anime.getRewatching());
             cv.put("rewatchCount", anime.getRewatchCount());
             cv.put("rewatchValue", anime.getRewatchValue());
@@ -143,7 +141,6 @@ public class DatabaseManager {
         if (AccountService.isMAL()) {
             cv.put("readingStart", manga.getReadingStart());
             cv.put("readingEnd", manga.getReadingEnd());
-            cv.put("chapDownloaded", manga.getChapDownloaded());
             cv.put("rereading", manga.getRereading());
             cv.put("rereadCount", manga.getRereadCount());
             cv.put("rereadValue", manga.getRereadValue());

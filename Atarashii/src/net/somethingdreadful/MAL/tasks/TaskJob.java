@@ -7,7 +7,6 @@ public enum TaskJob {
     GETTOPRATED,
     GETJUSTADDED,
     GETUPCOMING,
-    GET,
     GETDETAILS,
     UPDATE,
     REVIEWS,

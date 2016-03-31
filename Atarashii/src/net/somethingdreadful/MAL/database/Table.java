@@ -1,6 +1,8 @@
 package net.somethingdreadful.MAL.database;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -59,17 +61,14 @@ public class Table {
             queryString += "duration integer, "
                     + "episodes integer, "
                     + "youtubeId varchar, "
-                    //+ "listStats , " TODO: investigate what this really is
                     + "airingTime varchar, "
                     + "nextEpisode integer, "
                     + "watchedStatus varchar, "
                     + "watchedEpisodes integer, "
                     + "watchingStart varchar, "
                     + "watchingEnd varchar, "
-                    + "fansubGroup varchar, "
                     + "storage integer, "
                     + "storageValue float, "
-                    + "epsDownloaded integer, "
                     + "rewatching integer, "
                     + "rewatchCount integer, "
                     + "rewatchValue integer "
@@ -82,7 +81,6 @@ public class Table {
                     + "volumesRead integer, "
                     + "readingStart varchar, "
                     + "readingEnd varchar, "
-                    + "chapDownloaded integer, "
                     + "rereading integer, "
                     + "rereadCount integer, "
                     + "rereadValue integer "
@@ -183,6 +181,32 @@ public class Table {
                 + "PRIMARY KEY(" + DatabaseTest.COLUMN_ID + ", relationType, relationId)"
                 + ");";
         run();
+    }
+
+    /**
+     * Recreates the table and removes the rows which are passed.
+     *
+     * @param table The table name
+     * @param rows All the row names
+     */
+    public void recreateTable(String table, String... rows) {
+        // Get all columns
+        Cursor c = db.rawQuery("SELECT * FROM " + table + " WHERE 0", null);
+        String[] columnNames = c.getColumnNames();
+        c.close();
+
+        // Remove old columns
+        String column = TextUtils.join(",", columnNames);
+        for (String row : rows) {
+            column = column.replace(row + ",", "");
+        }
+
+        // Recreate anime table
+        db.execSQL("CREATE TABLE temp_table AS SELECT * FROM " + table);
+        db.execSQL("DROP TABLE " + table);
+        createRecord(table);
+        db.execSQL("INSERT INTO " + table + " (" + column + ") SELECT " + column + " FROM temp_table;");
+        db.execSQL("DROP TABLE temp_table;");
     }
 
     private void run() {

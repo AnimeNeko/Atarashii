@@ -29,7 +29,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.database.DatabaseManager;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
@@ -210,9 +209,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             case R.id.capacityPanel:
                 animeRecord.setStorageValue(number);
                 break;
-            case R.id.downloadPanel:
-                animeRecord.setEpsDownloaded(number);
-                break;
             case R.id.rewatchPriorityPanel:
                 if (isAnime())
                     animeRecord.setRewatchValue(number);
@@ -243,9 +239,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                     animeRecord.setNotes(message);
                 else
                     mangaRecord.setNotes(message);
-                break;
-            case R.id.fansubPanel:
-                animeRecord.setFansubGroup(message);
                 break;
         }
         setText();
@@ -348,29 +341,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     /**
-     * Check if the database contains the record.
-     *
-     * If it does contains the record it will set it.
-     */
-    private boolean getRecordFromDB() {
-        DatabaseManager dbMan = new DatabaseManager(this);
-        if (type == null) {
-            Crashlytics.log(Log.ERROR, "MALX", "DetailView.getRecordFromDB(): ");
-            if (isAdded())
-                Theme.Snackbar(this, R.string.toast_error_Records);
-            return false;
-        } else if (type.equals(ListType.ANIME)) {
-            animeRecord = dbMan.getAnime(recordID);
-            return animeRecord != null;
-        } else {
-            mangaRecord = dbMan.getManga(recordID);
-            return mangaRecord != null;
-        }
-    }
-
-    /**
      * Check if  the record contains all the details.
-     *
+     * <p/>
      * Without this function the fragments will call setText while it isn't loaded.
      * This will cause a nullpointerexception.
      */
@@ -439,7 +411,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     /**
      * Get the records (Anime/Manga)
-     *
+     * <p/>
      * Try to fetch them from the Database first to get reading/watching details.
      * If the record doesn't contains a synopsis this method will get it.
      */
@@ -447,36 +419,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         setRefreshing(true);
         toggleLoadingIndicator(isEmpty());
         actionBar.setTitle(R.string.layout_card_loading);
-        boolean loaded = false;
-        if (!forceUpdate || !MALApi.isNetworkAvailable(this)) {
-            if (getRecordFromDB()) {
-                setRefreshing(false);
-                if (isDone()) {
-                    loaded = true;
-                    toggleLoadingIndicator(false);
-                }
-                setText();
-            }
-        }
-        if (MALApi.isNetworkAvailable(this)) {
-            if (!loaded || forceUpdate) {
-                Bundle data = new Bundle();
-                boolean saveDetails = username != null && !username.equals("") && isAdded();
-                if (saveDetails) {
-                    data.putSerializable("record", type.equals(ListType.ANIME) ? animeRecord : mangaRecord);
-                } else {
-                    data.putInt("recordID", recordID);
-                }
-                new NetworkTask(saveDetails ? TaskJob.GETDETAILS : TaskJob.GET, type, this, data, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        } else {
-            toggleLoadingIndicator(false);
-            setRefreshing(false);
-            if (isEmpty()) {
-                actionBar.setTitle("");
-                toggleNoNetworkCard(true);
-            }
-        }
+        Bundle data = new Bundle();
+        data.putInt("recordID", recordID);
+        new NetworkTask(TaskJob.GETDETAILS, type, this, data, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(forceUpdate));
     }
 
     public void onStatusDialogDismissed(String currentStatus) {

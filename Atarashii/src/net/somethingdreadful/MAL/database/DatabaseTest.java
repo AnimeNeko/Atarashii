@@ -229,22 +229,17 @@ public class DatabaseTest extends SQLiteOpenHelper {
              * Application version: 2.2.5
              *
              * The models have been updated.
-             * We added new list stats for AL users.
+             * - Added new list stats for AL users.
+             * - Removed downloaded episodes and chapters because MAL dropped the support
              */
             if (oldVersion < 14) {
-                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsPlanned integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsReadWatch integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsCompleted integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsOnHold integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_ANIME + " ADD column lsDropped integer default 0");
+                // Remove synopsis for force refresh on detailview
                 db.execSQL("UPDATE "+ TABLE_ANIME + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
-
-                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsPlanned integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsReadWatch integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsCompleted integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsOnHold integer default 0");
-                db.execSQL("ALTER TABLE " + TABLE_MANGA + " ADD column lsDropped integer default 0");
                 db.execSQL("UPDATE "+ TABLE_MANGA + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
+
+                // Recreate anime and manga table
+                Table.create(db).recreateTable(TABLE_ANIME, "epsDownloaded", "fansubGroup");
+                Table.create(db).recreateTable(TABLE_MANGA, "chapDownloaded");
             }
         } catch (Exception e) {
             // log database failures

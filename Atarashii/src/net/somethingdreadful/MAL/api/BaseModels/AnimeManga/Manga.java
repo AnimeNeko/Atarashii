@@ -92,13 +92,6 @@ public class Manga extends GenericRecord implements Serializable {
     private String readingEnd;
 
     /**
-     * The number of chapters downloaded by the user
-     */
-    @Getter
-    @SerializedName("chap_downloaded")
-    private int chapDownloaded;
-
-    /**
      * Set if the user is rerereading the manga
      */
     private boolean rereading;
@@ -169,12 +162,6 @@ public class Manga extends GenericRecord implements Serializable {
         if (!fromCursor)
             addDirtyField("readingEnd");
         this.readingEnd = readingEnd;
-    }
-
-    public void setChapDownloaded(int chapDownloaded) {
-        if (!fromCursor)
-            addDirtyField("chapDownloaded");
-        this.chapDownloaded = chapDownloaded;
     }
 
     public void setRereading(boolean rereading) {
@@ -309,7 +296,6 @@ public class Manga extends GenericRecord implements Serializable {
         result.setVolumesRead(cursor.getInt(columnNames.indexOf("volumesRead")));
         result.setReadingStart(cursor.getString(columnNames.indexOf("readingStart")));
         result.setReadingEnd(cursor.getString(columnNames.indexOf("readingEnd")));
-        result.setChapDownloaded(cursor.getInt(columnNames.indexOf("chapDownloaded")));
         result.setRereading(cursor.getInt(columnNames.indexOf("rereading")));
         result.setRereadCount(cursor.getInt(columnNames.indexOf("rereadCount")));
         result.setRereadValue(cursor.getInt(columnNames.indexOf("rereadValue")));

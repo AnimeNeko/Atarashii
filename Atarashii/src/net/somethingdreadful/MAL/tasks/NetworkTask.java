@@ -76,7 +76,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             return null;
         }
 
-        if (!MALApi.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GET)) {
+        if (!MALApi.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GETDETAILS)) {
             if (activity != null)
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
@@ -134,26 +134,52 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GETUPCOMING:
                     taskResult = isAnimeTask() ? mManager.getUpcomingAnime(page).getAnime() : mManager.getUpcomingManga(page).getManga();
                     break;
-                case GET:
-                    if (data != null && data.containsKey("recordID")) {
-                        Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, data.getInt("recordID", -1)));
-                        taskResult = isAnimeTask() ? mManager.getAnimeRecord(data.getInt("recordID", -1)) : mManager.getMangaRecord(data.getInt("recordID", -1));
-                    }
-                    break;
                 case GETDETAILS:
-                    if (data != null && data.containsKey("record"))
+                    if (data != null && data.containsKey("recordID"))
                         if (isAnimeTask()) {
-                            Anime record = (Anime) data.getSerializable("record");
-                            Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
-                            taskResult = mManager.updateWithDetails(record.getId(), record);
-                            if (!AccountService.isMAL())
-                                mManager.getAnime(record.getId());
+                            // Get Anime from database
+                            Anime record = mManager.getAnime(data.getInt("recordID", -1));
+
+                            if (MALApi.isNetworkAvailable(activity)) {
+                                // Get records from the website
+                                if (record == null)
+                                    record = mManager.getAnimeRecord(data.getInt("recordID", -1));
+
+                                // Check if the record is on the animelist.
+                                // after that load details if synopsis == null or else return the DB record
+                                if ((record.getSynopsis() == null || params[0].equals("true")) && record.getWatchedStatus() != null) {
+                                    Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                                    taskResult = mManager.updateWithDetails(record.getId(), record);
+                                } else {
+                                    taskResult = record;
+                                }
+                            } else if (record != null) {
+                                taskResult = record;
+                            } else {
+                                Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                            }
                         } else {
-                            Manga record = (Manga) data.getSerializable("record");
-                            Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
-                            taskResult = mManager.updateWithDetails(record.getId(), record);
-                            if (!AccountService.isMAL())
-                                mManager.getManga(record.getId());
+                            // Get Manga from database
+                            Manga record = mManager.getManga(data.getInt("recordID", -1));
+
+                            if (MALApi.isNetworkAvailable(activity)) {
+                                // Get records from the website
+                                if (record == null)
+                                    record = mManager.getMangaRecord(data.getInt("recordID", -1));
+
+                                // Check if the record is on the mangalist
+                                // load details if synopsis == null or else return the DB record
+                                if ((record.getSynopsis() == null || params[0].equals("true")) && record.getReadStatus() != null) {
+                                    Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                                    taskResult = mManager.updateWithDetails(record.getId(), record);
+                                } else {
+                                    taskResult = record;
+                                }
+                            } else if (record != null) {
+                                taskResult = record;
+                            } else {
+                                Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                            }
                         }
                     break;
                 case SEARCH:

@@ -61,14 +61,10 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     @Bind(R.id.comments)
     TextView comments;
 
-    @Bind(R.id.fansubs)
-    TextView fansubs;
     @Bind(R.id.storage)
     TextView storage;
     @Bind(R.id.storage_amount)
     TextView storageCount;
-    @Bind(R.id.downloaded)
-    TextView dowloaded;
 
     @Bind(R.id.priority)
     TextView priority;
@@ -131,10 +127,8 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         setCard(R.id.priorityPanel, true);
         setCard(R.id.tagsPanel, true);
         setCard(R.id.commentspanel, false);
-        setCard(R.id.fansubPanel, true);
         setCard(R.id.storagePanel, true);
         setCard(R.id.capacityPanel, true);
-        setCard(R.id.downloadPanel, true);
         setCard(R.id.rewatchPriorityPanel, true);
         setCard(R.id.countPanel, false);
         if (!AccountService.isMAL())
@@ -168,10 +162,8 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             myTags.setText(activity.animeRecord.getPersonalTagsString().equals("") ? getString(R.string.card_content_none) : activity.animeRecord.getPersonalTagsString());
             comments.setText(activity.nullCheck(activity.animeRecord.getNotes()));
 
-            fansubs.setText(activity.nullCheck(activity.animeRecord.getFansubGroup()));
             storage.setText(getString(R.array.storageArray, activity.animeRecord.getStorage()));
             storageCount.setText(String.valueOf(activity.animeRecord.getStorageValue()));
-            dowloaded.setText(activity.nullCheck(String.valueOf(activity.animeRecord.getEpsDownloaded())));
 
             priority.setText(getString(R.array.priorityRewatchArray, activity.animeRecord.getRewatchValue()));
             rewatchCount2.setText(activity.nullCheck(activity.animeRecord.getRewatchCount()));
@@ -273,13 +265,6 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 args6.putString("hint", getString(R.string.dialog_hint_comment));
                 activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(activity), args6);
                 break;
-            case R.id.fansubPanel:
-                Bundle args7 = bundle(R.id.fansubPanel, R.string.dialog_title_fansub);
-                args7.putBoolean("BBCode", false);
-                args7.putString("message", activity.animeRecord.getFansubGroup());
-                args7.putString("hint", getString(R.string.dialog_hint_fansub));
-                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(activity), args7);
-                break;
             case R.id.storagePanel:
                 Bundle args8 = bundle(R.id.storagePanel, R.string.dialog_title_storage);
                 args8.putInt("current", activity.animeRecord.getStorage());
@@ -292,12 +277,6 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 args9.putDouble("current", activity.animeRecord.getStorageValue());
                 args9.putInt("max", 10);
                 activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args9);
-                break;
-            case R.id.downloadPanel:
-                Bundle args10 = bundle(R.id.downloadPanel, R.string.dialog_title_downloaded);
-                args10.putInt("current", activity.animeRecord.getEpsDownloaded());
-                args10.putInt("max", activity.animeRecord.getEpisodes());
-                activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args10);
                 break;
             case R.id.rewatchPriorityPanel:
                 Bundle args11 = bundle(R.id.rewatchPriorityPanel, R.string.dialog_title_rewatched_priority);

@@ -182,14 +182,6 @@ public class Anime extends GenericRecord implements Serializable {
     private float storageValue;
 
     /**
-     * The number of episodes downloaded by the user
-     */
-    @Getter
-    @Setter
-    @SerializedName("eps_downloaded")
-    private int epsDownloaded;
-
-    /**
      * Set if the user is rewatching the anime
      */
     @Setter
@@ -241,10 +233,8 @@ public class Anime extends GenericRecord implements Serializable {
         model.setWatchedEpisodes(getWatchedEpisodes());
         model.setWatchingStart(getWatchingStart());
         model.setWatchingEnd(getWatchingEnd());
-        model.setFansubGroup(getFansubGroup());
         model.setStorage(getStorage());
         model.setStorageValue(getStorageValue());
-        model.setEpsDownloaded(getEpsDownloaded());
         model.setRewatching(getRewatching());
         model.setRewatchCount(getRewatchCount());
         model.setRewatchValue(getRewatchValue());

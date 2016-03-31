@@ -60,12 +60,12 @@ public class MALManager {
     }
 
     public Anime getAnime(int id) {
-        Crashlytics.log(Log.INFO, "MALX", "MALManager.getAnime() : Downloading " + id);
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.getAnime() : Loading " + id);
         return dbMan.getAnime(id);
     }
 
     public Manga getManga(int id) {
-        Crashlytics.log(Log.INFO, "MALX", "MALManager.getManga() : Downloading " + id);
+        Crashlytics.log(Log.INFO, "MALX", "MALManager.getManga() : Loading " + id);
         return dbMan.getManga(id);
     }
 

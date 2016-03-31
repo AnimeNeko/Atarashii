@@ -97,14 +97,6 @@ public class Manga extends GenericRecord implements Serializable {
     private String readingEnd;
 
     /**
-     * The number of chapters downloaded by the user
-     */
-    @Setter
-    @Getter
-    @SerializedName("chap_downloaded")
-    private int chapDownloaded;
-
-    /**
      * Set if the user is rerereading the manga
      */
     @Setter
@@ -144,7 +136,6 @@ public class Manga extends GenericRecord implements Serializable {
         model.setPersonalTags(getPersonalTags());
         model.setReadingStart(getReadingStart());
         model.setReadingEnd(getReadingEnd());
-        model.setChapDownloaded(getChapDownloaded());
         model.setRereading(getRereading() ? 1 : 0);
         model.setRereadCount(getRereadCount());
         model.setRereadValue(getRereadValue());

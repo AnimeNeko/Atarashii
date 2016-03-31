@@ -191,15 +191,6 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter
     private String watchingEnd;
 
-
-    /**
-     * The fansub group the user used, if any
-     * <p/>
-     * Website: MyanimeList
-     */
-    @Getter
-    private String fansubGroup;
-
     /**
      * Storage type for the series
      * <p/>
@@ -217,14 +208,6 @@ public class Anime extends GenericRecord implements Serializable {
      */
     @Getter
     private float storageValue;
-
-    /**
-     * The number of episodes downloaded by the user
-     * <p/>
-     * Website: MyanimeList
-     */
-    @Getter
-    private int epsDownloaded;
 
     /**
      * Set if the user is rewatching the anime
@@ -254,7 +237,6 @@ public class Anime extends GenericRecord implements Serializable {
         addDirtyField("watchedEpisodes");
         addDirtyField("watchingStart");
         addDirtyField("watchingEnd");
-        addDirtyField("fansubGroup");
         addDirtyField("storage");
         addDirtyField("storageValue");
         addDirtyField("epsDownloaded");
@@ -295,12 +277,6 @@ public class Anime extends GenericRecord implements Serializable {
         this.watchingEnd = watchingEnd;
     }
 
-    public void setFansubGroup(String fansubGroup) {
-        if (!fromCursor)
-            addDirtyField("fansubGroup");
-        this.fansubGroup = fansubGroup;
-    }
-
     public void setStorage(int storage) {
         if (!fromCursor)
             addDirtyField("storage");
@@ -311,12 +287,6 @@ public class Anime extends GenericRecord implements Serializable {
         if (!fromCursor)
             addDirtyField("storageValue");
         this.storageValue = storageValue;
-    }
-
-    public void setEpsDownloaded(int epsDownloaded) {
-        if (!fromCursor)
-            addDirtyField("epsDownloaded");
-        this.epsDownloaded = epsDownloaded;
     }
 
     public void setRewatching(boolean rewatching) {
@@ -468,10 +438,8 @@ public class Anime extends GenericRecord implements Serializable {
         result.setWatchedEpisodes(cursor.getInt(columnNames.indexOf("watchedEpisodes")));
         result.setWatchingStart(cursor.getString(columnNames.indexOf("watchingStart")));
         result.setWatchingEnd(cursor.getString(columnNames.indexOf("watchingEnd")));
-        result.setFansubGroup(cursor.getString(columnNames.indexOf("fansubGroup")));
         result.setStorage(cursor.getInt(columnNames.indexOf("storage")));
         result.setStorageValue(cursor.getFloat(columnNames.indexOf("storageValue")));
-        result.setEpsDownloaded(cursor.getInt(columnNames.indexOf("epsDownloaded")));
         result.setRewatching(cursor.getInt(columnNames.indexOf("rewatching")));
         result.setRewatchCount(cursor.getInt(columnNames.indexOf("rewatchCount")));
         result.setRewatchValue(cursor.getInt(columnNames.indexOf("rewatchValue")));
