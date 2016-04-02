@@ -186,7 +186,26 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.forceSync:
                 synctask(true);
                 break;
+            case R.id.sort_title:
+                sortRecords(1, item);
+                break;
+            case R.id.sort_score:
+                sortRecords(2, item);
+                break;
+            case R.id.sort_type:
+                sortRecords(3, item);
+                break;
+            case R.id.sort_status:
+                sortRecords(4, item);
+                break;
+            case R.id.sort_priority:
+                sortRecords(5, item);
+                break;
+            case R.id.sort_progress:
+                sortRecords(6, item);
+                break;
             case R.id.menu_inverse:
+                item.setChecked(!item.isChecked());
                 if (af != null && mf != null) {
                     if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
                         af.toggleAiringTime();
@@ -198,6 +217,14 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sortRecords(int sortType, MenuItem item) {
+        setChecked(item);
+        if (af != null && mf != null) {
+            af.sort(sortType);
+            mf.sort(sortType);
+        }
     }
 
     private void getRecords(boolean clear, TaskJob task, int list) {
@@ -265,6 +292,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                     break;
             }
         }
+        menu.findItem(R.id.sort_title).setChecked(true);
+        menu.findItem(R.id.sort_priority).setVisible(AccountService.isMAL());
         myListChanged();
         return true;
     }
@@ -277,6 +306,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private void myListChanged() {
         if (menu != null) {
             menu.findItem(R.id.menu_listType).setVisible(myList);
+            menu.findItem(R.id.menu_sort).setVisible(myList);
             menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
             menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
             menu.findItem(R.id.action_search).setVisible(networkAvailable);

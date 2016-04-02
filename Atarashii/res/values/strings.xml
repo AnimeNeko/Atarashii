@@ -16,6 +16,12 @@
     <string name="menu_inverse">Inverse List</string>
     <string name="menu_sync">Full Sync</string>
     <string name="menu_backup">Backup</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_type">Type</string>
+    <string name="sort_score">Score</string>
+    <string name="sort_status">Status</string>
+    <string name="sort_priority">Priority</string>
+    <string name="sort_progress">Progress</string>
 
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">No network connection detected.</string>

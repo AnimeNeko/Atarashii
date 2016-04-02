@@ -71,9 +71,9 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
 
             // Get results from the database if there weren't any records
             if (animeResult == null)
-                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME));
+                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
             if (mangaResult == null)
-                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME));
+                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
 
             // create the backup model and get the string
             Backup backup = new Backup();

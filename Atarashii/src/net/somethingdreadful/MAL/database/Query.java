@@ -63,8 +63,23 @@ public class Query {
 
     public Query OrderBy(int type, String column) {
         switch (type) {
-            case 1: // Name
-                queryString += " ORDER BY " + column + " COLLATE NOCASE";
+            case 1:
+                queryString += " ORDER BY " + column + " ASC";
+                break;
+            case 2:
+                queryString += " ORDER BY " + column + " DESC";
+                break;
+        }
+        return this;
+    }
+
+    public Query andOrderBy(int type, String column) {
+        switch (type) {
+            case 1:
+                queryString += ", " + column + " ASC";
+                break;
+            case 2:
+                queryString += ", " + column + " DESC";
                 break;
         }
         return this;

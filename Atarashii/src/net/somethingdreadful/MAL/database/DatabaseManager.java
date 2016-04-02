@@ -301,38 +301,60 @@ public class DatabaseManager {
         return getMangaList(cursor);
     }
 
-    public ArrayList<Anime> getAnimeList(String ListType) {
+    public ArrayList<Anime> getAnimeList(String ListType, int sortType, int inv) {
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME);
         switch (ListType) {
             case "": // All
-                cursor = query.isNotNull("status").OrderBy(1, "title").run();
+                cursor = sort(query.isNotNull("type"), sortType, inv);
                 break;
             case "rewatching": // rewatching/rereading
-                cursor = query.whereEqGr("rewatchCount", "1").andOrEquals("watchedStatus", "watching", "rewatching", "true").OrderBy(1, "title").run();
+                cursor = sort(query.whereEqGr("rewatchCount", "1").andOrEquals("watchedStatus", "watching", "rewatching", "true"), sortType, inv);
                 break;
             default: // normal lists
-                cursor = query.where("watchedStatus", ListType).OrderBy(1, "title").run();
+                cursor = sort(query.where("watchedStatus", ListType), sortType, inv);
                 break;
         }
         return getAnimeList(cursor);
     }
 
-    public ArrayList<Manga> getMangaList(String ListType) {
+    public ArrayList<Manga> getMangaList(String ListType, int sortType, int inv) {
+        sortType = sortType == 5 ? -5 : sortType;
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA);
         switch (ListType) {
             case "": // All
-                cursor = query.isNotNull("status").OrderBy(1, "title").run();
+                cursor = sort(query.isNotNull("type"), sortType, inv);
                 break;
             case "rereading": // rewatching/rereading
-                cursor = query.whereEqGr("rereadCount", "1").andEquals("readStatus", "reading").OrderBy(1, "title").run();
+                cursor = sort(query.whereEqGr("rereadCount", "1").andEquals("readStatus", "reading"), sortType, inv);
                 break;
             default: // normal lists
-                cursor = query.where("readStatus", ListType).OrderBy(1, "title").run();
+                cursor = sort(query.where("readStatus", ListType), sortType, inv);
                 break;
         }
         return getMangaList(cursor);
+    }
+
+    private Cursor sort(Query query, int sortType, int inverse) {
+        switch (sortType) {
+            case 1:
+                return query.OrderBy(inverse, "title").run();
+            case 2:
+                return query.OrderBy(inverse == 2 ? 1 : 2, "score").andOrderBy(inverse, "title").run();
+            case 3:
+                return query.OrderBy(inverse, "type").andOrderBy(inverse, "title").run();
+            case 4:
+                return query.OrderBy(inverse, "status").andOrderBy(inverse, "title").run();
+            case 5:
+                return query.OrderBy(inverse == 2 ? 1 : 2, "priority").andOrderBy(inverse, "title").run();
+            case 6:
+                return query.OrderBy(inverse, "watchedEpisodes").andOrderBy(inverse, "title").run();
+            case -6:
+                return query.OrderBy(inverse, "chaptersRead").andOrderBy(inverse, "title").run();
+            default:
+                return query.OrderBy(inverse, "title").run();
+        }
     }
 
     private ArrayList<Anime> getAnimeList(Cursor cursor) {

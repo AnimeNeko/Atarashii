@@ -100,7 +100,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             switch (job) {
                 case GETLIST:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params.length == 2 ? params[1] : Anime.STATUS_WATCHING) : mManager.getMangaListFromDB(params.length == 2 ? params[1] : Manga.STATUS_READING);
+                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : mManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                     break;
                 case FORCESYNC:
                     if (params != null) {
@@ -115,9 +115,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         mManager.cleanDirtyAnimeRecords();
                         mManager.cleanDirtyMangaRecords();
 
-                        taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(params[0]) : mManager.downloadAndStoreMangaList(params[0]);
-                        if (taskResult != null && params.length == 2)
-                            taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[1]) : mManager.getMangaListFromDB(params[1]);
+                        taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(AccountService.getUsername()) : mManager.downloadAndStoreMangaList(AccountService.getUsername());
+                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : mManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
 
                         Widget1.forceRefresh(getContext());
                     }

@@ -45,7 +45,6 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,6 +72,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public int list = -1;
     private int resource;
     private int height = 0;
+    private int sortType = 1;
+    private boolean inverse = false;
     private boolean loading = true;
     private boolean useSecondaryAmounts;
     private boolean hasmorepages = false;
@@ -94,6 +95,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putSerializable("taskjob", taskjob);
         state.putInt("page", page);
         state.putInt("list", list);
+        state.putInt("sortType", sortType);
+        state.putBoolean("inverse", inverse);
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
         state.putBoolean("popup", popup);
@@ -121,6 +124,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             query = state.getString("query");
             username = state.getString("username");
             popup = state.getBoolean("popup");
+            sortType = state.getInt("sortType");
+            inverse = state.getBoolean("inverse");
         }
 
         context = getActivity();
@@ -181,6 +186,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             height = (int) (screenWidth / PrefManager.getIGFColumns() / 0.7);
             Gridview.setNumColumns(PrefManager.getIGFColumns());
         }
+    }
+
+    /**
+     * Sort records by the sortType ID.
+     *
+     * @param sortType The sort ID
+     */
+    public void sort(int sortType) {
+        this.sortType = sortType;
+        getRecords(true, taskjob, list);
     }
 
     /**
@@ -339,10 +354,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             data.putInt("page", page);
             networkTask = new NetworkTask(taskjob, listType, activity, data, this, getAuthErrorCallback());
             ArrayList<String> args = new ArrayList<>();
-            if (!username.equals("") && isList()) {
-                args.add(username);
-                if (isList())
-                    args.add(MALManager.listSortFromInt(list, listType));
+            if (isList()) {
+                args.add(MALManager.listSortFromInt(list, listType));
+                args.add(String.valueOf(sortType));
+                args.add(String.valueOf(inverse));
             } else {
                 args.add(query);
             }
@@ -455,8 +470,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Inverse the list and refresh it.
      */
     public void inverse() {
-        Collections.reverse(gl);
-        refresh();
+        this.inverse = !inverse;
+        getRecords(true, taskjob, list);
     }
 
     /**

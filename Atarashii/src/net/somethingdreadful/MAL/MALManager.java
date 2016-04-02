@@ -95,12 +95,12 @@ public class MALManager {
         return result;
     }
 
-    public ArrayList<Anime> getAnimeListFromDB(String ListType) {
-        return dbMan.getAnimeList(ListType);
+    public ArrayList<Anime> getAnimeListFromDB(String ListType, int sortType, String inverse) {
+        return dbMan.getAnimeList(ListType, sortType, inverse.equals("false") ? 1 : 2);
     }
 
-    public ArrayList<Manga> getMangaListFromDB(String ListType) {
-        return dbMan.getMangaList(ListType);
+    public ArrayList<Manga> getMangaListFromDB(String ListType, int sortType, String inverse) {
+        return dbMan.getMangaList(ListType, sortType, inverse.equals("false") ? 1 : 2);
     }
 
     public Manga updateWithDetails(int id, Manga manga) {
