@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="225dp">
+
+    <ImageView
+        android:id="@+id/coverImage"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:layout_gravity="bottom"
+        android:background="@color/panel_griditem"
+        android:orientation="vertical"
+        android:paddingLeft="8dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/animeName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false"
+                android:layout_marginRight="26dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Anime Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/stringWatched"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/animeName"
+                android:layout_gravity="bottom"
+                android:text="I&apos;ve watched:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/watchedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/animeName"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/stringWatched"
+                android:layout_toRightOf="@+id/stringWatched"
+                android:text="111"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/stringScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="bottom"
+                android:text="@string/cover_score"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringWatched" />
+
+            <TextView
+                android:id="@+id/scoreCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/stringScore"
+                android:layout_toRightOf="@+id/stringScore"
+                android:text="111"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringWatched" />
+
+            <TextView
+                android:id="@+id/stringType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="bottom"
+                android:text="@string/cover_type"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringScore" />
+
+            <TextView
+                android:id="@+id/typeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/stringType"
+                android:layout_toRightOf="@+id/stringType"
+                android:text="111"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringScore" />
+
+            <TextView
+                android:id="@+id/stringStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="bottom"
+                android:text="@string/cover_status"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringType" />
+
+            <TextView
+                android:id="@+id/statusCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/stringStatus"
+                android:layout_toRightOf="@+id/stringStatus"
+                android:text="111"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringType" />
+
+            <TextView
+                android:id="@+id/stringPriority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="bottom"
+                android:text="@string/cover_priority"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringStatus" />
+
+            <TextView
+                android:id="@+id/priorityCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/stringPriority"
+                android:layout_toRightOf="@+id/stringPriority"
+                android:text="111"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_below="@+id/stringStatus" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/popUpButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:background="@drawable/igf_grid_selector"
+            android:focusable="false"
+            android:paddingLeft="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_more" />
+    </RelativeLayout>
+</FrameLayout>

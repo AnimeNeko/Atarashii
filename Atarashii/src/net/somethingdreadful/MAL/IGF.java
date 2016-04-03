@@ -78,6 +78,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private boolean useSecondaryAmounts;
     private boolean hasmorepages = false;
     private boolean clearAfterLoading = false;
+    private boolean details = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     private boolean swipeRefreshEnabled = true;
@@ -100,6 +101,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
         state.putBoolean("popup", popup);
+        state.putBoolean("details", details);
         state.putString("query", query);
         state.putString("username", username);
         super.onSaveInstanceState(state);
@@ -124,6 +126,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             query = state.getString("query");
             username = state.getString("username");
             popup = state.getBoolean("popup");
+            details = state.getBoolean("details");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
         }
@@ -196,6 +199,25 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void sort(int sortType) {
         this.sortType = sortType;
         getRecords(true, taskjob, list);
+    }
+
+    /**
+     * Show details on covers.
+     */
+    public void details() {
+        this.details = !details;
+        if (details)
+            resource = R.layout.record_igf_details;
+        else
+            resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
+        getRecords(true, taskjob, list);
+    }
+
+    /**
+     * Get the details status.
+     */
+    public boolean getDetails() {
+        return details;
     }
 
     /**
@@ -326,6 +348,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void getRecords(boolean clear, TaskJob task, int list) {
         if (task != null)
             taskjob = task;
+        if (task != TaskJob.GETLIST && task != TaskJob.FORCESYNC) {
+            details = false;
+            resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
+        }
         if (list != this.list)
             this.list = list;
         /* only show loading indicator if
@@ -627,6 +653,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         TextView flavourText;
         ImageView cover;
         ImageView actionButton;
+        TextView scoreCount;
+        TextView typeCount;
+        TextView statusCount;
+        TextView priorityCount;
     }
 
     /**
@@ -634,10 +664,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
         final boolean popup;
+        final String[] priority;
 
         public ListViewAdapter(Context context, int resource, boolean popup) {
             super(context, resource);
             this.popup = popup;
+            priority = getResources().getStringArray(R.array.priorityRewatchArray);
         }
 
         @SuppressWarnings("deprecation")
@@ -645,7 +677,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             final GenericRecord record = gl.get(position);
             ViewHolder viewHolder;
 
-            if (view == null) {
+            if (view == null || (details && ((ViewHolder) view.getTag()).scoreCount == null) || (!details && ((ViewHolder) view.getTag()).scoreCount != null)) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(resource, parent, false);
 
@@ -655,6 +687,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 viewHolder.cover = (ImageView) view.findViewById(R.id.coverImage);
                 viewHolder.actionButton = (ImageView) view.findViewById(R.id.popUpButton);
                 viewHolder.flavourText = (TextView) view.findViewById(R.id.stringWatched);
+                viewHolder.scoreCount = (TextView) view.findViewById(R.id.scoreCount);
+                viewHolder.typeCount = (TextView) view.findViewById(R.id.typeCount);
+                viewHolder.statusCount = (TextView) view.findViewById(R.id.statusCount);
+                viewHolder.priorityCount = (TextView) view.findViewById(R.id.priorityCount);
 
                 view.setTag(viewHolder);
                 if (resource != R.layout.record_igf_listview)
@@ -735,6 +771,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     }
                 }
                 viewHolder.label.setText(record.getTitle());
+                if (details && viewHolder.scoreCount != null) {
+                    viewHolder.scoreCount.setText(String.valueOf(record.getScore()));
+                    viewHolder.typeCount.setText(record.getType());
+                    viewHolder.statusCount.setText(record.getStatus());
+                    viewHolder.priorityCount.setText(priority[record.getPriority()]);
+                }
 
                 Picasso.with(context)
                         .load(record.getImageUrl())

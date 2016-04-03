@@ -204,6 +204,13 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.sort_progress:
                 sortRecords(6, item);
                 break;
+            case R.id.menu_details:
+                item.setChecked(!item.isChecked());
+                if (af != null && mf != null) {
+                    af.details();
+                    mf.details();
+                }
+                break;
             case R.id.menu_inverse:
                 item.setChecked(!item.isChecked());
                 if (af != null && mf != null) {
@@ -305,6 +312,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     private void myListChanged() {
         if (menu != null) {
+            menu.findItem(R.id.menu_details).setChecked(myList && af.getDetails());
             menu.findItem(R.id.menu_listType).setVisible(myList);
             menu.findItem(R.id.menu_sort).setVisible(myList);
             menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));

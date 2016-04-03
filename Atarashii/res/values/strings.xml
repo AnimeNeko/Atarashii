@@ -16,6 +16,7 @@
     <string name="menu_inverse">Inverse List</string>
     <string name="menu_sync">Full Sync</string>
     <string name="menu_backup">Backup</string>
+    <string name="menu_details">Details</string>
     <string name="sort_title">Title</string>
     <string name="sort_type">Type</string>
     <string name="sort_score">Score</string>
@@ -179,6 +180,10 @@
     <string name="cover_Completed">Completed</string>
     <string name="cover_Reading">I\'ve read:</string>
     <string name="cover_OnHold">On Hold at:</string>
+    <string name="cover_score">Score:</string>
+    <string name="cover_type">Type:</string>
+    <string name="cover_status">Status:</string>
+    <string name="cover_priority">Priority:</string>
     <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="cover_PlanningToRead">Planning to read</string>

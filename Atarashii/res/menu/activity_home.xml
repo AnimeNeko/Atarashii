@@ -80,6 +80,12 @@
                 android:title="@string/menu_inverse"
                 android:checkable="true"
                 res-auto:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_details"
+                android:title="@string/menu_details"
+                android:checkable="true"
+                res-auto:showAsAction="never"/>
         </menu>
     </item>
 
