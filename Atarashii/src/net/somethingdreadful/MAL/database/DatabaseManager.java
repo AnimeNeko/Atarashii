@@ -347,10 +347,8 @@ public class DatabaseManager {
             case 4:
                 return query.OrderBy(inverse, "status").andOrderBy(inverse, "title").run();
             case 5:
-                return query.OrderBy(inverse == 2 ? 1 : 2, "priority").andOrderBy(inverse, "title").run();
-            case 6:
                 return query.OrderBy(inverse, "watchedEpisodes").andOrderBy(inverse, "title").run();
-            case -6:
+            case -5:
                 return query.OrderBy(inverse, "chaptersRead").andOrderBy(inverse, "title").run();
             default:
                 return query.OrderBy(inverse, "title").run();

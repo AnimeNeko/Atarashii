@@ -11,7 +11,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="130dp"
+        android:layout_height="110dp"
         android:layout_gravity="bottom"
         android:background="@color/panel_griditem"
         android:orientation="vertical"
@@ -143,33 +143,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:layout_below="@+id/stringType" />
-
-            <TextView
-                android:id="@+id/stringPriority"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_gravity="bottom"
-                android:text="@string/cover_priority"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:layout_below="@+id/stringStatus" />
-
-            <TextView
-                android:id="@+id/priorityCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="2dp"
-                android:layout_toEndOf="@+id/stringPriority"
-                android:layout_toRightOf="@+id/stringPriority"
-                android:text="111"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:layout_below="@+id/stringStatus" />
         </RelativeLayout>
 
         <ImageView

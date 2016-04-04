@@ -183,7 +183,6 @@
     <string name="cover_score">Score:</string>
     <string name="cover_type">Type:</string>
     <string name="cover_status">Status:</string>
-    <string name="cover_priority">Priority:</string>
     <string name="cover_Dropped">Dropped</string>
     <string name="cover_PlanningToWatch">Planning to watch</string>
     <string name="cover_PlanningToRead">Planning to read</string>

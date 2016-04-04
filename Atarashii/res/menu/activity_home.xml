@@ -66,10 +66,6 @@
                     android:title="@string/sort_status"
                     res-auto:showAsAction="never" />
                 <item
-                    android:id="@+id/sort_priority"
-                    android:title="@string/sort_priority"
-                    res-auto:showAsAction="never" />
-                <item
                     android:id="@+id/sort_progress"
                     android:title="@string/sort_progress"
                     res-auto:showAsAction="never" />

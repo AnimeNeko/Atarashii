@@ -198,11 +198,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.sort_status:
                 sortRecords(4, item);
                 break;
-            case R.id.sort_priority:
-                sortRecords(5, item);
-                break;
             case R.id.sort_progress:
-                sortRecords(6, item);
+                sortRecords(5, item);
                 break;
             case R.id.menu_details:
                 item.setChecked(!item.isChecked());
@@ -300,7 +297,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             }
         }
         menu.findItem(R.id.sort_title).setChecked(true);
-        menu.findItem(R.id.sort_priority).setVisible(AccountService.isMAL());
         myListChanged();
         return true;
     }

@@ -656,7 +656,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         TextView scoreCount;
         TextView typeCount;
         TextView statusCount;
-        TextView priorityCount;
     }
 
     /**
@@ -664,12 +663,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
         final boolean popup;
-        final String[] priority;
 
         public ListViewAdapter(Context context, int resource, boolean popup) {
             super(context, resource);
             this.popup = popup;
-            priority = getResources().getStringArray(R.array.priorityRewatchArray);
         }
 
         @SuppressWarnings("deprecation")
@@ -690,7 +687,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 viewHolder.scoreCount = (TextView) view.findViewById(R.id.scoreCount);
                 viewHolder.typeCount = (TextView) view.findViewById(R.id.typeCount);
                 viewHolder.statusCount = (TextView) view.findViewById(R.id.statusCount);
-                viewHolder.priorityCount = (TextView) view.findViewById(R.id.priorityCount);
 
                 view.setTag(viewHolder);
                 if (resource != R.layout.record_igf_listview)
@@ -775,7 +771,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     viewHolder.scoreCount.setText(String.valueOf(record.getScore()));
                     viewHolder.typeCount.setText(record.getType());
                     viewHolder.statusCount.setText(record.getStatus());
-                    viewHolder.priorityCount.setText(priority[record.getPriority()]);
                 }
 
                 Picasso.with(context)
