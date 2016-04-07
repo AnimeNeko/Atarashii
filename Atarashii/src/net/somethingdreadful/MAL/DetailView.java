@@ -51,7 +51,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
-    private String username;
     private DetailViewGeneral general;
     private DetailViewDetails details;
     private DetailViewPersonal personal;
@@ -71,7 +70,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
         actionBar = getSupportActionBar();
         context = getApplicationContext();
-        username = getIntent().getStringExtra("username");
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
@@ -93,6 +91,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private void setText() {
         try {
             actionBar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+            PageAdapter.hidePersonal(!isAdded());
             if (general != null)
                 general.setText();
             if (details != null && !isEmpty())
@@ -124,13 +123,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     public String getDate(String string) {
         return (isEmpty(string) ? getString(R.string.unknown) : DateTools.parseDate(string, false));
-    }
-
-    /**
-     * show or hide the personal card
-     */
-    public void hidePersonal(boolean hide) {
-        PageAdapter.hidePersonal(hide);
     }
 
     /**
