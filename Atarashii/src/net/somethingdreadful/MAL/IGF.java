@@ -672,9 +672,26 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         @SuppressWarnings("deprecation")
         public View getView(int position, View view, ViewGroup parent) {
             final GenericRecord record = gl.get(position);
-            ViewHolder viewHolder;
+            Anime animeRecord = null;
+            Manga mangaRecord = null;
+            ViewHolder viewHolder = null;
+            String status;
+            int progress;
 
-            if (view == null || (details && ((ViewHolder) view.getTag()).scoreCount == null) || (!details && ((ViewHolder) view.getTag()).scoreCount != null)) {
+            if (listType.equals(ListType.ANIME)) {
+                animeRecord = (Anime) gl.get(position);
+                status = animeRecord.getWatchedStatus();
+                progress = animeRecord.getWatchedEpisodes();
+            } else {
+                mangaRecord = (Manga) gl.get(position);
+                status = mangaRecord.getReadStatus();
+                progress = useSecondaryAmounts ? mangaRecord.getVolumesRead() : mangaRecord.getChaptersRead();
+            }
+
+            if (view != null)
+                viewHolder = (ViewHolder) view.getTag();
+
+            if (view == null || (details && viewHolder.scoreCount == null) || (!details && viewHolder.scoreCount != null)) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(resource, parent, false);
 
@@ -691,8 +708,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 view.setTag(viewHolder);
                 if (resource != R.layout.record_igf_listview)
                     view.getLayoutParams().height = height;
-            } else {
-                viewHolder = (ViewHolder) view.getTag();
             }
             try {
 
@@ -702,72 +717,67 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
                         viewHolder.progressCount.setText(String.valueOf(position + 1));
                         viewHolder.flavourText.setText(R.string.label_Number);
-                    } else if (listType.equals(ListType.ANIME) && ((Anime) record).getAiring() != null) {
+                    } else if (listType.equals(ListType.ANIME) && animeRecord.getAiring() != null) {
                         viewHolder.progressCount.setVisibility(View.GONE);
-                        viewHolder.flavourText.setText(DateTools.parseDate(((Anime) record).getAiring().getTime(), true));
+                        viewHolder.flavourText.setText(DateTools.parseDate(animeRecord.getAiring().getTime(), true));
                     } else {
                         viewHolder.progressCount.setVisibility(View.GONE);
                         viewHolder.flavourText.setText(getString(R.string.unknown));
                     }
-                } else {
-                    if (listType.equals(ListType.ANIME))
-                        viewHolder.progressCount.setText(String.valueOf(((Anime) record).getWatchedEpisodes()));
-                    else
-                        viewHolder.progressCount.setText(String.valueOf(useSecondaryAmounts ? ((Manga) record).getVolumesRead() : ((Manga) record).getChaptersRead()));
+                } else if (status != null) {
+                    viewHolder.progressCount.setText(String.valueOf(progress));
 
-                    if ((listType.equals(ListType.ANIME) ? ((Anime) record).getWatchedStatus() : ((Manga) record).getReadStatus()) != null) {
-                        switch (listType.equals(ListType.ANIME) ? ((Anime) record).getWatchedStatus() : ((Manga) record).getReadStatus()) {
-                            case "watching":
-                                viewHolder.flavourText.setText(R.string.cover_Watching);
-                                viewHolder.progressCount.setVisibility(View.VISIBLE);
-                                viewHolder.actionButton.setVisibility(View.VISIBLE);
-                                break;
-                            case "reading":
-                                viewHolder.flavourText.setText(R.string.cover_Reading);
-                                viewHolder.progressCount.setVisibility(View.VISIBLE);
-                                viewHolder.actionButton.setVisibility(View.VISIBLE);
-                                break;
-                            case "completed":
-                                viewHolder.flavourText.setText(R.string.cover_Completed);
-                                viewHolder.actionButton.setVisibility(View.GONE);
-                                viewHolder.progressCount.setVisibility(View.GONE);
-                                break;
-                            case "on-hold":
-                                viewHolder.flavourText.setText(R.string.cover_OnHold);
-                                viewHolder.progressCount.setVisibility(View.VISIBLE);
-                                viewHolder.actionButton.setVisibility(View.GONE);
-                                break;
-                            case "dropped":
-                                viewHolder.flavourText.setText(R.string.cover_Dropped);
-                                viewHolder.actionButton.setVisibility(View.GONE);
-                                viewHolder.progressCount.setVisibility(View.GONE);
-                                break;
-                            case "plan to watch":
-                                viewHolder.flavourText.setText(R.string.cover_PlanningToWatch);
-                                viewHolder.actionButton.setVisibility(View.GONE);
-                                viewHolder.progressCount.setVisibility(View.GONE);
-                                break;
-                            case "plan to read":
-                                viewHolder.flavourText.setText(R.string.cover_PlanningToRead);
-                                viewHolder.actionButton.setVisibility(View.GONE);
-                                viewHolder.progressCount.setVisibility(View.GONE);
-                                break;
-                            default:
-                                viewHolder.flavourText.setText("");
-                                viewHolder.actionButton.setVisibility(View.GONE);
-                                viewHolder.progressCount.setVisibility(View.GONE);
-                                break;
-                        }
-                        if (!popup)
+                    switch (status) {
+                        case "watching":
+                            viewHolder.flavourText.setText(R.string.cover_Watching);
+                            viewHolder.progressCount.setVisibility(View.VISIBLE);
+                            viewHolder.actionButton.setVisibility(View.VISIBLE);
+                            break;
+                        case "reading":
+                            viewHolder.flavourText.setText(R.string.cover_Reading);
+                            viewHolder.progressCount.setVisibility(View.VISIBLE);
+                            viewHolder.actionButton.setVisibility(View.VISIBLE);
+                            break;
+                        case "completed":
+                            viewHolder.flavourText.setText(R.string.cover_Completed);
                             viewHolder.actionButton.setVisibility(View.GONE);
-                    } else {
-                        viewHolder.flavourText.setText("");
-                        viewHolder.actionButton.setVisibility(View.GONE);
-                        viewHolder.progressCount.setVisibility(View.GONE);
+                            viewHolder.progressCount.setVisibility(View.GONE);
+                            break;
+                        case "on-hold":
+                            viewHolder.flavourText.setText(R.string.cover_OnHold);
+                            viewHolder.progressCount.setVisibility(View.VISIBLE);
+                            viewHolder.actionButton.setVisibility(View.GONE);
+                            break;
+                        case "dropped":
+                            viewHolder.flavourText.setText(R.string.cover_Dropped);
+                            viewHolder.actionButton.setVisibility(View.GONE);
+                            viewHolder.progressCount.setVisibility(View.GONE);
+                            break;
+                        case "plan to watch":
+                            viewHolder.flavourText.setText(R.string.cover_PlanningToWatch);
+                            viewHolder.actionButton.setVisibility(View.GONE);
+                            viewHolder.progressCount.setVisibility(View.GONE);
+                            break;
+                        case "plan to read":
+                            viewHolder.flavourText.setText(R.string.cover_PlanningToRead);
+                            viewHolder.actionButton.setVisibility(View.GONE);
+                            viewHolder.progressCount.setVisibility(View.GONE);
+                            break;
+                        default:
+                            viewHolder.flavourText.setText("");
+                            viewHolder.actionButton.setVisibility(View.GONE);
+                            viewHolder.progressCount.setVisibility(View.GONE);
+                            break;
                     }
+                    if (!popup)
+                        viewHolder.actionButton.setVisibility(View.GONE);
+                } else {
+                    viewHolder.flavourText.setText("");
+                    viewHolder.actionButton.setVisibility(View.GONE);
+                    viewHolder.progressCount.setVisibility(View.GONE);
                 }
                 viewHolder.label.setText(record.getTitle());
-                if (details && viewHolder.scoreCount != null) {
+                if (details) {
                     viewHolder.scoreCount.setText(String.valueOf(record.getScore()));
                     viewHolder.typeCount.setText(record.getType());
                     viewHolder.statusCount.setText(record.getStatus());
