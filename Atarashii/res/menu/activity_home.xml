@@ -73,7 +73,7 @@
 
             <item
                 android:id="@+id/menu_inverse"
-                android:title="@string/menu_inverse"
+                android:title="@string/menu_sort"
                 android:checkable="true"
                 res-auto:showAsAction="never"/>
 
