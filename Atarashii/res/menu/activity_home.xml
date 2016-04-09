@@ -44,7 +44,7 @@
     <item
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_sort"
-        android:title="@string/menu_inverse"
+        android:title="@string/menu_sort"
         res-auto:showAsAction="always">
 
         <menu>
@@ -73,7 +73,7 @@
 
             <item
                 android:id="@+id/menu_inverse"
-                android:title="@string/menu_sort"
+                android:title="@string/menu_inverse"
                 android:checkable="true"
                 res-auto:showAsAction="never"/>
 
