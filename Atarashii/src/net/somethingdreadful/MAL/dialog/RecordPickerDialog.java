@@ -52,7 +52,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
             setContentView(R.layout.activity_home);
 
             // Creates the adapter to return the Animu and Mango fragments
-            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager(), false);
+            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
             ButterKnife.bind(this);
 
             // Set up the ViewPager with the sections adapter.

@@ -87,7 +87,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
     // use setter to change this!
     private String username;
-    public boolean popup;
 
     @Override
     public void onSaveInstanceState(Bundle state) {
@@ -100,7 +99,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putBoolean("inverse", inverse);
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
-        state.putBoolean("popup", popup);
         state.putBoolean("details", details);
         state.putString("query", query);
         state.putString("username", username);
@@ -125,7 +123,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             swipeRefreshEnabled = state.getBoolean("swipeRefreshEnabled");
             query = state.getString("query");
             username = state.getString("username");
-            popup = state.getBoolean("popup");
             details = state.getBoolean("details");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
@@ -428,7 +425,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Set the adapter anime/manga.
      */
     private void setAdapter() {
-        ga = new ListViewAdapter<>(context, resource, popup);
+        ga = new ListViewAdapter<>(context, resource);
         ga.setNotifyOnChange(true);
     }
 
@@ -662,11 +659,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
-        final boolean popup;
-
-        public ListViewAdapter(Context context, int resource, boolean popup) {
+        public ListViewAdapter(Context context, int resource) {
             super(context, resource);
-            this.popup = popup;
         }
 
         @SuppressWarnings("deprecation")
@@ -769,8 +763,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
                     }
-                    if (!popup)
-                        viewHolder.actionButton.setVisibility(View.GONE);
                 } else {
                     viewHolder.flavourText.setText("");
                     viewHolder.actionButton.setVisibility(View.GONE);

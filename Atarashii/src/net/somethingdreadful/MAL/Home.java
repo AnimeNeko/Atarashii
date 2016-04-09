@@ -79,7 +79,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             Theme.setTheme(this, R.layout.activity_home, false);
 
             //Initializing IGF
-            Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager(), true));
+            Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
             getSupportActionBar();
 
             //Initializing ButterKnife

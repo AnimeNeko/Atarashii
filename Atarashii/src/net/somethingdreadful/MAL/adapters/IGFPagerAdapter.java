@@ -10,25 +10,21 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 public class IGFPagerAdapter extends FragmentPagerAdapter {
     private final FragmentManager fm;
-    private boolean popup = true;
 
     /**
      * Init page adapter
      *
      * @param fm    The fragment manager.
-     * @param popup If this page adapter is used for the Home.class or searchActivity.class
      */
-    public IGFPagerAdapter(FragmentManager fm, boolean popup) {
+    public IGFPagerAdapter(FragmentManager fm) {
         super(fm);
         this.fm = fm;
-        this.popup = popup;
     }
 
     @Override
     public Fragment getItem(int i) {
         IGF fragment = new IGF();
         fragment.listType = i == 0 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA;
-        fragment.popup = popup;
         return fragment;
     }
 
