@@ -79,6 +79,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private boolean hasmorepages = false;
     private boolean clearAfterLoading = false;
     private boolean details = false;
+    private boolean myList = true;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     private boolean swipeRefreshEnabled = true;
@@ -100,6 +101,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
         state.putBoolean("details", details);
+        state.putBoolean("myList", myList);
         state.putString("query", query);
         state.putString("username", username);
         super.onSaveInstanceState(state);
@@ -124,6 +126,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             query = state.getString("query");
             username = state.getString("username");
             details = state.getBoolean("details");
+            myList = state.getBoolean("myList");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
         }
@@ -347,7 +350,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             taskjob = task;
         if (task != TaskJob.GETLIST && task != TaskJob.FORCESYNC) {
             details = false;
+            myList = false;
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
+        } else {
+            myList = true;
         }
         if (list != this.list)
             this.list = list;
@@ -659,8 +665,25 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
+        String StatusWatching;
+        String StatusReading;
+        String StatusCompleted;
+        String StatusOnHold;
+        String StatusDropped;
+        String StatusPlanningToWatch;
+        String StatusPlanningToRead;
+
         public ListViewAdapter(Context context, int resource) {
             super(context, resource);
+
+            // Get the string to make the scrolling smoother
+            StatusWatching = getString(R.string.cover_Watching);
+            StatusReading = getString(R.string.cover_Reading);
+            StatusCompleted = getString(R.string.cover_Completed);
+            StatusOnHold = getString(R.string.cover_OnHold);
+            StatusDropped = getString(R.string.cover_Dropped);
+            StatusPlanningToWatch = getString(R.string.cover_PlanningToWatch);
+            StatusPlanningToRead = getString(R.string.cover_PlanningToRead);
         }
 
         @SuppressWarnings("deprecation")
@@ -704,8 +727,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     view.getLayoutParams().height = height;
             }
             try {
+                viewHolder.label.setText(record.getTitle());
+                if (details) {
+                    viewHolder.scoreCount.setText(String.valueOf(record.getScore()));
+                    viewHolder.typeCount.setText(record.getType());
+                    viewHolder.statusCount.setText(record.getStatus());
+                }
 
-                if (taskjob.equals(TaskJob.GETMOSTPOPULAR) || taskjob.equals(TaskJob.GETTOPRATED)) {
+                if (!myList) {
                     viewHolder.actionButton.setVisibility(View.GONE);
                     if (AccountService.isMAL()) {
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
@@ -718,42 +747,42 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         viewHolder.progressCount.setVisibility(View.GONE);
                         viewHolder.flavourText.setText(getString(R.string.unknown));
                     }
-                } else if (status != null) {
+                } else {
                     viewHolder.progressCount.setText(String.valueOf(progress));
 
                     switch (status) {
                         case "watching":
-                            viewHolder.flavourText.setText(R.string.cover_Watching);
+                            viewHolder.flavourText.setText(StatusWatching);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.VISIBLE);
                             break;
                         case "reading":
-                            viewHolder.flavourText.setText(R.string.cover_Reading);
+                            viewHolder.flavourText.setText(StatusReading);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.VISIBLE);
                             break;
                         case "completed":
-                            viewHolder.flavourText.setText(R.string.cover_Completed);
+                            viewHolder.flavourText.setText(StatusCompleted);
                             viewHolder.actionButton.setVisibility(View.GONE);
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
                         case "on-hold":
-                            viewHolder.flavourText.setText(R.string.cover_OnHold);
+                            viewHolder.flavourText.setText(StatusOnHold);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.GONE);
                             break;
                         case "dropped":
-                            viewHolder.flavourText.setText(R.string.cover_Dropped);
+                            viewHolder.flavourText.setText(StatusDropped);
                             viewHolder.actionButton.setVisibility(View.GONE);
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
                         case "plan to watch":
-                            viewHolder.flavourText.setText(R.string.cover_PlanningToWatch);
+                            viewHolder.flavourText.setText(StatusPlanningToWatch);
                             viewHolder.actionButton.setVisibility(View.GONE);
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
                         case "plan to read":
-                            viewHolder.flavourText.setText(R.string.cover_PlanningToRead);
+                            viewHolder.flavourText.setText(StatusPlanningToRead);
                             viewHolder.actionButton.setVisibility(View.GONE);
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
@@ -763,54 +792,44 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
                     }
-                } else {
-                    viewHolder.flavourText.setText("");
-                    viewHolder.actionButton.setVisibility(View.GONE);
-                    viewHolder.progressCount.setVisibility(View.GONE);
-                }
-                viewHolder.label.setText(record.getTitle());
-                if (details) {
-                    viewHolder.scoreCount.setText(String.valueOf(record.getScore()));
-                    viewHolder.typeCount.setText(record.getType());
-                    viewHolder.statusCount.setText(record.getStatus());
-                }
 
-                Picasso.with(context)
-                        .load(record.getImageUrl())
-                        .error(R.drawable.cover_error)
-                        .placeholder(R.drawable.cover_loading)
-                        .into(viewHolder.cover);
+                    Picasso.with(context)
+                            .load(record.getImageUrl())
+                            .error(R.drawable.cover_error)
+                            .placeholder(R.drawable.cover_loading)
+                            .into(viewHolder.cover);
 
-                if (viewHolder.actionButton.getVisibility() == View.VISIBLE) {
-                    viewHolder.actionButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            PopupMenu popup = new PopupMenu(context, v);
-                            popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
-                            if (!listType.equals(ListType.ANIME))
-                                popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
-                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                public boolean onMenuItemClick(MenuItem item) {
-                                    switch (item.getItemId()) {
-                                        case R.id.plusOne:
-                                            if (listType.equals(ListType.ANIME))
-                                                setProgressPlusOne((Anime) record, null);
-                                            else
-                                                setProgressPlusOne(null, (Manga) record);
-                                            break;
-                                        case R.id.markCompleted:
-                                            if (listType.equals(ListType.ANIME))
-                                                setMarkAsComplete((Anime) record, null);
-                                            else
-                                                setMarkAsComplete(null, (Manga) record);
-                                            break;
+                    if (viewHolder.actionButton.getVisibility() == View.VISIBLE) {
+                        viewHolder.actionButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                PopupMenu popup = new PopupMenu(context, v);
+                                popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
+                                if (!listType.equals(ListType.ANIME))
+                                    popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
+                                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        switch (item.getItemId()) {
+                                            case R.id.plusOne:
+                                                if (listType.equals(ListType.ANIME))
+                                                    setProgressPlusOne((Anime) record, null);
+                                                else
+                                                    setProgressPlusOne(null, (Manga) record);
+                                                break;
+                                            case R.id.markCompleted:
+                                                if (listType.equals(ListType.ANIME))
+                                                    setMarkAsComplete((Anime) record, null);
+                                                else
+                                                    setMarkAsComplete(null, (Manga) record);
+                                                break;
+                                        }
+                                        return true;
                                     }
-                                    return true;
-                                }
-                            });
-                            popup.show();
-                        }
-                    });
+                                });
+                                popup.show();
+                            }
+                        });
+                    }
                 }
             } catch (Exception e) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.ListViewAdapter(): " + e.getMessage());
