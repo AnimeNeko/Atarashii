@@ -792,48 +792,47 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
                     }
+                }
 
-                    Picasso.with(context)
-                            .load(record.getImageUrl())
-                            .error(R.drawable.cover_error)
-                            .placeholder(R.drawable.cover_loading)
-                            .into(viewHolder.cover);
+                Picasso.with(context)
+                        .load(record.getImageUrl())
+                        .error(R.drawable.cover_error)
+                        .placeholder(R.drawable.cover_loading)
+                        .into(viewHolder.cover);
 
-                    if (viewHolder.actionButton.getVisibility() == View.VISIBLE) {
-                        viewHolder.actionButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                PopupMenu popup = new PopupMenu(context, v);
-                                popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
-                                if (!listType.equals(ListType.ANIME))
-                                    popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
-                                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                    public boolean onMenuItemClick(MenuItem item) {
-                                        switch (item.getItemId()) {
-                                            case R.id.plusOne:
-                                                if (listType.equals(ListType.ANIME))
-                                                    setProgressPlusOne((Anime) record, null);
-                                                else
-                                                    setProgressPlusOne(null, (Manga) record);
-                                                break;
-                                            case R.id.markCompleted:
-                                                if (listType.equals(ListType.ANIME))
-                                                    setMarkAsComplete((Anime) record, null);
-                                                else
-                                                    setMarkAsComplete(null, (Manga) record);
-                                                break;
-                                        }
-                                        return true;
+                if (viewHolder.actionButton.getVisibility() == View.VISIBLE) {
+                    viewHolder.actionButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PopupMenu popup = new PopupMenu(context, v);
+                            popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
+                            if (!listType.equals(ListType.ANIME))
+                                popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                public boolean onMenuItemClick(MenuItem item) {
+                                    switch (item.getItemId()) {
+                                        case R.id.plusOne:
+                                            if (listType.equals(ListType.ANIME))
+                                                setProgressPlusOne((Anime) record, null);
+                                            else
+                                                setProgressPlusOne(null, (Manga) record);
+                                            break;
+                                        case R.id.markCompleted:
+                                            if (listType.equals(ListType.ANIME))
+                                                setMarkAsComplete((Anime) record, null);
+                                            else
+                                                setMarkAsComplete(null, (Manga) record);
+                                            break;
                                     }
-                                });
-                                popup.show();
-                            }
-                        });
-                    }
+                                    return true;
+                                }
+                            });
+                            popup.show();
+                        }
+                    });
                 }
             } catch (Exception e) {
-                Crashlytics.log(Log.ERROR, "MALX", "IGF.ListViewAdapter(): " + e.getMessage());
-                Crashlytics.logException(e);
+                Theme.logTaskCrash(this.getClass().getSimpleName(), "ListViewAdapter()", e);
             }
             return view;
         }

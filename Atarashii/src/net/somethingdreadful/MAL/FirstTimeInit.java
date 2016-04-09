@@ -147,7 +147,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
             }
         } catch (Exception e) {
-            Theme.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished", e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(),"onAuthenticationCheckFinished()", e);
             Answers.getInstance().logLogin(new LoginEvent()
                     .putSuccess(false));
             Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
