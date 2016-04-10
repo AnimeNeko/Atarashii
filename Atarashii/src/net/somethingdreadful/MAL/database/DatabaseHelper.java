@@ -12,10 +12,10 @@ import net.somethingdreadful.MAL.FirstTimeInit;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 
-public class DatabaseTest extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
     private static final int VERSION = 14;
-    private static DatabaseTest instance;
+    private static DatabaseHelper instance;
     private Context context;
 
     public static final String TABLE_ANIME = "anime";
@@ -124,14 +124,14 @@ public class DatabaseTest extends SQLiteOpenHelper {
             + "value varchar"
             + ");";
 
-    public DatabaseTest(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, NAME, null, VERSION);
         this.context = context;
     }
 
-    public static synchronized DatabaseTest getInstance(Context context) {
+    public static synchronized DatabaseHelper getInstance(Context context) {
         if (instance == null)
-            instance = new DatabaseTest(context.getApplicationContext());
+            instance = new DatabaseHelper(context.getApplicationContext());
         return instance;
     }
 
@@ -246,7 +246,7 @@ public class DatabaseTest extends SQLiteOpenHelper {
             Theme.logTaskCrash(this.getClass().getSimpleName(), "onUpgrade()", e);
 
             // Delete database and remove account
-            DatabaseTest.deleteDatabase(context);
+            DatabaseHelper.deleteDatabase(context);
             AccountService.create(context);
             AccountService.deleteAccount();
 

@@ -17,7 +17,7 @@ import com.freshdesk.mobihelp.Mobihelp;
 
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.database.DatabaseTest;
+import net.somethingdreadful.MAL.database.DatabaseHelper;
 
 public class AccountService extends Service {
     public static AccountType accountType;
@@ -217,7 +217,7 @@ public class AccountService extends Service {
      * Removes the userdata
      */
     public static void clearData() {
-        DatabaseTest.deleteDatabase(context);
+        DatabaseHelper.deleteDatabase(context);
         PrefManager.clear();
         Mobihelp.clearUserData(context);
         AccountService.deleteAccount();

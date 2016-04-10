@@ -22,7 +22,7 @@ public class DatabaseManager {
     private final SQLiteDatabase db;
 
     public DatabaseManager(Context context) {
-        this.db = DatabaseTest.getInstance(context).getWritableDatabase();
+        this.db = DatabaseHelper.getInstance(context).getWritableDatabase();
     }
 
     public void saveAnime(Anime anime) {
@@ -56,21 +56,21 @@ public class DatabaseManager {
 
         try {
             db.beginTransaction();
-            Query.newQuery(db).updateRecord(DatabaseTest.TABLE_ANIME, cv, anime.getId());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_ALTERNATIVE, anime.getId(), anime.getAlternativeVersions());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_CHARACTER, anime.getId(), anime.getCharacterAnime());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SIDE_STORY, anime.getId(), anime.getSideStories());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SPINOFF, anime.getId(), anime.getSpinOffs());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SUMMARY, anime.getId(), anime.getSummaries());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_ADAPTATION, anime.getId(), anime.getMangaAdaptations());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_PREQUEL, anime.getId(), anime.getPrequels());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SEQUEL, anime.getId(), anime.getSequels());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_PARENT_STORY, anime.getId(), anime.getParentStoryArray());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_OTHER, anime.getId(), anime.getOther());
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_ANIME_GENRES, anime.getId(), anime.getGenres(), "genre_id");
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_ANIME_TAGS, anime.getId(), anime.getTags(), "tag_id");
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_PRODUCER, DatabaseTest.TABLE_ANIME_PRODUCER, anime.getId(), anime.getProducers(), "producer_id");
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_ANIME_PERSONALTAGS, anime.getId(), anime.getPersonalTags(), "tag_id");
+            Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_ANIME, cv, anime.getId());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_ALTERNATIVE, anime.getId(), anime.getAlternativeVersions());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_CHARACTER, anime.getId(), anime.getCharacterAnime());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SIDE_STORY, anime.getId(), anime.getSideStories());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SPINOFF, anime.getId(), anime.getSpinOffs());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SUMMARY, anime.getId(), anime.getSummaries());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_MANGA_RELATIONS, DatabaseHelper.RELATION_TYPE_ADAPTATION, anime.getId(), anime.getMangaAdaptations());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_PREQUEL, anime.getId(), anime.getPrequels());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SEQUEL, anime.getId(), anime.getSequels());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_PARENT_STORY, anime.getId(), anime.getParentStoryArray());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_OTHER, anime.getId(), anime.getOther());
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_ANIME_GENRES, anime.getId(), anime.getGenres(), "genre_id");
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_ANIME_TAGS, anime.getId(), anime.getTags(), "tag_id");
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_PRODUCER, DatabaseHelper.TABLE_ANIME_PRODUCER, anime.getId(), anime.getProducers(), "producer_id");
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_PERSONALTAGS, anime.getId(), anime.getPersonalTags(), "tag_id");
             Query.newQuery(db).updateTitles(anime.getId(), true, anime.getTitleJapanese(), anime.getTitleEnglish(), anime.getTitleSynonyms(), anime.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
@@ -94,7 +94,7 @@ public class DatabaseManager {
      */
     private void saveAnimeList(Anime anime) {
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseTest.COLUMN_ID, anime.getId());
+        cv.put(DatabaseHelper.COLUMN_ID, anime.getId());
         cv.put("title", anime.getTitle());
         cv.put("type", anime.getType());
         cv.put("status", anime.getStatus());
@@ -115,7 +115,7 @@ public class DatabaseManager {
 
         try {
             db.beginTransaction();
-            Query.newQuery(db).updateRecord(DatabaseTest.TABLE_ANIME, cv, anime.getId());
+            Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_ANIME, cv, anime.getId());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnimeList(): " + e.getMessage());
@@ -148,13 +148,13 @@ public class DatabaseManager {
 
         try {
             db.beginTransaction();
-            Query.newQuery(db).updateRecord(DatabaseTest.TABLE_MANGA, cv, manga.getId());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_MANGA_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_RELATED, manga.getId(), manga.getRelatedManga());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_MANGA_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_ADAPTATION, manga.getId(), manga.getAnimeAdaptations());
-            Query.newQuery(db).updateRelation(DatabaseTest.TABLE_MANGA_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_ALTERNATIVE, manga.getId(), manga.getAlternativeVersions());
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_MANGA_GENRES, manga.getId(), manga.getGenres(), "genre_id");
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_MANGA_TAGS, manga.getId(), manga.getTags(), "tag_id");
-            Query.newQuery(db).updateLink(DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_MANGA_PERSONALTAGS, manga.getId(), manga.getPersonalTags(), "tag_id");
+            Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_MANGA, cv, manga.getId());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_MANGA_MANGA_RELATIONS, DatabaseHelper.RELATION_TYPE_RELATED, manga.getId(), manga.getRelatedManga());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_MANGA_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_ADAPTATION, manga.getId(), manga.getAnimeAdaptations());
+            Query.newQuery(db).updateRelation(DatabaseHelper.TABLE_MANGA_MANGA_RELATIONS, DatabaseHelper.RELATION_TYPE_ALTERNATIVE, manga.getId(), manga.getAlternativeVersions());
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_MANGA_GENRES, manga.getId(), manga.getGenres(), "genre_id");
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_MANGA_TAGS, manga.getId(), manga.getTags(), "tag_id");
+            Query.newQuery(db).updateLink(DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_MANGA_PERSONALTAGS, manga.getId(), manga.getPersonalTags(), "tag_id");
             Query.newQuery(db).updateTitles(manga.getId(), false, manga.getTitleJapanese(), manga.getTitleEnglish(), manga.getTitleSynonyms(), manga.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
@@ -178,7 +178,7 @@ public class DatabaseManager {
      */
     private void saveMangaList(Manga manga) {
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseTest.COLUMN_ID, manga.getId());
+        cv.put(DatabaseHelper.COLUMN_ID, manga.getId());
         cv.put("title", manga.getTitle());
         cv.put("type", manga.getType());
         cv.put("status", manga.getStatus());
@@ -192,7 +192,7 @@ public class DatabaseManager {
 
         try {
             db.beginTransaction();
-            Query.newQuery(db).updateRecord(DatabaseTest.TABLE_MANGA, cv, manga.getId());
+            Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_MANGA, cv, manga.getId());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveMangaList(): " + e.getMessage());
@@ -204,7 +204,7 @@ public class DatabaseManager {
 
     private ContentValues listDetails(GenericRecord record) {
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseTest.COLUMN_ID, record.getId());
+        cv.put(DatabaseHelper.COLUMN_ID, record.getId());
         cv.put("title", record.getTitle());
         cv.put("type", record.getType());
         cv.put("imageUrl", record.getImageUrl());
@@ -241,28 +241,28 @@ public class DatabaseManager {
     }
 
     public Anime getAnime(int id) {
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME).where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).run();
 
         Anime result = null;
         if (cursor.moveToFirst()) {
             result = Anime.fromCursor(cursor);
-            result.setTitleEnglish(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_ENGLISH));
-            result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_SYNONYM));
-            result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_JAPANESE));
-            result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), true, DatabaseTest.TITLE_TYPE_ROMAJI));
-            result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_ALTERNATIVE, true));
-            result.setCharacterAnime(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_CHARACTER, true));
-            result.setSideStories(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SIDE_STORY, true));
-            result.setSpinOffs(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SPINOFF, true));
-            result.setSummaries(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SUMMARY, true));
-            result.setMangaAdaptations(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_ADAPTATION, false));
-            result.setPrequels(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_PREQUEL, true));
-            result.setSequels(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_SEQUEL, true));
-            result.setParentStoryArray(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_PARENT_STORY, true));
-            result.setOther(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_ANIME_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_OTHER, true));
-            result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_ANIME_GENRES, "genre_id", true));
-            result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_ANIME_TAGS, "tag_id", true));
-            result.setProducers(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_PRODUCER, DatabaseTest.TABLE_ANIME_PRODUCER, "producer_id", true));
+            result.setTitleEnglish(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_ENGLISH));
+            result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_SYNONYM));
+            result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_JAPANESE));
+            result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_ROMAJI));
+            result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_ALTERNATIVE, true));
+            result.setCharacterAnime(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_CHARACTER, true));
+            result.setSideStories(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SIDE_STORY, true));
+            result.setSpinOffs(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SPINOFF, true));
+            result.setSummaries(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SUMMARY, true));
+            result.setMangaAdaptations(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_MANGA_RELATIONS, DatabaseHelper.RELATION_TYPE_ADAPTATION, false));
+            result.setPrequels(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_PREQUEL, true));
+            result.setSequels(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SEQUEL, true));
+            result.setParentStoryArray(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_PARENT_STORY, true));
+            result.setOther(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_OTHER, true));
+            result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_ANIME_GENRES, "genre_id", true));
+            result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_TAGS, "tag_id", true));
+            result.setProducers(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_PRODUCER, DatabaseHelper.TABLE_ANIME_PRODUCER, "producer_id", true));
         }
         cursor.close();
         GenericRecord.setFromCursor(false);
@@ -270,21 +270,21 @@ public class DatabaseManager {
     }
 
     public Manga getManga(int id) {
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA).where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).run();
 
         Manga result = null;
         if (cursor.moveToFirst()) {
             result = Manga.fromCursor(cursor);
-            result.setTitleEnglish(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_ENGLISH));
-            result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_SYNONYM));
-            result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_JAPANESE));
-            result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), false, DatabaseTest.TITLE_TYPE_ROMAJI));
-            result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_GENRES, DatabaseTest.TABLE_MANGA_GENRES, "genre_id", false));
-            result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_MANGA_TAGS, "tag_id", false));
-            result.setPersonalTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseTest.TABLE_TAGS, DatabaseTest.TABLE_MANGA_PERSONALTAGS, "tag_id", false));
-            result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_MANGA_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_ALTERNATIVE, false));
-            result.setRelatedManga(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_MANGA_MANGA_RELATIONS, DatabaseTest.RELATION_TYPE_RELATED, false));
-            result.setAnimeAdaptations(Query.newQuery(db).getRelation(result.getId(), DatabaseTest.TABLE_MANGA_ANIME_RELATIONS, DatabaseTest.RELATION_TYPE_ADAPTATION, true));
+            result.setTitleEnglish(Query.newQuery(db).getTitles(result.getId(), false, DatabaseHelper.TITLE_TYPE_ENGLISH));
+            result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), false, DatabaseHelper.TITLE_TYPE_SYNONYM));
+            result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), false, DatabaseHelper.TITLE_TYPE_JAPANESE));
+            result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), false, DatabaseHelper.TITLE_TYPE_ROMAJI));
+            result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_MANGA_GENRES, "genre_id", false));
+            result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_MANGA_TAGS, "tag_id", false));
+            result.setPersonalTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_MANGA_PERSONALTAGS, "tag_id", false));
+            result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_MANGA_MANGA_RELATIONS, DatabaseHelper.RELATION_TYPE_ALTERNATIVE, false));
+            result.setRelatedManga(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_MANGA_MANGA_RELATIONS, DatabaseHelper.RELATION_TYPE_RELATED, false));
+            result.setAnimeAdaptations(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_MANGA_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_ADAPTATION, true));
         }
         cursor.close();
         GenericRecord.setFromCursor(false);
@@ -292,18 +292,18 @@ public class DatabaseManager {
     }
 
     public ArrayList<Anime> getDirtyAnimeList() {
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME).isNotNull("dirty").run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME).isNotNull("dirty").run();
         return getAnimeList(cursor);
     }
 
     public ArrayList<Manga> getDirtyMangaList() {
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).isNotNull("dirty").run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA).isNotNull("dirty").run();
         return getMangaList(cursor);
     }
 
     public ArrayList<Anime> getAnimeList(String ListType, int sortType, int inv) {
         Cursor cursor;
-        Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME);
+        Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME);
         switch (ListType) {
             case "": // All
                 cursor = sort(query.isNotNull("type"), sortType, inv);
@@ -321,7 +321,7 @@ public class DatabaseManager {
     public ArrayList<Manga> getMangaList(String ListType, int sortType, int inv) {
         sortType = sortType == 5 ? -5 : sortType;
         Cursor cursor;
-        Query query = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA);
+        Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA);
         switch (ListType) {
             case "": // All
                 cursor = sort(query.isNotNull("type"), sortType, inv);
@@ -384,20 +384,20 @@ public class DatabaseManager {
     }
 
     public void cleanupAnimeTable() {
-        db.rawQuery("DELETE FROM " + DatabaseTest.TABLE_ANIME + " WHERE " +
-                DatabaseTest.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseTest.TABLE_ANIME_ANIME_RELATIONS + ") AND " +
-                DatabaseTest.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseTest.TABLE_MANGA_ANIME_RELATIONS + ")", null);
+        db.rawQuery("DELETE FROM " + DatabaseHelper.TABLE_ANIME + " WHERE " +
+                DatabaseHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS + ") AND " +
+                DatabaseHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseHelper.TABLE_MANGA_ANIME_RELATIONS + ")", null);
     }
 
     public void cleanupMangaTable() {
-        db.rawQuery("DELETE FROM " + DatabaseTest.TABLE_MANGA + " WHERE " +
-                DatabaseTest.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseTest.TABLE_MANGA_MANGA_RELATIONS + ") AND " +
-                DatabaseTest.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseTest.TABLE_MANGA_ANIME_RELATIONS + ")", null);
+        db.rawQuery("DELETE FROM " + DatabaseHelper.TABLE_MANGA + " WHERE " +
+                DatabaseHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseHelper.TABLE_MANGA_MANGA_RELATIONS + ") AND " +
+                DatabaseHelper.COLUMN_ID + " NOT IN (SELECT DISTINCT relationId FROM " + DatabaseHelper.TABLE_MANGA_ANIME_RELATIONS + ")", null);
     }
 
     public ArrayList<Profile> getFriendList() {
         ArrayList<Profile> result = new ArrayList<>();
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_FRIENDLIST).OrderBy(1, "username").run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_FRIENDLIST).OrderBy(1, "username").run();
 
         if (cursor.moveToFirst()) {
             do
@@ -416,7 +416,7 @@ public class DatabaseManager {
                 cv.put("username", profile.getUsername());
                 cv.put("imageUrl", profile.getImageUrl());
                 cv.put("lastOnline", AccountService.isMAL() ? profile.getDetails().getLastOnline() : "");
-                Query.newQuery(db).updateRecord(DatabaseTest.TABLE_FRIENDLIST, cv, profile.getUsername());
+                Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_FRIENDLIST, cv, profile.getUsername());
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {
@@ -428,7 +428,7 @@ public class DatabaseManager {
     }
 
     public Profile getProfile() {
-        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_PROFILE).run();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_PROFILE).run();
         Profile profile = null;
         if (cursor.moveToFirst())
             profile = Profile.fromCursor(cursor);
@@ -478,7 +478,7 @@ public class DatabaseManager {
 
         try {
             db.beginTransaction();
-            Query.newQuery(db).updateRecord(DatabaseTest.TABLE_PROFILE, cv, profile.getUsername());
+            Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_PROFILE, cv, profile.getUsername());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveProfile(): " + e.getMessage());
@@ -504,9 +504,9 @@ public class DatabaseManager {
         ArrayList result = new ArrayList<>();
         Cursor cursor;
         if (type.equals(MALApi.ListType.ANIME))
-            cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME).isNotNull("widget").run();
+            cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME).isNotNull("widget").run();
         else
-            cursor = Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).isNotNull("widget").run();
+            cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA).isNotNull("widget").run();
 
         if (cursor.moveToFirst()) {
             do
@@ -536,9 +536,9 @@ public class DatabaseManager {
         try {
             db.beginTransaction();
             if (type.equals(MALApi.ListType.ANIME))
-                db.update(DatabaseTest.TABLE_ANIME, cv, DatabaseTest.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
+                db.update(DatabaseHelper.TABLE_ANIME, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
             else
-                db.update(DatabaseTest.TABLE_MANGA, cv, DatabaseTest.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
+                db.update(DatabaseHelper.TABLE_MANGA, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.addWidgetRecord(): " + e.getMessage());
@@ -559,7 +559,7 @@ public class DatabaseManager {
 
         try {
             db.beginTransaction();
-            db.update(DatabaseTest.TABLE_ANIME, cv, DatabaseTest.COLUMN_ID + " = ?", new String[]{Integer.toString(oldId)});
+            db.update(DatabaseHelper.TABLE_ANIME, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(oldId)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.updateWidgetRecord(): " + e.getMessage());
@@ -580,9 +580,9 @@ public class DatabaseManager {
      */
     private boolean checkWidgetID(int id, MALApi.ListType type) {
         if (type.equals(MALApi.ListType.ANIME))
-            return Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_ANIME).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
+            return Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME).where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
         else
-            return Query.newQuery(db).selectFrom("*", DatabaseTest.TABLE_MANGA).where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
+            return Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA).where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
     }
 
     public void removeWidgetRecord() {
@@ -592,14 +592,14 @@ public class DatabaseManager {
             // Remove old record
             ContentValues cv = new ContentValues();
             cv.putNull("widget");
-            db.update(DatabaseTest.TABLE_ANIME, cv, "widget = ?", new String[]{Integer.toString(number)});
-            db.update(DatabaseTest.TABLE_MANGA, cv, "widget = ?", new String[]{Integer.toString(number)});
+            db.update(DatabaseHelper.TABLE_ANIME, cv, "widget = ?", new String[]{Integer.toString(number)});
+            db.update(DatabaseHelper.TABLE_MANGA, cv, "widget = ?", new String[]{Integer.toString(number)});
 
             // Replace id of the new record
             ContentValues cvn = new ContentValues();
             cvn.put("widget", number);
-            db.update(DatabaseTest.TABLE_ANIME, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
-            db.update(DatabaseTest.TABLE_MANGA, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
+            db.update(DatabaseHelper.TABLE_ANIME, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
+            db.update(DatabaseHelper.TABLE_MANGA, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.removeWidgetRecord(): " + e.getMessage());
@@ -613,7 +613,7 @@ public class DatabaseManager {
         boolean result = false;
         try {
             db.beginTransaction();
-            result = db.delete(DatabaseTest.TABLE_ANIME, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
+            result = db.delete(DatabaseHelper.TABLE_ANIME, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.deleteAnime(): " + e.getMessage());
@@ -630,7 +630,7 @@ public class DatabaseManager {
         boolean result = false;
         try {
             db.beginTransaction();
-            result = db.delete(DatabaseTest.TABLE_MANGA, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
+            result = db.delete(DatabaseHelper.TABLE_MANGA, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.deleteManga(): " + e.getMessage());

@@ -19,10 +19,10 @@ public class Table {
     public void createOtherTitles(String table, String ListTypeTable) {
         queryString += "CREATE TABLE "
                 + table + "("
-                + DatabaseTest.COLUMN_ID + " integer NOT NULL REFERENCES " + ListTypeTable + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
+                + DatabaseHelper.COLUMN_ID + " integer NOT NULL REFERENCES " + ListTypeTable + "(" + DatabaseHelper.COLUMN_ID + ") ON DELETE CASCADE, "
                 + "titleType integer NOT NULL, "
                 + "title varchar NOT NULL, "
-                + "PRIMARY KEY(" + DatabaseTest.COLUMN_ID + ",titleType , title)"
+                + "PRIMARY KEY(" + DatabaseHelper.COLUMN_ID + ",titleType , title)"
                 + ");";
         run();
     }
@@ -30,7 +30,7 @@ public class Table {
     public void createRecord(String table) {
         queryString += "create table "
                 + table + "("
-                + DatabaseTest.COLUMN_ID + " integer primary key, "
+                + DatabaseHelper.COLUMN_ID + " integer primary key, "
                 + "title varchar, "
                 + "type varchar, "
                 + "imageUrl varchar, "
@@ -57,7 +57,7 @@ public class Table {
                 + "lsOnHold integer, "
                 + "lsDropped integer, ";
 
-        if (table.equals(DatabaseTest.TABLE_ANIME))
+        if (table.equals(DatabaseHelper.TABLE_ANIME))
             queryString += "duration integer, "
                     + "episodes integer, "
                     + "youtubeId varchar, "
@@ -90,7 +90,7 @@ public class Table {
 
     public void createFriendlist() {
         queryString += "create table "
-                + DatabaseTest.TABLE_FRIENDLIST + "("
+                + DatabaseHelper.TABLE_FRIENDLIST + "("
                 + "username varchar, "
                 + "imageUrl varchar, "
                 + "lastOnline varchar "
@@ -103,7 +103,7 @@ public class Table {
      */
     public void createProfile() {
         queryString += "create table "
-                + DatabaseTest.TABLE_PROFILE + "("
+                + DatabaseHelper.TABLE_PROFILE + "("
                 + "username varchar UNIQUE, "
                 + "imageUrl varchar, "
                 + "imageUrlBanner varchar, "
@@ -149,8 +149,8 @@ public class Table {
      */
     public void createTags(String table, String refTable1, String refTable2) {
         queryString += "CREATE TABLE " + table + "("
-                + getTagsColumn(table) + " integer NOT NULL REFERENCES " + refTable1 + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
-                + "tag_id integer NOT NULL REFERENCES " + refTable2 + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
+                + getTagsColumn(table) + " integer NOT NULL REFERENCES " + refTable1 + "(" + DatabaseHelper.COLUMN_ID + ") ON DELETE CASCADE, "
+                + "tag_id integer NOT NULL REFERENCES " + refTable2 + "(" + DatabaseHelper.COLUMN_ID + ") ON DELETE CASCADE, "
                 + "PRIMARY KEY(" + getTagsColumn(table) + ", tag_id)"
                 + ");";
         run();
@@ -175,10 +175,10 @@ public class Table {
      */
     public void createRelation(String table, String refTable1, String refTable2) {
         queryString += "CREATE TABLE " + table + "("
-                + DatabaseTest.COLUMN_ID + " integer NOT NULL REFERENCES " + refTable1 + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
-                + "relationId integer NOT NULL REFERENCES " + refTable2 + "(" + DatabaseTest.COLUMN_ID + ") ON DELETE CASCADE, "
+                + DatabaseHelper.COLUMN_ID + " integer NOT NULL REFERENCES " + refTable1 + "(" + DatabaseHelper.COLUMN_ID + ") ON DELETE CASCADE, "
+                + "relationId integer NOT NULL REFERENCES " + refTable2 + "(" + DatabaseHelper.COLUMN_ID + ") ON DELETE CASCADE, "
                 + "relationType integer NOT NULL, "
-                + "PRIMARY KEY(" + DatabaseTest.COLUMN_ID + ", relationType, relationId)"
+                + "PRIMARY KEY(" + DatabaseHelper.COLUMN_ID + ", relationType, relationId)"
                 + ");";
         run();
     }

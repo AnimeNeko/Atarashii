@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
-import net.somethingdreadful.MAL.database.DatabaseTest;
+import net.somethingdreadful.MAL.database.DatabaseHelper;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -429,7 +429,7 @@ public class GenericRecord implements Serializable {
 
     static GenericRecord fromCursor(GenericRecord result, Cursor cursor, List<String> columnNames) {
         GenericRecord.setFromCursor(true);
-        result.setId(cursor.getInt(columnNames.indexOf(DatabaseTest.COLUMN_ID)));
+        result.setId(cursor.getInt(columnNames.indexOf(DatabaseHelper.COLUMN_ID)));
         result.setTitle(cursor.getString(columnNames.indexOf("title")));
         result.setType(cursor.getString(columnNames.indexOf("type")));
         result.setImageUrl(cursor.getString(columnNames.indexOf("imageUrl")));

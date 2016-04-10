@@ -104,7 +104,7 @@ public class Query {
      * @param id    The ID of the record
      */
     public int updateRecord(String table, ContentValues cv, int id) {
-        int updateResult = db.update(table, cv, DatabaseTest.COLUMN_ID + " = " + id, new String[]{});
+        int updateResult = db.update(table, cv, DatabaseHelper.COLUMN_ID + " = " + id, new String[]{});
         if (updateResult == 0)
             return (int) db.insert(table, null, cv);
         return updateResult;
@@ -153,10 +153,10 @@ public class Query {
 
         try {
             for (RecordStub relation : recordStubs) {
-                recordTable = relation.isAnime() ? DatabaseTest.TABLE_ANIME : DatabaseTest.TABLE_MANGA;
-                if (!recordExists(DatabaseTest.COLUMN_ID, recordTable, String.valueOf(relation.getId()))) {
+                recordTable = relation.isAnime() ? DatabaseHelper.TABLE_ANIME : DatabaseHelper.TABLE_MANGA;
+                if (!recordExists(DatabaseHelper.COLUMN_ID, recordTable, String.valueOf(relation.getId()))) {
                     ContentValues cv = new ContentValues();
-                    cv.put(DatabaseTest.COLUMN_ID, relation.getId());
+                    cv.put(DatabaseHelper.COLUMN_ID, relation.getId());
                     cv.put("title", relation.getTitle());
                     relatedRecordExists = db.insert(recordTable, null, cv) > 0;
                 } else {
@@ -165,7 +165,7 @@ public class Query {
 
                 if (relatedRecordExists) {
                     ContentValues cv = new ContentValues();
-                    cv.put(DatabaseTest.COLUMN_ID, id);
+                    cv.put(DatabaseHelper.COLUMN_ID, id);
                     cv.put("relationId", relation.getId());
                     cv.put("relationType", relationType);
                     db.replace(table, null, cv);
@@ -227,14 +227,14 @@ public class Query {
      * @param sy    Arraylist of strings
      */
     public void updateTitles(int id, boolean anime, ArrayList<String> jp, ArrayList<String> en, ArrayList<String> sy, ArrayList<String> ro) {
-        String table = anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES;
+        String table = anime ? DatabaseHelper.TABLE_ANIME_OTHER_TITLES : DatabaseHelper.TABLE_MANGA_OTHER_TITLES;
         // delete old links
-        db.delete(table, DatabaseTest.COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+        db.delete(table, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
 
-        updateTitles(id, table, DatabaseTest.TITLE_TYPE_JAPANESE, jp);
-        updateTitles(id, table, DatabaseTest.TITLE_TYPE_ENGLISH, en);
-        updateTitles(id, table, DatabaseTest.TITLE_TYPE_SYNONYM, sy);
-        updateTitles(id, table, DatabaseTest.TITLE_TYPE_ROMAJI, ro);
+        updateTitles(id, table, DatabaseHelper.TITLE_TYPE_JAPANESE, jp);
+        updateTitles(id, table, DatabaseHelper.TITLE_TYPE_ENGLISH, en);
+        updateTitles(id, table, DatabaseHelper.TITLE_TYPE_SYNONYM, sy);
+        updateTitles(id, table, DatabaseHelper.TITLE_TYPE_ROMAJI, ro);
     }
 
     /**
@@ -254,7 +254,7 @@ public class Query {
         try {
             for (String item : list) {
                 ContentValues gcv = new ContentValues();
-                gcv.put(DatabaseTest.COLUMN_ID, id);
+                gcv.put(DatabaseHelper.COLUMN_ID, id);
                 gcv.put("titleType", titleType);
                 gcv.put("title", item);
                 db.insert(table, null, gcv);
@@ -275,8 +275,8 @@ public class Query {
      */
     public ArrayList<String> getTitles(int id, boolean anime, int titleType) {
         ArrayList<String> result = new ArrayList<>();
-        Cursor cursor = selectFrom("*", anime ? DatabaseTest.TABLE_ANIME_OTHER_TITLES : DatabaseTest.TABLE_MANGA_OTHER_TITLES)
-                .where(DatabaseTest.COLUMN_ID, String.valueOf(id)).andEquals("titleType", String.valueOf(titleType))
+        Cursor cursor = selectFrom("*", anime ? DatabaseHelper.TABLE_ANIME_OTHER_TITLES : DatabaseHelper.TABLE_MANGA_OTHER_TITLES)
+                .where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andEquals("titleType", String.valueOf(titleType))
                 .run();
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -355,11 +355,11 @@ public class Query {
 
         try {
             String name = "mr.title";
-            String id = "mr." + DatabaseTest.COLUMN_ID;
+            String id = "mr." + DatabaseHelper.COLUMN_ID;
 
-            Cursor cursor = selectFrom(id + ", " + name, (anime ? DatabaseTest.TABLE_ANIME : DatabaseTest.TABLE_MANGA) + " mr")
+            Cursor cursor = selectFrom(id + ", " + name, (anime ? DatabaseHelper.TABLE_ANIME : DatabaseHelper.TABLE_MANGA) + " mr")
                     .innerJoinOn(relationTable + " rr", id, "rr.relationId")
-                    .where("rr." + DatabaseTest.COLUMN_ID, String.valueOf(Id)).andEquals("rr.relationType", relationType).run();
+                    .where("rr." + DatabaseHelper.COLUMN_ID, String.valueOf(Id)).andEquals("rr.relationType", relationType).run();
 
             if (cursor != null && cursor.moveToFirst()) {
                 do {
@@ -391,7 +391,7 @@ public class Query {
 
         try {
             Cursor cursor = selectFrom("*", table)
-                    .innerJoinOn(relTable, table + "." + column, relTable + "." + DatabaseTest.COLUMN_ID)
+                    .innerJoinOn(relTable, table + "." + column, relTable + "." + DatabaseHelper.COLUMN_ID)
                     .where(anime ? "anime_id" : "manga_id", String.valueOf(id))
                     .run();
 
