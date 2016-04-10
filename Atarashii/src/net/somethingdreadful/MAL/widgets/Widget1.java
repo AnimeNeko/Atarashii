@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -48,7 +50,9 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
         final RemoteViews views = new RemoteViews(c.getPackageName(), R.layout.widget1);
 
         Fabric.with(c, new Crashlytics());
+        Fabric.with(c, new Answers());
         Crashlytics.log(Log.INFO, "MALX", "Widget1.onUpdate(): " + ids.length + " widgets and " + number + " records");
+        Answers.getInstance().logCustom(new CustomEvent("Widget").putCustomAttribute("Widgets", ids.length));
 
         int updates = ids.length <= number ? ids.length : number;
 
