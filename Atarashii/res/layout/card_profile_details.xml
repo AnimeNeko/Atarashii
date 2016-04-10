@@ -187,44 +187,4 @@
         android:text="@string/layout_card_loading"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/animelistviewsfront"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/accessrankfront"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_anime_views"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/animelistviewssmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/animelistviewsfront"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/animelistviewsfront"
-        android:layout_marginTop="8dp"
-        android:text="@string/layout_card_manga_views"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/mangalistviewssmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/layout_card_loading"
-        android:textSize="16sp" />
-
 </RelativeLayout>

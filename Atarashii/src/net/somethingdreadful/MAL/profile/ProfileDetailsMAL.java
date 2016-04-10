@@ -53,6 +53,8 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     @Bind(R.id.network_Card)
     Card networkCard;
 
+    @Bind(R.id.Image)
+    ImageView image;
     @Bind(R.id.birthdaysmall)
     TextView tv1;
     @Bind(R.id.locationsmall)
@@ -69,10 +71,6 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     TextView tv7;
     @Bind(R.id.accessranksmall)
     TextView tv8;
-    @Bind(R.id.animelistviewssmall)
-    TextView tv9;
-    @Bind(R.id.mangalistviewssmall)
-    TextView tv10;
     @Bind(R.id.atimedayssmall)
     TextView tv11;
     @Bind(R.id.awatchingsmall)
@@ -256,8 +254,6 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         } else
             tv7.setText("-");
         tv8.setText(activity.record.getDetails().getAccessRank());
-        tv9.setText(String.valueOf(activity.record.getDetails().getAnimeListViews()));
-        tv10.setText(String.valueOf(activity.record.getDetails().getMangaListViews()));
 
         tv11.setText(activity.record.getAnimeStats().getTimeDays().toString());
         tv12.setText(String.valueOf(activity.record.getAnimeStats().getWatching()));
@@ -285,6 +281,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                     toggle(2);
                 }
             } else {
+                toggle(0);
                 card();
                 setText();
                 setcolor();
@@ -295,21 +292,27 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                 imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                                ((ImageView) view.findViewById(R.id.Image)).setImageBitmap(bitmap);
-                                toggle(0);
+                                image.setImageBitmap(bitmap);
                             }
 
                             @Override
                             public void onBitmapFailed(Drawable errorDrawable) {
-                                toggle(0);
+                                try {
+                                    Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
+                                    imagecard.wrapImage(225, 320);
+                                    image.setImageDrawable(drawable);
+                                } catch (Exception e) {
+                                    Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                                }
                             }
 
                             @Override
                             public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                toggle(0);
+                                Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                                imagecard.wrapImage(225, 320);
+                                image.setImageDrawable(drawable);
                             }
                         });
-                toggle(0);
             }
         } catch (IllegalStateException e) {
             Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.refresh(): has been closed too fast");
