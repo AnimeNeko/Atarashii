@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL.detailView;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -208,9 +207,9 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
 
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.cover_loading);
+                        Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
                         cardMain.wrapImage(225, 320);
-                        image.setImageBitmap(bitmap.getBitmap());
+                        image.setImageDrawable(drawable);
                     }
                 });
         cardMain.Header.setText(record.getTitle());
