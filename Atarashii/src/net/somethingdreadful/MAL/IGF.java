@@ -672,6 +672,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         String StatusDropped;
         String StatusPlanningToWatch;
         String StatusPlanningToRead;
+        String Number;
 
         public ListViewAdapter(Context context, int resource) {
             super(context, resource);
@@ -684,6 +685,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             StatusDropped = getString(R.string.cover_Dropped);
             StatusPlanningToWatch = getString(R.string.cover_PlanningToWatch);
             StatusPlanningToRead = getString(R.string.cover_PlanningToRead);
+            Number = getString(R.string.label_Number);
         }
 
         @SuppressWarnings("deprecation")
@@ -739,7 +741,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     if (AccountService.isMAL()) {
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
                         viewHolder.progressCount.setText(String.valueOf(position + 1));
-                        viewHolder.flavourText.setText(R.string.label_Number);
+                        viewHolder.flavourText.setText(Number);
                     } else if (listType.equals(ListType.ANIME) && animeRecord.getAiring() != null) {
                         viewHolder.progressCount.setVisibility(View.GONE);
                         viewHolder.flavourText.setText(DateTools.parseDate(animeRecord.getAiring().getTime(), true));
