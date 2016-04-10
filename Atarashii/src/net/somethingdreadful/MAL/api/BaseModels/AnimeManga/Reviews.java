@@ -26,9 +26,14 @@ public class Reviews implements Serializable {
     /**
      * The review content
      */
-    @Setter
     @Getter
     private String review;
+
+    /**
+     * The short preview of a review
+     */
+    @Getter
+    private String shortReview;
 
     /**
      * The creation date of the review
@@ -67,6 +72,22 @@ public class Reviews implements Serializable {
     @Setter
     @Getter
     private Profile user;
+
+    public void setReview(String review) {
+        this.review = review;
+        if (review.length() > 250) {
+            int i = review.indexOf("<br>", 220); // Check for new lines
+            if (i == -1)
+                i = review.indexOf(".", 220); // Check for dots to be sure...
+            if (i == -1)
+                i = review.indexOf(" ", 220); // If the review does not contain spaces...
+            if (i == -1)
+                shortReview = review.substring(0, 220); // Don't even bother to understand this
+            shortReview = review.substring(0, i);
+        } else {
+            shortReview = review;
+        }
+    }
 
     public void setEpisodesSeen(int episodesSeen) {
         if (episodesSeen > 0)

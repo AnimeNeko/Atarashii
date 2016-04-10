@@ -170,8 +170,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         private String episeen;
         private String image;
         private String title;
-        private String review;
-        private String shortReview;
+        private Reviews review;
 
         public reviewAdapter(Context context) {
             this.context = context;
@@ -191,27 +190,15 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         public void onBindViewHolder(reviewAdapterHolder holder, int position) {
             try {
                 // Get the preview part for the reviews
-                review = record.get(position).getReview();
-                if (review.length() > 250) {
-                    int i = review.indexOf("<br>", 220); // Check for new lines
-                    if (i == -1)
-                        i = review.indexOf(".", 220); // Check for dots to be sure...
-                    if (i == -1)
-                        i = review.indexOf(" ", 220); // If the review does not contain spaces...
-                    if (i == -1)
-                        shortReview = review.substring(0, 220); // Don't even bother to understand this
-                    shortReview = review.substring(0, i);
-                } else {
-                    shortReview = review;
-                }
+                review = record.get(position);
 
-                image = record.get(position).getUser().getImageUrl();
-                title = record.get(position).getUser().getUsername();
+                image = review.getUser().getImageUrl();
+                title = review.getUser().getUsername();
                 holder.title.setText(WordUtils.capitalize(title));
-                holder.subTitle.setText(DateTools.parseDate(record.get(position).getDate(), !AccountService.isMAL()));
-                holder.subTitle2.setText(rating + " " + record.get(position).getRating() + (!AccountService.isMAL() ? "/100" : ""));
-                holder.subTitle3.setText(activity.isAnime() ? record.get(position).getEpisodesSeen(episeen) : record.get(position).getChaptersRead(chapseen));
-                holder.content.setText(Html.fromHtml(shortReview));
+                holder.subTitle.setText(DateTools.parseDate(review.getDate(), !AccountService.isMAL()));
+                holder.subTitle2.setText(rating + " " + review.getRating() + (!AccountService.isMAL() ? "/100" : ""));
+                holder.subTitle3.setText(activity.isAnime() ? review.getEpisodesSeen(episeen) : review.getChaptersRead(chapseen));
+                holder.content.setText(Html.fromHtml(review.getShortReview()));
 
                 Picasso.with(context)
                         .load(image)
