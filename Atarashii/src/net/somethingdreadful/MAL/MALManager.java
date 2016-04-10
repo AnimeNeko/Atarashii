@@ -105,7 +105,7 @@ public class MALManager {
 
     public Manga updateWithDetails(int id, Manga manga) {
         Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails() : Downloading manga " + id);
-        Manga manga_api = AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
+        Manga manga_api = AccountService.isMAL() ? malApi.getManga(id, 1) : alApi.getManga(id);
 
         if (manga_api != null) {
             dbMan.saveManga(manga_api);
@@ -116,7 +116,7 @@ public class MALManager {
 
     public Anime updateWithDetails(int id, Anime anime) {
         Crashlytics.log(Log.INFO, "MALX", "MALManager.updateWithDetails() : Downloading anime " + id);
-        Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
+        Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id, 1) : alApi.getAnime(id);
 
         if (anime_api != null) {
             dbMan.saveAnime(anime_api);
@@ -246,16 +246,16 @@ public class MALManager {
 
     public Anime getAnimeRecord(int id) {
         Crashlytics.log(Log.DEBUG, "MALX", "MALManager.getAnimeRecord(): Downloading " + id);
-        return AccountService.isMAL() ? malApi.getAnime(id) : alApi.getAnime(id);
+        return AccountService.isMAL() ? malApi.getAnime(id, 0) : alApi.getAnime(id);
     }
 
     public Manga getMangaRecord(int id) {
         Crashlytics.log(Log.DEBUG, "MALX", "MALManager.getMangaRecord(): Downloading " + id);
-        return AccountService.isMAL() ? malApi.getManga(id) : alApi.getManga(id);
+        return AccountService.isMAL() ? malApi.getManga(id, 0) : alApi.getManga(id);
     }
 
     public ForumMain getDiscussion(int id, int page, MALApi.ListType type) {
-        return type.equals(MALApi.ListType.ANIME) ? malApi.getAnime(id, page) : malApi.getManga(id, page);
+        return type.equals(MALApi.ListType.ANIME) ? malApi.getForumAnime(id, page) : malApi.getForumManga(id, page);
     }
 
     public void verifyAuthentication() {

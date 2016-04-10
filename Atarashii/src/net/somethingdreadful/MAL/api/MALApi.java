@@ -141,12 +141,12 @@ public class MALApi {
         return MangaList.createBaseModel(service.getMangaList(username));
     }
 
-    public Anime getAnime(int id) {
-        return service.getAnime(id).createBaseModel();
+    public Anime getAnime(int id, int mine) {
+        return service.getAnime(id, mine).createBaseModel();
     }
 
-    public Manga getManga(int id) {
-        return service.getManga(id).createBaseModel();
+    public Manga getManga(int id, int mine) {
+        return service.getManga(id, mine).createBaseModel();
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
@@ -286,12 +286,12 @@ public class MALApi {
         return service.getCategoryTopics(id, page);
     }
 
-    public ForumMain getAnime(int id, int page) {
-        return service.getAnime(id, page);
+    public ForumMain getForumAnime(int id, int page) {
+        return service.getForumAnime(id, page);
     }
 
-    public ForumMain getManga(int id, int page) {
-        return service.getManga(id, page);
+    public ForumMain getForumManga(int id, int page) {
+        return service.getForumManga(id, page);
     }
 
     public ForumMain getPosts(int id, int page) {

@@ -26,8 +26,8 @@ interface MALInterface {
     @GET("/account/verify_credentials")
     Response verifyAuthentication();
 
-    @GET("/anime/{anime_id}?mine=1")
-    Anime getAnime(@Path("anime_id") int anime_id);
+    @GET("/anime/{anime_id}")
+    Anime getAnime(@Path("anime_id") int anime_id, @Query("mine") int mine);
 
     @GET("/anime/search")
     ArrayList<Anime> searchAnime(@Query("q") String query, @Query("page") int page);
@@ -59,8 +59,8 @@ interface MALInterface {
     @PUT("/animelist/anime/{anime_id}")
     Response updateAnime(@Path("anime_id") int id, @FieldMap Map<String, String> params);
 
-    @GET("/manga/{manga_id}?mine=1")
-    Manga getManga(@Path("manga_id") int manga_id);
+    @GET("/manga/{manga_id}")
+    Manga getManga(@Path("manga_id") int manga_id, @Query("mine") int mine);
 
     @GET("/manga/search")
     ArrayList<Manga> searchManga(@Query("q") String query, @Query("page") int page);
@@ -105,10 +105,10 @@ interface MALInterface {
     ForumMain getCategoryTopics(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/anime/{id}")
-    ForumMain getAnime(@Path("id") int id, @Query("page") int page);
+    ForumMain getForumAnime(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/manga/{id}")
-    ForumMain getManga(@Path("id") int id, @Query("page") int page);
+    ForumMain getForumManga(@Path("id") int id, @Query("page") int page);
 
     @GET("/forum/topic/{id}")
     ForumMain getPosts(@Path("id") int id, @Query("page") int page);
