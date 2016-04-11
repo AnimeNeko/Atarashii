@@ -48,9 +48,10 @@ import java.util.Collection;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import lombok.Getter;
 
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTask.NetworkTaskListener, RecordStatusUpdatedReceiver.RecordStatusUpdatedListener {
-    public ListType listType = ListType.ANIME; // just to have it proper initialized
+    private ListType listType = ListType.ANIME; // just to have it proper initialized
     private Context context;
     public TaskJob taskjob;
     private Activity activity;
@@ -73,6 +74,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private int resource;
     private int height = 0;
     private int sortType = 1;
+    @Getter
+    private boolean isAnime = true;
     private boolean inverse = false;
     private boolean loading = true;
     private boolean useSecondaryAmounts;
@@ -102,6 +105,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
         state.putBoolean("details", details);
         state.putBoolean("myList", myList);
+        state.putBoolean("isAnime", isAnime);
         state.putString("query", query);
         state.putString("username", username);
         super.onSaveInstanceState(state);
@@ -126,6 +130,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             query = state.getString("query");
             username = state.getString("username");
             details = state.getBoolean("details");
+            isAnime = state.getBoolean("isAnime");
             myList = state.getBoolean("myList");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
@@ -189,6 +194,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             height = (int) (screenWidth / PrefManager.getIGFColumns() / 0.7);
             Gridview.setNumColumns(PrefManager.getIGFColumns());
         }
+    }
+
+    /**
+     * Set listType and boolean isAnime
+     */
+    public void setListType(ListType listType){
+        this.listType = listType;
+        isAnime = listType.equals(ListType.ANIME);
     }
 
     /**
@@ -268,7 +281,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param manga The manga record that should increase by one
      */
     private void setProgressPlusOne(Anime anime, Manga manga) {
-        if (listType.equals(ListType.ANIME)) {
+        if (isAnime()) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
@@ -287,7 +300,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param manga The manga record that should be marked as complete
      */
     private void setMarkAsComplete(Anime anime, Manga manga) {
-        if (listType.equals(ListType.ANIME)) {
+        if (isAnime()) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             gl.remove(anime);
             new WriteDetailTask(listType, TaskJob.UPDATE, context, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
@@ -454,7 +467,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Theme.Snackbar(activity, R.string.toast_error_Search);
                 } else {
-                    if (listType.equals(ListType.ANIME))
+                    if (isAnime())
                         Theme.Snackbar(activity, R.string.toast_error_Anime_Sync);
                     else
                         Theme.Snackbar(activity, R.string.toast_error_Manga_Sync);
@@ -697,8 +710,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             String status;
             int progress;
 
-            if (listType.equals(ListType.ANIME)) {
                 animeRecord = (Anime) gl.get(position);
+            if (isAnime()) {
                 status = animeRecord.getWatchedStatus();
                 progress = animeRecord.getWatchedEpisodes();
             } else {
@@ -742,7 +755,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
                         viewHolder.progressCount.setText(String.valueOf(position + 1));
                         viewHolder.flavourText.setText(Number);
-                    } else if (listType.equals(ListType.ANIME) && animeRecord.getAiring() != null) {
+                    } else if (isAnime() && animeRecord.getAiring() != null) {
                         viewHolder.progressCount.setVisibility(View.GONE);
                         viewHolder.flavourText.setText(DateTools.parseDate(animeRecord.getAiring().getTime(), true));
                     } else {
@@ -808,19 +821,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         public void onClick(View v) {
                             PopupMenu popup = new PopupMenu(context, v);
                             popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
-                            if (!listType.equals(ListType.ANIME))
+                            if (!isAnime())
                                 popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 public boolean onMenuItemClick(MenuItem item) {
                                     switch (item.getItemId()) {
                                         case R.id.plusOne:
-                                            if (listType.equals(ListType.ANIME))
+                                            if (isAnime())
                                                 setProgressPlusOne((Anime) record, null);
                                             else
                                                 setProgressPlusOne(null, (Manga) record);
                                             break;
                                         case R.id.markCompleted:
-                                            if (listType.equals(ListType.ANIME))
+                                            if (isAnime())
                                                 setMarkAsComplete((Anime) record, null);
                                             else
                                                 setMarkAsComplete(null, (Manga) record);

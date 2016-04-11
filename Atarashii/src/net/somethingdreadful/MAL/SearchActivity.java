@@ -98,7 +98,7 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
          * anime-/mangalist
          */
         igf.setUsername(AccountService.getUsername());
-        if (igf.listType.equals(ListType.ANIME))
+        if (igf.isAnime())
             af = igf;
         else
             mf = igf;

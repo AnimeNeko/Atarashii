@@ -208,7 +208,7 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
     @Override
     public void onIGFReady(IGF igf) {
         igf.setUsername(AccountService.getUsername());
-        if (igf.listType.equals(MALApi.ListType.ANIME))
+        if (igf.isAnime())
             af = igf;
         else
             mf = igf;

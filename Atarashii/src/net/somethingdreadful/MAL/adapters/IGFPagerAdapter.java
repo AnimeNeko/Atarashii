@@ -24,7 +24,7 @@ public class IGFPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
         IGF fragment = new IGF();
-        fragment.listType = i == 0 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA;
+        fragment.setListType(i == 0 ? MALApi.ListType.ANIME : MALApi.ListType.MANGA);
         return fragment;
     }
 
