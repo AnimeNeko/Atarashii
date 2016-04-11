@@ -76,13 +76,15 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private int sortType = 1;
     @Getter
     private boolean isAnime = true;
+    @Getter
+    private boolean isList = true;
     private boolean inverse = false;
     private boolean loading = true;
     private boolean useSecondaryAmounts;
     private boolean hasmorepages = false;
     private boolean clearAfterLoading = false;
     private boolean details = false;
-    private boolean myList = true;
+    private boolean numberList = false;
     /* setSwipeRefreshEnabled() may be called before swipeRefresh exists (before onCreateView() is
      * called), so save it and apply it in onCreateView() */
     private boolean swipeRefreshEnabled = true;
@@ -105,8 +107,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
         state.putBoolean("details", details);
-        state.putBoolean("myList", myList);
+        state.putBoolean("numberList", numberList);
         state.putBoolean("isAnime", isAnime);
+        state.putBoolean("isList", isList);
         state.putString("query", query);
         state.putString("username", username);
         super.onSaveInstanceState(state);
@@ -133,7 +136,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             username = state.getString("username");
             details = state.getBoolean("details");
             isAnime = state.getBoolean("isAnime");
-            myList = state.getBoolean("myList");
+            numberList = state.getBoolean("numberList");
+            isList = state.getBoolean("isList");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
         } else {
@@ -202,7 +206,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     /**
      * Set listType and boolean isAnime
      */
-    public void setListType(ListType listType){
+    public void setListType(ListType listType) {
         this.listType = listType;
         isAnime = listType.equals(ListType.ANIME);
     }
@@ -366,10 +370,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             taskjob = task;
         if (task != TaskJob.GETLIST && task != TaskJob.FORCESYNC) {
             details = false;
-            myList = false;
+            numberList = task == TaskJob.GETMOSTPOPULAR || task == TaskJob.GETTOPRATED;
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
+            isList = false;
         } else {
-            myList = true;
+            isList = true;
         }
         if (list != this.list)
             this.list = list;
@@ -483,35 +488,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     }
 
     /**
-     * Check if the taskjob is my personal anime/manga list.
-     *
-     * @param job The current taskjob to compare with
-     * @return boolean If true then the list is of the logged in user
-     */
-    private boolean isList(TaskJob job) {
-        return job != null && (job.equals(TaskJob.GETLIST) || job.equals(TaskJob.FORCESYNC));
-    }
-
-    /**
-     * Check if the taskjob is my personal anime/manga list.
-     *
-     * @return boolean If true then the list is of the logged in user
-     */
-    private boolean isList() {
-        return isList(taskjob);
-    }
-
-    /**
-     * Check if the taskjob will return paged results
-     *
-     * @param job The current taskjob to compare with
-     * @return boolean If true then it will return paged results
-     */
-    private boolean jobReturnsPagedResults(TaskJob job) {
-        return !isList(job);
-    }
-
-    /**
      * Inverse the list and refresh it.
      */
     public void inverse() {
@@ -572,7 +548,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             gl.clear();
                             clearAfterLoading = false;
                         }
-                        if (jobReturnsPagedResults(job))
+                        if (isList())
                             hasmorepages = resultList.size() > 0;
                         gl.addAll(resultList);
                         refresh();
@@ -623,11 +599,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // don't do anything if there is nothing in the list
-        if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
-            return;
-        if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages) {
-            loading = true;
-            if (jobReturnsPagedResults(taskjob)) {
+        if (!isList()) {
+            if (firstVisibleItem == 0 && visibleItemCount == 0 && totalItemCount == 0)
+                return;
+            if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages) {
+                loading = true;
                 page++;
                 getRecords(false, null, list);
             }
@@ -681,6 +657,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
+        LayoutInflater inflater;
+        boolean listView;
         String StatusWatching;
         String StatusReading;
         String StatusCompleted;
@@ -702,6 +680,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             StatusPlanningToWatch = getString(R.string.cover_PlanningToWatch);
             StatusPlanningToRead = getString(R.string.cover_PlanningToRead);
             Number = getString(R.string.label_Number);
+
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            listView = resource != R.layout.record_igf_listview;
         }
 
         @SuppressWarnings("deprecation")
@@ -713,12 +694,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             String status;
             int progress;
 
-                animeRecord = (Anime) gl.get(position);
             if (isAnime()) {
+                animeRecord = (Anime) record;
                 status = animeRecord.getWatchedStatus();
                 progress = animeRecord.getWatchedEpisodes();
             } else {
-                mangaRecord = (Manga) gl.get(position);
+                mangaRecord = (Manga) record;
                 status = mangaRecord.getReadStatus();
                 progress = useSecondaryAmounts ? mangaRecord.getVolumesRead() : mangaRecord.getChaptersRead();
             }
@@ -727,7 +708,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 viewHolder = (ViewHolder) view.getTag();
 
             if (view == null || (details && viewHolder.scoreCount == null) || (!details && viewHolder.scoreCount != null)) {
-                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(resource, parent, false);
 
                 viewHolder = new ViewHolder();
@@ -741,7 +721,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 viewHolder.statusCount = (TextView) view.findViewById(R.id.statusCount);
 
                 view.setTag(viewHolder);
-                if (resource != R.layout.record_igf_listview)
+                if (listView)
                     view.getLayoutParams().height = height;
             }
             try {
@@ -752,20 +732,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     viewHolder.statusCount.setText(record.getStatus());
                 }
 
-                if (!myList) {
-                    viewHolder.actionButton.setVisibility(View.GONE);
-                    if (AccountService.isMAL()) {
-                        viewHolder.progressCount.setVisibility(View.VISIBLE);
-                        viewHolder.progressCount.setText(String.valueOf(position + 1));
-                        viewHolder.flavourText.setText(Number);
-                    } else if (isAnime() && animeRecord.getAiring() != null) {
-                        viewHolder.progressCount.setVisibility(View.GONE);
-                        viewHolder.flavourText.setText(DateTools.parseDate(animeRecord.getAiring().getTime(), true));
-                    } else {
-                        viewHolder.progressCount.setVisibility(View.GONE);
-                        viewHolder.flavourText.setText(getString(R.string.unknown));
-                    }
-                } else {
+                if (isList()) {
                     viewHolder.progressCount.setText(String.valueOf(progress));
 
                     switch (status) {
@@ -809,6 +776,19 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             viewHolder.actionButton.setVisibility(View.GONE);
                             viewHolder.progressCount.setVisibility(View.GONE);
                             break;
+                    }
+                } else {
+                    viewHolder.actionButton.setVisibility(View.GONE);
+                    if (AccountService.isMAL() && numberList) {
+                        viewHolder.progressCount.setVisibility(View.VISIBLE);
+                        viewHolder.progressCount.setText(String.valueOf(position + 1));
+                        viewHolder.flavourText.setText(Number);
+                    } else if (isAnime() && animeRecord.getAiring() != null) {
+                        viewHolder.progressCount.setVisibility(View.GONE);
+                        viewHolder.flavourText.setText(DateTools.parseDate(animeRecord.getAiring().getTime(), true));
+                    } else {
+                        viewHolder.progressCount.setVisibility(View.GONE);
+                        viewHolder.flavourText.setText(getString(R.string.unknown));
                     }
                 }
 
