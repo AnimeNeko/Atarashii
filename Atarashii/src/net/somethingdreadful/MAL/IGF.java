@@ -100,6 +100,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putInt("page", page);
         state.putInt("list", list);
         state.putInt("sortType", sortType);
+        state.putInt("resource", resource);
         state.putBoolean("inverse", inverse);
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
@@ -125,6 +126,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             taskjob = (TaskJob) state.getSerializable("taskjob");
             page = state.getInt("page");
             list = state.getInt("list");
+            resource = state.getInt("resource");
             hasmorepages = state.getBoolean("hasmorepages");
             swipeRefreshEnabled = state.getBoolean("swipeRefreshEnabled");
             query = state.getString("query");
@@ -134,13 +136,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             myList = state.getBoolean("myList");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
+        } else {
+            resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
         }
 
         context = getActivity();
         activity = getActivity();
         setColumns();
         useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
-        resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
 
         if (isOnHomeActivity())
             swipeRefresh.setOnRefreshListener((Home) getActivity());
