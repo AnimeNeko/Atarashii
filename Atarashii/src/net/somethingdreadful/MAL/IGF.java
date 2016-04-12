@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -740,11 +739,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             viewHolder.flavourText.setText(StatusWatching);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.VISIBLE);
+                            viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
                             break;
                         case "reading":
                             viewHolder.flavourText.setText(StatusReading);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.VISIBLE);
+                            viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
                             break;
                         case "completed":
                             viewHolder.flavourText.setText(StatusCompleted);
@@ -797,38 +798,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         .error(R.drawable.cover_error)
                         .placeholder(R.drawable.cover_loading)
                         .into(viewHolder.cover);
-
-                if (viewHolder.actionButton.getVisibility() == View.VISIBLE) {
-                    viewHolder.actionButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            PopupMenu popup = new PopupMenu(context, v);
-                            popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
-                            if (!isAnime())
-                                popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
-                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                public boolean onMenuItemClick(MenuItem item) {
-                                    switch (item.getItemId()) {
-                                        case R.id.plusOne:
-                                            if (isAnime())
-                                                setProgressPlusOne((Anime) record, null);
-                                            else
-                                                setProgressPlusOne(null, (Manga) record);
-                                            break;
-                                        case R.id.markCompleted:
-                                            if (isAnime())
-                                                setMarkAsComplete((Anime) record, null);
-                                            else
-                                                setMarkAsComplete(null, (Manga) record);
-                                            break;
-                                    }
-                                    return true;
-                                }
-                            });
-                            popup.show();
-                        }
-                    });
-                }
             } catch (Exception e) {
                 Theme.logTaskCrash(this.getClass().getSimpleName(), "ListViewAdapter()", e);
             }
@@ -838,6 +807,45 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         public void supportAddAll(Collection<? extends T> collection) {
             for (T record : collection) {
                 this.add(record);
+            }
+        }
+
+        /**
+         * Custom grid clicker for passing the right record
+         */
+        public class ABOnClickListener implements View.OnClickListener {
+            GenericRecord record;
+
+            public ABOnClickListener(GenericRecord record) {
+                this.record = record;
+            }
+
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(context, view);
+                popup.getMenuInflater().inflate(R.menu.record_popup, popup.getMenu());
+                if (!isAnime())
+                    popup.getMenu().findItem(R.id.plusOne).setTitle(R.string.action_PlusOneRead);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.plusOne:
+                                if (isAnime())
+                                    setProgressPlusOne((Anime) record, null);
+                                else
+                                    setProgressPlusOne(null, (Manga) record);
+                                break;
+                            case R.id.markCompleted:
+                                if (isAnime())
+                                    setMarkAsComplete((Anime) record, null);
+                                else
+                                    setMarkAsComplete(null, (Manga) record);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
             }
         }
     }
