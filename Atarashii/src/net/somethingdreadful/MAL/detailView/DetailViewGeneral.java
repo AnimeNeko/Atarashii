@@ -24,6 +24,7 @@ import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
@@ -190,7 +191,10 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        cardMain.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                        if (AccountService.isMAL() && (bitmap.getHeight() > 320 || bitmap.getWidth() > 230))
+                            cardMain.wrapImage((int) (bitmap.getWidth() / 1.4), (int) (bitmap.getHeight() / 1.4));
+                        else
+                            cardMain.wrapImage(bitmap.getWidth(), bitmap.getHeight());
                         image.setImageBitmap(bitmap);
                     }
 

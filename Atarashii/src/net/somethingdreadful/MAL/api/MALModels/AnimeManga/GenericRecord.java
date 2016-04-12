@@ -191,7 +191,7 @@ public class GenericRecord implements Serializable {
 
     private String getImageUrl() {
         if (imageUrl != null)
-            return imageUrl.replace("t.jpg", "l.jpg");
+            return imageUrl.contains("t.jpg") ? imageUrl.replace("t.jpg", "l.jpg") : imageUrl.replace(".jpg", "l.jpg");
         else
             return "http://cdn.myanimelist.net/images/na_series.gif";
     }
