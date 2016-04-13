@@ -64,8 +64,8 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
                 // clean dirty records to pull all the changes
                 mManager.cleanDirtyAnimeRecords();
                 mManager.cleanDirtyMangaRecords();
-                mManager.downloadAndStoreAnimeList(AccountService.getUsername());
-                mManager.downloadAndStoreMangaList(AccountService.getUsername());
+                mManager.downloadAnimeList(AccountService.getUsername());
+                mManager.downloadMangaList(AccountService.getUsername());
             }
 
             // notify user

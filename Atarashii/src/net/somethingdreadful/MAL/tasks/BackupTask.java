@@ -65,15 +65,13 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
                 // clean dirty records to pull all the changes
                 mManager.cleanDirtyAnimeRecords();
                 mManager.cleanDirtyMangaRecords();
-                animeResult = mManager.downloadAndStoreAnimeList(AccountService.getUsername());
-                mangaResult = mManager.downloadAndStoreMangaList(AccountService.getUsername());
+                mManager.downloadAnimeList(AccountService.getUsername());
+                mManager.downloadMangaList(AccountService.getUsername());
             }
 
-            // Get results from the database if there weren't any records
-            if (animeResult == null)
-                animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
-            if (mangaResult == null)
-                mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
+            // Get results from the database
+            animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
+            mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
 
             // create the backup model and get the string
             Backup backup = new Backup();

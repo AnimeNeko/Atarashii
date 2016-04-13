@@ -112,11 +112,15 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         if (AccountService.isMAL())
                             mManager.verifyAuthentication();
 
-                        mManager.cleanDirtyAnimeRecords();
-                        mManager.cleanDirtyMangaRecords();
-
-                        taskResult = isAnimeTask() ? mManager.downloadAndStoreAnimeList(AccountService.getUsername()) : mManager.downloadAndStoreMangaList(AccountService.getUsername());
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : mManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                        if (isAnimeTask()) {
+                            mManager.cleanDirtyAnimeRecords();
+                            mManager.downloadAnimeList(AccountService.getUsername());
+                            taskResult =  mManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                        } else {
+                            mManager.cleanDirtyMangaRecords();
+                            mManager.downloadMangaList(AccountService.getUsername());
+                            taskResult =  mManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                        }
 
                         Widget1.forceRefresh(getContext());
                     }
