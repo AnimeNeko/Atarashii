@@ -186,50 +186,40 @@ public class MALManager {
         dbMan.saveManga(manga);
     }
 
-    public boolean cleanDirtyAnimeRecords() {
-        boolean totalSuccess = true;
-
+    public void cleanDirtyAnimeRecords() {
         ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList();
 
         if (dirtyAnimes != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
 
             for (Anime anime : dirtyAnimes) {
-                totalSuccess = writeAnimeDetails(anime);
-                if (totalSuccess) {
+                if (writeAnimeDetails(anime)) {
                     anime.clearDirty();
                     saveAnimeToDatabase(anime);
+                } else if (anime != null) {
+                    Crashlytics.log(Log.ERROR, "MALX", "MALManager.cleanDirtyAnimeRecords(): Failed to update " + anime.getId() + ".");
                 }
-
-                if (!totalSuccess)
-                    break;
             }
-            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Cleaned dirty anime records, status: " + totalSuccess);
+            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyAnimeRecords(): Cleaned dirty anime records.");
         }
-        return totalSuccess;
     }
 
-    public boolean cleanDirtyMangaRecords() {
-        boolean totalSuccess = true;
-
+    public void cleanDirtyMangaRecords() {
         ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList();
 
         if (dirtyMangas != null) {
             Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
 
             for (Manga manga : dirtyMangas) {
-                totalSuccess = writeMangaDetails(manga);
-                if (totalSuccess) {
+                if (writeMangaDetails(manga)) {
                     manga.clearDirty();
                     saveMangaToDatabase(manga);
+                } else if (manga != null)  {
+                    Crashlytics.log(Log.ERROR, "MALX", "MALManager.cleanDirtyMangaRecords(): Failed to update " + manga.getId() + ".");
                 }
-
-                if (!totalSuccess)
-                    break;
             }
-            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Cleaned dirty manga records, status: " + totalSuccess);
+            Crashlytics.log(Log.VERBOSE, "MALX", "MALManager.cleanDirtyMangaRecords(): Cleaned dirty manga records.");
         }
-        return totalSuccess;
     }
 
     public ArrayList<History> getActivity(String username) {
