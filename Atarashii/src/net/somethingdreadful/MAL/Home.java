@@ -50,11 +50,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private IGF af;
     private IGF mf;
     private Menu menu;
-    private Context context;
     private BroadcastReceiver networkReceiver;
 
     private String username;
-    private boolean networkAvailable;
+    private boolean networkAvailable = true;
     private boolean myList = true; //tracks if the user is on 'My List' or not
     private int callbackCounter = 0;
     @Bind(R.id.navigationView)
@@ -66,28 +65,27 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Initializing activity and application
-        context = getApplicationContext();
-        Theme.context = context;
+        Theme.context = getApplicationContext();
 
-        if (AccountService.getAccount() != null) {
+        if (AccountService.AccountExists(this)) {
             //The following is state handling code
-            networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-            if (savedInstanceState != null)
+            if (savedInstanceState != null) {
                 myList = savedInstanceState.getBoolean("myList");
+                networkAvailable = savedInstanceState.getBoolean("networkAvailable", true);
+            }
 
             //Initializing Theme
             Theme.setTheme(this, R.layout.activity_home, false);
 
             //Initializing IGF
             Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
-            getSupportActionBar();
 
             //Initializing ButterKnife
             ButterKnife.bind(this);
 
             //setup navigation profile information
             username = AccountService.getUsername();
-            new UserNetworkTask(context, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
+            new UserNetworkTask(this, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);
@@ -96,8 +94,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
             //Initializing navigation toggle button
-            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
-            };
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {};
             drawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
 
@@ -130,8 +127,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         };
 
         int[] colors = new int[]{
-                ContextCompat.getColor(context, R.color.bg_light_card),
-                ContextCompat.getColor(context, R.color.primary)
+                ContextCompat.getColor(this, R.color.bg_light_card),
+                ContextCompat.getColor(this, R.color.primary)
         };
 
         ColorStateList myList = new ColorStateList(states, colors);
@@ -321,8 +318,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
      * Creates the sync notification.
      */
     private void syncNotify() {
-        Intent notificationIntent = new Intent(context, Home.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent notificationIntent = new Intent(this, Home.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.notification_icon)
@@ -330,7 +327,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 .setContentText(getString(R.string.toast_info_SyncMessage))
                 .setContentIntent(contentIntent);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(R.id.notification_sync, mBuilder.build());
     }
 
@@ -346,9 +343,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     private void checkNetworkAndDisplayCrouton() {
-        if (MALApi.isNetworkAvailable(context) && !networkAvailable)
+        if (MALApi.isNetworkAvailable(this) && !networkAvailable)
             synctask(false);
-        networkAvailable = MALApi.isNetworkAvailable(context);
+        networkAvailable = MALApi.isNetworkAvailable(this);
     }
 
     @Override
@@ -405,7 +402,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public void onItemClick(int id, MALApi.ListType listType, String username) {
-        Intent startDetails = new Intent(context, DetailView.class);
+        Intent startDetails = new Intent(this, DetailView.class);
         startDetails.putExtra("recordID", id);
         startDetails.putExtra("recordType", listType);
         startDetails.putExtra("username", username);
@@ -422,7 +419,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Image:
-                Intent Profile = new Intent(context, ProfileActivity.class);
+                Intent Profile = new Intent(this, ProfileActivity.class);
                 Profile.putExtra("username", username);
                 startActivity(Profile);
                 break;
@@ -438,12 +435,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         ImageView image = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.Image);
         ImageView image2 = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.NDimage);
         try {
-            Picasso.with(context)
+            Picasso.with(this)
                     .load(result.getImageUrl())
                     .transform(new RoundedTransformation(result.getUsername()))
                     .into(image);
             if (PrefManager.getNavigationBackground() != null)
-                Picasso.with(context)
+                Picasso.with(this)
                         .load(PrefManager.getNavigationBackground())
                         .into(image2);
             image.setOnClickListener(this);
@@ -509,19 +506,19 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 myList = true;
                 break;
             case R.id.nav_profile:
-                Intent Profile = new Intent(context, ProfileActivity.class);
+                Intent Profile = new Intent(this, ProfileActivity.class);
                 Profile.putExtra("username", username);
                 startActivity(Profile);
                 break;
             case R.id.nav_friends:
-                Intent Friends = new Intent(context, ProfileActivity.class);
+                Intent Friends = new Intent(this, ProfileActivity.class);
                 Friends.putExtra("username", username);
                 Friends.putExtra("friends", username);
                 startActivity(Friends);
                 break;
             case R.id.nav_forum:
                 if (MALApi.isNetworkAvailable(this))
-                    startActivity(new Intent(context, ForumActivity.class));
+                    startActivity(new Intent(this, ForumActivity.class));
                 else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
