@@ -78,6 +78,16 @@ public class AccountService extends Service {
     }
 
     /**
+     * Check if an account exists.
+     *
+     * @param context The context
+     * @return boolean if there is an account
+     */
+    public static boolean AccountExists(Context context) {
+        return AccountManager.get(context).getAccountsByType(".account.SyncAdapter.account").length > 0;
+    }
+
+    /**
      * Get an Account on the device.
      *
      * @return Account The account
