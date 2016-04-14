@@ -26,7 +26,6 @@ import com.freshdesk.mobihelp.Mobihelp;
 import com.freshdesk.mobihelp.MobihelpConfig;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 
 import java.util.Locale;
 
@@ -143,8 +142,6 @@ public class Theme extends Application {
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
-        if (adapter instanceof IGFPagerAdapter)
-            viewPager.setBackgroundColor(ContextCompat.getColor(activity, R.color.bg_dark));
 
         tabs.setupWithViewPager(viewPager);
         return adapter;
@@ -194,6 +191,8 @@ public class Theme extends Application {
         if (darkTheme) {
             activity.setTheme(R.style.AtarashiiDarkBg);
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_dark_card : R.color.bg_dark));
+        } else if (activity instanceof Home) {
+            activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, R.color.bg_dark));
         } else {
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_light_card : R.color.bg_light));
         }
