@@ -22,7 +22,6 @@
     <string name="sort_type">Type</string>
     <string name="sort_score">Score</string>
     <string name="sort_status">Status</string>
-    <string name="sort_priority">Priority</string>
     <string name="sort_progress">Progress</string>
 
     <!-- All (Toast) Strings -->
