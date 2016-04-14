@@ -105,6 +105,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putBoolean("inverse", inverse);
         state.putBoolean("hasmorepages", hasmorepages);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
+        state.putBoolean("useSecondaryAmounts", useSecondaryAmounts);
         state.putBoolean("details", details);
         state.putBoolean("numberList", numberList);
         state.putBoolean("isAnime", isAnime);
@@ -136,42 +137,36 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             details = state.getBoolean("details");
             isAnime = state.getBoolean("isAnime");
             numberList = state.getBoolean("numberList");
+            useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
             isList = state.getBoolean("isList");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
         } else {
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
+            useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
         }
 
-        context = getActivity();
         activity = getActivity();
+        context = activity;
         setColumns();
-        useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
 
-        if (isOnHomeActivity())
+        if (activity instanceof Home)
             swipeRefresh.setOnRefreshListener((Home) getActivity());
+        if (activity instanceof IGFCallbackListener)
+            callback = (IGFCallbackListener) activity;
         swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(swipeRefreshEnabled);
+
+        recordStatusReceiver = new RecordStatusUpdatedReceiver(this);
+        IntentFilter filter = new IntentFilter(RecordStatusUpdatedReceiver.RECV_IDENT);
+        LocalBroadcastManager.getInstance(activity).registerReceiver(recordStatusReceiver, filter);
 
         if (gl.size() > 0) // there are already records, fragment has been rotated
             refresh();
 
-        NfcHelper.disableBeam(activity);
-
         if (callback != null)
             callback.onIGFReady(this);
         return view;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-        if (IGFCallbackListener.class.isInstance(activity))
-            callback = (IGFCallbackListener) activity;
-        recordStatusReceiver = new RecordStatusUpdatedReceiver(this);
-        IntentFilter filter = new IntentFilter(RecordStatusUpdatedReceiver.RECV_IDENT);
-        LocalBroadcastManager.getInstance(activity).registerReceiver(recordStatusReceiver, filter);
     }
 
     @Override
@@ -267,15 +262,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         else
             screen = Theme.convert(Theme.context.getResources().getConfiguration().screenHeightDp);
         return (int) Math.ceil(screen / Theme.convert(225)) + 2;
-    }
-
-    /**
-     * Check if the parent activity is Home.
-     *
-     * @return boolean If true then the parent activity is home
-     */
-    private boolean isOnHomeActivity() {
-        return getActivity() != null && getActivity().getClass() == Home.class;
     }
 
     /**
