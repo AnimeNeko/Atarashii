@@ -51,11 +51,7 @@ public class Theme extends Application {
                 BuildConfig.MOBIHELP_SECRET);
         Mobihelp.init(this, mobihelpConfig);
 
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-                .build();
-        Fabric.with(this, crashlyticsKit);
-        Fabric.with(this, new Answers());
+        initFabric(context);
 
         locale = PrefManager.getLocale();
         darkTheme = PrefManager.getDarkTheme();
@@ -63,6 +59,19 @@ public class Theme extends Application {
         config.locale = locale;
         setLanguage(); //Change language when it is started
         Theme.setCrashData("Language", locale.toString());
+    }
+
+    /**
+     * Init the Fabric plugins
+     *
+     * @param context The context
+     */
+    public static void initFabric(Context context) {
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+                .build();
+        Fabric.with(context, crashlyticsKit);
+        Fabric.with(context, new Answers());
     }
 
     @Override
