@@ -339,6 +339,8 @@ public class GenericRecord implements Serializable {
 
     public void clearDirty() {
         dirty = null;
+        this.createFlag = false;
+        this.deleteFlag = false;
     }
 
     public ArrayList<Integer> getGenresInt() {
