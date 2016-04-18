@@ -262,7 +262,7 @@ public class MALManager {
             result = AccountService.isMAL() ? malApi.deleteMangaFromList(manga.getId()) : alApi.deleteMangaFromList(manga.getId());
         else
             result = AccountService.isMAL() ? malApi.addOrUpdateManga(manga) : alApi.addOrUpdateManga(manga);
-
+        Crashlytics.log(Log.DEBUG, "MALX", "MALManager.writeMangaDetails(): successfully updated: " + result);
         return result;
     }
 
