@@ -150,9 +150,9 @@ public class MALApi {
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
-        boolean result;
+        int result = 0;
         if (anime.getCreateFlag())
-            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus() == 200;
+            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus();
         else {
             if (anime.isDirty()) {
                 // map anime property names to api field names
@@ -183,12 +183,10 @@ public class MALApi {
                         }
                     }
                 }
-                result = service.updateAnime(anime.getId(), fieldMap).getStatus() == 200;
-            } else {
-                result = false;
+                result = service.updateAnime(anime.getId(), fieldMap).getStatus();
             }
         }
-        return result;
+        return result >= 200 && result <= 299;
     }
 
     public boolean addOrUpdateManga(Manga manga) {
