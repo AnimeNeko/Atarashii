@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.tasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,14 +23,12 @@ import net.somethingdreadful.MAL.widgets.Widget1;
 import retrofit.RetrofitError;
 
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
-    private final Context context;
     private ListType type = ListType.ANIME;
     private final TaskJob job;
     private final APIAuthenticationErrorListener authErrorCallback;
     private final Activity activity;
 
-    public WriteDetailTask(ListType type, TaskJob job, Context context, APIAuthenticationErrorListener authErrorCallback, Activity activity) {
-        this.context = context;
+    public WriteDetailTask(ListType type, TaskJob job, APIAuthenticationErrorListener authErrorCallback, Activity activity) {
         this.job = job;
         this.type = type;
         this.authErrorCallback = authErrorCallback;
@@ -41,18 +38,24 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
     @Override
     protected Boolean doInBackground(GenericRecord... gr) {
         boolean error = false;
-        MALManager manager = new MALManager(context);
+        MALManager manager = new MALManager(activity);
 
-        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(context))
+        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(activity))
             manager.verifyAuthentication();
 
         try {
-            if (MALApi.isNetworkAvailable(context)) {
-                if (type.equals(ListType.ANIME))
-                    manager.writeAnimeDetails((Anime) gr[0]);
-                else
-                    manager.writeMangaDetails((Manga) gr[0]);
-                gr[0].clearDirty();
+            if (MALApi.isNetworkAvailable(activity)) {
+                if (type.equals(ListType.ANIME)) {
+                    Anime anime = (Anime) gr[0];
+                    if (manager.writeAnimeDetails(anime))
+                        anime.clearDirty();
+                    manager.saveAnimeToDatabase(anime);
+                } else {
+                    Manga manga = (Manga) gr[0];
+                    if (manager.writeMangaDetails(manga))
+                        manga.clearDirty();
+                    manager.saveMangaToDatabase(manga);
+                }
             }
         } catch (RetrofitError re) {
             if (re.getResponse() != null && activity != null) {
@@ -121,8 +124,8 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         Intent i = new Intent();
         i.setAction(RecordStatusUpdatedReceiver.RECV_IDENT);
         i.putExtra("type", type);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(i);
+        LocalBroadcastManager.getInstance(activity).sendBroadcast(i);
 
-        Widget1.forceRefresh(context);
+        Widget1.forceRefresh(activity);
     }
 }

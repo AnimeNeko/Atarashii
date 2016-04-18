@@ -124,7 +124,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                 if (id > 0) {
                     Anime anime = db.getAnime(id);
                     anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-                    new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, context, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+                    new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
                 } else {
                     PrefManager.create(context);
                     Manga manga = db.getManga(id * -1);
@@ -140,7 +140,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                             manga.setRereading(false);
                         }
                     }
-                    new WriteDetailTask(MALApi.ListType.MANGA, TaskJob.UPDATE, context, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+                    new WriteDetailTask(MALApi.ListType.MANGA, TaskJob.UPDATE, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
                 }
                 onUpdate(context, AppWidgetManager.getInstance(context), ids);
                 break;
