@@ -77,6 +77,10 @@ public class AccountService extends Service {
         return accountManager.getPassword(account);
     }
 
+    private static String getAccountType() {
+        return context.getPackageName().contains("beta") ? ".beta.account.SyncAdapter.account" : ".account.SyncAdapter.account";
+    }
+
     /**
      * Check if an account exists.
      *
@@ -84,7 +88,7 @@ public class AccountService extends Service {
      * @return boolean if there is an account
      */
     public static boolean AccountExists(Context context) {
-        return AccountManager.get(context).getAccountsByType(".account.SyncAdapter.account").length > 0;
+        return AccountManager.get(context).getAccountsByType(getAccountType()).length > 0;
     }
 
     /**
@@ -95,7 +99,7 @@ public class AccountService extends Service {
     public static Account getAccount() {
         if (account == null) {
             AccountManager accountManager = AccountManager.get(context);
-            Account[] myaccount = accountManager.getAccountsByType(".account.SyncAdapter.account");
+            Account[] myaccount = accountManager.getAccountsByType(getAccountType());
             String version = String.valueOf(accountVersion);
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
@@ -150,7 +154,7 @@ public class AccountService extends Service {
      */
     public static void addAccount(String username, String password, AccountType accountType) {
         AccountManager accountManager = AccountManager.get(context);
-        final Account account = new Account(username, ".account.SyncAdapter.account");
+        final Account account = new Account(username, getAccountType());
         accountManager.addAccountExplicitly(account, password, null);
         accountManager.setUserData(account, "accountType", accountType.toString());
         accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
