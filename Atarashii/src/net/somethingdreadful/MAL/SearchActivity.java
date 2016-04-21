@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.theme_viewpager);
+        Theme.setTheme(this, R.layout.theme_viewpager, false);
         Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
     }
 
