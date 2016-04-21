@@ -12,6 +12,7 @@
         <provider
             android:name=".account.Provider"
             android:authorities=".beta.account.Provider"
+            android:exported="false"
             tools:replace="android:authorities" />
     </application>
 </manifest>
