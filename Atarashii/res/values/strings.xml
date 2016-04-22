@@ -329,7 +329,7 @@
     </string-array>
 
     <!-- BaseActionBarSearchView (Unknown) Strings -->
-    <string name="search_prompt">Search on MAL</string>
+    <string name="search_prompt">Search</string>
 
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Major Contributors</string>
