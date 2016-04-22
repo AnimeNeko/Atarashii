@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -35,6 +36,14 @@ public class MALManager {
         else
             alApi = new ALApi();
         dbMan = new DatabaseManager(context);
+    }
+
+    public MALManager(Activity activity) {
+        if (AccountService.isMAL())
+            malApi = new MALApi(activity);
+        else
+            alApi = new ALApi(activity);
+        dbMan = new DatabaseManager(activity);
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
@@ -239,7 +248,7 @@ public class MALManager {
 
     public void verifyAuthentication() {
         if (AccountService.isMAL())
-            malApi.verifyAuthentication();
+            malApi.isAuth();
         else if (AccountService.getAccesToken() == null)
             alApi.getAccesToken();
     }

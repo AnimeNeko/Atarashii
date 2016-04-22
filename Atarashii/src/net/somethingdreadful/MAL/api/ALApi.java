@@ -1,11 +1,11 @@
 package net.somethingdreadful.MAL.api;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit.Ok3Client;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -23,21 +23,25 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Authenticator;
 import okhttp3.OkHttpClient;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import okhttp3.Request;
+import okhttp3.Route;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ALApi {
-    private static final String anilistURL = "http://anilist.co/api";
+    private static final String anilistURL = "http://anilist.co/api/";
     private static String accesToken;
 
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
     private static final String okUa = okhttp3.internal.Version.userAgent();
     private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
+    private Activity activity = null;
 
     private ALInterface service;
 
@@ -45,15 +49,20 @@ public class ALApi {
         setupRESTService();
     }
 
+    public ALApi(Activity activity) {
+        this.activity = activity;
+        setupRESTService();
+    }
+
     public static String getAnilistURL() {
-        return anilistURL + "/auth/authorize?grant_type=authorization_code&client_id=" + BuildConfig.ANILIST_CLIENT_ID + "&redirect_uri=" + BuildConfig.ANILIST_CLIENT_REDIRECT_URI + "&response_type=code";
+        return anilistURL + "auth/authorize?grant_type=authorization_code&client_id=" + BuildConfig.ANILIST_CLIENT_ID + "&redirect_uri=" + BuildConfig.ANILIST_CLIENT_REDIRECT_URI + "&response_type=code";
     }
 
     public static String getCode(String url) {
         try {
             Uri uri = Uri.parse(url);
             return uri.getQueryParameter("code");
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -64,6 +73,14 @@ public class ALApi {
         client.writeTimeout(60, TimeUnit.SECONDS);
         client.readTimeout(60, TimeUnit.SECONDS);
         client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
+        client.authenticator(new Authenticator() {
+            @Override
+            public Request authenticate(Route route, okhttp3.Response response) throws IOException {
+                return response.request().newBuilder()
+                        .header("Authorization", "Bearer " + accesToken)
+                        .build();
+            }
+        });
 
         if (accesToken == null && AccountService.getAccount() != null)
             accesToken = AccountService.getAccesToken();
@@ -73,156 +90,320 @@ public class ALApi {
                 .setVersion(2)
                 .create();
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new Ok3Client(client.build()))
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addHeader("Authorization", "Bearer " + accesToken);
-                    }
-                })
-                .setEndpoint(anilistURL)
-                .setConverter(new GsonConverter(gson))
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client.build())
+                .baseUrl(anilistURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        service = restAdapter.create(ALInterface.class);
+        service = retrofit.create(ALInterface.class);
     }
 
     public OAuth getAuthCode(String code) {
-        OAuth auth = service.getAuthCode("authorization_code", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, BuildConfig.ANILIST_CLIENT_REDIRECT_URI, code);
-        accesToken = auth.access_token;
-        setupRESTService();
+        retrofit2.Response<OAuth> response = null;
+        OAuth auth = null;
+        try {
+            response = service.getAuthCode("authorization_code", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, BuildConfig.ANILIST_CLIENT_REDIRECT_URI, code).execute();
+            auth = response.body();
+            accesToken = auth.access_token;
+            setupRESTService();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAuthCode", e);
+        }
         return auth;
     }
 
     public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username) {
-        return History.convertBaseHistoryList(service.getActivity(username), username);
+        retrofit2.Response<ArrayList<History>> response = null;
+        try {
+            response = service.getActivity(username).execute();
+            return History.convertBaseHistoryList(response.body(), username);
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getActivity", e);
+            return new ArrayList<>();
+        }
     }
 
     public Profile getCurrentUser() {
-        return service.getCurrentUser().createBaseModel();
+        retrofit2.Response<net.somethingdreadful.MAL.api.ALModels.Profile> response = null;
+        try {
+            response = service.getCurrentUser().execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getCurrentUser", e);
+            return null;
+        }
     }
 
-    public Profile getProfile(String name) {
-        return service.getProfile(name).createBaseModel();
+    public Profile getProfile(String username) {
+        retrofit2.Response<net.somethingdreadful.MAL.api.ALModels.Profile> response = null;
+        try {
+            response = service.getProfile(username).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getProfile", e);
+            return null;
+        }
     }
 
     public UserList getAnimeList(String username) {
-        return service.getAnimeList(username).createBaseModel();
+        retrofit2.Response<net.somethingdreadful.MAL.api.ALModels.AnimeManga.UserList> response = null;
+        try {
+            response = service.getAnimeList(username).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeList", e);
+            return null;
+        }
     }
 
     public UserList getMangaList(String username) {
-        return service.getMangaList(username).createBaseModel();
+        retrofit2.Response<net.somethingdreadful.MAL.api.ALModels.AnimeManga.UserList> response = null;
+        try {
+            response = service.getMangaList(username).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaList", e);
+            return null;
+        }
     }
 
     public void getAccesToken() {
-        OAuth auth = service.getAccesToken("refresh_token", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, AccountService.getRefreshToken());
-        accesToken = AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
-        setupRESTService();
+        retrofit2.Response<OAuth> response = null;
+        try {
+            response = service.getAccesToken("refresh_token", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, AccountService.getRefreshToken()).execute();
+            OAuth auth = response.body();
+            accesToken = AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
+            setupRESTService();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAccesToken", e);
+        }
     }
 
     public Anime getAnime(int id) {
-        return service.getAnime(id).createBaseModel();
+        retrofit2.Response<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime> response = null;
+        try {
+            response = service.getAnime(id).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnime", e);
+            return null;
+        }
     }
 
     public Manga getManga(int id) {
-        return service.getManga(id).createBaseModel();
+        retrofit2.Response<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga> response = null;
+        try {
+            response = service.getManga(id).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getManga", e);
+            return null;
+        }
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        return BrowseAnimeList.convertBaseArray(service.searchAnime(query, page));
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.searchAnime(query, page).execute();
+            return BrowseAnimeList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchAnime", e);
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        return BrowseMangaList.convertBaseArray(service.searchManga(query, page));
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.searchManga(query, page).execute();
+            return BrowseMangaList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchManga", e);
+            return new ArrayList<>();
+        }
     }
 
     public BrowseList getUpcomingManga(int page) {
-        return service.getUpcomingManga(page).createBaseModel();
+        retrofit2.Response<BrowseMangaList> response = null;
+        try {
+            response = service.getUpcomingManga(page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingManga", e);
+            return null;
+        }
     }
 
     public BrowseList getUpcomingAnime(int page) {
-        return service.getUpcomingAnime(page).createBaseModel();
+        retrofit2.Response<BrowseAnimeList> response = null;
+        try {
+            response = service.getUpcomingAnime(page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getJustAddedManga(int page) {
-        return service.getJustAddedManga(page).createBaseModel();
+        retrofit2.Response<BrowseMangaList> response = null;
+        try {
+            response = service.getJustAddedManga(page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedManga", e);
+            return null;
+        }
     }
 
     public BrowseList getJustAddedAnime(int page) {
-        return service.getJustAddedAnime(page).createBaseModel();
+        retrofit2.Response<BrowseAnimeList> response = null;
+        try {
+            response = service.getJustAddedAnime(page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getAiringAnime(int page) {
-        return service.getAiringAnime(page).createBaseModel();
+        retrofit2.Response<BrowseMangaList> response = null;
+        try {
+            response = service.getAiringAnime(page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAiringAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getPublishingManga(int page) {
-        return service.getAiringManga(page).createBaseModel();
+        retrofit2.Response<BrowseMangaList> response = null;
+        try {
+            response = service.getAiringManga(page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getPublishingManga", e);
+            return null;
+        }
     }
 
     public BrowseList getYearAnime(int year, int page) {
-        return service.getYearAnime(year, page).createBaseModel();
+        retrofit2.Response<BrowseAnimeList> response = null;
+        try {
+            response = service.getYearAnime(year, page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getYearAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getYearManga(int year, int page) {
-        return service.getYearManga(year, page).createBaseModel();
+        retrofit2.Response<BrowseMangaList> response = null;
+        try {
+            response = service.getYearManga(year, page).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getYearManga", e);
+            return null;
+        }
     }
 
     public ArrayList<Profile> getFollowers(String user) {
-        return Follow.convertBaseFollowList(service.getFollowers(user));
+        retrofit2.Response<ArrayList<Follow>> response = null;
+        try {
+            response = service.getFollowers(user).execute();
+            return Follow.convertBaseFollowList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getFollowers", e);
+            return null;
+        }
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
-        boolean result;
         if (anime.getCreateFlag())
-            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()).getStatus() == 200;
+            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "addOrUpdateAnime");
         else
-            result = service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()).getStatus() == 200;
-        return result;
+            return APIHelper.isOK(service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "addOrUpdateAnime");
     }
 
     public boolean deleteAnimeFromList(int id) {
-        return service.deleteAnime(id).getStatus() == 200;
+        return APIHelper.isOK(service.deleteAnime(id), "deleteAnimeFromList");
     }
 
     public boolean deleteMangaFromList(int id) {
-        return service.deleteManga(id).getStatus() == 200;
+        return APIHelper.isOK(service.deleteManga(id), "deleteMangaFromList");
     }
 
     public boolean addOrUpdateManga(Manga manga) {
-        boolean result;
         if (manga.getCreateFlag())
-            result = service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
+            return APIHelper.isOK(service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addOrUpdateManga");
         else
-            result = service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
-        return result;
+            return APIHelper.isOK(service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addOrUpdateManga");
     }
 
     public ForumThread getPosts(int id, int page) {
-        return service.getPosts(id, page);
+        retrofit2.Response<ForumThread> response = null;
+        try {
+            response = service.getPosts(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getPosts", e);
+            return null;
+        }
     }
 
     public ForumAL getTags(int id, int page) {
-        return service.getTags(id, page);
+        retrofit2.Response<ForumAL> response = null;
+        try {
+            response = service.getTags(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getTags", e);
+            return null;
+        }
     }
 
     public boolean addComment(int id, String message) {
-        return service.addComment(id, message).getStatus() == 200;
+        return APIHelper.isOK(service.addComment(id, message), "addComment");
     }
 
     public boolean updateComment(int id, String message) {
-        return service.updateComment(id, message).getStatus() == 200;
+        return APIHelper.isOK(service.updateComment(id, message), "updateComment");
     }
 
     public ForumAL search(String Query) {
-        return service.search(Query);
+        retrofit2.Response<ForumAL> response = null;
+        try {
+            response = service.search(Query).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "search", e);
+            return null;
+        }
     }
 
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {
-        return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(service.getAnimeReviews(id, page));
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews>> response = null;
+        try {
+            response = service.getAnimeReviews(id, page).execute();
+            return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeReviews", e);
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<Reviews> getMangaReviews(int id, int page) {
-        return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(service.getMangaReviews(id, page));
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews>> response = null;
+        try {
+            response = service.getMangaReviews(id, page).execute();
+            return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaReviews", e);
+            return new ArrayList<>();
+        }
     }
 }

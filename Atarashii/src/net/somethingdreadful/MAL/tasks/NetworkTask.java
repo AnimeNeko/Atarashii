@@ -21,22 +21,19 @@ import net.somethingdreadful.MAL.widgets.Widget1;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import retrofit.RetrofitError;
-
 public class NetworkTask extends AsyncTask<String, Void, Object> {
     private TaskJob job;
     private MALApi.ListType type;
-    private Activity activity;
+    private Activity activity = null;
     private Context context;
     private Bundle data;
     private NetworkTaskListener callback;
-    private APIAuthenticationErrorListener authErrorCallback;
     private Object taskResult;
     private final TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
             TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
 
-    public NetworkTask(TaskJob job, MALApi.ListType type, Activity activity, Bundle data, NetworkTaskListener callback, APIAuthenticationErrorListener authErrorCallback) {
+    public NetworkTask(TaskJob job, MALApi.ListType type, Activity activity, Bundle data, NetworkTaskListener callback) {
         if (job == null || type == null || activity == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
@@ -44,10 +41,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.activity = activity;
         this.data = data;
         this.callback = callback;
-        this.authErrorCallback = authErrorCallback;
     }
 
-    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback, APIAuthenticationErrorListener authErrorCallback) {
+    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback) {
         if (job == null || type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
@@ -55,7 +51,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.context = context;
         this.data = new Bundle();
         this.callback = callback;
-        this.authErrorCallback = authErrorCallback;
     }
 
     private Context getContext() {
@@ -92,7 +87,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             Crashlytics.setInt("Page", 0);
 
         taskResult = null;
-        MALManager mManager = new MALManager(getContext());
+        MALManager mManager = new MALManager(activity);
 
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(getContext()))
             mManager.verifyAuthentication();
@@ -203,57 +198,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
              */
             if (taskResult == null)
                 return isArrayList() ? new ArrayList<>() : null;
-        } catch (RetrofitError re) {
-            if (re.getResponse() != null && activity != null) {
-                /* Search and Toplist API's are returning an 404 status code if nothing is found (nothing
-                 * found for search, invalid page number for toplists, that is the normal behavior
-                 * and no error. So return an empty list in this case.
-                 */
-                switch (re.getResponse().getStatus()) {
-                    case 400: // Bad Request
-                        Theme.Snackbar(activity, R.string.toast_error_api);
-                        break;
-                    case 401: // Unauthorized
-                        Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): User is not logged in");
-                        Theme.Snackbar(activity, R.string.toast_info_password);
-                        if (re.getResponse().getStatus() == 401 && authErrorCallback != null)
-                            authErrorCallback.onAPIAuthenticationError(type, job);
-                        break;
-                    case 404: // Not Found
-                        if (isArrayList()) {
-                            taskResult = new ArrayList<>();
-                            if (job.equals(TaskJob.SEARCH))
-                                Theme.Snackbar(activity, R.string.toast_error_nothingFound);
-                            else
-                                Theme.Snackbar(activity, R.string.toast_error_Records);
-                        } else {
-                            Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): The requested page was not found");
-                            Crashlytics.logException(re);
-                            Theme.Snackbar(activity, R.string.toast_error_api);
-                        }
-                        break;
-                    case 500: // Internal Server Error
-                        Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): Internal server error, API bug?");
-                        Crashlytics.logException(re);
-                        Theme.Snackbar(activity, R.string.toast_error_api);
-                        break;
-                    case 503: // Service Unavailable
-                    case 504: // Gateway Timeout
-                        Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));
-                        Theme.Snackbar(activity, R.string.toast_error_maintenance);
-                        break;
-                    default:
-                        Theme.Snackbar(activity, R.string.toast_error_Records);
-                        break;
-                }
-                Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
-                Crashlytics.logException(re);
-                return isArrayList() ? new ArrayList<>() : null;
-            } else {
-                Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task unknown API error on job %s: %s", type.toString(), job.name(), re.getMessage()));
-                if (activity != null)
-                    Theme.Snackbar(activity, R.string.toast_error_maintenance);
-            }
         } catch (Exception e) {
             Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;

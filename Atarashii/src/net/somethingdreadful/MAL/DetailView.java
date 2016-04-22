@@ -276,7 +276,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void setMenu() {
         if (menu != null) {
             if (isAdded()) {
-                menu.findItem(R.id.action_Remove).setVisible(!isEmpty() && MALApi.isNetworkAvailable(this));
+                menu.findItem(R.id.action_Remove).setVisible(!isEmpty() && APIHelper.isNetworkAvailable(this));
                 menu.findItem(R.id.action_addToList).setVisible(false);
             } else {
                 menu.findItem(R.id.action_Remove).setVisible(false);
@@ -414,7 +414,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         actionBar.setTitle(R.string.layout_card_loading);
         Bundle data = new Bundle();
         data.putInt("recordID", recordID);
-        new NetworkTask(TaskJob.GETDETAILS, type, this, data, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(forceUpdate));
+        new NetworkTask(TaskJob.GETDETAILS, type, this, data, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(forceUpdate));
     }
 
     public void onStatusDialogDismissed(String currentStatus) {

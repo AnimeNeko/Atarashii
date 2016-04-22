@@ -2,20 +2,14 @@ package net.somethingdreadful.MAL.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.MALManager;
-import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
 
 import java.util.ArrayList;
-
-import retrofit.RetrofitError;
 
 public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> {
     private final ForumNetworkTaskListener callback;
@@ -84,38 +78,6 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                 case UPDATECOMMENT:
                     result.setList(mManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null);
                     break;*/
-            }
-        } catch (RetrofitError re) {
-            if (re.getResponse() != null && activity != null) {
-                switch (re.getResponse().getStatus()) {
-                    case 400: // Bad Request
-                        Theme.Snackbar(activity, R.string.toast_error_api);
-                        break;
-                    case 401: // Unauthorized
-                        Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(1): User is not logged in");
-                        Theme.Snackbar(activity, R.string.toast_info_password);
-                        break;
-                    case 404: // Not Found
-                        Theme.Snackbar(activity, R.string.toast_error_Records);
-                        break;
-                    case 500: // Internal Server Error
-                        Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(2): Internal server error, API bug?");
-                        Crashlytics.logException(re);
-                        Theme.Snackbar(activity, R.string.toast_error_api);
-                        break;
-                    case 503: // Service Unavailable
-                    case 504: // Gateway Timeout
-                        Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(3): " + String.format("%s-task unknown API error on id %s: %s", type.toString(), id, re.getMessage()));
-                        Theme.Snackbar(activity, R.string.toast_error_maintenance);
-                        break;
-                    default:
-                        Theme.Snackbar(activity, R.string.toast_error_Records);
-                        break;
-                }
-                Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(4): " + String.format("%s-task unknown API error on id %s: %s", type.toString(), id, re.getMessage()));
-            } else {
-                Crashlytics.log(Log.ERROR, "MALX", "ForumNetworkTask.doInBackground(5): " + String.format("%s-task unknown API error on id %s: %s", type.toString(), id, re.getMessage()));
-                Theme.Snackbar(activity, R.string.toast_error_maintenance);
             }
         } catch (Exception e) {
             Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);

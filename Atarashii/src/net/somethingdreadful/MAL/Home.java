@@ -86,7 +86,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
             //setup navigation profile information
             username = AccountService.getUsername();
-            new UserNetworkTask(this, false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
+            new UserNetworkTask(false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);

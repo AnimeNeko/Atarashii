@@ -1,15 +1,10 @@
 package net.somethingdreadful.MAL.api;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.app.Activity;
 import android.os.Build;
-import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit.Ok3Client;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -34,18 +29,18 @@ import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Route;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MALApi {
     // Use version 2.0 of the API interface
-    private static final String API_HOST = "https://api.atarashiiapp.com/2";
+    private static final String API_HOST = "https://api.atarashiiapp.com/2/";
 
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
     private static final String okUa = okhttp3.internal.Version.userAgent();
     private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
+    private Activity activity = null;
 
     private MALInterface service;
     private String username;
@@ -55,17 +50,17 @@ public class MALApi {
         setupRESTService(username, AccountService.getPassword());
     }
 
+    public MALApi(Activity activity) {
+        this.activity = activity;
+        username = AccountService.getUsername();
+        setupRESTService(username, AccountService.getPassword());
+    }
+
     /*
      * Only use for verifying.
      */
     public MALApi(String username, String password) {
         setupRESTService(username, password);
-    }
-
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
     }
 
     public static String getListTypeString(ListType type) {
@@ -80,7 +75,6 @@ public class MALApi {
         client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
 
         final String credential = Credentials.basic(username, password);
-
         client.authenticator(new Authenticator() {
             @Override
             public Request authenticate(Route route, okhttp3.Response response) throws IOException {
@@ -99,60 +93,87 @@ public class MALApi {
                 .setVersion(1)
                 .create();
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new Ok3Client(client.build()))
-                .setEndpoint(API_HOST)
-                .setConverter(new GsonConverter(gson))
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client.build())
+                .baseUrl(API_HOST)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        service = restAdapter.create(MALInterface.class);
+        service = retrofit.create(MALInterface.class);
     }
 
     public boolean isAuth() {
-        try {
-            Response response = verifyAuthentication();
-            return response.getStatus() == 200;
-        } catch (RetrofitError e) {
-            if (e.getResponse() != null)
-                Crashlytics.log(Log.ERROR, "MALX", "MALApi.isAuth: " + e.getResponse().getStatus());
-            else
-                Crashlytics.log(Log.ERROR, "MALX", "MALApi.isAuth: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public Response verifyAuthentication() {
-        return service.verifyAuthentication();
+        return APIHelper.isOK(service.verifyAuthentication(), "isAuth");
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        return AnimeList.convertBaseArray(service.searchAnime(query, page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.searchAnime(query, page).execute();
+            return AnimeList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchAnime", e);
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        return MangaList.convertBaseArray(service.searchManga(query, page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.searchManga(query, page).execute();
+            return MangaList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchManga", e);
+            return new ArrayList<>();
+        }
     }
 
     public UserList getAnimeList() {
-        return AnimeList.createBaseModel(service.getAnimeList(username));
+        Response<AnimeList> response = null;
+        try {
+            response = service.getAnimeList(username).execute();
+            return AnimeList.createBaseModel(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeList", e);
+            return null;
+        }
     }
 
     public UserList getMangaList() {
-        return MangaList.createBaseModel(service.getMangaList(username));
+        Response<MangaList> response = null;
+        try {
+            response = service.getMangaList(username).execute();
+            return MangaList.createBaseModel(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaList", e);
+            return null;
+        }
     }
 
     public Anime getAnime(int id, int mine) {
-        return service.getAnime(id, mine).createBaseModel();
+        Response<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime> response = null;
+        try {
+            response = service.getAnime(id, mine).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnime", e);
+            return null;
+        }
     }
 
     public Manga getManga(int id, int mine) {
-        return service.getManga(id, mine).createBaseModel();
+        Response<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga> response = null;
+        try {
+            response = service.getManga(id, mine).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getManga", e);
+            return null;
+        }
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
-        int result = 0;
         if (anime.getCreateFlag())
-            result = service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()).getStatus();
+            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()), "addOrUpdateAnime");
         else {
             if (anime.isDirty()) {
                 // map anime property names to api field names
@@ -183,16 +204,15 @@ public class MALApi {
                         }
                     }
                 }
-                result = service.updateAnime(anime.getId(), fieldMap).getStatus();
+                return APIHelper.isOK(service.updateAnime(anime.getId(), fieldMap), "addOrUpdateAnime");
             }
         }
-        return result >= 200 && result <= 299;
+        return false;
     }
 
     public boolean addOrUpdateManga(Manga manga) {
-        boolean result;
         if (manga.getCreateFlag())
-            result = service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()).getStatus() == 200;
+            return APIHelper.isOK(service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addOrUpdateManga");
         else {
             if (manga.isDirty()) {
                 // map manga property names to api field names
@@ -220,112 +240,250 @@ public class MALApi {
                         }
                     }
                 }
-                result = service.updateManga(manga.getId(), fieldMap).getStatus() == 200;
-            } else {
-                result = false;
+                return APIHelper.isOK(service.updateManga(manga.getId(), fieldMap), "addOrUpdateManga");
             }
         }
-        return result;
+        return false;
     }
 
     public boolean deleteAnimeFromList(int id) {
-        return service.deleteAnime(id).getStatus() == 200;
+        return APIHelper.isOK(service.deleteAnime(id), "deleteAnimeFromList");
     }
 
     public boolean deleteMangaFromList(int id) {
-        return service.deleteManga(id).getStatus() == 200;
+        return APIHelper.isOK(service.deleteManga(id), "deleteMangaFromList");
     }
 
     public BrowseList getMostPopularAnime(int page) {
-        return AnimeList.convertBaseBrowseList(service.getPopularAnime(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getPopularAnime(page).execute();
+            return AnimeList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMostPopularAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getMostPopularManga(int page) {
-        return MangaList.convertBaseBrowseList(service.getPopularManga(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getPopularManga(page).execute();
+            return MangaList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMostPopularManga", e);
+            return null;
+        }
     }
 
     public BrowseList getTopRatedAnime(int page) {
-        return AnimeList.convertBaseBrowseList(service.getTopRatedAnime(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getTopRatedAnime(page).execute();
+            return AnimeList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getTopRatedAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getTopRatedManga(int page) {
-        return MangaList.convertBaseBrowseList(service.getTopRatedManga(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getTopRatedManga(page).execute();
+            return MangaList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getTopRatedManga", e);
+            return null;
+        }
     }
 
     public BrowseList getJustAddedAnime(int page) {
-        return AnimeList.convertBaseBrowseList(service.getJustAddedAnime(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getJustAddedAnime(page).execute();
+            return AnimeList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getJustAddedManga(int page) {
-        return MangaList.convertBaseBrowseList(service.getJustAddedManga(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getJustAddedManga(page).execute();
+            return MangaList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedManga", e);
+            return null;
+        }
     }
 
     public BrowseList getUpcomingAnime(int page) {
-        return AnimeList.convertBaseBrowseList(service.getUpcomingAnime(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getUpcomingAnime(page).execute();
+            return AnimeList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingAnime", e);
+            return null;
+        }
     }
 
     public BrowseList getUpcomingManga(int page) {
-        return MangaList.convertBaseBrowseList(service.getUpcomingManga(page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getUpcomingManga(page).execute();
+            return MangaList.convertBaseBrowseList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingManga", e);
+            return null;
+        }
     }
 
     public Profile getProfile(String user) {
-        return service.getProfile(user).createBaseModel();
+        Response<net.somethingdreadful.MAL.api.MALModels.Profile> response = null;
+        try {
+            response = service.getProfile(user).execute();
+            return response.body().createBaseModel();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getProfile", e);
+            return null;
+        }
     }
 
     public ArrayList<Profile> getFriends(String user) {
-        return Friend.convertBaseFriendList(service.getFriends(user));
+        Response<ArrayList<Friend>> response = null;
+        try {
+            response = service.getFriends(user).execute();
+            return Friend.convertBaseFriendList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getFriends", e);
+            return new ArrayList<>();
+        }
     }
 
     public ForumMain getForum() {
-        return service.getForum();
+        Response<ForumMain> response = null;
+        try {
+            response = service.getForum().execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getForum", e);
+            return null;
+        }
     }
 
     public ForumMain getCategoryTopics(int id, int page) {
-        return service.getCategoryTopics(id, page);
+        Response<ForumMain> response = null;
+        try {
+            response = service.getCategoryTopics(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getCategoryTopics", e);
+            return null;
+        }
     }
 
     public ForumMain getForumAnime(int id, int page) {
-        return service.getForumAnime(id, page);
+        Response<ForumMain> response = null;
+        try {
+            response = service.getForumAnime(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getForumAnime", e);
+            return null;
+        }
     }
 
     public ForumMain getForumManga(int id, int page) {
-        return service.getForumManga(id, page);
+        Response<ForumMain> response = null;
+        try {
+            response = service.getForumManga(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getForumManga", e);
+            return null;
+        }
     }
 
     public ForumMain getPosts(int id, int page) {
-        return service.getPosts(id, page);
+        Response<ForumMain> response = null;
+        try {
+            response = service.getPosts(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getPosts", e);
+            return null;
+        }
     }
 
     public ForumMain getSubBoards(int id, int page) {
-        return service.getSubBoards(id, page);
+        Response<ForumMain> response = null;
+        try {
+            response = service.getSubBoards(id, page).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getSubBoards", e);
+            return null;
+        }
     }
 
     public boolean addComment(int id, String message) {
-        return service.addComment(id, message).getStatus() == 200;
+        return APIHelper.isOK(service.addComment(id, message), "addComment");
     }
 
     public boolean updateComment(int id, String message) {
-        return service.updateComment(id, message).getStatus() == 200;
+        return APIHelper.isOK(service.updateComment(id, message), "updateComment");
     }
 
     public boolean addTopic(int id, String title, String message) {
-        return service.addTopic(id, title, message).getStatus() == 200;
+        return APIHelper.isOK(service.addTopic(id, title, message), "addTopic");
     }
 
     public ForumMain search(String query) {
-        return service.search(query);
+        Response<ForumMain> response = null;
+        try {
+            response = service.search(query).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "search", e);
+            return null;
+        }
     }
 
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {
-        return net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews.convertBaseArray(service.getAnimeReviews(id, page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews>> response = null;
+        try {
+            response = service.getAnimeReviews(id, page).execute();
+            return net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeReviews", e);
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<Reviews> getMangaReviews(int id, int page) {
-        return net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews.convertBaseArray(service.getMangaReviews(id, page));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews>> response = null;
+        try {
+            response = service.getMangaReviews(id, page).execute();
+            return net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaReviews", e);
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username) {
-        return History.convertBaseHistoryList(service.getActivity(username), username);
+        Response<ArrayList<History>> response = null;
+        try {
+            response = service.getActivity(username).execute();
+            return History.convertBaseHistoryList(response.body(), username);
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getActivity", e);
+            return new ArrayList<>();
+        }
     }
 
     public enum ListType {

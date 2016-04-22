@@ -2,12 +2,8 @@ package net.somethingdreadful.MAL.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.PrefManager;
-import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.account.AccountType;
@@ -15,8 +11,6 @@ import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
-
-import retrofit.RetrofitError;
 
 public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
     private final AuthenticationCheckListener callback;
@@ -36,7 +30,7 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
                     AccountService.addAccount(params[0], params[1], AccountType.MyAnimeList);
                 return api.isAuth();
             } else if (params != null) {
-                ALApi api = new ALApi();
+                ALApi api = new ALApi(activity);
 
                 OAuth auth = api.getAuthCode(params[0]);
                 Profile profile = api.getCurrentUser();
@@ -48,23 +42,8 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
                 PrefManager.setNavigationBackground(profile.getImageUrlBanner());
                 return true;
             }
-        } catch (RetrofitError re) {
-            if (re.getResponse() != null && activity != null) {
-                switch (re.getResponse().getStatus()) {
-                    case 503: // Service Unavailable
-                    case 504: // Gateway Timeout
-                        Crashlytics.log(Log.ERROR, "MALX", "AuthenticationCheckTask.doInBackground(1): " + re.getMessage());
-                        Theme.Snackbar(activity, R.string.toast_error_maintenance);
-                        break;
-                    default:
-                        Theme.Snackbar(activity, R.string.toast_error_api);
-                        break;
-                }
-            } else {
-                Theme.Snackbar(activity, R.string.toast_error_maintenance);
-            }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(2)", e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground()", e);
         }
         return false;
     }

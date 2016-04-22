@@ -154,7 +154,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
             Bundle bundle = new Bundle();
             bundle.putInt("page", page);
             int id = activity.isAnime() ? activity.animeRecord.getId() : activity.mangaRecord.getId();
-            new NetworkTask(TaskJob.REVIEWS, activity.type, activity, bundle, activity.reviews, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(id));
+            new NetworkTask(TaskJob.REVIEWS, activity.type, activity, bundle, activity.reviews).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(id));
         } else {
             Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
         }

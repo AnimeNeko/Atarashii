@@ -11,132 +11,133 @@ import net.somethingdreadful.MAL.api.MALModels.Profile;
 import java.util.ArrayList;
 import java.util.Map;
 
-import retrofit.client.Response;
-import retrofit.http.DELETE;
-import retrofit.http.Field;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.PUT;
-import retrofit.http.Path;
-import retrofit.http.Query;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 interface MALInterface {
-    @GET("/account/verify_credentials")
-    Response verifyAuthentication();
+    @GET("account/verify_credentials")
+    Call<ResponseBody> verifyAuthentication();
 
-    @GET("/anime/{anime_id}")
-    Anime getAnime(@Path("anime_id") int anime_id, @Query("mine") int mine);
+    @GET("anime/{anime_id}")
+    Call<Anime> getAnime(@Path("anime_id") int anime_id, @Query("mine") int mine);
 
-    @GET("/anime/search")
-    ArrayList<Anime> searchAnime(@Query("q") String query, @Query("page") int page);
+    @GET("anime/search")
+    Call<ArrayList<Anime>> searchAnime(@Query("q") String query, @Query("page") int page);
 
-    @GET("/anime/popular")
-    ArrayList<Anime> getPopularAnime(@Query("page") int page);
+    @GET("anime/popular")
+    Call<ArrayList<Anime>> getPopularAnime(@Query("page") int page);
 
-    @GET("/anime/top")
-    ArrayList<Anime> getTopRatedAnime(@Query("page") int page);
+    @GET("anime/top")
+    Call<ArrayList<Anime>> getTopRatedAnime(@Query("page") int page);
 
-    @GET("/anime/upcoming")
-    ArrayList<Anime> getUpcomingAnime(@Query("page") int page);
+    @GET("anime/upcoming")
+    Call<ArrayList<Anime>> getUpcomingAnime(@Query("page") int page);
 
-    @GET("/anime/just_added")
-    ArrayList<Anime> getJustAddedAnime(@Query("page") int page);
+    @GET("anime/just_added")
+    Call<ArrayList<Anime>> getJustAddedAnime(@Query("page") int page);
 
-    @GET("/animelist/{username}")
-    AnimeList getAnimeList(@Path("username") String username);
+    @GET("animelist/{username}")
+    Call<AnimeList> getAnimeList(@Path("username") String username);
 
-    @DELETE("/animelist/anime/{anime_id}")
-    Response deleteAnime(@Path("anime_id") int anime_id);
-
-    @FormUrlEncoded
-    @POST("/animelist/anime")
-    Response addAnime(@Field("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes,
-                      @Field("score") float score);
+    @DELETE("animelist/anime/{anime_id}")
+    Call<ResponseBody> deleteAnime(@Path("anime_id") int anime_id);
 
     @FormUrlEncoded
-    @PUT("/animelist/anime/{anime_id}")
-    Response updateAnime(@Path("anime_id") int id, @FieldMap Map<String, String> params);
-
-    @GET("/manga/{manga_id}")
-    Manga getManga(@Path("manga_id") int manga_id, @Query("mine") int mine);
-
-    @GET("/manga/search")
-    ArrayList<Manga> searchManga(@Query("q") String query, @Query("page") int page);
-
-    @GET("/manga/popular")
-    ArrayList<Manga> getPopularManga(@Query("page") int page);
-
-    @GET("/manga/top")
-    ArrayList<Manga> getTopRatedManga(@Query("page") int page);
-
-    @GET("/manga/upcoming")
-    ArrayList<Manga> getUpcomingManga(@Query("page") int page);
-
-    @GET("/manga/just_added")
-    ArrayList<Manga> getJustAddedManga(@Query("page") int page);
-
-    @GET("/mangalist/{username}")
-    MangaList getMangaList(@Path("username") String username);
-
-    @DELETE("/mangalist/manga/{manga_id}")
-    Response deleteManga(@Path("manga_id") int manga_id);
+    @POST("animelist/anime")
+    Call<ResponseBody> addAnime(@Field("anime_id") int id, @Field("status") String status, @Field("episodes") int episodes,
+                          @Field("score") float score);
 
     @FormUrlEncoded
-    @POST("/mangalist/manga")
-    Response addManga(@Field("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters,
+    @PUT("animelist/anime/{anime_id}")
+    Call<ResponseBody> updateAnime(@Path("anime_id") int id, @FieldMap Map<String, String> params);
+
+    @GET("manga/{manga_id}")
+    Call<Manga> getManga(@Path("manga_id") int manga_id, @Query("mine") int mine);
+
+    @GET("manga/search")
+    Call<ArrayList<Manga>> searchManga(@Query("q") String query, @Query("page") int page);
+
+    @GET("manga/popular")
+    Call<ArrayList<Manga>> getPopularManga(@Query("page") int page);
+
+    @GET("manga/top")
+    Call<ArrayList<Manga>> getTopRatedManga(@Query("page") int page);
+
+    @GET("manga/upcoming")
+    Call<ArrayList<Manga>> getUpcomingManga(@Query("page") int page);
+
+    @GET("manga/just_added")
+    Call<ArrayList<Manga>> getJustAddedManga(@Query("page") int page);
+
+    @GET("mangalist/{username}")
+    Call<MangaList> getMangaList(@Path("username") String username);
+
+    @DELETE("mangalist/manga/{manga_id}")
+    Call<ResponseBody> deleteManga(@Path("manga_id") int manga_id);
+
+    @FormUrlEncoded
+    @POST("mangalist/manga")
+    Call<ResponseBody> addManga(@Field("manga_id") int id, @Field("status") String status, @Field("chapters") int chapters,
                       @Field("volumes") int volumes, @Field("score") float score);
 
     @FormUrlEncoded
-    @PUT("/mangalist/manga/{manga_id}")
-    Response updateManga(@Path("manga_id") int id, @FieldMap Map<String, String> params);
+    @PUT("mangalist/manga/{manga_id}")
+    Call<ResponseBody> updateManga(@Path("manga_id") int id, @FieldMap Map<String, String> params);
 
-    @GET("/profile/{username}")
-    Profile getProfile(@Path("username") String username);
+    @GET("profile/{username}")
+    Call<Profile> getProfile(@Path("username") String username);
 
-    @GET("/friends/{username}")
-    ArrayList<net.somethingdreadful.MAL.api.MALModels.Friend> getFriends(@Path("username") String username);
+    @GET("friends/{username}")
+    Call<ArrayList<net.somethingdreadful.MAL.api.MALModels.Friend>> getFriends(@Path("username") String username);
 
-    @GET("/forum")
-    ForumMain getForum();
+    @GET("forum")
+    Call<ForumMain> getForum();
 
-    @GET("/forum/{id}")
-    ForumMain getCategoryTopics(@Path("id") int id, @Query("page") int page);
+    @GET("forum/{id}")
+    Call<ForumMain> getCategoryTopics(@Path("id") int id, @Query("page") int page);
 
-    @GET("/forum/anime/{id}")
-    ForumMain getForumAnime(@Path("id") int id, @Query("page") int page);
+    @GET("forum/anime/{id}")
+    Call<ForumMain> getForumAnime(@Path("id") int id, @Query("page") int page);
 
-    @GET("/forum/manga/{id}")
-    ForumMain getForumManga(@Path("id") int id, @Query("page") int page);
+    @GET("forum/manga/{id}")
+    Call<ForumMain> getForumManga(@Path("id") int id, @Query("page") int page);
 
-    @GET("/forum/topic/{id}")
-    ForumMain getPosts(@Path("id") int id, @Query("page") int page);
+    @GET("forum/topic/{id}")
+    Call<ForumMain> getPosts(@Path("id") int id, @Query("page") int page);
 
-    @GET("/forum/board/{id}")
-    ForumMain getSubBoards(@Path("id") int id, @Query("page") int page);
+    @GET("forum/board/{id}")
+    Call<ForumMain> getSubBoards(@Path("id") int id, @Query("page") int page);
 
-    @GET("/forum/search")
-    ForumMain search(@Query("query") String query);
-
-    @FormUrlEncoded
-    @POST("/forum/topic/{id}")
-    Response addComment(@Path("id") int id, @Field("message") String message);
+    @GET("forum/search")
+    Call<ForumMain> search(@Query("query") String query);
 
     @FormUrlEncoded
-    @PUT("/forum/topic/{id}")
-    Response updateComment(@Path("id") int id, @Field("message") String message);
+    @POST("forum/topic/{id}")
+    Call<ResponseBody> addComment(@Path("id") int id, @Field("message") String message);
 
     @FormUrlEncoded
-    @POST("/forum/{id}")
-    Response addTopic(@Path("id") int id, @Field("title") String title, @Field("message") String message);
+    @PUT("forum/topic/{id}")
+    Call<ResponseBody> updateComment(@Path("id") int id, @Field("message") String message);
 
-    @GET("/anime/reviews/{id}")
-    ArrayList<Reviews> getAnimeReviews(@Path("id") int id, @Query("page") int page);
+    @FormUrlEncoded
+    @POST("forum/{id}")
+    Call<ResponseBody> addTopic(@Path("id") int id, @Field("title") String title, @Field("message") String message);
 
-    @GET("/manga/reviews/{id}")
-    ArrayList<Reviews> getMangaReviews(@Path("id") int id, @Query("page") int page);
+    @GET("anime/reviews/{id}")
+    Call<ArrayList<Reviews>> getAnimeReviews(@Path("id") int id, @Query("page") int page);
 
-    @GET("/history/{username}")
-    ArrayList<net.somethingdreadful.MAL.api.MALModels.History> getActivity(@Path("username") String username);
+    @GET("manga/reviews/{id}")
+    Call<ArrayList<Reviews>> getMangaReviews(@Path("id") int id, @Query("page") int page);
+
+    @GET("history/{username}")
+    Call<ArrayList<net.somethingdreadful.MAL.api.MALModels.History>> getActivity(@Path("username") String username);
 }

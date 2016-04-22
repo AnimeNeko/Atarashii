@@ -388,7 +388,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             }
             Bundle data = new Bundle();
             data.putInt("page", page);
-            networkTask = new NetworkTask(taskjob, listType, activity, data, this, getAuthErrorCallback());
+            networkTask = new NetworkTask(taskjob, listType, activity, data, this);
             ArrayList<String> args = new ArrayList<>();
             if (isList()) {
                 args.add(MALManager.listSortFromInt(list, listType));
