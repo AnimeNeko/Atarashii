@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.Backup;
@@ -61,7 +62,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             }
 
             // check if the network is available
-            if (MALApi.isNetworkAvailable(context)) {
+            if (APIHelper.isNetworkAvailable(context)) {
                 // clean dirty records to pull all the changes
                 mManager.cleanDirtyAnimeRecords();
                 mManager.cleanDirtyMangaRecords();

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
@@ -26,7 +26,7 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
         this.activity = activity;
-        this.maxCount = MALApi.isNetworkAvailable(activity) ? maxCount : maxCount - 1;
+        this.maxCount = APIHelper.isNetworkAvailable(activity) ? maxCount : maxCount - 1;
         this.count = getMaxcount();
     }
 

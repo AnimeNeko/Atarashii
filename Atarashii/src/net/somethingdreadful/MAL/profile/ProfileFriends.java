@@ -22,8 +22,8 @@ import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     public void onFriendsNetworkTaskFinished(ArrayList<Profile> result) {
         if (result != null) {
             listarray = result;
-            if (result.size() == 0 && !MALApi.isNetworkAvailable(activity))
+            if (result.size() == 0 && !APIHelper.isNetworkAvailable(activity))
                 toggle(2);
             else
                 refresh(); // show toast only if sync was forced
@@ -116,7 +116,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (MALApi.isNetworkAvailable(activity)) {
+        if (APIHelper.isNetworkAvailable(activity)) {
             Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
             profile.putExtra("username", listarray.get(position).getUsername());
             startActivity(profile);

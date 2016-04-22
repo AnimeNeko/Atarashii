@@ -31,8 +31,8 @@ import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALApi;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -275,7 +275,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     public void refresh() {
         try {
             if (activity.record == null) {
-                if (MALApi.isNetworkAvailable(activity)) {
+                if (APIHelper.isNetworkAvailable(activity)) {
                     Theme.Snackbar(activity, R.string.toast_error_UserRecord);
                 } else {
                     toggle(2);

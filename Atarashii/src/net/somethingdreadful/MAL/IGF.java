@@ -31,6 +31,7 @@ import com.crashlytics.android.answers.ContentViewEvent;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -454,7 +455,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (Gridview.getAdapter() == null)
                 Gridview.setAdapter(ga);
         } catch (Exception e) {
-            if (MALApi.isNetworkAvailable(context)) {
+            if (APIHelper.isNetworkAvailable(context)) {
                 Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
                 Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {

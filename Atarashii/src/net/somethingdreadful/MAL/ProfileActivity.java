@@ -15,8 +15,8 @@ import com.crashlytics.android.answers.ContentViewEvent;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 finish();
                 break;
             case R.id.forceSync:
-                if (MALApi.isNetworkAvailable(context)) {
+                if (APIHelper.isNetworkAvailable(context)) {
                     refreshing(true);
                     getRecords();
                 } else {
@@ -114,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
 
     private void refresh() {
         if (record == null) {
-            if (MALApi.isNetworkAvailable(context)) {
+            if (APIHelper.isNetworkAvailable(context)) {
                 Theme.Snackbar(this, R.string.toast_error_UserRecord);
             } else {
                 toggle(2);

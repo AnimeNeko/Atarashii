@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -76,7 +77,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             return null;
         }
 
-        if (!MALApi.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GETDETAILS)) {
+        if (!APIHelper.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GETDETAILS)) {
             if (activity != null)
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
@@ -93,7 +94,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         taskResult = null;
         MALManager mManager = new MALManager(getContext());
 
-        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(getContext()))
+        if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(getContext()))
             mManager.verifyAuthentication();
 
         try {
@@ -143,7 +144,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             // Get Anime from database
                             Anime record = mManager.getAnime(data.getInt("recordID", -1));
 
-                            if (MALApi.isNetworkAvailable(activity)) {
+                            if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
                                 if (record == null)
                                     record = mManager.getAnimeRecord(data.getInt("recordID", -1));
@@ -165,7 +166,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             // Get Manga from database
                             Manga record = mManager.getManga(data.getInt("recordID", -1));
 
-                            if (MALApi.isNetworkAvailable(activity)) {
+                            if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
                                 if (record == null)
                                     record = mManager.getMangaRecord(data.getInt("recordID", -1));

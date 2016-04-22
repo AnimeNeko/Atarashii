@@ -11,8 +11,8 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALApi;
 
 import java.util.ArrayList;
 
@@ -40,11 +40,11 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
         }
         MALManager mManager = new MALManager(context);
         try {
-            if (forcesync && MALApi.isNetworkAvailable(context)) {
+            if (forcesync && APIHelper.isNetworkAvailable(context)) {
                 result = mManager.downloadAndStoreFriendList(params[0]);
             } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
                 result = mManager.getFriendListFromDB();
-                if ((result == null || result.isEmpty()) && MALApi.isNetworkAvailable(context))
+                if ((result == null || result.isEmpty()) && APIHelper.isNetworkAvailable(context))
                     result = mManager.downloadAndStoreFriendList(params[0]);
             } else {
                 result = mManager.downloadAndStoreFriendList(params[0]);

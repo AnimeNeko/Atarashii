@@ -22,7 +22,7 @@ import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -95,7 +95,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
     public void refresh() {
         if (activity.record == null) {
-            if (MALApi.isNetworkAvailable(activity))
+            if (APIHelper.isNetworkAvailable(activity))
                 Theme.Snackbar(activity, R.string.toast_error_UserRecord);
             else
                 toggle(2);

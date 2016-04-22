@@ -10,8 +10,8 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
-import net.somethingdreadful.MAL.api.MALApi;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
     protected ArrayList<Forum> doInBackground(String... params) {
         ArrayList<Forum> result = new ArrayList<>();
         MALManager mManager = new MALManager(activity);
-        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(activity))
+        if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
             mManager.verifyAuthentication();
 
         try {

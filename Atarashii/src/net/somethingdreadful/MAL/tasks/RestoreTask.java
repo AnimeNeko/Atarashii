@@ -11,8 +11,8 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Backup;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.database.DatabaseManager;
 
 import java.io.BufferedReader;
@@ -60,7 +60,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             mManager.verifyAuthentication();
 
             // check if the network is available
-            if (MALApi.isNetworkAvailable(activity)) {
+            if (APIHelper.isNetworkAvailable(activity)) {
                 // clean dirty records to pull all the changes
                 mManager.cleanDirtyAnimeRecords();
                 mManager.cleanDirtyMangaRecords();

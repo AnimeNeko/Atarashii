@@ -24,7 +24,7 @@ import com.crashlytics.android.answers.LoginEvent;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
 import butterknife.Bind;
@@ -87,7 +87,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 }
             }
         });
-        if (MALApi.isNetworkAvailable(this)) {
+        if (APIHelper.isNetworkAvailable(this)) {
             webview.loadUrl(ALApi.getAnilistURL());
             loaded = true;
         }
@@ -97,7 +97,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     }
 
     private void tryConnection() {
-        if (MALApi.isNetworkAvailable(this)) {
+        if (APIHelper.isNetworkAvailable(this)) {
             dialog = new ProgressDialog(this);
             dialog.setIndeterminate(true);
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -141,7 +141,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 finish();
             } else {
                 dialog.dismiss();
-                if (MALApi.isNetworkAvailable(this))
+                if (APIHelper.isNetworkAvailable(this))
                     Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
                 else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
@@ -178,7 +178,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 viewFlipper.setDisplayedChild(1);
                 break;
             case R.id.anilist:
-                if (MALApi.isNetworkAvailable(this)) {
+                if (APIHelper.isNetworkAvailable(this)) {
                     if (!loaded)
                         webview.loadUrl(ALApi.getAnilistURL());
                     viewFlipper.setDisplayedChild(2);

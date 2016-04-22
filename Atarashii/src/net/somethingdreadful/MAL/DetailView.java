@@ -24,6 +24,7 @@ import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -477,7 +478,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 addToList();
                 break;
             case R.id.action_viewTopic:
-                if (MALApi.isNetworkAvailable(context)) {
+                if (APIHelper.isNetworkAvailable(context)) {
                     Intent forumActivity = new Intent(this, ForumActivity.class);
                     forumActivity.putExtra("id", recordID);
                     forumActivity.putExtra("listType", type);

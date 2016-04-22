@@ -20,6 +20,7 @@ import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.MALApi;
 
@@ -115,7 +116,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
         if (activity.isDone())
             setText();
-        else if (!MALApi.isNetworkAvailable(activity))
+        else if (!APIHelper.isNetworkAvailable(activity))
             toggleView(false);
         return view;
     }

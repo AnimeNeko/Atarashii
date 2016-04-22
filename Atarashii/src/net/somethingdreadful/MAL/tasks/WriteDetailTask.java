@@ -12,10 +12,10 @@ import net.somethingdreadful.MAL.MALManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.widgets.Widget1;
@@ -40,11 +40,11 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         boolean error = false;
         MALManager manager = new MALManager(activity);
 
-        if (!AccountService.isMAL() && MALApi.isNetworkAvailable(activity))
+        if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
             manager.verifyAuthentication();
 
         try {
-            if (MALApi.isNetworkAvailable(activity)) {
+            if (APIHelper.isNetworkAvailable(activity)) {
                 if (type.equals(ListType.ANIME)) {
                     Anime anime = (Anime) gr[0];
                     if (manager.writeAnimeDetails(anime))

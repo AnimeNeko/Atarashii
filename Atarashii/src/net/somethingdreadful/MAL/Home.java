@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
@@ -343,9 +344,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     private void checkNetworkAndDisplayCrouton() {
-        if (MALApi.isNetworkAvailable(this) && !networkAvailable)
+        if (APIHelper.isNetworkAvailable(this) && !networkAvailable)
             synctask(false);
-        networkAvailable = MALApi.isNetworkAvailable(this);
+        networkAvailable = APIHelper.isNetworkAvailable(this);
     }
 
     @Override
@@ -517,7 +518,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(Friends);
                 break;
             case R.id.nav_forum:
-                if (MALApi.isNetworkAvailable(this))
+                if (APIHelper.isNetworkAvailable(this))
                     startActivity(new Intent(this, ForumActivity.class));
                 else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);

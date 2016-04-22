@@ -28,8 +28,8 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -150,7 +150,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
             //TODO toggle(true);
             this.page = page;
         loading = true;
-        if (MALApi.isNetworkAvailable(activity)) {
+        if (APIHelper.isNetworkAvailable(activity)) {
             Bundle bundle = new Bundle();
             bundle.putInt("page", page);
             int id = activity.isAnime() ? activity.animeRecord.getId() : activity.mangaRecord.getId();
@@ -305,7 +305,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.coverImage: // Show the profile
-                    if (MALApi.isNetworkAvailable(activity)) {
+                    if (APIHelper.isNetworkAvailable(activity)) {
                         Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
                         profile.putExtra("username", record.get(getAdapterPosition()).getUser().getUsername());
                         startActivity(profile);

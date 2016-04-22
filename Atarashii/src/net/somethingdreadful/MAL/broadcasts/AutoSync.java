@@ -16,6 +16,7 @@ import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
@@ -34,7 +35,7 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
         }
         PrefManager.create(context);
         AccountService.create(context);
-        if (MALApi.isNetworkAvailable(context) && AccountService.getAccount() != null) {
+        if (APIHelper.isNetworkAvailable(context) && AccountService.getAccount() != null) {
             Intent notificationIntent = new Intent(context, Home.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             if (networkChange(intent) && !PrefManager.getAutosyncDone() || !networkChange(intent)) {
