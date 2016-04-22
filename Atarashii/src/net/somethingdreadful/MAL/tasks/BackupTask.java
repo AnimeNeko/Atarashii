@@ -55,7 +55,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             directory.mkdirs();
 
             if (PrefManager.getBackupLength() < directory.listFiles().length) {
-                Crashlytics.log(Log.INFO, "MALX", "BackupTask.saveBackup(): Backup limit reached: " + PrefManager.getBackupLength() + " records: " + directory.length());
+                Crashlytics.log(Log.INFO, "Atarashii", "BackupTask.saveBackup(): Backup limit reached: " + PrefManager.getBackupLength() + " records: " + directory.length());
                 Collections.addAll(files, directory.listFiles());
                 File file = new File(files.get(0).getAbsolutePath());
                 file.delete();
@@ -92,7 +92,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             outputStreamWriter.close();
 
             // notify user
-            Crashlytics.log(Log.INFO, "MALX", "BackupTask.saveBackup(): Backup has been created");
+            Crashlytics.log(Log.INFO, "Atarashii", "BackupTask.saveBackup(): Backup has been created");
             if (callback != null)
                 callback.onBackupTaskFinished();
         } catch (Exception e) {

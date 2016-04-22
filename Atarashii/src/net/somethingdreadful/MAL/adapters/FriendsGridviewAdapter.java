@@ -81,7 +81,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
                     .transform(new RoundedTransformation(record.getUsername()))
                     .into(viewHolder.avatar);
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
             Crashlytics.logException(e);
         }
         return view;

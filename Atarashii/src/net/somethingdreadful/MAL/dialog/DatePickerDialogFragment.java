@@ -31,7 +31,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
             if (getArguments().getString("current") != null && !getArguments().getString("current").equals("0-00-00"))
                 current = sdf.parse(getArguments().getString("current"));
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatePickerDialogFragment.onCreateDialog(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatePickerDialogFragment.onCreateDialog(): " + e.getMessage());
             Crashlytics.logException(e);
         }
 

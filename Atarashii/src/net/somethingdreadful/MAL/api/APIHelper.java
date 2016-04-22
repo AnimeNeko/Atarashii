@@ -32,9 +32,9 @@ public class APIHelper {
             return response.isSuccessful();
         } catch (Exception e) {
             if (response != null)
-                Crashlytics.log(Log.ERROR, "MALX", "MALApi." + methodName + "(): " + response.message());
+                Crashlytics.log(Log.ERROR, "Atarashii", "MALApi." + methodName + "(): " + response.message());
             else
-                Crashlytics.log(Log.ERROR, "MALX", "MALApi." + methodName + "(): " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "Atarashii", "MALApi." + methodName + "(): " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -51,13 +51,13 @@ public class APIHelper {
      */
     public static void logE(Activity activity, Response response, String className, String methodName, Exception e) {
         if (response != null && activity != null) {
-            Crashlytics.log(Log.ERROR, "MALX", className + "." + methodName + "(): " + response.message());
+            Crashlytics.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + response.message());
             switch (response.code()) {
                 case 400: // Bad Request
                     Theme.Snackbar(activity, R.string.toast_error_api);
                     break;
                 case 401: // Unauthorized
-                    Crashlytics.log(Log.ERROR, "MALX", className + ".doInBackground(): User is not logged in");
+                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): User is not logged in");
                     Theme.Snackbar(activity, R.string.toast_info_password);
                     break;
                 case 404: // Not Found
@@ -65,24 +65,24 @@ public class APIHelper {
                         Theme.Snackbar(activity, R.string.toast_error_nothingFound);
                     else
                         Theme.Snackbar(activity, R.string.toast_error_Records);
-                    Crashlytics.log(Log.ERROR, "MALX", className + ".doInBackground(): Error while getting records");
+                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Error while getting records");
                     break;
                 case 500: // Internal Server Error
-                    Crashlytics.log(Log.ERROR, "MALX", className + ".doInBackground(): Internal server error, API bug?");
+                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Internal server error, API bug?");
                     Theme.Snackbar(activity, R.string.toast_error_api);
                     break;
                 case 503: // Service Unavailable
                 case 504: // Gateway Timeout
-                    Crashlytics.log(Log.ERROR, "MALX", className + ".doInBackground(): Gateway Timeout");
+                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Gateway Timeout");
                     Theme.Snackbar(activity, R.string.toast_error_maintenance);
                     break;
                 default:
                     Theme.Snackbar(activity, R.string.toast_error_Records);
-                    Crashlytics.log(Log.ERROR, "MALX", className + ".doInBackground(): Unknown API error: " + response.code());
+                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Unknown API error: " + response.code());
                     break;
             }
         } else {
-            Crashlytics.log(Log.ERROR, "MALX", className + "." + methodName + "(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + e.getMessage());
         }
         Crashlytics.logException(e);
         e.printStackTrace();

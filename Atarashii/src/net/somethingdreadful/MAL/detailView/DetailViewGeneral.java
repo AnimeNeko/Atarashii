@@ -205,7 +205,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                             cardMain.wrapImage(225, 320);
                             image.setImageDrawable(drawable);
                         } catch (Exception e) {
-                            Crashlytics.log(Log.ERROR, "MALX", "DetailViewGeneral.setText(): " + e.getMessage());
+                            Crashlytics.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
                         }
                     }
 

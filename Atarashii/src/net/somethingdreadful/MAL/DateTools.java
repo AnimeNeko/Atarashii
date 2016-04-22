@@ -99,7 +99,7 @@ public class DateTools {
                 return dateFormatter.format(date);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DateTools.getDate(): " + date.toString() + ": " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DateTools.getDate(): " + date.toString() + ": " + e.getMessage());
             Crashlytics.logException(e);
         }
         return null;
@@ -131,7 +131,7 @@ public class DateTools {
         try {
             return (new SimpleDateFormat(formatter, Locale.getDefault())).parse(date);
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DateTools.getDate(): " + formatter + ": " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DateTools.getDate(): " + formatter + ": " + e.getMessage());
             Crashlytics.logException(e);
         }
         return null;

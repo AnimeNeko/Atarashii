@@ -74,7 +74,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateTitles(anime.getId(), true, anime.getTitleJapanese(), anime.getTitleEnglish(), anime.getTitleSynonyms(), anime.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnime(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnime(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -118,7 +118,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_ANIME, cv, anime.getId());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveAnimeList(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnimeList(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -158,7 +158,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateTitles(manga.getId(), false, manga.getTitleJapanese(), manga.getTitleEnglish(), manga.getTitleSynonyms(), manga.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveManga(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveManga(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -195,7 +195,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_MANGA, cv, manga.getId());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveMangaList(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveMangaList(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -363,7 +363,7 @@ public class DatabaseManager {
                 result.add(Anime.fromCursor(cursor));
             while (cursor.moveToNext());
         }
-        Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
+        Crashlytics.log(Log.INFO, "Atarashii", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
         cursor.close();
         GenericRecord.setFromCursor(false);
         return result;
@@ -378,7 +378,7 @@ public class DatabaseManager {
             while (cursor.moveToNext());
         }
         cursor.close();
-        Crashlytics.log(Log.INFO, "MALX", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
+        Crashlytics.log(Log.INFO, "Atarashii", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
         GenericRecord.setFromCursor(false);
         return result;
     }
@@ -420,7 +420,7 @@ public class DatabaseManager {
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveFriendList(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveFriendList(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -481,7 +481,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_PROFILE, cv, profile.getUsername());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.saveProfile(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveProfile(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -541,7 +541,7 @@ public class DatabaseManager {
                 db.update(DatabaseHelper.TABLE_MANGA, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.addWidgetRecord(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.addWidgetRecord(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -562,7 +562,7 @@ public class DatabaseManager {
             db.update(DatabaseHelper.TABLE_ANIME, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(oldId)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.updateWidgetRecord(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.updateWidgetRecord(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -602,7 +602,7 @@ public class DatabaseManager {
             db.update(DatabaseHelper.TABLE_MANGA, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.removeWidgetRecord(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.removeWidgetRecord(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -616,7 +616,7 @@ public class DatabaseManager {
             result = db.delete(DatabaseHelper.TABLE_ANIME, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.deleteAnime(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.deleteAnime(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();
@@ -633,7 +633,7 @@ public class DatabaseManager {
             result = db.delete(DatabaseHelper.TABLE_MANGA, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatabaseManager.deleteManga(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.deleteManga(): " + e.getMessage());
             Crashlytics.logException(e);
         } finally {
             db.endTransaction();

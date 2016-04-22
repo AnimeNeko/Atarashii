@@ -213,7 +213,7 @@ public class Table {
         try {
             db.execSQL(queryString);
         } catch (Exception e) {
-            Crashlytics.log(Log.INFO, "MALX", "Table.run(" + toString() + "): " + e.getMessage());
+            Crashlytics.log(Log.INFO, "Atarashii", "Table.run(" + toString() + "): " + e.getMessage());
         }
     }
 

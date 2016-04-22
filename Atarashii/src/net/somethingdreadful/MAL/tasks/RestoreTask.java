@@ -69,7 +69,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             }
 
             // notify user
-            Crashlytics.log(Log.INFO, "MALX", "RestoreTask.restoreBackup(): Backup has been created");
+            Crashlytics.log(Log.INFO, "Atarashii", "RestoreTask.restoreBackup(): Backup has been created");
             if (callback != null)
                 callback.onRestoreTaskFinished();
         } catch (Exception e) {

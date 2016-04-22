@@ -86,7 +86,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     System.exit(0);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());
             Crashlytics.logException(e);
         }
     }

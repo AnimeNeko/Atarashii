@@ -68,7 +68,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
                 Theme.Snackbar(activity, R.string.toast_error_Records);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ProfileHistory.apply(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "ProfileHistory.apply(): " + e.getMessage());
             Crashlytics.logException(e);
             e.printStackTrace();
         }

@@ -89,7 +89,7 @@ public class Theme extends Application {
      */
     public static void logTaskCrash(String className, String message, Exception e) {
         try {
-            Crashlytics.log(Log.ERROR, "MALX", className + "." + message + ": " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", className + "." + message + ": " + e.getMessage());
             Crashlytics.logException(e);
             e.printStackTrace();
             Answers.getInstance().logCustom(new CustomEvent("Error (Task)").putCustomAttribute(className, message));

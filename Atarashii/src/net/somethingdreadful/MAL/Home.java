@@ -448,7 +448,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             image.setOnClickListener(this);
             image2.setOnClickListener(this);
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
         }
     }
 

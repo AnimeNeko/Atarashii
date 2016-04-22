@@ -68,7 +68,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     @Override
     protected Object doInBackground(String... params) {
         if (job == null) {
-            Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): No job identifier, don't know what to do");
+            Crashlytics.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): No job identifier, don't know what to do");
             return null;
         }
 
@@ -147,7 +147,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                 // Check if the record is on the animelist.
                                 // after that load details if synopsis == null or else return the DB record
                                 if ((record.getSynopsis() == null || params[0].equals("true")) && record.getWatchedStatus() != null) {
-                                    Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                                    Crashlytics.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                                     taskResult = mManager.updateWithDetails(record.getId(), record);
                                 } else {
                                     taskResult = record;
@@ -169,7 +169,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                 // Check if the record is on the mangalist
                                 // load details if synopsis == null or else return the DB record
                                 if ((record.getSynopsis() == null || params[0].equals("true")) && record.getReadStatus() != null) {
-                                    Crashlytics.log(Log.INFO, "MALX", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                                    Crashlytics.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                                     taskResult = mManager.updateWithDetails(record.getId(), record);
                                 } else {
                                     taskResult = record;
@@ -190,7 +190,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         taskResult = isAnimeTask() ? mManager.getAnimeReviews(Integer.parseInt(params[0]), page) : mManager.getMangaReviews(Integer.parseInt(params[0]), page);
                     break;
                 default:
-                    Crashlytics.log(Log.ERROR, "MALX", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
+                    Crashlytics.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }
             /* if result is still null at this point there was no error but the API returned an empty result
              * (e. g. an empty anime-/mangalist), so create an empty list to let the callback know that

@@ -83,7 +83,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
             listadapter.supportAddAll(listarray);
         } catch (Exception e) {
             Crashlytics.logException(e);
-            Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.refresh(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "FriendsActivity.refresh(): " + e.getMessage());
         }
         listadapter.notifyDataSetChanged();
         toggle(0);

@@ -96,7 +96,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
                 inputScore = true;
             return getArguments().getInt(key);
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
             return 0;
         }
     }

@@ -121,7 +121,7 @@ public class BackupActivity extends AppCompatActivity implements AdapterView.OnI
             backupGridviewAdapter.supportAddAll(files);
             backupGridviewAdapter.notifyDataSetChanged();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.refresh(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "BackupActivity.refresh(): " + e.getMessage());
             Crashlytics.logException(e);
         }
         toggle(0);

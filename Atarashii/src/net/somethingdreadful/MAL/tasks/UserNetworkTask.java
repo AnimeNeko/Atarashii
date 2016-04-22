@@ -30,7 +30,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
     protected Profile doInBackground(String... params) {
         Profile result = null;
         if (params == null) {
-            Crashlytics.log(Log.ERROR, "MALX", "UserNetworkTask.doInBackground(): No username to fetch profile");
+            Crashlytics.log(Log.ERROR, "Atarashii", "UserNetworkTask.doInBackground(): No username to fetch profile");
             return null;
         }
         ContentManager mManager = new ContentManager(activity);

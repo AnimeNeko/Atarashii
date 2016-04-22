@@ -54,7 +54,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 }
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "WriteDetailTask.doInBackground(5, " + type + "): " + job + "-task unknown API error (?): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "WriteDetailTask.doInBackground(5, " + type + "): " + job + "-task unknown API error (?): " + e.getMessage());
             Crashlytics.logException(e);
             error = true;
         }

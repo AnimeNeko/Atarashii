@@ -37,7 +37,7 @@ public class AccountService extends Service {
      * This is used for Account upgrade purpose
      */
     private static void onUpgrade() {
-        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + String.valueOf(accountVersion) + ".");
+        Crashlytics.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading to " + String.valueOf(accountVersion) + ".");
         setAccountVersion(accountVersion);
         switch (accountVersion) {
             case 1:
@@ -189,10 +189,10 @@ public class AccountService extends Service {
             Long expireTime = Long.parseLong(accountManager.getUserData(getAccount(), "accesTokenTime"));
             Long time = System.currentTimeMillis() / 1000;
             Long timeLeft = expireTime - time;
-            Crashlytics.log(Log.INFO, "MALX", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
+            Crashlytics.log(Log.INFO, "Atarashii", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
             return timeLeft >= 0 ? token : null;
         } catch (Exception e) {
-            Crashlytics.log(Log.INFO, "MALX", "AccountService: The expire time could not be received.");
+            Crashlytics.log(Log.INFO, "Atarashii", "AccountService: The expire time could not be received.");
             return null;
         }
     }

@@ -180,7 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Crashlytics.log(Log.INFO, "MALX", "DatabaseTest.OnUpgrade(): Upgrading database from version " + oldVersion + " to " + newVersion);
+        Crashlytics.log(Log.INFO, "Atarashii", "DatabaseTest.OnUpgrade(): Upgrading database from version " + oldVersion + " to " + newVersion);
         try {
             /**
              * Date: 14-11-2015
@@ -256,6 +256,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             System.exit(0);
         }
 
-        Crashlytics.log(Log.INFO, "MALX", "DatabaseTest.OnUpgrade(): Database upgrade finished");
+        Crashlytics.log(Log.INFO, "Atarashii", "DatabaseTest.OnUpgrade(): Database upgrade finished");
     }
 }

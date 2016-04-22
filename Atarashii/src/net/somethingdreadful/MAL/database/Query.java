@@ -323,7 +323,7 @@ public class Query {
      */
     @SuppressWarnings("deprecation")
     private void log(String method, String message, boolean error) {
-        Crashlytics.log(error ? Log.ERROR : Log.INFO, "MALX", "Query." + method + "(" + toString() + "): " + message);
+        Crashlytics.log(error ? Log.ERROR : Log.INFO, "Atarashii", "Query." + method + "(" + toString() + "): " + message);
     }
 
     /**

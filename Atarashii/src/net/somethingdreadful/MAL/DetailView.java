@@ -103,7 +103,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 reviews.getRecords(1);
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DetailView.setText(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
             if (!(e instanceof IllegalStateException))
                 Crashlytics.logException(e);
         }
@@ -527,7 +527,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                     new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DetailView.onPause(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.onPause(): " + e.getMessage());
             Crashlytics.logException(e);
         }
     }
@@ -563,7 +563,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             // setup beam functionality (if NFC is available)
             NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
             if (mNfcAdapter == null) {
-                Crashlytics.log(Log.INFO, "MALX", "DetailView.setupBeam(): NFC not available");
+                Crashlytics.log(Log.INFO, "Atarashii", "DetailView.setupBeam(): NFC not available");
             } else {
                 // Register NFC callback
                 String message_str = type.toString() + ":" + String.valueOf(recordID);
@@ -577,7 +577,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 mNfcAdapter.setNdefPushMessage(message, this);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DetailView.setupBeam(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.setupBeam(): " + e.getMessage());
             Crashlytics.logException(e);
         }
     }
@@ -595,7 +595,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
             setText();
         } catch (ClassCastException e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             Crashlytics.logException(e);
             Theme.Snackbar(this, R.string.toast_error_DetailsError);
         }

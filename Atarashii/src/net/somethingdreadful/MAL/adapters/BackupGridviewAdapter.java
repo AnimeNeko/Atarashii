@@ -81,7 +81,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
             else
                 viewHolder.username.setTextColor(ContextCompat.getColor(context, Theme.darkTheme ? R.color.text_dark : android.R.color.black));
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "BackupActivity.ListViewAdapter(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "BackupActivity.ListViewAdapter(): " + e.getMessage());
             Crashlytics.logException(e);
         }
         return view;

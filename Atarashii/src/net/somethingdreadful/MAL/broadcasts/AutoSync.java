@@ -31,7 +31,7 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
     @Override
     public void onReceive(Context context, Intent intent) {
         if (context == null) {
-            Crashlytics.log(Log.ERROR, "MALX", "AutoSync.onReceive(): context is null");
+            Crashlytics.log(Log.ERROR, "Atarashii", "AutoSync.onReceive(): context is null");
             return;
         }
         PrefManager.create(context);

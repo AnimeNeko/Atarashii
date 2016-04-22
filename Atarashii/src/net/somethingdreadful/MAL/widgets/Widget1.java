@@ -51,7 +51,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
 
         Fabric.with(c, new Crashlytics());
         Fabric.with(c, new Answers());
-        Crashlytics.log(Log.INFO, "MALX", "Widget1.onUpdate(): " + ids.length + " widgets and " + number + " records");
+        Crashlytics.log(Log.INFO, "Atarashii", "Widget1.onUpdate(): " + ids.length + " widgets and " + number + " records");
         Answers.getInstance().logCustom(new CustomEvent("Widget").putCustomAttribute("Widgets", ids.length));
 
         int updates = ids.length <= number ? ids.length : number;
@@ -166,13 +166,13 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                     if (number > ids.length) {
                         for (int i = 0; i < (number - ids.length); i++)
                             db.removeWidgetRecord();
-                        Crashlytics.log(Log.INFO, "MALX", "Widget1.onUpdate(): Removing " + (number - ids.length) + " widget records");
+                        Crashlytics.log(Log.INFO, "Atarashii", "Widget1.onUpdate(): Removing " + (number - ids.length) + " widget records");
                     }
                     // Remove ghost widgets
                     if (ids.length > number) {
                         for (int i = 0; i < (ids.length - number); i++)
                             (new AppWidgetHost(context, 1)).deleteAppWidgetId(ids[ids.length - 2]); // the array length starts with 1 and not 0
-                        Crashlytics.log(Log.INFO, "MALX", "Widget1.onUpdate(): Removing " + (ids.length - number) + " ghost widgets");
+                        Crashlytics.log(Log.INFO, "Atarashii", "Widget1.onUpdate(): Removing " + (ids.length - number) + " ghost widgets");
                         ids = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget1.class));
                     }
                 }

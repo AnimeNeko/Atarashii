@@ -212,7 +212,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                 return res.getString(R.string.not_specified);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.getStringFromResourceArray(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.getStringFromResourceArray(): " + e.getMessage());
             return "Error: could not receive resources";
         }
     }
@@ -302,7 +302,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                                     imagecard.wrapImage(225, 320);
                                     image.setImageDrawable(drawable);
                                 } catch (Exception e) {
-                                    Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                                    Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
                                 }
                             }
 
@@ -315,7 +315,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
                         });
             }
         } catch (IllegalStateException e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.refresh(): has been closed too fast");
+            Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): has been closed too fast");
         }
     }
 

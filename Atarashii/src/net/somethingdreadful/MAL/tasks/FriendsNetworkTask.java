@@ -32,7 +32,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
     protected ArrayList<Profile> doInBackground(String... params) {
         ArrayList<Profile> result = null;
         if (params == null) {
-            Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
+            Crashlytics.log(Log.ERROR, "Atarashii", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
         }
         ContentManager mManager = new ContentManager(activity);

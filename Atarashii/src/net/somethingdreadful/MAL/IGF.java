@@ -399,7 +399,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             }
             networkTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "IGF.getRecords(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "IGF.getRecords(): " + e.getMessage());
             Crashlytics.logException(e);
         }
     }
@@ -456,7 +456,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 Gridview.setAdapter(ga);
         } catch (Exception e) {
             if (APIHelper.isNetworkAvailable(context)) {
-                Crashlytics.log(Log.ERROR, "MALX", "IGF.refresh(): " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "Atarashii", "IGF.refresh(): " + e.getMessage());
                 Crashlytics.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Theme.Snackbar(activity, R.string.toast_error_Search);
@@ -518,7 +518,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 else
                     resultList = (ArrayList<Manga>) result;
             } catch (Exception e) {
-                Crashlytics.log(Log.ERROR, "MALX", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
+                Crashlytics.log(Log.ERROR, "Atarashii", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
                 Crashlytics.logException(e);
                 resultList = null;
             }
