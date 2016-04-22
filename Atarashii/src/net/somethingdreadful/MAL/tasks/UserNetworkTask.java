@@ -49,7 +49,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
                 result = mManager.getProfile(params[0]);
             }
 
-            if (result != null && APIHelper.isNetworkAvailable(activity)) {
+            if (result != null && APIHelper.isNetworkAvailable(activity) && params.length == 2) {
                 ArrayList<History> activities = mManager.getActivity(params[0]);
                 result.setActivity(activities);
             }

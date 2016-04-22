@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                     .putContentName("Profile")
                     .putContentType("Profile")
                     .putContentId("P" + getIntent().getStringExtra("username")));
-            new UserNetworkTask(forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"));
+            new UserNetworkTask(forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"), "activity");
         }
 
         NfcHelper.disableBeam(this);
