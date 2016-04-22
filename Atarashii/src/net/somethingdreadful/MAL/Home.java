@@ -306,7 +306,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     private void myListChanged() {
         if (menu != null) {
-            menu.findItem(R.id.menu_details).setChecked(myList && af.getDetails());
+            if (af != null && mf != null)
+                menu.findItem(R.id.menu_details).setChecked(myList && af.getDetails());
             menu.findItem(R.id.menu_listType).setVisible(myList);
             menu.findItem(R.id.menu_sort).setVisible(myList);
             menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
