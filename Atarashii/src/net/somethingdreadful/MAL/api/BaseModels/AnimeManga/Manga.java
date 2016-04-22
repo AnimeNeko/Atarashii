@@ -4,7 +4,7 @@ import android.database.Cursor;
 
 import com.google.gson.annotations.SerializedName;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
@@ -241,7 +241,7 @@ public class Manga extends GenericRecord implements Serializable {
     }
 
     public void setReadStatus(int id) {
-        setReadStatus(MALManager.listSortFromInt(id, MALApi.ListType.MANGA));
+        setReadStatus(ContentManager.listSortFromInt(id, MALApi.ListType.MANGA));
     }
 
     public int getTypeInt() {

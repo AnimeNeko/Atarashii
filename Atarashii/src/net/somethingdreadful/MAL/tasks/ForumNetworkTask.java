@@ -3,7 +3,7 @@ package net.somethingdreadful.MAL.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
@@ -27,7 +27,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
     @Override
     protected ArrayList<Forum> doInBackground(String... params) {
         ArrayList<Forum> result = new ArrayList<>();
-        MALManager mManager = new MALManager(activity);
+        ContentManager mManager = new ContentManager(activity);
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
             mManager.verifyAuthentication();
 

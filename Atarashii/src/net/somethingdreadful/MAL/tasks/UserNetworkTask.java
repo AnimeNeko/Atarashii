@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
@@ -33,7 +33,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
             Crashlytics.log(Log.ERROR, "MALX", "UserNetworkTask.doInBackground(): No username to fetch profile");
             return null;
         }
-        MALManager mManager = new MALManager(activity);
+        ContentManager mManager = new ContentManager(activity);
 
         try {
             if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))

@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -34,7 +34,7 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
     @Override
     protected Boolean doInBackground(GenericRecord... gr) {
         boolean error = false;
-        MALManager manager = new MALManager(activity);
+        ContentManager manager = new ContentManager(activity);
 
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
             manager.verifyAuthentication();

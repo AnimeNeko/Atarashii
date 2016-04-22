@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
@@ -35,7 +35,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
             Crashlytics.log(Log.ERROR, "MALX", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
         }
-        MALManager mManager = new MALManager(activity);
+        ContentManager mManager = new ContentManager(activity);
         try {
             if (forcesync && APIHelper.isNetworkAvailable(context)) {
                 result = mManager.downloadAndStoreFriendList(params[0]);

@@ -3,7 +3,7 @@ package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
 import android.database.Cursor;
 import android.text.TextUtils;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
@@ -376,7 +376,7 @@ public class Anime extends GenericRecord implements Serializable {
     }
 
     public void setWatchedStatus(int id) {
-        setWatchedStatus(MALManager.listSortFromInt(id, MALApi.ListType.ANIME));
+        setWatchedStatus(ContentManager.listSortFromInt(id, MALApi.ListType.ANIME));
     }
 
     public int getTypeInt() {

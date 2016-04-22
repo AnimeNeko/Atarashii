@@ -7,7 +7,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -36,7 +36,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
     @Override
     protected Object doInBackground(String... params) {
         try {
-            MALManager mManager = new MALManager(activity);
+            ContentManager mManager = new ContentManager(activity);
 
             // get and read the backup file
             StringBuilder backupJson = new StringBuilder();

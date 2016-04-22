@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -87,7 +87,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             Crashlytics.setInt("Page", 0);
 
         taskResult = null;
-        MALManager mManager = new MALManager(activity);
+        ContentManager mManager = new ContentManager(activity);
 
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(getContext()))
             mManager.verifyAuthentication();

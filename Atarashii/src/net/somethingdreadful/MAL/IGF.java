@@ -391,7 +391,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             networkTask = new NetworkTask(taskjob, listType, activity, data, this);
             ArrayList<String> args = new ArrayList<>();
             if (isList()) {
-                args.add(MALManager.listSortFromInt(list, listType));
+                args.add(ContentManager.listSortFromInt(list, listType));
                 args.add(String.valueOf(sortType));
                 args.add(String.valueOf(inverse));
             } else {

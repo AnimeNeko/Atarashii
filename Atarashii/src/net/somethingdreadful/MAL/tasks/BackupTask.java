@@ -8,7 +8,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
-import net.somethingdreadful.MAL.MALManager;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -46,7 +46,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
                 return null;
             }
 
-            MALManager mManager = new MALManager(context);
+            ContentManager mManager = new ContentManager(context);
             PrefManager.create(context);
             mManager.verifyAuthentication();
 
