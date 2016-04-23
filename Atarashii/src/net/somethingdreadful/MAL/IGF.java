@@ -38,7 +38,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
@@ -276,10 +275,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private void setProgressPlusOne(Anime anime, Manga manga) {
         if (isAnime()) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-            new WriteDetailTask(listType, TaskJob.UPDATE, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
-            new WriteDetailTask(listType, TaskJob.UPDATE, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -296,7 +295,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         if (isAnime()) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             if (manga.getChapters() > 0)
@@ -304,7 +303,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (manga.getVolumes() > 0)
                 manga.setVolumesRead(manga.getVolumes());
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, getAuthErrorCallback(), activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -338,10 +337,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         swipeRefreshEnabled = enabled;
         if (swipeRefresh != null)
             swipeRefresh.setEnabled(enabled);
-    }
-
-    private APIAuthenticationErrorListener getAuthErrorCallback() {
-        return (APIAuthenticationErrorListener.class.isInstance(getActivity()) ? ((APIAuthenticationErrorListener) getActivity()) : null);
     }
 
     /**

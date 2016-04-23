@@ -21,14 +21,13 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.database.DatabaseManager;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.widgets.Widget1;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCallbackListener, APIAuthenticationErrorListener, ViewPager.OnPageChangeListener {
+public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCallbackListener, ViewPager.OnPageChangeListener {
     private IGF af;
     private IGF mf;
     private Menu menu;
@@ -266,12 +265,6 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
         } else {
             Theme.Snackbar(this, R.string.toast_info_widget_exists);
         }
-    }
-
-    @Override
-    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        startActivity(new Intent(this, RecordPickerDialog.class).putExtra("updatePassword", true));
-        finish();
     }
 
     @Override

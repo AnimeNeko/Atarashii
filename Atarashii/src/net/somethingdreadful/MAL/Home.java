@@ -40,14 +40,13 @@ import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
     private IGF af;
     private IGF mf;
     private Menu menu;
@@ -409,12 +408,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         startDetails.putExtra("recordType", listType);
         startDetails.putExtra("username", username);
         startActivity(startDetails);
-    }
-
-    @Override
-    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        startActivity(new Intent(this, Home.class).putExtra("updatePassword", true));
-        finish();
     }
 
     @Override

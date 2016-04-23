@@ -19,13 +19,12 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import java.util.ArrayList;
 
-public class AutoSync extends BroadcastReceiver implements APIAuthenticationErrorListener, NetworkTask.NetworkTaskListener {
+public class AutoSync extends BroadcastReceiver implements NetworkTask.NetworkTaskListener {
     private static NotificationManager nm;
 
     @Override
@@ -60,12 +59,6 @@ public class AutoSync extends BroadcastReceiver implements APIAuthenticationErro
         } else if (!networkChange(intent)) {
             PrefManager.setAutosyncDone(false);
         }
-    }
-
-    @Override
-    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        nm.cancel(R.id.notification_sync);
-        PrefManager.setAutosyncDone(false);
     }
 
     @Override

@@ -38,7 +38,6 @@ import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
@@ -48,7 +47,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, APIAuthenticationErrorListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
@@ -517,14 +516,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         try {
             if (type.equals(ListType.ANIME)) {
                 if (animeRecord.isDirty() && !animeRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
                 else if (animeRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, animeRecord);
             } else if (type.equals(ListType.MANGA)) {
                 if (mangaRecord.isDirty() && !mangaRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.UPDATE, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                    new WriteDetailTask(type, TaskJob.UPDATE, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
                 else if (mangaRecord.getDeleteFlag())
-                    new WriteDetailTask(type, TaskJob.FORCESYNC, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
+                    new WriteDetailTask(type, TaskJob.FORCESYNC, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.onPause(): " + e.getMessage());
@@ -603,12 +602,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     @Override
     public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-    }
-
-    @Override
-    public void onAPIAuthenticationError(ListType type, TaskJob job) {
-        startActivity(new Intent(this, Home.class).putExtra("updatePassword", true));
-        finish();
     }
 
     /**

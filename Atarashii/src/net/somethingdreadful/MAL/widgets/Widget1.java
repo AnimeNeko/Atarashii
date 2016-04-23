@@ -30,7 +30,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.database.DatabaseManager;
 import net.somethingdreadful.MAL.dialog.RecordPickerDialog;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
@@ -38,7 +37,7 @@ import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
-public class Widget1 extends AppWidgetProvider implements APIAuthenticationErrorListener {
+public class Widget1 extends AppWidgetProvider {
 
     @Override
     public void onUpdate(final Context c, final AppWidgetManager widgetManager, final int[] ids) {
@@ -124,7 +123,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                 if (id > 0) {
                     Anime anime = db.getAnime(id);
                     anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-                    new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+                    new WriteDetailTask(MALApi.ListType.ANIME, TaskJob.UPDATE, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
                 } else {
                     PrefManager.create(context);
                     Manga manga = db.getManga(id * -1);
@@ -140,7 +139,7 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                             manga.setRereading(false);
                         }
                     }
-                    new WriteDetailTask(MALApi.ListType.MANGA, TaskJob.UPDATE, this, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+                    new WriteDetailTask(MALApi.ListType.MANGA, TaskJob.UPDATE, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
                 }
                 onUpdate(context, AppWidgetManager.getInstance(context), ids);
                 break;
@@ -179,10 +178,5 @@ public class Widget1 extends AppWidgetProvider implements APIAuthenticationError
                 onUpdate(context, AppWidgetManager.getInstance(context), ids);
                 break;
         }
-    }
-
-    @Override
-    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-
     }
 }

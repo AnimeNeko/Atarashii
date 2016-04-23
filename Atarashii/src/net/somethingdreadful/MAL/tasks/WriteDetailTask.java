@@ -21,13 +21,11 @@ import net.somethingdreadful.MAL.widgets.Widget1;
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
     private ListType type = ListType.ANIME;
     private final TaskJob job;
-    private final APIAuthenticationErrorListener authErrorCallback;
     private final Activity activity;
 
-    public WriteDetailTask(ListType type, TaskJob job, APIAuthenticationErrorListener authErrorCallback, Activity activity) {
+    public WriteDetailTask(ListType type, TaskJob job, Activity activity) {
         this.job = job;
         this.type = type;
-        this.authErrorCallback = authErrorCallback;
         this.activity = activity;
     }
 
