@@ -142,7 +142,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
                                 // Check for synopsis for relation.
-                                if (record == null || (record.getSynopsis() == null && AccountService.isMAL()))
+                                if (record == null || record.getImageUrl() == null)
                                     record = mManager.getAnimeRecord(data.getInt("recordID", -1));
 
                                 // Check if the record is on the animelist.
