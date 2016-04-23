@@ -635,14 +635,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     }
 
-    /**
-     * handle the offline card
-     */
-    private void toggleNoNetworkCard(boolean show) {
-        if (viewFlipper != null)
-            viewFlipper.setDisplayedChild(show ? 2 : 0);
-    }
-
     @Override
     public void onRefresh() {
         getRecord(true);
