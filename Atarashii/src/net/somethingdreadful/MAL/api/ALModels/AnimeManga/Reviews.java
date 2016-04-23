@@ -51,7 +51,14 @@ public class Reviews implements Serializable {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews();
         model.setId(getId());
         model.setRating(getScore());
-        model.setReview(getText().replaceAll("(\r\n|\n)", "<br>"));
+        String comment = getText().replaceAll("(\r\n|\n)", "<br>");
+        comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
+        comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
+        comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
+        comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
+        comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
+        comment = comment.replaceAll("@(\\w+)", "<font color=\"#022f70\"><b>@$1</b></font>");
+        model.setReview(comment);
         model.setUser(getUser().createBaseModel());
         model.setDate(getDate());
         if (getAnime() != null)
