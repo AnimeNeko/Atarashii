@@ -141,7 +141,8 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
                             if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
-                                if (record == null)
+                                // Check for synopsis for relation.
+                                if (record == null || record.getSynopsis() == null)
                                     record = mManager.getAnimeRecord(data.getInt("recordID", -1));
 
                                 // Check if the record is on the animelist.
@@ -163,7 +164,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
                             if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
-                                if (record == null)
+                                if (record == null || record.getSynopsis() == null)
                                     record = mManager.getMangaRecord(data.getInt("recordID", -1));
 
                                 // Check if the record is on the mangalist
