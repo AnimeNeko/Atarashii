@@ -121,7 +121,6 @@
     <string name="layout_card_anime_total">מספר רשומות</string>
     <string name="layout_card_manga_reading">קורא</string>
     <string name="layout_card_manga_plan">מתכנן לקרוא</string>
-    <string name="action_viewListOnMAL">ראה רשימה ב-MAL</string>
     <string name="action_viewtopic">הראה דיון</string>
     <string name="not_specified">לא מוגדר</string>
     <string name="no_activity">אין פעילות</string>
@@ -309,7 +308,6 @@
     <string name="acknowledgements_card_title">מידע</string>
     <string name="community_card_title">קהילת Atarashii</string>
     <string name="translations_card_title">תרגומים</string>
-    <string name="acknowledgements">Atarashii! \u05de\u05e9\u05ea\u05de\u05e9 \u05d1-<a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> \u05e9\u05dc Michael Johnson \u05d5-Ratan Dhawtal, <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> \u05e9\u05dc Keyboardsurfer, <a href="http://square.github.io/retrofit/">Retrofit</a> \u05d5\u05d1-<a href="http://square.github.io/picasso/">Picasso</a> \u05e9\u05dc Square Inc. \u05d5-<a href="https://code.google.com/p/google-gson/">google-gson</a> \u05e9\u05dcGoogle Inc. \u05e9\u05d1\u05e9\u05d9\u05de\u05d5\u05e9 \u05e2\"\u05d9Retrofit, \u05db\u05d5\u05dc\u05dd \u05ea\u05d7\u05ea \u05e8\u05d9\u05e9\u05d9\u05d5\u05df <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">How \u05d0\u05d9\u05da \u05d0\u05e0\u05d7\u05e0\u05d5 \u05de\u05e9\u05ea\u05de\u05e9\u05d9\u05dd \u05d1\u05de\u05d9\u05d3\u05e2 \u05e9\u05dc\u05da</a>.</string>
     <string name="app_description">Atarashii! היא הדרך הטובה ביותר לגשת לMyAnimeList מהטלפון שלך. זה בעל ממשק מודרני, מובנה יפה לאנדרואיד יחד עם כל הפונקציונליות שאפשר לבקש.</string>
     <string name="contributor_anima_summary">\&amp;quot; כול שאר היישומים גרועים!\&amp;quot; \n\nמייסד ומתכנת ראשי. מאס במשק המשתמש העני של יישומים אחרים וחוסר הכללי של תחזוקה, אז הוא יצר את זה.</string>
     <string name="contributor_motokochan_summary">מתמקד בניקוי קוד ויישום תכונות קטנות. עובד על הרחבת היישום לתמיכה במנגה.</string>

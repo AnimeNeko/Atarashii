@@ -191,4 +191,30 @@
     <!-- Settings (ListPreference Entries) Items -->
     <!-- Settings (LocalePreference Entries) Items -->
     <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="syncArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Hours</item>
+    <!-- Spanish -->
+        <item>6 Hours</item>
+    <!-- Spanish -->
+        <item>8 Hours</item>
+    <!-- Spanish -->
+        <item>10 Hours</item>
+    <!-- Spanish -->
+        <item>12 Hours</item>
+    <!-- Spanish -->
+        <item>24 Hours</item>
+    <!-- Spanish -->
+        <item>2 days</item>
+    <!-- Spanish -->
+        <item>3 days</item>
+    <!-- Spanish -->
+        <item>4 days</item>
+    <!-- Spanish -->
+        <item>5 days</item>
+    <!-- Spanish -->
+        <item>6 days</item>
+    <!-- Spanish -->
+        <item>7 days</item>
+    </string-array>
 </resources>

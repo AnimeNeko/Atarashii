@@ -221,7 +221,6 @@
     <string name="acknowledgements_card_title">المعلومات</string>
     <string name="community_card_title">منتدى Atarashii على +G</string>
     <string name="translations_card_title">التراجم</string>
-    <string name="acknowledgements">Atarashii! implements Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> by Square Inc. and <a href="https://code.google.com/p/google-gson/">google-gson</a> by Google Inc. which is used by Retrofit, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">How we use your data</a>.</string>
     <string name="app_description">ـ Atarashii! هو أفضل طريقة للوصول لــ MyAnimeList من هاتفك. التطبيق يتباهى بواجهة Android عصرية، مصنوعة بجمال، و مصحوبة بكل الوظائف التى يمكن أن تحتاجها.</string>
     <string name="contributor_anima_summary">\&amp;quot;!كل التطبيقات الأخرى أى كلام!\&amp;quot;\n\n\nالمؤسس و كاتب الكودِ الرئيسيُ. مل من واجهات المستخدم UI البائسة فى التطبيقات الأخرى و افتقارها العام للإصلاحات و الصيانة، فأنشأ هذا البرنامج.</string>
     <string name="contributor_motokochan_summary">يركز على ترتيب الكود و العمل على الخواص الصغيرة. عمل على التوسع لدعم الــ Manga.</string>
@@ -303,6 +302,16 @@
         <item>24 ساعة</item>
     <!-- Spanish -->
         <item>48 ساعة</item>
+    <!-- Spanish -->
+        <item>3 days</item>
+    <!-- Spanish -->
+        <item>4 days</item>
+    <!-- Spanish -->
+        <item>5 days</item>
+    <!-- Spanish -->
+        <item>6 days</item>
+    <!-- Spanish -->
+        <item>7 days</item>
     </string-array>
     <string-array name="classificationArray">
         <item>G - لكل الأعمار</item>

@@ -236,7 +236,6 @@
     <string name="acknowledgements_card_title">Information</string>
     <string name="community_card_title">Atarashii Community</string>
     <string name="translations_card_title">Übersetzungen</string>
-    <string name="acknowledgements">Atarashii! implementiert Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> von Square Inc. und <a href="https://code.google.com/p/google-gson/">google-gson</a> von Google Inc. welches von Retrofit verwendet wird, alle lizensiert unter der <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> Lizenz.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Wie wir Deine Daten verwenden</a>.</string>
     <string name="app_description">Atarashii! ist der beste Weg um von Deinem Telefon auf MyAnimeList zuzugreifen. Es bietet eine  moderne, schön gestaltete Android-Oberfläche zusammen mit allen Funktionen die Du Dir wünschen kannst.</string>
     <string name="contributor_anima_summary">\"Alle anderen Apps nerven!\"\n\nGründer und Hauptprogrammierer. Hatte genug von den schlechten Oberflächen anderer Apps und ihrem generellen Mangel an Pflege und entwickelte diese App.</string>
     <string name="contributor_motokochan_summary">Konzentriert sich auf Bereinigung des Codes und kleine Funktionsimplementierungen. Hat an der Erweiterung der App um Manga-Unterstützung gearbeitet.</string>
@@ -318,6 +317,16 @@
         <item>24 Stunden</item>
     <!-- Spanish -->
         <item>48 Stunden</item>
+    <!-- Spanish -->
+        <item>3 days</item>
+    <!-- Spanish -->
+        <item>4 days</item>
+    <!-- Spanish -->
+        <item>5 days</item>
+    <!-- Spanish -->
+        <item>6 days</item>
+    <!-- Spanish -->
+        <item>7 days</item>
     </string-array>
     <string-array name="classificationArray">
         <item>G - Alle Altersgruppen</item>

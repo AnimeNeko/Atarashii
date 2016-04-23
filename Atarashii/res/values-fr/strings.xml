@@ -309,15 +309,13 @@
     <string name="acknowledgements_card_title">Information</string>
     <string name="community_card_title">Communauté Atarashii</string>
     <string name="translations_card_title">Traductions</string>
-    <string name="acknowledgements">Atarashii! impl\u00e9mente l\'<a href="https://bitbucket.org/ratan12/atarashii-api/">API MAL pour Atarashii</a> de Michael Johnson et Ratan Dhawtal, <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> de Keyboardsurfer, <a href="http://square.github.io/retrofit/">Retrofit</a> et <a href="http://square.github.io/picasso/">Picasso</a> de Square Inc. et <a href="https://code.google.com/p/google-gson/">google-gson</a> de Google Inc. utilis\u00e9 par Retrofit, lesquels sont licenci\u00e9s sous la licence <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Comment nous utilisons vos donn\u00e9es</a>.</string>
     <string name="app_description">Atarashii! est le meilleur moyen d\'accéder à MyAnimeList à partir de votre téléphone. Il arbore une interface Android bien conçue et moderne, associée à toutes les fonctionnalités dont vous pouviez rêver.</string>
-    <string name="contributor_anima_summary">\&#171; Toutes les autres applications sont mauvaises ! \&#187;\n\nFondateur et principal développeur. Fatigué des piètres interfaces proposées par d\'autres applications et leur manque général de mises à jour, il a décidé de créer sa propre application.</string>
+    <string name="contributor_anima_summary">\" Toutes les autres applications sont mauvaises ! \"\n\nFondateur et principal développeur. Fatigué des piètres interfaces proposées par d\'autres applications et leur manque général de mises à jour, il a décidé de créer sa propre application.</string>
     <string name="contributor_motokochan_summary">Se concentre sur les retouches du code et la mise en œuvre de petites fonctionnalités. A travaillé sur l’amélioration de l\'application, assurant la prise en charge des mangas.</string>
     <string name="contributor_apkawa_summary">A implémenté la fonctionnalité de recherche.</string>
     <string name="contributor_dsko_summary">A mis en œuvre une modernisation de la gestion de l\'API.</string>
     <string name="contributor_ratan12_summary">A géré toutes les traductions, la création de nouvelles fonctions et le travail sur l\'interface utilisateur.</string>
-    <string name="translations">Atarashii! a commencé à supporter le multi-langue depuis la version 1.4 ! 
-Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">rejoindre le projet de traduction</a> afin d\'y contribuer.</string>
+    <string name="translations">Atarashii! a commencé à supporter le multi-langue depuis la version 1.4 ! Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">rejoindre le projet de traduction</a> afin d\'y contribuer.</string>
     <string name="translations_notListed">Ma langue n\'est pas répertoriée sur oneskyapp ?</string>
     <string name="translations_notListed_summary">Si ta langue n\'est pas répertoriée, nous te recommandons de demander à Ratan Dhawtal de l\'ajouter ou d\'ajouter un commentaire sur <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">ce post Google+</a>. Nous l\'ajouterons dès que possible et te tiendrons au courant.</string>
     <string name="translations_notApproved">Pourquoi mes phases traduites ne sont-elles toujours pas approuvées ?</string>

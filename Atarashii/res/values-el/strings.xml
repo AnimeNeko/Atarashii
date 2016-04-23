@@ -27,6 +27,7 @@
     <string name="toast_error_VerifyProblem">Ελέγξτε τα στοιχεία σας και προσπαθήστε ξανά.</string>
     <string name="toast_error_Friends">Σφάλμα κατά τη λήψη της λίστας των φίλων!</string>
     <string name="toast_error_nothingFound">Δεν βρέθηκαν αποτελέσματα anime ή manga.</string>
+    <string name="toast_error_convert">" Το σχόλιο δεν μπορούσε να μετατραπεί!"</string>
     <string name="toast_info_SyncMessage">Συγχρονισμός όλων. Αυτό θα πάρει μερικά δευτερόλεπτα.</string>
     <string name="toast_info_password">Ο συνδιασμός του ονόματος χρήστη και κωδικού δεν τεροιάζουν!</string>
     <string name="toast_info_Copied">Αντιγράφηκε επιτυχώς στο πρόχειρο!</string>
@@ -40,6 +41,7 @@
     <string name="toast_info_backup_remove">Το αντίγραφο ασφαλείας αφαιρέθηκε!</string>
     <string name="toast_info_backup_list">Το αντίγραφο ασφαλείας δεν είναι συμβατό με αυτό τον ιστότοπο!</string>
     <string name="toast_info_widget_exists">Το widget με την επιλεγμένη εγγραφή υπάρχει ήδη!</string>
+    <string name="toast_info_comment">Το σχόλιο είναι μικρό!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_userername">Αναντιστοιχία στο όνομα χρήστη</string>
     <string name="dialog_title_restore">Επαναφορά λιστών;</string>
@@ -79,6 +81,8 @@
     <string name="dialog_message_last_post">Τελευταίο σχόλιο από</string>
     <string name="dialog_message_forum_child">Θέλετε να δείτε την $child1; ή $child2; κατηγορία;</string>
     <string name="dialog_message_username">Είναι πιθανόν το επιλεγμένο αντίγραφο ασφαλείας να μην είναι δικό σας!</string>
+    <string name="dialog_message_edit_comment">Είστε σίγουροι ότι θέλετε να αλλάξετε το σχόλιο σας;</string>
+    <string name="dialog_message_add_comment">Θέλετε πραγματικά προσθέσετε ένα νέο σχόλιο;</string>
     <string name="dialog_label_cancel">Άκυρο</string>
     <string name="dialog_label_update">Αναβάθμιση</string>
     <string name="dialog_label_anime">Anime</string>
@@ -121,7 +125,7 @@
     <string name="layout_card_anime_total">Σύνολο καταχωρήσεων</string>
     <string name="layout_card_manga_reading">Σε ανάγνωση</string>
     <string name="layout_card_manga_plan">Για μελλοντική ανάγνωση</string>
-    <string name="action_viewListOnMAL">Προβολή λίστας στο MAL</string>
+    <string name="action_viewListOnMAL">Προβολή λίστας στο περιηγητή</string>
     <string name="action_viewtopic">Εμφάνιση συζήτησης</string>
     <string name="not_specified">δεν διευκρινίζεται</string>
     <string name="no_activity">Καμία δραστηριότητα</string>
@@ -141,6 +145,9 @@
     <string name="action_add">Προσθήκη σχολίου ή θέματος</string>
     <string name="form_hint_title">Τίτλος θέματος</string>
     <string name="form_hint_message">Μήνυμα</string>
+    <string name="Page_number">Αριθμός σελίδας</string>
+    <string name="next">Επόμενη</string>
+    <string name="previous">Προηγούμενη</string>
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="init_hint_choose">Καλώς ήρθατε στο Atarashi!\nΔιαλέξτε το site σας</string>
     <string name="init_hint_myanimelist">MyAnimeList</string>
@@ -241,6 +248,7 @@
     <string name="card_content_japanese">Γιαπωνέζικος</string>
     <string name="card_content_english">Αγγλικός</string>
     <string name="card_content_synonyms">Συνώνυμα</string>
+    <string name="card_content_romaji">Romaji</string>
     <string name="card_offline_error">Δεν υπάρχει κάποια ενεργή σύνδεση δικτύου.</string>
     <string name="card_offline_title">Είστε εκτός σύνδεσης!</string>
     <string name="episodepicker_hint">Εισάγετε την βαθμολογία σας</string>
@@ -308,7 +316,6 @@
     <string name="acknowledgements_card_title">Πληροφορίες</string>
     <string name="community_card_title">Η Κοινότητα του Atarashii</string>
     <string name="translations_card_title">Μεταφράσεις</string>
-    <string name="acknowledgements">\u03a4\u03bf Atarashii! \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b9\u03b5\u03af \u03c4\u03bf <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> \u03c0\u03bf\u03c5 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03ae\u03b8\u03b7\u03ba\u03b5 \u03b1\u03c0\u03cc \u03c4\u03bf\u03bd Michael Johnson \u03ba\u03b1\u03b9 \u03c4\u03bf\u03bd Ratan Dhawtal. \u0395\u03c0\u03af\u03c3\u03b7\u03c2 \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b9\u03b5\u03af \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> \u03c0\u03bf\u03c5 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03ae\u03b8\u03b7\u03ba\u03b5 \u03b1\u03c0\u03cc \u03c4\u03bf\u03bd Keyboardsurfer, \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 <a href="http://square.github.io/retrofit/">Retrofit</a> \u03ba\u03b1\u03b9 <a href="http://square.github.io/picasso/">Picasso</a>  \u03c4\u03b7\u03c2 Square Inc. \u03ba\u03b1\u03b9 \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 <a href="https://code.google.com/p/google-gson/">google-gson</a> \u03c4\u03b7\u03c2 Google Inc.\u03c0\u03bf\u03c5 \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b5\u03af\u03c4\u03b5 \u03b1\u03c0\u03cc \u03c4\u03b7\u03bd \u03b2\u03b9\u03b2\u03b9\u03bb\u03bf\u03b8\u03ae\u03ba\u03b7 Retrofit. \u038c\u03bb\u03b5\u03c2 \u03bf\u03b9 \u03b2\u03b9\u03b2\u03bb\u03b9\u03bf\u03b8\u03ae\u03ba\u03b5\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b1\u03b4\u03b5\u03b9\u03b4\u03bf\u03c4\u03b7\u03bc\u03ad\u03bd\u03b5\u03c2 \u03c5\u03c0\u03cc \u03c4\u03b7\u03bd \u03ac\u03b4\u03b5\u03b9\u03b1  <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">\u03a0\u03c9\u03c2 \u03c7\u03c1\u03b7\u03c3\u03b9\u03bc\u03bf\u03c0\u03bf\u03b9\u03bf\u03cd\u03bc\u03b5 \u03c4\u03b1 \u03b4\u03b5\u03b4\u03bf\u03bc\u03ad\u03bd\u03b1 \u03c3\u03b1\u03c2</a>.</string>
     <string name="app_description">Το Atarashii! είναι ο καλύτερος τρόπος πρόσβασης του MyAnimeList από το κινητό σας. Έχει ένα όμορφο και μοντέρνο σχεδιασμό μαζί με ότι άλλο θα χρειαζόταν κάποιος χρήστης του MyAnimeList.</string>
     <string name="contributor_anima_summary">\"All the other apps suck!\"\n\nΙδρυτής και κύριος προγραμματιστής. Βαρέθηκε το κακό σχεδιασμό των άλλων εφαρμογών και τη μη υποστήριξη τους και έτσι δημιούργησε το Atarashii!</string>
     <string name="contributor_motokochan_summary">Εστιάζει στη αναμόρφωση του κώδικα και προσθήκη μικρών χαρακτηριστικών. Δούλεψε πάνω στην επέκταση της εφαρμογής για την υποστήριξη των Manga.</string>
@@ -408,7 +415,7 @@
     <!-- Spanish -->
         <item>24 Ώρες</item>
     <!-- Spanish -->
-        <item>48 Ώρες</item>
+        <item>2 ημέρες</item>
     <!-- Spanish -->
         <item>3 ημέρες</item>
     <!-- Spanish -->
