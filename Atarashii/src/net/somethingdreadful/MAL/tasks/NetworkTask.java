@@ -164,7 +164,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
                             if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
-                                if (record == null || record.getSynopsis() == null)
+                                if (record == null || record.getImageUrl() == null)
                                     record = mManager.getMangaRecord(data.getInt("recordID", -1));
 
                                 // Check if the record is on the mangalist
