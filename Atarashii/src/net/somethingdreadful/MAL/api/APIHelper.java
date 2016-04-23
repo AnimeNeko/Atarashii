@@ -78,7 +78,7 @@ public class APIHelper {
                     break;
                 default:
                     Theme.Snackbar(activity, R.string.toast_error_Records);
-                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Unknown API error: " + response.code());
+                    Crashlytics.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Unknown API error: " + response.code() + ": " + response.message());
                     break;
             }
         } else {
