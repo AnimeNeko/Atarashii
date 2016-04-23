@@ -87,7 +87,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             Crashlytics.setInt("Page", 0);
 
         taskResult = null;
-        ContentManager mManager = new ContentManager(activity);
+        ContentManager mManager = new ContentManager(activity != null ? activity : context);
 
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(getContext()))
             mManager.verifyAuthentication();
