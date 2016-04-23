@@ -12,6 +12,8 @@ import net.somethingdreadful.MAL.FirstTimeInit;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 
+import java.io.File;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
     private static final int VERSION = 14;
@@ -137,6 +139,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static void deleteDatabase(Context context) {
         context.deleteDatabase(NAME);
+    }
+
+    public static boolean DBExists(Context context) {
+        File dbFile = context.getDatabasePath(DatabaseHelper.NAME);
+        return dbFile.exists();
     }
 
     @Override
