@@ -23,19 +23,15 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Authenticator;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Route;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ALApi {
-    private static final String anilistURL = "http://anilist.co/api/";
+    private static final String anilistURL = "https://anilist.co/api/";
     private static String accesToken;
 
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
@@ -69,6 +65,9 @@ public class ALApi {
 
     private void setupRESTService() {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
+        if (accesToken == null && AccountService.getAccount() != null)
+            accesToken = AccountService.getAccesToken();
+
         client.connectTimeout(60, TimeUnit.SECONDS);
         client.writeTimeout(60, TimeUnit.SECONDS);
         client.readTimeout(60, TimeUnit.SECONDS);
