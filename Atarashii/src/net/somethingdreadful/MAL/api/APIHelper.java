@@ -32,9 +32,9 @@ public class APIHelper {
             return response.isSuccessful();
         } catch (Exception e) {
             if (response != null)
-                Crashlytics.log(Log.ERROR, "Atarashii", "MALApi." + methodName + "(): " + response.message());
+                Crashlytics.log(Log.ERROR, "Atarashii", "Api." + methodName + "(): " + response.message());
             else
-                Crashlytics.log(Log.ERROR, "Atarashii", "MALApi." + methodName + "(): " + e.getMessage());
+                Crashlytics.log(Log.ERROR, "Atarashii", "Api." + methodName + "(): " + e.getMessage());
             e.printStackTrace();
             return false;
         }

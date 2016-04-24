@@ -72,18 +72,7 @@ public class ALApi {
         client.connectTimeout(60, TimeUnit.SECONDS);
         client.writeTimeout(60, TimeUnit.SECONDS);
         client.readTimeout(60, TimeUnit.SECONDS);
-        client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
-        client.authenticator(new Authenticator() {
-            @Override
-            public Request authenticate(Route route, okhttp3.Response response) throws IOException {
-                return response.request().newBuilder()
-                        .header("Authorization", "Bearer " + accesToken)
-                        .build();
-            }
-        });
-
-        if (accesToken == null && AccountService.getAccount() != null)
-            accesToken = AccountService.getAccesToken();
+        client.interceptors().add(new APIInterceptor(USER_AGENT, "Bearer " + accesToken));
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -324,9 +313,9 @@ public class ALApi {
 
     public boolean addOrUpdateAnime(Anime anime) {
         if (anime.getCreateFlag())
-            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "addOrUpdateAnime");
+            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "addAnime");
         else
-            return APIHelper.isOK(service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "addOrUpdateAnime");
+            return APIHelper.isOK(service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
     }
 
     public boolean deleteAnimeFromList(int id) {
@@ -339,9 +328,9 @@ public class ALApi {
 
     public boolean addOrUpdateManga(Manga manga) {
         if (manga.getCreateFlag())
-            return APIHelper.isOK(service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addOrUpdateManga");
+            return APIHelper.isOK(service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addManga");
         else
-            return APIHelper.isOK(service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addOrUpdateManga");
+            return APIHelper.isOK(service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "updateManga");
     }
 
     public ForumThread getPosts(int id, int page) {

@@ -6,11 +6,13 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-class UserAgentInterceptor implements Interceptor {
+class APIInterceptor implements Interceptor {
     private final String userAgent;
+    private String permission = "";
 
-    public UserAgentInterceptor(String userAgent) {
+    public APIInterceptor(String userAgent, String permission) {
         this.userAgent = userAgent;
+        this.permission = permission;
     }
 
     @Override
@@ -19,6 +21,7 @@ class UserAgentInterceptor implements Interceptor {
         Request requestWithUserAgent = originalRequest.newBuilder()
                 .removeHeader("User-Agent")
                 .addHeader("User-Agent", userAgent)
+                .addHeader("Authorization", permission)
                 .build();
         return chain.proceed(requestWithUserAgent);
     }

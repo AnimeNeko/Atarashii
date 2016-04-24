@@ -260,7 +260,7 @@ public class ContentManager {
             result = AccountService.isMAL() ? malApi.deleteAnimeFromList(anime.getId()) : alApi.deleteAnimeFromList(anime.getId());
         else
             result = AccountService.isMAL() ? malApi.addOrUpdateAnime(anime) : alApi.addOrUpdateAnime(anime);
-        Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.writeAnimeDetails(): successfully updated: " + result);
+        Crashlytics.log(result ? Log.INFO : Log.ERROR, "Atarashii", "ContentManager.writeAnimeDetails(): successfully updated: " + result);
         return result;
     }
 
@@ -271,7 +271,7 @@ public class ContentManager {
             result = AccountService.isMAL() ? malApi.deleteMangaFromList(manga.getId()) : alApi.deleteMangaFromList(manga.getId());
         else
             result = AccountService.isMAL() ? malApi.addOrUpdateManga(manga) : alApi.addOrUpdateManga(manga);
-        Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.writeMangaDetails(): successfully updated: " + result);
+        Crashlytics.log(result ? Log.INFO : Log.ERROR, "Atarashii", "ContentManager.writeMangaDetails(): successfully updated: " + result);
         return result;
     }
 

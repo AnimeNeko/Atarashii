@@ -19,16 +19,12 @@ import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.api.MALModels.Friend;
 import net.somethingdreadful.MAL.api.MALModels.History;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Authenticator;
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Route;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -72,21 +68,8 @@ public class MALApi {
         client.connectTimeout(60, TimeUnit.SECONDS);
         client.writeTimeout(60, TimeUnit.SECONDS);
         client.readTimeout(60, TimeUnit.SECONDS);
-        client.interceptors().add(new UserAgentInterceptor(USER_AGENT));
-
         final String credential = Credentials.basic(username, password);
-        client.authenticator(new Authenticator() {
-            @Override
-            public Request authenticate(Route route, okhttp3.Response response) throws IOException {
-                if (credential.equals(response.request().header("Authorization"))) {
-                    return null; //If we already failed when trying the credentials, exit and don't retry
-                }
-
-                return response.request().newBuilder()
-                        .header("Authorization", credential)
-                        .build();
-            }
-        });
+        client.interceptors().add(new APIInterceptor(USER_AGENT, credential));
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
