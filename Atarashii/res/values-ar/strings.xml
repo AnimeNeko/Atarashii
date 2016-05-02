@@ -62,8 +62,6 @@
     <string name="layout_card_join">تاريخ الانضمام</string>
     <string name="layout_card_acces">رتبة الدخول</string>
     <string name="access_rank_atarashii_developer">مطور Atarashii</string>
-    <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
-    <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
     <string name="layout_card_anime_details">تفاصيل الـ Anime</string>
     <string name="layout_card_manga_details">تفاصيل الـ Manga</string>
     <string name="layout_card_anime_time">الوقت بالأيام</string>

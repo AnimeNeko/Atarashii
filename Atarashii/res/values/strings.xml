@@ -43,9 +43,7 @@
     <string name="toast_info_password">Username and password combination doesn\'t match!</string>
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
     <string name="toast_info_hold_on">Hold on a second, we are still loading information!</string>
-    <string name="toast_info_comment_add">The comment was successfully send!</string>
     <string name="toast_info_comment_added">It could take 5 minutes until it is visible</string>
-    <string name="toast_info_disabled">This feature is currently disabled :(</string>
     <string name="toast_info_disabled_youtube">Comments with Youtube videos aren\'t supported :(</string>
     <string name="toast_info_backup_saved">The backup has been created!</string>
     <string name="toast_info_backup_revert">The changes have been reverted!</string>
@@ -60,12 +58,10 @@
     <string name="dialog_title_view">View</string>
     <string name="dialog_title_tags">My tags</string>
     <string name="dialog_title_storage_value">Storage value</string>
-    <string name="dialog_title_downloaded">Episodes downloaded</string>
     <string name="dialog_title_rewatched_times">Times rewatched</string>
     <string name="dialog_title_rewatched_priority">Rewatch priority</string>
     <string name="dialog_title_storage">Storage type</string>
     <string name="dialog_title_comment">My comments</string>
-    <string name="dialog_title_fansub">My fansubgroup</string>
     <string name="dialog_title_share">Share</string>
     <string name="dialog_title_share_via">Share via</string>
     <string name="dialog_title_Verifying">Verifying</string>
@@ -75,12 +71,10 @@
     <string name="dialog_title_status">Status</string>
     <string name="dialog_title_edit_comment">Edit comment</string>
     <string name="dialog_title_add_comment">Add comment</string>
-    <string name="dialog_title_add_topic">Create topic</string>
     <string name="dialog_title_id_search">ID search</string>
     <string name="dialog_title_update_navigation">Update background</string>
     <string name="dialog_hint_tags">Separate your tags with a comma</string>
     <string name="dialog_hint_comment">Enter you comment</string>
-    <string name="dialog_hint_fansub">Enter you fansubgroup</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
     <string name="dialog_message_restore">This could remove some records in your list!</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
@@ -89,9 +83,7 @@
     <string name="dialog_message_share">Which list do you want to share?</string>
     <string name="dialog_message_Verifying">Making sure your account is OK. Hold tight a sec.</string>
     <string name="dialog_message_update_navigation">Enter the Image URL below.</string>
-    <string name="dialog_message_created_by">Created by</string>
     <string name="dialog_message_last_post">Last post by</string>
-    <string name="dialog_message_forum_child">Do you want to view the $child1; or $child2; category?</string>
     <string name="dialog_message_username">It is possible that the chosen backup is not your backup!</string>
     <string name="dialog_message_edit_comment">Are you sure that your comment should be updated?</string>
     <string name="dialog_message_add_comment">Do you really want to add a new comment?</string>
@@ -125,8 +117,6 @@
     <string name="layout_card_join">Join date</string>
     <string name="layout_card_acces">Access rank</string>
     <string name="access_rank_atarashii_developer">Atarashii developer</string>
-    <string name="layout_card_anime_views">Animelist views</string>
-    <string name="layout_card_manga_views">Mangalist views</string>
     <string name="layout_card_anime_details">Anime Details</string>
     <string name="layout_card_manga_details">Manga Details</string>
     <string name="layout_card_anime_time">Time days</string>
@@ -141,11 +131,7 @@
     <string name="action_viewListOnMAL">View list in browser</string>
     <string name="action_viewtopic">View discussion</string>
     <string name="not_specified">not specified</string>
-    <string name="no_activity">No Activity</string>
     <string name="no_history">No History</string>
-    <string name="no_reviews">No Reviews</string>
-    <string name="read_more">read more</string>
-    <string name="show_less">show less</string>
     <string-array name="gender">
         <item>Female</item>
         <item>Male</item>
@@ -158,8 +144,6 @@
     <string name="creation_date">Creation date</string>
 
     <!-- ForumActivity Strings -->
-    <string name="action_add">Add a comment or topic</string>
-    <string name="form_hint_title">Topic title</string>
     <string name="form_hint_message">Message</string>
     <string name="Page_number">Page number</string>
     <string name="next">Next</string>
@@ -200,9 +184,7 @@
     <string name="nav_item_my_following">Following</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
-    <string name="nav_item_airing">Airing</string>
     <string name="nav_item_most_popular">Most Popular</string>
-    <string name="nav_item_year">This Year</string>
     <string name="nav_item_just_added">Just Added</string>
     <string name="nav_item_upcoming">Upcoming</string>
     <string name="drawer_open">Open navigation drawer</string>
@@ -236,10 +218,8 @@
     <string name="card_content_none">None</string>
     <string name="card_content_chapters">Chapters</string>
     <string name="card_content_rewatch_priority">Priority</string>
-    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Storage</string>
     <string name="card_content_storage_amount">Storage capacity (GB)</string>
-    <string name="card_content_downloaded">Downloaded</string>
     <string name="card_content_count">Count</string>
     <string name="card_content_episodes">Episodes</string>
     <string name="card_content_status">Status</string>

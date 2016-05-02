@@ -31,9 +31,7 @@
     <string name="toast_info_password">¡La combinación de usuario y contraseña no coinciden!</string>
     <string name="toast_info_Copied">¡Se ha copiado con éxito el título al portapapeles!</string>
     <string name="toast_info_hold_on">¡Espera un segundo, todavía estamos cargando la información!</string>
-    <string name="toast_info_comment_add">¡El comentario ha sido enviado con éxito!</string>
     <string name="toast_info_comment_added">Podría tomar 5 minutos hasta que sea visible</string>
-    <string name="toast_info_disabled">Esta característica está actualmente desactivada :(</string>
     <string name="toast_info_disabled_youtube">No se admiten comentarios con videos de Youtube :(</string>
     <string name="toast_info_backup_saved">¡Se ha creado la copia de seguridad!</string>
     <string name="toast_info_backup_revert">¡Los cambios se han revertido!</string>
@@ -46,12 +44,10 @@
     <string name="dialog_title_view">Vista</string>
     <string name="dialog_title_tags">Mis etiquetas</string>
     <string name="dialog_title_storage_value">Valor de almacenamiento</string>
-    <string name="dialog_title_downloaded">Episodios descargados</string>
     <string name="dialog_title_rewatched_times">Cantidad de veces vista</string>
     <string name="dialog_title_rewatched_priority">Prioridad para ver de nuevo</string>
     <string name="dialog_title_storage">Tipo de almacenamiento</string>
     <string name="dialog_title_comment">Mis comentarios</string>
-    <string name="dialog_title_fansub">Mi grupo fansub</string>
     <string name="dialog_title_share">Compartir</string>
     <string name="dialog_title_share_via">Compartir vía</string>
     <string name="dialog_title_Verifying">Verificación</string>
@@ -61,12 +57,10 @@
     <string name="dialog_title_status">Estado</string>
     <string name="dialog_title_edit_comment">Editar comentario</string>
     <string name="dialog_title_add_comment">Añadir comentario</string>
-    <string name="dialog_title_add_topic">Crear tema</string>
     <string name="dialog_title_id_search">Busqueda de ID</string>
     <string name="dialog_title_update_navigation">Actualizar en segundo plano</string>
     <string name="dialog_hint_tags">Separa tus etiquetas con comas</string>
     <string name="dialog_hint_comment">Escribe tu comentario</string>
-    <string name="dialog_hint_fansub">Escribe tu grupo fansub</string>
     <string name="dialog_message_view">¿Qué lista quieres ver?</string>
     <string name="dialog_message_restore">¡Esto puede eliminar algunos registros de tu lista!</string>
     <string name="dialog_message_logout">¿Seguro que deseas cerrar sesión? Esto borrará toda la información e imágenes guardados.</string>
@@ -75,9 +69,7 @@
     <string name="dialog_message_share">¿Qué lista quieres compartir?</string>
     <string name="dialog_message_Verifying">Asegurándose de que tu cuenta está bien. Aguanta un momento.</string>
     <string name="dialog_message_update_navigation">Ingrese la dirección URL de la imagen de fondo.</string>
-    <string name="dialog_message_created_by">Creado por</string>
     <string name="dialog_message_last_post">Último mensaje por</string>
-    <string name="dialog_message_forum_child">¿Quieres ver la categoría $child1; o $child2;?</string>
     <string name="dialog_message_username">¡Es posible que la copia de seguridad seleccionada no sea la tuya!</string>
     <string name="dialog_label_cancel">Cancelar</string>
     <string name="dialog_label_update">Actualizar</string>
@@ -108,8 +100,6 @@
     <string name="layout_card_join">Fecha de inscripción</string>
     <string name="layout_card_acces">Rango de acceso</string>
     <string name="access_rank_atarashii_developer">Desarrollador de Atarashii</string>
-    <string name="layout_card_anime_views">Visitas (Lista de anime)</string>
-    <string name="layout_card_manga_views">Visitas (Lista de manga)</string>
     <string name="layout_card_anime_details">Detalles (Anime)</string>
     <string name="layout_card_manga_details">Detalles (Manga)</string>
     <string name="layout_card_anime_time">Tiempo (días)</string>
@@ -124,11 +114,7 @@
     <string name="action_viewListOnMAL">Ver lista en el navegador</string>
     <string name="action_viewtopic">Ver discusión</string>
     <string name="not_specified">Sin especificado</string>
-    <string name="no_activity">Sin actividad</string>
     <string name="no_history">Sin historia</string>
-    <string name="no_reviews">Sin análisis</string>
-    <string name="read_more">leer más</string>
-    <string name="show_less">mostrar menos</string>
     <string-array name="gender">
         <item>Mujer</item>
         <item>Hombre</item>
@@ -138,8 +124,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Fecha de creación</string>
     <!-- ForumActivity Strings -->
-    <string name="action_add">Añadir un comentario o tema</string>
-    <string name="form_hint_title">Título del tema</string>
     <string name="form_hint_message">Mensaje</string>
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="init_hint_choose">¡Bienvenido a Atarashii!\nPor favor escoje tu sitio web preferido.</string>
@@ -168,12 +152,9 @@
     <string name="nav_item_my_profile">Mi Perfil</string>
     <string name="nav_item_my_list">Mi Lista</string>
     <string name="nav_item_my_friends">Mis Amigos</string>
-    <string name="nav_item_my_following">Siguiendo</string>
     <string name="nav_item_my_forum">Foro</string>
     <string name="nav_item_top_rated">Mejor Valorados</string>
-    <string name="nav_item_airing">En emisión</string>
     <string name="nav_item_most_popular">Más Populares</string>
-    <string name="nav_item_year">Este año</string>
     <string name="nav_item_just_added">Recién Añadidos</string>
     <string name="nav_item_upcoming">Próximamente</string>
     <string name="drawer_open">Abrir cajón de navegación</string>
@@ -204,10 +185,8 @@
     <string name="card_content_none">Ninguno</string>
     <string name="card_content_chapters">Capítulos</string>
     <string name="card_content_rewatch_priority">Prioridad</string>
-    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Almacenamiento</string>
     <string name="card_content_storage_amount">Capacidad de almacenamiento (GB)</string>
-    <string name="card_content_downloaded">Descargado</string>
     <string name="card_content_count">Contar</string>
     <string name="card_content_episodes">Episodios</string>
     <string name="card_content_status">Estado</string>
