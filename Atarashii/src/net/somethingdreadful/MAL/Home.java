@@ -90,8 +90,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);
             navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
-            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(username);
-            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
+            View view = navigationView.getHeaderView(0);
+            ((TextView) view.findViewById(R.id.name)).setText(username);
+            ((TextView) view.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
             //Initializing navigation toggle button
             ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {};
