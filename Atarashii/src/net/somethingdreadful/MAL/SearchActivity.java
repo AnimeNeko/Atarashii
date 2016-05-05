@@ -115,7 +115,6 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
         Intent startDetails = new Intent(getApplicationContext(), DetailView.class);
         startDetails.putExtra("recordID", id);
         startDetails.putExtra("recordType", listType);
-        startDetails.putExtra("username", username);
         startActivity(startDetails);
     }
 }
