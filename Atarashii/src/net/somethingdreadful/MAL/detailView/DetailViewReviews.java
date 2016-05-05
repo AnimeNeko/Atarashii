@@ -37,7 +37,6 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -114,15 +113,15 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
         try {
+            ArrayList<Reviews> records = (ArrayList<Reviews>) result;
             // The activity could be destroyed when this is being loaded because the user pressed back
             if (activity != null && isAdded()) {
-                if (result != null) {
-                    record.addAll((Collection<? extends Reviews>) result);
+                if (result != null && records.size() > 0) {
+                    record.addAll(records);
                     loading = false;
                     ra.notifyDataSetChanged();
                 } else {
                     hasmorepages = false;
-                    Theme.Snackbar(activity, R.string.toast_error_reviews);
                 }
             }
         } catch (Exception e) {
