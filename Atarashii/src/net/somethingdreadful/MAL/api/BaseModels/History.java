@@ -29,6 +29,13 @@ public class History implements Serializable {
     @Setter
     @Getter
     private String value;
+
+    /**
+     * Type can be "A", "M", or "".
+     */
+    @Setter
+    @Getter
+    private String type = "";
     @Setter
     @Getter
     private String activityType;

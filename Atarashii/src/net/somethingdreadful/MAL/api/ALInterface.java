@@ -39,7 +39,7 @@ interface ALInterface {
     Call<Profile> getProfile(@Path("username") String username);
 
     @GET("user/{username}/activity")
-    Call<ArrayList<History>> getActivity(@Path("username") String username);
+    Call<ArrayList<History>> getActivity(@Path("username") String username, @Query("page") int page);
 
     @GET("user/{username}/animelist")
     Call<UserList> getAnimeList(@Path("username") String username);

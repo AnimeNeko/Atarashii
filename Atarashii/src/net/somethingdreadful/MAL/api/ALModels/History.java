@@ -40,7 +40,7 @@ public class History implements Serializable {
     private String activityType;
     @Setter
     @Getter
-    private ArrayList<Profile> users;
+    private ArrayList<net.somethingdreadful.MAL.api.ALModels.Profile> users;
     @Setter
     @Getter
     private Series series;
@@ -115,16 +115,16 @@ public class History implements Serializable {
             if (getSeries().getSeriesType().equals("anime")) {
                 model.setAnime(new Anime());
                 model.getAnime().setId(getSeries().getId());
-                model.getAnime().setTitle(getSeries().getTitleRomaji());
-                model.getAnime().setImageUrl(getSeries().getImageUrlLge());
+                model.getAnime().setTitle(getSeries().getTitleRomaji() == null ? getSeries().getTitleEnglish() : getSeries().getTitleRomaji());
+                model.getAnime().setImageUrl(getSeries().getImageUrlLge() == null ? getSeries().getImageUrlMed() : getSeries().getImageUrlLge());
                 model.getAnime().setStatus(getSeries().getAiringStatus());
                 model.getAnime().setAverageScore(String.valueOf(getSeries().getAverageScore()));
                 model.getAnime().setEpisodes(getSeries().getTotalEpisodes());
             } else if (getSeries().getSeriesType().equals("manga")) {
                 model.setManga(new Manga());
                 model.getManga().setId(getSeries().getId());
-                model.getManga().setTitle(getSeries().getTitleRomaji());
-                model.getManga().setImageUrl(getSeries().getImageUrlLge());
+                model.getManga().setTitle(getSeries().getTitleRomaji() == null ? getSeries().getTitleEnglish() : getSeries().getTitleRomaji());
+                model.getManga().setImageUrl(getSeries().getImageUrlLge() == null ? getSeries().getImageUrlMed() : getSeries().getImageUrlLge());
                 model.getManga().setStatus(getSeries().getPublishingStatus());
                 model.getManga().setAverageScore(String.valueOf(getSeries().getAverageScore()));
                 model.getManga().setChapters(getSeries().getTotalChapters());
@@ -133,13 +133,14 @@ public class History implements Serializable {
         }
         model.setStatus(getStatus());
         model.setValue(getValue());
-        model.setActivityType("list");
+        model.setActivityType(getActivityType());
         model.setCreatedAt(getCreatedAt());
 
         // set username
         ArrayList<Profile> users = new ArrayList<>();
         Profile profile = new Profile();
-        profile.setUsername(username);
+        profile.setUsername(getUsers().get(0).getDisplayName());
+        profile.setImageUrl(getUsers().get(0).getImageUrl());
         users.add(profile);
         model.setUsers(users);
         return model;

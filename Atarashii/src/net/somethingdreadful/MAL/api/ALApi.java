@@ -100,10 +100,10 @@ public class ALApi {
         return auth;
     }
 
-    public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username) {
+    public ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> getActivity(String username, int page) {
         retrofit2.Response<ArrayList<History>> response = null;
         try {
-            response = service.getActivity(username).execute();
+            response = service.getActivity(username, page).execute();
             return History.convertBaseHistoryList(response.body(), username);
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getActivity", e);

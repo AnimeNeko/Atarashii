@@ -39,7 +39,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return AccountService.isMAL() ? 3 : 2;
+        return 3;
     }
 
     @Override
@@ -48,9 +48,9 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return activity.getString(R.string.tab_name_details);
             case 1:
-                return AccountService.isMAL() ? activity.getString(R.string.tab_name_friends) : activity.getString(R.string.tab_name_following);
+                return activity.getString(AccountService.isMAL() ?  R.string.tab_name_friends : R.string.tab_name_following);
             case 2:
-                return activity.getString(R.string.tab_name_history);
+                return activity.getString(AccountService.isMAL() ? R.string.tab_name_history : R.string.layout_card_title_activity);
             default:
                 return null;
         }

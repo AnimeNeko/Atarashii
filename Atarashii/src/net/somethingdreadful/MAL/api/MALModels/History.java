@@ -90,14 +90,16 @@ public class History implements Serializable {
             model.setValue(String.valueOf(getItem().getEpisodes()));
             model.setStatus("watched episode");
             model.getAnime().setTitle(getItem().getTitle());
-            model.getAnime().setImageUrl("http://cdn.myanimelist.net/images/na_series.gif");
+            model.getAnime().setImageUrl("http://i.imgur.com/H6W5lmv.png");
+            model.setType("A");
         } else {
             model.setManga(new Manga());
             model.getManga().setId(getItem().getId());
             model.setValue(String.valueOf(getItem().getChapters()));
             model.setStatus("read chapter");
             model.getManga().setTitle(getItem().getTitle());
-            model.getManga().setImageUrl("http://cdn.myanimelist.net/images/na_series.gif");
+            model.getManga().setImageUrl("http://i.imgur.com/QwKTy9M.png");
+            model.setType("M");
         }
         model.setCreatedAt(getTimeUpdated());
         model.setActivityType("list");

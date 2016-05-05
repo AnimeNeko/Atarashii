@@ -224,9 +224,9 @@ public class ContentManager {
         }
     }
 
-    public ArrayList<History> getActivity(String username) {
-        ArrayList<History> result = AccountService.isMAL() ? malApi.getActivity(username) : alApi.getActivity(username);
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getActivity(): got " + String.valueOf(result != null ? result.size() : 0) + " records");
+    public ArrayList<History> getActivity(String username, int page) {
+        ArrayList<History> result = AccountService.isMAL() ? malApi.getActivity(username) : alApi.getActivity(username, page);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getActivity(): got " + String.valueOf(result != null ? result.size() : 0) + " records on " + page);
         return result;
     }
 

@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                     .putContentName("Profile")
                     .putContentType("Profile")
                     .putContentId("P" + getIntent().getStringExtra("username")));
-            new UserNetworkTask(forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getIntent().getStringExtra("username"), "activity");
+            getActivity(1);
         }
 
         NfcHelper.disableBeam(this);
@@ -153,7 +153,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             detailsAL.refresh();
         if (friends != null)
             friends.getRecords();
-        if (history != null)
+        if (history != null && record.getActivity() != null && record.getActivity().size() > 0)
             history.refresh();
     }
 
@@ -170,21 +170,21 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             friends.swipeRefresh.setRefreshing(loading);
             friends.swipeRefresh.setEnabled(!loading);
         }
-        if (history != null) {
-            history.swipeRefresh.setRefreshing(loading);
-            history.swipeRefresh.setEnabled(!loading);
-        }
     }
 
     public void getRecords() {
         if (!isLoading) {
             isLoading = true;
-            String username;
-            if (record != null)
-                username = record.getUsername();
-            else
-                username = getIntent().getStringExtra("username");
+            String username = record != null ? record.getUsername() : getIntent().getStringExtra("username");
             new UserNetworkTask(true, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
+        }
+    }
+
+    public void getActivity(int page) {
+        if (!isLoading) {
+            isLoading = true;
+            String username = record != null ? record.getUsername() : getIntent().getStringExtra("username");
+            new UserNetworkTask(forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, String.valueOf(page));
         }
     }
 

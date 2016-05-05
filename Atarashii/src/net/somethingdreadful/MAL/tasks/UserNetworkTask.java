@@ -50,7 +50,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
             }
 
             if (result != null && APIHelper.isNetworkAvailable(activity) && params.length == 2) {
-                ArrayList<History> activities = mManager.getActivity(params[0]);
+                ArrayList<History> activities = mManager.getActivity(params[0], Integer.parseInt(params[1]));
                 result.setActivity(activities);
             }
         } catch (Exception e) {
