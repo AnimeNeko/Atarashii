@@ -46,16 +46,19 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
             viewHolder = new ViewHolder();
             viewHolder.username = (TextView) view.findViewById(R.id.userName);
-            viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
+            viewHolder.lastOnline = (TextView) view.findViewById(R.id.lastonline);
+            viewHolder.lastOnlineLabel = (TextView) view.findViewById(R.id.lastonlineLabel);
             viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
 
             if (Theme.darkTheme) {
-                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.white));
+                viewHolder.lastOnline.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
+                viewHolder.lastOnlineLabel.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
                 Theme.setBackground(context, view);
             }
 
             if (!AccountService.isMAL())
-                viewHolder.last_online.setText(context.getString(R.string.unknown));
+                viewHolder.lastOnline.setText(context.getString(R.string.unknown));
 
             view.setTag(viewHolder);
         } else {
@@ -73,7 +76,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             if (record.getDetails() != null && record.getDetails().getLastOnline() != null) {
                 String last_online = record.getDetails().getLastOnline();
                 last_online = DateTools.parseDate(last_online, true);
-                viewHolder.last_online.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
+                viewHolder.lastOnline.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
             }
             Picasso.with(context).load(record.getImageUrl())
                     .error(R.drawable.cover_error)
@@ -97,7 +100,8 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
     static class ViewHolder {
         TextView username;
-        TextView last_online;
+        TextView lastOnline;
+        TextView lastOnlineLabel;
         ImageView avatar;
     }
 }

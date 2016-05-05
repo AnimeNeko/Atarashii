@@ -36,7 +36,7 @@
 
 
         <TextView
-            android:id="@+id/friends_last"
+            android:id="@+id/lastonlineLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/userName"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/userName"
-            android:layout_toRightOf="@id/friends_last"
+            android:layout_toRightOf="@id/lastonlineLabel"
             android:text=": "
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#757575"

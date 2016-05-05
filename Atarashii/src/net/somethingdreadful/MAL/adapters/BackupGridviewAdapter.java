@@ -47,7 +47,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
             viewHolder = new ViewHolder();
             viewHolder.username = (TextView) view.findViewById(R.id.userName);
             viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
-            viewHolder.friends_last = (TextView) view.findViewById(R.id.friends_last);
+            viewHolder.lastonlineLabel = (TextView) view.findViewById(R.id.lastonlineLabel);
             viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
             viewHolder.avatar.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_settings_backup_restore_grey));
             viewHolder.removeButton = (ImageView) view.findViewById(R.id.removeButton);
@@ -66,7 +66,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
 
             if (!AccountService.isMAL())
                 viewHolder.last_online.setText(context.getString(R.string.unknown));
-            viewHolder.friends_last.setText(context.getString(R.string.creation_date));
+            viewHolder.lastonlineLabel.setText(context.getString(R.string.creation_date));
 
             view.setTag(viewHolder);
         } else {
@@ -107,7 +107,7 @@ public class BackupGridviewAdapter<T> extends ArrayAdapter<T> {
         TextView username;
         TextView last_online;
         ImageView avatar;
-        TextView friends_last;
+        TextView lastonlineLabel;
         ImageView removeButton;
     }
 }
