@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.forum.HtmlUtil;
 import net.somethingdreadful.MAL.tasks.ForumJob;
 
 public class MessageDialogFragment extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
@@ -43,7 +42,7 @@ public class MessageDialogFragment extends DialogFragment implements View.OnClic
         if (task == null)
             send.setText(getString(R.string.dialog_label_update));
         if (message != null)
-            this.message.setText((new HtmlUtil(getActivity())).convertMALComment(message));
+            this.message.setText(message);
         if (hint != null)
             this.message.setHint(hint);
         this.message.setSelection(this.message.getText().length());

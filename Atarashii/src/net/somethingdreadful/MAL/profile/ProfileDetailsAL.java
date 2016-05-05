@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -23,7 +22,6 @@ import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.APIHelper;
-import net.somethingdreadful.MAL.forum.HtmlUtil;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -32,11 +30,7 @@ import butterknife.ButterKnife;
 
 public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private View view;
-    private HtmlUtil htmlUtil;
     private ProfileActivity activity;
-
-    @Bind(R.id.webview)
-    WebView webview;
     private Card imagecard;
     private Card activitycard;
     @Bind(R.id.swiperefresh)
@@ -54,13 +48,9 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
         imagecard = (Card) view.findViewById(R.id.name_card);
         imagecard.setContent(R.layout.card_image);
         activitycard = (Card) view.findViewById(R.id.activity);
-        activitycard.setContent(R.layout.card_profile_webview);
         activitycard.setPadding(0);
 
         ButterKnife.bind(this, view);
-
-        htmlUtil = new HtmlUtil(activity);
-        webview.getSettings().setJavaScriptEnabled(true);
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
@@ -102,8 +92,6 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
         } else {
             card();
-
-            webview.loadDataWithBaseURL(null, htmlUtil.convertList(activity.record, 1), "text/html", "utf-8", null);
 
             Picasso.with(activity)
                     .load(activity.record.getImageUrl())
