@@ -51,8 +51,12 @@ public class DateTools {
                 return getDate("yyyy-MM", ISO8601);
             case 10: // 2015-05-10
                 return getDate("yyyy-MM-dd", ISO8601);
+            case 16: // 2015-05-10 16:23:20
+                return getDate("yyyy-MM-dd HH:mmZ", ISO8601 + "+0900"); // AniList
             case 18: // 2015-05-10T16+0100
                 return getDate("yyyy-MM-dd'T'HHZ", ISO8601);
+            case 19: // 2015-05-10 16:23:20
+                return getDate("yyyy-MM-dd HH:mm:ssZ", ISO8601 + "+0900"); // AniList
             case 21: // 2015-05-10T16:23+0100
                 return getDate("yyyy-MM-dd'T'HH:mmZ", ISO8601);
             case 22: // 2015-05-10T16:23+01:00
