@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <fragment
+        android:id="@+id/main"
         android:name="net.somethingdreadful.MAL.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
