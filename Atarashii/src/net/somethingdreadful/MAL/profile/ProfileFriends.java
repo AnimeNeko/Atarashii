@@ -31,12 +31,14 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import lombok.Getter;
 
 public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
     private GridView Gridview;
     private ProfileActivity activity;
     private FriendsGridviewAdapter<Profile> listadapter;
-    private ArrayList<Profile> listarray = new ArrayList<>();
+    @Getter
+    private ArrayList<Profile> listarray;
 
     @Bind(R.id.network_Card)
     Card networkCard;
@@ -65,13 +67,26 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
-
-        if (id == 0)
-            activity.setFriends(this);
-        else
-            getRecords();
         toggle(1);
+
+        if (state != null) {
+            id = state.getInt("id");
+            listarray = (ArrayList<Profile>) state.getSerializable("listarray");
+            refresh();
+        } else {
+            if (id == 0)
+                activity.setFriends(this);
+            else
+                getRecords();
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putInt("id", id);
+        state.putSerializable("listarray", listarray);
+        super.onSaveInstanceState(state);
     }
 
     @Override

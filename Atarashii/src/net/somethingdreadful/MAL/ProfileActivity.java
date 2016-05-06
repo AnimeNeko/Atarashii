@@ -196,7 +196,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
 
     public void setFriends(ProfileFriends friends) {
         this.friends = friends;
-        if (record != null)
+        if (record != null && friends.getListarray() == null)
             friends.getRecords();
         if (getIntent().getExtras().containsKey("friends"))
             viewPager.setCurrentItem(1);

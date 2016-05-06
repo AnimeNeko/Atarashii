@@ -33,9 +33,10 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
         } else {
             fragments.add(new FragmentHolder(new ProfileDetailsAL(), R.string.tab_name_details));
             fragments.add(new FragmentHolder(new ProfileFriends().setId(0), R.string.tab_name_following));
-            if (APIHelper.isNetworkAvailable(activity))
+            if (APIHelper.isNetworkAvailable(activity)) {
                 fragments.add(new FragmentHolder(new ProfileFriends().setId(1), R.string.tab_name_followers));
-            fragments.add(new FragmentHolder(new ProfileHistory(), R.string.layout_card_title_activity));
+                fragments.add(new FragmentHolder(new ProfileHistory(), R.string.layout_card_title_activity));
+            }
         }
     }
 
