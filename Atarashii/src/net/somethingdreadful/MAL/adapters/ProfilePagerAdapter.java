@@ -29,7 +29,9 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
         if (AccountService.isMAL()) {
             fragments.add(new FragmentHolder(new ProfileDetailsMAL(), R.string.tab_name_details));
             fragments.add(new FragmentHolder(new ProfileFriends(), R.string.tab_name_friends));
-            fragments.add(new FragmentHolder(new ProfileHistory(), R.string.tab_name_history));
+            if (APIHelper.isNetworkAvailable(activity)) {
+                fragments.add(new FragmentHolder(new ProfileHistory(), R.string.tab_name_history));
+            }
         } else {
             fragments.add(new FragmentHolder(new ProfileDetailsAL(), R.string.tab_name_details));
             fragments.add(new FragmentHolder(new ProfileFriends().setId(0), R.string.tab_name_following));
