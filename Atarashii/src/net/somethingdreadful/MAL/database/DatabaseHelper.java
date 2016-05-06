@@ -28,7 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ANIME_PRODUCER = "anime_producer";
     public static final String TABLE_ANIME_OTHER_TITLES = "animeothertitles";
     public static final String TABLE_MANGA_OTHER_TITLES = "mangaothertitles";
-    public static final String TABLE_ACTIVITIES = "activities";
 
     public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
     public static final String TABLE_ANIME_MANGA_RELATIONS = "rel_anime_manga";
@@ -114,18 +113,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int TITLE_TYPE_SYNONYM = 2;
     public static final int TITLE_TYPE_ROMAJI = 3;
 
-    private static final String CREATE_ACTIVITIES_TABLE = "CREATE TABLE "
-            + TABLE_ACTIVITIES + "("
-            + COLUMN_ID + " integer primary key, "
-            + "type varchar NOT NULL, "
-            + "created varchar NOT NULL, "
-            + "reply_count integer NOT NULL, "
-            + "series_anime integer, "
-            + "series_manga integer, "
-            + "status varchar, "
-            + "value varchar"
-            + ");";
-
     public DatabaseHelper(Context context) {
         super(context, NAME, null, VERSION);
         this.context = context;
@@ -173,7 +160,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Table.create(db).createOtherTitles(TABLE_MANGA_OTHER_TITLES, TABLE_MANGA);
         db.execSQL(CREATE_PRODUCER_TABLE);
         db.execSQL(CREATE_ANIME_PRODUCER_TABLE);
-        db.execSQL(CREATE_ACTIVITIES_TABLE);
     }
 
     @Override
@@ -256,10 +242,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              *
              * The DB didn't supported some info.
              * - Added about in the profile for AL users.
+             * - Added anime days and manga chapters read for AL users.
+             * - Removed old history table which was unused after a rewrite.
              */
             if (oldVersion < 15) {
                 // Recreate profile table
                 Table.create(db).recreateProfileTable("");
+
+                // Drop unused table
+                db.execSQL("DROP TABLE IF EXISTS activities");
             }
         } catch (Exception e) {
             // log database failures
