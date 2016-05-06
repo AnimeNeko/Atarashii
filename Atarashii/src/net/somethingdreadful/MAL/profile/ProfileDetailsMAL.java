@@ -288,6 +288,8 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
 
                 Picasso.with(activity)
                         .load(activity.record.getImageUrl())
+                        .error(R.drawable.cover_error)
+                        .placeholder(R.drawable.cover_loading)
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
