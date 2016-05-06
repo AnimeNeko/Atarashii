@@ -131,12 +131,25 @@ public class ContentManager {
         ArrayList<Profile> result = new ArrayList<>();
         try {
             Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
-            result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowers(user);
+            result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowing(user);
 
             if (result != null && result.size() > 0 && AccountService.getUsername().equals(user))
                 dbMan.saveFriendList(result);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.downloadAndStoreFriendList(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
+
+        return sortFriendlist(result);
+    }
+
+    public ArrayList<Profile> getFollowers(String user) {
+        ArrayList<Profile> result = new ArrayList<>();
+        try {
+            Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.getFollowers(): Downloading getFollowers of " + user);
+            result = alApi.getFollowers(user);
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.getFollowers(): " + e.getMessage());
             Crashlytics.logException(e);
         }
 

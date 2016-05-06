@@ -299,6 +299,17 @@ public class ALApi {
         }
     }
 
+    public ArrayList<Profile> getFollowing(String user) {
+        retrofit2.Response<ArrayList<Follow>> response = null;
+        try {
+            response = service.getFollowing(user).execute();
+            return Follow.convertBaseFollowList(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getFollowing", e);
+            return null;
+        }
+    }
+
     public ArrayList<Profile> getFollowers(String user) {
         retrofit2.Response<ArrayList<Follow>> response = null;
         try {

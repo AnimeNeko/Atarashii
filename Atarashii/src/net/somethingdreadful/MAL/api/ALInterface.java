@@ -89,6 +89,9 @@ interface ALInterface {
     Call<BrowseAnimeList> getYearAnime(@Path("year") int year, @Query("page") int page);
 
     @GET("user/{username}/following")
+    Call<ArrayList<Follow>> getFollowing(@Path("username") String username);
+
+    @GET("user/{username}/followers")
     Call<ArrayList<Follow>> getFollowers(@Path("username") String username);
 
     @FormUrlEncoded

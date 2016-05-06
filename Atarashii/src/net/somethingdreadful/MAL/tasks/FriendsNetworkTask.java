@@ -20,12 +20,14 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
     private final Context context;
     private final boolean forcesync;
     private final Activity activity;
+    private final int id;
 
-    public FriendsNetworkTask(Context context, boolean forcesync, FriendsNetworkTaskListener callback, Activity activity) {
+    public FriendsNetworkTask(Context context, boolean forcesync, FriendsNetworkTaskListener callback, Activity activity, int id) {
         this.context = context;
         this.forcesync = forcesync;
         this.callback = callback;
         this.activity = activity;
+        this.id = id;
     }
 
     @Override
@@ -35,16 +37,16 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
             Crashlytics.log(Log.ERROR, "Atarashii", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
         }
-        ContentManager mManager = new ContentManager(activity);
+        ContentManager cManager = new ContentManager(activity);
         try {
             if (forcesync && APIHelper.isNetworkAvailable(context)) {
-                result = mManager.downloadAndStoreFriendList(params[0]);
-            } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
-                result = mManager.getFriendListFromDB();
+                result = request(cManager, params[0]);
+            } else if (params[0].equalsIgnoreCase(AccountService.getUsername()) && id != 1) {
+                result = cManager.getFriendListFromDB();
                 if ((result == null || result.isEmpty()) && APIHelper.isNetworkAvailable(context))
-                    result = mManager.downloadAndStoreFriendList(params[0]);
-            } else {
-                result = mManager.downloadAndStoreFriendList(params[0]);
+                    result = request(cManager, params[0]);
+            } else if (id != 1 || APIHelper.isNetworkAvailable(context)) {
+                result = request(cManager, params[0]);
             }
 
             /*
@@ -57,6 +59,17 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
             Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(5): task unknown API error (?)", e);
         }
         return result;
+    }
+    
+    private ArrayList<Profile> request(ContentManager cManager, String param){
+        switch (id) {
+            case 0:
+                return cManager.downloadAndStoreFriendList(param);
+            case 1:
+                return cManager.getFollowers(param);
+            default:
+                return cManager.downloadAndStoreFriendList(param);
+        }
     }
 
     @Override

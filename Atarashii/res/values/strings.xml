@@ -197,6 +197,7 @@
     <string name="tab_name_details">Details</string>
     <string name="tab_name_friends">Friends</string>
     <string name="tab_name_following">Following</string>
+    <string name="tab_name_followers">Followers</string>
     <string name="tab_name_history">History</string>
 
     <!-- DetailView (Card names) Strings -->

@@ -21,6 +21,7 @@ import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
@@ -43,8 +44,13 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     ProgressBar progressBar;
     @Bind(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
-
     private boolean forcesync = false;
+    private int id;
+
+    public Fragment setId(int id) {
+        this.id = id;
+        return this;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -60,7 +66,10 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
         swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
-        activity.setFriends(this);
+        if (id == 0)
+            activity.setFriends(this);
+        else
+            getRecords();
         toggle(1);
         return view;
     }
@@ -105,7 +114,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getUsername());
+        new FriendsNetworkTask(activity, forcesync, this, activity, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, AccountService.getUsername());
     }
 
     @Override
