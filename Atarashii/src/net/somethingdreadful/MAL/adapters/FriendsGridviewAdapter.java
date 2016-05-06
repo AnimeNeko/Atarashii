@@ -56,9 +56,6 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
                 Theme.setBackground(context, view);
             }
 
-            if (!AccountService.isMAL())
-                viewHolder.lastOnline.setText(context.getString(R.string.unknown));
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -72,10 +69,12 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
             else
                 viewHolder.username.setTextColor(ContextCompat.getColor(context, Theme.darkTheme ? R.color.text_dark : R.color.bg_dark_card));
 
-            if (record.getDetails() != null && record.getDetails().getLastOnline() != null) {
+            if (record.getDetails() != null && record.getDetails().getLastOnline() != null && AccountService.isMAL()) {
                 String last_online = record.getDetails().getLastOnline();
                 last_online = DateTools.parseDate(last_online, true);
                 viewHolder.lastOnline.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
+            } else {
+                viewHolder.lastOnline.setText(context.getString(R.string.unknown));
             }
             Picasso.with(context).load(record.getImageUrl())
                     .error(R.drawable.cover_error)
