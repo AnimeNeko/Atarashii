@@ -108,6 +108,7 @@ public class Table {
                 + "imageUrl varchar, "
                 + "imageUrlBanner varchar, "
                 + "notifications integer, "
+                + "about varchar, "
                 + "lastOnline varchar, "
                 + "status varchar, "
                 + "gender varchar, "
@@ -187,9 +188,9 @@ public class Table {
      * Recreates the table and removes the rows which are passed.
      *
      * @param table The table name
-     * @param rows All the row names
+     * @param rows  All the row names
      */
-    public void recreateTable(String table, String... rows) {
+    public void recreateListTable(String table, String... rows) {
         // Get all columns
         Cursor c = db.rawQuery("SELECT * FROM " + table + " WHERE 0", null);
         String[] columnNames = c.getColumnNames();
@@ -197,15 +198,42 @@ public class Table {
 
         // Remove old columns
         String column = TextUtils.join(",", columnNames);
-        for (String row : rows) {
-            column = column.replace(row + ",", "");
-        }
+        if (!rows[0].equals(""))
+            for (String row : rows) {
+                column = column.replace(row + ",", "");
+            }
 
         // Recreate anime table
         db.execSQL("CREATE TABLE temp_table AS SELECT * FROM " + table);
         db.execSQL("DROP TABLE " + table);
         createRecord(table);
         db.execSQL("INSERT INTO " + table + " (" + column + ") SELECT " + column + " FROM temp_table;");
+        db.execSQL("DROP TABLE temp_table;");
+    }
+
+    /**
+     * Recreates the table and removes the rows which are passed.
+     *
+     * @param rows  All the row names
+     */
+    public void recreateProfileTable(String... rows) {
+        // Get all columns
+        Cursor c = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_PROFILE + " WHERE 0", null);
+        String[] columnNames = c.getColumnNames();
+        c.close();
+
+        // Remove old columns
+        String column = TextUtils.join(",", columnNames);
+        if (!rows[0].equals(""))
+            for (String row : rows) {
+                column = column.replace(row + ",", "");
+            }
+
+        // Recreate anime table
+        db.execSQL("CREATE TABLE temp_table AS SELECT * FROM " + DatabaseHelper.TABLE_PROFILE);
+        db.execSQL("DROP TABLE " + DatabaseHelper.TABLE_PROFILE);
+        createProfile();
+        db.execSQL("INSERT INTO " + DatabaseHelper.TABLE_PROFILE + " (" + column + ") SELECT " + column + " FROM temp_table;");
         db.execSQL("DROP TABLE temp_table;");
     }
 

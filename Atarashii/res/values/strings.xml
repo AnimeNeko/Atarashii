@@ -259,6 +259,7 @@
     <string name="episodepicker_hint">Enter your score</string>
     <string name="card_content_rating">Overall Rating:</string>
     <string name="card_content_chapseen">Chapters Read:</string>
+    <string name="card_content_episodestime">Days of Anime:</string>
     <string name="card_content_episeen">Episodes Seen:</string>
 
     <!-- DetailView (Actionbar actions) Strings -->

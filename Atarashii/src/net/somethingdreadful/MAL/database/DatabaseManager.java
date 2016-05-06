@@ -443,6 +443,11 @@ public class DatabaseManager {
         cv.put("imageUrl", profile.getImageUrl());
         cv.put("imageUrlBanner", profile.getImageUrlBanner());
         cv.put("notifications", profile.getNotifications());
+        cv.put("about", profile.getAbout());
+
+        // AniList also supports these
+        cv.put("AnimetimeDays", profile.getAnimeStats().getTimeDays());
+        cv.put("Mangacompleted", profile.getMangaStats().getCompleted());
 
         if (AccountService.isMAL()) {
             cv.put("lastOnline", profile.getDetails().getLastOnline());
@@ -459,7 +464,6 @@ public class DatabaseManager {
             cv.put("forumPosts", profile.getDetails().getForumPosts());
             cv.put("comments", profile.getDetails().getComments());
 
-            cv.put("AnimetimeDays", profile.getAnimeStats().getTimeDays());
             cv.put("Animewatching", profile.getAnimeStats().getWatching());
             cv.put("Animecompleted", profile.getAnimeStats().getCompleted());
             cv.put("AnimeonHold", profile.getAnimeStats().getOnHold());
@@ -469,7 +473,6 @@ public class DatabaseManager {
 
             cv.put("MangatimeDays", profile.getMangaStats().getTimeDays());
             cv.put("Mangareading", profile.getMangaStats().getReading());
-            cv.put("Mangacompleted", profile.getMangaStats().getCompleted());
             cv.put("MangaonHold", profile.getMangaStats().getOnHold());
             cv.put("Mangadropped", profile.getMangaStats().getDropped());
             cv.put("MangaplanToRead", profile.getMangaStats().getPlanToRead());

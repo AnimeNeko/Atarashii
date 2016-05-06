@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
-import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
@@ -155,7 +154,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
                     case "text":
                         holder.value.setText(history.getValue());
                         holder.title.setText(history.getUsers().get(0).getUsername());
-                        holder.time.setText(DateTools.parseDate(history.getCreatedAt(), true));
+                        holder.time.setText(history.getCreatedAt());
                         image = history.getUsers().get(0).getImageUrl();
                         break;
                     case "list":
@@ -163,7 +162,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
                             holder.value.setText(history.getUsers().get(0).getUsername() + " " + history.getStatus() + " " + history.getValue());
                             holder.title.setText(history.getSeries().getTitle());
                             image = history.getSeries().getImageUrl();
-                            holder.time.setText(DateTools.parseDate(history.getCreatedAt(), true));
+                            holder.time.setText(history.getCreatedAt());
                             holder.type.setText(history.getType());
                         }
                         break;

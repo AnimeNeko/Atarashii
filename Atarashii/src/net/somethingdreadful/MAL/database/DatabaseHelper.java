@@ -16,7 +16,7 @@ import java.io.File;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
-    private static final int VERSION = 14;
+    private static final int VERSION = 15;
     private static DatabaseHelper instance;
     private Context context;
 
@@ -245,8 +245,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("UPDATE "+ TABLE_MANGA + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
 
                 // Recreate anime and manga table
-                Table.create(db).recreateTable(TABLE_ANIME, "epsDownloaded", "fansubGroup");
-                Table.create(db).recreateTable(TABLE_MANGA, "chapDownloaded");
+                Table.create(db).recreateListTable(TABLE_ANIME, "epsDownloaded", "fansubGroup");
+                Table.create(db).recreateListTable(TABLE_MANGA, "chapDownloaded");
+            }
+
+            /**
+             * Date: 06-05-2016
+             * Database version: 15
+             * Application version: 2.2.8
+             *
+             * The DB didn't supported some info.
+             * - Added about in the profile for AL users.
+             */
+            if (oldVersion < 15) {
+                // Recreate profile table
+                Table.create(db).recreateProfileTable("");
             }
         } catch (Exception e) {
             // log database failures

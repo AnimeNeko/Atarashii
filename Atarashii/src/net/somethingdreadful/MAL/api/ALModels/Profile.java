@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import net.somethingdreadful.MAL.PrefManager;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import lombok.Getter;
@@ -115,6 +116,10 @@ public class Profile implements Serializable {
         model.setCustomAnime(getCustomAnime());
         model.setCustomManga(getCustomManga());
         model.setNotifications(getNotifications());
+        model.setAnimeStats(new net.somethingdreadful.MAL.api.MALModels.Profile.AnimeStats());
+        model.setMangaStats(new net.somethingdreadful.MAL.api.MALModels.Profile.MangaStats());
+        model.getAnimeStats().setTimeDays(Double.valueOf(new DecimalFormat("#.##").format((double) getAnimeTime() / 60 / 24)));
+        model.getMangaStats().setCompleted(getMangaChapters());
 
         if (scoreType != -1) {
             PrefManager.setScoreType(scoreType);

@@ -153,6 +153,7 @@ public class Profile implements Serializable {
         profile.setImageUrl(cursor.getString(columnNames.indexOf("imageUrl")));
         profile.setImageUrlBanner(cursor.getString(columnNames.indexOf("imageUrlBanner")));
         profile.setNotifications(cursor.getInt(columnNames.indexOf("notifications")));
+        profile.setAbout(cursor.getString(columnNames.indexOf("about")));
         profile.getDetails().setLastOnline(cursor.getString(columnNames.indexOf("lastOnline")));
         profile.getDetails().setStatus(cursor.getString(columnNames.indexOf("status")));
         profile.getDetails().setGender(cursor.getString(columnNames.indexOf("gender")));

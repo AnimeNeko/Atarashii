@@ -1,17 +1,19 @@
 package net.somethingdreadful.MAL.profile;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -22,6 +24,8 @@ import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.APIHelper;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
+import net.somethingdreadful.MAL.forum.ForumHTMLUnit;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -31,24 +35,31 @@ import butterknife.ButterKnife;
 public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private View view;
     private ProfileActivity activity;
+    private ForumHTMLUnit forumHTMLUnit;
     private Card imagecard;
-    private Card activitycard;
+    private Card aboutCard;
     @Bind(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
     @Bind(R.id.network_Card)
     Card networkCard;
+    @Bind(R.id.SynopsisContent)
+    TextView about;
+    @Bind(R.id.atimedayssmall)
+    TextView timeDays;
+    @Bind(R.id.mtimedayssmall)
+    TextView chapsRead;
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_al, container, false);
 
         imagecard = (Card) view.findViewById(R.id.name_card);
         imagecard.setContent(R.layout.card_image);
-        activitycard = (Card) view.findViewById(R.id.activity);
-        activitycard.setPadding(0);
+        aboutCard = (Card) view.findViewById(R.id.about);
+        aboutCard.setContent(R.layout.card_profile_about);
+        forumHTMLUnit = new ForumHTMLUnit(activity, null);
 
         ButterKnife.bind(this, view);
 
@@ -61,7 +72,8 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
 
         if (activity.record == null)
             toggle(1);
-
+        else
+            refresh();
         NfcHelper.disableBeam(activity);
         return view;
     }
@@ -70,11 +82,6 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (ProfileActivity) activity;
-    }
-
-    private void card() {
-        Card namecard = (Card) view.findViewById(R.id.name_card);
-        namecard.Header.setText(WordUtils.capitalize(activity.record.getUsername()));
     }
 
     public void toggle(int number) {
@@ -91,7 +98,17 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
                 toggle(2);
 
         } else {
-            card();
+            Profile profile = activity.record;
+            Card namecard = (Card) view.findViewById(R.id.name_card);
+            namecard.Header.setText(WordUtils.capitalize(profile.getUsername()));
+            if (profile.getAbout() == null || profile.getAbout().equals("")) {
+                about.setText(getString(R.string.unknown));
+            } else {
+                about.setText(Html.fromHtml(forumHTMLUnit.convertComment(profile.getAbout())));
+                about.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+            timeDays.setText(String.valueOf(profile.getAnimeStats().getTimeDays()));
+            chapsRead.setText(String.valueOf(profile.getMangaStats().getCompleted()));
 
             Picasso.with(activity)
                     .load(activity.record.getImageUrl())

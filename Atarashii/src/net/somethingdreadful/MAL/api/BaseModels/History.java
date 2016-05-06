@@ -1,5 +1,6 @@
 package net.somethingdreadful.MAL.api.BaseModels;
 
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -20,7 +21,6 @@ public class History implements Serializable {
     @Setter
     @Getter
     private int replyCount;
-    @Setter
     @Getter
     private String createdAt;
     @Setter
@@ -51,6 +51,10 @@ public class History implements Serializable {
 
     public boolean isAnime() {
         return anime != null;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = DateTools.parseDate(createdAt, true);
     }
 
     public GenericRecord getSeries() {
