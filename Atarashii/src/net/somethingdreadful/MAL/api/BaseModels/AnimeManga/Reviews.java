@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
 
+import net.somethingdreadful.MAL.DateTools;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import java.io.Serializable;
@@ -38,7 +40,6 @@ public class Reviews implements Serializable {
     /**
      * The creation date of the review
      */
-    @Setter
     @Getter
     private String date;
 
@@ -87,6 +88,10 @@ public class Reviews implements Serializable {
         } else {
             shortReview = review;
         }
+    }
+
+    public void setDate(String date) {
+        this.date = DateTools.parseDate(date, !AccountService.isMAL());
     }
 
     public void setEpisodesSeen(int episodesSeen) {

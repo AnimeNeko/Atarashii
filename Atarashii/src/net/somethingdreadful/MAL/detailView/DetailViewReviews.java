@@ -194,7 +194,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
                 image = review.getUser().getImageUrl();
                 title = review.getUser().getUsername();
                 holder.title.setText(WordUtils.capitalize(title));
-                holder.subTitle.setText(DateTools.parseDate(review.getDate(), !AccountService.isMAL()));
+                holder.subTitle.setText(review.getDate());
                 holder.subTitle2.setText(rating + " " + review.getRating() + (!AccountService.isMAL() ? "/100" : ""));
                 holder.subTitle3.setText(activity.isAnime() ? review.getEpisodesSeen(episeen) : review.getChaptersRead(chapseen));
                 holder.content.setText(Html.fromHtml(review.getShortReview()));
