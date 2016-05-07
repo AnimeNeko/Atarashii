@@ -5,9 +5,11 @@ import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -50,6 +53,8 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     TextView timeDays;
     @Bind(R.id.mtimedayssmall)
     TextView chapsRead;
+    @Bind(R.id.Image)
+    ImageView image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -118,18 +123,25 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                             imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                            ((ImageView) view.findViewById(R.id.Image)).setImageBitmap(bitmap);
-                            toggle(0);
+                            image.setImageBitmap(bitmap);
                         }
 
                         @Override
                         public void onBitmapFailed(Drawable errorDrawable) {
-                            toggle(0);
+                            try {
+                                Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
+                                imagecard.wrapImage(225, 320);
+                                image.setImageDrawable(drawable);
+                            } catch (Exception e) {
+                                Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                            }
                         }
 
                         @Override
                         public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            toggle(0);
+                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                            imagecard.wrapImage(225, 320);
+                            image.setImageDrawable(drawable);
                         }
                     });
             toggle(0);
