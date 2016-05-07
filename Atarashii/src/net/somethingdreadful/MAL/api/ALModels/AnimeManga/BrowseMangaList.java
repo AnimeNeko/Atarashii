@@ -41,17 +41,7 @@ public class BrowseMangaList {
         model.setLastPage(getLastPage());
         model.setFrom(getFrom());
         model.setTo(getTo());
-        model.setManga(convertBaseArray(getData()));
+        model.setManga(Manga.convertBaseArray(getData()));
         return model;
-    }
-
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> convertBaseArray(ArrayList<Manga> ALArray) {
-        ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> base = new ArrayList<>();
-        if (ALArray != null) {
-            for (Manga manga : ALArray) {
-                base.add(manga.createBaseModel());
-            }
-        }
-        return base;
     }
 }

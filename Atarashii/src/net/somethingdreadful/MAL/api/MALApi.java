@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
@@ -237,88 +236,88 @@ public class MALApi {
         return APIHelper.isOK(service.deleteManga(id), "deleteMangaFromList");
     }
 
-    public BrowseList getMostPopularAnime(int page) {
+    public ArrayList<Anime> getMostPopularAnime(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getPopularAnime(page).execute();
-            return AnimeList.convertBaseBrowseList(response.body());
+            return AnimeList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getMostPopularAnime", e);
             return null;
         }
     }
 
-    public BrowseList getMostPopularManga(int page) {
+    public ArrayList<Manga> getMostPopularManga(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
         try {
             response = service.getPopularManga(page).execute();
-            return MangaList.convertBaseBrowseList(response.body());
+            return MangaList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getMostPopularManga", e);
             return null;
         }
     }
 
-    public BrowseList getTopRatedAnime(int page) {
+    public ArrayList<Anime> getTopRatedAnime(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getTopRatedAnime(page).execute();
-            return AnimeList.convertBaseBrowseList(response.body());
+            return AnimeList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getTopRatedAnime", e);
             return null;
         }
     }
 
-    public BrowseList getTopRatedManga(int page) {
+    public ArrayList<Manga> getTopRatedManga(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
         try {
             response = service.getTopRatedManga(page).execute();
-            return MangaList.convertBaseBrowseList(response.body());
+            return MangaList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getTopRatedManga", e);
             return null;
         }
     }
 
-    public BrowseList getJustAddedAnime(int page) {
+    public ArrayList<Anime> getJustAddedAnime(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getJustAddedAnime(page).execute();
-            return AnimeList.convertBaseBrowseList(response.body());
+            return AnimeList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedAnime", e);
             return null;
         }
     }
 
-    public BrowseList getJustAddedManga(int page) {
+    public ArrayList<Manga> getJustAddedManga(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
         try {
             response = service.getJustAddedManga(page).execute();
-            return MangaList.convertBaseBrowseList(response.body());
+            return MangaList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedManga", e);
             return null;
         }
     }
 
-    public BrowseList getUpcomingAnime(int page) {
+    public ArrayList<Anime> getUpcomingAnime(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getUpcomingAnime(page).execute();
-            return AnimeList.convertBaseBrowseList(response.body());
+            return AnimeList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingAnime", e);
             return null;
         }
     }
 
-    public BrowseList getUpcomingManga(int page) {
+    public ArrayList<Manga> getUpcomingManga(int page) {
         Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
         try {
             response = service.getUpcomingManga(page).execute();
-            return MangaList.convertBaseBrowseList(response.body());
+            return MangaList.convertBaseArray(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingManga", e);
             return null;

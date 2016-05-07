@@ -122,16 +122,16 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     }
                     break;
                 case GETMOSTPOPULAR:
-                    taskResult = isAnimeTask() ? cManager.getMostPopularAnime(page).getAnime() : cManager.getMostPopularManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getMostPopularAnime(page) : cManager.getMostPopularManga(page);
                     break;
                 case GETTOPRATED:
-                    taskResult = isAnimeTask() ? cManager.getTopRatedAnime(page).getAnime() : cManager.getTopRatedManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getTopRatedAnime(page) : cManager.getTopRatedManga(page);
                     break;
                 case GETJUSTADDED:
-                    taskResult = isAnimeTask() ? cManager.getJustAddedAnime(page).getAnime() : cManager.getJustAddedManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getJustAddedAnime(page) : cManager.getJustAddedManga(page);
                     break;
                 case GETUPCOMING:
-                    taskResult = isAnimeTask() ? cManager.getUpcomingAnime(page).getAnime() : cManager.getUpcomingManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getUpcomingAnime(page) : cManager.getUpcomingManga(page);
                     break;
                 case GETDETAILS:
                     if (data != null && data.containsKey("recordID"))

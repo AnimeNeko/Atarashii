@@ -10,7 +10,6 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
@@ -21,7 +20,6 @@ import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.database.DatabaseManager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -288,35 +286,35 @@ public class ContentManager {
         return result;
     }
 
-    public BrowseList getMostPopularAnime(int page) {
-        return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getAiringAnime(page);
+    public ArrayList<Anime> getMostPopularAnime(int page) {
+        return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getBrowseAnime("popularity-desc", page);
     }
 
-    public BrowseList getMostPopularManga(int page) {
-        return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getPublishingManga(page);
+    public ArrayList<Manga> getMostPopularManga(int page) {
+        return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getBrowseManga("popularity-desc", page);
     }
 
-    public BrowseList getTopRatedAnime(int page) {
-        return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getYearAnime(Calendar.getInstance().get(Calendar.YEAR), page);
+    public ArrayList<Anime> getTopRatedAnime(int page) {
+        return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getBrowseAnime("score-desc", page);
     }
 
-    public BrowseList getTopRatedManga(int page) {
-        return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getYearManga(Calendar.getInstance().get(Calendar.YEAR), page);
+    public ArrayList<Manga> getTopRatedManga(int page) {
+        return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getBrowseManga("score-desc", page);
     }
 
-    public BrowseList getJustAddedAnime(int page) {
+    public ArrayList<Anime> getJustAddedAnime(int page) {
         return AccountService.isMAL() ? malApi.getJustAddedAnime(page) : alApi.getJustAddedAnime(page);
     }
 
-    public BrowseList getJustAddedManga(int page) {
+    public ArrayList<Manga> getJustAddedManga(int page) {
         return AccountService.isMAL() ? malApi.getJustAddedManga(page) : alApi.getJustAddedManga(page);
     }
 
-    public BrowseList getUpcomingAnime(int page) {
+    public ArrayList<Anime> getUpcomingAnime(int page) {
         return AccountService.isMAL() ? malApi.getUpcomingAnime(page) : alApi.getUpcomingAnime(page);
     }
 
-    public BrowseList getUpcomingManga(int page) {
+    public ArrayList<Manga> getUpcomingManga(int page) {
         return AccountService.isMAL() ? malApi.getUpcomingManga(page) : alApi.getUpcomingManga(page);
     }
 

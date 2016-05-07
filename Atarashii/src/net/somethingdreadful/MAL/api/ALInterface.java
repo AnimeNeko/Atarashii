@@ -76,17 +76,11 @@ interface ALInterface {
     @GET("manga/browse/recent")
     Call<BrowseMangaList> getJustAddedManga(@Query("page") int page);
 
-    @GET("manga/browse/publishing")
-    Call<BrowseMangaList> getAiringManga(@Query("page") int page);
+    @GET("browse/anime")
+    Call<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> getBrowseAnime(@Query("sort") String sort, @Query("page") int page);
 
-    @GET("anime/browse/airing")
-    Call<BrowseMangaList> getAiringAnime(@Query("page") int page);
-
-    @GET("manga/browse/year/{year}")
-    Call<BrowseMangaList> getYearManga(@Path("year") int year, @Query("page") int page);
-
-    @GET("anime/browse/year/{year}")
-    Call<BrowseAnimeList> getYearAnime(@Path("year") int year, @Query("page") int page);
+    @GET("browse/manga")
+    Call<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> getBrowseManga(@Query("sort") String sort, @Query("page") int page);
 
     @GET("user/{username}/following")
     Call<ArrayList<Follow>> getFollowing(@Path("username") String username);

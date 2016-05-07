@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.api.ALModels.AnimeManga;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -53,5 +54,15 @@ public class Anime extends GenericRecord implements Serializable {
         model.setAiring(getAiring());
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(false);
         return model;
+    }
+
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime> convertBaseArray(ArrayList<Anime> ALArray) {
+        ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime> base = new ArrayList<>();
+        if (ALArray != null) {
+            for (Anime anime : ALArray) {
+                base.add(anime.createBaseModel());
+            }
+        }
+        return base;
     }
 }

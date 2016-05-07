@@ -1,6 +1,5 @@
 package net.somethingdreadful.MAL.api.MALModels.AnimeManga;
 
-import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.BrowseList;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 
 import java.io.Serializable;
@@ -41,11 +40,5 @@ public class AnimeList implements Serializable {
                 base.add(anime.createBaseModel());
             }
         return base;
-    }
-
-    public static BrowseList convertBaseBrowseList(ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime> MALArray) {
-        BrowseList browseList = new BrowseList();
-        browseList.setAnime(convertBaseArray(MALArray));
-        return browseList;
     }
 }
