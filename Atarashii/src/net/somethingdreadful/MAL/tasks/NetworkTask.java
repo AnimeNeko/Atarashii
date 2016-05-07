@@ -87,16 +87,16 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             Crashlytics.setInt("Page", 0);
 
         taskResult = null;
-        ContentManager mManager = new ContentManager(activity != null ? activity : context);
+        ContentManager cManager = new ContentManager(activity != null ? activity : context);
 
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(getContext()))
-            mManager.verifyAuthentication();
+            cManager.verifyAuthentication();
 
         try {
             switch (job) {
                 case GETLIST:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : mManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                        taskResult = isAnimeTask() ? cManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                     break;
                 case FORCESYNC:
                     if (params != null) {
@@ -106,50 +106,50 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                          * this will throw an RetrofitError-Exception if the credentials are wrong
                          */
                         if (AccountService.isMAL())
-                            mManager.verifyAuthentication();
+                            cManager.verifyAuthentication();
 
                         if (isAnimeTask()) {
-                            mManager.cleanDirtyAnimeRecords();
-                            mManager.downloadAnimeList(AccountService.getUsername());
-                            taskResult =  mManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                            cManager.cleanDirtyAnimeRecords();
+                            cManager.downloadAnimeList(AccountService.getUsername());
+                            taskResult =  cManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                         } else {
-                            mManager.cleanDirtyMangaRecords();
-                            mManager.downloadMangaList(AccountService.getUsername());
-                            taskResult =  mManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                            cManager.cleanDirtyMangaRecords();
+                            cManager.downloadMangaList(AccountService.getUsername());
+                            taskResult =  cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                         }
 
                         Widget1.forceRefresh(getContext());
                     }
                     break;
                 case GETMOSTPOPULAR:
-                    taskResult = isAnimeTask() ? mManager.getMostPopularAnime(page).getAnime() : mManager.getMostPopularManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getMostPopularAnime(page).getAnime() : cManager.getMostPopularManga(page).getManga();
                     break;
                 case GETTOPRATED:
-                    taskResult = isAnimeTask() ? mManager.getTopRatedAnime(page).getAnime() : mManager.getTopRatedManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getTopRatedAnime(page).getAnime() : cManager.getTopRatedManga(page).getManga();
                     break;
                 case GETJUSTADDED:
-                    taskResult = isAnimeTask() ? mManager.getJustAddedAnime(page).getAnime() : mManager.getJustAddedManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getJustAddedAnime(page).getAnime() : cManager.getJustAddedManga(page).getManga();
                     break;
                 case GETUPCOMING:
-                    taskResult = isAnimeTask() ? mManager.getUpcomingAnime(page).getAnime() : mManager.getUpcomingManga(page).getManga();
+                    taskResult = isAnimeTask() ? cManager.getUpcomingAnime(page).getAnime() : cManager.getUpcomingManga(page).getManga();
                     break;
                 case GETDETAILS:
                     if (data != null && data.containsKey("recordID"))
                         if (isAnimeTask()) {
                             // Get Anime from database
-                            Anime record = mManager.getAnime(data.getInt("recordID", -1));
+                            Anime record = cManager.getAnime(data.getInt("recordID", -1));
 
                             if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
                                 // Check for synopsis for relation.
                                 if (record == null || record.getImageUrl() == null)
-                                    record = mManager.getAnimeRecord(data.getInt("recordID", -1));
+                                    record = cManager.getAnimeRecord(data.getInt("recordID", -1));
 
                                 // Check if the record is on the animelist.
                                 // after that load details if synopsis == null or else return the DB record
                                 if ((record.getSynopsis() == null || params[0].equals("true")) && record.getWatchedStatus() != null) {
                                     Crashlytics.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
-                                    taskResult = mManager.updateWithDetails(record.getId(), record);
+                                    taskResult = cManager.updateWithDetails(record.getId(), record);
                                 } else {
                                     taskResult = record;
                                 }
@@ -160,18 +160,18 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             }
                         } else {
                             // Get Manga from database
-                            Manga record = mManager.getManga(data.getInt("recordID", -1));
+                            Manga record = cManager.getManga(data.getInt("recordID", -1));
 
                             if (APIHelper.isNetworkAvailable(activity)) {
                                 // Get records from the website
                                 if (record == null || record.getImageUrl() == null)
-                                    record = mManager.getMangaRecord(data.getInt("recordID", -1));
+                                    record = cManager.getMangaRecord(data.getInt("recordID", -1));
 
                                 // Check if the record is on the mangalist
                                 // load details if synopsis == null or else return the DB record
                                 if ((record.getSynopsis() == null || params[0].equals("true")) && record.getReadStatus() != null) {
                                     Crashlytics.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
-                                    taskResult = mManager.updateWithDetails(record.getId(), record);
+                                    taskResult = cManager.updateWithDetails(record.getId(), record);
                                 } else {
                                     taskResult = record;
                                 }
@@ -184,11 +184,11 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     break;
                 case SEARCH:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.searchAnime(params[0], page) : mManager.searchManga(params[0], page);
+                        taskResult = isAnimeTask() ? cManager.searchAnime(params[0], page) : cManager.searchManga(params[0], page);
                     break;
                 case REVIEWS:
                     if (params != null)
-                        taskResult = isAnimeTask() ? mManager.getAnimeReviews(Integer.parseInt(params[0]), page) : mManager.getMangaReviews(Integer.parseInt(params[0]), page);
+                        taskResult = isAnimeTask() ? cManager.getAnimeReviews(Integer.parseInt(params[0]), page) : cManager.getMangaReviews(Integer.parseInt(params[0]), page);
                     break;
                 default:
                     Crashlytics.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));

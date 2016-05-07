@@ -27,56 +27,56 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
     @Override
     protected ArrayList<Forum> doInBackground(String... params) {
         ArrayList<Forum> result = new ArrayList<>();
-        ContentManager mManager = new ContentManager(activity);
+        ContentManager cManager = new ContentManager(activity);
         if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
-            mManager.verifyAuthentication();
+            cManager.verifyAuthentication();
 
         try {
             switch (type) {
                 case MENU: // list with all categories
-                    result = mManager.getForumCategories();
+                    result = cManager.getForumCategories();
                     break;
                 case CATEGORY: // list with all topics of a certain category
-                    result = mManager.getCategoryTopics(id, Integer.parseInt(params[0]));
+                    result = cManager.getCategoryTopics(id, Integer.parseInt(params[0]));
                     break;
                 case SUBCATEGORY:
-                    result = mManager.getSubCategory(id, Integer.parseInt(params[0]));
+                    result = cManager.getSubCategory(id, Integer.parseInt(params[0]));
                     break;
                 case TOPIC: // list with all comments of users
-                    result = mManager.getTopic(id, Integer.parseInt(params[0]));
+                    result = cManager.getTopic(id, Integer.parseInt(params[0]));
                     break;
                 case SEARCH:
-                    result = mManager.search(params[0]);
+                    result = cManager.search(params[0]);
                     break;
                 case ADDCOMMENT:
-                    result = mManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                    result = cManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null;
                     if (result != null)
-                        result = mManager.getTopic(id, Integer.parseInt(params[1]));
+                        result = cManager.getTopic(id, Integer.parseInt(params[1]));
                     break;
                 case UPDATECOMMENT:
-                    result = mManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                    result = cManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null;
                     break;
                 /*
                 case DISCUSSION:
                     if (params[1].equals(MALApi.ListType.ANIME.toString()))
-                        result = mManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.ANIME);
+                        result = cManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.ANIME);
                     else
-                        result = mManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.MANGA);
+                        result = cManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.MANGA);
                     break;
                 case TOPICS:
-                    result = mManager.getTopics(id, Integer.parseInt(params[0]));
+                    result = cManager.getTopics(id, Integer.parseInt(params[0]));
                     break;
                 case POSTS:
-                    result = mManager.getPosts(id, Integer.parseInt(params[0]));
+                    result = cManager.getPosts(id, Integer.parseInt(params[0]));
                     break;
                 case ADDTOPIC:
-                    result.setList(mManager.addTopic(id, params[0], params[1]) ? new ArrayList<Forum>() : null);
+                    result.setList(cManager.addTopic(id, params[0], params[1]) ? new ArrayList<Forum>() : null);
                     break;
                 case ADDCOMMENT:
-                    result.setList(mManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null);
+                    result.setList(cManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null);
                     break;
                 case UPDATECOMMENT:
-                    result.setList(mManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null);
+                    result.setList(cManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null);
                     break;*/
             }
         } catch (Exception e) {

@@ -36,7 +36,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
     @Override
     protected Object doInBackground(String... params) {
         try {
-            ContentManager mManager = new ContentManager(activity);
+            ContentManager cManager = new ContentManager(activity);
 
             // get and read the backup file
             StringBuilder backupJson = new StringBuilder();
@@ -57,15 +57,15 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
                 return null;
             }
 
-            mManager.verifyAuthentication();
+            cManager.verifyAuthentication();
 
             // check if the network is available
             if (APIHelper.isNetworkAvailable(activity)) {
                 // clean dirty records to pull all the changes
-                mManager.cleanDirtyAnimeRecords();
-                mManager.cleanDirtyMangaRecords();
-                mManager.downloadAnimeList(AccountService.getUsername());
-                mManager.downloadMangaList(AccountService.getUsername());
+                cManager.cleanDirtyAnimeRecords();
+                cManager.cleanDirtyMangaRecords();
+                cManager.downloadAnimeList(AccountService.getUsername());
+                cManager.downloadMangaList(AccountService.getUsername());
             }
 
             // notify user

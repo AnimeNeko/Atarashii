@@ -46,9 +46,9 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
                 return null;
             }
 
-            ContentManager mManager = new ContentManager(context);
+            ContentManager cManager = new ContentManager(context);
             PrefManager.create(context);
-            mManager.verifyAuthentication();
+            cManager.verifyAuthentication();
 
             // creates directory if it doesn't exists
             File directory = new File(Environment.getExternalStorageDirectory() + "/Atarashii/");
@@ -64,15 +64,15 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             // check if the network is available
             if (APIHelper.isNetworkAvailable(context)) {
                 // clean dirty records to pull all the changes
-                mManager.cleanDirtyAnimeRecords();
-                mManager.cleanDirtyMangaRecords();
-                mManager.downloadAnimeList(AccountService.getUsername());
-                mManager.downloadMangaList(AccountService.getUsername());
+                cManager.cleanDirtyAnimeRecords();
+                cManager.cleanDirtyMangaRecords();
+                cManager.downloadAnimeList(AccountService.getUsername());
+                cManager.downloadMangaList(AccountService.getUsername());
             }
 
             // Get results from the database
-            animeResult = mManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
-            mangaResult = mManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
+            animeResult = cManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
+            mangaResult = cManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
 
             // create the backup model and get the string
             Backup backup = new Backup();

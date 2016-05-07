@@ -33,24 +33,24 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
             Crashlytics.log(Log.ERROR, "Atarashii", "UserNetworkTask.doInBackground(): No username to fetch profile");
             return null;
         }
-        ContentManager mManager = new ContentManager(activity);
+        ContentManager cManager = new ContentManager(activity);
 
         try {
             if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
-                mManager.verifyAuthentication();
+                cManager.verifyAuthentication();
 
             if (forcesync && APIHelper.isNetworkAvailable(activity)) {
-                result = mManager.getProfile(params[0]);
+                result = cManager.getProfile(params[0]);
             } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
-                result = mManager.getProfileFromDB();
+                result = cManager.getProfileFromDB();
                 if (result == null && APIHelper.isNetworkAvailable(activity))
-                    result = mManager.getProfile(params[0]);
+                    result = cManager.getProfile(params[0]);
             } else if (APIHelper.isNetworkAvailable(activity)) {
-                result = mManager.getProfile(params[0]);
+                result = cManager.getProfile(params[0]);
             }
 
             if (result != null && APIHelper.isNetworkAvailable(activity) && params.length == 2) {
-                ArrayList<History> activities = mManager.getActivity(params[0], Integer.parseInt(params[1]));
+                ArrayList<History> activities = cManager.getActivity(params[0], Integer.parseInt(params[1]));
                 result.setActivity(activities);
             }
         } catch (Exception e) {
