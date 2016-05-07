@@ -21,7 +21,6 @@ import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
@@ -73,12 +72,11 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
             id = state.getInt("id");
             listarray = (ArrayList<Profile>) state.getSerializable("listarray");
             refresh();
-        } else {
-            if (id == 0)
-                activity.setFriends(this);
-            else
-                getRecords();
         }
+        if (id == 0)
+            activity.setFriends(this);
+        else
+            activity.setFollowers(this);
         return view;
     }
 
@@ -129,7 +127,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this, activity, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, AccountService.getUsername());
+        new FriendsNetworkTask(activity, forcesync, this, activity, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getUsername());
     }
 
     @Override

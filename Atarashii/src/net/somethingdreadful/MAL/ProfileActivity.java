@@ -34,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     private ProfileDetailsAL detailsAL;
     private ProfileDetailsMAL detailsMAL;
     private ProfileHistory history;
+    private ProfileFriends followers;
     private boolean isLoading = false;
 
     @Bind(R.id.pager)
@@ -153,6 +154,8 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             detailsAL.refresh();
         if (friends != null)
             friends.getRecords();
+        if (followers != null)
+            followers.getRecords();
         if (history != null && record.getActivity() != null && record.getActivity().size() > 0)
             history.refresh();
     }
@@ -169,6 +172,10 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         if (friends != null) {
             friends.swipeRefresh.setRefreshing(loading);
             friends.swipeRefresh.setEnabled(!loading);
+        }
+        if (followers != null) {
+            followers.swipeRefresh.setRefreshing(loading);
+            followers.swipeRefresh.setEnabled(!loading);
         }
     }
 
@@ -217,5 +224,13 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
 
     public void setHistory(ProfileHistory history) {
         this.history = history;
+    }
+
+    public void setFollowers(ProfileFriends followers) {
+        this.followers = followers;
+        if (record != null && followers.getListarray() == null)
+            followers.getRecords();
+        if (getIntent().getExtras().containsKey("friends"))
+            viewPager.setCurrentItem(1);
     }
 }
