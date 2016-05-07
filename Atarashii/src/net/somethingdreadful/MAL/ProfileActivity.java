@@ -40,8 +40,6 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     @Bind(R.id.pager)
     ViewPager viewPager;
 
-    private final boolean forcesync = false;
-
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -191,7 +189,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         if (!isLoading) {
             isLoading = true;
             String username = record != null ? record.getUsername() : getIntent().getStringExtra("username");
-            new UserNetworkTask(forcesync, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, String.valueOf(page));
+            new UserNetworkTask(false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, String.valueOf(page));
         }
     }
 
