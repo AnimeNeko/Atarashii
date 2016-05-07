@@ -38,9 +38,10 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
 
             if (params != null && params.length >= 2) {
                 MALApi api = new MALApi(params[0], params[1]);
-                if (api.isAuth())
+                boolean valid = api.isAuth();
+                if (valid)
                     AccountService.addAccount(params[0], params[1], AccountType.MyAnimeList);
-                return api.isAuth();
+                return valid;
             } else if (params != null) {
                 ALApi api = new ALApi(activity);
 
