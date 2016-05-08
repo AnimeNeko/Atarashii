@@ -317,7 +317,7 @@ public class Anime extends GenericRecord implements Serializable {
         }
 
         // Automatically set the max episode on completed
-        if (getEpisodes() > 0 && getWatchedStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("watchedEpisodes")) {
+        if (getWatchedStatus() != null && getEpisodes() > 0 && getWatchedStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("watchedEpisodes")) {
             setWatchedEpisodes(getEpisodes());
             completed = true;
         }
@@ -339,12 +339,12 @@ public class Anime extends GenericRecord implements Serializable {
             }
         }
 
-        if (getWatchedStatus().equals(GenericRecord.STATUS_WATCHING) && getWatchedEpisodes() == 0 && !getDirty().contains("watchedEpisodes")) {
+        if (getWatchedStatus() != null && getWatchedStatus().equals(GenericRecord.STATUS_WATCHING) && getWatchedEpisodes() == 0 && !getDirty().contains("watchedEpisodes")) {
             started = true;
         }
 
         // Automatically set the progress when the episode 1 has been watched
-        if (getWatchedStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getWatchedEpisodes() == 1 && !getDirty().contains("watchedStatus")) {
+        if (getWatchedStatus() != null && getWatchedStatus().equals(GenericRecord.STATUS_PLANTOWATCH) && getWatchedEpisodes() == 1 && !getDirty().contains("watchedStatus")) {
             setWatchedStatus(GenericRecord.STATUS_WATCHING);
             started = true;
         }

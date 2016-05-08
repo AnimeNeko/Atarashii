@@ -192,7 +192,7 @@ public class Manga extends GenericRecord implements Serializable {
         }
 
         // Automatically set the max chapters on completed
-        if (getChapters() > 0 && getReadStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("chaptersRead")) {
+        if (getReadStatus() != null && getChapters() > 0 && getReadStatus().equals(GenericRecord.STATUS_COMPLETED) && !getDirty().contains("chaptersRead")) {
             setChaptersRead(getChapters());
             if (getVolumes() > 0)
                 setVolumesRead(getVolumes());
@@ -216,12 +216,12 @@ public class Manga extends GenericRecord implements Serializable {
             }
         }
 
-        if (getReadStatus().equals(GenericRecord.STATUS_READING) && getChaptersRead() == 0 && !getDirty().contains("readStatus")) {
+        if (getReadStatus() != null && getReadStatus().equals(GenericRecord.STATUS_READING) && getChaptersRead() == 0 && !getDirty().contains("readStatus")) {
             started = true;
         }
 
         // Automatically set the progress when the chapter 1 has been read
-        if (getReadStatus().equals(GenericRecord.STATUS_PLANTOREAD) && getChaptersRead() == 1 && !getDirty().contains("readStatus")) {
+        if (getReadStatus() != null && getReadStatus().equals(GenericRecord.STATUS_PLANTOREAD) && getChaptersRead() == 1 && !getDirty().contains("readStatus")) {
             setReadStatus(GenericRecord.STATUS_READING);
             started = true;
         }
