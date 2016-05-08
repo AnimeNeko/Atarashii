@@ -92,13 +92,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:padding="8dp"
-                android:text="YOU CANNOT WATCH ANIME OR READ MANGA!\nRead the 1st line in  the store description!"
+                android:text="YOU CANNOT WATCH ANIME OR READ MANGA!\nThis is a list manager and not a streaming app!"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="16sp"
                 android:textColor="#ff0000"
                 android:textStyle="bold|italic"
                 android:layout_below="@+id/myanimelist"
                 android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:text="@string/mobihelp_message_support_agent" />
 
         </RelativeLayout>
 
