@@ -529,8 +529,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             gl.clear();
                             clearAfterLoading = false;
                         }
-                        if (isList())
-                            hasmorepages = resultList.size() > 0;
+                        hasmorepages = resultList.size() > 0;
                         gl.addAll(resultList);
                         refresh();
                     }
