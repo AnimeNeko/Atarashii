@@ -1,8 +1,6 @@
 package net.somethingdreadful.MAL.api;
 
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime;
-import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseAnimeList;
-import net.somethingdreadful.MAL.api.ALModels.AnimeManga.BrowseMangaList;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.ALModels.AnimeManga.UserList;
@@ -14,6 +12,7 @@ import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.ALModels.Profile;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -25,6 +24,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 interface ALInterface {
     @FormUrlEncoded
@@ -64,23 +64,11 @@ interface ALInterface {
     @GET("manga/search/{query}")
     Call<ArrayList<Manga>> searchManga(@Path("query") String query, @Query("page") int page);
 
-    @GET("anime/browse/upcoming")
-    Call<BrowseAnimeList> getUpcomingAnime(@Query("page") int page);
-
-    @GET("manga/browse/upcoming")
-    Call<BrowseMangaList> getUpcomingManga(@Query("page") int page);
-
-    @GET("anime/browse/recent")
-    Call<BrowseAnimeList> getJustAddedAnime(@Query("page") int page);
-
-    @GET("manga/browse/recent")
-    Call<BrowseMangaList> getJustAddedManga(@Query("page") int page);
-
     @GET("browse/anime")
-    Call<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> getBrowseAnime(@Query("sort") String sort, @Query("page") int page);
+    Call<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> getBrowseAnime(@QueryMap Map<String, String> params);
 
     @GET("browse/manga")
-    Call<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> getBrowseManga(@Query("sort") String sort, @Query("page") int page);
+    Call<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> getBrowseManga(@QueryMap Map<String, String> params);
 
     @GET("user/{username}/following")
     Call<ArrayList<Follow>> getFollowing(@Path("username") String username);

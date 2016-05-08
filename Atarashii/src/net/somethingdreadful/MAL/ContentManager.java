@@ -287,19 +287,19 @@ public class ContentManager {
     }
 
     public ArrayList<Anime> getMostPopularAnime(int page) {
-        return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getBrowseAnime("popularity-desc", page);
+        return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getMostPopularAnime(page);
     }
 
     public ArrayList<Manga> getMostPopularManga(int page) {
-        return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getBrowseManga("popularity-desc", page);
+        return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getMostPopularManga(page);
     }
 
     public ArrayList<Anime> getTopRatedAnime(int page) {
-        return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getBrowseAnime("score-desc", page);
+        return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getTopRatedAnime(page);
     }
 
     public ArrayList<Manga> getTopRatedManga(int page) {
-        return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getBrowseManga("score-desc", page);
+        return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getTopRatedManga(page);
     }
 
     public ArrayList<Anime> getJustAddedAnime(int page) {
