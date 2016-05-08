@@ -38,13 +38,13 @@ public class ForumHTMLUnit {
     boolean subBoard = false;
 
     public ForumHTMLUnit(Context context, WebView webview) {
-        forumMenuLayout = getString(context, R.raw.forum_menu);
-        forumMenuTiles = getString(context, R.raw.forum_menu_tiles);
-        forumListLayout = getString(context, R.raw.forum_list);
-        forumListTiles = getString(context, R.raw.forum_list_tiles);
-        forumCommentsLayout = getString(context, R.raw.forum_comment);
-        forumCommentsTiles = getString(context, R.raw.forum_comment_tiles);
-        spoilerStructure = getString(context, R.raw.forum_comment_spoiler_structure);
+        forumMenuLayout = getResString(R.raw.forum_menu);
+        forumMenuTiles = getResString(R.raw.forum_menu_tiles);
+        forumListLayout = getResString(R.raw.forum_list);
+        forumListTiles = getResString(R.raw.forum_list_tiles);
+        forumCommentsLayout = getResString(R.raw.forum_comment);
+        forumCommentsTiles = getResString(R.raw.forum_comment_tiles);
+        spoilerStructure = getResString(R.raw.forum_comment_spoiler_structure);
         this.context = context;
         this.webView = webview;
     }
@@ -97,7 +97,7 @@ public class ForumHTMLUnit {
 
                 tempTile = tempTile.replace("<!-- header -->", item.getName());
                 tempTile = tempTile.replace("<!-- description -->", description);
-                tempTile = tempTile.replace("<!-- last reply -->", getString(context, R.string.dialog_message_last_post));
+                tempTile = tempTile.replace("<!-- last reply -->", context.getString(R.string.dialog_message_last_post));
                 forumArray = forumArray + tempTile;
             }
             forumMenuLayout = forumMenuLayout.replace("<!-- insert here the tiles -->", forumArray);
@@ -268,12 +268,11 @@ public class ForumHTMLUnit {
     /**
      * Get the string of the given resource file.
      *
-     * @param context  The application context
      * @param resource The resource of which string we need
      * @return String the wanted string
      */
     @SuppressWarnings("StatementWithEmptyBody")
-    private String getString(Context context, int resource) {
+    private String getResString(int resource) {
         try {
             InputStream inputStream = context.getResources().openRawResource(resource);
             byte[] buffer = new byte[inputStream.available()];
