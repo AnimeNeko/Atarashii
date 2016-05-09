@@ -252,7 +252,7 @@ public class ForumHTMLUnit {
             comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
             comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
             comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
-            comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
+            comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\"><b>$1</b></a>");
             comment = comment.replaceAll("href=\"(.+?)(#)(.+?)\"", "href=\"$1%23$3\""); // Replace to avoid conflicts.
             comment = comment.replaceAll("href=\"(.+?)(_)(.+?)\"", "href=\"$1%5F$3\""); // Replace to avoid conflicts.
             comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img width=\"$1\" src=\"$2\">");
