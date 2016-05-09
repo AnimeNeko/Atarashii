@@ -1,9 +1,8 @@
 package net.somethingdreadful.MAL.forum;
 
 import android.content.Context;
+import android.util.Log;
 import android.webkit.WebView;
-
-import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
@@ -251,12 +250,16 @@ public class ForumHTMLUnit {
             comment = comment.replaceAll("(.*)>(.*)", "<div class=\"quotetext\">$2</div>");
             comment = comment.replaceAll("`((.|\\n)+?)`", "<div class=\"codetext\">$1</div>");
             comment = comment.replaceAll("__((.|\\n)+?)__", "<b>$1</b>");
-            comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>");
             comment = comment.replaceAll("~~~((.|\\n)+?)~~~", "<center>$1</center>");
             comment = comment.replaceAll("~~((.|\\n)+?)~~", "<span style=\"text-decoration:line-through;\">$1</span>");
             comment = comment.replaceAll("~!((.|\\n)+?)!~", spoilerStructure + "$1</div></input>");
             comment = comment.replaceAll("\\[((.|\\n)+?)\\]\\(((.|\\n)+?)\\)", "<a href=\"$3\" rel=\"nofollow\">$1</a>");
+            comment = comment.replaceAll("href=\"(.+?)(#)(.+?)\"", "href=\"$1%23$3\""); // Replace to avoid conflicts.
+            comment = comment.replaceAll("href=\"(.+?)(_)(.+?)\"", "href=\"$1%5F$3\""); // Replace to avoid conflicts.
             comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img width=\"$1\" src=\"$2\">");
+            comment = comment.replaceAll("img\\((\\w.+?)\\)", "<img src=\"$1\">");
+            comment = comment.replaceAll("src=\"(.+?)(_)(.+?)\\)", "src=\"$1%5F$3\">"); // Replace to avoid conflicts.
+            comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>"); // This must be after the images else it will replace image urls!
             comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
             comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
             comment = comment.replace("\n", "<br>");
