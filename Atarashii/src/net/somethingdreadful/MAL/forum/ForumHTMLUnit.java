@@ -38,6 +38,8 @@ public class ForumHTMLUnit {
     boolean subBoard = false;
 
     public ForumHTMLUnit(Context context, WebView webview) {
+        this.context = context;
+        this.webView = webview;
         forumMenuLayout = getResString(R.raw.forum_menu);
         forumMenuTiles = getResString(R.raw.forum_menu_tiles);
         forumListLayout = getResString(R.raw.forum_list);
@@ -45,8 +47,6 @@ public class ForumHTMLUnit {
         forumCommentsLayout = getResString(R.raw.forum_comment);
         forumCommentsTiles = getResString(R.raw.forum_comment_tiles);
         spoilerStructure = getResString(R.raw.forum_comment_spoiler_structure);
-        this.context = context;
-        this.webView = webview;
     }
 
     public void setSubBoard(boolean subBoard) {
@@ -279,7 +279,7 @@ public class ForumHTMLUnit {
             while (inputStream.read(buffer) != -1) ;
             return new String(buffer);
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "getResString(): " + resource, e);
         }
         return "";
     }
