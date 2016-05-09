@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.forum;
 
 import android.content.Context;
-import android.util.Log;
 import android.webkit.WebView;
 
 import net.somethingdreadful.MAL.DateTools;
@@ -258,7 +257,7 @@ public class ForumHTMLUnit {
             comment = comment.replaceAll("href=\"(.+?)(_)(.+?)\"", "href=\"$1%5F$3\""); // Replace to avoid conflicts.
             comment = comment.replaceAll("img(\\d.+?)\\((\\w.+?)\\)", "<img width=\"$1\" src=\"$2\">");
             comment = comment.replaceAll("img\\((\\w.+?)\\)", "<img src=\"$1\">");
-            comment = comment.replaceAll("src=\"(.+?)(_)(.+?)\\)", "src=\"$1%5F$3\">"); // Replace to avoid conflicts.
+            comment = comment.replaceAll("src=\"(.+?)(_)(.+?)\">", "src=\"$1%5F$3\">"); // Replace to avoid conflicts.
             comment = comment.replaceAll("_((.|\\n)+?)_", "<i>$1</i>"); // This must be after the images else it will replace image urls!
             comment = comment.replaceAll("(.*)##(.*)", "<h1>$2</h1>");
             comment = comment.replaceAll("(.*)#(.*)", "<h1>$2</h1>");
