@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.forum.ForumHTMLUnit;
@@ -88,16 +89,28 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 String[] details = webview.getTitle().split(" ");
                 switch (details[0]) {
                     case "M": // main board
-                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/")));
+                        if (AccountService.isMAL())
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/")));
+                        else
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://anilist.co/forum/categories")));
                         break;
                     case "S": // sub board
-                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?subboard=" + details[1])));
+                        if (AccountService.isMAL())
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?subboard=" + details[1])));
+                        else
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://anilist.co/forum/thread/" + details[1])));
                         break;
                     case "T": // topic list
-                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?board=" + details[1])));
+                        if (AccountService.isMAL())
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?board=" + details[1])));
+                        else
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://anilist.co/forum/tag?tag=" + details[1])));
                         break;
                     case "C": // commments
-                        startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?topicid=" + details[1])));
+                        if (AccountService.isMAL())
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/forum/?topicid=" + details[1])));
+                        else
+                            startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://anilist.co/forum/thread/" + details[1])));
                         break;
                 }
                 break;
