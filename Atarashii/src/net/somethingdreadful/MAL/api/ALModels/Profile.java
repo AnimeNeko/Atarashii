@@ -118,7 +118,7 @@ public class Profile implements Serializable {
         model.setNotifications(getNotifications());
         model.setAnimeStats(new net.somethingdreadful.MAL.api.MALModels.Profile.AnimeStats());
         model.setMangaStats(new net.somethingdreadful.MAL.api.MALModels.Profile.MangaStats());
-        model.getAnimeStats().setTimeDays(Double.valueOf(new DecimalFormat("#.##").format((double) getAnimeTime() / 60 / 24)));
+        model.getAnimeStats().setTimeDays(Double.valueOf((new DecimalFormat("#.##")).format((double) getAnimeTime() / 60 / 24).replace(",", ".")));
         model.getMangaStats().setCompleted(getMangaChapters());
 
         if (scoreType != -1) {
