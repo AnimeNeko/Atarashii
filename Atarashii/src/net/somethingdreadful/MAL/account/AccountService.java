@@ -19,6 +19,9 @@ import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.database.DatabaseHelper;
 
+import static net.somethingdreadful.MAL.account.AccountType.MyAnimeList;
+import static net.somethingdreadful.MAL.account.AccountType.AniList;
+
 public class AccountService extends Service {
     public static AccountType accountType;
     private static Account account;
@@ -41,9 +44,6 @@ public class AccountService extends Service {
         setAccountVersion(accountVersion);
         switch (accountVersion) {
             case 1:
-                // We support now all Anilist scores, the user needs to log out (2.1 beta 3).
-                if (!accountType.equals(AccountType.MyAnimeList))
-                    deleteAccount();
             case 2:
                 // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
                 deleteAccount();
@@ -115,13 +115,19 @@ public class AccountService extends Service {
     }
 
     public static boolean isMAL() {
-        try {
             getAccount();
-            return accountType.equals(AccountType.MyAnimeList);
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-        }
-        return accountType.equals(AccountType.MyAnimeList);
+            if (account == null || accountType == null) {
+                AccountService.deleteAccount();
+                System.exit(0);
+            }
+
+            switch (accountType) {
+                case MyAnimeList:
+                    return true;
+                case AniList:
+                    return false;
+            }
+        return false;
     }
 
     /**
@@ -132,9 +138,9 @@ public class AccountService extends Service {
      */
     private static AccountType getAccountType(String type) {
         if (AccountType.AniList.toString().equals(type))
-            return AccountType.AniList;
+            return AniList;
         else
-            return AccountType.MyAnimeList;
+            return MyAnimeList;
     }
 
     /**
@@ -144,6 +150,7 @@ public class AccountService extends Service {
         AccountManager accountManager = AccountManager.get(context);
         accountManager.removeAccount(getAccount(), null, null);
         account = null;
+        accountType = null;
     }
 
     /**
