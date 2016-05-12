@@ -26,9 +26,8 @@ public class AnimeList implements Serializable {
     public static UserList createBaseModel(AnimeList MALArray) {
         UserList userList = new UserList();
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime> animeList = new ArrayList<>();
-        for (Anime MALObject : MALArray.getAnime()) {
-            animeList.add(MALObject.createBaseModel());
-        }
+        if (MALArray != null)
+            animeList = convertBaseArray(MALArray.getAnime());
         userList.setAnimeList(animeList);
         return userList;
     }

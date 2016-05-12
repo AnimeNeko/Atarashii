@@ -23,21 +23,21 @@ public class MangaList implements Serializable {
         private float days;
     }
 
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> convertBaseArray(ArrayList<Manga> MALArray) {
-        ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> base = new ArrayList<>();
-        for (Manga manga : MALArray) {
-            base.add(manga.createBaseModel());
-        }
-        return base;
-    }
-
     public static UserList createBaseModel(MangaList MALArray) {
         UserList userList = new UserList();
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> MangaList = new ArrayList<>();
-        for (Manga MALObject : MALArray.getManga()) {
-            MangaList.add(MALObject.createBaseModel());
-        }
+        if (MALArray != null)
+            MangaList = convertBaseArray(MALArray.getManga());
         userList.setMangaList(MangaList);
         return userList;
+    }
+
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> convertBaseArray(ArrayList<Manga> MALArray) {
+        ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> base = new ArrayList<>();
+        if (MALArray != null)
+            for (Manga manga : MALArray) {
+                base.add(manga.createBaseModel());
+            }
+        return base;
     }
 }
