@@ -96,55 +96,59 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     public void refresh() {
-        if (activity.record == null) {
-            if (APIHelper.isNetworkAvailable(activity))
-                Theme.Snackbar(activity, R.string.toast_error_UserRecord);
-            else
-                toggle(2);
+        try {
+            if (activity.record == null) {
+                if (APIHelper.isNetworkAvailable(activity))
+                    Theme.Snackbar(activity, R.string.toast_error_UserRecord);
+                else
+                    toggle(2);
 
-        } else {
-            Profile profile = activity.record;
-            Card namecard = (Card) view.findViewById(R.id.name_card);
-            namecard.Header.setText(WordUtils.capitalize(profile.getUsername()));
-            if (profile.getAbout() == null || profile.getAbout().equals("")) {
-                about.setText(getString(R.string.unknown));
             } else {
-                about.setText(Html.fromHtml(forumHTMLUnit.convertComment(profile.getAbout())));
-                about.setMovementMethod(LinkMovementMethod.getInstance());
-            }
-            timeDays.setText(String.valueOf(profile.getAnimeStats().getTimeDays()));
-            chapsRead.setText(String.valueOf(profile.getMangaStats().getCompleted()));
+                Profile profile = activity.record;
+                Card namecard = (Card) view.findViewById(R.id.name_card);
+                namecard.Header.setText(WordUtils.capitalize(profile.getUsername()));
+                if (profile.getAbout() == null || profile.getAbout().equals("")) {
+                    about.setText(getString(R.string.unknown));
+                } else {
+                    about.setText(Html.fromHtml(forumHTMLUnit.convertComment(profile.getAbout())));
+                    about.setMovementMethod(LinkMovementMethod.getInstance());
+                }
+                timeDays.setText(String.valueOf(profile.getAnimeStats().getTimeDays()));
+                chapsRead.setText(String.valueOf(profile.getMangaStats().getCompleted()));
 
-            Picasso.with(activity)
-                    .load(activity.record.getImageUrl())
-                    .error(R.drawable.cover_error)
-                    .placeholder(R.drawable.cover_loading)
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                            image.setImageBitmap(bitmap);
-                        }
+                Picasso.with(activity)
+                        .load(activity.record.getImageUrl())
+                        .error(R.drawable.cover_error)
+                        .placeholder(R.drawable.cover_loading)
+                        .into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                                image.setImageBitmap(bitmap);
+                            }
 
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            try {
-                                Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+                                try {
+                                    Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
+                                    imagecard.wrapImage(225, 320);
+                                    image.setImageDrawable(drawable);
+                                } catch (Exception e) {
+                                    Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                                }
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
                                 imagecard.wrapImage(225, 320);
                                 image.setImageDrawable(drawable);
-                            } catch (Exception e) {
-                                Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
                             }
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
-                            imagecard.wrapImage(225, 320);
-                            image.setImageDrawable(drawable);
-                        }
-                    });
-            toggle(0);
+                        });
+                toggle(0);
+            }
+        } catch (IllegalStateException e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): has been closed too fast");
         }
     }
 
