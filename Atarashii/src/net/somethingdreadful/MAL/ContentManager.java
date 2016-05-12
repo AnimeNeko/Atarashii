@@ -29,6 +29,7 @@ public class ContentManager {
     private final DatabaseManager dbMan;
 
     public ContentManager(Context context) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.ContentManager(context)");
         if (AccountService.isMAL())
             malApi = new MALApi();
         else
@@ -37,6 +38,7 @@ public class ContentManager {
     }
 
     public ContentManager(Activity activity) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.ContentManager(activity)");
         if (AccountService.isMAL())
             malApi = new MALApi(activity);
         else
@@ -66,17 +68,17 @@ public class ContentManager {
     }
 
     public Anime getAnime(int id) {
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getAnime() : Loading " + id);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getAnime(): id= " + id);
         return dbMan.getAnime(id);
     }
 
     public Manga getManga(int id) {
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getManga() : Loading " + id);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getManga(): id= " + id);
         return dbMan.getManga(id);
     }
 
     public void downloadAnimeList(String username) {
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadAnimeList() : Downloading " + username);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadAnimeList(): username= " + username);
         UserList animeList = AccountService.isMAL() ? malApi.getAnimeList() : alApi.getAnimeList(username);
 
         if (animeList != null) {
@@ -86,7 +88,7 @@ public class ContentManager {
     }
 
     public void downloadMangaList(String username) {
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadMangaList() : Downloading " + username);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadMangaList(): username= " + username);
         UserList mangaList = AccountService.isMAL() ? malApi.getMangaList() : alApi.getMangaList(username);
 
         if (mangaList != null) {
@@ -96,15 +98,17 @@ public class ContentManager {
     }
 
     public ArrayList<Anime> getAnimeListFromDB(String ListType, int sortType, String inverse) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getAnimeListFromDB(): listType= " + ListType + " sortType= " + sortType + " inverse= " + inverse);
         return dbMan.getAnimeList(ListType, sortType, inverse.equals("false") ? 1 : 2);
     }
 
     public ArrayList<Manga> getMangaListFromDB(String ListType, int sortType, String inverse) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMangaListFromDB(): listType= " + ListType + " sortType= " + sortType + " inverse= " + inverse);
         return dbMan.getMangaList(ListType, sortType, inverse.equals("false") ? 1 : 2);
     }
 
     public Manga updateWithDetails(int id, Manga manga) {
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.updateWithDetails() : Downloading manga " + id);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.updateWithDetails(): id= " + id);
         Manga manga_api = AccountService.isMAL() ? malApi.getManga(id, 1) : alApi.getManga(id);
 
         if (manga_api != null) {
@@ -115,7 +119,7 @@ public class ContentManager {
     }
 
     public Anime updateWithDetails(int id, Anime anime) {
-        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.updateWithDetails() : Downloading anime " + id);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.updateWithDetails(): id= " + id);
         Anime anime_api = AccountService.isMAL() ? malApi.getAnime(id, 1) : alApi.getAnime(id);
 
         if (anime_api != null) {
@@ -128,7 +132,7 @@ public class ContentManager {
     public ArrayList<Profile> downloadAndStoreFriendList(String user) {
         ArrayList<Profile> result = new ArrayList<>();
         try {
-            Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.downloadAndStoreFriendList(): Downloading friendlist of " + user);
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadAndStoreFriendList(): username= " + user);
             result = AccountService.isMAL() ? malApi.getFriends(user) : alApi.getFollowing(user);
 
             if (result != null && result.size() > 0 && AccountService.getUsername().equals(user))
@@ -144,7 +148,7 @@ public class ContentManager {
     public ArrayList<Profile> getFollowers(String user) {
         ArrayList<Profile> result = new ArrayList<>();
         try {
-            Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.getFollowers(): Downloading getFollowers of " + user);
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getFollowers(): username= " + user);
             result = alApi.getFollowers(user);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.getFollowers(): " + e.getMessage());
@@ -166,13 +170,14 @@ public class ContentManager {
     }
 
     public ArrayList<Profile> getFriendListFromDB() {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getFriendListFromDB()");
         return dbMan.getFriendList();
     }
 
     public Profile getProfile(String name) {
         Profile profile = new Profile();
         try {
-            Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.getProfile(): Downloading profile of " + name);
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getProfile(): username= " + name);
             profile = AccountService.isMAL() ? malApi.getProfile(name) : alApi.getProfile(name);
 
             if (profile != null) {
@@ -188,14 +193,17 @@ public class ContentManager {
     }
 
     public Profile getProfileFromDB() {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getProfileFromDB()");
         return dbMan.getProfile();
     }
 
     public void saveAnimeToDatabase(Anime anime) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.saveAnimeToDatabase(): id= " + anime.getId());
         dbMan.saveAnime(anime);
     }
 
     public void saveMangaToDatabase(Manga manga) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.saveMangaToDatabase(): id= " + manga.getId());
         dbMan.saveManga(manga);
     }
 
@@ -203,17 +211,17 @@ public class ContentManager {
         ArrayList<Anime> dirtyAnimes = dbMan.getDirtyAnimeList();
 
         if (dirtyAnimes != null) {
-            Crashlytics.log(Log.VERBOSE, "Atarashii", "ContentManager.cleanDirtyAnimeRecords(): Got " + dirtyAnimes.size() + " dirty anime records. Cleaning..");
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.cleanDirtyAnimeRecords(): size= " + dirtyAnimes.size());
 
             for (Anime anime : dirtyAnimes) {
                 if (writeAnimeDetails(anime)) {
                     anime.clearDirty();
                     saveAnimeToDatabase(anime);
                 } else if (anime != null) {
-                    Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.cleanDirtyAnimeRecords(): Failed to update " + anime.getId() + ".");
+                    Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.cleanDirtyAnimeRecords(): Failed to update " + anime.getId());
                 }
             }
-            Crashlytics.log(Log.VERBOSE, "Atarashii", "ContentManager.cleanDirtyAnimeRecords(): Cleaned dirty anime records.");
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.cleanDirtyAnimeRecords()");
         }
     }
 
@@ -221,7 +229,7 @@ public class ContentManager {
         ArrayList<Manga> dirtyMangas = dbMan.getDirtyMangaList();
 
         if (dirtyMangas != null) {
-            Crashlytics.log(Log.VERBOSE, "Atarashii", "ContentManager.cleanDirtyMangaRecords(): Got " + dirtyMangas.size() + " dirty manga records. Cleaning..");
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.cleanDirtyMangaRecords(): size=" + dirtyMangas.size());
 
             for (Manga manga : dirtyMangas) {
                 if (writeMangaDetails(manga)) {
@@ -231,7 +239,7 @@ public class ContentManager {
                     Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.cleanDirtyMangaRecords(): Failed to update " + manga.getId() + ".");
                 }
             }
-            Crashlytics.log(Log.VERBOSE, "Atarashii", "ContentManager.cleanDirtyMangaRecords(): Cleaned dirty manga records.");
+            Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.cleanDirtyMangaRecords()");
         }
     }
 
@@ -248,16 +256,17 @@ public class ContentManager {
      */
 
     public Anime getAnimeRecord(int id) {
-        Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.getAnimeRecord(): Downloading " + id);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getAnimeRecord(): id= " + id);
         return AccountService.isMAL() ? malApi.getAnime(id, 0) : alApi.getAnime(id);
     }
 
     public Manga getMangaRecord(int id) {
-        Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.getMangaRecord(): Downloading " + id);
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMangaRecord(): id= " + id);
         return AccountService.isMAL() ? malApi.getManga(id, 0) : alApi.getManga(id);
     }
 
     public void verifyAuthentication() {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.verifyAuthentication()");
         if (AccountService.isMAL())
             malApi.isAuth();
         else if (AccountService.getAccesToken() == null)
@@ -265,108 +274,129 @@ public class ContentManager {
     }
 
     public boolean writeAnimeDetails(Anime anime) {
-        Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.writeAnimeDetails(): Updating " + anime.getId());
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.writeAnimeDetails(): id= " + anime.getId());
         boolean result;
         if (anime.getDeleteFlag())
             result = AccountService.isMAL() ? malApi.deleteAnimeFromList(anime.getId()) : alApi.deleteAnimeFromList(anime.getId());
         else
             result = AccountService.isMAL() ? malApi.addOrUpdateAnime(anime) : alApi.addOrUpdateAnime(anime);
-        Crashlytics.log(result ? Log.INFO : Log.ERROR, "Atarashii", "ContentManager.writeAnimeDetails(): successfully updated: " + result);
+        Crashlytics.log(result ? Log.INFO : Log.ERROR, "Atarashii", "ContentManager.writeAnimeDetails(): successfully= " + result);
         return result;
     }
 
     public boolean writeMangaDetails(Manga manga) {
-        Crashlytics.log(Log.DEBUG, "Atarashii", "ContentManager.writeMangaDetails(): Updating " + manga.getId());
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.writeMangaDetails(): id= " + manga.getId());
         boolean result;
         if (manga.getDeleteFlag())
             result = AccountService.isMAL() ? malApi.deleteMangaFromList(manga.getId()) : alApi.deleteMangaFromList(manga.getId());
         else
             result = AccountService.isMAL() ? malApi.addOrUpdateManga(manga) : alApi.addOrUpdateManga(manga);
-        Crashlytics.log(result ? Log.INFO : Log.ERROR, "Atarashii", "ContentManager.writeMangaDetails(): successfully updated: " + result);
+        Crashlytics.log(result ? Log.INFO : Log.ERROR, "Atarashii", "ContentManager.writeMangaDetails(): successfully= " + result);
         return result;
     }
 
     public ArrayList<Anime> getMostPopularAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMostPopularAnime(): page= " + page);
         return AccountService.isMAL() ? malApi.getMostPopularAnime(page) : alApi.getMostPopularAnime(page);
     }
 
     public ArrayList<Manga> getMostPopularManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMostPopularManga(): page= " + page);
         return AccountService.isMAL() ? malApi.getMostPopularManga(page) : alApi.getMostPopularManga(page);
     }
 
     public ArrayList<Anime> getTopRatedAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopRatedAnime(): page= " + page);
         return AccountService.isMAL() ? malApi.getTopRatedAnime(page) : alApi.getTopRatedAnime(page);
     }
 
     public ArrayList<Manga> getTopRatedManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopRatedManga(): page= " + page);
         return AccountService.isMAL() ? malApi.getTopRatedManga(page) : alApi.getTopRatedManga(page);
     }
 
     public ArrayList<Anime> getJustAddedAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getJustAddedAnime(): page= " + page);
         return AccountService.isMAL() ? malApi.getJustAddedAnime(page) : alApi.getJustAddedAnime(page);
     }
 
     public ArrayList<Manga> getJustAddedManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getJustAddedManga(): page= " + page);
         return AccountService.isMAL() ? malApi.getJustAddedManga(page) : alApi.getJustAddedManga(page);
     }
 
     public ArrayList<Anime> getUpcomingAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getUpcomingAnime(): page= " + page);
         return AccountService.isMAL() ? malApi.getUpcomingAnime(page) : alApi.getUpcomingAnime(page);
     }
 
     public ArrayList<Manga> getUpcomingManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getUpcomingManga(): page= " + page);
         return AccountService.isMAL() ? malApi.getUpcomingManga(page) : alApi.getUpcomingManga(page);
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.searchAnime(): page= " + page + " query= " + query);
         return AccountService.isMAL() ? malApi.searchAnime(query, page) : alApi.searchAnime(query, page);
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.searchManga(): page= " + page + " query= " + query);
         return AccountService.isMAL() ? malApi.searchManga(query, page) : alApi.searchManga(query, page);
     }
 
     public ArrayList<Reviews> getAnimeReviews(int id, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getAnimeReviews(): page= " + page + " id= " + id);
         return AccountService.isMAL() ? malApi.getAnimeReviews(id, page) : alApi.getAnimeReviews(id, page);
     }
 
     public ArrayList<Reviews> getMangaReviews(int id, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMangaReviews(): page= " + page + " id= " + id);
         return AccountService.isMAL() ? malApi.getMangaReviews(id, page) : alApi.getMangaReviews(id, page);
     }
 
     public ArrayList<Forum> getForumCategories() {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getForumCategories()");
         return AccountService.isMAL() ? malApi.getForum().createBaseModel() : ForumAL.getForum();
     }
 
     public ArrayList<Forum> getCategoryTopics(int id, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getCategoryTopics(): page= " + page + " id= " + id);
         return AccountService.isMAL() ? malApi.getCategoryTopics(id, page).createBaseModel() : alApi.getTags(id, page).getForumListBase();
     }
 
     public ArrayList<Forum> getTopic(int id, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopic(): page= " + page + " id= " + id);
         return AccountService.isMAL() ? malApi.getPosts(id, page).createBaseModel() : alApi.getPosts(id, page).convertBaseModel();
     }
 
     public boolean deleteAnime(Anime anime) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.deleteAnime(): id= " + anime.getId());
         return dbMan.deleteAnime(anime.getId());
     }
 
     public boolean deleteManga(Manga manga) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.deleteManga(): id= " + manga.getId());
         return dbMan.deleteManga(manga.getId());
     }
 
     public ArrayList<Forum> search(String query) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.search(): query= " + query);
         return AccountService.isMAL() ? malApi.search(query).createBaseModel() : alApi.search(query).getForumListBase();
     }
 
     public ArrayList<Forum> getSubCategory(int id, int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getSubCategory(): page= " + page + " id= " + id);
         return malApi.getSubBoards(id, page).createBaseModel();
     }
 
     public boolean addComment(int id, String message) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.addComment(): message= " + message + " id= " + id);
         return AccountService.isMAL() ? malApi.addComment(id, message) : alApi.addComment(id, message);
     }
 
     public boolean updateComment(int id, String message) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.updateComment(): message= " + message + " id= " + id);
         return AccountService.isMAL() ? malApi.updateComment(id, message) : alApi.updateComment(id, message);
     }
 }
