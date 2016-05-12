@@ -336,7 +336,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private void showLogoutDialog() {
         ChooseDialogFragment lcdf = new ChooseDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("title", getString(R.string.dialog_title_restore));
+        bundle.putString("title", getString(R.string.dialog_label_logout));
         bundle.putString("message", getString(R.string.dialog_message_logout));
         bundle.putString("positive", getString(R.string.dialog_label_logout));
         lcdf.setArguments(bundle);
