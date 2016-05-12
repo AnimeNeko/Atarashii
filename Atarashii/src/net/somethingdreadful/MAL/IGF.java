@@ -712,7 +712,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     viewHolder.statusCount.setText(record.getStatus());
                 }
 
-                if (isList()) {
+                if (isList() && status != null) {
                     viewHolder.progressCount.setText(String.valueOf(progress));
 
                     switch (status) {
