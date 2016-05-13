@@ -56,28 +56,6 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                 case UPDATECOMMENT:
                     result = cManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null;
                     break;
-                /*
-                case DISCUSSION:
-                    if (params[1].equals(MALApi.ListType.ANIME.toString()))
-                        result = cManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.ANIME);
-                    else
-                        result = cManager.getDiscussion(id, Integer.parseInt(params[0]), MALApi.ListType.MANGA);
-                    break;
-                case TOPICS:
-                    result = cManager.getTopics(id, Integer.parseInt(params[0]));
-                    break;
-                case POSTS:
-                    result = cManager.getPosts(id, Integer.parseInt(params[0]));
-                    break;
-                case ADDTOPIC:
-                    result.setList(cManager.addTopic(id, params[0], params[1]) ? new ArrayList<Forum>() : null);
-                    break;
-                case ADDCOMMENT:
-                    result.setList(cManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null);
-                    break;
-                case UPDATECOMMENT:
-                    result.setList(cManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null);
-                    break;*/
             }
         } catch (Exception e) {
             Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);
