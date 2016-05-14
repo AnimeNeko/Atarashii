@@ -115,12 +115,8 @@ public class RecordPickerDialog extends AppCompatActivity implements IGF.IGFCall
                 break;
             case R.id.menu_inverse:
                 if (af != null && mf != null) {
-                    if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
-                        af.toggleAiringTime();
-                    } else {
-                        af.inverse();
-                        mf.inverse();
-                    }
+                    af.inverse();
+                    mf.inverse();
                 }
                 break;
         }

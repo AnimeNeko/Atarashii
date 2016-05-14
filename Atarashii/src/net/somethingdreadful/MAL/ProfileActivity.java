@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 
@@ -17,17 +20,19 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ShareDialogFragment;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
 import net.somethingdreadful.MAL.profile.ProfileFriends;
 import net.somethingdreadful.MAL.profile.ProfileHistory;
+import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener {
+public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener, IGF.IGFCallbackListener, ViewPager.OnPageChangeListener {
     private Context context;
     public Profile record;
     private ProfileFriends friends;
@@ -35,6 +40,10 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     private ProfileDetailsMAL detailsMAL;
     private ProfileHistory history;
     private ProfileFriends followers;
+    private IGF animeList;
+    private IGF mangaList;
+    Menu menu;
+    ProfilePagerAdapter adapter;
     private boolean isLoading = false;
 
     @Bind(R.id.pager)
@@ -44,10 +53,11 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Theme.setTheme(this, R.layout.theme_viewpager, true);
-        Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
+        adapter = (ProfilePagerAdapter) Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
 
         context = getApplicationContext();
+        viewPager.addOnPageChangeListener(this);
 
         setTitle(R.string.title_activity_profile); //set title
 
@@ -69,6 +79,11 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_profile_view, menu);
+        this.menu = menu;
+        if (menu.findItem(R.id.sort_title) != null)
+            menu.findItem(R.id.sort_title).setChecked(true);
+        if (menu.findItem(R.id.menu_sort) != null)
+            menu.findItem(R.id.menu_sort).setVisible(false);
         return true;
     }
 
@@ -103,8 +118,55 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 break;
             case R.id.Share:
                 showShareDialog(true);
+                break;
+            case R.id.sort_title:
+                sortRecords(1, item);
+                break;
+            case R.id.sort_score:
+                sortRecords(2, item);
+                break;
+            case R.id.sort_type:
+                sortRecords(3, item);
+                break;
+            case R.id.sort_status:
+                sortRecords(4, item);
+                break;
+            case R.id.sort_progress:
+                sortRecords(5, item);
+                break;
+            case R.id.menu_details:
+                if (!animeList.isLoading() && !mangaList.isLoading()) {
+                    item.setChecked(!item.isChecked());
+                    if (animeList != null && mangaList != null) {
+                        animeList.details();
+                        mangaList.details();
+                    }
+                } else {
+                    Theme.Snackbar(this, R.string.toast_info_hold_on);
+                }
+                break;
+            case R.id.menu_inverse:
+                if (!animeList.isLoading() && !mangaList.isLoading()) {
+                    item.setChecked(!item.isChecked());
+                    if (animeList != null && mangaList != null) {
+                        animeList.inverse();
+                        mangaList.inverse();
+                    }
+                } else {
+                    Theme.Snackbar(this, R.string.toast_info_hold_on);
+                }
+                break;
         }
         return true;
+    }
+
+    private void sortRecords(int sortType, MenuItem item) {
+        if (item != null)
+            item.setChecked(true);
+        if (animeList != null && mangaList != null) {
+            animeList.sort(sortType);
+            mangaList.sort(sortType);
+        }
     }
 
     private String getProfileURL() {
@@ -156,6 +218,14 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             followers.getRecords();
         if (history != null && record.getActivity() != null && record.getActivity().size() > 0)
             history.refresh();
+        if (animeList != null && animeList.getUsername() == null) {
+            animeList.setUsername(record.getUsername());
+            animeList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
+        }
+        if (mangaList != null && mangaList.getUsername() == null) {
+            mangaList.setUsername(record.getUsername());
+            mangaList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
+        }
     }
 
     public void refreshing(boolean loading) {
@@ -230,5 +300,58 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             followers.getRecords();
         if (getIntent().getExtras().containsKey("friends"))
             viewPager.setCurrentItem(1);
+    }
+
+    @Override
+    public void onIGFReady(IGF igf) {
+        try {
+            if (igf.isAnime()) {
+                animeList = igf;
+                animeList.Gridview.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
+                if (record != null) {
+                    animeList.setUsername(record.getUsername());
+                    animeList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
+                }
+            } else {
+                mangaList = igf;
+                mangaList.Gridview.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
+                if (record != null) {
+                    mangaList.setUsername(record.getUsername());
+                    mangaList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
+                }
+            }
+        } catch (Exception e) {
+            Crashlytics.log(Log.INFO, "Atarashii", "ProfileActivity.onIGFReady()");
+            Crashlytics.logException(e);
+        }
+    }
+
+    @Override
+    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+
+    }
+
+    @Override
+    public void onItemClick(int id, MALApi.ListType listType, String username) {
+        Intent startDetails = new Intent(this, DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", AccountService.getUsername()); // do not use the provided username which is the friends username
+        startActivity(startDetails);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (menu != null)
+            menu.findItem(R.id.menu_sort).setVisible(adapter.getItem(position) instanceof IGF);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

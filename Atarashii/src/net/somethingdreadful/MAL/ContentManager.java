@@ -77,24 +77,32 @@ public class ContentManager {
         return dbMan.getManga(id);
     }
 
-    public void downloadAnimeList(String username) {
+    public ArrayList<Anime> downloadAnimeList(String username) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadAnimeList(): username=" + username);
-        UserList animeList = AccountService.isMAL() ? malApi.getAnimeList() : alApi.getAnimeList(username);
+        UserList animeList = AccountService.isMAL() ? malApi.getAnimeList(username) : alApi.getAnimeList(username);
 
-        if (animeList != null) {
+        if (animeList != null && username.equals(AccountService.getUsername())) {
             dbMan.saveAnimeList(animeList.getAnimeList());
             dbMan.cleanupAnimeTable();
+            return animeList.getAnimeList();
+        } else if (animeList != null) {
+            return animeList.getAnimeList();
         }
+        return new ArrayList<>();
     }
 
-    public void downloadMangaList(String username) {
+    public ArrayList<Manga> downloadMangaList(String username) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.downloadMangaList(): username=" + username);
-        UserList mangaList = AccountService.isMAL() ? malApi.getMangaList() : alApi.getMangaList(username);
+        UserList mangaList = AccountService.isMAL() ? malApi.getMangaList(username) : alApi.getMangaList(username);
 
-        if (mangaList != null) {
+        if (mangaList != null && username.equals(AccountService.getUsername())) {
             dbMan.saveMangaList(mangaList.getMangaList());
             dbMan.cleanupMangaTable();
+            return mangaList.getMangaList();
+        } else if (mangaList != null) {
+            return mangaList.getMangaList();
         }
+        return new ArrayList<>();
     }
 
     public ArrayList<Anime> getAnimeListFromDB(String ListType, int sortType, String inverse) {

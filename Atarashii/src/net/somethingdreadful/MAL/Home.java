@@ -95,7 +95,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             ((TextView) view.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
 
             //Initializing navigation toggle button
-            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {};
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
+            };
             drawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
 
@@ -209,12 +210,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.menu_inverse:
                 item.setChecked(!item.isChecked());
                 if (af != null && mf != null) {
-                    if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
-                        af.toggleAiringTime();
-                    } else {
-                        af.inverse();
-                        mf.inverse();
-                    }
+                    af.inverse();
+                    mf.inverse();
                 }
                 break;
         }

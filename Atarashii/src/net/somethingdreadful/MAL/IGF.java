@@ -44,10 +44,13 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import lombok.Getter;
+import lombok.Setter;
 
 public class IGF extends Fragment implements OnScrollListener, OnItemClickListener, NetworkTask.NetworkTaskListener, RecordStatusUpdatedReceiver.RecordStatusUpdatedListener {
     private ListType listType = ListType.ANIME; // just to have it proper initialized
@@ -78,7 +81,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Getter
     private boolean isList = true;
     private boolean inverse = false;
-    private boolean loading = true;
+    @Getter private boolean loading = true;
     private boolean useSecondaryAmounts;
     private boolean hasmorepages = false;
     private boolean clearAfterLoading = false;
@@ -89,9 +92,9 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private boolean swipeRefreshEnabled = true;
 
     private String query;
-
-    // use setter to change this!
-    private String username;
+    @Setter
+    @Getter
+    private String username = null;
 
     @Override
     public void onSaveInstanceState(Bundle state) {
@@ -198,11 +201,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     }
 
     /**
-     * Set listType and boolean isAnime
+     * Set listType, boolean isAnime
      */
-    public void setListType(ListType listType) {
+    public IGF setListType(ListType listType) {
+        Crashlytics.log(Log.INFO, "Atarashii", "IGF.sort(): listType=" + listType);
         this.listType = listType;
         isAnime = listType.equals(ListType.ANIME);
+        return this;
     }
 
     /**
@@ -211,8 +216,62 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param sortType The sort ID
      */
     public void sort(int sortType) {
+        Crashlytics.log(Log.INFO, "Atarashii", "IGF.sort(" + listType + "): sortType=" + sortType + isLoading());
         this.sortType = sortType;
-        getRecords(true, taskjob, list);
+        if (taskjob.equals(TaskJob.GETFRIENDLIST) && !isLoading()) {
+            sortList(sortType);
+        } else {
+            getRecords(true, taskjob, list);
+        }
+    }
+
+    /**
+     * Instead of reloading we just sort them.
+     * <p/>
+     * note: do not change only this part but also the DatabaseManager part!
+     *
+     * @param sortType The sort type
+     */
+    private void sortList(final int sortType) {
+        Collections.sort(gl != null ? gl : new ArrayList<GenericRecord>(), new Comparator<GenericRecord>() {
+            @Override
+            public int compare(GenericRecord GR1, GenericRecord GR2) {
+                switch (sortType) {
+                    case 1:
+                        return GR1.getTitle().toLowerCase().compareTo(GR2.getTitle().toLowerCase());
+                    case 2:
+                        return compareCheck(((Integer) GR2.getScore()).compareTo(GR1.getScore()), GR1, GR2);
+                    case 3:
+                        return compareCheck(GR1.getType().toLowerCase().compareTo(GR2.getType().toLowerCase()), GR1, GR2);
+                    case 4:
+                        return compareCheck(GR1.getStatus().toLowerCase().compareTo(GR2.getStatus().toLowerCase()), GR1, GR2);
+                    case 5:
+                        return compareCheck(((Integer) ((Anime) GR1).getWatchedEpisodes()).compareTo(((Anime) GR2).getWatchedEpisodes()), GR1, GR2);
+                    case -5:
+                        return compareCheck(((Integer) ((Manga) GR1).getChaptersRead()).compareTo(((Manga) GR2).getChaptersRead()), GR1, GR2);
+                    default:
+                        return GR1.getTitle().toLowerCase().compareTo(GR2.getTitle().toLowerCase());
+                }
+            }
+        });
+        if (inverse)
+            Collections.reverse(gl);
+        refresh();
+    }
+
+    /**
+     * Used to sort records also on title if they are in the same x.
+     *
+     * @param x   The x passed by compareTo
+     * @param GR1 The first record to compare
+     * @param GR2 The second record to compare
+     * @return int X the x sorting value
+     */
+    private int compareCheck(int x, GenericRecord GR1, GenericRecord GR2) {
+        if (x != 0)
+            return x;
+        else
+            return GR1.getTitle().toLowerCase().compareTo(GR2.getTitle().toLowerCase());
     }
 
     /**
@@ -224,7 +283,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             resource = R.layout.record_igf_details;
         else
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
-        getRecords(true, taskjob, list);
+        refresh();
     }
 
     /**
@@ -349,7 +408,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void getRecords(boolean clear, TaskJob task, int list) {
         if (task != null)
             taskjob = task;
-        if (task != TaskJob.GETLIST && task != TaskJob.FORCESYNC) {
+        if (task != TaskJob.GETLIST && task != TaskJob.FORCESYNC && task != TaskJob.GETFRIENDLIST) {
             details = false;
             numberList = task == TaskJob.GETMOSTPOPULAR || task == TaskJob.GETTOPRATED;
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
@@ -385,7 +444,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             data.putInt("page", page);
             networkTask = new NetworkTask(taskjob, listType, activity, data, this);
             ArrayList<String> args = new ArrayList<>();
-            if (isList()) {
+            if (taskjob.equals(TaskJob.GETFRIENDLIST)) {
+                args.add(username);
+                setSwipeRefreshEnabled(false);
+            } else if (isList()) {
                 args.add(ContentManager.listSortFromInt(list, listType));
                 args.add(String.valueOf(sortType));
                 args.add(String.valueOf(inverse));
@@ -442,7 +504,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     private void refresh() {
         try {
-            filterTime();
             if (ga == null)
                 setAdapter();
             ga.clear();
@@ -473,30 +534,13 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void inverse() {
         this.inverse = !inverse;
-        getRecords(true, taskjob, list);
-    }
-
-    /**
-     * Hide airing dates for anilist airing list.
-     */
-    private void filterTime() {
-        if (!AccountService.isMAL() && taskjob == TaskJob.GETMOSTPOPULAR && PrefManager.getAiringOnly() && listType == ListType.ANIME) {
-            ArrayList<GenericRecord> record = new ArrayList<>();
-            for (GenericRecord gr : gl)
-                if (((Anime) gr).getAiring() != null)
-                    record.add(gr);
-            gl = record;
+        if (taskjob.equals(TaskJob.GETFRIENDLIST)) {
+            if (gl != null)
+                Collections.reverse(gl);
+            refresh();
+        } else {
+            getRecords(true, taskjob, list);
         }
-    }
-
-    /**
-     * Set and hide airing dates for anilist airing list.
-     */
-    public void toggleAiringTime() {
-        PrefManager.setAiringOnly(!PrefManager.getAiringOnly());
-        PrefManager.commitChanges();
-        filterTime();
-        refresh();
     }
 
     /**
@@ -525,13 +569,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     if (job.equals(TaskJob.FORCESYNC))
                         doRecordsLoadedCallback(type, job, false, false, cancelled);
                     if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
-                        if (clearAfterLoading || job.equals(TaskJob.FORCESYNC)) { // a forced sync always reloads all data, so clear the list
+                        if (clearAfterLoading || job.equals(TaskJob.FORCESYNC) || job.equals(TaskJob.GETFRIENDLIST)) { // a forced sync always reloads all data, so clear the list
                             gl.clear();
                             clearAfterLoading = false;
                         }
                         hasmorepages = resultList.size() > 0;
                         gl.addAll(resultList);
-                        refresh();
+                        if (taskjob.equals(TaskJob.GETFRIENDLIST))
+                            sortList(sortType);
+                        else
+                            refresh();
                     }
                 }
             } else {
@@ -588,15 +635,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 getRecords(false, null, list);
             }
         }
-    }
-
-    /**
-     * Set the username.
-     *
-     * @param username The username
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     // user updated record on DetailsView, so update the list if necessary

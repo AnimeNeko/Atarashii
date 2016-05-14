@@ -38,17 +38,14 @@ public class MALApi {
     private Activity activity = null;
 
     private MALInterface service;
-    private String username;
 
     public MALApi() {
-        username = AccountService.getUsername();
-        setupRESTService(username, AccountService.getPassword());
+        setupRESTService(AccountService.getUsername(), AccountService.getPassword());
     }
 
     public MALApi(Activity activity) {
         this.activity = activity;
-        username = AccountService.getUsername();
-        setupRESTService(username, AccountService.getPassword());
+        setupRESTService(AccountService.getUsername(), AccountService.getPassword());
     }
 
     /*
@@ -109,7 +106,7 @@ public class MALApi {
         }
     }
 
-    public UserList getAnimeList() {
+    public UserList getAnimeList(String username) {
         Response<AnimeList> response = null;
         try {
             response = service.getAnimeList(username).execute();
@@ -120,7 +117,7 @@ public class MALApi {
         }
     }
 
-    public UserList getMangaList() {
+    public UserList getMangaList(String username) {
         Response<MangaList> response = null;
         try {
             response = service.getMangaList(username).execute();

@@ -336,6 +336,9 @@ public class DatabaseManager {
         return getMangaList(cursor);
     }
 
+    /*
+     * Do not forget to modify the IGF sortList method also!
+     */
     private Cursor sort(Query query, int sortType, int inverse) {
         switch (sortType) {
             case 1:

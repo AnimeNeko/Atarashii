@@ -98,6 +98,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     if (params != null)
                         taskResult = isAnimeTask() ? cManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                     break;
+                case GETFRIENDLIST:
+                    if (params != null)
+                        taskResult = isAnimeTask() ? cManager.downloadAnimeList(params[0]) : cManager.downloadMangaList(params[0]);
+                    break;
                 case FORCESYNC:
                     if (params != null) {
                         /* FORCESYNC may not require authentication if there are no dirty records to update, so a forced sync would even
