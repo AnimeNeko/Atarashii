@@ -103,7 +103,6 @@ interface ALInterface {
                          @Field("volumes_read") int volumes, @Field("score_raw") float score);
 
     /*
-    TODO: Add forum support
     @GET("forum/recent")
     ForumMain getForumRecent();
 

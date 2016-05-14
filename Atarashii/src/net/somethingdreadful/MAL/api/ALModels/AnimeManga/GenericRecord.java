@@ -99,8 +99,6 @@ public class GenericRecord implements Serializable {
 
     /**
      * Boolean value which indicates if the records is for elder people.
-     * <p/>
-     * TODO: Add UI support? not sure though.
      */
     @Getter
     @Setter
@@ -130,7 +128,7 @@ public class GenericRecord implements Serializable {
     private String titleEnglish;
 
     /**
-     * TODO: investigate what this really is XD
+     * Title synonyms.
      */
     @Getter
     @Setter
@@ -153,8 +151,6 @@ public class GenericRecord implements Serializable {
 
     /**
      * URL of an image (rectangle) of the record used for the banner.
-     * <p/>
-     * TODO: Add UI support
      */
     @Getter
     @Setter

@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
@@ -146,7 +145,6 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      */
     public void getRecords(int page) {
         if (page != this.page)
-            //TODO toggle(true);
             this.page = page;
         loading = true;
         if (APIHelper.isNetworkAvailable(activity)) {

@@ -69,8 +69,6 @@ public class Anime extends GenericRecord implements Serializable {
      * A list of producers for the anime
      * <p/>
      * Website: MyanimeList
-     * <p/>
-     * TODO: add db support
      */
     @Setter
     @Getter

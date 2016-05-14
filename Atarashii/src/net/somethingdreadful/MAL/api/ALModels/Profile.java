@@ -18,7 +18,7 @@ public class Profile implements Serializable {
     private String displayName;
 
     /**
-     * TODO: Add UI support
+     * Watched animeTime in minutes
      */
     @Getter
     @Setter
@@ -26,7 +26,7 @@ public class Profile implements Serializable {
     private int animeTime;
 
     /**
-     * TODO: Add UI support
+     * Read mangaChapters
      */
     @Getter
     @Setter
@@ -34,7 +34,7 @@ public class Profile implements Serializable {
     private int mangaChapters;
 
     /**
-     * TODO: Add UI support
+     * Info about the user available in the profile
      */
     @Getter
     @Setter
@@ -68,7 +68,7 @@ public class Profile implements Serializable {
     private String imageUrlBanner;
 
     /**
-     * TODO: Add UI support
+     * The title titleLanguage the users prefers like romanji, english or japanese
      */
     @Getter
     @Setter
