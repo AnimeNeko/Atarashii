@@ -61,6 +61,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private IGFCallbackListener callback;
     private ListViewAdapter<GenericRecord> ga;
     private ArrayList<GenericRecord> gl = new ArrayList<>();
+    private ArrayList<GenericRecord> backGl = new ArrayList<>();
 
     @Bind(R.id.gridview)
     GridView Gridview;
@@ -99,6 +100,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public void onSaveInstanceState(Bundle state) {
         state.putSerializable("gl", gl);
+        state.putSerializable("backGl", backGl);
         state.putSerializable("listType", listType);
         state.putSerializable("taskjob", taskjob);
         state.putInt("page", page);
@@ -127,6 +129,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         Gridview.setOnScrollListener(this);
 
         if (state != null) {
+            backGl = (ArrayList<GenericRecord>) state.getSerializable("backGl");
             gl = (ArrayList<GenericRecord>) state.getSerializable("gl");
             listType = (ListType) state.getSerializable("listType");
             taskjob = (TaskJob) state.getSerializable("taskjob");
@@ -211,6 +214,60 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     }
 
     /**
+     * Filter the list by status type.
+     */
+    public void filter(int statusType) {
+        switch (statusType) {
+            case 1:
+                gl = backGl;
+                refresh();
+                break;
+            case 2:
+                filterStatus(isAnime() ? "watching" : "reading");
+                break;
+            case 3:
+                filterStatus("completed");
+                break;
+            case 4:
+                filterStatus("on-hold");
+                break;
+            case 5:
+                filterStatus("dropped");
+                break;
+            case 6:
+                filterStatus(isAnime() ? "plan to watch" : "plan to read");
+                break;
+            default:
+                gl = backGl;
+                refresh();
+                break;
+        }
+    }
+
+    /**
+     * Filter the status by the provided String.
+     *
+     * @param status The status of the record
+     */
+    private void filterStatus(String status) {
+        ArrayList<GenericRecord> gr = new ArrayList<>();
+        if (backGl != null && backGl.size() > 0) {
+            if (isAnime())
+                for (GenericRecord record : backGl) {
+                    if (((Anime) record).getWatchedStatus().equals(status))
+                        gr.add(record);
+                }
+            else
+                for (GenericRecord record : backGl) {
+                    if (((Manga) record).getReadStatus().equals(status))
+                        gr.add(record);
+                }
+        }
+        gl = gr;
+        sortList(sortType);
+    }
+
+    /**
      * Sort records by the sortType ID.
      *
      * @param sortType The sort ID
@@ -233,7 +290,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param sortType The sort type
      */
     private void sortList(final int sortType) {
-        Collections.sort(gl != null ? gl : new ArrayList<GenericRecord>(), new Comparator<GenericRecord>() {
+        Collections.sort(gl != null && gl.size() > 0 ? gl : new ArrayList<GenericRecord>(), new Comparator<GenericRecord>() {
             @Override
             public int compare(GenericRecord GR1, GenericRecord GR2) {
                 switch (sortType) {
@@ -535,7 +592,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public void inverse() {
         this.inverse = !inverse;
         if (taskjob.equals(TaskJob.GETFRIENDLIST)) {
-            if (gl != null)
+            if (gl != null && gl.size() > 0)
                 Collections.reverse(gl);
             refresh();
         } else {
@@ -575,10 +632,12 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         }
                         hasmorepages = resultList.size() > 0;
                         gl.addAll(resultList);
-                        if (taskjob.equals(TaskJob.GETFRIENDLIST))
+                        if (taskjob.equals(TaskJob.GETFRIENDLIST)) {
+                            backGl.addAll(resultList);
                             sortList(sortType);
-                        else
+                        } else {
                             refresh();
+                        }
                     }
                 }
             } else {

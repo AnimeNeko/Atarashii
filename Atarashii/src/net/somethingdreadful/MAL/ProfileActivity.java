@@ -84,6 +84,10 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             menu.findItem(R.id.sort_title).setChecked(true);
         if (menu.findItem(R.id.menu_sort) != null)
             menu.findItem(R.id.menu_sort).setVisible(false);
+        if (menu.findItem(R.id.listType_all) != null)
+            menu.findItem(R.id.listType_all).setChecked(true);
+        if (menu.findItem(R.id.menu_listType) != null)
+            menu.findItem(R.id.menu_listType).setVisible(false);
         return true;
     }
 
@@ -118,6 +122,24 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 break;
             case R.id.Share:
                 showShareDialog(true);
+                break;
+            case R.id.listType_all:
+                filterRecords(1, item);
+                break;
+            case R.id.listType_inprogress:
+                filterRecords(2, item);
+                break;
+            case R.id.listType_completed:
+                filterRecords(3, item);
+                break;
+            case R.id.listType_onhold:
+                filterRecords(4, item);
+                break;
+            case R.id.listType_dropped:
+                filterRecords(5, item);
+                break;
+            case R.id.listType_planned:
+                filterRecords(6, item);
                 break;
             case R.id.sort_title:
                 sortRecords(1, item);
@@ -166,6 +188,15 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         if (animeList != null && mangaList != null) {
             animeList.sort(sortType);
             mangaList.sort(sortType);
+        }
+    }
+
+    private void filterRecords(int filterType, MenuItem item) {
+        if (item != null)
+            item.setChecked(true);
+        if (animeList != null && mangaList != null) {
+            animeList.filter(filterType);
+            mangaList.filter(filterType);
         }
     }
 
@@ -342,8 +373,12 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (menu != null)
-            menu.findItem(R.id.menu_sort).setVisible(adapter.getItem(position) instanceof IGF);
+        if (menu != null) {
+            boolean isIGF = adapter.getItem(position) instanceof IGF;
+            menu.findItem(R.id.menu_listType).setVisible(isIGF);
+            menu.findItem(R.id.menu_sort).setVisible(isIGF);
+            menu.findItem(R.id.forceSync).setVisible(!isIGF);
+        }
     }
 
     @Override

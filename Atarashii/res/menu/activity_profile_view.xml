@@ -2,10 +2,40 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:res-auto="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/forceSync"
-        android:icon="@drawable/ic_autorenew"
-        android:title="@string/menu_sync"
-        res-auto:showAsAction="ifRoom" />
+        android:id="@+id/menu_listType"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/menu_listType"
+        res-auto:showAsAction="always">
+
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/listType_all"
+                    android:title="@string/listType_all"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_inprogress"
+                    android:title="@string/listType_InProgress"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_completed"
+                    android:title="@string/listType_Completed"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_onhold"
+                    android:title="@string/listType_onhold"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_dropped"
+                    android:title="@string/listType_dropped"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/listType_planned"
+                    android:title="@string/listType_planned"
+                    res-auto:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/menu_sort"
@@ -50,6 +80,12 @@
                 res-auto:showAsAction="never"/>
         </menu>
     </item>
+
+    <item
+        android:id="@+id/forceSync"
+        android:icon="@drawable/ic_autorenew"
+        android:title="@string/menu_sync"
+        res-auto:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_ViewMALPage"
