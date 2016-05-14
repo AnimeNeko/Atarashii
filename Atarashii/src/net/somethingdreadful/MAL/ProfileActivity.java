@@ -52,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        //TODO v2.3: Enable scroll tabs support for Atarashii
+        // Theme.setTheme(this, R.layout.theme_viewpager_scrolltabs, true);
         Theme.setTheme(this, R.layout.theme_viewpager, true);
         adapter = (ProfilePagerAdapter) Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
