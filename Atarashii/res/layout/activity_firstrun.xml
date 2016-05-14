@@ -100,15 +100,6 @@
                 android:layout_below="@+id/myanimelist"
                 android:layout_centerHorizontal="true" />
 
-            <Button
-                android:id="@+id/support"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="8dp"
-                android:text="@string/mobihelp_message_support_agent" />
-
         </RelativeLayout>
 
         <RelativeLayout

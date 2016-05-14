@@ -22,7 +22,6 @@ import android.widget.ViewFlipper;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
-import com.freshdesk.mobihelp.Mobihelp;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
@@ -49,8 +48,6 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     Button connectButton;
     @Bind(R.id.registerButton)
     Button registerButton;
-    @Bind(R.id.support)
-    Button support;
     @Bind(R.id.webview)
     WebView webview;
     @Bind(R.id.myanimelist)
@@ -74,7 +71,6 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
         registerButton.setOnClickListener(this);
         myanimelist.setOnClickListener(this);
         anilist.setOnClickListener(this);
-        support.setOnClickListener(this);
 
         CookieManager.getInstance().removeAllCookie();
         webview.getSettings().setJavaScriptEnabled(true);
@@ -196,9 +192,6 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                     viewFlipper.setDisplayedChild(2);
                 } else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
-                break;
-            case R.id.support:
-                Mobihelp.showSupport(this);
                 break;
         }
     }
