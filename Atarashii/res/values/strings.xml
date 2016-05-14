@@ -51,9 +51,11 @@
     <string name="toast_info_backup_list">The backup is not compatible with this site!</string>
     <string name="toast_info_widget_exists">A widget with the chosen record already exists!</string>
     <string name="toast_info_comment">The comment is short!</string>
+    <string name="toast_permission_backup">Permission denied by user, the backups can\'t be loaded!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_userername">Username mismatch</string>
+    <string name="dialog_title_permission">Permission denied</string>
     <string name="dialog_title_restore">Restore lists?</string>
     <string name="dialog_title_view">View</string>
     <string name="dialog_title_tags">My tags</string>
@@ -76,6 +78,7 @@
     <string name="dialog_hint_tags">Separate your tags with a comma</string>
     <string name="dialog_hint_comment">Enter you comment</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
+    <string name="dialog_message_permission">Please enable the android permission manually.\nYou have chosen to never show it again.</string>
     <string name="dialog_message_restore">This could remove some records in your list!</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_id_search">Please press on the Anime or Manga button to search. Remember that Anime and Manga IDs aren\'t the same!</string>

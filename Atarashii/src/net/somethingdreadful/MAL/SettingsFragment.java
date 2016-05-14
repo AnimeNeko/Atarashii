@@ -1,14 +1,19 @@
 package net.somethingdreadful.MAL;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -119,8 +124,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 makeNumberpicker(bundle);
                 break;
             case "backup":
-                Intent firstRunInit = new Intent(context, BackupActivity.class);
-                startActivity(firstRunInit);
+                requestStoragePermission();
                 break;
             case "reset":
                 PrefManager.clear();
@@ -129,6 +133,25 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 break;
         }
         return false;
+    }
+
+    private void requestStoragePermission(){
+        // Check for staorage permission to store the account.
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Check if user marked to show never the permission dialog
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle(R.string.dialog_title_permission)
+                        .setMessage(R.string.dialog_message_permission)
+                        .setPositiveButton(android.R.string.ok, null);
+                alertDialog.create().show();
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+            }
+        } else {
+            Intent firstRunInit = new Intent(context, BackupActivity.class);
+            startActivity(firstRunInit);
+        }
     }
 
     private void makeNumberpicker(Bundle bundle) {
