@@ -39,7 +39,9 @@
     <string name="toast_info_password">De gebruikersnaam en wachtwoord combinatie komt niet overeen!</string>
     <string name="toast_info_Copied">De titel is succesvol gekopieerd naar de klembord.</string>
     <string name="toast_info_hold_on">Een ogenblikje, we zijn nog info aan het laden!</string>
+    <string name="toast_info_comment_add">De reactie is succesvol verzonden!</string>
     <string name="toast_info_comment_added">Het kan tot 5 minuten duren tot het zichtbaar is</string>
+    <string name="toast_info_disabled">Deze functie is momenteel uitgeschakeld :(</string>
     <string name="toast_info_disabled_youtube">Reacties met Youtube-filmpjes worden niet ondersteund :(</string>
     <string name="toast_info_backup_saved">De herstelpunt is aangemaakt!</string>
     <string name="toast_info_backup_revert">De wijzigingen zijn teruggedraaid!</string>
@@ -53,10 +55,12 @@
     <string name="dialog_title_view">Bekijken</string>
     <string name="dialog_title_tags">Mijn tags</string>
     <string name="dialog_title_storage_value">Opslagwaarde</string>
+    <string name="dialog_title_downloaded">Gedownloade afleveringen</string>
     <string name="dialog_title_rewatched_times">Aantal keren herbekeken</string>
     <string name="dialog_title_rewatched_priority">Herbekijkprioriteit</string>
     <string name="dialog_title_storage">Opslagtype</string>
     <string name="dialog_title_comment">Mijn reacties</string>
+    <string name="dialog_title_fansub">Mijn fansubgroep</string>
     <string name="dialog_title_share">Delen</string>
     <string name="dialog_title_share_via">Delen met</string>
     <string name="dialog_title_Verifying">Verifiëren</string>
@@ -66,10 +70,12 @@
     <string name="dialog_title_status">Status</string>
     <string name="dialog_title_edit_comment">Reactie bewerken</string>
     <string name="dialog_title_add_comment">Reactie toevoegen</string>
+    <string name="dialog_title_add_topic">Onderwerp maken</string>
     <string name="dialog_title_id_search">Zoeken op ID</string>
     <string name="dialog_title_update_navigation">Verander achtergrond</string>
     <string name="dialog_hint_tags">Scheid je tags met een komma</string>
     <string name="dialog_hint_comment">Vul je reactie in</string>
+    <string name="dialog_hint_fansub">Vul je fansubgroep in</string>
     <string name="dialog_message_view">Welke lijst wil je bekijken?</string>
     <string name="dialog_message_restore">Dit kan sommige items verwijderen in je lijst!</string>
     <string name="dialog_message_logout">Weet je zeker dat je wilt uitloggen? Dit zal alle opgeslagen data en foto\'s verwijderen.</string>
@@ -78,7 +84,9 @@
     <string name="dialog_message_share">Welke lijst wil je delen?</string>
     <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblikje...</string>
     <string name="dialog_message_update_navigation">Voer de URL van de afbeelding hieronder.</string>
+    <string name="dialog_message_created_by">Gemaakt door</string>
     <string name="dialog_message_last_post">Laatste bericht door</string>
+    <string name="dialog_message_forum_child">Wil je de categorie $child1; of $child2; bekijken?</string>
     <string name="dialog_message_username">Het is mogelijk dat dit herstelpunt niet jou herstelpunt is!</string>
     <string name="dialog_message_edit_comment">Weet je zeker dat jou commentaar geupdated moet worden?</string>
     <string name="dialog_message_add_comment">Wil je echt een reactie plaatsten?</string>
@@ -110,6 +118,8 @@
     <string name="layout_card_join">Lid sinds</string>
     <string name="layout_card_acces">Rank</string>
     <string name="access_rank_atarashii_developer">Atarashii-ontwikkelaar</string>
+    <string name="layout_card_anime_views">Animelijstweergaven</string>
+    <string name="layout_card_manga_views">Mangalijstweergaven</string>
     <string name="layout_card_anime_details">Animedetails</string>
     <string name="layout_card_manga_details">Mangadetails</string>
     <string name="layout_card_anime_time">Tijd in dagen</string>
@@ -124,7 +134,11 @@
     <string name="action_viewListOnMAL">Lijst bekijken op internet</string>
     <string name="action_viewtopic">Bekijk discussie</string>
     <string name="not_specified">niet gespecificeerd</string>
+    <string name="no_activity">Geen activiteit</string>
     <string name="no_history">Geen geschiedenis</string>
+    <string name="no_reviews">Geen reviews</string>
+    <string name="read_more">lees meer</string>
+    <string name="show_less">verberg informatie</string>
     <string-array name="gender">
         <item>Vrouw</item>
         <item>Man</item>
@@ -134,6 +148,8 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Aanmaakdatum</string>
     <!-- ForumActivity Strings -->
+    <string name="action_add">Voeg een reactie of onderwerp toe</string>
+    <string name="form_hint_title">Onderwerptitel</string>
     <string name="form_hint_message">Bericht</string>
     <string name="Page_number">Pagina nummer</string>
     <string name="next">Volgende</string>
@@ -168,9 +184,12 @@
     <string name="nav_item_my_profile">Mijn profiel</string>
     <string name="nav_item_my_list">Mijn lijst</string>
     <string name="nav_item_my_friends">Mijn vrienden</string>
+    <string name="nav_item_my_following">Volgend</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Best gewaardeerd</string>
+    <string name="nav_item_airing">Aan het uitzenden</string>
     <string name="nav_item_most_popular">Populairste</string>
+    <string name="nav_item_year">Dit jaar</string>
     <string name="nav_item_just_added">Recent toegevoegd</string>
     <string name="nav_item_upcoming">Binnenkort</string>
     <string name="drawer_open">Open de navigatiebalk</string>
@@ -201,8 +220,10 @@
     <string name="card_content_none">Geen</string>
     <string name="card_content_chapters">Hoofdstukken</string>
     <string name="card_content_rewatch_priority">Prioriteit</string>
+    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Opslag</string>
     <string name="card_content_storage_amount">Opslag capaciteit (GB)</string>
+    <string name="card_content_downloaded">Gedownload</string>
     <string name="card_content_count">Nummer</string>
     <string name="card_content_episodes">Afleveringen</string>
     <string name="card_content_status">Status</string>
