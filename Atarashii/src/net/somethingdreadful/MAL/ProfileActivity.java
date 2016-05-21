@@ -52,9 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        //TODO v2.3: Enable scroll tabs support for Atarashii
-        // Theme.setTheme(this, R.layout.theme_viewpager_scrolltabs, true);
-        Theme.setTheme(this, R.layout.theme_viewpager, true);
+        Theme.setTheme(this, R.layout.theme_viewpager_scrolltabs, true);
         adapter = (ProfilePagerAdapter) Theme.setActionBar(this, new ProfilePagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
 
@@ -251,14 +249,6 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             followers.getRecords();
         if (history != null && record.getActivity() != null && record.getActivity().size() > 0)
             history.refresh();
-        if (animeList != null && animeList.getUsername() == null) {
-            animeList.setUsername(record.getUsername());
-            animeList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
-        }
-        if (mangaList != null && mangaList.getUsername() == null) {
-            mangaList.setUsername(record.getUsername());
-            mangaList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
-        }
     }
 
     public void refreshing(boolean loading) {
@@ -340,14 +330,14 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
         try {
             if (igf.isAnime()) {
                 animeList = igf;
-                animeList.Gridview.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
+                animeList.viewflipper.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
                 if (record != null) {
                     animeList.setUsername(record.getUsername());
                     animeList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
                 }
             } else {
                 mangaList = igf;
-                mangaList.Gridview.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
+                mangaList.viewflipper.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
                 if (record != null) {
                     mangaList.setUsername(record.getUsername());
                     mangaList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
@@ -380,6 +370,18 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
             menu.findItem(R.id.menu_listType).setVisible(isIGF);
             menu.findItem(R.id.menu_sort).setVisible(isIGF);
             menu.findItem(R.id.forceSync).setVisible(!isIGF);
+
+            // Check if the IGF is on the screen and the user has been loaded
+            if (isIGF && record != null) {
+                if (animeList != null && animeList.getUsername() == null) {
+                    animeList.setUsername(record.getUsername());
+                    animeList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
+                }
+                if (mangaList != null && mangaList.getUsername() == null) {
+                    mangaList.setUsername(record.getUsername());
+                    mangaList.getRecords(true, TaskJob.GETFRIENDLIST, PrefManager.getDefaultList());
+                }
+            }
         }
     }
 

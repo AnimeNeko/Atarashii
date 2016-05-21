@@ -273,7 +273,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param sortType The sort ID
      */
     public void sort(int sortType) {
-        Crashlytics.log(Log.INFO, "Atarashii", "IGF.sort(" + listType + "): sortType=" + sortType + isLoading());
+        Crashlytics.log(Log.INFO, "Atarashii", "IGF.sort(" + listType + "): sortType=" + sortType);
         this.sortType = sortType;
         if (taskjob.equals(TaskJob.GETFRIENDLIST) && !isLoading()) {
             sortList(sortType);

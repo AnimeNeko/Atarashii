@@ -4,10 +4,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import net.somethingdreadful.MAL.IGF;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
+import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.profile.ProfileDetailsAL;
 import net.somethingdreadful.MAL.profile.ProfileDetailsMAL;
 import net.somethingdreadful.MAL.profile.ProfileFriends;
@@ -31,9 +33,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             fragments.add(new FragmentHolder(new ProfileFriends(), R.string.tab_name_friends));
             if (APIHelper.isNetworkAvailable(activity)) {
                 fragments.add(new FragmentHolder(new ProfileHistory(), R.string.tab_name_history));
-                //TODO v2.3: Enable animeList and MangaList support for Atarashii
-                // fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
-                // fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
+                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
+                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
             }
         } else {
             fragments.add(new FragmentHolder(new ProfileDetailsAL(), R.string.tab_name_details));
@@ -41,9 +42,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             if (APIHelper.isNetworkAvailable(activity)) {
                 fragments.add(new FragmentHolder(new ProfileFriends().setId(1), R.string.tab_name_followers));
                 fragments.add(new FragmentHolder(new ProfileHistory(), R.string.layout_card_title_activity));
-                //TODO v2.3: Enable animeList and MangaList support for Atarashii
-                //fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
-                //fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
+                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
+                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
             }
         }
     }
