@@ -862,9 +862,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
                         viewHolder.progressCount.setText(String.valueOf(position + 1));
                         viewHolder.flavourText.setText(Number);
-                    } else if (isAnime() && animeRecord.getAiring() != null) {
-                        viewHolder.progressCount.setVisibility(View.GONE);
-                        viewHolder.flavourText.setText(DateTools.parseDate(animeRecord.getAiring().getTime(), true));
                     } else {
                         viewHolder.progressCount.setVisibility(View.GONE);
                         viewHolder.flavourText.setText(getString(R.string.unknown));
