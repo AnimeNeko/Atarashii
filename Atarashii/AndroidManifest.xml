@@ -1,69 +1,69 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.somethingdreadful.MAL">
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21" />
+          xmlns:tools="http://schemas.android.com/tools"
+          package="net.somethingdreadful.MAL">
 
     <uses-feature
         android:name="android.hardware.touchscreen"
-        android:required="false" />
+        android:required="false"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <application
         android:name=".Theme"
+        android:allowBackup="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AtarashiiLightBg">
+        android:theme="@style/AtarashiiLightBg"
+        tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".Home"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
+                android:value=".SearchActivity"/>
         </activity>
         <activity
             android:name=".FirstTimeInit"
-            android:label="@string/title_activity_firstRun" />
+            android:label="@string/title_activity_firstRun"/>
         <activity
             android:name=".Settings"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"/>
         <activity
             android:name=".DetailView"
             android:label="@string/title_activity_detail_view">
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/net.somethingdreadful.mal" />
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/net.somethingdreadful.mal"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile" />
+            android:label="Profile"/>
         <activity
             android:name=".AboutActivity"
-            android:label="@string/title_activity_about" />
+            android:label="@string/title_activity_about"/>
         <activity
             android:name=".BackupActivity"
-            android:label="@string/title_activity_backup" />
+            android:label="@string/title_activity_backup"/>
         <activity
             android:name=".ForumActivity"
             android:label="@string/title_activity_forum"
@@ -71,9 +71,9 @@
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
         </activity>
         <activity
@@ -81,42 +81,44 @@
             android:label="Search"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
         </activity>
 
         <provider
             android:name=".account.Provider"
             android:authorities=".account.Provider"
             android:exported="false"
-            android:label="@string/preference_android_synchronisation" />
+            android:label="@string/preference_android_synchronisation"/>
 
-        <service android:name=".account.AccountService">
+        <service
+            android:name=".account.AccountService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                android:resource="@xml/authenticator"/>
         </service>
 
         <meta-data
             android:name="com.crashlytics.ApiKey"
-            android:value="5b41441e0dcb3c428a56660c8be6c8e7e1055667" />
+            android:value="5b41441e0dcb3c428a56660c8be6c8e7e1055667"/>
 
         <receiver
             android:name=".broadcasts.AutoSync"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".broadcasts.BackupSync" />
+        <receiver android:name=".broadcasts.BackupSync"/>
     </application>
 
 </manifest>
