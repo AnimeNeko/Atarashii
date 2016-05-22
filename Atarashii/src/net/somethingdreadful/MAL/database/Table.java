@@ -50,7 +50,6 @@ public class Table {
                 + "dirty varchar, "
                 + "createFlag integer, "
                 + "deleteFlag integer, "
-                + "widget integer, "
                 + "lsPlanned integer, "
                 + "lsReadWatch integer, "
                 + "lsCompleted integer, "

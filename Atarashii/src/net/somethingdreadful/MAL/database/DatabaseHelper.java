@@ -16,7 +16,7 @@ import java.io.File;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
-    private static final int VERSION = 15;
+    private static final int VERSION = 16;
     private static DatabaseHelper instance;
     private Context context;
 
@@ -251,6 +251,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 // Drop unused table
                 db.execSQL("DROP TABLE IF EXISTS activities");
+            }
+
+            /**
+             * Date: 22-05-2016
+             * Database version: 16
+             * Application version: 2.3
+             *
+             * The DB didn't supported some info.
+             * - Removed widget.
+             */
+            if (oldVersion < 16) {
+                // Recreate anime and manga table
+                Table.create(db).recreateListTable(TABLE_ANIME, "widget");
+                Table.create(db).recreateListTable(TABLE_MANGA, "widget");
             }
         } catch (Exception e) {
             // log database failures

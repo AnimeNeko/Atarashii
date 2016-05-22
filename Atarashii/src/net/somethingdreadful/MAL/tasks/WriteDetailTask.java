@@ -16,7 +16,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
-import net.somethingdreadful.MAL.widgets.Widget1;
 
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
     private ListType type = ListType.ANIME;
@@ -82,7 +81,5 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         i.setAction(RecordStatusUpdatedReceiver.RECV_IDENT);
         i.putExtra("type", type);
         LocalBroadcastManager.getInstance(activity).sendBroadcast(i);
-
-        Widget1.forceRefresh(activity);
     }
 }

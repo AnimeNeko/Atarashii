@@ -14,7 +14,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
-import net.somethingdreadful.MAL.api.MALApi;
 
 import java.util.ArrayList;
 
@@ -497,122 +496,6 @@ public class DatabaseManager {
     public void restoreLists(ArrayList<Anime> animeList, ArrayList<Manga> mangaList) {
         saveAnimeList(animeList);
         saveMangaList(mangaList);
-    }
-
-    public ArrayList<GenericRecord> getWidgetRecords() {
-        ArrayList<GenericRecord> result = new ArrayList<>();
-        result.addAll(getWidgetList(MALApi.ListType.ANIME));
-        result.addAll(getWidgetList(MALApi.ListType.MANGA));
-        return result;
-    }
-
-    private ArrayList getWidgetList(MALApi.ListType type) {
-        ArrayList result = new ArrayList<>();
-        Cursor cursor;
-        if (type.equals(MALApi.ListType.ANIME))
-            cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME).isNotNull("widget").run();
-        else
-            cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA).isNotNull("widget").run();
-
-        if (cursor.moveToFirst()) {
-            do
-                if (type.equals(MALApi.ListType.ANIME)) {
-                    Anime anime = Anime.fromCursor(cursor);
-                    anime.isAnime = true;
-                    result.add(anime);
-                } else {
-                    Manga manga = Manga.fromCursor(cursor);
-                    manga.isAnime = false;
-                    result.add(manga);
-                }
-            while (cursor.moveToNext());
-        }
-        cursor.close();
-        return result;
-    }
-
-    public boolean addWidgetRecord(int id, MALApi.ListType type) {
-        if (checkWidgetID(id, type))
-            return false;
-
-        int number = getWidgetRecords().size() + 1;
-        ContentValues cv = new ContentValues();
-        cv.put("widget", number);
-
-        try {
-            db.beginTransaction();
-            if (type.equals(MALApi.ListType.ANIME))
-                db.update(DatabaseHelper.TABLE_ANIME, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
-            else
-                db.update(DatabaseHelper.TABLE_MANGA, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(id)});
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.addWidgetRecord(): " + e.getMessage());
-            Crashlytics.logException(e);
-        } finally {
-            db.endTransaction();
-        }
-        return true;
-    }
-
-    public boolean updateWidgetRecord(int oldId, int id, MALApi.ListType type) {
-        if (checkWidgetID(id, type))
-            return false;
-
-        // Remove old record
-        ContentValues cv = new ContentValues();
-        cv.putNull("widget");
-
-        try {
-            db.beginTransaction();
-            db.update(DatabaseHelper.TABLE_ANIME, cv, DatabaseHelper.COLUMN_ID + " = ?", new String[]{Integer.toString(oldId)});
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.updateWidgetRecord(): " + e.getMessage());
-            Crashlytics.logException(e);
-        } finally {
-            db.endTransaction();
-        }
-        addWidgetRecord(id, type);
-        return true;
-    }
-
-    /**
-     * Check if records is already a widget
-     *
-     * @param id   The anime/manga id
-     * @param type The List type
-     * @return Boolean True if exists
-     */
-    private boolean checkWidgetID(int id, MALApi.ListType type) {
-        if (type.equals(MALApi.ListType.ANIME))
-            return Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME).where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
-        else
-            return Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA).where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andIsNotNull("widget").run().getCount() > 0;
-    }
-
-    public void removeWidgetRecord() {
-        try {
-            db.beginTransaction();
-            int number = getWidgetRecords().size() - 1;
-            // Remove old record
-            ContentValues cv = new ContentValues();
-            cv.putNull("widget");
-            db.update(DatabaseHelper.TABLE_ANIME, cv, "widget = ?", new String[]{Integer.toString(number)});
-            db.update(DatabaseHelper.TABLE_MANGA, cv, "widget = ?", new String[]{Integer.toString(number)});
-
-            // Replace id of the new record
-            ContentValues cvn = new ContentValues();
-            cvn.put("widget", number);
-            db.update(DatabaseHelper.TABLE_ANIME, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
-            db.update(DatabaseHelper.TABLE_MANGA, cvn, "widget = ?", new String[]{Integer.toString(number + 1)});
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.removeWidgetRecord(): " + e.getMessage());
-            Crashlytics.logException(e);
-        } finally {
-            db.endTransaction();
-        }
     }
 
     public boolean deleteAnime(int id) {

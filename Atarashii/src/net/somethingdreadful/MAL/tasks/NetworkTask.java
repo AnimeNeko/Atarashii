@@ -16,7 +16,6 @@ import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.widgets.Widget1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,8 +120,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             cManager.downloadMangaList(AccountService.getUsername());
                             taskResult =  cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                         }
-
-                        Widget1.forceRefresh(getContext());
                     }
                     break;
                 case GETMOSTPOPULAR:
