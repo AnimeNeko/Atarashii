@@ -391,10 +391,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private void setProgressPlusOne(Anime anime, Manga manga) {
         if (isAnime()) {
             anime.setWatchedEpisodes(anime.getWatchedEpisodes() + 1);
-            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+            new WriteDetailTask(listType, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setProgress(useSecondaryAmounts, manga.getProgress(useSecondaryAmounts) + 1);
-            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+            new WriteDetailTask(listType, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }
@@ -411,7 +411,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         if (isAnime()) {
             anime.setWatchedStatus(GenericRecord.STATUS_COMPLETED);
             gl.remove(anime);
-            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
+            new WriteDetailTask(listType, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, anime);
         } else {
             manga.setReadStatus(GenericRecord.STATUS_COMPLETED);
             if (manga.getChapters() > 0)
@@ -419,7 +419,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (manga.getVolumes() > 0)
                 manga.setVolumesRead(manga.getVolumes());
             gl.remove(manga);
-            new WriteDetailTask(listType, TaskJob.UPDATE, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
+            new WriteDetailTask(listType, activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, manga);
         }
         refresh();
     }

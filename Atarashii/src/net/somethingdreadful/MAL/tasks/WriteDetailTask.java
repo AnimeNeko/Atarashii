@@ -20,11 +20,9 @@ import net.somethingdreadful.MAL.widgets.Widget1;
 
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
     private ListType type = ListType.ANIME;
-    private final TaskJob job;
     private final Activity activity;
 
-    public WriteDetailTask(ListType type, TaskJob job, Activity activity) {
-        this.job = job;
+    public WriteDetailTask(ListType type, Activity activity) {
         this.type = type;
         this.activity = activity;
     }
@@ -52,14 +50,14 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 }
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "Atarashii", "WriteDetailTask.doInBackground(5, " + type + "): " + job + "-task unknown API error (?): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "WriteDetailTask.doInBackground(5, " + type + "): unknown API error (?): " + e.getMessage());
             Crashlytics.logException(e);
             error = true;
         }
 
         // only update if everything went well!
         if (!error) {
-            if (!job.equals(TaskJob.UPDATE)) {
+            if (gr[0].getDeleteFlag()) {
                 if (ListType.ANIME.equals(type)) {
                     manager.deleteAnime((Anime) gr[0]);
                 } else {
