@@ -54,6 +54,7 @@
         android:background="@drawable/highlite">
 
         <View
+            android:id="@+id/divider2"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
@@ -89,6 +90,7 @@
         android:background="@drawable/highlite">
 
         <View
+            android:id="@+id/divider3"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
@@ -125,6 +127,7 @@
         android:minHeight="56dp">
 
         <View
+            android:id="@+id/divider4"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />
@@ -168,6 +171,7 @@
         android:minHeight="56dp">
 
         <View
+            android:id="@+id/divider5"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/bg_listview_pressed" />

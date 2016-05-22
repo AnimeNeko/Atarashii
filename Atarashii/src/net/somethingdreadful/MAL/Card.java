@@ -88,7 +88,7 @@ public class Card extends RelativeLayout {
         if (this.findViewById(R.id.ListView) != null)
             setPadding(0);
         if (Theme.darkTheme) {
-            Content.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark));
+            Content.setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_dark_background));
             initLoop(Content);
             if (this.findViewById(R.id.ListView) != null) {
                 ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.ListView);
