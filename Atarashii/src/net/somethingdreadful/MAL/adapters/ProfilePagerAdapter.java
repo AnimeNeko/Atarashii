@@ -33,8 +33,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             fragments.add(new FragmentHolder(new ProfileFriends(), R.string.tab_name_friends));
             if (APIHelper.isNetworkAvailable(activity)) {
                 fragments.add(new FragmentHolder(new ProfileHistory(), R.string.tab_name_history));
-                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
-                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
+                fragments.add(new FragmentHolder(new IGF().setFriendList(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
+                fragments.add(new FragmentHolder(new IGF().setFriendList(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
             }
         } else {
             fragments.add(new FragmentHolder(new ProfileDetailsAL(), R.string.tab_name_details));
@@ -42,8 +42,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             if (APIHelper.isNetworkAvailable(activity)) {
                 fragments.add(new FragmentHolder(new ProfileFriends().setId(1), R.string.tab_name_followers));
                 fragments.add(new FragmentHolder(new ProfileHistory(), R.string.layout_card_title_activity));
-                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
-                fragments.add(new FragmentHolder(new IGF().setListType(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
+                fragments.add(new FragmentHolder(new IGF().setFriendList(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME)));
+                fragments.add(new FragmentHolder(new IGF().setFriendList(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA)));
             }
         }
     }

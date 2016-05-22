@@ -208,11 +208,21 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     /**
      * Set listType, boolean isAnime
      */
-    public IGF setListType(ListType listType) {
+    public void setListType(ListType listType) {
         Crashlytics.log(Log.INFO, "Atarashii", "IGF.sort(): listType=" + listType);
         this.listType = listType;
-        this.popupEnabled = false;
         isAnime = listType.equals(ListType.ANIME);
+    }
+
+    /**
+     * Init the list other than the user.
+     *
+     * @param listType ListType, boolean isAnime
+     * @return The fragment
+     */
+    public IGF setFriendList(ListType listType) {
+        setListType(listType);
+        this.popupEnabled = false;
         return this;
     }
 
@@ -819,16 +829,22 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         case "watching":
                             viewHolder.flavourText.setText(StatusWatching);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
-                            viewHolder.actionButton.setVisibility(View.VISIBLE);
-                            if (popupEnabled)
+                            if (popupEnabled) {
+                                viewHolder.actionButton.setVisibility(View.VISIBLE);
                                 viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
+                            } else {
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                            }
                             break;
                         case "reading":
                             viewHolder.flavourText.setText(StatusReading);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
-                            viewHolder.actionButton.setVisibility(View.VISIBLE);
-                            if (popupEnabled)
+                            if (popupEnabled) {
+                                viewHolder.actionButton.setVisibility(View.VISIBLE);
                                 viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
+                            } else {
+                                viewHolder.actionButton.setVisibility(View.GONE);
+                            }
                             break;
                         case "completed":
                             viewHolder.flavourText.setText(StatusCompleted);
