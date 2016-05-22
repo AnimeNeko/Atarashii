@@ -60,6 +60,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private NetworkTask networkTask;
     private IGFCallbackListener callback;
     private ListViewAdapter<GenericRecord> ga;
+    private boolean popupEnabled = true;
     private ArrayList<GenericRecord> gl = new ArrayList<>();
     private ArrayList<GenericRecord> backGl = new ArrayList<>();
 
@@ -147,6 +148,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             isList = state.getBoolean("isList");
             sortType = state.getInt("sortType");
             inverse = state.getBoolean("inverse");
+            popupEnabled = state.getBoolean("popupEnabled");
         } else {
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
             useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
@@ -209,6 +211,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public IGF setListType(ListType listType) {
         Crashlytics.log(Log.INFO, "Atarashii", "IGF.sort(): listType=" + listType);
         this.listType = listType;
+        this.popupEnabled = false;
         isAnime = listType.equals(ListType.ANIME);
         return this;
     }
@@ -817,13 +820,15 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             viewHolder.flavourText.setText(StatusWatching);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.VISIBLE);
-                            viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
+                            if (popupEnabled)
+                                viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
                             break;
                         case "reading":
                             viewHolder.flavourText.setText(StatusReading);
                             viewHolder.progressCount.setVisibility(View.VISIBLE);
                             viewHolder.actionButton.setVisibility(View.VISIBLE);
-                            viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
+                            if (popupEnabled)
+                                viewHolder.actionButton.setOnClickListener(new ABOnClickListener(record));
                             break;
                         case "completed":
                             viewHolder.flavourText.setText(StatusCompleted);
