@@ -337,7 +337,7 @@
     <string name="contributor_ratan12_summary">A géré toutes les traductions, la création de nouvelles fonctions et le travail sur l\'interface utilisateur.</string>
     <string name="translations">Atarashii! a commencé à supporter le multi-langue depuis la version 1.4 ! Tout le monde peut <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">rejoindre le projet de traduction</a> afin d\'y contribuer.</string>
     <string name="translations_notListed">Ma langue n\'est pas répertoriée sur oneskyapp ?</string>
-    <string name="translations_notListed_summary">Si ta langue n\'est pas répertoriée, nous te recommandons de demander à Ratan Dhawtal de l'ajouter ou d\'ajouter un commentaire sur <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">ce post Google+</a>. Nous l\'ajouterons dès que possible et te tiendrons au courant.</string>
+    <string name="translations_notListed_summary">Si ta langue n\'est pas répertoriée, nous te recommandons de demander à Ratan Dhawtal de l\'ajouter ou d\'ajouter un commentaire sur <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">ce post Google+</a>. Nous l\'ajouterons dès que possible et te tiendrons au courant.</string>
     <string name="translations_notApproved">Pourquoi mes phases traduites ne sont-elles toujours pas approuvées ?</string>
     <string name="translations_notApproved_summary">Le collaborateur est très probablement occupé par le développement de l\'application. Tu peux ré-envoyer un rappel au développeur d\'ici un mois, mais n\'en envoie pas trop.</string>
     <string name="customShareText_fromAtarashii">\n\n Partagé depuis Atarashii! - un MAL moderne pour Android</string>
