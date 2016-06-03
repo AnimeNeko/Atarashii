@@ -518,6 +518,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 args.add(username);
                 setSwipeRefreshEnabled(false);
             } else if (isList()) {
+                setSwipeRefreshEnabled(true);
                 args.add(ContentManager.listSortFromInt(list, listType));
                 args.add(String.valueOf(sortType));
                 args.add(String.valueOf(inverse));
