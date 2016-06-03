@@ -189,7 +189,7 @@ public class GenericRecord implements Serializable {
         return title;
     }
 
-    private String getImageUrl() {
+    public String getImageUrl() {
         if (imageUrl != null)
             return imageUrl.contains("t.jpg") ? imageUrl.replace("t.jpg", "l.jpg") : imageUrl.replace(".jpg", "l.jpg");
         else

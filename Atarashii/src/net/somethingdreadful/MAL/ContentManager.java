@@ -17,6 +17,7 @@ import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.History;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.MALModels.Recommendations;
 import net.somethingdreadful.MAL.database.DatabaseManager;
 
 import java.util.ArrayList;
@@ -406,5 +407,15 @@ public class ContentManager {
     public boolean updateComment(int id, String message) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.updateComment(): message=" + message + " id=" + id);
         return AccountService.isMAL() ? malApi.updateComment(id, message) : alApi.updateComment(id, message);
+    }
+
+    public ArrayList<Recommendations> getAnimeRecs(int id) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getAnimeRecs(): id=" + id);
+        return malApi.getAnimeRecs(id);
+    }
+
+    public ArrayList<Recommendations> getMangaRecs(int id) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMangaRecs(): id=" + id);
+        return malApi.getMangaRecs(id);
     }
 }

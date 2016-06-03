@@ -11,5 +11,6 @@ public enum TaskJob {
     GETDETAILS,
     UPDATE,
     REVIEWS,
+    RECOMMENDATION,
     SEARCH
 }

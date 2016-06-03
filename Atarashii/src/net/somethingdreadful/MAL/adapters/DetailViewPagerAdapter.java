@@ -7,10 +7,12 @@ import android.support.v4.view.PagerAdapter;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
+import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
@@ -32,8 +34,11 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
         fragments.add(new DetailViewDetails(), R.string.tab_name_details);
         if (!hidePersonal)
             fragments.add(new DetailViewPersonal(), R.string.tab_name_personal);
-        if (APIHelper.isNetworkAvailable(activity))
+        if (APIHelper.isNetworkAvailable(activity)) {
             fragments.add(new DetailViewReviews(), R.string.tab_name_reviews);
+            if (AccountService.isMAL())
+                fragments.add(new DetailViewRecs(), R.string.tab_name_recommendations);
+        }
     }
 
     public void hidePersonal(boolean hidePersonal) {

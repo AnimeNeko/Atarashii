@@ -191,6 +191,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                     if (params != null)
                         taskResult = isAnimeTask() ? cManager.getAnimeReviews(Integer.parseInt(params[0]), page) : cManager.getMangaReviews(Integer.parseInt(params[0]), page);
                     break;
+                case RECOMMENDATION:
+                    if (params != null)
+                        taskResult = isAnimeTask() ? cManager.getAnimeRecs(Integer.parseInt(params[0])) : cManager.getMangaRecs(Integer.parseInt(params[0]));
+                    break;
                 default:
                     Crashlytics.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }

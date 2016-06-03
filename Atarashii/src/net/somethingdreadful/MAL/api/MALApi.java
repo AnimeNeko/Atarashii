@@ -20,6 +20,7 @@ import net.somethingdreadful.MAL.api.MALModels.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.api.MALModels.Friend;
 import net.somethingdreadful.MAL.api.MALModels.History;
+import net.somethingdreadful.MAL.api.MALModels.Recommendations;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -499,6 +500,28 @@ public class MALApi {
             return History.convertBaseHistoryList(response.body(), username);
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getActivity", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<Recommendations> getAnimeRecs(int id) {
+        Response<ArrayList<Recommendations>> response = null;
+        try {
+            response = service.getAnimeRecs(id).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeRecs", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<Recommendations> getMangaRecs(int id) {
+        Response<ArrayList<Recommendations>> response = null;
+        try {
+            response = service.getMangaRecs(id).execute();
+            return response.body();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaRecs", e);
             return new ArrayList<>();
         }
     }

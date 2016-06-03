@@ -7,6 +7,7 @@ import net.somethingdreadful.MAL.api.MALModels.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.api.MALModels.Profile;
+import net.somethingdreadful.MAL.api.MALModels.Recommendations;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -123,4 +124,10 @@ interface MALInterface {
 
     @GET("history/{username}")
     Call<ArrayList<net.somethingdreadful.MAL.api.MALModels.History>> getActivity(@Path("username") String username);
+
+    @GET("anime/recs/{id}")
+    Call<ArrayList<Recommendations>> getAnimeRecs(@Path("id") int id);
+
+    @GET("manga/recs/{id}")
+    Call<ArrayList<Recommendations>> getMangaRecs(@Path("id") int id);
 }

@@ -33,6 +33,7 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
 import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
+import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
@@ -55,6 +56,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private DetailViewDetails details;
     private DetailViewPersonal personal;
     public DetailViewReviews reviews;
+    public DetailViewRecs recommendations;
     private DetailViewPagerAdapter PageAdapter;
     private int recordID;
     private ActionBar actionBar;
@@ -100,6 +102,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 personal.setText();
             if (reviews != null && !isEmpty() && reviews.page == 0)
                 reviews.getRecords(1);
+            if (recommendations != null && !isEmpty() && recommendations.page == 0)
+                recommendations.getRecords(1);
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
@@ -624,6 +628,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     public void setReviews(DetailViewReviews reviews) {
         this.reviews = reviews;
+    }
+    public void setRecommendations(DetailViewRecs recommendations) {
+        this.recommendations = recommendations;
     }
 
     /**
