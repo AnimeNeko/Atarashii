@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -259,7 +260,7 @@ public class MALApi {
 
     public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
-        Log.e("s", getClass().getSimpleName() + "getBrowseAnime: " + queries.toString());
+        Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
         try {
             response = service.getBrowseAnime(queries).execute();
             return AnimeList.convertBaseArray(response.body());
