@@ -12,6 +12,7 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener, ViewPager.OnPageChangeListener {
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
@@ -64,11 +68,16 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private Menu menu;
     private Context context;
 
+    @Bind(R.id.pager)
+    ViewPager viewPager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Theme.setTheme(this, R.layout.activity_detailview, true);
         PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
+        ButterKnife.bind(this);
+        viewPager.addOnPageChangeListener(this);
 
         actionBar = getSupportActionBar();
         context = getApplicationContext();
@@ -100,10 +109,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 details.setText();
             if (personal != null && !isEmpty())
                 personal.setText();
-            if (reviews != null && !isEmpty() && reviews.page == 0)
-                reviews.getRecords(1);
-            if (recommendations != null && !isEmpty() && recommendations.page == 0)
-                recommendations.getRecords(1);
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
@@ -639,11 +644,28 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private void toggleLoadingIndicator(boolean show) {
         if (viewFlipper != null)
             viewFlipper.setDisplayedChild(show ? 1 : 0);
-
     }
 
     @Override
     public void onRefresh() {
         getRecord(true);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (reviews != null && PageAdapter.getPageTitle(position).equals(getString(R.string.tab_name_reviews)) && !isEmpty() && reviews.page == 0) {
+            reviews.getRecords(1);
+        } else if (recommendations != null && PageAdapter.getPageTitle(position).equals(getString(R.string.tab_name_recommendations)) && !isEmpty() && recommendations.page == 0) {
+            recommendations.getRecords(1);
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

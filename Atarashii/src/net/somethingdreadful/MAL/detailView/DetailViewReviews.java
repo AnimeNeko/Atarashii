@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import lombok.Getter;
 
 public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
     public ArrayList<Reviews> record = new ArrayList<>();
@@ -48,6 +50,9 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
+    @Getter
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
 
     public int page = 0;
     private boolean loading = false;
@@ -75,11 +80,10 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         recyclerView.setAdapter(ra);
 
         if (state != null) {
+            getProgressBar().setVisibility(View.GONE);
             page = state.getInt("page");
             record = (ArrayList<Reviews>) state.getSerializable("list");
             ra.notifyDataSetChanged();
-        } else if (page == 0 && !activity.isEmpty()) {
-            getRecords(1);
         }
         return view;
     }
@@ -90,7 +94,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      * @return int The amount of max columns
      */
     public int getMaxColumns() {
-        int screen = 0;
+        int screen;
         if (Theme.isPortrait())
             screen = activity.getResources().getConfiguration().screenHeightDp;
         else
@@ -111,6 +115,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        getProgressBar().setVisibility(View.GONE);
         try {
             ArrayList<Reviews> records = (ArrayList<Reviews>) result;
             // The activity could be destroyed when this is being loaded because the user pressed back

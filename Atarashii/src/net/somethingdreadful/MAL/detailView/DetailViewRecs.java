@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import lombok.Getter;
 
 public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskListener {
     public ArrayList<Recommendations> record = new ArrayList<>();
@@ -47,6 +49,9 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
+    @Getter
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
 
     public int page = 0;
 
@@ -71,11 +76,10 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
         recyclerView.setAdapter(ra);
 
         if (state != null) {
+            getProgressBar().setVisibility(View.GONE);
             page = state.getInt("page");
             record = (ArrayList<Recommendations>) state.getSerializable("list");
             ra.notifyDataSetChanged();
-        } else if (page == 0 && !activity.isEmpty()) {
-            getRecords(1);
         }
         return view;
     }
@@ -107,6 +111,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
+        getProgressBar().setVisibility(View.GONE);
         try {
             ArrayList<Recommendations> records = (ArrayList<Recommendations>) result;
             // The activity could be destroyed when this is being loaded because the user pressed back
