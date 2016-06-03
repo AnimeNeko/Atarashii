@@ -2,10 +2,8 @@ package net.somethingdreadful.MAL.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.view.ViewGroup;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
@@ -16,77 +14,40 @@ import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
-    private int count;
+    Fragments fragments;
     private boolean hidePersonal = false;
-    private final DetailView activity;
-    private int maxCount = 4;
-    public ViewGroup container;
     private long fragmentId = 0;
+    private DetailView activity;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);
         this.activity = activity;
-        this.maxCount = APIHelper.isNetworkAvailable(activity) ? maxCount : maxCount - 1;
-        this.count = getMaxcount();
+        fragments = new Fragments(activity);
+        reCreate();
     }
 
-    private int getMaxcount() {
-        return maxCount;
+    private void reCreate() {
+        fragments.clear();
+        fragments.add(new DetailViewGeneral(), R.string.tab_name_general);
+        fragments.add(new DetailViewDetails(), R.string.tab_name_details);
+        if (!hidePersonal)
+            fragments.add(new DetailViewPersonal(), R.string.tab_name_personal);
+        if (APIHelper.isNetworkAvailable(activity))
+            fragments.add(new DetailViewReviews(), R.string.tab_name_reviews);
     }
 
     public void hidePersonal(boolean hidePersonal) {
         if (hidePersonal != this.hidePersonal) {
             this.hidePersonal = hidePersonal;
-            TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
-            if (tabs != null) {
-                if (tabs.getTabCount() == 4)
-                    tabs.removeTabAt(2);
-                if (!hidePersonal)
-                    tabs.addTab(tabs.newTab().setText(getPageTitle(2)), 2);
-            }
+            reCreate();
             notifyChangeInPosition(2);
-            count = hidePersonal ? count - 1 : count;
             notifyDataSetChanged();
         }
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new DetailViewGeneral();
-            case 1:
-                return new DetailViewDetails();
-            case 2:
-                if (!hidePersonal)
-                    return new DetailViewPersonal();
-            case 3:
-                return new DetailViewReviews();
-            default:
-                return new DetailViewGeneral();
-        }
-    }
-
-    @Override
-    public int getCount() {
-        return count;
-    }
-
-    @Override
-    public String getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return activity.getString(R.string.tab_name_general);
-            case 1:
-                return activity.getString(R.string.tab_name_details);
-            case 2:
-                if (!hidePersonal)
-                    return activity.getString(R.string.tab_name_personal);
-            case 3:
-                return activity.getString(R.string.tab_name_reviews);
-            default:
-                return null;
-        }
+        return fragments.getFragment(position);
     }
 
     @Override
@@ -97,6 +58,16 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public long getItemId(int position) {
         return fragmentId + position;
+    }
+
+    @Override
+    public int getCount() {
+        return fragments.getSize();
+    }
+
+    @Override
+    public String getPageTitle(int position) {
+        return fragments.getName(position);
     }
 
     /**

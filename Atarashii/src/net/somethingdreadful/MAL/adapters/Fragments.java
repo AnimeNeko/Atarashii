@@ -49,6 +49,10 @@ public class Fragments {
         return fragments.get(position).getName();
     }
 
+    public void clear() {
+        fragments.clear();
+    }
+
     public class FragmentHolder {
         @Getter
         @Setter
