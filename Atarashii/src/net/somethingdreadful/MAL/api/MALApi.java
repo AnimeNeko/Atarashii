@@ -29,8 +29,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MALApi {
-    // Use version 2.0 of the API interface
-    private static final String API_HOST = "https://api.atarashiiapp.com/2/";
+    // Use version 2.1 of the API interface
+    private static final String API_HOST = "https://api.atarashiiapp.com/2.1/";
 
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
     private static final String okUa = okhttp3.internal.Version.userAgent();
