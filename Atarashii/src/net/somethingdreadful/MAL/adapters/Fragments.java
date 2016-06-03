@@ -37,18 +37,38 @@ public class Fragments {
         fragments.add(new FragmentHolder(fragment, name));
     }
 
+    /**
+     * Get the amount of Fragments stored.
+     *
+     * @return Int the amount
+     */
     public int getSize() {
         return fragments.size();
     }
 
+    /**
+     * Get the fragment by the given position.
+     *
+     * @param position The fragment position
+     * @return Fragment The fragment which was stored
+     */
     public Fragment getFragment(int position) {
         return fragments.get(position).getFragment();
     }
 
+    /**
+     * Get the fragment name by the given position.
+     *
+     * @param position The position of the fragment
+     * @return String The name as shown in the tabs
+     */
     public String getName(int position) {
         return fragments.get(position).getName();
     }
 
+    /**
+     * Remove all fragments.
+     */
     public void clear() {
         fragments.clear();
     }
