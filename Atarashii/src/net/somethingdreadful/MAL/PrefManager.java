@@ -48,6 +48,13 @@ public class PrefManager {
     }
 
     /**
+     * Returns if the app should provide NSFW content.
+     */
+    public static boolean getNSFWEnabled() {
+        return prefs.getBoolean("adultcontent", false);
+    }
+
+    /**
      * Returns the custom share text.
      *
      * @return String The custom share text that the app should use.

@@ -37,6 +37,11 @@
             android:key="IGFcolumnslandscape"
             android:summary="@string/preference_summary_list_columns"
             android:title="@string/preference_list_columns_landscape" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="adultcontent"
+            android:summary="@string/preference_summary_adultcontent"
+            android:title="@string/preference_adultcontent" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="Profile settings"

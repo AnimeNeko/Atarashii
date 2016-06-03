@@ -22,6 +22,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 interface MALInterface {
     @GET("account/verify_credentials")
@@ -33,17 +34,11 @@ interface MALInterface {
     @GET("anime/search")
     Call<ArrayList<Anime>> searchAnime(@Query("q") String query, @Query("page") int page);
 
-    @GET("anime/popular")
-    Call<ArrayList<Anime>> getPopularAnime(@Query("page") int page);
+    @GET("anime/browse")
+    Call<ArrayList<Anime>> getBrowseAnime(@QueryMap Map<String, String> params);
 
-    @GET("anime/top")
-    Call<ArrayList<Anime>> getTopRatedAnime(@Query("page") int page);
-
-    @GET("anime/upcoming")
-    Call<ArrayList<Anime>> getUpcomingAnime(@Query("page") int page);
-
-    @GET("anime/just_added")
-    Call<ArrayList<Anime>> getJustAddedAnime(@Query("page") int page);
+    @GET("manga/browse")
+    Call<ArrayList<Manga>> getBrowseManga(@QueryMap Map<String, String> params);
 
     @GET("animelist/{username}")
     Call<AnimeList> getAnimeList(@Path("username") String username);
@@ -65,18 +60,6 @@ interface MALInterface {
 
     @GET("manga/search")
     Call<ArrayList<Manga>> searchManga(@Query("q") String query, @Query("page") int page);
-
-    @GET("manga/popular")
-    Call<ArrayList<Manga>> getPopularManga(@Query("page") int page);
-
-    @GET("manga/top")
-    Call<ArrayList<Manga>> getTopRatedManga(@Query("page") int page);
-
-    @GET("manga/upcoming")
-    Call<ArrayList<Manga>> getUpcomingManga(@Query("page") int page);
-
-    @GET("manga/just_added")
-    Call<ArrayList<Manga>> getJustAddedManga(@Query("page") int page);
 
     @GET("mangalist/{username}")
     Call<MangaList> getMangaList(@Path("username") String username);

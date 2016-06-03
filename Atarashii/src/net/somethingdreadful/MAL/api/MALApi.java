@@ -2,10 +2,12 @@ package net.somethingdreadful.MAL.api;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -18,8 +20,12 @@ import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.api.MALModels.Friend;
 import net.somethingdreadful.MAL.api.MALModels.History;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Credentials;
@@ -85,24 +91,42 @@ public class MALApi {
     }
 
     public ArrayList<Anime> searchAnime(String query, int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
-        try {
-            response = service.searchAnime(query, page).execute();
-            return AnimeList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchAnime", e);
-            return new ArrayList<>();
+        if (PrefManager.getNSFWEnabled()) {
+            Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+            try {
+                response = service.searchAnime(query, page).execute();
+                return AnimeList.convertBaseArray(response.body());
+            } catch (Exception e) {
+                APIHelper.logE(activity, response, getClass().getSimpleName(), "searchAnime", e);
+                return new ArrayList<>();
+            }
+        } else {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("keyword", query);
+            map.put("page", String.valueOf(page));
+            map.put("genre_type", "1");
+            map.put("genres", "Hentai");
+            return getBrowseAnime(checkNSFW(map));
         }
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = service.searchManga(query, page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchManga", e);
-            return new ArrayList<>();
+        if (PrefManager.getNSFWEnabled()) {
+            Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+            try {
+                response = service.searchManga(query, page).execute();
+                return MangaList.convertBaseArray(response.body());
+            } catch (Exception e) {
+                APIHelper.logE(activity, response, getClass().getSimpleName(), "searchManga", e);
+                return new ArrayList<>();
+            }
+        } else {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("keyword", query);
+            map.put("page", String.valueOf(page));
+            map.put("genre_type", "1");
+            map.put("genres", "Hentai");
+            return getBrowseManga(checkNSFW(map));
         }
     }
 
@@ -233,92 +257,105 @@ public class MALApi {
         return APIHelper.isOK(service.deleteManga(id), "deleteMangaFromList");
     }
 
-    public ArrayList<Anime> getMostPopularAnime(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+    public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        Log.e("s", getClass().getSimpleName() + "getBrowseAnime: " + queries.toString());
         try {
-            response = service.getPopularAnime(page).execute();
+            response = service.getBrowseAnime(queries).execute();
             return AnimeList.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMostPopularAnime", e);
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseAnime: " + queries.toString(), e);
             return null;
         }
+    }
+
+    public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getBrowseManga(queries).execute();
+            return MangaList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseManga: " + queries.toString(), e);
+            return null;
+        }
+    }
+
+    public HashMap<String, String> checkNSFW(HashMap<String, String> map) {
+        if (!PrefManager.getNSFWEnabled()) {
+            map.put("genre_type", "1");
+            map.put("genres", "Hentai");
+        }
+        return map;
+    }
+
+    public ArrayList<Anime> getMostPopularAnime(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "7");
+        map.put("reverse", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
     }
 
     public ArrayList<Manga> getMostPopularManga(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = service.getPopularManga(page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMostPopularManga", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "7");
+        map.put("reverse", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
     }
 
     public ArrayList<Anime> getTopRatedAnime(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
-        try {
-            response = service.getTopRatedAnime(page).execute();
-            return AnimeList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getTopRatedAnime", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "3");
+        map.put("reverse", "1");
+        map.put("status", "2");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
     }
 
     public ArrayList<Manga> getTopRatedManga(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = service.getTopRatedManga(page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getTopRatedManga", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "3");
+        map.put("reverse", "1");
+        map.put("status", "2");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
     }
 
     public ArrayList<Anime> getJustAddedAnime(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
-        try {
-            response = service.getJustAddedAnime(page).execute();
-            return AnimeList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedAnime", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "9");
+        map.put("reverse", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
     }
 
     public ArrayList<Manga> getJustAddedManga(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = service.getJustAddedManga(page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getJustAddedManga", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "9");
+        map.put("reverse", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
     }
 
     public ArrayList<Anime> getUpcomingAnime(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
-        try {
-            response = service.getUpcomingAnime(page).execute();
-            return AnimeList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingAnime", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        map.put("sort", "2");
+        map.put("reverse", "0");
+        map.put("start_date", sdf.format(new Date()));
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
     }
 
     public ArrayList<Manga> getUpcomingManga(int page) {
-        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = service.getUpcomingManga(page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getUpcomingManga", e);
-            return null;
-        }
+        HashMap<String, String> map = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        map.put("sort", "2");
+        map.put("reverse", "0");
+        map.put("start_date", sdf.format(new Date()));
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
     }
 
     public Profile getProfile(String user) {
