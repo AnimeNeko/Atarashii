@@ -21,8 +21,6 @@ public class Anime extends GenericRecord implements Serializable {
 
     /**
      * The amount of minutes how long an episode lasts.
-     * <p/>
-     * Website: AniList
      */
     @Getter
     @Setter

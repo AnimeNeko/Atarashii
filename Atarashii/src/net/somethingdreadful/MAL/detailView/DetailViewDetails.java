@@ -16,6 +16,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import net.somethingdreadful.MAL.Card;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -64,6 +65,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     TextView start;
     @Bind(R.id.startRow)
     TableRow startRow;
+    @Bind(R.id.duration)
+    TextView duration;
+    @Bind(R.id.durationRow)
+    TableRow durationRow;
+    @Bind(R.id.broadcast)
+    TextView broadcast;
+    @Bind(R.id.broadcastRow)
+    TableRow broadcastRow;
     @Bind(R.id.end)
     TextView end;
     @Bind(R.id.endRow)
@@ -204,6 +213,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         if (activity.type.equals(MALApi.ListType.ANIME)) {
             type.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
             episodes.setText(activity.nullCheck(activity.animeRecord.getEpisodes()));
+            if (activity.animeRecord.getDuration() == 0)
+                durationRow.setVisibility(View.GONE);
+            else
+                duration.setText(activity.nullCheck(activity.animeRecord.getDuration()) + " " + getString(R.string.card_content_minutes));
+            if (activity.animeRecord.getAiring().getTime() == null)
+                broadcastRow.setVisibility(View.GONE);
+            else
+                broadcast.setText(activity.nullCheck(DateTools.parseDate(activity.animeRecord.getAiring().getTime(), true)));
             volumes.setVisibility(View.GONE);
             volumesLabel.setVisibility(View.GONE);
             status.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
@@ -221,6 +238,8 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             classificationLabel.setVisibility(View.GONE);
             startRow.setVisibility(View.GONE);
             endRow.setVisibility(View.GONE);
+            duration.setVisibility(View.GONE);
+            broadcast.setVisibility(View.GONE);
             producersRow.setVisibility(View.GONE);
         }
 

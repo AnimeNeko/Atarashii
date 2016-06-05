@@ -22,6 +22,20 @@ public class Anime extends GenericRecord implements Serializable {
     private int episodes;
 
     /**
+     * The amount of minutes how long an episode lasts.
+     */
+    @Getter
+    @Setter
+    private int duration;
+
+    /**
+     * The next broadcast date.
+     */
+    @Getter
+    @Setter
+    private String broadcast;
+
+    /**
      * Beginning date from which this anime was/will be air.
      */
     @Setter
@@ -214,6 +228,10 @@ public class Anime extends GenericRecord implements Serializable {
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime model = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime();
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(true);
         createGeneralBaseModel(model);
+        model.setAiring(new net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.Airing());
+        model.getAiring().setNextEpisode(getEpisodes() + 1);
+        model.getAiring().setTime(getBroadcast());
+        model.setDuration(getDuration());
         model.setEpisodes(getEpisodes());
         model.setStatus(getStatus());
         model.setStartDate(getStartDate());
