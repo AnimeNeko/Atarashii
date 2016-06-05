@@ -29,23 +29,19 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
     @Override
     protected Boolean doInBackground(GenericRecord... gr) {
         boolean error = false;
+        boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
         ContentManager manager = new ContentManager(activity);
 
-        if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
+        if (!AccountService.isMAL() && isNetworkAvailable)
             manager.verifyAuthentication();
 
         try {
-            if (APIHelper.isNetworkAvailable(activity)) {
+            // Sync details if there is network connection
+            if (isNetworkAvailable) {
                 if (type.equals(ListType.ANIME)) {
-                    Anime anime = (Anime) gr[0];
-                    if (manager.writeAnimeDetails(anime))
-                        anime.clearDirty();
-                    manager.saveAnimeToDatabase(anime);
+                    error = !manager.writeAnimeDetails((Anime) gr[0]);
                 } else {
-                    Manga manga = (Manga) gr[0];
-                    if (manager.writeMangaDetails(manga))
-                        manga.clearDirty();
-                    manager.saveMangaToDatabase(manga);
+                    error = !manager.writeMangaDetails((Manga) gr[0]);
                 }
             }
         } catch (Exception e) {
@@ -54,23 +50,26 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
             error = true;
         }
 
-        // only update if everything went well!
-        if (!error) {
-            if (gr[0].getDeleteFlag()) {
-                if (ListType.ANIME.equals(type)) {
-                    manager.deleteAnime((Anime) gr[0]);
-                } else {
-                    manager.deleteManga((Manga) gr[0]);
-                }
-            } else {
-                if (type.equals(ListType.ANIME)) {
-                    manager.saveAnimeToDatabase((Anime) gr[0]);
-                } else {
-                    manager.saveMangaToDatabase((Manga) gr[0]);
-                }
-            }
+        // Records updated successfully and will be marked as done if it hasn't been removed
+        if (isNetworkAvailable && !error && !gr[0].getDeleteFlag()) {
+            gr[0].clearDirty();
         }
 
+        if (gr[0].getDeleteFlag()) {
+            // Delete record
+            if (ListType.ANIME.equals(type)) {
+                manager.deleteAnime((Anime) gr[0]);
+            } else {
+                manager.deleteManga((Manga) gr[0]);
+            }
+        } else {
+            // Save the records
+            if (type.equals(ListType.ANIME)) {
+                manager.saveAnimeToDatabase((Anime) gr[0]);
+            } else {
+                manager.saveMangaToDatabase((Manga) gr[0]);
+            }
+        }
         return null;
     }
 
