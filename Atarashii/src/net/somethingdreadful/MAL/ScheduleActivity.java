@@ -96,7 +96,6 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
             sundayHeader = savedInstanceState.getInt("sundayHeader");
             totalRecords = savedInstanceState.getInt("totalRecords");
             recordheight = savedInstanceState.getInt("recordheight");
-            columns = savedInstanceState.getInt("columns");
             sa.notifyDataSetChanged();
         } else {
             new ScheduleTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -143,7 +142,6 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         State.putInt("sundayHeader", sundayHeader);
         State.putInt("totalRecords", totalRecords);
         State.putInt("recordheight", recordheight);
-        State.putInt("columns", columns);
     }
 
     @Override
