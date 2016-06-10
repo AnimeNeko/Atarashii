@@ -510,7 +510,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(Friends);
                 break;
             case R.id.nav_forum:
-                if (APIHelper.isNetworkAvailable(this))
+                if (networkAvailable)
                     startActivity(new Intent(this, ForumActivity.class));
                 else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
