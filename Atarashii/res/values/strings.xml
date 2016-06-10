@@ -178,7 +178,6 @@
     <string name="action_MarkAsComplete">Mark Completed</string>
     <string name="label_Chapters">Chapters:</string>
     <string name="label_Volumes">Volumes:</string>
-    <string name="label_Episodes">Episodes:</string>
     <string name="label_Number">Number:</string>
 
     <!-- Navigation drawer (item & action) Strings -->

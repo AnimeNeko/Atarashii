@@ -260,7 +260,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                     itemHolder.label.setText(record.getTitle());
                     itemHolder.scoreCount.setText(record.getAverageScore());
                     itemHolder.typeCount.setText(record.getType());
-                    itemHolder.stringStatus.setText(getString(R.string.label_Episodes));
+                    itemHolder.stringStatus.setText(getString(R.string.card_content_episodes) + ":");
                     itemHolder.statusCount.setText(record.getEpisodes() != 0 ? String.valueOf(record.getEpisodes()) : getString(R.string.unknown));
                     itemHolder.flavourText.setText(getString(R.string.card_content_members) + ":");
                     itemHolder.progressCount.setText(record.getAverageScoreCount());
