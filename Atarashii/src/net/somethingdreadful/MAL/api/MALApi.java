@@ -13,6 +13,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALModels.AnimeManga.AnimeList;
@@ -523,6 +524,17 @@ public class MALApi {
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaRecs", e);
             return new ArrayList<>();
+        }
+    }
+
+    public Schedule getSchedule() {
+        Response<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Schedule> response = null;
+        try {
+            response = service.getSchedule().execute();
+            return response.body().convertBaseSchedule();
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getSchedule", e);
+            return new Schedule();
         }
     }
 

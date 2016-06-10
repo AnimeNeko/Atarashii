@@ -22,6 +22,11 @@
             android:icon="@drawable/ic_forum_grey"
             android:title="@string/nav_item_my_forum" />
         <item
+            android:id="@+id/nav_schedule"
+            android:checked="false"
+            android:icon="@drawable/ic_event"
+            android:title="@string/nav_item_schedule" />
+        <item
             android:id="@+id/nav_rated"
             android:checked="false"
             android:icon="@drawable/ic_star"

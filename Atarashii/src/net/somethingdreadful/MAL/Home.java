@@ -471,6 +471,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.nav_profile:
             case R.id.nav_friends:
             case R.id.nav_forum:
+            case R.id.nav_schedule:
             case R.id.nav_settings:
             case R.id.nav_support:
             case R.id.nav_about:
@@ -512,6 +513,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.nav_forum:
                 if (networkAvailable)
                     startActivity(new Intent(this, ForumActivity.class));
+                else
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                break;
+            case R.id.nav_schedule:
+                if (networkAvailable)
+                    startActivity(new Intent(this, ScheduleActivity.class));
                 else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;

@@ -5,6 +5,7 @@ import net.somethingdreadful.MAL.api.MALModels.AnimeManga.AnimeList;
 import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALModels.AnimeManga.MangaList;
 import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.MALModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.MALModels.ForumMain;
 import net.somethingdreadful.MAL.api.MALModels.Profile;
 import net.somethingdreadful.MAL.api.MALModels.Recommendations;
@@ -130,4 +131,7 @@ interface MALInterface {
 
     @GET("manga/recs/{id}")
     Call<ArrayList<Recommendations>> getMangaRecs(@Path("id") int id);
+
+    @GET("anime/schedule")
+    Call<Schedule> getSchedule();
 }

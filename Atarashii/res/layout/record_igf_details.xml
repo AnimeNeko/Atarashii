@@ -7,6 +7,7 @@
         android:id="@+id/coverImage"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:foreground="@drawable/igf_grid_selector"
         android:scaleType="centerCrop" />
 
     <RelativeLayout

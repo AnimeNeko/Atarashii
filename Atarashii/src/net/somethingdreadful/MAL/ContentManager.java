@@ -12,6 +12,7 @@ import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
 import net.somethingdreadful.MAL.api.BaseModels.History;
@@ -417,5 +418,10 @@ public class ContentManager {
     public ArrayList<Recommendations> getMangaRecs(int id) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getMangaRecs(): id=" + id);
         return malApi.getMangaRecs(id);
+    }
+
+    public Schedule getSchedule() {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getSchedule()");
+        return malApi.getSchedule();
     }
 }

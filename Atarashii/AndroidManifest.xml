@@ -59,6 +59,9 @@
             android:name=".ProfileActivity"
             android:label="Profile"/>
         <activity
+            android:name=".ScheduleActivity"
+            android:label="Schedule"/>
+        <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"/>
         <activity

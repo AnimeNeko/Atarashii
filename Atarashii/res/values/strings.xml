@@ -178,6 +178,7 @@
     <string name="action_MarkAsComplete">Mark Completed</string>
     <string name="label_Chapters">Chapters:</string>
     <string name="label_Volumes">Volumes:</string>
+    <string name="label_Episodes">Episodes:</string>
     <string name="label_Number">Number:</string>
 
     <!-- Navigation drawer (item & action) Strings -->
@@ -190,6 +191,7 @@
     <string name="nav_item_most_popular">Most Popular</string>
     <string name="nav_item_just_added">Just Added</string>
     <string name="nav_item_upcoming">Upcoming</string>
+    <string name="nav_item_schedule">Schedule</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
