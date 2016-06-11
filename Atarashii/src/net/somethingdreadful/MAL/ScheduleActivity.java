@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -145,6 +146,9 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                 break;
             case R.id.day_sunday:
                 GLM.scrollToPositionWithOffset(sundayHeader, 0);
+                break;
+            case R.id.action_ViewMALPage:
+                startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/anime/season/schedule")));
                 break;
         }
         return super.onOptionsItemSelected(item);
