@@ -28,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ANIME_PRODUCER = "anime_producer";
     public static final String TABLE_ANIME_OTHER_TITLES = "animeothertitles";
     public static final String TABLE_MANGA_OTHER_TITLES = "mangaothertitles";
+    public static final String TABLE_SCHEDULE = "schedule";
 
     public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
     public static final String TABLE_ANIME_MANGA_RELATIONS = "rel_anime_manga";
@@ -144,6 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Table.create(db).createRecord(TABLE_MANGA);
         Table.create(db).createProfile();
         Table.create(db).createFriendlist();
+        Table.create(db).createSchedule();
         Table.create(db).createRelation(TABLE_ANIME_ANIME_RELATIONS, TABLE_ANIME, TABLE_ANIME);
         Table.create(db).createRelation(TABLE_ANIME_MANGA_RELATIONS, TABLE_ANIME, TABLE_MANGA);
         Table.create(db).createRelation(TABLE_MANGA_MANGA_RELATIONS, TABLE_MANGA, TABLE_MANGA);
@@ -258,13 +260,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              * Database version: 16
              * Application version: 2.3
              *
-             * The DB didn't supported some info.
+             * The DB didn't supported some info like broadcast and duration.
              * - Removed widget.
+             * - Add schedule offline support.
              */
             if (oldVersion < 16) {
                 // Recreate anime and manga table
                 Table.create(db).recreateListTable(TABLE_ANIME, "widget");
                 Table.create(db).recreateListTable(TABLE_MANGA, "widget");
+
+                // Create schedule table for offline support
+                Table.create(db).createSchedule();
             }
         } catch (Exception e) {
             // log database failures

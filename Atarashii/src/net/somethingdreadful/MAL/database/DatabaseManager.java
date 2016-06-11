@@ -13,6 +13,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import java.util.ArrayList;
@@ -530,5 +531,64 @@ public class DatabaseManager {
         if (result)
             cleanupMangaTable();
         return result;
+    }
+
+    public void saveSchedule(Schedule schedule) {
+        saveScheduleDay(schedule.getMonday(), 2);
+        saveScheduleDay(schedule.getTuesday(), 3);
+        saveScheduleDay(schedule.getWednesday(), 4);
+        saveScheduleDay(schedule.getThursday(), 5);
+        saveScheduleDay(schedule.getFriday(), 6);
+        saveScheduleDay(schedule.getSaturday(), 7);
+        saveScheduleDay(schedule.getSunday(), 1);
+    }
+
+    private void saveScheduleDay(ArrayList<Anime> list, int day) {
+        try {
+            db.beginTransaction();
+            for (Anime anime : list) {
+                ContentValues cv = new ContentValues();
+                cv.put(DatabaseHelper.COLUMN_ID, anime.getId());
+                cv.put("title", anime.getTitle());
+                cv.put("imageUrl", anime.getImageUrl());
+                cv.put("type", anime.getType());
+                cv.put("episodes", anime.getEpisodes());
+                cv.put("avarageScore", anime.getAverageScore());
+                cv.put("averageScoreCount", anime.getAverageScoreCount());
+                cv.put("day", day);
+                Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_SCHEDULE, cv, anime.getId());
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatabaseManager.saveScheduleDay(): " + e.getMessage());
+            Crashlytics.logException(e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    private ArrayList<Anime> getScheduleDay(int day) {
+        ArrayList<Anime> result = new ArrayList<>();
+        Cursor cursor = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_SCHEDULE).where("day", String.valueOf(day)).run();
+
+        if (cursor.moveToFirst()) {
+            do
+                result.add(Schedule.fromCursor(cursor));
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public Schedule getSchedule() {
+        Schedule schedule = new Schedule();
+        schedule.setMonday(getScheduleDay(2));
+        schedule.setTuesday(getScheduleDay(3));
+        schedule.setWednesday(getScheduleDay(4));
+        schedule.setThursday(getScheduleDay(5));
+        schedule.setFriday(getScheduleDay(6));
+        schedule.setSaturday(getScheduleDay(7));
+        schedule.setSunday(getScheduleDay(1));
+        return schedule;
     }
 }

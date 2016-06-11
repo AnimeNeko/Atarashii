@@ -16,11 +16,13 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 public class ScheduleTask extends AsyncTask<String, Void, Schedule> {
     private Activity activity = null;
     private ScheduleTaskListener callback;
+    private boolean forceRefresh;
 
 
-    public ScheduleTask(Activity activity, ScheduleTaskListener callback) {
+    public ScheduleTask(Activity activity, boolean forceRefresh, ScheduleTaskListener callback) {
         this.activity = activity;
         this.callback = callback;
+        this.forceRefresh = forceRefresh;
     }
 
     @Override
@@ -37,7 +39,18 @@ public class ScheduleTask extends AsyncTask<String, Void, Schedule> {
             cManager.verifyAuthentication();
 
         try {
-            taskResult = cManager.getSchedule();
+            if (forceRefresh) {
+                taskResult = cManager.getSchedule();
+                if (taskResult != null && !taskResult.isNull())
+                    cManager.saveSchedule(taskResult);
+            } else {
+                taskResult = cManager.getScheduleFromDB();
+                if (taskResult.isNull()) { // there are no records
+                    taskResult = cManager.getSchedule();
+                    if (taskResult != null && !taskResult.isNull())
+                        cManager.saveSchedule(taskResult);
+                }
+            }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "ScheduleTask.doInBackground(): " + e.getMessage());
         }

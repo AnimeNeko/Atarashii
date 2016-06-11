@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,17 +37,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import lombok.Getter;
 
-public class ScheduleActivity extends AppCompatActivity implements Serializable, ScheduleTask.ScheduleTaskListener {
+public class ScheduleActivity extends AppCompatActivity implements Serializable, ScheduleTask.ScheduleTaskListener, SwipeRefreshLayout.OnRefreshListener {
     @Getter
     Schedule schedule;
     @Getter
     ArrayList<Anime> records = new ArrayList<>();
-
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
     @Getter
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
+    @Bind(R.id.swiperefresh)
+    SwipeRefreshLayout swipeRefresh;
     GridLayoutManager GLM;
     private scheduleAdapter sa;
 
@@ -61,6 +63,8 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     int recordheight;
     int columns;
 
+    MenuItem forceSync;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,10 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setEnabled(true);
 
         setColumns();
         recyclerView.setHasFixedSize(true);
@@ -99,7 +107,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
             recordheight = savedInstanceState.getInt("recordheight");
             sa.notifyDataSetChanged();
         } else {
-            new ScheduleTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new ScheduleTask(this, false, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -117,6 +125,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_schedule, menu);
+        forceSync = menu.findItem(R.id.forceSync);
         return true;
     }
 
@@ -149,6 +158,12 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                 break;
             case R.id.action_ViewMALPage:
                 startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/anime/season/schedule")));
+                break;
+            case R.id.forceSync:
+                new ScheduleTask(this, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                swipeRefresh.setEnabled(false);
+                swipeRefresh.setRefreshing(true);
+                item.setVisible(false);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -189,6 +204,8 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         sundayHeader = getSchedule().getSaturday().size() + saturdayHeader + 1;
         totalRecords = getSchedule().getSunday().size() + sundayHeader + 1;
         sa.notifyDataSetChanged();
+
+        swipeRefresh.setRefreshing(false);
     }
 
     /**
@@ -243,6 +260,15 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         } else {
             return position;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        new ScheduleTask(this, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        swipeRefresh.setEnabled(false);
+        swipeRefresh.setRefreshing(true);
+        if (forceSync != null)
+            forceSync.setVisible(false);
     }
 
     /**

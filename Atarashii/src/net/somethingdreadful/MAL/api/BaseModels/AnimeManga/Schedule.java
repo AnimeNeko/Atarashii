@@ -1,9 +1,15 @@
 package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
 
+import android.database.Cursor;
+
+import net.somethingdreadful.MAL.database.DatabaseHelper;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import lombok.Getter;
 
@@ -43,6 +49,7 @@ public class Schedule implements Serializable {
      */
     @Getter
     private ArrayList<Anime> saturday;
+
     /**
      * The list of sunday releases.
      */
@@ -96,5 +103,28 @@ public class Schedule implements Serializable {
     public void setSunday(ArrayList<Anime> records) {
         this.sunday = records;
         sort(sunday);
+    }
+
+    public boolean isNull() {
+        boolean result = getMonday() == null && getTuesday() == null & getWednesday() == null && getThursday() == null &&
+                getFriday() == null && getSaturday() == null && getSunday() == null;
+        if (!result)
+            result = getMonday().size() == 0 && getTuesday().size() == 0 & getWednesday().size() == 0 && getThursday().size() == 0 &&
+                    getFriday().size() == 0 && getSaturday().size() == 0 && getSunday().size() == 0;
+        return result;
+    }
+
+    public static Anime fromCursor(Cursor cursor) {
+        List<String> columnNames = Arrays.asList(cursor.getColumnNames());
+        Anime result = new Anime();
+
+        result.setId(cursor.getInt(columnNames.indexOf(DatabaseHelper.COLUMN_ID)));
+        result.setTitle(cursor.getString(columnNames.indexOf("title")));
+        result.setImageUrl(cursor.getString(columnNames.indexOf("imageUrl")));
+        result.setType(cursor.getString(columnNames.indexOf("type")));
+        result.setEpisodes(cursor.getInt(columnNames.indexOf("episodes")));
+        result.setAverageScore(cursor.getString(columnNames.indexOf("avarageScore")));
+        result.setAverageScoreCount(cursor.getString(columnNames.indexOf("averageScoreCount")));
+        return result;
     }
 }

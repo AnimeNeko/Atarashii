@@ -97,6 +97,21 @@ public class Table {
         run();
     }
 
+    public void createSchedule() {
+        queryString += "create table "
+                + DatabaseHelper.TABLE_SCHEDULE + "("
+                + DatabaseHelper.COLUMN_ID + " integer, "
+                + "title varchar, "
+                + "imageUrl varchar, "
+                + "type varchar, "
+                + "episodes integer, "
+                + "avarageScore varchar, "
+                + "averageScoreCount varchar, "
+                + "day integer "
+                + ");";
+        run();
+    }
+
     /**
      * Create the profile table.
      */

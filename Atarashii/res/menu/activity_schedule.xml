@@ -8,6 +8,12 @@
         res-auto:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/forceSync"
+        android:icon="@drawable/ic_autorenew"
+        android:title="@string/menu_sync"
+        res-auto:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menu_day"
         android:icon="@drawable/ic_filter"
         android:title="@string/menu_listType"

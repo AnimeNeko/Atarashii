@@ -424,4 +424,14 @@ public class ContentManager {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getSchedule()");
         return malApi.getSchedule();
     }
+
+    public void saveSchedule(Schedule schedule) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.saveSchedule()");
+        dbMan.saveSchedule(schedule);
+    }
+
+    public Schedule getScheduleFromDB() {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getScheduleFromDB()");
+        return dbMan.getSchedule();
+    }
 }
