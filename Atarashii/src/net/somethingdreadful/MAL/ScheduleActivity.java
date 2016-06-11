@@ -187,23 +187,25 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     @Override
     public void onScheduleTaskFinished(Schedule result) {
         getProgressBar().setVisibility(View.GONE);
-        schedule = result;
-        records.addAll(schedule.getMonday());
-        records.addAll(schedule.getTuesday());
-        records.addAll(schedule.getWednesday());
-        records.addAll(schedule.getThursday());
-        records.addAll(schedule.getFriday());
-        records.addAll(schedule.getSaturday());
-        records.addAll(schedule.getSunday());
+        if (result != null && !result.isNull()) {
+            schedule = result;
+            records.addAll(schedule.getMonday());
+            records.addAll(schedule.getTuesday());
+            records.addAll(schedule.getWednesday());
+            records.addAll(schedule.getThursday());
+            records.addAll(schedule.getFriday());
+            records.addAll(schedule.getSaturday());
+            records.addAll(schedule.getSunday());
 
-        tuesdayHeader = getSchedule().getMonday().size() + mondayHeader + 1;
-        wednesdayHeader = getSchedule().getTuesday().size() + tuesdayHeader + 1;
-        thursdayHeader = getSchedule().getWednesday().size() + wednesdayHeader + 1;
-        fridayHeader = getSchedule().getThursday().size() + thursdayHeader + 1;
-        saturdayHeader = getSchedule().getFriday().size() + fridayHeader + 1;
-        sundayHeader = getSchedule().getSaturday().size() + saturdayHeader + 1;
-        totalRecords = getSchedule().getSunday().size() + sundayHeader + 1;
-        sa.notifyDataSetChanged();
+            tuesdayHeader = getSchedule().getMonday().size() + mondayHeader + 1;
+            wednesdayHeader = getSchedule().getTuesday().size() + tuesdayHeader + 1;
+            thursdayHeader = getSchedule().getWednesday().size() + wednesdayHeader + 1;
+            fridayHeader = getSchedule().getThursday().size() + thursdayHeader + 1;
+            saturdayHeader = getSchedule().getFriday().size() + fridayHeader + 1;
+            sundayHeader = getSchedule().getSaturday().size() + saturdayHeader + 1;
+            totalRecords = getSchedule().getSunday().size() + sundayHeader + 1;
+            sa.notifyDataSetChanged();
+        }
 
         swipeRefresh.setRefreshing(false);
     }

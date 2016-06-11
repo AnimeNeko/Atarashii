@@ -27,28 +27,32 @@ public class ScheduleTask extends AsyncTask<String, Void, Schedule> {
 
     @Override
     protected Schedule doInBackground(String... params) {
-        if (!APIHelper.isNetworkAvailable(activity)) {
-            if (activity != null)
-                Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
-            return null;
-        }
+        boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
 
         Schedule taskResult = new Schedule();
         ContentManager cManager = new ContentManager(activity);
-        if (!AccountService.isMAL())
+        if (!AccountService.isMAL() && isNetworkAvailable)
             cManager.verifyAuthentication();
 
         try {
             if (forceRefresh) {
-                taskResult = cManager.getSchedule();
-                if (taskResult != null && !taskResult.isNull())
-                    cManager.saveSchedule(taskResult);
-            } else {
-                taskResult = cManager.getScheduleFromDB();
-                if (taskResult.isNull()) { // there are no records
+                if (isNetworkAvailable) {
                     taskResult = cManager.getSchedule();
                     if (taskResult != null && !taskResult.isNull())
                         cManager.saveSchedule(taskResult);
+                } else {
+                    Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                }
+            } else {
+                taskResult = cManager.getScheduleFromDB();
+                if (taskResult.isNull()) { // there are no records
+                    if (isNetworkAvailable) {
+                        taskResult = cManager.getSchedule();
+                        if (taskResult != null && !taskResult.isNull())
+                            cManager.saveSchedule(taskResult);
+                    } else {
+                        Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                    }
                 }
             }
         } catch (Exception e) {

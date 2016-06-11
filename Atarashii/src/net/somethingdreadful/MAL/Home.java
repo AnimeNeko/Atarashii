@@ -517,10 +517,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
             case R.id.nav_schedule:
-                if (networkAvailable)
-                    startActivity(new Intent(this, ScheduleActivity.class));
-                else
-                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                startActivity(new Intent(this, ScheduleActivity.class));
                 break;
             case R.id.nav_rated:
                 getRecords(true, TaskJob.GETTOPRATED, af.list);
