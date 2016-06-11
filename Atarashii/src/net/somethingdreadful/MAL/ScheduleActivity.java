@@ -251,10 +251,14 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     public class scheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private String[] weekdays;
         private Activity activity;
+        private String episodes;
+        private String members;
 
         public scheduleAdapter(Activity activity) {
             this.activity = activity;
             this.weekdays = DateFormatSymbols.getInstance().getWeekdays();
+            this.episodes = getString(R.string.card_content_episodes) + ":";
+            this.members = getString(R.string.card_content_members) + ":";
         }
 
         @Override
@@ -286,9 +290,9 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                     itemHolder.label.setText(record.getTitle());
                     itemHolder.scoreCount.setText(record.getAverageScore());
                     itemHolder.typeCount.setText(record.getType());
-                    itemHolder.stringStatus.setText(getString(R.string.card_content_episodes) + ":");
+                    itemHolder.stringStatus.setText(episodes);
                     itemHolder.statusCount.setText(record.getEpisodes() != 0 ? String.valueOf(record.getEpisodes()) : getString(R.string.unknown));
-                    itemHolder.flavourText.setText(getString(R.string.card_content_members) + ":");
+                    itemHolder.flavourText.setText(members);
                     itemHolder.progressCount.setText(record.getAverageScoreCount());
 
                     Picasso.with(getParent())
