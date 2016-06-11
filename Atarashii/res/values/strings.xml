@@ -205,6 +205,15 @@
     <string name="tab_name_followers">Followers</string>
     <string name="tab_name_history">History</string>
 
+    <!-- Day Strings -->
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Synopsis</string>
     <string name="card_name_stats">Statistics</string>

@@ -125,6 +125,27 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.day_monday:
+                GLM.scrollToPositionWithOffset(mondayHeader, 0);
+                break;
+            case R.id.day_tuesday:
+                GLM.scrollToPositionWithOffset(tuesdayHeader, 0);
+                break;
+            case R.id.day_wednesday:
+                GLM.scrollToPositionWithOffset(wednesdayHeader, 0);
+                break;
+            case R.id.day_thursday:
+                GLM.scrollToPositionWithOffset(thursdayHeader, 0);
+                break;
+            case R.id.day_friday:
+                GLM.scrollToPositionWithOffset(fridayHeader, 0);
+                break;
+            case R.id.day_saturday:
+                GLM.scrollToPositionWithOffset(saturdayHeader, 0);
+                break;
+            case R.id.day_sunday:
+                GLM.scrollToPositionWithOffset(sundayHeader, 0);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
