@@ -224,10 +224,12 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * The custom adapter for recommendations.
      */
     public class scheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        private String[] weekdays;
         private Activity activity;
 
         public scheduleAdapter(Activity activity) {
             this.activity = activity;
+            this.weekdays = DateFormatSymbols.getInstance().getWeekdays();
         }
 
         @Override
@@ -251,7 +253,6 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             try {
                 if (holder instanceof headerHolder) {
-                    String[] weekdays = DateFormatSymbols.getInstance().getWeekdays();
                     headerHolder headerHolder = (headerHolder) holder;
                     headerHolder.header.setText(weekdays[checkHeader(position)]);
                 } else if (holder instanceof itemHolder) {
