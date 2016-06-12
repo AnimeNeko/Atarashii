@@ -36,10 +36,10 @@ import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
+import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
-import net.somethingdreadful.MAL.dialog.RemoveConfirmationDialogFragment;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
@@ -52,7 +52,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener, ViewPager.OnPageChangeListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener {
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
@@ -164,6 +164,17 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             personal.swipeRefresh.setRefreshing(show);
             personal.swipeRefresh.setEnabled(!show);
         }
+    }
+
+    private void showRemoveDialog() {
+        ChooseDialogFragment lcdf = new ChooseDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", getString(R.string.dialog_title_remove));
+        bundle.putString("message", getString(R.string.dialog_message_remove));
+        bundle.putString("positive", getString(R.string.dialog_label_remove));
+        lcdf.setArguments(bundle);
+        lcdf.setCallback(this);
+        lcdf.show(getFragmentManager(), "fragment_LogoutConfirmationDialog");
     }
 
     /**
@@ -442,14 +453,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         setMenu();
     }
 
-    public void onRemoveConfirmed() {
-        if (type.equals(ListType.ANIME))
-            animeRecord.setDeleteFlag();
-        else
-            mangaRecord.setDeleteFlag();
-        finish();
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle State) {
         super.onSaveInstanceState(State);
@@ -480,7 +483,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 Share();
                 break;
             case R.id.action_Remove:
-                showDialog("removeConfirmation", new RemoveConfirmationDialogFragment());
+                showRemoveDialog();
                 break;
             case R.id.action_addToList:
                 addToList();
@@ -667,5 +670,17 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    /**
+     * Used for the Remove dialog
+     */
+    @Override
+    public void onPositiveButtonClicked() {
+        if (type.equals(ListType.ANIME))
+            animeRecord.setDeleteFlag();
+        else
+            mangaRecord.setDeleteFlag();
+        finish();
     }
 }
