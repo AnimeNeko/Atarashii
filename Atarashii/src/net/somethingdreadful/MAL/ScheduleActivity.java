@@ -316,7 +316,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
             try {
                 if (holder instanceof headerHolder) {
                     headerHolder headerHolder = (headerHolder) holder;
-                    headerHolder.header.setText(weekdays[checkHeader(position)]);
+                    headerHolder.header.setText(StringUtils.capitalize(weekdays[checkHeader(position)]));
                 } else if (holder instanceof itemHolder) {
                     Anime record = getRecords().get(getItemPos(position));
                     itemHolder itemHolder = (itemHolder) holder;
