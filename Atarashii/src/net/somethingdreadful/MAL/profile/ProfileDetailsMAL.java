@@ -224,7 +224,7 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     }
 
     @SuppressLint("SetTextI18n")
-    void setText() {
+    private void setText() {
         if (activity.record.getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {

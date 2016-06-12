@@ -385,7 +385,7 @@ public class ALApi {
         return getBrowseSchedule(map);
     }
 
-    public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
+    private ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getBrowseAnime(queries).execute();
@@ -396,7 +396,7 @@ public class ALApi {
         }
     }
 
-    public Schedule getBrowseSchedule(Map<String, String> queries) {
+    private Schedule getBrowseSchedule(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getBrowseAnime(queries).execute();
@@ -407,7 +407,7 @@ public class ALApi {
         }
     }
 
-    public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
+    private ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> response = null;
         try {
             response = service.getBrowseManga(queries).execute();

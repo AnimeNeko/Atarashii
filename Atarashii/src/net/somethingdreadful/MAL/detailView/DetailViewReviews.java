@@ -43,9 +43,9 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 
 public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
-    public ArrayList<Reviews> record = new ArrayList<>();
-    DetailView activity;
-    StaggeredGridLayoutManager SGLM;
+    private ArrayList<Reviews> record = new ArrayList<>();
+    private DetailView activity;
+    private StaggeredGridLayoutManager SGLM;
     private reviewAdapter ra;
 
     @Bind(R.id.recyclerView)
@@ -93,7 +93,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      *
      * @return int The amount of max columns
      */
-    public int getMaxColumns() {
+    private int getMaxColumns() {
         int screen;
         if (Theme.isPortrait())
             screen = activity.getResources().getConfiguration().screenHeightDp;
@@ -166,10 +166,10 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      * The custom adapter for reviews.
      */
     public class reviewAdapter extends RecyclerView.Adapter<reviewAdapterHolder> {
-        private Context context;
-        private String rating;
-        private String chapseen;
-        private String episeen;
+        private final Context context;
+        private final String rating;
+        private final String chapseen;
+        private final String episeen;
         private String image;
         private String title;
         private Reviews review;
@@ -223,7 +223,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      */
     public class OnScrollListener extends RecyclerView.OnScrollListener {
         int firstVisibleItem, visibleItemCount, totalItemCount;
-        private StaggeredGridLayoutManager layoutManager;
+        private final StaggeredGridLayoutManager layoutManager;
 
         public OnScrollListener(StaggeredGridLayoutManager layoutManager) {
             this.layoutManager = layoutManager;
@@ -252,7 +252,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+        private final int space;
 
         public SpacesItemDecoration() {
             this.space = Theme.convert(8);
@@ -278,13 +278,13 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
      * The viewholder for performance.
      */
     public class reviewAdapterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView title;
-        public TextView subTitle;
-        public TextView subTitle2;
-        public TextView subTitle3;
-        public TextView content;
-        public ImageView imageView;
-        public RelativeLayout header;
+        public final TextView title;
+        public final TextView subTitle;
+        public final TextView subTitle2;
+        public final TextView subTitle3;
+        public final TextView content;
+        public final ImageView imageView;
+        public final RelativeLayout header;
 
         public reviewAdapterHolder(View itemView) {
             super(itemView);

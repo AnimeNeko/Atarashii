@@ -52,21 +52,21 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     ProgressBar progressBar;
     @Bind(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefresh;
-    GridLayoutManager GLM;
+    private GridLayoutManager GLM;
     private scheduleAdapter sa;
 
-    int mondayHeader = 0;
-    int tuesdayHeader;
-    int wednesdayHeader;
-    int thursdayHeader;
-    int fridayHeader;
-    int saturdayHeader;
-    int sundayHeader;
-    int totalRecords;
-    int recordheight;
-    int columns;
+    private final int mondayHeader = 0;
+    private int tuesdayHeader;
+    private int wednesdayHeader;
+    private int thursdayHeader;
+    private int fridayHeader;
+    private int saturdayHeader;
+    private int sundayHeader;
+    private int totalRecords;
+    private int recordheight;
+    private int columns;
 
-    MenuItem forceSync;
+    private MenuItem forceSync;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -219,7 +219,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * @param position The position to check
      * @return int -1 if it is a record
      */
-    public int checkHeader(int position) {
+    private int checkHeader(int position) {
         if (position == mondayHeader) {
             return 2;
         } else if (position == tuesdayHeader) {
@@ -245,7 +245,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * @param position The position to check
      * @return int -1 if it is a record
      */
-    public int getItemPos(int position) {
+    private int getItemPos(int position) {
         if (position < mondayHeader) {
             return position;
         } else if (position < tuesdayHeader) {
@@ -280,11 +280,11 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * The custom adapter for recommendations.
      */
     public class scheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private String[] weekdays;
-        private Activity activity;
-        private String episodes;
-        private String members;
-        private boolean isMal;
+        private final String[] weekdays;
+        private final Activity activity;
+        private final String episodes;
+        private final String members;
+        private final boolean isMal;
 
         public scheduleAdapter(Activity activity) {
             this.activity = activity;
@@ -352,15 +352,15 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+        private final int space;
 
         public SpacesItemDecoration() {
             this.space = Theme.convert(1);
         }
 
-        private boolean isLastColumn(int position) {
+        private boolean isNotLastColumn(int position) {
             String math = String.valueOf(position / (double) columns);
-            return math.length() < 5 && (math.contains(".0") || math.contains(",0"));
+            return !(math.length() < 5 && (math.contains(".0") || math.contains(",0")));
         }
 
         @Override
@@ -368,25 +368,25 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
             int pos = parent.getChildLayoutPosition(view);
             if (checkHeader(pos) == -1) {
                 if (pos < tuesdayHeader) {          // Monday
-                    if (!isLastColumn((pos - mondayHeader)))
+                    if (isNotLastColumn((pos - mondayHeader)))
                         outRect.right = space;
                 } else if (pos < wednesdayHeader) { // Tuesday
-                    if (!isLastColumn((pos - tuesdayHeader)))
+                    if (isNotLastColumn((pos - tuesdayHeader)))
                         outRect.right = space;
                 } else if (pos < thursdayHeader) {  // Wednesday
-                    if (!isLastColumn((pos - wednesdayHeader)))
+                    if (isNotLastColumn((pos - wednesdayHeader)))
                         outRect.right = space;
                 } else if (pos < fridayHeader) {    // Thursday
-                    if (!isLastColumn((pos - thursdayHeader)))
+                    if (isNotLastColumn((pos - thursdayHeader)))
                         outRect.right = space;
                 } else if (pos < saturdayHeader) {  // Friday
-                    if (!isLastColumn((pos - fridayHeader)))
+                    if (isNotLastColumn((pos - fridayHeader)))
                         outRect.right = space;
                 } else if (pos < sundayHeader) {    // Saturday
-                    if (!isLastColumn((pos - saturdayHeader)))
+                    if (isNotLastColumn((pos - saturdayHeader)))
                         outRect.right = space;
                 } else if (pos < totalRecords) {    // Sunday
-                    if (!isLastColumn((pos - sundayHeader)))
+                    if (isNotLastColumn((pos - sundayHeader)))
                         outRect.right = space;
                 }
 
@@ -398,7 +398,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     }
 
     public class headerHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView header;
+        final TextView header;
 
         public headerHolder(View itemView) {
             super(itemView);
@@ -415,16 +415,16 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * The viewholder for performance.
      */
     public class itemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView label;
-        TextView progressCount;
-        TextView flavourText;
-        ImageView cover;
-        ImageView actionButton;
-        TextView scoreCount;
-        TextView typeCount;
-        TextView statusCount;
-        TextView stringStatus;
-        Activity activity;
+        final TextView label;
+        final TextView progressCount;
+        final TextView flavourText;
+        final ImageView cover;
+        final ImageView actionButton;
+        final TextView scoreCount;
+        final TextView typeCount;
+        final TextView statusCount;
+        final TextView stringStatus;
+        final Activity activity;
 
         public itemHolder(View itemView, Activity activity) {
             super(itemView);

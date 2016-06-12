@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Fragments {
-    private ArrayList<FragmentHolder> fragments = new ArrayList<>();
-    Activity activity;
+class Fragments {
+    private final ArrayList<FragmentHolder> fragments = new ArrayList<>();
+    private final Activity activity;
 
     Fragments(Activity activity) {
         this.activity = activity;

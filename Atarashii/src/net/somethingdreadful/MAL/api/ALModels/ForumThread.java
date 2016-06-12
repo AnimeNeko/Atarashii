@@ -161,7 +161,7 @@ public class ForumThread implements Serializable {
         return result;
     }
 
-    public ArrayList<Forum> convert(ArrayList<Comment> comments) {
+    private ArrayList<Forum> convert(ArrayList<Comment> comments) {
         ArrayList<Forum> result = new ArrayList<>();
         if (comments != null && comments.size() > 0)
             for (Comment item : comments) {

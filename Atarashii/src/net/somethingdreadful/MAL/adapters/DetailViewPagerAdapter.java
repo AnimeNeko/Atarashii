@@ -16,10 +16,10 @@ import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 
 public class DetailViewPagerAdapter extends FragmentPagerAdapter {
-    Fragments fragments;
+    private final Fragments fragments;
     private boolean hidePersonal = false;
     private long fragmentId = 0;
-    private DetailView activity;
+    private final DetailView activity;
 
     public DetailViewPagerAdapter(FragmentManager fm, DetailView activity) {
         super(fm);

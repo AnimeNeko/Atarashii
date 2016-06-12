@@ -260,7 +260,7 @@ public class MALApi {
         return APIHelper.isOK(service.deleteManga(id), "deleteMangaFromList");
     }
 
-    public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
+    private ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
         Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
         try {
@@ -272,7 +272,7 @@ public class MALApi {
         }
     }
 
-    public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
+    private ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
         try {
             response = service.getBrowseManga(queries).execute();
@@ -283,7 +283,7 @@ public class MALApi {
         }
     }
 
-    public HashMap<String, String> checkNSFW(HashMap<String, String> map) {
+    private HashMap<String, String> checkNSFW(HashMap<String, String> map) {
         if (!PrefManager.getNSFWEnabled()) {
             map.put("genre_type", "1");
             map.put("genres", "Hentai");

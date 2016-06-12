@@ -15,8 +15,8 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 
 public class ScheduleTask extends AsyncTask<String, Void, Schedule> {
     private Activity activity = null;
-    private ScheduleTaskListener callback;
-    private boolean forceRefresh;
+    private final ScheduleTaskListener callback;
+    private final boolean forceRefresh;
 
 
     public ScheduleTask(Activity activity, boolean forceRefresh, ScheduleTaskListener callback) {

@@ -748,16 +748,16 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * The custom adapter for the covers anime/manga.
      */
     public class ListViewAdapter<T> extends ArrayAdapter<T> {
-        LayoutInflater inflater;
-        boolean listView;
-        String StatusWatching;
-        String StatusReading;
-        String StatusCompleted;
-        String StatusOnHold;
-        String StatusDropped;
-        String StatusPlanningToWatch;
-        String StatusPlanningToRead;
-        String Number;
+        final LayoutInflater inflater;
+        final boolean listView;
+        final String StatusWatching;
+        final String StatusReading;
+        final String StatusCompleted;
+        final String StatusOnHold;
+        final String StatusDropped;
+        final String StatusPlanningToWatch;
+        final String StatusPlanningToRead;
+        final String Number;
 
         public ListViewAdapter(Context context, int resource) {
             super(context, resource);
@@ -911,7 +911,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
          * Custom grid clicker for passing the right record
          */
         public class ABOnClickListener implements View.OnClickListener {
-            GenericRecord record;
+            final GenericRecord record;
 
             public ABOnClickListener(GenericRecord record) {
                 this.record = record;

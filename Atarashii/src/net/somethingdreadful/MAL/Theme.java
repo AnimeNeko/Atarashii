@@ -34,7 +34,6 @@ import io.fabric.sdk.android.Fabric;
 public class Theme extends Application {
     public static boolean darkTheme;
     private static float density;
-    private Locale locale;
     private Configuration config;
     static Context context;
 
@@ -53,7 +52,7 @@ public class Theme extends Application {
 
         initFabric(context);
 
-        locale = PrefManager.getLocale();
+        Locale locale = PrefManager.getLocale();
         darkTheme = PrefManager.getDarkTheme();
         config = new Configuration();
         config.locale = locale;

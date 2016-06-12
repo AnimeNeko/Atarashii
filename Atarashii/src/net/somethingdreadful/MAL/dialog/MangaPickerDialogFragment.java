@@ -14,19 +14,14 @@ import net.somethingdreadful.MAL.R;
 public class MangaPickerDialogFragment extends DialogFragment {
     private NumberPicker chapterPicker;
     private NumberPicker volumePicker;
-    private int chaptersTotal;
-    private int chaptersRead;
-
-    private int volumesTotal;
-    private int volumesRead;
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_manga_picker, null);
 
-        volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumes();
-        volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumesRead();
-        chaptersTotal = ((DetailView) getActivity()).mangaRecord.getChapters();
-        chaptersRead = ((DetailView) getActivity()).mangaRecord.getChaptersRead();
+        int volumesTotal = ((DetailView) getActivity()).mangaRecord.getVolumes();
+        int volumesRead = ((DetailView) getActivity()).mangaRecord.getVolumesRead();
+        int chaptersTotal = ((DetailView) getActivity()).mangaRecord.getChapters();
+        int chaptersRead = ((DetailView) getActivity()).mangaRecord.getChaptersRead();
 
         chapterPicker = (NumberPicker) view.findViewById(R.id.chapterPicker);
         volumePicker = (NumberPicker) view.findViewById(R.id.volumePicker);

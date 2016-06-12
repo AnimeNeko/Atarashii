@@ -10,8 +10,8 @@ import net.somethingdreadful.MAL.R;
 
 public class ListDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 
-    int[] array;
-    int selectedItem = -1;
+    private int[] array;
+    private int selectedItem = -1;
     private onUpdateClickListener callback;
 
     @Override

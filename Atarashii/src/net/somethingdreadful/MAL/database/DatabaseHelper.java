@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
     private static final int VERSION = 16;
     private static DatabaseHelper instance;
-    private Context context;
+    private final Context context;
 
     public static final String TABLE_ANIME = "anime";
     public static final String TABLE_MANGA = "manga";
@@ -114,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int TITLE_TYPE_SYNONYM = 2;
     public static final int TITLE_TYPE_ROMAJI = 3;
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, NAME, null, VERSION);
         this.context = context;
     }

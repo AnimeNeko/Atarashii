@@ -137,7 +137,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     /**
      * Checks if the records are null to prevent nullpointerexceptions
      */
-    public boolean isEmpty() {
+    private boolean isEmpty() {
         return animeRecord == null && mangaRecord == null;
     }
 

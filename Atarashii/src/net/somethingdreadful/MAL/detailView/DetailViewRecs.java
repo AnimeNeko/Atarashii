@@ -42,9 +42,9 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 
 public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskListener {
-    public ArrayList<Recommendations> record = new ArrayList<>();
-    DetailView activity;
-    StaggeredGridLayoutManager SGLM;
+    private ArrayList<Recommendations> record = new ArrayList<>();
+    private DetailView activity;
+    private StaggeredGridLayoutManager SGLM;
     private recommendationAdapter ra;
 
     @Bind(R.id.recyclerView)
@@ -89,7 +89,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
      *
      * @return int The amount of max columns
      */
-    public int getMaxColumns() {
+    private int getMaxColumns() {
         int screen;
         if (Theme.isPortrait())
             screen = activity.getResources().getConfiguration().screenHeightDp;
@@ -158,7 +158,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
      * The custom adapter for recommendations.
      */
     public class recommendationAdapter extends RecyclerView.Adapter<recommendationAdapterHolder> {
-        private Context context;
+        private final Context context;
         private String image;
         private String title;
         private Recommendations recommendation;
@@ -204,7 +204,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+        private final int space;
 
         public SpacesItemDecoration() {
             this.space = Theme.convert(8);
@@ -230,13 +230,13 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
      * The viewholder for performance.
      */
     public class recommendationAdapterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView title;
-        public TextView subTitle;
-        public TextView subTitle2;
-        public TextView subTitle3;
-        public TextView content;
-        public ImageView imageView;
-        public RelativeLayout header;
+        public final TextView title;
+        public final TextView subTitle;
+        public final TextView subTitle2;
+        public final TextView subTitle3;
+        public final TextView content;
+        public final ImageView imageView;
+        public final RelativeLayout header;
 
         public recommendationAdapterHolder(View itemView) {
             super(itemView);

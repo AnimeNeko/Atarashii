@@ -164,7 +164,7 @@ public class Manga extends GenericRecord implements Serializable {
         this.readingEnd = readingEnd;
     }
 
-    public void setRereading(boolean rereading) {
+    private void setRereading(boolean rereading) {
         if (!fromCursor)
             addDirtyField("rereading");
         this.rereading = rereading;

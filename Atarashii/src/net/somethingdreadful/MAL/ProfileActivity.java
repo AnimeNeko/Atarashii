@@ -42,8 +42,8 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     private ProfileFriends followers;
     private IGF animeList;
     private IGF mangaList;
-    Menu menu;
-    ProfilePagerAdapter adapter;
+    private Menu menu;
+    private ProfilePagerAdapter adapter;
     private boolean isLoading = false;
 
     @Bind(R.id.pager)

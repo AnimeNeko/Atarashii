@@ -40,14 +40,14 @@ import butterknife.ButterKnife;
 public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     public ProfileActivity activity;
 
-    StaggeredGridLayoutManager SGLM;
-    ArrayList<History> record = new ArrayList<>();
+    private StaggeredGridLayoutManager SGLM;
+    private final ArrayList<History> record = new ArrayList<>();
     private activityAdapter ra;
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    public int page = 1;
+    private int page = 1;
     private boolean loading = false;
     private boolean hasmorepages = true;
 
@@ -79,7 +79,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      *
      * @return int The amount of max columns
      */
-    public int getMaxColumns() {
+    private int getMaxColumns() {
         int screen;
         if (Theme.isPortrait())
             screen = activity.getResources().getConfiguration().screenHeightDp;
@@ -129,7 +129,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      * The custom adapter for reviews.
      */
     public class activityAdapter extends RecyclerView.Adapter<historyAdapterHolder> {
-        private Context context;
+        private final Context context;
 
         public activityAdapter(Context context) {
             this.context = context;
@@ -189,7 +189,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      */
     public class OnScrollListener extends RecyclerView.OnScrollListener {
         int firstVisibleItem, visibleItemCount, totalItemCount;
-        private StaggeredGridLayoutManager layoutManager;
+        private final StaggeredGridLayoutManager layoutManager;
 
         public OnScrollListener(StaggeredGridLayoutManager layoutManager) {
             this.layoutManager = layoutManager;
@@ -221,11 +221,11 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      * The viewholder for performance.
      */
     public class historyAdapterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView title;
-        public TextView time;
-        public TextView value;
-        public TextView type;
-        public ImageView imageView;
+        public final TextView title;
+        public final TextView time;
+        public final TextView value;
+        public final TextView type;
+        public final ImageView imageView;
 
         public historyAdapterHolder(View view) {
             super(view);

@@ -122,7 +122,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     /**
      * Apply dark theme if an user enabled it in the settings.
      */
-    public void applyDarkTheme() {
+    private void applyDarkTheme() {
         int[][] states = new int[][]{
                 new int[]{-android.R.attr.state_checked}, // unchecked
                 new int[]{android.R.attr.state_checked} // checked

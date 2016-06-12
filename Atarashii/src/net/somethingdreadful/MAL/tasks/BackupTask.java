@@ -29,8 +29,6 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
 
     private final BackupTaskListener callback;
     private final Context context;
-    private ArrayList<Anime> animeResult;
-    private ArrayList<Manga> mangaResult;
     private final ArrayList<File> files = new ArrayList<>();
 
     public BackupTask(BackupTaskListener callback, Context context) {
@@ -71,8 +69,8 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             }
 
             // Get results from the database
-            animeResult = cManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
-            mangaResult = cManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
+            ArrayList<Anime> animeResult = cManager.getAnimeListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
+            ArrayList<Manga> mangaResult = cManager.getMangaListFromDB(String.valueOf(MALApi.ListType.ANIME), 1, "false");
 
             // create the backup model and get the string
             Backup backup = new Backup();

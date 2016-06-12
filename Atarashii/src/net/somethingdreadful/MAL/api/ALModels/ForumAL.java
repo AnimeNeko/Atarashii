@@ -100,7 +100,7 @@ public class ForumAL implements Serializable {
      * @param name The category id name
      * @return Forum The created model
      */
-    public static Forum createModel(int id, String name, String descripion) {
+    private static Forum createModel(int id, String name, String descripion) {
         Forum forum = new Forum();
         forum.setId(id);
         forum.setName(name);
@@ -115,7 +115,7 @@ public class ForumAL implements Serializable {
      * @param time     Last reply time
      * @return Forum the reply
      */
-    public static Forum createReplyConverter(String username, String time) {
+    private static Forum createReplyConverter(String username, String time) {
         Forum forum = new Forum();
         forum.setUsername(username);
         forum.setTime(time);

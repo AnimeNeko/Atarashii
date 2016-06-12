@@ -16,24 +16,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ForumHTMLUnit {
-    final Context context;
-    WebView webView;
+    private final Context context;
+    private final WebView webView;
     @Getter
     @Setter
     String forumMenuLayout;
-    final String forumMenuTiles;
-    final String forumListLayout;
-    final String forumListTiles;
-    final String forumCommentsLayout;
-    final String forumCommentsTiles;
-    final String spoilerStructure;
+    private final String forumMenuTiles;
+    private final String forumListLayout;
+    private final String forumListTiles;
+    private final String forumCommentsLayout;
+    private final String forumCommentsTiles;
+    private final String spoilerStructure;
     @Getter
     @Setter
     int id;
     @Getter
     @Setter
     String page;
-    boolean subBoard = false;
+    private boolean subBoard = false;
 
     public ForumHTMLUnit(Context context, WebView webview) {
         this.context = context;
@@ -51,7 +51,7 @@ public class ForumHTMLUnit {
         this.subBoard = subBoard;
     }
 
-    public boolean getSubBoard() {
+    private boolean getSubBoard() {
         return this.subBoard;
     }
 

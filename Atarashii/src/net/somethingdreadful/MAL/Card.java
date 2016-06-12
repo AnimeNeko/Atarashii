@@ -27,7 +27,7 @@ public class Card extends RelativeLayout {
     private ImageView Image;
     private final CardView Card;
     private final RelativeLayout Content;
-    private Context context;
+    private final Context context;
 
     private onCardClickListener listener;
     private int screenWidth;
@@ -151,7 +151,7 @@ public class Card extends RelativeLayout {
      *
      * @param all The padding of all the sides
      */
-    public void setPadding(int all) {
+    private void setPadding(int all) {
         setAllPadding(all, all, all, all);
     }
 

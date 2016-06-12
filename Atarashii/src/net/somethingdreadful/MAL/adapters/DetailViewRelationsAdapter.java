@@ -20,7 +20,6 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     private final Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<>();
     public final ArrayList<String> headers = new ArrayList<>();
     public int visable;
-    private ViewHolder viewHolder;
     private final Context context;
 
     public DetailViewRelationsAdapter(Context context) {
@@ -127,7 +126,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     }
 
     public View getChildView(final int groupPos, final int childPos, boolean isLastChild, View convertView, ViewGroup parent) {
-        viewHolder = new ViewHolder();
+        ViewHolder viewHolder = new ViewHolder();
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
