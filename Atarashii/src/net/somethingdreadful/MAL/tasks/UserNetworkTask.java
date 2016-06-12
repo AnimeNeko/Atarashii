@@ -28,6 +28,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
 
     @Override
     protected Profile doInBackground(String... params) {
+        boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
         Profile result = null;
         if (params == null) {
             Crashlytics.log(Log.ERROR, "Atarashii", "UserNetworkTask.doInBackground(): No username to fetch profile");
@@ -36,20 +37,20 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
         ContentManager cManager = new ContentManager(activity);
 
         try {
-            if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
+            if (!AccountService.isMAL() && isNetworkAvailable)
                 cManager.verifyAuthentication();
 
-            if (forcesync && APIHelper.isNetworkAvailable(activity)) {
+            if (forcesync && isNetworkAvailable) {
                 result = cManager.getProfile(params[0]);
             } else if (params[0].equalsIgnoreCase(AccountService.getUsername())) {
                 result = cManager.getProfileFromDB();
-                if (result == null && APIHelper.isNetworkAvailable(activity))
+                if (result == null && isNetworkAvailable)
                     result = cManager.getProfile(params[0]);
-            } else if (APIHelper.isNetworkAvailable(activity)) {
+            } else if (isNetworkAvailable) {
                 result = cManager.getProfile(params[0]);
             }
 
-            if (result != null && APIHelper.isNetworkAvailable(activity) && params.length == 2) {
+            if (result != null && isNetworkAvailable && params.length == 2) {
                 ArrayList<History> activities = cManager.getActivity(params[0], Integer.parseInt(params[1]));
                 result.setActivity(activities);
             }

@@ -66,12 +66,13 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
     @Override
     protected Object doInBackground(String... params) {
+        boolean isNetworkAvailable = APIHelper.isNetworkAvailable(getContext());
         if (job == null) {
             Crashlytics.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): No job identifier, don't know what to do");
             return null;
         }
 
-        if (!APIHelper.isNetworkAvailable(getContext()) && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GETDETAILS)) {
+        if (!isNetworkAvailable && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GETDETAILS)) {
             if (activity != null)
                 Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
@@ -88,7 +89,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         taskResult = null;
         ContentManager cManager = new ContentManager(activity != null ? activity : context);
 
-        if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(getContext()))
+        if (!AccountService.isMAL() && isNetworkAvailable)
             cManager.verifyAuthentication();
 
         try {
@@ -140,7 +141,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             // Get Anime from database
                             Anime record = cManager.getAnime(data.getInt("recordID", -1));
 
-                            if (APIHelper.isNetworkAvailable(activity)) {
+                            if (isNetworkAvailable) {
                                 // Get records from the website
                                 // Check for synopsis for relation.
                                 if (record == null || record.getImageUrl() == null)
@@ -163,7 +164,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             // Get Manga from database
                             Manga record = cManager.getManga(data.getInt("recordID", -1));
 
-                            if (APIHelper.isNetworkAvailable(activity)) {
+                            if (isNetworkAvailable) {
                                 // Get records from the website
                                 if (record == null || record.getImageUrl() == null)
                                     record = cManager.getMangaRecord(data.getInt("recordID", -1));

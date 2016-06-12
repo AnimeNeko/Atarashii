@@ -32,6 +32,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
 
     @Override
     protected ArrayList<Profile> doInBackground(String... params) {
+        boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
         ArrayList<Profile> result = null;
         if (params == null) {
             Crashlytics.log(Log.ERROR, "Atarashii", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
@@ -39,13 +40,13 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
         }
         ContentManager cManager = new ContentManager(activity);
         try {
-            if (forcesync && APIHelper.isNetworkAvailable(context)) {
+            if (forcesync && isNetworkAvailable) {
                 result = request(cManager, params[0]);
             } else if (params[0].equalsIgnoreCase(AccountService.getUsername()) && id != 1) {
                 result = cManager.getFriendListFromDB();
-                if ((result == null || result.isEmpty()) && APIHelper.isNetworkAvailable(context))
+                if ((result == null || result.isEmpty()) && isNetworkAvailable)
                     result = request(cManager, params[0]);
-            } else if (id != 1 || APIHelper.isNetworkAvailable(context)) {
+            } else if (id != 1 || isNetworkAvailable) {
                 result = request(cManager, params[0]);
             }
 
