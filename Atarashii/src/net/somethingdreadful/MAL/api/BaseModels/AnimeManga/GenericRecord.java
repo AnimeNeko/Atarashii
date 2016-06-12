@@ -425,8 +425,8 @@ public class GenericRecord implements Serializable {
         return getPersonalTags() != null ? TextUtils.join(",", getPersonalTags()) : "";
     }
 
-    public void setPersonalTags(ArrayList<String> tags) {
-        this.tags = tags;
+    public void setPersonalTags(ArrayList<String> personalTags) {
+        this.personalTags = personalTags;
     }
 
     static GenericRecord fromCursor(GenericRecord result, Cursor cursor, List<String> columnNames) {
