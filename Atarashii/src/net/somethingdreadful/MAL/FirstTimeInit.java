@@ -148,7 +148,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
             }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(),"onAuthenticationCheckFinished()", e);
+            Theme.logTaskCrash(this.getClass().getSimpleName(), "onAuthenticationCheckFinished()", e);
             Answers.getInstance().logLogin(new LoginEvent()
                     .putSuccess(false));
             Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
@@ -172,7 +172,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
 
                 // hide keyboard
                 v.clearFocus();
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 // verify account

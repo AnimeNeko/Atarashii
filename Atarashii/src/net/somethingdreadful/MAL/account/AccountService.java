@@ -19,8 +19,8 @@ import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.database.DatabaseHelper;
 
-import static net.somethingdreadful.MAL.account.AccountType.MyAnimeList;
 import static net.somethingdreadful.MAL.account.AccountType.AniList;
+import static net.somethingdreadful.MAL.account.AccountType.MyAnimeList;
 
 public class AccountService extends Service {
     public static AccountType accountType;
@@ -115,18 +115,18 @@ public class AccountService extends Service {
     }
 
     public static boolean isMAL() {
-            getAccount();
-            if (account == null || accountType == null) {
-                AccountService.deleteAccount();
-                System.exit(0);
-            }
+        getAccount();
+        if (account == null || accountType == null) {
+            AccountService.deleteAccount();
+            System.exit(0);
+        }
 
-            switch (accountType) {
-                case MyAnimeList:
-                    return true;
-                case AniList:
-                    return false;
-            }
+        switch (accountType) {
+            case MyAnimeList:
+                return true;
+            case AniList:
+                return false;
+        }
         return false;
     }
 

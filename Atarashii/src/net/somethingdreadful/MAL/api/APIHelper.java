@@ -43,11 +43,11 @@ public class APIHelper {
     /**
      * This will log the exception for Crashlytics.
      *
-     * @param activity Activity where the SnackBar should be shown
-     * @param response Retrofit response
-     * @param className The class name of the request executor
+     * @param activity   Activity where the SnackBar should be shown
+     * @param response   Retrofit response
+     * @param className  The class name of the request executor
      * @param methodName method name
-     * @param e The exception which was caught
+     * @param e          The exception which was caught
      */
     public static void logE(Activity activity, Response response, String className, String methodName, Exception e) {
         if (response != null && activity != null) {

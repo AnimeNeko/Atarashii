@@ -637,6 +637,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void setReviews(DetailViewReviews reviews) {
         this.reviews = reviews;
     }
+
     public void setRecommendations(DetailViewRecs recommendations) {
         this.recommendations = recommendations;
     }

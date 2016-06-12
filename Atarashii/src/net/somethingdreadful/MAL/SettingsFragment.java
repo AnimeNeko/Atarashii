@@ -135,7 +135,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         return false;
     }
 
-    private void requestStoragePermission(){
+    private void requestStoragePermission() {
         // Check for staorage permission to store the account.
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // Check if user marked to show never the permission dialog

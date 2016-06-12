@@ -229,7 +229,7 @@ public class Table {
     /**
      * Recreates the table and removes the rows which are passed.
      *
-     * @param rows  All the row names
+     * @param rows All the row names
      */
     public void recreateProfileTable(String... rows) {
         // Get all columns

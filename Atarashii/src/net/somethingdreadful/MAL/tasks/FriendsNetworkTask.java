@@ -58,8 +58,8 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
         }
         return result;
     }
-    
-    private ArrayList<Profile> request(ContentManager cManager, String param){
+
+    private ArrayList<Profile> request(ContentManager cManager, String param) {
         switch (id) {
             case 0:
                 return cManager.downloadAndStoreFriendList(param);

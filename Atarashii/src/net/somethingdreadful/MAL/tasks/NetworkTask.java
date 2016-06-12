@@ -115,11 +115,11 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         if (isAnimeTask()) {
                             cManager.cleanDirtyAnimeRecords();
                             cManager.downloadAnimeList(AccountService.getUsername());
-                            taskResult =  cManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                            taskResult = cManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                         } else {
                             cManager.cleanDirtyMangaRecords();
                             cManager.downloadMangaList(AccountService.getUsername());
-                            taskResult =  cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                            taskResult = cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
                         }
                     }
                     break;

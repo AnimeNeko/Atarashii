@@ -30,7 +30,7 @@ interface ALInterface {
     @FormUrlEncoded
     @POST("auth/access_token")
     Call<OAuth> getAuthCode(@Field("grant_type") String grant_type, @Field("client_id") String client_id, @Field("client_secret") String client_secret,
-                      @Field("redirect_uri") String redirect_uri, @Field("code") String code);
+                            @Field("redirect_uri") String redirect_uri, @Field("code") String code);
 
     @GET("user")
     Call<Profile> getCurrentUser();
@@ -50,7 +50,7 @@ interface ALInterface {
     @FormUrlEncoded
     @POST("auth/access_token")
     Call<OAuth> getAccesToken(@Field("grant_type") String grant_type, @Field("client_id") String client_id, @Field("client_secret") String client_secret,
-                        @Field("refresh_token") String refresh_token);
+                              @Field("refresh_token") String refresh_token);
 
     @GET("anime/{anime_id}")
     Call<Anime> getAnime(@Path("anime_id") int anime_id);
@@ -84,7 +84,7 @@ interface ALInterface {
     @FormUrlEncoded
     @PUT("animelist")
     Call<ResponseBody> updateAnime(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                         @Field("score_raw") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+                                   @Field("score_raw") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
 
     @DELETE("animelist/{anime_id}")
     Call<ResponseBody> deleteAnime(@Path("anime_id") int anime_id);
@@ -95,12 +95,12 @@ interface ALInterface {
     @FormUrlEncoded
     @POST("mangalist")
     Call<ResponseBody> addManga(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                      @Field("volumes_read") int volumes, @Field("score_raw") float score);
+                                @Field("volumes_read") int volumes, @Field("score_raw") float score);
 
     @FormUrlEncoded
     @PUT("mangalist")
     Call<ResponseBody> updateManga(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                         @Field("volumes_read") int volumes, @Field("score_raw") float score);
+                                   @Field("volumes_read") int volumes, @Field("score_raw") float score);
 
     /*
     @GET("forum/recent")

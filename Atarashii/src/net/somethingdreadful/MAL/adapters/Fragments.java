@@ -21,7 +21,7 @@ class Fragments {
      * Add fragments to the holder.
      *
      * @param fragment The fragment which should be added
-     * @param name The fragment name res ID shown in the tabs
+     * @param name     The fragment name res ID shown in the tabs
      */
     public void add(Fragment fragment, int name) {
         add(fragment, activity.getString(name));
@@ -31,7 +31,7 @@ class Fragments {
      * Add fragments to the holder.
      *
      * @param fragment The fragment which should be added
-     * @param name The fragment String name shown in the tabs
+     * @param name     The fragment String name shown in the tabs
      */
     public void add(Fragment fragment, String name) {
         fragments.add(new FragmentHolder(fragment, name));

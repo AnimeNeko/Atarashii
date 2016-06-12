@@ -12,8 +12,8 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.ContentManager;
+import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -40,9 +40,9 @@ public class AutoSync extends BroadcastReceiver implements NetworkTask.NetworkTa
             PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             if (networkChange(intent) && !PrefManager.getAutosyncDone() || !networkChange(intent)) {
                 ArrayList<String> args = new ArrayList<>();
-                    args.add(ContentManager.listSortFromInt(0, MALApi.ListType.ANIME));
-                    args.add(String.valueOf(1));
-                    args.add(String.valueOf(false));
+                args.add(ContentManager.listSortFromInt(0, MALApi.ListType.ANIME));
+                args.add(String.valueOf(1));
+                args.add(String.valueOf(false));
                 new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
                 new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
 

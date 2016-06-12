@@ -206,7 +206,7 @@ public class GenericRecord implements Serializable {
         return titleArray;
     }
 
-    public static String getLanguageTitle(String romaji, String english, String japanese){
+    public static String getLanguageTitle(String romaji, String english, String japanese) {
         switch (PrefManager.getTitleNameLang()) {
             case "romaji":
                 return romaji;

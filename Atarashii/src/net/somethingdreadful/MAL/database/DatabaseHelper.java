@@ -229,8 +229,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              */
             if (oldVersion < 14) {
                 // Remove synopsis for force refresh on detailview
-                db.execSQL("UPDATE "+ TABLE_ANIME + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
-                db.execSQL("UPDATE "+ TABLE_MANGA + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
+                db.execSQL("UPDATE " + TABLE_ANIME + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
+                db.execSQL("UPDATE " + TABLE_MANGA + " SET synopsis = NULL WHERE synopsis IS NOT NULL");
 
                 // Recreate anime and manga table
                 Table.create(db).recreateListTable(TABLE_ANIME, "epsDownloaded", "fansubGroup");

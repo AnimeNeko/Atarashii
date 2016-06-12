@@ -19,8 +19,9 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
 
     /**
      * Create an userAccount and verify it.
-     *
+     * <p/>
      * Only use this with the FirstTimeActivity
+     *
      * @param callback Auth listener
      * @param activity The FirstTimeActivity
      */
