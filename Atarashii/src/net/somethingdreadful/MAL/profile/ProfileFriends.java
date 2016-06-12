@@ -127,7 +127,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this, activity, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getUsername());
+        new FriendsNetworkTask(forcesync, this, activity, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getUsername());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.tasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -17,13 +16,11 @@ import java.util.ArrayList;
 
 public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profile>> {
     private final FriendsNetworkTaskListener callback;
-    private final Context context;
     private final boolean forcesync;
     private final Activity activity;
     private final int id;
 
-    public FriendsNetworkTask(Context context, boolean forcesync, FriendsNetworkTaskListener callback, Activity activity, int id) {
-        this.context = context;
+    public FriendsNetworkTask(boolean forcesync, FriendsNetworkTaskListener callback, Activity activity, int id) {
         this.forcesync = forcesync;
         this.callback = callback;
         this.activity = activity;
