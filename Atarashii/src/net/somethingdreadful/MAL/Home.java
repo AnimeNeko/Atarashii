@@ -39,14 +39,14 @@ import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
+import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
     private IGF af;
     private IGF mf;
     private Menu menu;
@@ -417,8 +417,15 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(Profile);
                 break;
             case R.id.NDimage:
-                UpdateImageDialogFragment lcdf = new UpdateImageDialogFragment();
-                lcdf.show(getFragmentManager(), "fragment_NDImage");
+                InputDialogFragment lcdf = new InputDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", R.id.NDimage);
+                bundle.putString("title", getString(R.string.dialog_title_update_navigation));
+                bundle.putString("hint", getString(R.string.dialog_message_update_navigation));
+                bundle.putString("message", PrefManager.getNavigationBackground());
+                lcdf.setArguments(bundle);
+                lcdf.setCallback(this);
+                lcdf.show(getFragmentManager(), "fragment_InputDialogFragment");
                 break;
         }
     }
@@ -546,5 +553,27 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         }
         myListChanged();
         return false;
+    }
+
+    @Override
+    public void onPosInputButtonClicked(String text, int id) {
+        Picasso.with(this)
+                .load(text)
+                .placeholder(R.drawable.atarashii_background)
+                .error(R.drawable.atarashii_background)
+                .into((ImageView) findViewById(R.id.NDimage));
+        PrefManager.setNavigationBackground(text);
+        PrefManager.commitChanges();
+    }
+
+    @Override
+    public void onNegInputButtonClicked(String text, int id) {
+        Picasso.with(this)
+                .load(R.drawable.atarashii_background)
+                .placeholder(R.drawable.atarashii_background)
+                .error(R.drawable.atarashii_background)
+                .into((ImageView) findViewById(R.id.NDimage));
+        PrefManager.setNavigationBackground(null);
+        PrefManager.commitChanges();
     }
 }

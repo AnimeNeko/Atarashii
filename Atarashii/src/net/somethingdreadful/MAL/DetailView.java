@@ -37,8 +37,8 @@ import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
+import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
-import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
@@ -52,7 +52,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, MessageDialogFragment.onSendClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener, InputDialogFragment.onClickListener {
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
@@ -235,29 +235,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 break;
         }
         setText();
-    }
-
-    @Override
-    public void onSendClicked(String message, int id) {
-        switch (id) {
-            case R.id.tagsPanel:
-                if (isAnime())
-                    animeRecord.setPersonalTags(message);
-                else
-                    mangaRecord.setPersonalTags(message);
-                break;
-            case R.id.commentspanel:
-                if (isAnime())
-                    animeRecord.setNotes(message);
-                else
-                    mangaRecord.setNotes(message);
-                break;
-        }
-        setText();
-    }
-
-    @Override
-    public void onCloseClicked(String message) {
     }
 
     /**
@@ -683,5 +660,29 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         else
             mangaRecord.setDeleteFlag();
         finish();
+    }
+
+    @Override
+    public void onPosInputButtonClicked(String text, int id) {
+        switch (id) {
+            case R.id.tagsPanel:
+                if (isAnime())
+                    animeRecord.setPersonalTags(text);
+                else
+                    mangaRecord.setPersonalTags(text);
+                break;
+            case R.id.commentspanel:
+                if (isAnime())
+                    animeRecord.setNotes(text);
+                else
+                    mangaRecord.setNotes(text);
+                break;
+        }
+        setText();
+    }
+
+    @Override
+    public void onNegInputButtonClicked(String text, int id) {
+        onPosInputButtonClicked(text, id);
     }
 }

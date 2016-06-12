@@ -18,9 +18,9 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
+import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
-import net.somethingdreadful.MAL.dialog.MessageDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
@@ -253,17 +253,15 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 break;
             case R.id.tagsPanel:
                 Bundle args5 = bundle(R.id.tagsPanel, R.string.dialog_title_tags);
-                args5.putBoolean("BBCode", false);
                 args5.putString("message", activity.isAnime() ? activity.animeRecord.getPersonalTagsString() : activity.mangaRecord.getPersonalTagsString());
                 args5.putString("hint", getString(R.string.dialog_hint_tags));
-                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(activity), args5);
+                activity.showDialog("tags", new InputDialogFragment().setCallback(activity), args5);
                 break;
             case R.id.commentspanel:
                 Bundle args6 = bundle(R.id.commentspanel, R.string.dialog_title_comment);
-                args6.putBoolean("BBCode", false);
                 args6.putString("message", activity.isAnime() ? activity.animeRecord.getNotes() : activity.mangaRecord.getNotes());
                 args6.putString("hint", getString(R.string.dialog_hint_comment));
-                activity.showDialog("tags", new MessageDialogFragment().setOnSendClickListener(activity), args6);
+                activity.showDialog("tags", new InputDialogFragment().setCallback(activity), args6);
                 break;
             case R.id.storagePanel:
                 Bundle args8 = bundle(R.id.storagePanel, R.string.dialog_title_storage);

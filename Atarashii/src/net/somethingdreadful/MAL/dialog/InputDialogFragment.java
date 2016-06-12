@@ -7,15 +7,17 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
-import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 
-public class UpdateImageDialogFragment extends DialogFragment {
+public class InputDialogFragment extends DialogFragment {
+    private onClickListener callback;
     private EditText input;
+
+    public InputDialogFragment setCallback(onClickListener callback) {
+        this.callback = callback;
+        return this;
+    }
 
     private View createView() {
         View result = getActivity().getLayoutInflater().inflate(R.layout.dialog_update_nav_image, null);
@@ -26,19 +28,17 @@ public class UpdateImageDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-        builder.setTitle(R.string.dialog_title_update_navigation);
+        builder.setTitle(getArguments().getString("title"));
         builder.setView(createView());
+        input.setHint(getArguments().getString("hint"));
+        input.setText(getArguments().getString("message"));
 
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 input.clearFocus();
                 if (!input.getText().toString().equals("")) {
-                    Picasso.with(getActivity())
-                            .load(input.getText().toString())
-                            .into((ImageView) getActivity().findViewById(R.id.NDimage));
-                    PrefManager.setNavigationBackground(input.getText().toString());
-                    PrefManager.commitChanges();
+                    callback.onPosInputButtonClicked(input.getText().toString(), getArguments().getInt("id"));
                 }
                 dismiss();
             }
@@ -46,11 +46,8 @@ public class UpdateImageDialogFragment extends DialogFragment {
         builder.setNeutralButton(R.string.dialog_label_remove, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
-                Picasso.with(getActivity())
-                        .load(R.drawable.atarashii_background)
-                        .into((ImageView) getActivity().findViewById(R.id.NDimage));
-                PrefManager.setNavigationBackground(null);
-                PrefManager.commitChanges();
+                input.clearFocus();
+                callback.onNegInputButtonClicked("", getArguments().getInt("id"));
                 dismiss();
             }
         });
@@ -62,5 +59,14 @@ public class UpdateImageDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    /**
+     * The interface for callback
+     */
+    public interface onClickListener {
+        void onPosInputButtonClicked(String text, int id);
+
+        void onNegInputButtonClicked(String text, int id);
     }
 }
