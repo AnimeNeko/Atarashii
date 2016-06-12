@@ -107,6 +107,7 @@ public class Table {
                 + "episodes integer, "
                 + "avarageScore varchar, "
                 + "averageScoreCount varchar, "
+                + "broadcast varchar, "
                 + "day integer "
                 + ");";
         run();

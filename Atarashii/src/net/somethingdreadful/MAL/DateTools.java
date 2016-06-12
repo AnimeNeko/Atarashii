@@ -32,6 +32,18 @@ public class DateTools {
     }
 
     /**
+     * Get the day of an week.
+     *
+     * @param ISO8601 The ISO8601 String
+     * @return String The readable string.
+     */
+    public static int getDayOfWeek(String ISO8601) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(parseISO8601(ISO8601));
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
+
+    /**
      * Parse a date with miliseconds.
      *
      * @param time The time in miliseconds

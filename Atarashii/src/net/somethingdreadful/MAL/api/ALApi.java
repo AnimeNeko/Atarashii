@@ -17,6 +17,7 @@ import net.somethingdreadful.MAL.api.ALModels.OAuth;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
@@ -375,11 +376,31 @@ public class ALApi {
         return getBrowseManga(map);
     }
 
+    public Schedule getSchedule() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("type", "Tv");
+        map.put("airing_data", "true");
+        map.put("status", "Currently Airing");
+        map.put("full_page", "true");
+        return getBrowseSchedule(map);
+    }
+
     public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
         try {
             response = service.getBrowseAnime(queries).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseAnime: " + queries.toString(), e);
+            return null;
+        }
+    }
+
+    public Schedule getBrowseSchedule(Map<String, String> queries) {
+        retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getBrowseAnime(queries).execute();
+            return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.convertBaseSchedule(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseAnime: " + queries.toString(), e);
             return null;

@@ -23,11 +23,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.ScheduleTask;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
@@ -281,12 +284,14 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         private Activity activity;
         private String episodes;
         private String members;
+        private boolean isMal;
 
         public scheduleAdapter(Activity activity) {
             this.activity = activity;
             this.weekdays = DateFormatSymbols.getInstance().getWeekdays();
             this.episodes = getString(R.string.card_content_episodes) + ":";
             this.members = getString(R.string.card_content_members) + ":";
+            this.isMal = AccountService.isMAL();
         }
 
         @Override
@@ -320,8 +325,13 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                     itemHolder.typeCount.setText(record.getType());
                     itemHolder.stringStatus.setText(episodes);
                     itemHolder.statusCount.setText(record.getEpisodes() != 0 ? String.valueOf(record.getEpisodes()) : getString(R.string.unknown));
-                    itemHolder.flavourText.setText(members);
-                    itemHolder.progressCount.setText(record.getAverageScoreCount());
+                    if (isMal) {
+                        itemHolder.flavourText.setText(members);
+                        itemHolder.progressCount.setText(record.getAverageScoreCount());
+                    } else {
+                        itemHolder.flavourText.setText("");
+                        itemHolder.progressCount.setText(record.getAiring().getNormaltime());
+                    }
 
                     Picasso.with(getParent())
                             .load(record.getImageUrl())

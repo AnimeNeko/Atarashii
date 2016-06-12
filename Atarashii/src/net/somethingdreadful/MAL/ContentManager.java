@@ -422,7 +422,7 @@ public class ContentManager {
 
     public Schedule getSchedule() {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getSchedule()");
-        return malApi.getSchedule();
+        return AccountService.isMAL() ? malApi.getSchedule() : alApi.getSchedule();
     }
 
     public void saveSchedule(Schedule schedule) {

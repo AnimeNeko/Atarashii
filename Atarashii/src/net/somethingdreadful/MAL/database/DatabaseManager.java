@@ -546,6 +546,7 @@ public class DatabaseManager {
     private void saveScheduleDay(ArrayList<Anime> list, int day) {
         try {
             db.beginTransaction();
+            Query.newQuery(db).clear(DatabaseHelper.TABLE_SCHEDULE);
             for (Anime anime : list) {
                 ContentValues cv = new ContentValues();
                 cv.put(DatabaseHelper.COLUMN_ID, anime.getId());
@@ -555,6 +556,8 @@ public class DatabaseManager {
                 cv.put("episodes", anime.getEpisodes());
                 cv.put("avarageScore", anime.getAverageScore());
                 cv.put("averageScoreCount", anime.getAverageScoreCount());
+                if (anime.getAiring() != null && anime.getAiring().getTime() != null)
+                    cv.put("broadcast", anime.getAiring().getTime());
                 cv.put("day", day);
                 Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_SCHEDULE, cv, anime.getId());
             }

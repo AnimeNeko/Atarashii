@@ -21,6 +21,11 @@ public class Query {
         return new Query();
     }
 
+    public void clear(String table) {
+        queryString += "DELETE FROM " + table;
+        run();
+    }
+
     public Query selectFrom(String column, String table) {
         queryString += " SELECT " + column + " FROM " + table;
         return this;
