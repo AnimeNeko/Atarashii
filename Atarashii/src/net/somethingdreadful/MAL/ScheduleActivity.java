@@ -360,7 +360,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
 
         private boolean isLastColumn(int position) {
             String math = String.valueOf(position / (double) columns);
-            return math.length() < 5;
+            return math.length() < 5 && (math.contains(".0") || math.contains(",0"));
         }
 
         @Override
