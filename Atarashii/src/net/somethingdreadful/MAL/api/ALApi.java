@@ -399,7 +399,7 @@ public class ALApi {
     public ArrayList<Manga> getPopularSeasonManga(int page) {
         HashMap<String, String> map = new HashMap<>();
         map.put("sort", "popularity-desc");
-        map.put("status", "Currently Airing");
+        map.put("status", "Publishing");
         map.put("page", String.valueOf(page));
         return getBrowseManga(map);
     }
@@ -433,7 +433,7 @@ public class ALApi {
     public ArrayList<Manga> getTopSeasonManga(int page) {
         HashMap<String, String> map = new HashMap<>();
         map.put("sort", "score-desc");
-        map.put("status", "Currently Airing");
+        map.put("status", "Publishing");
         map.put("page", String.valueOf(page));
         return getBrowseManga(map);
     }
