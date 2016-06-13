@@ -274,6 +274,7 @@ public class MALApi {
 
     private ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
         try {
             response = service.getBrowseManga(queries).execute();
             return MangaList.convertBaseArray(response.body());
