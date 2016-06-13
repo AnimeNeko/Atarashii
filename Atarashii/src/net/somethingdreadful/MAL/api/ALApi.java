@@ -21,8 +21,11 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.UserList;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -383,6 +386,74 @@ public class ALApi {
         map.put("status", "Currently Airing");
         map.put("full_page", "true");
         return getBrowseSchedule(map);
+    }
+
+    public ArrayList<Anime> getPopularSeasonAnime(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "popularity-desc");
+        map.put("status", "Currently Airing");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(map);
+    }
+
+    public ArrayList<Manga> getPopularSeasonManga(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "popularity-desc");
+        map.put("status", "Currently Airing");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(map);
+    }
+
+    public ArrayList<Anime> getPopularYearAnime(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "popularity-desc");
+        map.put("year", sdf.format(new Date()));
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(map);
+    }
+
+    public ArrayList<Manga> getPopularYearManga(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "popularity-desc");
+        map.put("year", sdf.format(new Date()));
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(map);
+    }
+
+    public ArrayList<Anime> getTopSeasonAnime(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "score-desc");
+        map.put("status", "Currently Airing");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(map);
+    }
+
+    public ArrayList<Manga> getTopSeasonManga(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "score-desc");
+        map.put("status", "Currently Airing");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(map);
+    }
+
+    public ArrayList<Anime> getTopYearAnime(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "score-desc");
+        map.put("year", sdf.format(new Date()));
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(map);
+    }
+
+    public ArrayList<Manga> getTopYearManga(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "score-desc");
+        map.put("year", sdf.format(new Date()));
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(map);
     }
 
     private ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {

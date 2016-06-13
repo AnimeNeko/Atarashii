@@ -126,8 +126,20 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GETMOSTPOPULAR:
                     taskResult = isAnimeTask() ? cManager.getMostPopularAnime(page) : cManager.getMostPopularManga(page);
                     break;
+                case GETMOSTPOPULARS:
+                    taskResult = isAnimeTask() ? cManager.getPopularSeasonAnime(page) : cManager.getPopularSeasonManga(page);
+                    break;
+                case GETMOSTPOPULARY:
+                    taskResult = isAnimeTask() ? cManager.getPopularYearAnime(page) : cManager.getPopularYearManga(page);
+                    break;
                 case GETTOPRATED:
                     taskResult = isAnimeTask() ? cManager.getTopRatedAnime(page) : cManager.getTopRatedManga(page);
+                    break;
+                case GETTOPRATEDS:
+                    taskResult = isAnimeTask() ? cManager.getTopSeasonAnime(page) : cManager.getTopSeasonManga(page);
+                    break;
+                case GETTOPRATEDY:
+                    taskResult = isAnimeTask() ? cManager.getTopYearAnime(page) : cManager.getTopYearManga(page);
                     break;
                 case GETJUSTADDED:
                     taskResult = isAnimeTask() ? cManager.getJustAddedAnime(page) : cManager.getJustAddedManga(page);

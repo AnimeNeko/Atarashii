@@ -199,7 +199,7 @@ public class Theme extends Application {
         if (darkTheme) {
             activity.setTheme(R.style.AtarashiiDarkBg);
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_dark_card : R.color.bg_dark));
-        } else if (activity instanceof Home || activity instanceof SearchActivity) {
+        } else if (activity instanceof Home || activity instanceof SearchActivity || activity instanceof ChartActivity) {
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, R.color.bg_dark));
         } else {
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_light_card : R.color.bg_light));

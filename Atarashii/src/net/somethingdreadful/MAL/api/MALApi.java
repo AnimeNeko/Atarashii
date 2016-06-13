@@ -538,6 +538,82 @@ public class MALApi {
         }
     }
 
+    public ArrayList<Anime> getPopularSeasonAnime(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "7");
+        map.put("reverse", "1");
+        map.put("status", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
+    }
+
+    public ArrayList<Manga> getPopularSeasonManga(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "7");
+        map.put("reverse", "1");
+        map.put("status", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
+    }
+
+    public ArrayList<Anime> getPopularYearAnime(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "7");
+        map.put("reverse", "1");
+        map.put("start_date", sdf.format(new Date()) + "-01-01");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
+    }
+
+    public ArrayList<Manga> getPopularYearManga(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "7");
+        map.put("reverse", "1");
+        map.put("start_date", sdf.format(new Date()) + "-01-01");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
+    }
+
+    public ArrayList<Anime> getTopSeasonAnime(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "3");
+        map.put("reverse", "1");
+        map.put("status", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
+    }
+
+    public ArrayList<Manga> getTopSeasonManga(int page) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "3");
+        map.put("reverse", "1");
+        map.put("status", "1");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
+    }
+
+    public ArrayList<Anime> getTopYearAnime(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "3");
+        map.put("reverse", "1");
+        map.put("start_date", sdf.format(new Date()) + "-01-01");
+        map.put("page", String.valueOf(page));
+        return getBrowseAnime(checkNSFW(map));
+    }
+
+    public ArrayList<Manga> getTopYearManga(int page) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sort", "3");
+        map.put("reverse", "1");
+        map.put("start_date", sdf.format(new Date()) + "-01-01");
+        map.put("page", String.valueOf(page));
+        return getBrowseManga(checkNSFW(map));
+    }
+
     public enum ListType {
         ANIME,
         MANGA

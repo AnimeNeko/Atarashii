@@ -469,6 +469,17 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     }
 
     /**
+     * Check of task contains any other taskjob.
+     *
+     * @param taskJob1 The first Taskjob to compare
+     * @param taskJob2 The second Taskjob to compare
+     * @return boolean True if they contain the taskjob
+     */
+    private boolean containsTask(TaskJob taskJob1, TaskJob taskJob2) {
+        return taskJob1.toString().contains(taskJob2.toString());
+    }
+
+    /**
      * Get the anime/manga lists.
      *
      * @param clear If true then the whole list will be cleared and loaded
@@ -480,7 +491,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             taskjob = task;
         if (task != TaskJob.GETLIST && task != TaskJob.FORCESYNC && task != TaskJob.GETFRIENDLIST) {
             details = false;
-            numberList = task == TaskJob.GETMOSTPOPULAR || task == TaskJob.GETTOPRATED;
+            numberList = containsTask(taskjob, TaskJob.GETMOSTPOPULAR) || containsTask(taskjob, TaskJob.GETTOPRATED);
             resource = PrefManager.getTraditionalListEnabled() ? R.layout.record_igf_listview : R.layout.record_igf_gridview;
             isList = false;
         } else {

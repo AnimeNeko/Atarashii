@@ -434,4 +434,44 @@ public class ContentManager {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getScheduleFromDB()");
         return dbMan.getSchedule();
     }
+
+    public ArrayList<Anime>  getPopularSeasonAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getPopularSeasonAnime(): page=" + page);
+        return AccountService.isMAL() ? malApi.getPopularSeasonAnime(page) : alApi.getPopularSeasonAnime(page);
+    }
+
+    public ArrayList<Anime>  getPopularYearAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getPopularYearAnime(): page=" + page);
+        return AccountService.isMAL() ? malApi.getPopularYearAnime(page) : alApi.getPopularYearAnime(page);
+    }
+
+    public ArrayList<Anime>  getTopSeasonAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopSeasonAnime(): page=" + page);
+        return AccountService.isMAL() ? malApi.getTopSeasonAnime(page) : alApi.getTopSeasonAnime(page);
+    }
+
+    public ArrayList<Anime>  getTopYearAnime(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopYearAnime(): page=" + page);
+        return AccountService.isMAL() ? malApi.getTopYearAnime(page) : alApi.getTopYearAnime(page);
+    }
+
+    public ArrayList<Manga>  getPopularSeasonManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getPopularSeasonManga(): page=" + page);
+        return AccountService.isMAL() ? malApi.getPopularSeasonManga(page) : alApi.getPopularSeasonManga(page);
+    }
+
+    public ArrayList<Manga> getPopularYearManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getPopularYearManga(): page=" + page);
+        return AccountService.isMAL() ? malApi.getPopularYearManga(page) : alApi.getPopularYearManga(page);
+    }
+
+    public ArrayList<Manga> getTopSeasonManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopSeasonManga(): page=" + page);
+        return AccountService.isMAL() ? malApi.getTopSeasonManga(page) : alApi.getTopSeasonManga(page);
+    }
+
+    public ArrayList<Manga> getTopYearManga(int page) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopYearManga(): page=" + page);
+        return AccountService.isMAL() ? malApi.getTopYearManga(page) : alApi.getTopYearManga(page);
+    }
 }

@@ -10,6 +10,7 @@
     <string name="title_activity_profile">User profile</string>
     <string name="title_activity_forum">Forum</string>
     <string name="title_activity_backup">Backup</string>
+    <string name="title_activity_charts">Charts</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
@@ -187,10 +188,15 @@
     <string name="nav_item_my_following">Following</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
+    <string name="nav_item_top_season">Top Season</string>
+    <string name="nav_item_top_year">Top Year</string>
     <string name="nav_item_most_popular">Most Popular</string>
+    <string name="nav_item_popular_season">Popular Season</string>
+    <string name="nav_item_popular_year">Popular Year</string>
     <string name="nav_item_just_added">Just Added</string>
     <string name="nav_item_upcoming">Upcoming</string>
     <string name="nav_item_schedule">Schedule</string>
+    <string name="nav_item_return">Return</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 

@@ -27,25 +27,10 @@
             android:icon="@drawable/ic_event"
             android:title="@string/nav_item_schedule" />
         <item
-            android:id="@+id/nav_rated"
-            android:checked="false"
-            android:icon="@drawable/ic_star"
-            android:title="@string/nav_item_top_rated" />
-        <item
-            android:id="@+id/nav_popular"
+            android:id="@+id/nav_charts"
             android:checked="false"
             android:icon="@drawable/ic_insert_chart"
-            android:title="@string/nav_item_most_popular" />
-        <item
-            android:id="@+id/nav_added"
-            android:checked="false"
-            android:icon="@drawable/ic_access_time"
-            android:title="@string/nav_item_just_added" />
-        <item
-            android:id="@+id/nav_upcoming"
-            android:checked="false"
-            android:icon="@drawable/ic_event"
-            android:title="@string/nav_item_upcoming" />
+            android:title="@string/title_activity_charts" />
 
         <item android:title="@string/card_content_other">
             <menu>

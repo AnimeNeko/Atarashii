@@ -479,6 +479,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.nav_friends:
             case R.id.nav_forum:
             case R.id.nav_schedule:
+            case R.id.nav_charts:
             case R.id.nav_settings:
             case R.id.nav_support:
             case R.id.nav_about:
@@ -526,17 +527,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.nav_schedule:
                 startActivity(new Intent(this, ScheduleActivity.class));
                 break;
-            case R.id.nav_rated:
-                getRecords(true, TaskJob.GETTOPRATED, af.list);
-                break;
-            case R.id.nav_popular:
-                getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
-                break;
-            case R.id.nav_added:
-                getRecords(true, TaskJob.GETJUSTADDED, af.list);
-                break;
-            case R.id.nav_upcoming:
-                getRecords(true, TaskJob.GETUPCOMING, af.list);
+            case R.id.nav_charts:
+                startActivity(new Intent(this, ChartActivity.class));
                 break;
             case R.id.nav_logout: // Others subgroup
                 showLogoutDialog();
