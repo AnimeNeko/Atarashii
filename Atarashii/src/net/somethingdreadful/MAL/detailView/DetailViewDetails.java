@@ -217,7 +217,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
                 durationRow.setVisibility(View.GONE);
             else
                 duration.setText(activity.nullCheck(activity.animeRecord.getDuration()) + " " + getString(R.string.card_content_minutes));
-            if (activity.animeRecord.getAiring().getTime() == null)
+            if (activity.animeRecord.getAiring() == null && activity.animeRecord.getAiring().getTime() == null)
                 broadcastRow.setVisibility(View.GONE);
             else
                 broadcast.setText(activity.nullCheck(DateTools.parseDate(activity.animeRecord.getAiring().getTime(), true)));
