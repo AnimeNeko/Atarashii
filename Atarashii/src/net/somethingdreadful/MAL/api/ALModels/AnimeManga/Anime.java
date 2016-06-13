@@ -93,7 +93,7 @@ public class Anime extends GenericRecord implements Serializable {
         model.setEpisodes(getTotalEpisodes());
         model.setYoutubeId(getYoutubeId());
         model.setAiring(getAiring());
-        if (model.getAiring().getTime() != null)
+        if (model.getAiring()!= null && model.getAiring().getTime() != null)
             model.getAiring().setNormaltime(DateTools.parseDate(model.getAiring().getTime(), true));
         net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord.setFromCursor(false);
         return model;
