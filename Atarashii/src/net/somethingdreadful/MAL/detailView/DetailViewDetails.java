@@ -79,8 +79,8 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     TableRow endRow;
     @Bind(R.id.classification)
     TextView classification;
-    @Bind(R.id.classificationLabel)
-    TextView classificationLabel;
+    @Bind(R.id.classificationRow)
+    TableRow classificationRow;
     @Bind(R.id.genres)
     TextView genres;
     @Bind(R.id.producers)
@@ -234,12 +234,11 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             episodesLabel.setText(R.string.label_Chapters);
             volumes.setText(activity.nullCheck(activity.mangaRecord.getVolumes()));
             status.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
-            classification.setVisibility(View.GONE);
-            classificationLabel.setVisibility(View.GONE);
+            classificationRow.setVisibility(View.GONE);
             startRow.setVisibility(View.GONE);
             endRow.setVisibility(View.GONE);
-            duration.setVisibility(View.GONE);
-            broadcast.setVisibility(View.GONE);
+            durationRow.setVisibility(View.GONE);
+            broadcastRow.setVisibility(View.GONE);
             producersRow.setVisibility(View.GONE);
         }
 

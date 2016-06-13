@@ -21,12 +21,14 @@
             android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
         <TextView
             android:id="@+id/episodesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/card_content_episodes"
             android:textSize="18sp"
             android:textStyle="bold"/>
@@ -35,19 +37,20 @@
             android:id="@+id/episodes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
             android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
         <TextView
             android:id="@+id/volumesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/card_content_volumes"
             android:textSize="18sp"
             android:textStyle="bold"/>
@@ -56,14 +59,16 @@
             android:id="@+id/volumes"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
             android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow android:layout_marginTop="8dp">
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
