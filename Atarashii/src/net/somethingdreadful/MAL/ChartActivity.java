@@ -1,10 +1,8 @@
 package net.somethingdreadful.MAL;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,11 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -32,7 +25,6 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     private IGF mf;
     private MenuItem drawerItem;
 
-    private String username;
     private boolean networkAvailable = true;
     @Bind(R.id.navigationView)
     NavigationView navigationView;
@@ -46,12 +38,9 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
         Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
         ButterKnife.bind(this);
 
-        //setup navigation profile information
-        username = AccountService.getUsername();
-
         //Initializing NavigationView
         navigationView.setNavigationItemSelectedListener(this);
-        navDrawer(navigationView.getHeaderView(0));
+        Theme.setNavDrawer(navigationView, this, null);
 
         //Initializing navigation toggle button
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
@@ -59,46 +48,8 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         drawerLayout.openDrawer(ViewCompat.getLayoutDirection(drawerLayout) == ViewCompat.LAYOUT_DIRECTION_RTL ? Gravity.RIGHT : Gravity.LEFT);
-        //Applying dark theme
-        if (Theme.darkTheme)
-            applyDarkTheme();
+
         NfcHelper.disableBeam(this);
-    }
-
-    /**
-     * Init the navigationDrawer
-     *
-     * @param view The navigationDrawer header
-     */
-    private void navDrawer(View view) {
-        ((TextView) view.findViewById(R.id.name)).setText(username);
-        ((TextView) view.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
-        ImageView image2 = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.NDimage);
-        ImageView image = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.Image);
-        if (PrefManager.getNavigationBackground() != null)
-            Picasso.with(this)
-                    .load(PrefManager.getNavigationBackground())
-                    .into(image2);
-        image.setVisibility(View.GONE);
-    }
-
-    /**
-     * Apply dark theme if an user enabled it in the settings.
-     */
-    private void applyDarkTheme() {
-        int[][] states = new int[][]{
-                new int[]{-android.R.attr.state_checked}, // unchecked
-                new int[]{android.R.attr.state_checked} // checked
-        };
-        int[] colors = new int[]{
-                ContextCompat.getColor(this, R.color.bg_light_card),
-                ContextCompat.getColor(this, R.color.primary)
-        };
-
-        ColorStateList myList = new ColorStateList(states, colors);
-        navigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark));
-        navigationView.setItemTextColor(myList);
-        navigationView.setItemIconTintList(myList);
     }
 
     private void getRecords(boolean clear, TaskJob task, int list) {
@@ -106,10 +57,6 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
             af.getRecords(clear, task, list);
             mf.getRecords(clear, task, list);
         }
-    }
-
-    private void synctask(boolean clear) {
-        getRecords(clear, TaskJob.FORCESYNC, af.list);
     }
 
     @Override
@@ -122,7 +69,7 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         if (networkAvailable)
-            synctask(false);
+            getRecords(false, TaskJob.FORCESYNC, af.list);
         else {
             if (af != null && mf != null) {
                 af.toggleSwipeRefreshAnimation(false);

@@ -192,8 +192,11 @@ public class ContentManager {
 
             if (profile != null) {
                 profile.setUsername(name);
-                if (name.equalsIgnoreCase(AccountService.getUsername()))
+                if (name.equalsIgnoreCase(AccountService.getUsername())) {
+                    PrefManager.setProfileImage(profile.getImageUrl());
+                    PrefManager.commitChanges();
                     dbMan.saveProfile(profile);
+                }
             }
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "ContentManager.getProfile(): " + e.getMessage());

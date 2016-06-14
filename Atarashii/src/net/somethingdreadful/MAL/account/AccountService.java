@@ -15,8 +15,10 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.freshdesk.mobihelp.Mobihelp;
 
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.database.DatabaseHelper;
 
 import static net.somethingdreadful.MAL.account.AccountType.AniList;
@@ -30,7 +32,7 @@ public class AccountService extends Service {
     /**
      * The account version will be used to peform
      */
-    private static final int accountVersion = 2;
+    private static final int accountVersion = 3;
 
     public static void create(Context context) {
         AccountService.context = context;
@@ -39,14 +41,24 @@ public class AccountService extends Service {
     /**
      * This is used for Account upgrade purpose
      */
-    private static void onUpgrade() {
-        Crashlytics.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading to " + String.valueOf(accountVersion) + ".");
+    private static void onUpgrade(int oldVersion) {
+        Crashlytics.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading from " + oldVersion + " to " + String.valueOf(accountVersion) + ".");
         setAccountVersion(accountVersion);
-        switch (accountVersion) {
+        switch (oldVersion + 1) {
             case 1:
-            case 2:
-                // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
+            case 2: // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
                 deleteAccount();
+                break;
+            case 3: // The profile image is now saved in the settings
+                ContentManager cManager = new ContentManager(context);
+                if (!PrefManager.isCreated())
+                    PrefManager.create(context);
+                Profile profile = cManager.getProfileFromDB();
+                if (profile != null && profile.getImageUrl() != null) {
+                    PrefManager.setProfileImage(profile.getImageUrl());
+                    PrefManager.commitChanges();
+                }
+                break;
         }
     }
 
@@ -108,8 +120,10 @@ public class AccountService extends Service {
                 Theme.setCrashData("accountVersion", version);
             }
             account = myaccount.length > 0 ? myaccount[0] : null;
-            if (version == null || accountVersion != Integer.parseInt(version))
-                onUpgrade();
+            if (version == null)
+                onUpgrade(1);
+            else if (Integer.parseInt(version) != accountVersion)
+                onUpgrade(Integer.parseInt(version));
         }
         return account;
     }

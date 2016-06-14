@@ -3,9 +3,11 @@ package net.somethingdreadful.MAL;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -24,6 +27,7 @@ import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.freshdesk.mobihelp.Mobihelp;
 import com.freshdesk.mobihelp.MobihelpConfig;
+import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 
@@ -203,6 +207,60 @@ public class Theme extends Application {
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, R.color.bg_dark));
         } else {
             activity.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(activity, card ? R.color.bg_light_card : R.color.bg_light));
+        }
+    }
+
+    /**
+     * Init navigationDrawer properly.
+     *
+     * @param navigationView The navigationView
+     * @param activity       The current activity
+     * @param listener       The listener which can be null
+     */
+    public static void setNavDrawer(NavigationView navigationView, Activity activity, View.OnClickListener listener) {
+        try {
+            View view = navigationView.getHeaderView(0);
+            String username = AccountService.getUsername();
+            ImageView image = (ImageView) view.findViewById(R.id.Image);
+            ImageView image2 = (ImageView) view.findViewById(R.id.NDimage);
+            ((TextView) view.findViewById(R.id.siteName)).setText(activity.getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
+            ((TextView) view.findViewById(R.id.name)).setText(username);
+
+            // Apply dark theme if an user enabled it in the settings.
+            if (Theme.darkTheme) {
+                int[][] states = new int[][]{
+                        new int[]{-android.R.attr.state_checked}, // unchecked
+                        new int[]{android.R.attr.state_checked} // checked
+                };
+
+                int[] colors = new int[]{
+                        ContextCompat.getColor(activity, R.color.bg_light_card),
+                        ContextCompat.getColor(activity, R.color.primary)
+                };
+
+                ColorStateList myList = new ColorStateList(states, colors);
+                navigationView.setBackgroundColor(ContextCompat.getColor(activity, R.color.bg_dark));
+                navigationView.setItemTextColor(myList);
+                navigationView.setItemIconTintList(myList);
+            }
+
+            // init images
+            Picasso.with(activity)
+                    .load(PrefManager.getProfileImage())
+                    .transform(new RoundedTransformation(username))
+                    .into(image);
+            if (PrefManager.getNavigationBackground() != null)
+                Picasso.with(activity)
+                        .load(PrefManager.getNavigationBackground())
+                        .placeholder(R.drawable.atarashii_background)
+                        .error(R.drawable.atarashii_background)
+                        .into(image2);
+            if (listener != null) {
+                image.setOnClickListener(listener);
+                image2.setOnClickListener(listener);
+            }
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", activity.getClass().getSimpleName() + ".setNavDrawer(): " + e.getMessage());
         }
     }
 

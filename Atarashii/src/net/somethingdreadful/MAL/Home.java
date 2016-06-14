@@ -8,12 +8,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -22,31 +19,26 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
 import com.freshdesk.mobihelp.Mobihelp;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
 import net.somethingdreadful.MAL.api.APIHelper;
-import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
-import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, UserNetworkTask.UserNetworkTaskListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
     private IGF af;
     private IGF mf;
     private Menu menu;
@@ -74,35 +66,22 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 networkAvailable = savedInstanceState.getBoolean("networkAvailable", true);
             }
 
-            //Initializing Theme
+            //Initializing
             Theme.setTheme(this, R.layout.activity_home, false);
-
-            //Initializing IGF
             Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
-
-            //Initializing ButterKnife
             ButterKnife.bind(this);
-
-            //setup navigation profile information
             username = AccountService.getUsername();
-            new UserNetworkTask(false, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username);
 
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);
             navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
-            View view = navigationView.getHeaderView(0);
-            ((TextView) view.findViewById(R.id.name)).setText(username);
-            ((TextView) view.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
+            Theme.setNavDrawer(navigationView, this, this);
 
             //Initializing navigation toggle button
             ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
             };
             drawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
-
-            //Applying dark theme
-            if (Theme.darkTheme)
-                applyDarkTheme();
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
@@ -117,26 +96,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             finish();
         }
         NfcHelper.disableBeam(this);
-    }
-
-    /**
-     * Apply dark theme if an user enabled it in the settings.
-     */
-    private void applyDarkTheme() {
-        int[][] states = new int[][]{
-                new int[]{-android.R.attr.state_checked}, // unchecked
-                new int[]{android.R.attr.state_checked} // checked
-        };
-
-        int[] colors = new int[]{
-                ContextCompat.getColor(this, R.color.bg_light_card),
-                ContextCompat.getColor(this, R.color.primary)
-        };
-
-        ColorStateList myList = new ColorStateList(states, colors);
-        navigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark));
-        navigationView.setItemTextColor(myList);
-        navigationView.setItemIconTintList(myList);
     }
 
     @Override
@@ -427,26 +386,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 lcdf.setCallback(this);
                 lcdf.show(getFragmentManager(), "fragment_InputDialogFragment");
                 break;
-        }
-    }
-
-    @Override
-    public void onUserNetworkTaskFinished(Profile result) {
-        ImageView image = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.Image);
-        ImageView image2 = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.NDimage);
-        try {
-            Picasso.with(this)
-                    .load(result.getImageUrl())
-                    .transform(new RoundedTransformation(result.getUsername()))
-                    .into(image);
-            if (PrefManager.getNavigationBackground() != null)
-                Picasso.with(this)
-                        .load(PrefManager.getNavigationBackground())
-                        .into(image2);
-            image.setOnClickListener(this);
-            image2.setOnClickListener(this);
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "Atarashii", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
         }
     }
 

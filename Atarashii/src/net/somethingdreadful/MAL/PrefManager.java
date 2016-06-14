@@ -12,12 +12,15 @@ public class PrefManager {
     private static SharedPreferences.Editor prefEditor;
     private static Context context;
 
-
     @SuppressLint("CommitPrefEdits")
     public static void create(Context mContext) {
         context = mContext;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefEditor = prefs.edit();
+    }
+
+    public static boolean isCreated() {
+        return context != null;
     }
 
     /**
@@ -218,22 +221,21 @@ public class PrefManager {
     }
 
     /**
-     * Returns if the IGF to show airing records only.
+     * Returns the profile image url of the logged in user.
      *
-     * @return boolean If true than hide all the null airing dates.
-     * @see Home
+     * @return string The url of the image.
      */
-    public static boolean getAiringOnly() {
-        return prefs.getBoolean("IGF_airingOnly", false);
+    public static String getProfileImage() {
+        return prefs.getString("profile_image", null);
     }
 
     /**
-     * Set toggle the IGF to show airing records only.
+     * Set the profile image url.
      *
-     * @param airing If true than the airing records should only be shown
+     * @param image The URL
      */
-    public static void setAiringOnly(boolean airing) {
-        prefEditor.putBoolean("IGF_airingOnly", airing);
+    public static void setProfileImage(String image) {
+        prefEditor.putString("profile_image", image);
     }
 
     /**

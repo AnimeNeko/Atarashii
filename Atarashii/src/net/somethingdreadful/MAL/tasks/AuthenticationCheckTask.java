@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -40,8 +41,10 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
             if (params != null && params.length >= 2) {
                 MALApi api = new MALApi(params[0], params[1]);
                 boolean valid = api.isAuth();
-                if (valid)
+                if (valid) {
                     AccountService.addAccount(params[0], params[1], AccountType.MyAnimeList);
+                    (new ContentManager(activity)).getProfile(params[0]);
+                }
                 return valid;
             } else if (params != null) {
                 ALApi api = new ALApi(activity);
@@ -58,6 +61,7 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
             }
         } catch (Exception e) {
             Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground()", e);
+            e.printStackTrace();
         }
         return false;
     }
