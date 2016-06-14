@@ -111,7 +111,7 @@ public class ALApi {
         retrofit2.Response<ArrayList<History>> response = null;
         try {
             response = service.getActivity(username, page).execute();
-            return History.convertBaseHistoryList(response.body(), username);
+            return History.convertBaseHistoryList(response.body());
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getActivity", e);
             return new ArrayList<>();

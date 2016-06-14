@@ -350,7 +350,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     }
 
     @Override
-    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+    public void onRecordsLoadingFinished(TaskJob job) {
 
     }
 

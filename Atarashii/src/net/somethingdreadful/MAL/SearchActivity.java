@@ -107,7 +107,7 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
     }
 
     @Override
-    public void onRecordsLoadingFinished(ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+    public void onRecordsLoadingFinished(TaskJob job) {
     }
 
     @Override

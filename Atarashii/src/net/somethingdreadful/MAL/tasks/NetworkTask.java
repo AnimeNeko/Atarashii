@@ -228,15 +228,15 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     protected void onPostExecute(Object result) {
         if (callback != null) {
             if (result != null)
-                callback.onNetworkTaskFinished(taskResult, job, type, data, false);
+                callback.onNetworkTaskFinished(taskResult, job, type);
             else
-                callback.onNetworkTaskError(job, type, data, false);
+                callback.onNetworkTaskError(job);
         }
     }
 
     public interface NetworkTaskListener {
-        void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
+        void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type);
 
-        void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled);
+        void onNetworkTaskError(TaskJob job);
     }
 }

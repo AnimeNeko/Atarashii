@@ -341,8 +341,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
-        if (cancelled && !job.equals(TaskJob.FORCESYNC)) {
+    public void onRecordsLoadingFinished(TaskJob job) {
+        if (!job.equals(TaskJob.FORCESYNC)) {
             return;
         }
 

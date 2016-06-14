@@ -89,7 +89,7 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     }
 
     @Override
-    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+    public void onRecordsLoadingFinished(TaskJob job) {
 
     }
 

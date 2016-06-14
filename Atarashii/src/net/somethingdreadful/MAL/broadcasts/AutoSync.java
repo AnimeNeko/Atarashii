@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -62,13 +61,13 @@ public class AutoSync extends BroadcastReceiver implements NetworkTask.NetworkTa
     }
 
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
         nm.cancel(R.id.notification_sync);
         PrefManager.setAutosyncDone(true);
     }
 
     @Override
-    public void onNetworkTaskError(TaskJob job, MALApi.ListType type, Bundle data, boolean cancelled) {
+    public void onNetworkTaskError(TaskJob job) {
         nm.cancel(R.id.notification_sync);
         PrefManager.setAutosyncDone(false);
     }

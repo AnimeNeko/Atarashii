@@ -35,7 +35,6 @@ import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
-import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
 import net.somethingdreadful.MAL.tasks.NetworkTask;
@@ -631,44 +630,40 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        if (!cancelled || job.equals(TaskJob.FORCESYNC)) { // forced sync tasks are completed even after cancellation
-            ArrayList resultList;
-            try {
-                if (type == ListType.ANIME)
-                    resultList = (ArrayList<Anime>) result;
-                else
-                    resultList = (ArrayList<Manga>) result;
-            } catch (Exception e) {
-                Crashlytics.log(Log.ERROR, "Atarashii", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
-                Crashlytics.logException(e);
-                resultList = null;
-            }
-            if (resultList != null) {
-                if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
-                    if (this.page == 1)
-                        doRecordsLoadedCallback(type, job, false, true, cancelled);
-                } else {
-                    if (job.equals(TaskJob.FORCESYNC))
-                        doRecordsLoadedCallback(type, job, false, false, cancelled);
-                    if (!cancelled) {  // only add results if not cancelled (on FORCESYNC)
-                        if (clearAfterLoading || job.equals(TaskJob.FORCESYNC) || job.equals(TaskJob.GETFRIENDLIST)) { // a forced sync always reloads all data, so clear the list
-                            gl.clear();
-                            clearAfterLoading = false;
-                        }
-                        hasmorepages = resultList.size() > 0;
-                        gl.addAll(resultList);
-                        if (taskjob.equals(TaskJob.GETFRIENDLIST)) {
-                            backGl.addAll(resultList);
-                            sortList(sortType);
-                        } else {
-                            refresh();
-                        }
-                    }
-                }
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type) {
+        ArrayList resultList;
+        try {
+            if (type == ListType.ANIME)
+                resultList = (ArrayList<Anime>) result;
+            else
+                resultList = (ArrayList<Manga>) result;
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
+            Crashlytics.logException(e);
+            resultList = null;
+        }
+        if (resultList != null) {
+            if (resultList.size() == 0 && taskjob.equals(TaskJob.SEARCH)) {
+                if (this.page == 1)
+                    doRecordsLoadedCallback(job);
             } else {
-                doRecordsLoadedCallback(type, job, true, false, cancelled); // no resultList ? something went wrong
+                if (job.equals(TaskJob.FORCESYNC))
+                    doRecordsLoadedCallback(job);
+                if (clearAfterLoading || job.equals(TaskJob.FORCESYNC) || job.equals(TaskJob.GETFRIENDLIST)) { // a forced sync always reloads all data, so clear the list
+                    gl.clear();
+                    clearAfterLoading = false;
+                }
+                hasmorepages = resultList.size() > 0;
+                gl.addAll(resultList);
+                if (taskjob.equals(TaskJob.GETFRIENDLIST)) {
+                    backGl.addAll(resultList);
+                    sortList(sortType);
+                } else {
+                    refresh();
+                }
             }
+        } else {
+            doRecordsLoadedCallback(job); // no resultList ? something went wrong
         }
         networkTask = null;
         toggleSwipeRefreshAnimation(false);
@@ -676,8 +671,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     }
 
     @Override
-    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
-        doRecordsLoadedCallback(type, job, true, true, false);
+    public void onNetworkTaskError(TaskJob job) {
+        doRecordsLoadedCallback(job);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -690,15 +685,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     /**
      * Trigger to the parent activity that the records are loaded.
      *
-     * @param type        The ListType
-     * @param job         Which list should be shown (top, popular, upcoming...)
-     * @param error       If true then there was an error
-     * @param resultEmpty If true then the result we got is empty
-     * @param cancelled   If true then the user/activity canceled the request
+     * @param job Which list should be shown (top, popular, upcoming...)
      */
-    private void doRecordsLoadedCallback(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
+    private void doRecordsLoadedCallback(TaskJob job) {
         if (callback != null)
-            callback.onRecordsLoadingFinished(type, job, error, resultEmpty, cancelled);
+            callback.onRecordsLoadingFinished(job);
     }
 
     @Override
@@ -964,7 +955,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     public interface IGFCallbackListener {
         void onIGFReady(IGF igf);
 
-        void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled);
+        void onRecordsLoadingFinished(TaskJob job);
 
         void onItemClick(int id, ListType listType, String username);
     }

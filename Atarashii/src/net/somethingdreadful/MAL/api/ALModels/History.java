@@ -109,7 +109,7 @@ public class History implements Serializable {
         private String type;
     }
 
-    private net.somethingdreadful.MAL.api.BaseModels.History createBaseModel(String username) {
+    private net.somethingdreadful.MAL.api.BaseModels.History createBaseModel() {
         net.somethingdreadful.MAL.api.BaseModels.History model = new net.somethingdreadful.MAL.api.BaseModels.History();
         if (getSeries() != null && getSeries().getSeriesType() != null) {
             if (getSeries().getSeriesType().equals("anime")) {
@@ -146,11 +146,11 @@ public class History implements Serializable {
         return model;
     }
 
-    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories, String username) {
+    public static ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> convertBaseHistoryList(ArrayList<History> histories) {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.History> historyArrayList = new ArrayList<>();
         if (histories != null) {
             for (History history : histories) {
-                historyArrayList.add(history.createBaseModel(username));
+                historyArrayList.add(history.createBaseModel());
             }
         }
         return historyArrayList;

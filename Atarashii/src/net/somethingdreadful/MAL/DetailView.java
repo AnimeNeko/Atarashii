@@ -525,10 +525,10 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         super.onResume();
         // received Android Beam?
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction()))
-            processIntent(getIntent());
+            processIntent();
     }
 
-    private void processIntent(Intent intent) {
+    private void processIntent() {
         Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         // only one message sent during the beam
         NdefMessage msg = (NdefMessage) rawMsgs[0];
@@ -572,7 +572,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type) {
         try {
             if (type == ListType.ANIME)
                 animeRecord = (Anime) result;
@@ -590,7 +590,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     @Override
-    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
+    public void onNetworkTaskError(TaskJob job) {
     }
 
     /**

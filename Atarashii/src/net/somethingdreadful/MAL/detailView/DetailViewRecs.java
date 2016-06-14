@@ -110,7 +110,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
      */
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
-    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type, Bundle data, boolean cancelled) {
+    public void onNetworkTaskFinished(Object result, TaskJob job, ListType type) {
         getProgressBar().setVisibility(View.GONE);
         try {
             ArrayList<Recommendations> records = (ArrayList<Recommendations>) result;
@@ -127,7 +127,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
     }
 
     @Override
-    public void onNetworkTaskError(TaskJob job, ListType type, Bundle data, boolean cancelled) {
+    public void onNetworkTaskError(TaskJob job) {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
