@@ -162,8 +162,9 @@ public class AccountService extends Service {
      */
     public static void deleteAccount() {
         AccountManager accountManager = AccountManager.get(context);
-        accountManager.removeAccount(getAccount(), null, null);
         account = null;
+        if (getAccount() != null)
+            accountManager.removeAccount(getAccount(), null, null);
         accountType = null;
     }
 
