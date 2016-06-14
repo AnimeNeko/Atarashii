@@ -110,6 +110,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putInt("resource", resource);
         state.putBoolean("inverse", inverse);
         state.putBoolean("hasmorepages", hasmorepages);
+        state.putBoolean("popupEnabled", popupEnabled);
         state.putBoolean("swipeRefreshEnabled", swipeRefreshEnabled);
         state.putBoolean("useSecondaryAmounts", useSecondaryAmounts);
         state.putBoolean("details", details);
