@@ -36,6 +36,7 @@
     <string name="toast_error_Manga_Sync">Sync error while getting mangalist!</string>
     <string name="toast_error_Records">Error while getting records. Please try again later.</string>
     <string name="toast_error_DetailsError">Atarashii can\'t load the details!</string>
+    <string name="toast_error_keys">Atarashii can\'t get the Auth keys from AL!</string>
     <string name="toast_error_VerifyProblem">Check your credentials and try again.</string>
     <string name="toast_error_Friends">Sync error while getting friendlist!</string>
     <string name="toast_error_nothingFound">No anime or manga results found.</string>

@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.BuildConfig;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
@@ -165,8 +167,16 @@ public class ALApi {
         try {
             response = service.getAccesToken("refresh_token", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, AccountService.getRefreshToken()).execute();
             OAuth auth = response.body();
-            accesToken = AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
-            setupRESTService();
+            if (auth == null) { // Try a second time
+                response = service.getAccesToken("refresh_token", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, AccountService.getRefreshToken()).execute();
+                auth = response.body();
+            }
+            if (auth == null) { // notify failure
+                Theme.Snackbar(activity, R.string.toast_error_keys);
+            } else {
+                accesToken = AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
+                setupRESTService();
+            }
         } catch (Exception e) {
             APIHelper.logE(activity, response, getClass().getSimpleName(), "getAccesToken", e);
         }
