@@ -770,6 +770,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         final String StatusPlanningToWatch;
         final String StatusPlanningToRead;
         final String Number;
+        final boolean isMAL;
 
         public ListViewAdapter(Context context, int resource) {
             super(context, resource);
@@ -784,6 +785,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             StatusPlanningToRead = getString(R.string.cover_PlanningToRead);
             Number = getString(R.string.label_Number);
 
+            isMAL = AccountService.isMAL();
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             listView = resource != R.layout.record_igf_listview;
         }
@@ -791,8 +793,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         @SuppressWarnings("deprecation")
         public View getView(int position, View view, ViewGroup parent) {
             final GenericRecord record = gl.get(position);
-            Anime animeRecord = null;
-            Manga mangaRecord = null;
+            Anime animeRecord;
+            Manga mangaRecord;
             ViewHolder viewHolder = null;
             String status;
             int progress;
@@ -892,7 +894,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                     }
                 } else {
                     viewHolder.actionButton.setVisibility(View.GONE);
-                    if (AccountService.isMAL() && numberList) {
+                    if (isMAL && numberList) {
                         viewHolder.progressCount.setVisibility(View.VISIBLE);
                         viewHolder.progressCount.setText(String.valueOf(position + 1));
                         viewHolder.flavourText.setText(Number);
