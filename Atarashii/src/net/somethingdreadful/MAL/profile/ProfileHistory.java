@@ -101,7 +101,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
      */
     private void apply(Profile result) {
         try {
-            if (result != null) {
+            if (result != null && result.getActivity() != null) {
                 record.addAll(result.getActivity());
                 ra.notifyDataSetChanged();
                 loading = false;
