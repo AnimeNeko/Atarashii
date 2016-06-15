@@ -45,9 +45,7 @@ import lombok.Getter;
 public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTaskListener {
     private ArrayList<Reviews> record = new ArrayList<>();
     private DetailView activity;
-    private StaggeredGridLayoutManager SGLM;
     private reviewAdapter ra;
-
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
     @Getter
@@ -71,9 +69,8 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
         ButterKnife.bind(this, view);
 
         recyclerView.setHasFixedSize(true);
-        SGLM = new StaggeredGridLayoutManager(getMaxColumns(), 1);
-
-        recyclerView.setLayoutManager(SGLM);
+        StaggeredGridLayoutManager SGLM = new StaggeredGridLayoutManager(getMaxColumns(), 1);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(getMaxColumns(), 1));
         recyclerView.addOnScrollListener(new OnScrollListener(SGLM));
         recyclerView.addItemDecoration(new SpacesItemDecoration());
         ra = new reviewAdapter(activity);
@@ -235,8 +232,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
 
             visibleItemCount = recyclerView.getChildCount();
             totalItemCount = layoutManager.getItemCount();
-            int[] firstVisibleItems = null;
-            firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
+            int[] firstVisibleItems = layoutManager.findFirstVisibleItemPositions(null);
             if (firstVisibleItems != null && firstVisibleItems.length > 0)
                 firstVisibleItem = firstVisibleItems[0];
 
