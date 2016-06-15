@@ -27,7 +27,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
@@ -44,71 +44,71 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     private DetailViewRelationsAdapter relation;
     private DetailViewRelationsAdapter title;
 
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
 
-    @Bind(R.id.SynopsisContent)
+    @BindView(R.id.SynopsisContent)
     TextView synopsis;
-    @Bind(R.id.type)
+    @BindView(R.id.type)
     TextView type;
-    @Bind(R.id.episodes)
+    @BindView(R.id.episodes)
     TextView episodes;
-    @Bind(R.id.episodesLabel)
+    @BindView(R.id.episodesLabel)
     TextView episodesLabel;
-    @Bind(R.id.volumes)
+    @BindView(R.id.volumes)
     TextView volumes;
-    @Bind(R.id.volumesLabel)
+    @BindView(R.id.volumesLabel)
     TextView volumesLabel;
-    @Bind(R.id.status)
+    @BindView(R.id.status)
     TextView status;
-    @Bind(R.id.start)
+    @BindView(R.id.start)
     TextView start;
-    @Bind(R.id.startRow)
+    @BindView(R.id.startRow)
     TableRow startRow;
-    @Bind(R.id.duration)
+    @BindView(R.id.duration)
     TextView duration;
-    @Bind(R.id.durationRow)
+    @BindView(R.id.durationRow)
     TableRow durationRow;
-    @Bind(R.id.broadcast)
+    @BindView(R.id.broadcast)
     TextView broadcast;
-    @Bind(R.id.broadcastRow)
+    @BindView(R.id.broadcastRow)
     TableRow broadcastRow;
-    @Bind(R.id.end)
+    @BindView(R.id.end)
     TextView end;
-    @Bind(R.id.endRow)
+    @BindView(R.id.endRow)
     TableRow endRow;
-    @Bind(R.id.classification)
+    @BindView(R.id.classification)
     TextView classification;
-    @Bind(R.id.classificationRow)
+    @BindView(R.id.classificationRow)
     TableRow classificationRow;
-    @Bind(R.id.genres)
+    @BindView(R.id.genres)
     TextView genres;
-    @Bind(R.id.producers)
+    @BindView(R.id.producers)
     TextView producers;
-    @Bind(R.id.producersRow)
+    @BindView(R.id.producersRow)
     TableRow producersRow;
 
-    @Bind(R.id.infoValue1)
+    @BindView(R.id.infoValue1)
     TextView infoValue1;
-    @Bind(R.id.infoText2)
+    @BindView(R.id.infoText2)
     TextView infoText2;
-    @Bind(R.id.infoValue2)
+    @BindView(R.id.infoValue2)
     TextView infoValue2;
-    @Bind(R.id.infoText3)
+    @BindView(R.id.infoText3)
     TextView infoText3;
-    @Bind(R.id.infoValue3)
+    @BindView(R.id.infoValue3)
     TextView infoValue3;
-    @Bind(R.id.infoText4)
+    @BindView(R.id.infoText4)
     TextView infoText4;
-    @Bind(R.id.infoValue4)
+    @BindView(R.id.infoValue4)
     TextView infoValue4;
-    @Bind(R.id.infoText5)
+    @BindView(R.id.infoText5)
     TextView infoText5;
-    @Bind(R.id.infoValue5)
+    @BindView(R.id.infoValue5)
     TextView infoValue5;
-    @Bind(R.id.infoText6)
+    @BindView(R.id.infoText6)
     TextView infoText6;
-    @Bind(R.id.infoValue6)
+    @BindView(R.id.infoValue6)
     TextView infoValue6;
 
     @Override

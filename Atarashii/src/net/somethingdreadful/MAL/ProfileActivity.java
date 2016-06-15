@@ -29,7 +29,7 @@ import net.somethingdreadful.MAL.profile.ProfileHistory;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.UserNetworkTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity implements UserNetworkTask.UserNetworkTaskListener, IGF.IGFCallbackListener, ViewPager.OnPageChangeListener {
@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     private ProfilePagerAdapter adapter;
     private boolean isLoading = false;
 
-    @Bind(R.id.pager)
+    @BindView(R.id.pager)
     ViewPager viewPager;
 
     @Override

@@ -36,7 +36,7 @@ import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 
@@ -45,12 +45,12 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     Schedule schedule;
     @Getter
     ArrayList<Anime> records = new ArrayList<>();
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @Getter
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefresh;
     private GridLayoutManager GLM;
     private scheduleAdapter sa;

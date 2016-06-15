@@ -34,7 +34,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -42,7 +42,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
     private final ArrayList<History> record = new ArrayList<>();
     private activityAdapter ra;
 
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     private int page = 1;

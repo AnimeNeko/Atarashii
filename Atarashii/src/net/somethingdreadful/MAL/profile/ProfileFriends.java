@@ -28,7 +28,7 @@ import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 
@@ -39,11 +39,11 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
     @Getter
     private ArrayList<Profile> listarray;
 
-    @Bind(R.id.network_Card)
+    @BindView(R.id.network_Card)
     Card networkCard;
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
     private boolean forcesync = false;
     private int id;

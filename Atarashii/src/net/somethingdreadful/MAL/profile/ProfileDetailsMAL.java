@@ -36,7 +36,7 @@ import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -46,62 +46,62 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     private Card mangacard;
     private ProfileActivity activity;
 
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @Bind(R.id.network_Card)
+    @BindView(R.id.network_Card)
     Card networkCard;
 
-    @Bind(R.id.Image)
+    @BindView(R.id.Image)
     ImageView image;
-    @Bind(R.id.birthdaysmall)
+    @BindView(R.id.birthdaysmall)
     TextView tv1;
-    @Bind(R.id.locationsmall)
+    @BindView(R.id.locationsmall)
     TextView tv2;
-    @Bind(R.id.commentspostssmall)
+    @BindView(R.id.commentspostssmall)
     TextView tv3;
-    @Bind(R.id.forumpostssmall)
+    @BindView(R.id.forumpostssmall)
     TextView tv4;
-    @Bind(R.id.lastonlinesmall)
+    @BindView(R.id.lastonlinesmall)
     TextView tv5;
-    @Bind(R.id.gendersmall)
+    @BindView(R.id.gendersmall)
     TextView tv6;
-    @Bind(R.id.joindatesmall)
+    @BindView(R.id.joindatesmall)
     TextView tv7;
-    @Bind(R.id.accessranksmall)
+    @BindView(R.id.accessranksmall)
     TextView tv8;
-    @Bind(R.id.atimedayssmall)
+    @BindView(R.id.atimedayssmall)
     TextView tv11;
-    @Bind(R.id.awatchingsmall)
+    @BindView(R.id.awatchingsmall)
     TextView tv12;
-    @Bind(R.id.acompletedpostssmall)
+    @BindView(R.id.acompletedpostssmall)
     TextView tv13;
-    @Bind(R.id.aonholdsmall)
+    @BindView(R.id.aonholdsmall)
     TextView tv14;
-    @Bind(R.id.adroppedsmall)
+    @BindView(R.id.adroppedsmall)
     TextView tv15;
-    @Bind(R.id.aplantowatchsmall)
+    @BindView(R.id.aplantowatchsmall)
     TextView tv16;
-    @Bind(R.id.atotalentriessmall)
+    @BindView(R.id.atotalentriessmall)
     TextView tv17;
-    @Bind(R.id.mtimedayssmall)
+    @BindView(R.id.mtimedayssmall)
     TextView tv18;
-    @Bind(R.id.mwatchingsmall)
+    @BindView(R.id.mwatchingsmall)
     TextView tv19;
-    @Bind(R.id.mcompletedpostssmall)
+    @BindView(R.id.mcompletedpostssmall)
     TextView tv20;
-    @Bind(R.id.monholdsmall)
+    @BindView(R.id.monholdsmall)
     TextView tv21;
-    @Bind(R.id.mdroppedsmall)
+    @BindView(R.id.mdroppedsmall)
     TextView tv22;
-    @Bind(R.id.mplantowatchsmall)
+    @BindView(R.id.mplantowatchsmall)
     TextView tv23;
-    @Bind(R.id.mtotalentriessmall)
+    @BindView(R.id.mtotalentriessmall)
     TextView tv24;
-    @Bind(R.id.websitesmall)
+    @BindView(R.id.websitesmall)
     TextView tv25;
-    @Bind(R.id.websitefront)
+    @BindView(R.id.websitefront)
     TextView tv26;
 
     @Override

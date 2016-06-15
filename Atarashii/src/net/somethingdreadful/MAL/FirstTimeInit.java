@@ -28,7 +28,7 @@ import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
@@ -38,21 +38,21 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     private ProgressDialog dialog;
     private boolean loaded = false;
 
-    @Bind(R.id.edittext_malUser)
+    @BindView(R.id.edittext_malUser)
     EditText malUser;
-    @Bind(R.id.edittext_malPass)
+    @BindView(R.id.edittext_malPass)
     EditText malPass;
-    @Bind(R.id.viewFlipper)
+    @BindView(R.id.viewFlipper)
     ViewFlipper viewFlipper;
-    @Bind(R.id.button_connectToMal)
+    @BindView(R.id.button_connectToMal)
     Button connectButton;
-    @Bind(R.id.registerButton)
+    @BindView(R.id.registerButton)
     Button registerButton;
-    @Bind(R.id.webview)
+    @BindView(R.id.webview)
     WebView webview;
-    @Bind(R.id.myanimelist)
+    @BindView(R.id.myanimelist)
     TextView myanimelist;
-    @Bind(R.id.anilist)
+    @BindView(R.id.anilist)
     TextView anilist;
 
     @SuppressLint("SetJavaScriptEnabled")

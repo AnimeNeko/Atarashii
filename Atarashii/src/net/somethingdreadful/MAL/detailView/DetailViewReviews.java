@@ -38,7 +38,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 
@@ -46,10 +46,10 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     private ArrayList<Reviews> record = new ArrayList<>();
     private DetailView activity;
     private reviewAdapter ra;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @Getter
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     public int page = 0;

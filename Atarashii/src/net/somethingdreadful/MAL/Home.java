@@ -35,7 +35,7 @@ import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
@@ -48,9 +48,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private boolean networkAvailable = true;
     private boolean myList = true; //tracks if the user is on 'My List' or not
     private int callbackCounter = 0;
-    @Bind(R.id.navigationView)
+    @BindView(R.id.navigationView)
     NavigationView navigationView;
-    @Bind(R.id.drawerLayout)
+    @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
     @Override

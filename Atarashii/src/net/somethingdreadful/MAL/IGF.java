@@ -46,7 +46,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,11 +63,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private ArrayList<GenericRecord> gl = new ArrayList<>();
     private ArrayList<GenericRecord> backGl = new ArrayList<>();
 
-    @Bind(R.id.gridview)
+    @BindView(R.id.gridview)
     GridView Gridview;
-    @Bind(R.id.viewFlipper)
+    @BindView(R.id.viewFlipper)
     ViewFlipper viewflipper;
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefresh;
 
     private RecordStatusUpdatedReceiver recordStatusReceiver;

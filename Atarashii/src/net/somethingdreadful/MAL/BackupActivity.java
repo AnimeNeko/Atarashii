@@ -26,19 +26,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BackupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, ChooseDialogFragment.onClickListener, BackupGridviewAdapter.onClickListener, BackupTask.BackupTaskListener, RestoreTask.RestoreTaskListener {
     private ProgressDialog dialog;
-    @Bind(R.id.listview)
+    @BindView(R.id.listview)
     GridView Gridview;
     private BackupGridviewAdapter backupGridviewAdapter;
     private final ArrayList<File> files = new ArrayList<>();
     private int position = 0;
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefresh;
 
     @Override

@@ -29,14 +29,14 @@ import net.somethingdreadful.MAL.tasks.ForumNetworkTask;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ForumActivity extends AppCompatActivity implements ForumNetworkTask.ForumNetworkTaskListener, NumberPickerDialogFragment.onUpdateClickListener {
-    @Bind(R.id.webview)
+    @BindView(R.id.webview)
     public
     WebView webview;
-    @Bind(R.id.progress1)
+    @BindView(R.id.progress1)
     ProgressBar progress;
     private ForumHTMLUnit forumHTMLUnit;
     private MenuItem search;

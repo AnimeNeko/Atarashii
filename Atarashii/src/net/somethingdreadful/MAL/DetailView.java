@@ -49,7 +49,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener, InputDialogFragment.onClickListener {
@@ -68,7 +68,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private Menu menu;
     private Context context;
 
-    @Bind(R.id.pager)
+    @BindView(R.id.pager)
     ViewPager viewPager;
 
     @Override

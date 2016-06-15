@@ -18,7 +18,7 @@ import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, NavigationView.OnNavigationItemSelectedListener {
@@ -26,9 +26,9 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     private IGF mf;
     private MenuItem drawerItem;
 
-    @Bind(R.id.navigationView)
+    @BindView(R.id.navigationView)
     NavigationView navigationView;
-    @Bind(R.id.drawerLayout)
+    @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
     @Override

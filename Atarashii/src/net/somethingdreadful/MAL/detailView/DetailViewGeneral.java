@@ -34,7 +34,7 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailViewGeneral extends Fragment implements Serializable, Card.onCardClickListener {
@@ -46,25 +46,25 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     private Card cardMediainfo;
     private Card cardPersonal;
 
-    @Bind(R.id.SynopsisContent)
+    @BindView(R.id.SynopsisContent)
     TextView synopsis;
-    @Bind(R.id.mediaType)
+    @BindView(R.id.mediaType)
     TextView mediaType;
-    @Bind(R.id.mediaStatus)
+    @BindView(R.id.mediaStatus)
     TextView mediaStatus;
-    @Bind(R.id.statusText)
+    @BindView(R.id.statusText)
     TextView status;
-    @Bind(R.id.progress1Text1)
+    @BindView(R.id.progress1Text1)
     TextView progress1Total;
-    @Bind(R.id.progress1Text2)
+    @BindView(R.id.progress1Text2)
     TextView progress1Current;
-    @Bind(R.id.progress2Text1)
+    @BindView(R.id.progress2Text1)
     TextView progress2Total;
-    @Bind(R.id.progress2Text2)
+    @BindView(R.id.progress2Text2)
     TextView progress2Current;
-    @Bind(R.id.myScore)
+    @BindView(R.id.myScore)
     TextView myScore;
-    @Bind(R.id.Image)
+    @BindView(R.id.Image)
     ImageView image;
 
     @Override

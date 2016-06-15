@@ -32,7 +32,7 @@ import net.somethingdreadful.MAL.forum.ForumHTMLUnit;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -40,19 +40,19 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     private ProfileActivity activity;
     private ForumHTMLUnit forumHTMLUnit;
     private Card imagecard;
-    @Bind(R.id.swiperefresh)
+    @BindView(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @Bind(R.id.network_Card)
+    @BindView(R.id.network_Card)
     Card networkCard;
-    @Bind(R.id.SynopsisContent)
+    @BindView(R.id.SynopsisContent)
     TextView about;
-    @Bind(R.id.atimedayssmall)
+    @BindView(R.id.atimedayssmall)
     TextView timeDays;
-    @Bind(R.id.mtimedayssmall)
+    @BindView(R.id.mtimedayssmall)
     TextView chapsRead;
-    @Bind(R.id.Image)
+    @BindView(R.id.Image)
     ImageView image;
 
     @Override

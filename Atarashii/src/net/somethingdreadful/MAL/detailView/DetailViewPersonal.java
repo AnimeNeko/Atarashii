@@ -26,7 +26,7 @@ import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
@@ -36,37 +36,37 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     private View view;
     private Card cardOther;
 
-    @Bind(R.id.statusText)
+    @BindView(R.id.statusText)
     TextView status;
-    @Bind(R.id.progress1Text1)
+    @BindView(R.id.progress1Text1)
     TextView progress1Total;
-    @Bind(R.id.progress1Text2)
+    @BindView(R.id.progress1Text2)
     TextView progress1Current;
-    @Bind(R.id.progress2Text1)
+    @BindView(R.id.progress2Text1)
     TextView progress2Total;
-    @Bind(R.id.progress2Text2)
+    @BindView(R.id.progress2Text2)
     TextView progress2Current;
-    @Bind(R.id.myScore)
+    @BindView(R.id.myScore)
     TextView myScore;
-    @Bind(R.id.myStartDate)
+    @BindView(R.id.myStartDate)
     TextView myStartDate;
-    @Bind(R.id.myEndDate)
+    @BindView(R.id.myEndDate)
     TextView myEndDate;
-    @Bind(R.id.myPriority)
+    @BindView(R.id.myPriority)
     TextView myPriority;
-    @Bind(R.id.myTags)
+    @BindView(R.id.myTags)
     TextView myTags;
-    @Bind(R.id.comments)
+    @BindView(R.id.comments)
     TextView comments;
 
-    @Bind(R.id.storage)
+    @BindView(R.id.storage)
     TextView storage;
-    @Bind(R.id.storage_amount)
+    @BindView(R.id.storage_amount)
     TextView storageCount;
 
-    @Bind(R.id.priority)
+    @BindView(R.id.priority)
     TextView priority;
-    @Bind(R.id.count2Text2)
+    @BindView(R.id.count2Text2)
     TextView rewatchCount2;
 
     @Override
