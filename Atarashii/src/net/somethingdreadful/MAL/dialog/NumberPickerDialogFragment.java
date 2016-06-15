@@ -53,7 +53,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setView(makeNumberPicker());
         builder.setTitle(getArguments().getString("title"));

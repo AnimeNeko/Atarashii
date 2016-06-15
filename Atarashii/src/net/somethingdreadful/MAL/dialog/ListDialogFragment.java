@@ -15,7 +15,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
     private onUpdateClickListener callback;
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getArguments().getString("title"));
         array = getResources().getIntArray(getArguments().getInt("intArray"));

@@ -46,7 +46,7 @@ public class MangaPickerDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setView(makeNumberPicker());
         builder.setTitle(R.string.dialog_title_read_update);

@@ -57,8 +57,8 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_firstrun);
         Theme.setActionBar(this);
         ButterKnife.bind(this);

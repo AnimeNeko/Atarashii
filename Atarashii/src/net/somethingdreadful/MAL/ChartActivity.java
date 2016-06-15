@@ -32,8 +32,8 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     DrawerLayout drawerLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         Theme.setTheme(this, R.layout.activity_charts, false);
         Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
         ButterKnife.bind(this);

@@ -54,16 +54,16 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     DrawerLayout drawerLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         //Initializing activity and application
         Theme.context = getApplicationContext();
 
         if (AccountService.AccountExists(this)) {
             //The following is state handling code
-            if (savedInstanceState != null) {
-                myList = savedInstanceState.getBoolean("myList");
-                networkAvailable = savedInstanceState.getBoolean("networkAvailable", true);
+            if (state != null) {
+                myList = state.getBoolean("myList");
+                networkAvailable = state.getBoolean("networkAvailable", true);
             }
 
             //Initializing

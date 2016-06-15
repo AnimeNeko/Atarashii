@@ -22,7 +22,7 @@ public class StatusPickerDialogFragment extends DialogFragment implements OnChec
     private String currentStatus;
 
     @Override
-    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(makeRatiobutton());
         builder.setTitle(R.string.dialog_title_status);

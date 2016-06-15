@@ -42,8 +42,8 @@ public class BackupActivity extends AppCompatActivity implements AdapterView.OnI
     SwipeRefreshLayout swipeRefresh;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_backup);
         Theme.setBackground(this, findViewById(R.id.friends_parent), Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
         Theme.setActionBar(this);

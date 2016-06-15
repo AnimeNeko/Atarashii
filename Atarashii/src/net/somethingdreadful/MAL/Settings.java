@@ -9,8 +9,8 @@ import android.view.MenuItem;
 public class Settings extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_settings);
         Theme.setTheme(this, 0, false);
         Theme.setActionBar(this);

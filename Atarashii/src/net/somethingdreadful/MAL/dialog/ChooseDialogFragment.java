@@ -11,7 +11,7 @@ public class ChooseDialogFragment extends DialogFragment {
     private onClickListener callback;
 
     @Override
-    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getArguments().getString("title"));
         builder.setMessage(getArguments().getString("message"));

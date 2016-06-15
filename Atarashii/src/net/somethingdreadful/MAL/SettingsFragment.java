@@ -27,8 +27,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private AlarmManager alarmMgr;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
 
         addPreferencesFromResource(R.xml.settings);
         findPreference("backup").setOnPreferenceClickListener(this);
@@ -41,7 +41,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
     }
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

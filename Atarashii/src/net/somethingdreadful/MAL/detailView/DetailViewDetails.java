@@ -112,8 +112,8 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     TextView infoValue6;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        super.onCreate(state);
         view = inflater.inflate(R.layout.activity_detailview_details, container, false);
 
         setViews();

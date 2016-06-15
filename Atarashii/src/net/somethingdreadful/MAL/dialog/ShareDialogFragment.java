@@ -16,7 +16,7 @@ public class ShareDialogFragment extends DialogFragment {
     private boolean share;
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         final Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 

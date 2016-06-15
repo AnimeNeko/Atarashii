@@ -23,7 +23,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
     private DatePickerDialog mDateDialog;
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         startDate = getArguments().getBoolean("startDate");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Date current = new Date();

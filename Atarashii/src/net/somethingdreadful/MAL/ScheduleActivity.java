@@ -69,8 +69,8 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     private MenuItem forceSync;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         Theme.setTheme(this, R.layout.activity_schedule, true);
         Toolbar toolbar = (Toolbar) findViewById(R.id.actionbar);
         setSupportActionBar(toolbar);
@@ -96,18 +96,18 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         sa = new scheduleAdapter(this);
         recyclerView.setAdapter(sa);
 
-        if (savedInstanceState != null) {
+        if (state != null) {
             getProgressBar().setVisibility(View.GONE);
-            schedule = (Schedule) savedInstanceState.getSerializable("schedule");
-            records = (ArrayList<Anime>) savedInstanceState.getSerializable("records");
-            tuesdayHeader = savedInstanceState.getInt("tuesdayHeader");
-            wednesdayHeader = savedInstanceState.getInt("wednesdayHeader");
-            thursdayHeader = savedInstanceState.getInt("thursdayHeader");
-            fridayHeader = savedInstanceState.getInt("fridayHeader");
-            saturdayHeader = savedInstanceState.getInt("saturdayHeader");
-            sundayHeader = savedInstanceState.getInt("sundayHeader");
-            totalRecords = savedInstanceState.getInt("totalRecords");
-            recordheight = savedInstanceState.getInt("recordheight");
+            schedule = (Schedule) state.getSerializable("schedule");
+            records = (ArrayList<Anime>) state.getSerializable("records");
+            tuesdayHeader = state.getInt("tuesdayHeader");
+            wednesdayHeader = state.getInt("wednesdayHeader");
+            thursdayHeader = state.getInt("thursdayHeader");
+            fridayHeader = state.getInt("fridayHeader");
+            saturdayHeader = state.getInt("saturdayHeader");
+            sundayHeader = state.getInt("sundayHeader");
+            totalRecords = state.getInt("totalRecords");
+            recordheight = state.getInt("recordheight");
             sa.notifyDataSetChanged();
         } else {
             new ScheduleTask(this, false, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

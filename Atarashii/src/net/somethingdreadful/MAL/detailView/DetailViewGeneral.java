@@ -69,8 +69,8 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     ImageView image;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        super.onCreate(state);
         view = inflater.inflate(R.layout.activity_detailview_general, container, false);
 
         activity = ((DetailView) getActivity());

@@ -72,8 +72,8 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     TextView rewatchCount2;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        super.onCreate(state);
         view = inflater.inflate(R.layout.activity_detailview_personal, container, false);
 
         setViews();

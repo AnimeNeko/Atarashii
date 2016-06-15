@@ -72,8 +72,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     ViewPager viewPager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         Theme.setTheme(this, R.layout.activity_detailview, true);
         PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
@@ -85,9 +85,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         recordID = getIntent().getIntExtra("recordID", -1);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 
-        if (savedInstanceState != null) {
-            animeRecord = (Anime) savedInstanceState.getSerializable("anime");
-            mangaRecord = (Manga) savedInstanceState.getSerializable("manga");
+        if (state != null) {
+            animeRecord = (Anime) state.getSerializable("anime");
+            mangaRecord = (Manga) state.getSerializable("manga");
         }
 
         if (isEmpty())

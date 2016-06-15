@@ -12,8 +12,8 @@ public class AboutActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         Theme.setTheme(this, R.layout.activity_about, true);
         Theme.setActionBar(this);
         setTitle(R.string.title_activity_about);

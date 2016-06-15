@@ -8,7 +8,7 @@ import android.os.Bundle;
 public class InformationDialogFragment extends DialogFragment {
 
     @Override
-    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getArguments().getString("title"));
         builder.setMessage(getArguments().getString("message"));

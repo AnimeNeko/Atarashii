@@ -26,7 +26,7 @@ public class InputDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setTitle(getArguments().getString("title"));
         builder.setView(createView());
