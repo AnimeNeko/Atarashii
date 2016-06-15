@@ -498,7 +498,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onNegInputButtonClicked(String text, int id) {
+    public void onNegInputButtonClicked(int id) {
         Picasso.with(this)
                 .load(R.drawable.atarashii_background)
                 .placeholder(R.drawable.atarashii_background)

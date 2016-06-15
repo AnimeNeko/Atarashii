@@ -413,11 +413,6 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>Planlanıyor</item>
     </string-array>
-    <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeValuesArray" translatable="false">
-    <!-- Portuguese (Brazil) -->
-        <item>tr</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->

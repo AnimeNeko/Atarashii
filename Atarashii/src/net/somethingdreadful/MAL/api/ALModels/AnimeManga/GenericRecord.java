@@ -180,7 +180,7 @@ public class GenericRecord implements Serializable {
     @SerializedName("list_stats")
     private ListStats listStats;
 
-    net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
+    void createGeneralBaseModel(net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord model) {
         model.setId(getId());
         model.setTitleEnglish(createTitleArray(getTitleEnglish()));
         model.setTitleJapanese(createTitleArray(getTitleJapanese()));
@@ -197,7 +197,6 @@ public class GenericRecord implements Serializable {
         model.setAverageScore(getAverageScore());
         model.setGenres(getGenres());
         model.setListStats(getListStats());
-        return model;
     }
 
     private ArrayList<String> createTitleArray(String title) {

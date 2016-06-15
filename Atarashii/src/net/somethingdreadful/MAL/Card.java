@@ -1,6 +1,6 @@
 package net.somethingdreadful.MAL;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 
-
 public class Card extends RelativeLayout {
     private final boolean center;
     public final TextView Header;
@@ -31,7 +30,6 @@ public class Card extends RelativeLayout {
 
     private onCardClickListener listener;
     private int screenWidth;
-    private final int minHeight;
     private final LayoutInflater inflater;
 
     public Card(Context context) {
@@ -53,7 +51,6 @@ public class Card extends RelativeLayout {
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
         int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.bg_light);
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
-        minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         int content = a.getResourceId(R.styleable.Card_card_content, 0);
 
@@ -76,6 +73,28 @@ public class Card extends RelativeLayout {
             setContent(content);
 
         a.recycle();
+    }
+
+    /**
+     * Quickly init a card.
+     *
+     * @param activity The activity
+     * @param id The card ID
+     * @param content The content layout
+     */
+    public static void fastInit(Activity activity, int id, int content) {
+        ((Card) activity.findViewById(id)).setContent(content);
+    }
+
+    /**
+     * Quickly init a card.
+     *
+     * @param view The View
+     * @param id The card ID
+     * @param content The content layout
+     */
+    public static void fastInit(View view, int id, int content) {
+        ((Card) view.findViewById(id)).setContent(content);
     }
 
     /**
@@ -174,42 +193,6 @@ public class Card extends RelativeLayout {
     }
 
     /**
-     * Set the card at the right side of another card.
-     *
-     * @param res    The card at the left side of your desired point
-     * @param amount The amount of cards that will be at the left & right sides of your desired point
-     *               Note: This also includes this card it self
-     * @param screen The minimum amount of dp when the card will be placed at the right side
-     *               Note: Use 0 if you don't want any
-     */
-    public void setRightof(Card res, int amount, int screen) {
-        if (Theme.convert(screen) <= getScreenWidth()) {
-            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), Theme.convert(minHeight));
-            card.addRule(RelativeLayout.RIGHT_OF, res.getId());
-            card.setMargins(Theme.convert(4), 0, 0, 0);
-            this.setLayoutParams(card);
-        }
-    }
-
-    /**
-     * Set the card below of another card.
-     *
-     * @param res    The card at the left side of your desired point
-     * @param amount The amount of cards that will be at the left & right sides of your desired point
-     *               Note: This also includes this card it self
-     * @param screen The minimum amount of dp when the card will be placed below
-     *               Note: Use 0 if you don't want any
-     */
-    public void setBelowof(Card res, int amount, int screen) {
-        if (Theme.convert(screen) <= getScreenWidth()) {
-            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), ViewGroup.LayoutParams.WRAP_CONTENT);
-            card.addRule(RelativeLayout.BELOW, res.getId());
-            card.setMargins(0, Theme.convert(8), 0, 0);
-            this.setLayoutParams(card);
-        }
-    }
-
-    /**
      * Change the header color.
      *
      * @param color The resource id of the color
@@ -231,7 +214,7 @@ public class Card extends RelativeLayout {
         Content.findViewById(view).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onCardClickListener(v.getId());
+                listener.onCardClicked(v.getId());
             }
         });
     }
@@ -295,7 +278,6 @@ public class Card extends RelativeLayout {
      *
      * @return int The screen width in pixels
      */
-    @SuppressLint("InlinedApi")
     private int getScreenWidth() {
         if (screenWidth == 0) {
             try {
@@ -320,6 +302,6 @@ public class Card extends RelativeLayout {
      * The Interface that will get triggered by the OnClick method.
      */
     public interface onCardClickListener {
-        void onCardClickListener(int id);
+        void onCardClicked(int id);
     }
 }

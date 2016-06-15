@@ -7,11 +7,11 @@
         android:icon="?attr/mh_ic_menu_search"
         android:title="@string/mobihelp_menu_item_title_search_solutions"
         freshapp:actionViewClass="android.support.v7.widget.SearchView"
-        freshapp:showAsAction="always|collapseActionView"/>
+        freshapp:showAsAction="ifRoom|collapseActionView"/>
     <item
         android:id="@+id/mobihelp_menu_item_contact_us"
         android:icon="?attr/mh_ic_menu_contact_us"
         android:title="@string/mobihelp_menu_item_title_contact_us"
-        freshapp:showAsAction="always"/>
+        freshapp:showAsAction="ifRoom"/>
 
 </menu>

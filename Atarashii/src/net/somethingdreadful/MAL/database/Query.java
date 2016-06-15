@@ -103,30 +103,26 @@ public class Query {
 
     /**
      * Update or insert records.
-     *
-     * @param table The table where the record should be updated
+     *  @param table The table where the record should be updated
      * @param cv    The ContentValues which should be updated
      * @param id    The ID of the record
      */
-    public int updateRecord(String table, ContentValues cv, int id) {
+    public void updateRecord(String table, ContentValues cv, int id) {
         int updateResult = db.update(table, cv, DatabaseHelper.COLUMN_ID + " = " + id, new String[]{});
         if (updateResult == 0)
-            return (int) db.insert(table, null, cv);
-        return updateResult;
+            db.insert(table, null, cv);
     }
 
     /**
      * Update or insert records.
-     *
-     * @param table    The table where the record should be updated
+     *  @param table    The table where the record should be updated
      * @param cv       The ContentValues which should be updated
      * @param username The username of the record
      */
-    public int updateRecord(String table, ContentValues cv, String username) {
+    public void updateRecord(String table, ContentValues cv, String username) {
         int updateResult = db.update(table, cv, "username" + " = '" + username + "'", new String[]{});
         if (updateResult == 0)
-            return (int) db.insert(table, null, cv);
-        return updateResult;
+            db.insert(table, null, cv);
     }
 
     /**

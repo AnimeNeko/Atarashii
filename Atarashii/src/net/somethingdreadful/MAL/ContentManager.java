@@ -383,14 +383,14 @@ public class ContentManager {
         return AccountService.isMAL() ? malApi.getPosts(id, page).createBaseModel() : alApi.getPosts(id, page).convertBaseModel();
     }
 
-    public boolean deleteAnime(Anime anime) {
+    public void deleteAnime(Anime anime) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.deleteAnime(): id=" + anime.getId());
-        return dbMan.deleteAnime(anime.getId());
+        dbMan.deleteAnime(anime.getId());
     }
 
-    public boolean deleteManga(Manga manga) {
+    public void deleteManga(Manga manga) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.deleteManga(): id=" + manga.getId());
-        return dbMan.deleteManga(manga.getId());
+        dbMan.deleteManga(manga.getId());
     }
 
     public ArrayList<Forum> search(String query) {

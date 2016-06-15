@@ -18,11 +18,11 @@ public class AboutActivity extends AppCompatActivity {
         Theme.setActionBar(this);
         setTitle(R.string.title_activity_about);
 
-        ((Card) findViewById(R.id.atarashii_card)).setContent(R.layout.card_about_atarashii);
-        ((Card) findViewById(R.id.contributors_card)).setContent(R.layout.card_about_contributors);
-        ((Card) findViewById(R.id.community_card)).setContent(R.layout.card_about_community);
-        ((Card) findViewById(R.id.translations_card)).setContent(R.layout.card_about_translations);
-        ((Card) findViewById(R.id.acknowledgements_card)).setContent(R.layout.card_about_acknowledgements);
+        Card.fastInit(this, R.id.atarashii_card, R.layout.card_about_atarashii);
+        Card.fastInit(this, R.id.contributors_card, R.layout.card_about_contributors);
+        Card.fastInit(this, R.id.community_card, R.layout.card_about_community);
+        Card.fastInit(this, R.id.translations_card, R.layout.card_about_translations);
+        Card.fastInit(this, R.id.acknowledgements_card, R.layout.card_about_acknowledgements);
         createLinks((TextView) findViewById(R.id.contributor_anima_name));
         createLinks((TextView) findViewById(R.id.contributor_motokochan_name));
         createLinks((TextView) findViewById(R.id.contributor_apkawa_name));

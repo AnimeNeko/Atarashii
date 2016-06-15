@@ -43,7 +43,7 @@ public class AccountService extends Service {
      */
     private static void onUpgrade(int oldVersion) {
         Crashlytics.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading from " + oldVersion + " to " + String.valueOf(accountVersion) + ".");
-        setAccountVersion(accountVersion);
+        setAccountVersion();
         switch (oldVersion + 1) {
             case 1:
             case 2: // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
@@ -221,10 +221,8 @@ public class AccountService extends Service {
 
     /**
      * Set an auth token in the accountmanager.
-     *
-     * @param accountVersion The new accountversion of the account that will be saved
      */
-    private static void setAccountVersion(int accountVersion) {
+    private static void setAccountVersion() {
         if (account != null) {
             AccountManager accountManager = AccountManager.get(context);
             accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));

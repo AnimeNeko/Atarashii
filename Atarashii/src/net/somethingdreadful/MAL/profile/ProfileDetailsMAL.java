@@ -108,12 +108,12 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_mal, container, false);
 
+        Card.fastInit(view, R.id.details_card, R.layout.card_profile_details);
         imagecard = ((Card) view.findViewById(R.id.name_card));
         animecard = (Card) view.findViewById(R.id.Anime_card);
         mangacard = (Card) view.findViewById(R.id.Manga_card);
 
         imagecard.setContent(R.layout.card_image);
-        ((Card) view.findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
         animecard.setContent(R.layout.card_profile_anime);
         mangacard.setContent(R.layout.card_profile_manga);
 

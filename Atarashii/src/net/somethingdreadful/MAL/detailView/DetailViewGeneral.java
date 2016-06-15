@@ -43,7 +43,6 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     public SwipeRefreshLayout swipeRefresh;
 
     private Card cardMain;
-    private Card cardSynopsis;
     private Card cardMediainfo;
     private Card cardPersonal;
 
@@ -91,14 +90,13 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 
         // set all the card views
+        Card.fastInit(view, R.id.synopsis, R.layout.card_detailview_synopsis);
         cardMain = (Card) view.findViewById(R.id.detailCoverImage);
-        cardSynopsis = (Card) view.findViewById(R.id.synopsis);
         cardMediainfo = (Card) view.findViewById(R.id.mediainfo);
         cardPersonal = (Card) view.findViewById(R.id.personal);
 
         // add all the card contents
         cardMain.setContent(R.layout.card_image);
-        cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_mediainfo);
         cardPersonal.setContent(R.layout.card_detailview_general_personal);
 
@@ -222,7 +220,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     }
 
     @Override
-    public void onCardClickListener(int res) {
+    public void onCardClicked(int res) {
         switch (res) {
             case R.id.status:
                 activity.showDialog("statusPicker", new StatusPickerDialogFragment());

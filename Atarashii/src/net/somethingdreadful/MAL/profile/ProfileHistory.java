@@ -39,8 +39,6 @@ import butterknife.ButterKnife;
 
 public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     public ProfileActivity activity;
-
-    private StaggeredGridLayoutManager SGLM;
     private final ArrayList<History> record = new ArrayList<>();
     private activityAdapter ra;
 
@@ -59,7 +57,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
         ButterKnife.bind(this, view);
 
         recyclerView.setHasFixedSize(true);
-        SGLM = new StaggeredGridLayoutManager(getMaxColumns(), 1);
+        StaggeredGridLayoutManager SGLM = new StaggeredGridLayoutManager(getMaxColumns(), 1);
 
         recyclerView.setLayoutManager(SGLM);
         recyclerView.addOnScrollListener(new OnScrollListener(SGLM));

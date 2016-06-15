@@ -127,13 +127,11 @@ public class Theme extends Application {
      * This method should only be used for activities without tabs.
      *
      * @param activity The view activity
-     * @return Toolbar The actionbar
      */
-    public static Toolbar setActionBar(AppCompatActivity activity) {
+    public static void setActionBar(AppCompatActivity activity) {
         Toolbar mViewPager = (Toolbar) activity.findViewById(R.id.pager);
         activity.setSupportActionBar(mViewPager);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        return mViewPager;
     }
 
     /**

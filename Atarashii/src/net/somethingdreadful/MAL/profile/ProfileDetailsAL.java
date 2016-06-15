@@ -40,7 +40,6 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     private ProfileActivity activity;
     private ForumHTMLUnit forumHTMLUnit;
     private Card imagecard;
-    private Card aboutCard;
     @Bind(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.progressBar)
@@ -60,10 +59,9 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_al, container, false);
 
+        Card.fastInit(view, R.id.about, R.layout.card_profile_about);
         imagecard = (Card) view.findViewById(R.id.name_card);
         imagecard.setContent(R.layout.card_image);
-        aboutCard = (Card) view.findViewById(R.id.about);
-        aboutCard.setContent(R.layout.card_profile_about);
         forumHTMLUnit = new ForumHTMLUnit(activity, null);
 
         ButterKnife.bind(this, view);

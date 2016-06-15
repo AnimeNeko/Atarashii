@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
@@ -25,7 +26,6 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     private IGF mf;
     private MenuItem drawerItem;
 
-    private boolean networkAvailable = true;
     @Bind(R.id.navigationView)
     NavigationView navigationView;
     @Bind(R.id.drawerLayout)
@@ -60,15 +60,8 @@ public class ChartActivity extends AppCompatActivity implements SwipeRefreshLayo
     }
 
     @Override
-    public void onSaveInstanceState(Bundle state) {
-        //This is telling out future selves that we already have some things and not to do them
-        state.putBoolean("networkAvailable", networkAvailable);
-        super.onSaveInstanceState(state);
-    }
-
-    @Override
     public void onRefresh() {
-        if (networkAvailable)
+        if (APIHelper.isNetworkAvailable(this))
             getRecords(false, TaskJob.FORCESYNC, af.list);
         else {
             if (af != null && mf != null) {

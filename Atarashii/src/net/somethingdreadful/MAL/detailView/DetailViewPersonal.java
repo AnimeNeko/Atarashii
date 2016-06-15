@@ -34,9 +34,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
 
     private DetailView activity;
     private View view;
-    private Card cardBasic;
     private Card cardOther;
-    private Card cardRewatch;
 
     @Bind(R.id.statusText)
     TextView status;
@@ -104,19 +102,19 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     private void setViews() {
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 
-        cardBasic = (Card) view.findViewById(R.id.basic);
+        Card cardBasic = (Card) view.findViewById(R.id.basic);
+        Card cardRewatch = (Card) view.findViewById(R.id.rewatch);
         cardOther = (Card) view.findViewById(R.id.other);
-        cardRewatch = (Card) view.findViewById(R.id.rewatch);
 
         cardBasic.setContent(R.layout.card_detailview_personal_basic);
-        cardOther.setContent(R.layout.card_detailview_personal_other);
         cardRewatch.setContent(R.layout.card_detailview_personal_rewatch);
+        cardOther.setContent(R.layout.card_detailview_personal_other);
 
         ButterKnife.bind(this, view);
 
         cardBasic.setAllPadding(0, 0, 0, 0);
-        cardOther.setAllPadding(0, 0, 0, 0);
         cardRewatch.setAllPadding(0, 0, 0, 0);
+        cardOther.setAllPadding(0, 0, 0, 0);
 
         setCard(R.id.status, false);
         setCard(R.id.progress1, false);

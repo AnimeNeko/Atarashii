@@ -636,8 +636,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (reviews != null && PageAdapter.getPageTitle(position).equals(getString(R.string.tab_name_reviews)) && !isEmpty() && reviews.page == 0) {
             reviews.getRecords(1);
-        } else if (recommendations != null && PageAdapter.getPageTitle(position).equals(getString(R.string.tab_name_recommendations)) && !isEmpty() && recommendations.page == 0) {
-            recommendations.getRecords(1);
+        } else if (recommendations != null && recommendations.record != null && PageAdapter.getPageTitle(position).equals(getString(R.string.tab_name_recommendations)) && !isEmpty() && recommendations.record.size() == 0) {
+            recommendations.getRecords();
         }
     }
 
@@ -682,7 +682,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     @Override
-    public void onNegInputButtonClicked(String text, int id) {
-        onPosInputButtonClicked(text, id);
+    public void onNegInputButtonClicked(int id) {
+        onPosInputButtonClicked("", id);
     }
 }

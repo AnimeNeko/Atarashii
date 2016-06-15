@@ -42,8 +42,8 @@ public class AutoSync extends BroadcastReceiver implements NetworkTask.NetworkTa
                 args.add(ContentManager.listSortFromInt(0, MALApi.ListType.ANIME));
                 args.add(String.valueOf(1));
                 args.add(String.valueOf(false));
-                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.ANIME, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
-                new NetworkTask(TaskJob.FORCESYNC, MALApi.ListType.MANGA, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(MALApi.ListType.ANIME, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
+                new NetworkTask(MALApi.ListType.MANGA, context, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
 
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                         .setOngoing(true)

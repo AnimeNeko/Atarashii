@@ -16,8 +16,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 
 public class StatusPickerDialogFragment extends DialogFragment implements OnCheckedChangeListener {
-
-    private RadioGroup radio;
     private ListType type;
     private String currentStatus;
 
@@ -45,7 +43,7 @@ public class StatusPickerDialogFragment extends DialogFragment implements OnChec
 
     private View makeRatiobutton() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_status_picker, null);
-        radio = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
+        RadioGroup radio = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
         type = ((DetailView) getActivity()).type;
 
         if (type == ListType.ANIME) {

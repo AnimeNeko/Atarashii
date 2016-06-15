@@ -42,9 +42,8 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 
 public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskListener {
-    private ArrayList<Recommendations> record = new ArrayList<>();
+    public ArrayList<Recommendations> record = new ArrayList<>();
     private DetailView activity;
-    private StaggeredGridLayoutManager SGLM;
     private recommendationAdapter ra;
 
     @Bind(R.id.recyclerView)
@@ -53,11 +52,8 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
 
-    public int page = 0;
-
     @Override
     public void onSaveInstanceState(Bundle state) {
-        state.putInt("page", page);
         state.putSerializable("list", record);
         super.onSaveInstanceState(state);
     }
@@ -68,16 +64,13 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
         ButterKnife.bind(this, view);
 
         recyclerView.setHasFixedSize(true);
-        SGLM = new StaggeredGridLayoutManager(getMaxColumns(), 1);
-
-        recyclerView.setLayoutManager(SGLM);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(getMaxColumns(), 1));
         recyclerView.addItemDecoration(new SpacesItemDecoration());
         ra = new recommendationAdapter(activity);
         recyclerView.setAdapter(ra);
 
         if (state != null) {
             getProgressBar().setVisibility(View.GONE);
-            page = state.getInt("page");
             record = (ArrayList<Recommendations>) state.getSerializable("list");
             ra.notifyDataSetChanged();
         }
@@ -138,15 +131,11 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
 
     /**
      * Get the requested records.
-     *
-     * @param page The page number
      */
-    public void getRecords(int page) {
-        if (page != this.page)
-            this.page = page;
+    public void getRecords() {
         if (APIHelper.isNetworkAvailable(activity)) {
             Bundle bundle = new Bundle();
-            bundle.putInt("page", page);
+            bundle.putInt("page", 1);
             int id = activity.isAnime() ? activity.animeRecord.getId() : activity.mangaRecord.getId();
             new NetworkTask(TaskJob.RECOMMENDATION, activity.type, activity, bundle, activity.recommendations).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(id));
         } else {

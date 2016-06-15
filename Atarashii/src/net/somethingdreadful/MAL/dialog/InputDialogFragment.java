@@ -47,7 +47,7 @@ public class InputDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 input.clearFocus();
-                callback.onNegInputButtonClicked("", getArguments().getInt("id"));
+                callback.onNegInputButtonClicked(getArguments().getInt("id"));
                 dismiss();
             }
         });
@@ -67,6 +67,6 @@ public class InputDialogFragment extends DialogFragment {
     public interface onClickListener {
         void onPosInputButtonClicked(String text, int id);
 
-        void onNegInputButtonClicked(String text, int id);
+        void onNegInputButtonClicked(int id);
     }
 }

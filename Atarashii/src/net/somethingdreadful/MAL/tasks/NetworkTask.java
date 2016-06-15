@@ -42,10 +42,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.callback = callback;
     }
 
-    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback) {
+    public NetworkTask(MALApi.ListType type, Context context, NetworkTaskListener callback) {
         if (job == null || type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
-        this.job = job;
+        this.job = TaskJob.FORCESYNC;
         this.type = type;
         this.context = context;
         this.data = new Bundle();
