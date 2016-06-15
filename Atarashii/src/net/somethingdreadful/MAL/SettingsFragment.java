@@ -97,31 +97,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        Bundle bundle = new Bundle();
         switch (preference.getKey()) {
             case "IGFcolumnsportrait":
-                bundle.putInt("id", R.string.preference_list_columns_portrait);
-                bundle.putString("title", getString(R.string.preference_list_columns_portrait));
-                bundle.putInt("current", PrefManager.getIGFColumns(true));
-                bundle.putInt("max", IGF.getMaxColumns(true));
-                bundle.putInt("min", 2);
-                makeNumberpicker(bundle);
+                makeNumberpicker(R.string.preference_list_columns_portrait, R.string.preference_list_columns_portrait,  PrefManager.getIGFColumns(true), IGF.getMaxColumns(true), 2);
                 break;
             case "IGFcolumnslandscape":
-                bundle.putInt("id", R.string.preference_list_columns_landscape);
-                bundle.putString("title", getString(R.string.preference_list_columns_landscape));
-                bundle.putInt("current", PrefManager.getIGFColumns(false));
-                bundle.putInt("max", IGF.getMaxColumns(false));
-                bundle.putInt("min", 2);
-                makeNumberpicker(bundle);
+                makeNumberpicker(R.string.preference_list_columns_landscape, R.string.preference_list_columns_landscape, PrefManager.getIGFColumns(false), IGF.getMaxColumns(false), 2);
                 break;
             case "backup_length":
-                bundle.putInt("id", R.string.preference_backuplength);
-                bundle.putString("title", getString(R.string.preference_backuplength));
-                bundle.putInt("current", PrefManager.getBackupLength());
-                bundle.putInt("max", 50);
-                bundle.putInt("min", 1);
-                makeNumberpicker(bundle);
+                makeNumberpicker(R.string.preference_backuplength, R.string.preference_backuplength, PrefManager.getBackupLength(), 50, 1);
                 break;
             case "backup":
                 requestStoragePermission();
@@ -154,7 +138,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
-    private void makeNumberpicker(Bundle bundle) {
+    private void makeNumberpicker(int id, int title, int current, int max, int min) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        bundle.putString("title", getString(title));
+        bundle.putInt("current", current);
+        bundle.putInt("max", max);
+        bundle.putInt("min", min);
         NumberPickerDialogFragment numberPickerDialogFragment = new NumberPickerDialogFragment().setOnSendClickListener(this);
         numberPickerDialogFragment.setArguments(bundle);
         numberPickerDialogFragment.show(getActivity().getFragmentManager(), "numberPickerDialogFragment");
