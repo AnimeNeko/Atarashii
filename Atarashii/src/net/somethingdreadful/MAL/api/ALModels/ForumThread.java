@@ -179,7 +179,7 @@ public class ForumThread implements Serializable {
         return result;
     }
 
-    public class PageData {
+    public class PageData implements Serializable {
         /**
          * TODO: watch what this is
          */
@@ -227,7 +227,7 @@ public class ForumThread implements Serializable {
         private Integer to;
     }
 
-    public class Comment {
+    public class Comment implements Serializable {
         /**
          * The comment ID.
          */

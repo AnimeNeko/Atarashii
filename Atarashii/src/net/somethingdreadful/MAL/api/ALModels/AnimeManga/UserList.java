@@ -4,12 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.PrefManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class UserList {
+public class UserList implements Serializable {
     @Getter
     @Setter
     private Lists lists;
@@ -30,7 +31,7 @@ public class UserList {
     @SerializedName("title_language")
     private String titleLanguage;
 
-    class Lists {
+    class Lists implements Serializable {
         @Getter
         @Setter
         public ArrayList<ListDetails> completed;
@@ -57,7 +58,7 @@ public class UserList {
         public ArrayList<ListDetails> onHold;
     }
 
-    class ListDetails {
+    class ListDetails implements Serializable {
         @Getter
         @Setter
         @SerializedName("record_id")

@@ -146,7 +146,7 @@ public class ForumAL implements Serializable {
         return result;
     }
 
-    public class ThreadInfo {
+    public class ThreadInfo implements Serializable {
         /**
          * Tread ID.
          */

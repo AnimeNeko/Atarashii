@@ -120,10 +120,6 @@ public class Profile implements Serializable {
     @Setter
     ArrayList<History> activity;
 
-    public boolean isDeveloper() {
-        return isDeveloper(getUsername());
-    }
-
     public static boolean isDeveloper(String username) {
         if (username == null)
             return false;

@@ -39,7 +39,7 @@ public class History implements Serializable {
     @SerializedName("time_updated")
     private String timeUpdated;
 
-    class Series {
+    class Series implements Serializable {
 
         /**
          * The record of the ID.

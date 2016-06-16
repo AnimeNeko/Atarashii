@@ -17,7 +17,7 @@ public class MangaList implements Serializable {
     @Getter
     private Statistics statistics;
 
-    public class Statistics {
+    public class Statistics implements Serializable {
         @Setter
         @Getter
         private float days;

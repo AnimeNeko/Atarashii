@@ -45,7 +45,7 @@ public class History implements Serializable {
     @Getter
     private Series series;
 
-    private class Series {
+    private class Series implements Serializable {
         @Setter
         @Getter
         private boolean adult;
