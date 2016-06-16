@@ -60,7 +60,7 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
                 return true;
             }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground()", e);
+            Theme.logTaskCrash("AuthenticationCheckTask", "doInBackground()", e);
             e.printStackTrace();
         }
         return false;

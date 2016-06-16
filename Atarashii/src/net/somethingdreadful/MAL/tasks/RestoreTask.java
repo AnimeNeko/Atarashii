@@ -73,7 +73,7 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             if (callback != null)
                 callback.onRestoreTaskFinished();
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "restoreBackup()", e);
+            Theme.logTaskCrash("RestoreTask", "restoreBackup()", e);
             if (callback != null) {
                 callback.onRestoreTaskFailed();
             }

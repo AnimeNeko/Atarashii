@@ -58,7 +58,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                     break;
             }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);
+            Theme.logTaskCrash("ForumNetworkTask", "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);
         }
         return result;
     }

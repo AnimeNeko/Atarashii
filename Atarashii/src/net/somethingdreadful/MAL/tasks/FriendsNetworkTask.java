@@ -54,7 +54,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
             if (result == null)
                 result = new ArrayList<>();
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(5): task unknown API error (?)", e);
+            Theme.logTaskCrash("FriendsNetworkTask", "doInBackground(5): task unknown API error (?)", e);
         }
         return result;
     }

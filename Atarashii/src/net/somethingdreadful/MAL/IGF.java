@@ -901,7 +901,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         .placeholder(R.drawable.cover_loading)
                         .into(viewHolder.cover);
             } catch (Exception e) {
-                Theme.logTaskCrash(this.getClass().getSimpleName(), "ListViewAdapter()", e);
+                Theme.logTaskCrash("IGF", "ListViewAdapter()", e);
             }
             return view;
         }

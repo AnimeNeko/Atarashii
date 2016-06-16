@@ -126,7 +126,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
                 }
             }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "onNetworkTaskFinished()", e);
+            Theme.logTaskCrash("DetailViewReviews", "onNetworkTaskFinished()", e);
         }
     }
 
@@ -205,7 +205,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
                         .into(holder.imageView);
 
             } catch (Exception e) {
-                Theme.logTaskCrash(this.getClass().getSimpleName(), e.getMessage(), e);
+                Theme.logTaskCrash("DetailViewReviews", e.getMessage(), e);
             }
         }
 

@@ -281,7 +281,7 @@ public class ForumHTMLUnit {
             while (inputStream.read(buffer) != -1) ;
             return new String(buffer);
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "getResString(): " + resource, e);
+            Theme.logTaskCrash("ForumHTMLUnit", "getResString(): " + resource, e);
         }
         return "";
     }

@@ -218,7 +218,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             if (taskResult == null)
                 return isArrayList() ? new ArrayList<>() : null;
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
+            Theme.logTaskCrash("NetworkTask", "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
         }
         return taskResult;

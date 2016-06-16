@@ -258,7 +258,7 @@ public class Theme extends Application {
                 image2.setOnClickListener(listener);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "Atarashii", activity.getClass().getSimpleName() + ".setNavDrawer(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "Theme.setNavDrawer(): " + e.getMessage());
         }
     }
 

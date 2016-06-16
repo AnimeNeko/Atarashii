@@ -172,7 +172,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
                         .into(holder.imageView);
 
             } catch (Exception e) {
-                Theme.logTaskCrash(this.getClass().getSimpleName(), e.getMessage(), e);
+                Theme.logTaskCrash("ProfileHistory", e.getMessage(), e);
             }
         }
 

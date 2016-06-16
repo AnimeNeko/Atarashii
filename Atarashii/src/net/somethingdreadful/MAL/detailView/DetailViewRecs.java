@@ -115,7 +115,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
                 }
             }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "onNetworkTaskFinished()", e);
+            Theme.logTaskCrash("DetailViewRecs", "onNetworkTaskFinished()", e);
         }
     }
 
@@ -182,7 +182,7 @@ public class DetailViewRecs extends Fragment implements NetworkTask.NetworkTaskL
                         .into(holder.imageView);
 
             } catch (Exception e) {
-                Theme.logTaskCrash(this.getClass().getSimpleName(), e.getMessage(), e);
+                Theme.logTaskCrash("DetailViewRecs", e.getMessage(), e);
             }
         }
 

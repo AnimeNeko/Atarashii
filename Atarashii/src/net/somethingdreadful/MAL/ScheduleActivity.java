@@ -341,7 +341,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                     itemHolder.cover.getLayoutParams().height = recordheight;
                 }
             } catch (Exception e) {
-                Theme.logTaskCrash(this.getClass().getSimpleName(), e.getMessage(), e);
+                Theme.logTaskCrash("ScheduleActivity", e.getMessage(), e);
             }
         }
 

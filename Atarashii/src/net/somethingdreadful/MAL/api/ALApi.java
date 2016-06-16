@@ -102,7 +102,7 @@ public class ALApi {
             accesToken = auth.access_token;
             setupRESTService();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAuthCode", e);
+            APIHelper.logE(activity, response, "ALApi", "getAuthCode", e);
         }
         return auth;
     }
@@ -113,7 +113,7 @@ public class ALApi {
             response = service.getActivity(username, page).execute();
             return History.convertBaseHistoryList(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getActivity", e);
+            APIHelper.logE(activity, response, "ALApi", "getActivity", e);
             return new ArrayList<>();
         }
     }
@@ -124,7 +124,7 @@ public class ALApi {
             response = service.getCurrentUser().execute();
             return response.body().createBaseModel();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getCurrentUser", e);
+            APIHelper.logE(activity, response, "ALApi", "getCurrentUser", e);
             return null;
         }
     }
@@ -135,7 +135,7 @@ public class ALApi {
             response = service.getProfile(username).execute();
             return response.body().createBaseModel();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getProfile", e);
+            APIHelper.logE(activity, response, "ALApi", "getProfile", e);
             return null;
         }
     }
@@ -146,7 +146,7 @@ public class ALApi {
             response = service.getAnimeList(username).execute();
             return response.body().createBaseModel();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeList", e);
+            APIHelper.logE(activity, response, "ALApi", "getAnimeList", e);
             return null;
         }
     }
@@ -157,7 +157,7 @@ public class ALApi {
             response = service.getMangaList(username).execute();
             return response.body().createBaseModel();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaList", e);
+            APIHelper.logE(activity, response, "ALApi", "getMangaList", e);
             return null;
         }
     }
@@ -178,7 +178,7 @@ public class ALApi {
                 setupRESTService();
             }
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAccesToken", e);
+            APIHelper.logE(activity, response, "ALApi", "getAccesToken", e);
         }
     }
 
@@ -188,7 +188,7 @@ public class ALApi {
             response = service.getAnime(id).execute();
             return response.body().createBaseModel();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnime", e);
+            APIHelper.logE(activity, response, "ALApi", "getAnime", e);
             return null;
         }
     }
@@ -199,7 +199,7 @@ public class ALApi {
             response = service.getManga(id).execute();
             return response.body().createBaseModel();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getManga", e);
+            APIHelper.logE(activity, response, "ALApi", "getManga", e);
             return null;
         }
     }
@@ -210,7 +210,7 @@ public class ALApi {
             response = service.searchAnime(query, page).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchAnime", e);
+            APIHelper.logE(activity, response, "ALApi", "searchAnime", e);
             return new ArrayList<>();
         }
     }
@@ -221,7 +221,7 @@ public class ALApi {
             response = service.searchManga(query, page).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "searchManga", e);
+            APIHelper.logE(activity, response, "ALApi", "searchManga", e);
             return new ArrayList<>();
         }
     }
@@ -232,7 +232,7 @@ public class ALApi {
             response = service.getFollowing(user).execute();
             return Follow.convertBaseFollowList(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getFollowing", e);
+            APIHelper.logE(activity, response, "ALApi", "getFollowing", e);
             return null;
         }
     }
@@ -243,7 +243,7 @@ public class ALApi {
             response = service.getFollowers(user).execute();
             return Follow.convertBaseFollowList(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getFollowers", e);
+            APIHelper.logE(activity, response, "ALApi", "getFollowers", e);
             return null;
         }
     }
@@ -276,7 +276,7 @@ public class ALApi {
             response = service.getPosts(id, page).execute();
             return response.body();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getPosts", e);
+            APIHelper.logE(activity, response, "ALApi", "getPosts", e);
             return null;
         }
     }
@@ -287,7 +287,7 @@ public class ALApi {
             response = service.getTags(id, page).execute();
             return response.body();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getTags", e);
+            APIHelper.logE(activity, response, "ALApi", "getTags", e);
             return null;
         }
     }
@@ -306,7 +306,7 @@ public class ALApi {
             response = service.search(Query).execute();
             return response.body();
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "search", e);
+            APIHelper.logE(activity, response, "ALApi", "search", e);
             return null;
         }
     }
@@ -317,7 +317,7 @@ public class ALApi {
             response = service.getAnimeReviews(id, page).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getAnimeReviews", e);
+            APIHelper.logE(activity, response, "ALApi", "getAnimeReviews", e);
             return new ArrayList<>();
         }
     }
@@ -328,7 +328,7 @@ public class ALApi {
             response = service.getMangaReviews(id, page).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Reviews.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getMangaReviews", e);
+            APIHelper.logE(activity, response, "ALApi", "getMangaReviews", e);
             return new ArrayList<>();
         }
     }
@@ -475,7 +475,7 @@ public class ALApi {
             response = service.getBrowseAnime(queries).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseAnime: " + queries.toString(), e);
+            APIHelper.logE(activity, response, "ALApi", "getBrowseAnime: " + queries.toString(), e);
             return null;
         }
     }
@@ -486,7 +486,7 @@ public class ALApi {
             response = service.getBrowseAnime(queries).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.convertBaseSchedule(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseAnime: " + queries.toString(), e);
+            APIHelper.logE(activity, response, "ALApi", "getBrowseAnime: " + queries.toString(), e);
             return null;
         }
     }
@@ -498,7 +498,7 @@ public class ALApi {
             response = service.getBrowseManga(queries).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga.convertBaseArray(response.body());
         } catch (Exception e) {
-            APIHelper.logE(activity, response, getClass().getSimpleName(), "getBrowseManga: " + queries.toString(), e);
+            APIHelper.logE(activity, response, "ALApi", "getBrowseManga: " + queries.toString(), e);
             return null;
         }
     }

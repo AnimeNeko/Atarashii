@@ -275,7 +275,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             // log database failures
             Theme.initFabric(context);
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "onUpgrade()", e);
+            Theme.logTaskCrash("DatabaseHelper", "onUpgrade()", e);
 
             // Delete database and remove account
             DatabaseHelper.deleteDatabase(context);

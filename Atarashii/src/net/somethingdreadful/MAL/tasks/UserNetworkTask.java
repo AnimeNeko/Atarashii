@@ -55,7 +55,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
                 result.setActivity(activities);
             }
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "doInBackground(5): task unknown API error (?)", e);
+            Theme.logTaskCrash("UserNetworkTask", "doInBackground(5): task unknown API error (?)", e);
         }
         return result;
     }

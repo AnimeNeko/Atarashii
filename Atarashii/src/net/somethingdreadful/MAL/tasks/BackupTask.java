@@ -94,7 +94,7 @@ public class BackupTask extends AsyncTask<String, Void, Object> {
             if (callback != null)
                 callback.onBackupTaskFinished();
         } catch (Exception e) {
-            Theme.logTaskCrash(this.getClass().getSimpleName(), "saveBackup()", e);
+            Theme.logTaskCrash("BackupTask", "saveBackup()", e);
             if (callback != null) {
                 callback.onBackupTaskFailed();
             }
