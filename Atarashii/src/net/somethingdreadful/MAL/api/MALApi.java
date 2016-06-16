@@ -1,7 +1,6 @@
 package net.somethingdreadful.MAL.api;
 
 import android.app.Activity;
-import android.os.Build;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -27,21 +26,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MALApi {
     // Use version 2.1 of the API interface
     private static final String API_HOST = "https://api.atarashiiapp.com/2.1/";
-
-    //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
-    private static final String okUa = okhttp3.internal.Version.userAgent();
-    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
     private Activity activity = null;
 
     private MALInterface service;
@@ -67,19 +58,7 @@ public class MALApi {
     }
 
     private void setupRESTService(String username, String password) {
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.connectTimeout(60, TimeUnit.SECONDS);
-        client.writeTimeout(60, TimeUnit.SECONDS);
-        client.readTimeout(60, TimeUnit.SECONDS);
-        final String credential = Credentials.basic(username, password);
-        client.interceptors().add(new APIInterceptor(USER_AGENT, credential));
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client.build())
-                .baseUrl(API_HOST)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(MALInterface.class);
+        service = APIHelper.createClient(API_HOST, MALInterface.class, Credentials.basic(username, password));
     }
 
     public boolean isAuth() {

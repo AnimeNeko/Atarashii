@@ -2,7 +2,6 @@ package net.somethingdreadful.MAL.api;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -29,21 +28,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ALApi {
     private static final String anilistURL = "https://anilist.co/api/";
     private static String accesToken;
-
-    //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
-    private static final String okUa = okhttp3.internal.Version.userAgent();
-    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
     private Activity activity = null;
-
     private ALInterface service;
 
     public ALApi() {
@@ -69,21 +58,9 @@ public class ALApi {
     }
 
     private void setupRESTService() {
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
         if (accesToken == null && AccountService.getAccount() != null)
             accesToken = AccountService.getAccesToken();
-
-        client.connectTimeout(60, TimeUnit.SECONDS);
-        client.writeTimeout(60, TimeUnit.SECONDS);
-        client.readTimeout(60, TimeUnit.SECONDS);
-        client.interceptors().add(new APIInterceptor(USER_AGENT, "Bearer " + accesToken));
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client.build())
-                .baseUrl(anilistURL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(ALInterface.class);
+        service = APIHelper.createClient(anilistURL, ALInterface.class, "Bearer " + accesToken);
     }
 
     public OAuth getAuthCode(String code) {
