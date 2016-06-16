@@ -5,8 +5,6 @@ import android.os.Build;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -76,15 +74,10 @@ public class MALApi {
         final String credential = Credentials.basic(username, password);
         client.interceptors().add(new APIInterceptor(USER_AGENT, credential));
 
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .setVersion(1)
-                .create();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client.build())
                 .baseUrl(API_HOST)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(MALInterface.class);
     }

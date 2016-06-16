@@ -6,8 +6,6 @@ import android.os.Build;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.R;
@@ -80,15 +78,10 @@ public class ALApi {
         client.readTimeout(60, TimeUnit.SECONDS);
         client.interceptors().add(new APIInterceptor(USER_AGENT, "Bearer " + accesToken));
 
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .setVersion(2)
-                .create();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client.build())
                 .baseUrl(anilistURL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(ALInterface.class);
     }
