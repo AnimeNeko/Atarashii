@@ -141,8 +141,9 @@ public class ALApi {
                 response = service.getAccesToken("refresh_token", BuildConfig.ANILIST_CLIENT_ID, BuildConfig.ANILIST_CLIENT_SECRET, AccountService.getRefreshToken()).execute();
                 auth = response.body();
             }
-            if (auth == null) { // notify failure
-                Theme.Snackbar(activity, R.string.toast_error_keys);
+            if (auth == null) { // shutdown app
+                AccountService.deleteAccount();
+                System.exit(0);
             } else {
                 accesToken = AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
                 setupRESTService();
