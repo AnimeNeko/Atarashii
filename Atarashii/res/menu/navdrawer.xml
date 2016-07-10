@@ -31,6 +31,11 @@
             android:checked="false"
             android:icon="@drawable/ic_insert_chart"
             android:title="@string/title_activity_charts" />
+        <item
+            android:id="@+id/nav_browse"
+            android:checked="false"
+            android:icon="@drawable/ic_star"
+            android:title="@string/title_activity_browse" />
 
         <item android:title="@string/card_content_other">
             <menu>

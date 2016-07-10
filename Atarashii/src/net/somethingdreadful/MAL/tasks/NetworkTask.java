@@ -19,6 +19,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class NetworkTask extends AsyncTask<String, Void, Object> {
     private TaskJob job;
@@ -28,6 +29,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     private Bundle data;
     private NetworkTaskListener callback;
     private Object taskResult;
+    HashMap<String, String> Qdata;
     private final TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
             TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
@@ -39,6 +41,14 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.type = type;
         this.activity = activity;
         this.data = data;
+        this.callback = callback;
+    }
+
+    public NetworkTask(Activity activity, MALApi.ListType type, HashMap<String, String> Qdata, NetworkTaskListener callback) {
+        this.job = TaskJob.BROWSE;
+        this.type = type;
+        this.activity = activity;
+        this.Qdata = Qdata;
         this.callback = callback;
     }
 
@@ -97,6 +107,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 case GETLIST:
                     if (params != null)
                         taskResult = isAnimeTask() ? cManager.getAnimeListFromDB(params[0], Integer.parseInt(params[1]), params[2]) : cManager.getMangaListFromDB(params[0], Integer.parseInt(params[1]), params[2]);
+                    break;
+                case BROWSE:
+                    taskResult = isAnimeTask() ? cManager.getBrowseAnime(Qdata) : cManager.getBrowseManga(Qdata);
                     break;
                 case GETFRIENDLIST:
                     if (params != null)

@@ -7,8 +7,6 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 
 import net.somethingdreadful.MAL.BuildConfig;
-import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
@@ -439,7 +437,7 @@ public class ALApi {
         return getBrowseManga(map);
     }
 
-    private ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
+    public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
         Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
         try {
@@ -462,7 +460,7 @@ public class ALApi {
         }
     }
 
-    private ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
+    public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> response = null;
         Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
         try {

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,6 +130,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
+        Gridview.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.bg_dark));
 
         if (state != null) {
             backGl = (ArrayList<GenericRecord>) state.getSerializable("backGl");
@@ -477,6 +480,31 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     private boolean containsTask(TaskJob taskJob1, TaskJob taskJob2) {
         return taskJob1.toString().contains(taskJob2.toString());
+    }
+
+    /**
+     * Browse trough the anime/manga lists.
+     */
+    public void getBrowse(HashMap<String, String> query, boolean clear) {
+        taskjob = TaskJob.BROWSE;
+        isList = false;
+        if (clear) {
+            resetPage();
+            gl.clear();
+            if (ga == null)
+                setAdapter();
+            ga.clear();
+        }
+        boolean isEmpty = gl.isEmpty();
+        toggleLoadingIndicator((page == 1 && !isList()) || (taskjob.equals(TaskJob.FORCESYNC) && isEmpty));
+        toggleSwipeRefreshAnimation(page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC));
+        loading = true;
+        try {
+            new NetworkTask(activity,listType, query, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } catch (Exception e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", "IGF.getBrowse(): " + e.getMessage());
+            Crashlytics.logException(e);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.tasks;
 public enum TaskJob {
     GETLIST,
     GETFRIENDLIST,
+    BROWSE,
     FORCESYNC,
     GETMOSTPOPULAR,
     GETMOSTPOPULARS,

@@ -24,6 +24,7 @@ import net.somethingdreadful.MAL.database.DatabaseManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 
 public class ContentManager {
     private MALApi malApi;
@@ -476,5 +477,15 @@ public class ContentManager {
     public ArrayList<Manga> getTopYearManga(int page) {
         Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getTopYearManga(): page=" + page);
         return AccountService.isMAL() ? malApi.getTopYearManga(page) : alApi.getTopYearManga(page);
+    }
+
+    public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getBrowseAnime(): queries=" + queries.toString());
+        return AccountService.isMAL() ? malApi.getBrowseAnime(queries) : alApi.getBrowseAnime(queries);
+    }
+
+    public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
+        Crashlytics.log(Log.INFO, "Atarashii", "ContentManager.getBrowseManga(): queries=" + queries.toString());
+        return AccountService.isMAL() ? malApi.getBrowseManga(queries) : alApi.getBrowseManga(queries);
     }
 }

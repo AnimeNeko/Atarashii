@@ -11,6 +11,7 @@
     <string name="title_activity_forum">Forum</string>
     <string name="title_activity_backup">Backup</string>
     <string name="title_activity_charts">Charts</string>
+    <string name="title_activity_browse">Browse</string>
 
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Switch List</string>
@@ -286,6 +287,7 @@
     <string name="card_content_chapseen">Chapters Read:</string>
     <string name="card_content_episodestime">Days of Anime:</string>
     <string name="card_content_episeen">Episodes Seen:</string>
+    <string name="card_content_minrating">Minimum rating</string>
 
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">View Details on MyAnimeList</string>
@@ -313,14 +315,14 @@
         <item>OEL</item>
     </string-array>
     <string-array name="mediaStatus_Anime">
-        <item>finished airing</item>
-        <item>currently airing</item>
-        <item>not yet aired</item>
+        <item>Finished airing</item>
+        <item>Currently airing</item>
+        <item>Not yet aired</item>
     </string-array>
     <string-array name="mediaStatus_Manga">
-        <item>finished</item>
-        <item>publishing</item>
-        <item>not yet published</item>
+        <item>Finished</item>
+        <item>Publishing</item>
+        <item>Not yet published</item>
     </string-array>
 
     <!-- Anime/Manga progress status strings -->
@@ -421,6 +423,15 @@
     <string name="listType_rewatching">Rewatching</string>
     <string name="listType_rereading">Re-reading</string>
 
+    <!-- Browse (contents) Strings -->
+    <string name="browse_genre_inc">Include genres</string>
+    <string name="browse_genre_exc">Exclude genres</string>
+
+    <string-array name="browse_genresArray" translatable="false">
+        <item>Include genres (disables NSFW)</item>
+        <item>Exclude genres</item>
+    </string-array>
+
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
         <item>Everything</item>
@@ -510,6 +521,32 @@
         <item>R - 17+ (violence \u0026 profanity)</item>
         <item>R+ - Mild Nudity</item>
         <item>Rx - Hentai</item>
+    </string-array>
+
+    <string-array name="browse_sort_anime">
+        <item>Relevance</item>
+        <item>Title</item>
+        <item>Start date</item>
+        <item>End date</item>
+        <item>Score</item>
+        <item>Episode</item>
+        <item>Type</item>
+        <item>Members</item>
+        <item>Rated</item>
+        <item>ID</item>
+    </string-array>
+
+    <string-array name="browse_sort_manga">
+        <item>Relevance</item>
+        <item>Title</item>
+        <item>Start date</item>
+        <item>End date</item>
+        <item>Score</item>
+        <item>Volume</item>
+        <item>Chapter</item>
+        <item>Members</item>
+        <item>Type</item>
+        <item>ID</item>
     </string-array>
 
     <string-array name="priorityArray">

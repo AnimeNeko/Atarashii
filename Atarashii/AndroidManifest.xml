@@ -57,10 +57,10 @@
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile"/>
+            android:label="@string/title_activity_profile"/>
         <activity
             android:name=".ScheduleActivity"
-            android:label="Schedule"/>
+            android:label="@string/nav_item_schedule"/>
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"/>
@@ -70,6 +70,9 @@
         <activity
             android:name=".BackupActivity"
             android:label="@string/title_activity_backup"/>
+        <activity
+            android:name=".BrowseActivity"
+            android:label="@string/title_activity_browse"/>
         <activity
             android:name=".ForumActivity"
             android:label="@string/title_activity_forum"

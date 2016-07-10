@@ -469,6 +469,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.nav_charts:
                 startActivity(new Intent(this, ChartActivity.class));
                 break;
+            case R.id.nav_browse:
+                startActivity(new Intent(this, BrowseActivity.class));
+                break;
             case R.id.nav_logout: // Others subgroup
                 showLogoutDialog();
                 break;

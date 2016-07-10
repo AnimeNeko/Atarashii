@@ -49,7 +49,6 @@ public class APIHelper {
         return retrofit.create(Interface);
     }
 
-
     /**
      * Checks if the API is returning a successful response.
      * <p/>

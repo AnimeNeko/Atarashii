@@ -232,7 +232,7 @@ public class MALApi {
         return APIHelper.isOK(service.deleteManga(id), "deleteMangaFromList");
     }
 
-    private ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
+    public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
         Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
         try {
@@ -244,7 +244,7 @@ public class MALApi {
         }
     }
 
-    private ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
+    public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
         Crashlytics.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
         try {

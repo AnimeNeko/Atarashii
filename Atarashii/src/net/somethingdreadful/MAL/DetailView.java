@@ -37,6 +37,7 @@ import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
 import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
+import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
@@ -52,7 +53,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener, InputDialogFragment.onClickListener {
+public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener, InputDialogFragment.onClickListener, DatePickerDialogFragment.onDateSetListener {
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
@@ -233,31 +234,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 else
                     mangaRecord.setRereadCount(number);
                 break;
-        }
-        setText();
-    }
-
-    /**
-     * Date picker dialog
-     */
-    public void onDialogDismissed(boolean startDate, int year, int month, int day) {
-        String monthString = String.valueOf(month);
-        if (monthString.length() == 1)
-            monthString = "0" + monthString;
-
-        String dayString = String.valueOf(day);
-        if (dayString.length() == 1)
-            dayString = "0" + dayString;
-        if (type.equals(ListType.ANIME)) {
-            if (startDate)
-                animeRecord.setWatchingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
-            else
-                animeRecord.setWatchingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
-        } else {
-            if (startDate)
-                mangaRecord.setReadingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
-            else
-                mangaRecord.setReadingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         }
         setText();
     }
@@ -684,5 +660,28 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @Override
     public void onNegInputButtonClicked(int id) {
         onPosInputButtonClicked("", id);
+    }
+
+    @Override
+    public void onDateSet(Boolean startDate, int year, int month, int day) {
+        String monthString = String.valueOf(month);
+        if (monthString.length() == 1)
+            monthString = "0" + monthString;
+
+        String dayString = String.valueOf(day);
+        if (dayString.length() == 1)
+            dayString = "0" + dayString;
+        if (type.equals(ListType.ANIME)) {
+            if (startDate)
+                animeRecord.setWatchingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
+            else
+                animeRecord.setWatchingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
+        } else {
+            if (startDate)
+                mangaRecord.setReadingStart(String.valueOf(year) + "-" + monthString + "-" + dayString);
+            else
+                mangaRecord.setReadingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
+        }
+        setText();
     }
 }
