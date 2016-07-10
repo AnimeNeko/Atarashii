@@ -52,6 +52,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 callback.onDateSet(startDate, mDateDialog.getDatePicker().getYear(), mDateDialog.getDatePicker().getMonth() + 1, mDateDialog.getDatePicker().getDayOfMonth());
+                dismiss();
             }
         });
 
@@ -66,6 +67,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 callback.onDateSet(startDate, 0, 0, 0);
+                dismiss();
             }
         });
         return mDateDialog;
@@ -73,7 +75,6 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        callback.onDateSet(startDate, i, i1, i2);
     }
 
     /**

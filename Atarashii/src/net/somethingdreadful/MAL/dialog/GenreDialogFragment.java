@@ -19,8 +19,15 @@ public class GenreDialogFragment extends DialogFragment implements DialogInterfa
     public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         resArray = getResources().getStringArray(R.array.genresArray);
+        boolean[] checkedItems = new boolean[resArray.length];
+        if (getArguments().containsKey("current")) {
+            array = getArguments().getStringArrayList("current");
+            for (int n = 0; n < resArray.length; n++) {
+                checkedItems[n] = array.contains(resArray[n]);
+            }
+        }
         builder.setTitle(getResources().getString(R.string.card_content_genres));
-        builder.setMultiChoiceItems(resArray, (new boolean[resArray.length]), this);
+        builder.setMultiChoiceItems(resArray, checkedItems, this);
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {

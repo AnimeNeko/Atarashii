@@ -70,6 +70,8 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     public void onStartDateButton() {
         Bundle bundle = new Bundle();
         bundle.putBoolean("startDate", true);
+        if (startDate.length() > 1)
+            bundle.putString("current", startDate);
         activity.showDialog("startDate", new DatePickerDialogFragment().setCallback(this), bundle);
     }
 
@@ -77,6 +79,8 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     public void onEndDateButton() {
         Bundle bundle = new Bundle();
         bundle.putBoolean("startDate", false);
+        if (endDate.length() > 1)
+            bundle.putString("current", endDate);
         activity.showDialog("endDate", new DatePickerDialogFragment().setCallback(this), bundle);
     }
 
@@ -86,6 +90,8 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         bundle.putInt("id", 1);
         bundle.putString("title", getString(R.string.card_content_minrating));
         bundle.putInt("max", 10);
+        if (!minRating.equals(""))
+            bundle.putInt("current", Integer.parseInt(minRating));
         activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(this), bundle);
     }
 
@@ -101,6 +107,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     public void onGenresButton() {
         Bundle bundle = new Bundle();
         bundle.putInt("id", R.id.genres);
+        bundle.putStringArrayList("current", genres);
         activity.showDialog("storage", new GenreDialogFragment().setOnSendClickListener(this), bundle);
     }
 
@@ -149,10 +156,10 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     @Override
     public void onDateSet(Boolean start, int year, int month, int day) {
         if (start) {
-            startDate = year == 0 ? "" : year + "-" + month + "-" + day;
+            startDate = year == 0 ? "" : (year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day));
             startDateButton.setText(getString(R.string.card_content_start) + ": " + DateTools.parseDate(startDate, false));
         } else {
-            endDate = year == 0 ? "" : year + "-" + month + "-" + day;
+            endDate = year == 0 ? "" : (year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day));
             endDateButton.setText(getString(R.string.card_content_end) + ": " + DateTools.parseDate(endDate, false));
         }
     }
