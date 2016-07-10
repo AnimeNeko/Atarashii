@@ -923,12 +923,29 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                         viewHolder.flavourText.setText(getString(R.string.unknown));
                     }
                 }
-
+                // Picasso will fail at high res images because of MAL support.
+                // We will request a low res to at least display something.
+                final ImageView cover = viewHolder.cover;
                 Picasso.with(context)
                         .load(record.getImageUrl())
                         .error(R.drawable.cover_error)
                         .placeholder(R.drawable.cover_loading)
-                        .into(viewHolder.cover);
+                        .into(viewHolder.cover, new Callback() {
+
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+                                Picasso.with(context)
+                                        .load(record.getImageUrl().replace("l.jpg", ".jpg"))
+                                        .error(R.drawable.cover_error)
+                                        .placeholder(R.drawable.cover_loading)
+                                        .into(cover);
+                            }
+                        });
             } catch (Exception e) {
                 Theme.logTaskCrash("IGF", "ListViewAdapter()", e);
             }
