@@ -29,6 +29,7 @@ import android.widget.ViewFlipper;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -126,11 +127,11 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
+        view.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.bg_dark));
         ButterKnife.bind(this, view);
 
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
-        Gridview.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.bg_dark));
 
         if (state != null) {
             backGl = (ArrayList<GenericRecord>) state.getSerializable("backGl");
