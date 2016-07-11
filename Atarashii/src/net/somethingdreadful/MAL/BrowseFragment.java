@@ -2,7 +2,9 @@ package net.somethingdreadful.MAL;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +45,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     @BindView(R.id.endDateButton) TextView endDateButton;
     @BindView(R.id.MinimumRatingButton) TextView minimumRatingButton;
     @BindView(R.id.genresButton) TextView genresButton;
+    @BindView(R.id.searchButton) TextView searchButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -56,7 +59,45 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         initSpinner(ratingSpinner, R.array.classificationArray);
         initSpinner(genreSpinner, R.array.browse_genresArray);
 
+        if (Theme.darkTheme) {
+            setBackground(view, R.color.bg_dark_card);
+            setBackground(keyword, R.color.bg_dark);
+            setBackground(sortSpinner, R.color.bg_dark);
+            setBackground(statusSpinner, R.color.bg_dark);
+            setBackground(typeSpinner, R.color.bg_dark);
+            setBackground(ratingSpinner, R.color.bg_dark);
+            setBackground(genreSpinner, R.color.bg_dark);
+            setBackground(startDateButton, R.color.bg_dark);
+            setBackground(endDateButton, R.color.bg_dark);
+            setBackground(minimumRatingButton, R.color.bg_dark);
+            setBackground(genresButton, R.color.bg_dark);
+            setBackground(inverseSwitch, R.color.bg_dark);
+            setBackground(searchButton, R.color.bg_dark);
+        } else {
+            setBackground(view, R.color.bg_light);
+            setBackground(keyword, R.color.text_dark);
+            setBackground(sortSpinner, R.color.text_dark);
+            setBackground(statusSpinner, R.color.text_dark);
+            setBackground(typeSpinner, R.color.text_dark);
+            setBackground(ratingSpinner, R.color.text_dark);
+            setBackground(genreSpinner, R.color.text_dark);
+            setBackground(startDateButton, R.color.text_dark);
+            setBackground(endDateButton, R.color.text_dark);
+            setBackground(minimumRatingButton, R.color.text_dark);
+            setBackground(genresButton, R.color.text_dark);
+            setBackground(inverseSwitch, R.color.text_dark);
+            setBackground(searchButton, R.color.text_dark);
+        }
+
         return view;
+    }
+
+    public void setBackground(View view, int colorID) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(activity, colorID)));
+        } else {
+            view.setBackground(new ColorDrawable(ContextCompat.getColor(activity, colorID)));
+        }
     }
 
     public void initSpinner(Spinner spinner, int array) {
