@@ -80,6 +80,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     private int resource;
     private int height = 0;
     private int sortType = 1;
+    private HashMap<String, String> data = null;
     @Getter
     private boolean isAnime = true;
     @Getter
@@ -105,6 +106,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         state.putSerializable("gl", gl);
         state.putSerializable("backGl", backGl);
         state.putSerializable("listType", listType);
+        state.putSerializable("data", data);
         state.putSerializable("taskjob", taskjob);
         state.putInt("page", page);
         state.putInt("list", list);
@@ -138,6 +140,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             gl = (ArrayList<GenericRecord>) state.getSerializable("gl");
             listType = (ListType) state.getSerializable("listType");
             taskjob = (TaskJob) state.getSerializable("taskjob");
+            data = (HashMap<String, String>) state.getSerializable("data");
             page = state.getInt("page");
             list = state.getInt("list");
             resource = state.getInt("resource");
@@ -488,6 +491,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     public void getBrowse(HashMap<String, String> query, boolean clear) {
         taskjob = TaskJob.BROWSE;
+        data = query;
         isList = false;
         if (clear) {
             resetPage();
@@ -501,7 +505,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         toggleSwipeRefreshAnimation(page > 1 && !isList() || taskjob.equals(TaskJob.FORCESYNC));
         loading = true;
         try {
-            new NetworkTask(activity,listType, query, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            query.put("page", String.valueOf(page));
+            new NetworkTask(activity, listType, query, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } catch (Exception e) {
             Crashlytics.log(Log.ERROR, "Atarashii", "IGF.getBrowse(): " + e.getMessage());
             Crashlytics.logException(e);
@@ -737,7 +742,10 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             if (totalItemCount - firstVisibleItem <= (visibleItemCount * 2) && !loading && hasmorepages) {
                 loading = true;
                 page++;
-                getRecords(false, null, list);
+                if (data == null)
+                    getRecords(false, null, list);
+                else
+                    getBrowse(data, false);
             }
         }
     }
