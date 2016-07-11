@@ -470,7 +470,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(new Intent(this, ChartActivity.class));
                 break;
             case R.id.nav_browse:
-                startActivity(new Intent(this, BrowseActivity.class));
+                if (AccountService.isMAL())
+                    startActivity(new Intent(this, BrowseActivity.class));
+                else
+                    Theme.Snackbar(this, R.string.toast_info_disabled);
                 break;
             case R.id.nav_logout: // Others subgroup
                 showLogoutDialog();
