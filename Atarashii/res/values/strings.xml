@@ -47,6 +47,7 @@
     <string name="toast_info_Copied">Copied the title successfully to the clipboard!</string>
     <string name="toast_info_hold_on">Hold on a second, we are still loading information!</string>
     <string name="toast_info_comment_added">It could take 5 minutes until it is visible</string>
+    <string name="toast_info_disabled">This feature is currently disabled :(</string>
     <string name="toast_info_disabled_youtube">Comments with Youtube videos aren\'t supported :(</string>
     <string name="toast_info_backup_saved">The backup has been created!</string>
     <string name="toast_info_backup_revert">The changes have been reverted!</string>
@@ -428,7 +429,7 @@
     <string name="browse_genre_exc">Exclude genres</string>
 
     <string-array name="browse_genresArray" translatable="false">
-        <item>Include genres (disables NSFW)</item>
+        <item>Include genres</item>
         <item>Exclude genres</item>
     </string-array>
 
