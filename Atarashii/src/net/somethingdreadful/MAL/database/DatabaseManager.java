@@ -534,6 +534,7 @@ public class DatabaseManager {
     }
 
     public void saveSchedule(Schedule schedule) {
+        Query.newQuery(db).clear(DatabaseHelper.TABLE_SCHEDULE);
         saveScheduleDay(schedule.getMonday(), 2);
         saveScheduleDay(schedule.getTuesday(), 3);
         saveScheduleDay(schedule.getWednesday(), 4);
@@ -546,7 +547,6 @@ public class DatabaseManager {
     private void saveScheduleDay(ArrayList<Anime> list, int day) {
         try {
             db.beginTransaction();
-            Query.newQuery(db).clear(DatabaseHelper.TABLE_SCHEDULE);
             for (Anime anime : list) {
                 ContentValues cv = new ContentValues();
                 cv.put(DatabaseHelper.COLUMN_ID, anime.getId());
