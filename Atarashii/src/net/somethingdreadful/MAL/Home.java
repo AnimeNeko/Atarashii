@@ -419,6 +419,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             case R.id.nav_forum:
             case R.id.nav_schedule:
             case R.id.nav_charts:
+            case R.id.nav_browse:
             case R.id.nav_settings:
             case R.id.nav_support:
             case R.id.nav_about:
