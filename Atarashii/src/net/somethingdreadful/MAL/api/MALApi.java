@@ -265,37 +265,47 @@ public class MALApi {
     }
 
     public ArrayList<Anime> getMostPopularAnime(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "7");
-        map.put("reverse", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getPopularAnime(page).execute();
+            return AnimeList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, "MALApi", "getMostPopularAnime: page =" + page, e);
+            return null;
+        }
     }
 
     public ArrayList<Manga> getMostPopularManga(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "7");
-        map.put("reverse", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getPopularManga(page).execute();
+            return MangaList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, "MALApi", "getMostPopularManga: page =" + page, e);
+            return null;
+        }
     }
 
     public ArrayList<Anime> getTopRatedAnime(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "3");
-        map.put("reverse", "1");
-        map.put("status", "2");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
+        try {
+            response = service.getTopRatedAnime(page).execute();
+            return AnimeList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, "MALApi", "getTopRatedAnime: page =" + page, e);
+            return null;
+        }
     }
 
     public ArrayList<Manga> getTopRatedManga(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "3");
-        map.put("reverse", "1");
-        map.put("status", "2");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
+        Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
+        try {
+            response = service.getTopRatedManga(page).execute();
+            return MangaList.convertBaseArray(response.body());
+        } catch (Exception e) {
+            APIHelper.logE(activity, response, "MALApi", "getTopRatedManga: page =" + page, e);
+            return null;
+        }
     }
 
     public ArrayList<Anime> getJustAddedAnime(int page) {

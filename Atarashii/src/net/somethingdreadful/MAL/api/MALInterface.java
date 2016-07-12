@@ -134,4 +134,16 @@ interface MALInterface {
 
     @GET("anime/schedule")
     Call<Schedule> getSchedule();
+
+    @GET("anime/popular")
+    Call<ArrayList<Anime>> getPopularAnime(@Query("page") int page);
+
+    @GET("anime/top")
+    Call<ArrayList<Anime>> getTopRatedAnime(@Query("page") int page);
+
+    @GET("manga/popular")
+    Call<ArrayList<Manga>> getPopularManga(@Query("page") int page);
+
+    @GET("manga/top")
+    Call<ArrayList<Manga>> getTopRatedManga(@Query("page") int page);
 }
