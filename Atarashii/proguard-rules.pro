@@ -5,7 +5,6 @@
 # Crashlytics
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
--printmapping mapping.txt
 
 # Butterknife
 -keep public class * implements butterknife.internal.ViewBinder { public <init>(); }
