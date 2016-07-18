@@ -136,7 +136,7 @@ public class UserList implements Serializable {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime> newList = new ArrayList<>();
         if (list != null)
             for (ListDetails detail : list) {
-                if (detail.getManga() == null) {
+                if (detail.getManga() == null && detail.getAnime() != null) {
                     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime anime = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime();
                     Anime AD = detail.getAnime();
                     anime.setId(AD.getId());
@@ -173,7 +173,7 @@ public class UserList implements Serializable {
         ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> newList = new ArrayList<>();
         if (list != null)
             for (ListDetails detail : list) {
-                if (detail.getAnime() == null) {
+                if (detail.getAnime() == null && detail.getManga() != null) {
                     net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga manga = new net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga();
                     Manga MD = detail.getManga();
                     manga.setId(MD.getId());
