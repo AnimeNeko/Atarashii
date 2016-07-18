@@ -174,7 +174,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
                                 // Check if the record is on the animelist.
                                 // after that load details if synopsis == null or else return the DB record
-                                if ((record.getSynopsis() == null || params[0].equals("true")) && record.getWatchedStatus() != null) {
+                                if (record != null && (record.getSynopsis() == null || params[0].equals("true")) && record.getWatchedStatus() != null) {
                                     Crashlytics.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                                     taskResult = cManager.updateWithDetails(record.getId(), record);
                                 } else {
