@@ -210,7 +210,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     private void synctask(boolean clear) {
-        getRecords(clear, TaskJob.FORCESYNC, af.list);
+        if (af != null && mf != null)
+            getRecords(clear, TaskJob.FORCESYNC, af.list);
     }
 
     @Override
