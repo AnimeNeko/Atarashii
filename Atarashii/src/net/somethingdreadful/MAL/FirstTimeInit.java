@@ -142,10 +142,12 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 finish();
             } else {
                 dialog.dismiss();
-                if (APIHelper.isNetworkAvailable(this))
+                if (APIHelper.isNetworkAvailable(this)) {
                     Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
-                else
+                    webview.loadUrl(ALApi.getAnilistURL());
+                } else {
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                }
             }
         } catch (Exception e) {
             Theme.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished()", e);
