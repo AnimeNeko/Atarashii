@@ -51,8 +51,8 @@ android {
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 69
-            versionName '2.3 Beta 1'
+            versionCode 70
+            versionName '2.3 RC 1'
         }
     }
 
