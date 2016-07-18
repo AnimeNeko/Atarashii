@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.account.AccountType;
@@ -51,13 +52,19 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
 
                 OAuth auth = api.getAuthCode(params[0]);
                 Profile profile = api.getCurrentUser();
+                if (profile == null) // try again
+                    profile = api.getCurrentUser();
 
-                AccountService.addAccount(profile.getUsername(), "none", AccountType.AniList);
-                AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
-                AccountService.setRefreshToken(auth.refresh_token);
+                if (profile == null) {
+                    Theme.Snackbar(activity, R.string.toast_error_keys);
+                } else {
+                    AccountService.addAccount(profile.getUsername(), "none", AccountType.AniList);
+                    AccountService.setAccesToken(auth.access_token, Long.parseLong(auth.expires_in));
+                    AccountService.setRefreshToken(auth.refresh_token);
 
-                PrefManager.setNavigationBackground(profile.getImageUrlBanner());
-                return true;
+                    PrefManager.setNavigationBackground(profile.getImageUrlBanner());
+                    return true;
+                }
             }
         } catch (Exception e) {
             Theme.logTaskCrash("AuthenticationCheckTask", "doInBackground()", e);
