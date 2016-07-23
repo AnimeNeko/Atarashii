@@ -31,7 +31,6 @@
     <string name="toast_info_password">שם משתמש וסיסמא אינם תואמים!</string>
     <string name="toast_info_Copied">העתקת הכותרת הושלמה!</string>
     <string name="toast_info_hold_on">רק רגע, אנחנו עדיין טוענים מידע!</string>
-    <string name="toast_info_comment_add">התגובה נשלחה בהצלחה!</string>
     <string name="toast_info_comment_added">ייקח 5 דקות עד שתופיע ההודעה</string>
     <string name="toast_info_disabled">תכונה זו אינה זמינה כרגע :(</string>
     <string name="toast_info_disabled_youtube">תגובות עם סרטוני YouTube לא נתמכים כרגע :(</string>
@@ -46,12 +45,10 @@
     <string name="dialog_title_view">צפה</string>
     <string name="dialog_title_tags">התגיות שלי</string>
     <string name="dialog_title_storage_value">נפח איחסון</string>
-    <string name="dialog_title_downloaded">פרקים שהורדו</string>
     <string name="dialog_title_rewatched_times">פעמים שנצפו מחדש</string>
     <string name="dialog_title_rewatched_priority">עדיפות לצפייה מחדש</string>
     <string name="dialog_title_storage">סוג איחסון</string>
     <string name="dialog_title_comment">התגובות שלי</string>
-    <string name="dialog_title_fansub">הקבוצות שלי</string>
     <string name="dialog_title_share">שיתוף</string>
     <string name="dialog_title_share_via">שתף דרך</string>
     <string name="dialog_title_Verifying">מאמת</string>
@@ -61,12 +58,10 @@
     <string name="dialog_title_status">מצב</string>
     <string name="dialog_title_edit_comment">ערוך תגובה</string>
     <string name="dialog_title_add_comment">הוסף תגובה</string>
-    <string name="dialog_title_add_topic">צור נושא</string>
     <string name="dialog_title_id_search">חפש מזהה</string>
     <string name="dialog_title_update_navigation">עדכן רקע</string>
     <string name="dialog_hint_tags">הפרד תגיך בפסיק</string>
     <string name="dialog_hint_comment">הכנס תגובתך</string>
-    <string name="dialog_hint_fansub">הכנס לקבוצתך</string>
     <string name="dialog_message_view">איזו רשימה ברצונך לראות?</string>
     <string name="dialog_message_restore">זה עלול להסיר רשומות מהרשימה שלך!</string>
     <string name="dialog_message_logout">בטוח להתנתק? כול המידע והתמונות ימחקו.</string>
@@ -75,9 +70,7 @@
     <string name="dialog_message_share">איזו רשימה ברצונך לשתף?</string>
     <string name="dialog_message_Verifying">בודק שהמשתמש בסדר. רק רגע.</string>
     <string name="dialog_message_update_navigation">הכנס קישור תמונה למטה.</string>
-    <string name="dialog_message_created_by">נוצר ע\"י</string>
     <string name="dialog_message_last_post">תגובה אחרונה ע\"י</string>
-    <string name="dialog_message_forum_child">לראות את הקטגוריה $child1; או $child2;?</string>
     <string name="dialog_message_username">יכול להיות שבגיבוי הנבחר אינו הגיבוי שלך!</string>
     <string name="dialog_label_cancel">בטל</string>
     <string name="dialog_label_update">עדכן</string>
@@ -108,8 +101,6 @@
     <string name="layout_card_join">תאריך הצטרפות</string>
     <string name="layout_card_acces">דירוג חיבור</string>
     <string name="access_rank_atarashii_developer">מפתח Atarashii</string>
-    <string name="layout_card_anime_views">הצג רשימת אנימה</string>
-    <string name="layout_card_manga_views">הצג רשימת מנגה</string>
     <string name="layout_card_anime_details">פרטי אנימה</string>
     <string name="layout_card_manga_details">פרטי מנגה</string>
     <string name="layout_card_anime_time">זמן בימים</string>
@@ -123,11 +114,7 @@
     <string name="layout_card_manga_plan">מתכנן לקרוא</string>
     <string name="action_viewtopic">הראה דיון</string>
     <string name="not_specified">לא מוגדר</string>
-    <string name="no_activity">אין פעילות</string>
     <string name="no_history">אין היסטוריה</string>
-    <string name="no_reviews">אין ביקורות</string>
-    <string name="read_more">קרא עוד</string>
-    <string name="show_less">הראה פחות</string>
     <string-array name="gender">
         <item>נקבה</item>
         <item>זכר</item>
@@ -137,8 +124,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">צור תאריך</string>
     <!-- ForumActivity Strings -->
-    <string name="action_add">הוסף תגובה או נושא</string>
-    <string name="form_hint_title">כותרת נושא</string>
     <string name="form_hint_message">הודעה</string>
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="init_hint_choose">ברוך הבא לAtarashii!\nבחר את האתר המועדף עליך.</string>
@@ -170,9 +155,7 @@
     <string name="nav_item_my_following">עוקבים</string>
     <string name="nav_item_my_forum">פורום</string>
     <string name="nav_item_top_rated">הכי מדורגים</string>
-    <string name="nav_item_airing">משודרים</string>
     <string name="nav_item_most_popular">הכי פופולארי</string>
-    <string name="nav_item_year">השנה</string>
     <string name="nav_item_just_added">רק נוספו</string>
     <string name="nav_item_upcoming">ישודרו</string>
     <string name="drawer_open">פתח מגירת ניווט</string>
@@ -185,6 +168,7 @@
     <string name="tab_name_friends">חברים</string>
     <string name="tab_name_following">עוקבים</string>
     <string name="tab_name_history">היסטוריה</string>
+    <!-- Day Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">תקציר</string>
     <string name="card_name_stats">סטטיסטיקה</string>
@@ -203,10 +187,8 @@
     <string name="card_content_none">אף אחד</string>
     <string name="card_content_chapters">פרק</string>
     <string name="card_content_rewatch_priority">עדיפות</string>
-    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">אחסון</string>
     <string name="card_content_storage_amount">קיבולת אחסון (GB)</string>
-    <string name="card_content_downloaded">הורדו</string>
     <string name="card_content_count">ספירה</string>
     <string name="card_content_episodes">פרקים</string>
     <string name="card_content_status">מצב</string>
@@ -375,6 +357,7 @@
     <string name="listType_InProgress">בתהליך</string>
     <string name="listType_rewatching">נצפה מחדש</string>
     <string name="listType_rereading">נקרא מחדש</string>
+    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -493,4 +476,25 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
+    <string name="toast_info_comment_add">התגובה נשלחה בהצלחה!</string>
+    <string name="dialog_title_downloaded">פרקים שהורדו</string>
+    <string name="dialog_title_fansub">הקבוצות שלי</string>
+    <string name="dialog_title_add_topic">צור נושא</string>
+    <!--Typo, should be your-->
+    <string name="dialog_hint_fansub">הכנס לקבוצתך</string>
+    <string name="dialog_message_created_by">נוצר ע\"י</string>
+    <string name="dialog_message_forum_child">לראות את הקטגוריה $child1; או $child2;?</string>
+    <string name="layout_card_anime_views">הצג רשימת אנימה</string>
+    <string name="layout_card_manga_views">הצג רשימת מנגה</string>
+    <string name="no_activity">אין פעילות</string>
+    <string name="no_reviews">אין ביקורות</string>
+    <string name="read_more">קרא עוד</string>
+    <string name="show_less">הראה פחות</string>
+    <!-- ForumActivity Strings -->
+    <string name="action_add">הוסף תגובה או נושא</string>
+    <string name="form_hint_title">כותרת נושא</string>
+    <string name="nav_item_airing">משודרים</string>
+    <string name="nav_item_year">השנה</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_downloaded">הורדו</string>
 </resources>

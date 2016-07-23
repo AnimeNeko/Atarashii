@@ -40,7 +40,6 @@
     <string name="toast_info_password">Kullanıcı adı ve şifre eşleşmiyor!</string>
     <string name="toast_info_Copied">Başlık başarıyla panoya kopyalandı.</string>
     <string name="toast_info_hold_on">Biraz bekleyin, bilgiyi hala yüklüyoruz.</string>
-    <string name="toast_info_comment_add">Yorum başarıyla gönderildi.</string>
     <string name="toast_info_comment_added">5 dakikaya görünür</string>
     <string name="toast_info_disabled">Bu özellik şu an devre dışı.</string>
     <string name="toast_info_disabled_youtube">Yorumlar Youtube videolarıyla desteklenmemektedir :(</string>
@@ -56,12 +55,10 @@
     <string name="dialog_title_view">Göster</string>
     <string name="dialog_title_tags">Etiketlerim</string>
     <string name="dialog_title_storage_value">Depolama değeri</string>
-    <string name="dialog_title_downloaded">İndirilen bölüm</string>
     <string name="dialog_title_rewatched_times">Tekrar izleme sayısı</string>
     <string name="dialog_title_rewatched_priority">Yeniden izleme önceliği</string>
     <string name="dialog_title_storage">Depolama türü</string>
     <string name="dialog_title_comment">Yorumum</string>
-    <string name="dialog_title_fansub">Fansub Gruplarım</string>
     <string name="dialog_title_share">Paylaş</string>
     <string name="dialog_title_share_via">Paylaş</string>
     <string name="dialog_title_Verifying">Doğrulanıyor</string>
@@ -71,12 +68,10 @@
     <string name="dialog_title_status">Durum</string>
     <string name="dialog_title_edit_comment">Yorum yap</string>
     <string name="dialog_title_add_comment">Yorum ekle</string>
-    <string name="dialog_title_add_topic">Konu oluştur</string>
     <string name="dialog_title_id_search">ID Araması</string>
     <string name="dialog_title_update_navigation">Arka planda güncelle</string>
     <string name="dialog_hint_tags">Etiketlerini virgül ile ayır</string>
     <string name="dialog_hint_comment">Yorumunu gir</string>
-    <string name="dialog_hint_fansub">Fansub Grubuna gir</string>
     <string name="dialog_message_view">Hangi listeyi görmek istiyorsunuz?</string>
     <string name="dialog_message_restore">Bazı kayıtlar listeden silinmiş olabilir!</string>
     <string name="dialog_message_logout">Çıkış yapmak istediğinizden emin misiniz? Bu işlem tüm saklanan verileri silinmesine sebep olacaktır.</string>
@@ -85,9 +80,7 @@
     <string name="dialog_message_share">Hangi listeyi paylaşmak istiyorsunuz?</string>
     <string name="dialog_message_Verifying">Kullanıcı bilgileriniz kontrol ediliyor. Biraz bekleyin.</string>
     <string name="dialog_message_update_navigation">Aşağıya resim linkini gir.</string>
-    <string name="dialog_message_created_by">Oluşturan</string>
     <string name="dialog_message_last_post">Son gönderim</string>
-    <string name="dialog_message_forum_child">$child1; ya da $child2; kategorisini göstermek istiyor musun?</string>
     <string name="dialog_message_username">Seçilen yedek, senin yedeğin olmayabilir!</string>
     <string name="dialog_message_edit_comment">Yorumunu güncellemek istediğinden emin misin?</string>
     <string name="dialog_message_add_comment">Gerçekten yeni bir yorum eklemek istediğinden emin misin?</string>
@@ -120,8 +113,6 @@
     <string name="layout_card_join">Katılım tarihi</string>
     <string name="layout_card_acces">Rütbe</string>
     <string name="access_rank_atarashii_developer">Atarashii geliştiricisi</string>
-    <string name="layout_card_anime_views">Anime listesi gösterimi</string>
-    <string name="layout_card_manga_views">Manga listesi gösterimi</string>
     <string name="layout_card_anime_details">Anime Detayları</string>
     <string name="layout_card_manga_details">Manga Detayları</string>
     <string name="layout_card_anime_time">Gün sayısı</string>
@@ -136,11 +127,7 @@
     <string name="action_viewListOnMAL">Listeyi Tarayıcıda Göster</string>
     <string name="action_viewtopic">Yorumları göster</string>
     <string name="not_specified">Belirtilmemiş</string>
-    <string name="no_activity">Hareket Yok</string>
     <string name="no_history">Tarih Yok</string>
-    <string name="no_reviews">Yorum  Yok</string>
-    <string name="read_more">Daha fazlasını oku</string>
-    <string name="show_less">Daha az göster</string>
     <string-array name="gender">
         <item>Bayan</item>
         <item>Erkek</item>
@@ -150,8 +137,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Oluşturulma Tarihi</string>
     <!-- ForumActivity Strings -->
-    <string name="action_add">Yorum veya konu ekle</string>
-    <string name="form_hint_title">Konu başlığı</string>
     <string name="form_hint_message">Mesaj</string>
     <string name="Page_number">Sayfa No</string>
     <string name="next">Sonraki</string>
@@ -189,9 +174,7 @@
     <string name="nav_item_my_following">Takip ediliyor</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">En Beğenilen</string>
-    <string name="nav_item_airing">Devam Ediyor</string>
     <string name="nav_item_most_popular">En Popüler</string>
-    <string name="nav_item_year">Bu Yıl</string>
     <string name="nav_item_just_added">Yeni Eklenen</string>
     <string name="nav_item_upcoming">Yakında Çıkan</string>
     <string name="drawer_open">Navigasyon bölümünü aç</string>
@@ -204,6 +187,7 @@
     <string name="tab_name_friends">Arkadaşlar</string>
     <string name="tab_name_following">Takip Ediliyor</string>
     <string name="tab_name_history">Tarih</string>
+    <!-- Day Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Özet</string>
     <string name="card_name_stats">İstatistikler</string>
@@ -222,10 +206,8 @@
     <string name="card_content_none">Yok</string>
     <string name="card_content_chapters">Bölüm</string>
     <string name="card_content_rewatch_priority">Öncelik</string>
-    <string name="card_content_fansubbers">Fansublar</string>
     <string name="card_content_storage">Depolama</string>
     <string name="card_content_storage_amount">Depolama Kapasitesi (GB)</string>
-    <string name="card_content_downloaded">İndirilen</string>
     <string name="card_content_count">Tekrar Sayısı</string>
     <string name="card_content_episodes">Bölüm</string>
     <string name="card_content_status">Durum</string>
@@ -398,6 +380,7 @@
     <string name="listType_InProgress">Devam Edilen</string>
     <string name="listType_rewatching">Yeniden izlenme</string>
     <string name="listType_rereading">Yeniden Okunuyor.</string>
+    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -413,6 +396,7 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>Planlanıyor</item>
     </string-array>
+    <!-- Settings (LocalePreference Entries) Items -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -515,4 +499,25 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
+    <string name="toast_info_comment_add">Yorum başarıyla gönderildi.</string>
+    <string name="dialog_title_downloaded">İndirilen bölüm</string>
+    <string name="dialog_title_fansub">Fansub Gruplarım</string>
+    <string name="dialog_title_add_topic">Konu oluştur</string>
+    <!--Typo, should be your-->
+    <string name="dialog_hint_fansub">Fansub Grubuna gir</string>
+    <string name="dialog_message_created_by">Oluşturan</string>
+    <string name="dialog_message_forum_child">$child1; ya da $child2; kategorisini göstermek istiyor musun?</string>
+    <string name="layout_card_anime_views">Anime listesi gösterimi</string>
+    <string name="layout_card_manga_views">Manga listesi gösterimi</string>
+    <string name="no_activity">Hareket Yok</string>
+    <string name="no_reviews">Yorum  Yok</string>
+    <string name="read_more">Daha fazlasını oku</string>
+    <string name="show_less">Daha az göster</string>
+    <!-- ForumActivity Strings -->
+    <string name="action_add">Yorum veya konu ekle</string>
+    <string name="form_hint_title">Konu başlığı</string>
+    <string name="nav_item_airing">Devam Ediyor</string>
+    <string name="nav_item_year">Bu Yıl</string>
+    <string name="card_content_fansubbers">Fansublar</string>
+    <string name="card_content_downloaded">İndirilen</string>
 </resources>

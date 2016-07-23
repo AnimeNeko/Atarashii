@@ -39,7 +39,6 @@
     <string name="toast_info_password">Nie pasujący login i hasło!</string>
     <string name="toast_info_Copied">Tytuł pomyślnie skopiowano do schowka!</string>
     <string name="toast_info_hold_on">Proszę chwilę poczekać, wciąż ładuje informacje!</string>
-    <string name="toast_info_comment_add">Komentarz został pomyślnie wyśłany!</string>
     <string name="toast_info_comment_added">Może to trwać 5 minut, aż będzie widoczne</string>
     <string name="toast_info_disabled">Ta funkcja jest obecnie wyłączona :(</string>
     <string name="toast_info_disabled_youtube">Komentarze z filmem z Youtube nie są obsługiwane :(</string>
@@ -55,12 +54,10 @@
     <string name="dialog_title_view">Widok</string>
     <string name="dialog_title_tags">Moje tagi</string>
     <string name="dialog_title_storage_value">Wartość nośnika</string>
-    <string name="dialog_title_downloaded">Pobranych odcinków</string>
     <string name="dialog_title_rewatched_times">Ilość powtórzeń</string>
     <string name="dialog_title_rewatched_priority">Priorytet Powtórzeń</string>
     <string name="dialog_title_storage">Typ nośnika</string>
     <string name="dialog_title_comment">Moje komentarze</string>
-    <string name="dialog_title_fansub">Moja grupa fansub</string>
     <string name="dialog_title_share">Podziel się</string>
     <string name="dialog_title_share_via">Udostępnij przez</string>
     <string name="dialog_title_Verifying">Weryfikacja</string>
@@ -70,12 +67,10 @@
     <string name="dialog_title_status">Status</string>
     <string name="dialog_title_edit_comment">Edytuj komentarz</string>
     <string name="dialog_title_add_comment">Dodaj komentarz</string>
-    <string name="dialog_title_add_topic">Utwórz temat</string>
     <string name="dialog_title_id_search">Wyszukiwanie po ID</string>
     <string name="dialog_title_update_navigation">Zmień tło</string>
     <string name="dialog_hint_tags">Rozdzielaj tagi przecinkami</string>
     <string name="dialog_hint_comment">Wpisz swój komentarz</string>
-    <string name="dialog_hint_fansub">Wpisz swoją grupę  fansub</string>
     <string name="dialog_message_view">Którą listę chcesz wyświetlić?</string>
     <string name="dialog_message_restore">To może usunąć niektóre zapisy na liście!</string>
     <string name="dialog_message_logout">Czy na pewno chcesz się wylogować? Spowoduje to usunięcie wszystkich zapisanych danych i obrazów.</string>
@@ -84,9 +79,7 @@
     <string name="dialog_message_share">Którą listą chcesz się podzielić?</string>
     <string name="dialog_message_Verifying">Upewniam się, że konto jest OK. Wytrzymaj przez chwilę.</string>
     <string name="dialog_message_update_navigation">Wpisz poniżej adres URL obrazu.</string>
-    <string name="dialog_message_created_by">Stworzone przez</string>
     <string name="dialog_message_last_post">Ostatni post przez</string>
-    <string name="dialog_message_forum_child">Czy chcesz wyświetlić kategorię $child1; lub $child2; ?</string>
     <string name="dialog_message_username">Możliwe jest, że wybrana kopia zapasowa nie jest twoją kopią zapasową!</string>
     <string name="dialog_message_edit_comment">Czy jesteś pewien, że twój komentarz powinien zostać zaktualizowany?</string>
     <string name="dialog_message_add_comment">Czy na pewno chcesz dodać nowy komentarz?</string>
@@ -119,8 +112,6 @@
     <string name="layout_card_join">Data rejestracji</string>
     <string name="layout_card_acces">Stopień</string>
     <string name="access_rank_atarashii_developer">Twórcy Atarashii</string>
-    <string name="layout_card_anime_views">Odsłon listy anime</string>
-    <string name="layout_card_manga_views">Odsłon listy mang</string>
     <string name="layout_card_anime_details">Szczegóły Anime</string>
     <string name="layout_card_manga_details">Szczegóły Mang</string>
     <string name="layout_card_anime_time">Czas w dniach</string>
@@ -135,11 +126,7 @@
     <string name="action_viewListOnMAL">Pokaż listę w przeglądarce</string>
     <string name="action_viewtopic">Zobacz dyskusję</string>
     <string name="not_specified">nie podano</string>
-    <string name="no_activity">Brak aktywności</string>
     <string name="no_history">Brak Historii</string>
-    <string name="no_reviews">Brak Recenzji</string>
-    <string name="read_more">czytaj więcej</string>
-    <string name="show_less">pokaż mniej</string>
     <string-array name="gender">
         <item>Kobieta</item>
         <item>Mężczyzna</item>
@@ -149,8 +136,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Data utworzenia</string>
     <!-- ForumActivity Strings -->
-    <string name="action_add">Dodaj komentarz lub temat</string>
-    <string name="form_hint_title">Tytuł tematu</string>
     <string name="form_hint_message">Wiadomość</string>
     <string name="Page_number">Numer strony</string>
     <string name="next">Następny</string>
@@ -188,9 +173,7 @@
     <string name="nav_item_my_following">Obserwuje</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Najwyżej oceniane</string>
-    <string name="nav_item_airing">Nadawane</string>
     <string name="nav_item_most_popular">Najpopularniejsze</string>
-    <string name="nav_item_year">Tego Roku</string>
     <string name="nav_item_just_added">Ostatnio dodane</string>
     <string name="nav_item_upcoming">Nadchodzące</string>
     <string name="drawer_open">Otwórz szufladę nawigacji</string>
@@ -203,6 +186,7 @@
     <string name="tab_name_friends">Znajomi</string>
     <string name="tab_name_following">Obserwuje</string>
     <string name="tab_name_history">Histaria</string>
+    <!-- Day Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Streszczenie</string>
     <string name="card_name_stats">Statystyki</string>
@@ -221,10 +205,8 @@
     <string name="card_content_none">Żaden</string>
     <string name="card_content_chapters">Rozdziały</string>
     <string name="card_content_rewatch_priority">Priorytet</string>
-    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Nośnik</string>
     <string name="card_content_storage_amount">Pojemność nośnika (GB)</string>
-    <string name="card_content_downloaded">Pobranych</string>
     <string name="card_content_count">Ilość</string>
     <string name="card_content_episodes">Odcinki</string>
     <string name="card_content_status">Status</string>
@@ -397,6 +379,7 @@
     <string name="listType_InProgress">Oglądam</string>
     <string name="listType_rewatching">Powtórzone</string>
     <string name="listType_rereading">Powtórzone</string>
+    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -515,4 +498,25 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
+    <string name="toast_info_comment_add">Komentarz został pomyślnie wyśłany!</string>
+    <string name="dialog_title_downloaded">Pobranych odcinków</string>
+    <string name="dialog_title_fansub">Moja grupa fansub</string>
+    <string name="dialog_title_add_topic">Utwórz temat</string>
+    <!--Typo, should be your-->
+    <string name="dialog_hint_fansub">Wpisz swoją grupę  fansub</string>
+    <string name="dialog_message_created_by">Stworzone przez</string>
+    <string name="dialog_message_forum_child">Czy chcesz wyświetlić kategorię $child1; lub $child2; ?</string>
+    <string name="layout_card_anime_views">Odsłon listy anime</string>
+    <string name="layout_card_manga_views">Odsłon listy mang</string>
+    <string name="no_activity">Brak aktywności</string>
+    <string name="no_reviews">Brak Recenzji</string>
+    <string name="read_more">czytaj więcej</string>
+    <string name="show_less">pokaż mniej</string>
+    <!-- ForumActivity Strings -->
+    <string name="action_add">Dodaj komentarz lub temat</string>
+    <string name="form_hint_title">Tytuł tematu</string>
+    <string name="nav_item_airing">Nadawane</string>
+    <string name="nav_item_year">Tego Roku</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_downloaded">Pobranych</string>
 </resources>

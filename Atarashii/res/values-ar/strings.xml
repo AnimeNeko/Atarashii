@@ -62,8 +62,6 @@
     <string name="layout_card_join">تاريخ الانضمام</string>
     <string name="layout_card_acces">رتبة الدخول</string>
     <string name="access_rank_atarashii_developer">مطور Atarashii</string>
-    <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
-    <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
     <string name="layout_card_anime_details">تفاصيل الـ Anime</string>
     <string name="layout_card_manga_details">تفاصيل الـ Manga</string>
     <string name="layout_card_anime_time">الوقت بالأيام</string>
@@ -118,6 +116,7 @@
     <string name="tab_name_general">عام</string>
     <string name="tab_name_personal">شخصى</string>
     <string name="tab_name_details">التفاصيل</string>
+    <!-- Day Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">نبذة</string>
     <string name="card_name_personal">شخصي</string>
@@ -270,6 +269,7 @@
     <string name="listType_planned">مخطط</string>
     <string name="listType_Completed">أكتمل</string>
     <string name="listType_InProgress">يشاهـَد / يقرئ</string>
+    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -366,4 +366,6 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
+    <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
+    <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
 </resources>
