@@ -13,29 +13,27 @@
             android:id="@+id/keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/search_prompt"
             android:singleLine="true"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"/>
+            android:paddingRight="8dp"
+            android:layout_toStartOf="@+id/typeSwitch"
+            android:layout_toLeftOf="@+id/typeSwitch"
+            android:layout_marginRight="8dp"/>
 
         <Spinner
             android:id="@+id/sortSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_alignEnd="@+id/keyword"
-            android:layout_alignLeft="@+id/keyword"
-            android:layout_alignRight="@+id/keyword"
-            android:layout_alignStart="@+id/keyword"
             android:layout_below="@+id/keyword"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <Spinner
             android:id="@+id/statusSpinner"
@@ -165,5 +163,17 @@
             android:foreground="@drawable/highlite_button"
             android:gravity="center"
             android:text="@string/search_prompt"/>
+
+        <Switch
+            android:id="@+id/typeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/dialog_label_manga"
+            android:paddingLeft="10dp"
+            android:checked="false"
+            android:layout_alignBottom="@+id/keyword"
+            android:layout_alignRight="@+id/sortSpinner"
+            android:layout_alignEnd="@+id/sortSpinner"
+            android:layout_alignTop="@+id/keyword"/>
     </RelativeLayout>
 </ScrollView>

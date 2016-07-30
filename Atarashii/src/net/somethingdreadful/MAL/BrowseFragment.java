@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -26,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BrowseFragment extends Fragment implements AdapterView.OnItemSelectedListener, NumberPickerDialogFragment.onUpdateClickListener, DatePickerDialogFragment.onDateSetListener, GenreDialogFragment.onUpdateClickListener {
+public class BrowseFragment extends Fragment implements AdapterView.OnItemSelectedListener, NumberPickerDialogFragment.onUpdateClickListener, DatePickerDialogFragment.onDateSetListener, GenreDialogFragment.onUpdateClickListener, CompoundButton.OnCheckedChangeListener {
     BrowseActivity activity;
     HashMap<String, String> query;
     String startDate = "";
@@ -35,6 +36,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     ArrayList<String> genres = new ArrayList<>();
 
     @BindView(R.id.keyword) EditText keyword;
+    @BindView(R.id.typeSwitch) Switch typeSwitch;
     @BindView(R.id.sortSpinner) Spinner sortSpinner;
     @BindView(R.id.statusSpinner) Spinner statusSpinner;
     @BindView(R.id.typeSpinner) Spinner typeSpinner;
@@ -58,6 +60,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         initSpinner(typeSpinner, R.array.mediaType_Anime);
         initSpinner(ratingSpinner, R.array.classificationArray);
         initSpinner(genreSpinner, R.array.browse_genresArray);
+        typeSwitch.setOnCheckedChangeListener(this);
 
         if (Theme.darkTheme) {
             setBackground(view, R.color.bg_dark_card);
@@ -74,6 +77,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         setBackground(keyword, color);
         setBackground(sortSpinner, color);
         setBackground(statusSpinner, color);
+        setBackground(typeSwitch, color);
         setBackground(typeSpinner, color);
         setBackground(ratingSpinner, color);
         setBackground(genreSpinner, color);
@@ -83,7 +87,6 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         setBackground(genresButton, color);
         setBackground(inverseSwitch, color);
         setBackground(searchButton, color);
-
     }
 
     public void setBackground(View view, int colorID) {
@@ -133,7 +136,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     @OnClick(R.id.searchButton)
     public void onSearchButton() {
         reloadEntries();
-        activity.viewPager.setCurrentItem(1);
+        activity.viewPager.setCurrentItem(typeSwitch.isChecked() ? 2 : 1);
         activity.af.getBrowse(query, true);
         activity.mf.getBrowse(query, true);
     }
@@ -203,5 +206,18 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     public void onUpdated(ArrayList<String> result, int id) {
         genres = result;
         genresButton.setText(getString(R.string.card_content_genres) + ": " + genres.toString().replace("[", "").replace("]", ""));
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean manga) {
+        if (manga) {
+            initSpinner(sortSpinner, R.array.browse_sort_manga);
+            initSpinner(statusSpinner, R.array.mediaStatus_Manga);
+            initSpinner(typeSpinner, R.array.mediaType_Manga);
+        } else {
+            initSpinner(sortSpinner, R.array.browse_sort_anime);
+            initSpinner(statusSpinner, R.array.mediaStatus_Anime);
+            initSpinner(typeSpinner, R.array.mediaType_Anime);
+        }
     }
 }
