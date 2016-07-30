@@ -53,7 +53,6 @@
     <string name="toast_info_backup_revert">The changes have been reverted!</string>
     <string name="toast_info_backup_remove">The backup has been removed!</string>
     <string name="toast_info_backup_list">The backup is not compatible with this site!</string>
-    <string name="toast_info_widget_exists">A widget with the chosen record already exists!</string>
     <string name="toast_info_comment">The comment is short!</string>
     <string name="toast_permission_backup">Permission denied by user, the backups can\'t be loaded!</string>
 
@@ -103,7 +102,6 @@
     <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_label_logout">Logout</string>
     <string name="dialog_label_remove">Remove</string>
-    <string name="dialog_label_send">Send</string>
     <string name="dialog_message_backup_reading">Reading records</string>
     <string name="dialog_message_backup_requesting">Creating backup.</string>
 
@@ -138,7 +136,6 @@
     <string name="action_viewListOnMAL">View list in browser</string>
     <string name="action_viewtopic">View discussion</string>
     <string name="not_specified">not specified</string>
-    <string name="no_history">No History</string>
     <string-array name="gender">
         <item>Female</item>
         <item>Male</item>
@@ -151,7 +148,6 @@
     <string name="creation_date">Creation date</string>
 
     <!-- ForumActivity Strings -->
-    <string name="form_hint_message">Message</string>
     <string name="Page_number">Page number</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -188,7 +184,6 @@
     <string name="nav_item_my_profile">My Profile</string>
     <string name="nav_item_my_list">My List</string>
     <string name="nav_item_my_friends">My Friends</string>
-    <string name="nav_item_my_following">Following</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Top Rated</string>
     <string name="nav_item_top_season">Top Season</string>
@@ -423,10 +418,6 @@
     <string name="listType_InProgress">In Progress</string>
     <string name="listType_rewatching">Rewatching</string>
     <string name="listType_rereading">Re-reading</string>
-
-    <!-- Browse (contents) Strings -->
-    <string name="browse_genre_inc">Include genres</string>
-    <string name="browse_genre_exc">Exclude genres</string>
 
     <string-array name="browse_genresArray" translatable="false">
         <item>Include genres</item>
