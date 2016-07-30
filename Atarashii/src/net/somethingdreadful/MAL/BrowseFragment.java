@@ -61,35 +61,29 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
 
         if (Theme.darkTheme) {
             setBackground(view, R.color.bg_dark_card);
-            setBackground(keyword, R.color.bg_dark);
-            setBackground(sortSpinner, R.color.bg_dark);
-            setBackground(statusSpinner, R.color.bg_dark);
-            setBackground(typeSpinner, R.color.bg_dark);
-            setBackground(ratingSpinner, R.color.bg_dark);
-            setBackground(genreSpinner, R.color.bg_dark);
-            setBackground(startDateButton, R.color.bg_dark);
-            setBackground(endDateButton, R.color.bg_dark);
-            setBackground(minimumRatingButton, R.color.bg_dark);
-            setBackground(genresButton, R.color.bg_dark);
-            setBackground(inverseSwitch, R.color.bg_dark);
-            setBackground(searchButton, R.color.bg_dark);
+            setComponentBackground(R.color.text_dark);
         } else {
             setBackground(view, R.color.bg_light);
-            setBackground(keyword, R.color.text_dark);
-            setBackground(sortSpinner, R.color.text_dark);
-            setBackground(statusSpinner, R.color.text_dark);
-            setBackground(typeSpinner, R.color.text_dark);
-            setBackground(ratingSpinner, R.color.text_dark);
-            setBackground(genreSpinner, R.color.text_dark);
-            setBackground(startDateButton, R.color.text_dark);
-            setBackground(endDateButton, R.color.text_dark);
-            setBackground(minimumRatingButton, R.color.text_dark);
-            setBackground(genresButton, R.color.text_dark);
-            setBackground(inverseSwitch, R.color.text_dark);
-            setBackground(searchButton, R.color.text_dark);
+            setComponentBackground(R.color.text_dark);
         }
 
         return view;
+    }
+
+    public void setComponentBackground(int color) {
+        setBackground(keyword, color);
+        setBackground(sortSpinner, color);
+        setBackground(statusSpinner, color);
+        setBackground(typeSpinner, color);
+        setBackground(ratingSpinner, color);
+        setBackground(genreSpinner, color);
+        setBackground(startDateButton, color);
+        setBackground(endDateButton, color);
+        setBackground(minimumRatingButton, color);
+        setBackground(genresButton, color);
+        setBackground(inverseSwitch, color);
+        setBackground(searchButton, color);
+
     }
 
     public void setBackground(View view, int colorID) {

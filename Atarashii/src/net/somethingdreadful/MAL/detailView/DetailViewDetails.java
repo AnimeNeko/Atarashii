@@ -44,72 +44,40 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     private DetailViewRelationsAdapter relation;
     private DetailViewRelationsAdapter title;
 
-    @BindView(R.id.swiperefresh)
-    public SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
-    @BindView(R.id.SynopsisContent)
-    TextView synopsis;
-    @BindView(R.id.type)
-    TextView type;
-    @BindView(R.id.episodes)
-    TextView episodes;
-    @BindView(R.id.episodesLabel)
-    TextView episodesLabel;
-    @BindView(R.id.volumes)
-    TextView volumes;
-    @BindView(R.id.volumesLabel)
-    TextView volumesLabel;
-    @BindView(R.id.status)
-    TextView status;
-    @BindView(R.id.start)
-    TextView start;
-    @BindView(R.id.startRow)
-    TableRow startRow;
-    @BindView(R.id.duration)
-    TextView duration;
-    @BindView(R.id.durationRow)
-    TableRow durationRow;
-    @BindView(R.id.broadcast)
-    TextView broadcast;
-    @BindView(R.id.broadcastRow)
-    TableRow broadcastRow;
-    @BindView(R.id.end)
-    TextView end;
-    @BindView(R.id.endRow)
-    TableRow endRow;
-    @BindView(R.id.classification)
-    TextView classification;
-    @BindView(R.id.classificationRow)
-    TableRow classificationRow;
-    @BindView(R.id.genres)
-    TextView genres;
-    @BindView(R.id.producers)
-    TextView producers;
-    @BindView(R.id.producersRow)
-    TableRow producersRow;
+    @BindView(R.id.SynopsisContent) TextView synopsis;
+    @BindView(R.id.type) TextView type;
+    @BindView(R.id.episodes) TextView episodes;
+    @BindView(R.id.episodesLabel) TextView episodesLabel;
+    @BindView(R.id.volumes) TextView volumes;
+    @BindView(R.id.volumesLabel) TextView volumesLabel;
+    @BindView(R.id.status) TextView status;
+    @BindView(R.id.start) TextView start;
+    @BindView(R.id.startRow) TableRow startRow;
+    @BindView(R.id.duration) TextView duration;
+    @BindView(R.id.durationRow) TableRow durationRow;
+    @BindView(R.id.broadcast) TextView broadcast;
+    @BindView(R.id.broadcastRow) TableRow broadcastRow;
+    @BindView(R.id.end) TextView end;
+    @BindView(R.id.endRow) TableRow endRow;
+    @BindView(R.id.classification) TextView classification;
+    @BindView(R.id.classificationRow) TableRow classificationRow;
+    @BindView(R.id.genres) TextView genres;
+    @BindView(R.id.producers) TextView producers;
+    @BindView(R.id.producersRow) TableRow producersRow;
 
-    @BindView(R.id.infoValue1)
-    TextView infoValue1;
-    @BindView(R.id.infoText2)
-    TextView infoText2;
-    @BindView(R.id.infoValue2)
-    TextView infoValue2;
-    @BindView(R.id.infoText3)
-    TextView infoText3;
-    @BindView(R.id.infoValue3)
-    TextView infoValue3;
-    @BindView(R.id.infoText4)
-    TextView infoText4;
-    @BindView(R.id.infoValue4)
-    TextView infoValue4;
-    @BindView(R.id.infoText5)
-    TextView infoText5;
-    @BindView(R.id.infoValue5)
-    TextView infoValue5;
-    @BindView(R.id.infoText6)
-    TextView infoText6;
-    @BindView(R.id.infoValue6)
-    TextView infoValue6;
+    @BindView(R.id.infoValue1) TextView infoValue1;
+    @BindView(R.id.infoText2) TextView infoText2;
+    @BindView(R.id.infoValue2) TextView infoValue2;
+    @BindView(R.id.infoText3) TextView infoText3;
+    @BindView(R.id.infoValue3) TextView infoValue3;
+    @BindView(R.id.infoText4) TextView infoText4;
+    @BindView(R.id.infoValue4) TextView infoValue4;
+    @BindView(R.id.infoText5) TextView infoText5;
+    @BindView(R.id.infoValue5) TextView infoValue5;
+    @BindView(R.id.infoText6) TextView infoText6;
+    @BindView(R.id.infoValue6) TextView infoValue6;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {

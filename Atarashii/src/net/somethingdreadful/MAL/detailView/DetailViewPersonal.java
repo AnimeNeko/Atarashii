@@ -36,38 +36,23 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     private View view;
     private Card cardOther;
 
-    @BindView(R.id.statusText)
-    TextView status;
-    @BindView(R.id.progress1Text1)
-    TextView progress1Total;
-    @BindView(R.id.progress1Text2)
-    TextView progress1Current;
-    @BindView(R.id.progress2Text1)
-    TextView progress2Total;
-    @BindView(R.id.progress2Text2)
-    TextView progress2Current;
-    @BindView(R.id.myScore)
-    TextView myScore;
-    @BindView(R.id.myStartDate)
-    TextView myStartDate;
-    @BindView(R.id.myEndDate)
-    TextView myEndDate;
-    @BindView(R.id.myPriority)
-    TextView myPriority;
-    @BindView(R.id.myTags)
-    TextView myTags;
-    @BindView(R.id.comments)
-    TextView comments;
+    @BindView(R.id.statusText) TextView status;
+    @BindView(R.id.progress1Text1) TextView progress1Total;
+    @BindView(R.id.progress1Text2) TextView progress1Current;
+    @BindView(R.id.progress2Text1) TextView progress2Total;
+    @BindView(R.id.progress2Text2) TextView progress2Current;
+    @BindView(R.id.myScore) TextView myScore;
+    @BindView(R.id.myStartDate) TextView myStartDate;
+    @BindView(R.id.myEndDate) TextView myEndDate;
+    @BindView(R.id.myPriority) TextView myPriority;
+    @BindView(R.id.myTags) TextView myTags;
+    @BindView(R.id.comments) TextView comments;
 
-    @BindView(R.id.storage)
-    TextView storage;
-    @BindView(R.id.storage_amount)
-    TextView storageCount;
+    @BindView(R.id.storage) TextView storage;
+    @BindView(R.id.storage_amount) TextView storageCount;
 
-    @BindView(R.id.priority)
-    TextView priority;
-    @BindView(R.id.count2Text2)
-    TextView rewatchCount2;
+    @BindView(R.id.priority) TextView priority;
+    @BindView(R.id.count2Text2) TextView rewatchCount2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {

@@ -46,26 +46,16 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     private Card cardMediainfo;
     private Card cardPersonal;
 
-    @BindView(R.id.SynopsisContent)
-    TextView synopsis;
-    @BindView(R.id.mediaType)
-    TextView mediaType;
-    @BindView(R.id.mediaStatus)
-    TextView mediaStatus;
-    @BindView(R.id.statusText)
-    TextView status;
-    @BindView(R.id.progress1Text1)
-    TextView progress1Total;
-    @BindView(R.id.progress1Text2)
-    TextView progress1Current;
-    @BindView(R.id.progress2Text1)
-    TextView progress2Total;
-    @BindView(R.id.progress2Text2)
-    TextView progress2Current;
-    @BindView(R.id.myScore)
-    TextView myScore;
-    @BindView(R.id.Image)
-    ImageView image;
+    @BindView(R.id.SynopsisContent) TextView synopsis;
+    @BindView(R.id.mediaType) TextView mediaType;
+    @BindView(R.id.mediaStatus) TextView mediaStatus;
+    @BindView(R.id.statusText) TextView status;
+    @BindView(R.id.progress1Text1) TextView progress1Total;
+    @BindView(R.id.progress1Text2) TextView progress1Current;
+    @BindView(R.id.progress2Text1) TextView progress2Total;
+    @BindView(R.id.progress2Text2) TextView progress2Current;
+    @BindView(R.id.myScore) TextView myScore;
+    @BindView(R.id.Image) ImageView image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {

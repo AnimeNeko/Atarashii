@@ -31,13 +31,6 @@ public class BrowseActivity extends AppCompatActivity implements IGF.IGFCallback
         NfcHelper.disableBeam(this);
     }
 
-    private void getRecords(boolean clear, TaskJob task, int list) {
-        if (af != null && mf != null) {
-            af.getRecords(clear, task, list);
-            mf.getRecords(clear, task, list);
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
