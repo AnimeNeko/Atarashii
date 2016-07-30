@@ -5,7 +5,7 @@
         android:id="@+id/menu_listType"
         android:icon="@drawable/ic_filter"
         android:title="@string/menu_listType"
-        res-auto:showAsAction="ifRoom">
+        res-auto:showAsAction="always">
 
         <menu>
             <group android:checkableBehavior="single">
@@ -45,7 +45,7 @@
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_sort"
         android:title="@string/menu_sort"
-        res-auto:showAsAction="ifRoom">
+        res-auto:showAsAction="always">
 
         <menu>
             <group android:checkableBehavior="single">
@@ -95,5 +95,5 @@
         android:icon="@drawable/ic_search"
         android:title="@string/search_prompt"
         res-auto:actionViewClass="android.support.v7.widget.SearchView"
-        res-auto:showAsAction="collapseActionView|ifRoom" />
+        res-auto:showAsAction="collapseActionView|always" />
 </menu>
