@@ -215,7 +215,11 @@ public class ForumInterface {
         forum.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                forum.getRecords(ForumJob.TOPIC, Integer.parseInt(id), "1");
+                try {
+                    forum.getRecords(ForumJob.TOPIC, Integer.parseInt(id), "1");
+                } catch (Exception e) {
+                    Theme.Snackbar(forum, R.string.toast_error_Records);
+                }
             }
         });
     }
