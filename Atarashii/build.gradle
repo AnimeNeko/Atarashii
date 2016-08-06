@@ -46,13 +46,13 @@ android {
     }
     productFlavors {
         Production {
-            versionCode 32
-            versionName '2.3'
+            versionCode 33
+            versionName '2.3.1'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 71
-            versionName '2.3'
+            versionCode 72
+            versionName '2.3.1'
         }
     }
 
