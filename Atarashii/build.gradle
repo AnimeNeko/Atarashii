@@ -11,16 +11,18 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.21'
 }
 
+apply from: 'local.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 24
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 24
     }
 
     sourceSets {
@@ -44,35 +46,51 @@ android {
     }
     productFlavors {
         Production {
-            versionCode 20
-            versionName '2.1.2'
+            versionCode 33
+            versionName '2.3.1'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 53
-            versionName '2.1 RC 5'
+            versionCode 72
+            versionName '2.3.1'
+        }
+    }
+
+    buildTypes {
+        debug {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ext.enableCrashlytics = false
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
-
-apply from: 'local.gradle'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.+'
-    compile 'com.android.support:support-v13:22.+'
-    compile 'com.android.support:cardview-v7:22.+'
-    compile 'com.android.support:appcompat-v7:22.+'
-    compile 'com.google.code.gson:gson:2.3.+'
-    compile 'com.nispok:snackbar:2.10.+'
-    compile 'org.apache.commons:commons-lang3:3.2.1'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.android.support:support-v4:24.+'
+    compile 'com.android.support:support-v13:24.+'
+    compile 'com.android.support:cardview-v7:24.+'
+    compile 'com.android.support:appcompat-v7:24.+'
+    compile 'com.android.support:design:24.+'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    provided 'org.projectlombok:lombok:1.16.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
-        transitive = true;
-    }
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    provided 'org.projectlombok:lombok:1.16.10'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') { transitive = true; }
+    compile('com.crashlytics.sdk.android:answers:1.3.8@aar') { transitive = true; }
+    compile project(':mobihelp_sdk_android_v1.5.4')
 }

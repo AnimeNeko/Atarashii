@@ -9,6 +9,9 @@ android {
             buildConfigField "String", "ANILIST_CLIENT_ID", "\"insert id here\""
             buildConfigField "String", "ANILIST_CLIENT_SECRET", "\"insert secret here\""
             buildConfigField "String", "ANILIST_CLIENT_REDIRECT_URI", "\"insert redirect uri here\""
+
+            buildConfigField "String", "MOBIHELP_KEY", "\"insert key here\""
+            buildConfigField "String", "MOBIHELP_SECRET", "\"insert secret here\""
         }
     }
 }

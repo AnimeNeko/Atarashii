@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_list"
+            android:checked="false"
+            android:icon="@drawable/ic_format_list"
+            android:title="@string/nav_item_my_list" />
+        <item
+            android:id="@+id/nav_profile"
+            android:checked="false"
+            android:icon="@drawable/ic_person"
+            android:title="@string/nav_item_my_profile" />
+        <item
+            android:id="@+id/nav_friends"
+            android:checked="false"
+            android:icon="@drawable/ic_group"
+            android:title="@string/nav_item_my_friends" />
+        <item
+            android:id="@+id/nav_forum"
+            android:checked="false"
+            android:icon="@drawable/ic_forum_grey"
+            android:title="@string/nav_item_my_forum" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:checked="false"
+            android:icon="@drawable/ic_event"
+            android:title="@string/nav_item_schedule" />
+        <item
+            android:id="@+id/nav_charts"
+            android:checked="false"
+            android:icon="@drawable/ic_insert_chart"
+            android:title="@string/title_activity_charts" />
+        <item
+            android:id="@+id/nav_browse"
+            android:checked="false"
+            android:icon="@drawable/ic_star"
+            android:title="@string/title_activity_browse" />
+
+        <item android:title="@string/card_content_other">
+            <menu>
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/ic_exit"
+                    android:title="@string/dialog_label_logout" />
+                <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@drawable/ic_settings"
+                    android:title="@string/title_activity_settings" />
+                <item
+                    android:id="@+id/nav_support"
+                    android:icon="@drawable/mobihelp_ic_conversation_dark"
+                    android:title="@string/mobihelp_activity_title_solution_list" />
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/ic_info"
+                    android:title="@string/title_activity_about" />
+            </menu>
+        </item>
+    </group>
+</menu>

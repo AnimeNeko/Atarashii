@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="72dp"
     android:layout_gravity="center"
-    android:background="@drawable/highlite_friendlist"
+    android:background="@drawable/highlite"
     android:orientation="horizontal">
 
     <ImageView
@@ -36,7 +36,7 @@
 
 
         <TextView
-            android:id="@+id/friends_last"
+            android:id="@+id/lastonlineLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/userName"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/userName"
-            android:layout_toRightOf="@id/friends_last"
+            android:layout_toRightOf="@id/lastonlineLabel"
             android:text=": "
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#757575"
@@ -67,5 +67,19 @@
             android:textColor="#757575"
             android:textSize="14sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/removeButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/layout_card_loading"
+        android:gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_close_grey"
+        android:visibility="gone"
+        android:padding="8dp"
+        android:layout_marginRight="8dp" />
 
 </RelativeLayout>

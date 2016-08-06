@@ -1,6 +1,6 @@
 package net.somethingdreadful.MAL.tasks;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
@@ -8,80 +8,68 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.MALManager;
-import net.somethingdreadful.MAL.RecordStatusUpdatedReceiver;
+import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.api.APIHelper;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.api.response.Manga;
-
-import retrofit.RetrofitError;
+import net.somethingdreadful.MAL.broadcasts.RecordStatusUpdatedReceiver;
 
 public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
-    Context context;
-    ListType type;
-    TaskJob job;
-    APIAuthenticationErrorListener authErrorCallback;
+    private ListType type = ListType.ANIME;
+    private final Activity activity;
 
-    public WriteDetailTask(ListType type, TaskJob job, Context context, APIAuthenticationErrorListener authErrorCallback) {
-        this.context = context;
-        this.job = job;
+    public WriteDetailTask(ListType type, Activity activity) {
         this.type = type;
-        this.authErrorCallback = authErrorCallback;
+        this.activity = activity;
     }
 
     @Override
     protected Boolean doInBackground(GenericRecord... gr) {
         boolean error = false;
-        MALManager manager = new MALManager(context);
+        boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
+        ContentManager manager = new ContentManager(activity);
 
-        if (!AccountService.isMAL())
+        if (!AccountService.isMAL() && isNetworkAvailable)
             manager.verifyAuthentication();
 
         try {
-            if (MALApi.isNetworkAvailable(context)) {
+            // Sync details if there is network connection
+            if (isNetworkAvailable) {
                 if (type.equals(ListType.ANIME)) {
-                    manager.writeAnimeDetails((Anime) gr[0]);
+                    error = !manager.writeAnimeDetails((Anime) gr[0]);
                 } else {
-                    manager.writeMangaDetails((Manga) gr[0]);
-                }
-                gr[0].clearDirty();
-            }
-        } catch (RetrofitError re) {
-            if (re.getResponse() != null) {
-                Log.e("MALX", String.format("%s-task API error on job %s: %d - %s", type.toString(), job.name(), re.getResponse().getStatus(), re.getResponse().getReason()));
-                if (re.getResponse().getStatus() == 401) {
-                    if (authErrorCallback != null)
-                        authErrorCallback.onAPIAuthenticationError(type, job);
+                    error = !manager.writeMangaDetails((Manga) gr[0]);
                 }
             }
-            error = true;
         } catch (Exception e) {
-            Log.e("MALX", "error on response WriteDetailTask: " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "WriteDetailTask.doInBackground(5, " + type + "): unknown API error (?): " + e.getMessage());
             Crashlytics.logException(e);
             error = true;
         }
 
-        // only update if everything went well!
-        if (!error) {
-            String account = AccountService.getUsername();
-            if (!job.equals(TaskJob.UPDATE)) {
-                if (ListType.ANIME.equals(type)) {
-                    manager.deleteAnimeFromAnimelist((Anime) gr[0], account);
-                } else {
-                    manager.deleteMangaFromMangalist((Manga) gr[0], account);
-                }
-            } else {
-                if (type.equals(ListType.ANIME)) {
-                    manager.saveAnimeToDatabase((Anime) gr[0], false, account);
-                } else {
-                    manager.saveMangaToDatabase((Manga) gr[0], false, account);
-                }
-            }
+        // Records updated successfully and will be marked as done if it hasn't been removed
+        if (isNetworkAvailable && !error && !gr[0].getDeleteFlag()) {
+            gr[0].clearDirty();
         }
 
+        if (gr[0].getDeleteFlag()) {
+            // Delete record
+            if (ListType.ANIME.equals(type)) {
+                manager.deleteAnime((Anime) gr[0]);
+            } else {
+                manager.deleteManga((Manga) gr[0]);
+            }
+        } else {
+            // Save the records
+            if (type.equals(ListType.ANIME)) {
+                manager.saveAnimeToDatabase((Anime) gr[0]);
+            } else {
+                manager.saveMangaToDatabase((Manga) gr[0]);
+            }
+        }
         return null;
     }
 
@@ -91,6 +79,6 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         Intent i = new Intent();
         i.setAction(RecordStatusUpdatedReceiver.RECV_IDENT);
         i.putExtra("type", type);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(i);
+        LocalBroadcastManager.getInstance(activity).sendBroadcast(i);
     }
 }

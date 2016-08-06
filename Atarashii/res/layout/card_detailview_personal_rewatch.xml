@@ -6,10 +6,9 @@
         android:id="@+id/rewatchPriorityPanel"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/highlite_details">
+        android:background="@drawable/highlite">
 
         <TextView
-            android:id="@+id/statusLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -41,11 +40,10 @@
         android:id="@+id/countPanel"
         android:layout_width="match_parent"
         android:layout_height="57dp"
-        android:background="@drawable/highlite_details"
+        android:background="@drawable/highlite"
         android:layout_below="@id/divider1">
 
         <TextView
-            android:id="@+id/progress2Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

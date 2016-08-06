@@ -42,10 +42,48 @@
     </item>
 
     <item
-        android:id="@+id/menu_inverse"
+        android:id="@+id/menu_sort"
         android:icon="@drawable/ic_sort"
-        android:title="@string/menu_inverse"
-        res-auto:showAsAction="ifRoom" />
+        android:title="@string/menu_sort"
+        res-auto:showAsAction="always">
+
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sort_title"
+                    android:title="@string/sort_title"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_score"
+                    android:title="@string/sort_score"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_type"
+                    android:title="@string/sort_type"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_status"
+                    android:title="@string/sort_status"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_progress"
+                    android:title="@string/sort_progress"
+                    res-auto:showAsAction="never" />
+            </group>
+
+            <item
+                android:id="@+id/menu_inverse"
+                android:title="@string/menu_inverse"
+                android:checkable="true"
+                res-auto:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_details"
+                android:title="@string/menu_details"
+                android:checkable="true"
+                res-auto:showAsAction="never"/>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/forceSync"

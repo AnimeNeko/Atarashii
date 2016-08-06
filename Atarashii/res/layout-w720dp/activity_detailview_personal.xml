@@ -5,10 +5,10 @@
 
     <ScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView">
 
         <RelativeLayout
-            android:id="@+id/backgroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">

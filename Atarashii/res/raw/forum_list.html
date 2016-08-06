@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><!-- title --></title>
+    <script type="text/javascript">
+      function topicClick(id) {Forum.topicClick(id);}
+      function nextTopicList() {Forum.nextTopicList(2);}
+      function prevTopicList() {Forum.prevTopicList(2);}
+      function pagePicker() {Forum.pagePicker(<!-- page -->);}
+    </script>
+    <style type="text/css">
+        body {
+            background-color:#f2f2f2;
+            font-family:"Open Sans",Arial,sans-serif;
+            font-size:14px;
+            margin: 8px 0px 0px 0px;
+        }
+        .tag__section {
+            background:#FFF;
+            position:relative;
+            padding:9px;
+            margin:4px 8px 4px 8px;
+        }
+        .tag__section span:nth-of-type(2) {
+            color:#818181;
+            font-size:0.8em;
+        }
+        .tag__section span:first-of-type:hover {
+            color:#3498db;
+        }
+        .tag__section span:first-of-type {
+            padding-bottom:4px;
+            color:#022f70;
+            cursor:pointer;
+            display:block;
+        }
+
+        .previous {
+            background: #458EDB;
+            border-radius: 0px 3px 3px 0px;
+            color: #fff;
+            display: inline-block;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 15px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        .next {
+            background: #458EDB;
+            border-radius: 3px 0 0 3px;
+            color: #fff;
+            display: inline-block;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 20px;
+            font-family: sans-serif;
+            font-weight: bold;
+            float: right;
+        }
+
+        .page {
+            background: #458EDB;
+            border-radius: 3px 3px 3px 3px;
+            color: #fff;
+            margin-top: 4px;
+            font-family: sans-serif;
+            font-weight: bold;
+            margin-bottom: 8px;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0%);
+        }
+    </style>
+</head>
+<body>
+    <!-- insert here the tiles -->
+</body>
+<span class="previous" onClick="prevTopicList()"><!-- previous --></span>
+<span class="next" onClick="nextTopicList()"><!-- next --></span>
+<span class="page" onClick="pagePicker()"><!-- page --></span>
+</html>

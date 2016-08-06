@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:freshapp="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/mobihelp_menu_item_submit"
+        android:icon="?attr/mh_ic_menu_submit"
+        android:title="@string/mobihelp_menu_item_title_submit"
+        freshapp:showAsAction="always|withText"/>
+
+</menu>

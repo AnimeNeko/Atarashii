@@ -1,14 +1,17 @@
 package net.somethingdreadful.MAL;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,45 +20,53 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
 
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.account.AccountType;
 import net.somethingdreadful.MAL.api.ALApi;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.tasks.AuthenticationCheckFinishedListener;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.tasks.AuthenticationCheckTask;
 
-public class FirstTimeInit extends ActionBarActivity implements AuthenticationCheckFinishedListener, OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class FirstTimeInit extends AppCompatActivity implements AuthenticationCheckTask.AuthenticationCheckListener, OnClickListener {
+    private String MalUser;
+    private String MalPass;
+    private Context context;
+    private ProgressDialog dialog;
+    private boolean loaded = false;
+
+    @BindView(R.id.edittext_malUser)
     EditText malUser;
+    @BindView(R.id.edittext_malPass)
     EditText malPass;
-    String MalUser;
-    String MalPass;
-    ProgressDialog dialog;
-    Context context;
+    @BindView(R.id.viewFlipper)
     ViewFlipper viewFlipper;
+    @BindView(R.id.button_connectToMal)
     Button connectButton;
+    @BindView(R.id.registerButton)
     Button registerButton;
+    @BindView(R.id.webview)
     WebView webview;
+    @BindView(R.id.myanimelist)
     TextView myanimelist;
+    @BindView(R.id.anilist)
     TextView anilist;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_firstrun);
-
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        malUser = (EditText) findViewById(R.id.edittext_malUser);
-        malPass = (EditText) findViewById(R.id.edittext_malPass);
-        connectButton = (Button) findViewById(R.id.button_connectToMal);
-        registerButton = (Button) findViewById(R.id.registerButton);
-        webview = (WebView) findViewById(R.id.webview);
-        myanimelist = (TextView) findViewById(R.id.myanimelist);
-        anilist = (TextView) findViewById(R.id.anilist);
+        Theme.setActionBar(this);
+        ButterKnife.bind(this);
 
         context = getApplicationContext();
 
+        if (getIntent().getBooleanExtra("updatePassword", false))
+            Theme.Snackbar(this, R.string.toast_info_password);
         connectButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         myanimelist.setOnClickListener(this);
@@ -77,24 +88,30 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
                 }
             }
         });
-        webview.loadUrl(ALApi.getAnilistURL());
+        if (APIHelper.isNetworkAvailable(this)) {
+            webview.loadUrl(ALApi.getAnilistURL());
+            loaded = true;
+        }
 
         PrefManager.deleteAccount();
         NfcHelper.disableBeam(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void tryConnection() {
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setTitle(getString(R.string.dialog_title_Verifying));
-        dialog.setMessage(getString(R.string.dialog_message_Verifying));
-        dialog.show();
-        if (MalPass != null)
-            new AuthenticationCheckTask(this).execute(MalUser, MalPass);
-        else
-            new AuthenticationCheckTask(this).execute(MalUser);
+        if (APIHelper.isNetworkAvailable(this)) {
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setTitle(getString(R.string.dialog_title_Verifying));
+            dialog.setMessage(getString(R.string.dialog_message_Verifying));
+            dialog.show();
+            if (MalPass != null)
+                new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser, MalPass);
+            else
+                new AuthenticationCheckTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, MalUser);
+        } else {
+            Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+        }
     }
 
     @Override
@@ -108,23 +125,35 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
     }
 
     @Override
-    public void onAuthenticationCheckFinished(boolean result, String username) {
-        if (result) {
-            if (username == null)
-                AccountService.addAccount(MalUser, MalPass, AccountType.MyAnimeList);
-            Crashlytics.setString("site", AccountService.accountType.toString());
-            PrefManager.setForceSync(true);
-            PrefManager.commitChanges();
-            dialog.dismiss();
-            Intent goHome = new Intent(context, Home.class);
-            startActivity(goHome);
-            finish();
-        } else {
-            dialog.dismiss();
-            if (MALApi.isNetworkAvailable(this))
-                Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
-            else
-                Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+    public void onAuthenticationCheckFinished(boolean result) {
+        try {
+            if (result) {
+                // load account before requesting the information
+                AccountService.getAccount();
+                Theme.setCrashData("Site", AccountService.accountType.toString());
+                PrefManager.setForceSync(true);
+                PrefManager.commitChanges();
+                Answers.getInstance().logLogin(new LoginEvent()
+                        .putMethod(AccountService.accountType.toString())
+                        .putSuccess(true));
+                dialog.dismiss();
+                Intent goHome = new Intent(context, Home.class);
+                startActivity(goHome);
+                finish();
+            } else {
+                dialog.dismiss();
+                if (APIHelper.isNetworkAvailable(this)) {
+                    Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
+                    webview.loadUrl(ALApi.getAnilistURL());
+                } else {
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                }
+            }
+        } catch (Exception e) {
+            Theme.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished()", e);
+            Answers.getInstance().logLogin(new LoginEvent()
+                    .putSuccess(false));
+            Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
         }
     }
 
@@ -142,6 +171,13 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
             case R.id.button_connectToMal:
                 MalUser = malUser.getText().toString().trim();
                 MalPass = malPass.getText().toString().trim();
+
+                // hide keyboard
+                v.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                // verify account
                 tryConnection();
                 break;
             case R.id.registerButton:
@@ -152,9 +188,11 @@ public class FirstTimeInit extends ActionBarActivity implements AuthenticationCh
                 viewFlipper.setDisplayedChild(1);
                 break;
             case R.id.anilist:
-                if (MALApi.isNetworkAvailable(this))
+                if (APIHelper.isNetworkAvailable(this)) {
+                    if (!loaded)
+                        webview.loadUrl(ALApi.getAnilistURL());
                     viewFlipper.setDisplayedChild(2);
-                else
+                } else
                     Theme.Snackbar(this, R.string.toast_error_noConnectivity);
                 break;
         }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:res-auto="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_ViewMALPage"
+        android:icon="@drawable/ic_language"
+        android:title="@string/action_viewMALPage"
+        res-auto:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/forceSync"
+        android:icon="@drawable/ic_autorenew"
+        android:title="@string/menu_sync"
+        res-auto:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_day"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/menu_listType"
+        res-auto:showAsAction="always">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/day_monday"
+                    android:title="@string/day_monday"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/day_tuesday"
+                    android:title="@string/day_tuesday"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/day_wednesday"
+                    android:title="@string/day_wednesday"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/day_thursday"
+                    android:title="@string/day_thursday"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/day_friday"
+                    android:title="@string/day_friday"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/day_saturday"
+                    android:title="@string/day_saturday"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/day_sunday"
+                    android:title="@string/day_sunday"
+                    res-auto:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
+</menu>

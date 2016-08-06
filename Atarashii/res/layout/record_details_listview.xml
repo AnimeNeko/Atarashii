@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="56dp"
     android:layout_gravity="center"
-    android:background="@drawable/highlite_details"
+    android:background="@drawable/highlite"
     android:orientation="horizontal">
 
     <TextView

@@ -19,14 +19,15 @@ import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 
 public class NumberPickerDialogFragment extends DialogFragment {
-    NumberPicker numberPicker;
-    EditText numberInput;
+    private NumberPicker numberPicker;
+    private EditText numberInput;
     private onUpdateClickListener callback;
-    boolean inputScore = false;
+    private boolean inputScore = false;
 
     private View makeNumberPicker() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_episode_picker, null);
         int max = getValue("max");
+        int min = getValue("min");
         int current = getValue("current");
 
         numberInput = (EditText) view.findViewById(R.id.numberInput);
@@ -34,7 +35,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
 
         if (!inputScore) {
             numberPicker.setMaxValue(max != 0 ? max : 999);
-            numberPicker.setMinValue(0);
+            numberPicker.setMinValue(min != 0 ? min : 0);
             if (!AccountService.isMAL() && isRating()) {
                 String score = Theme.getDisplayScore(current);
                 numberPicker.setValue(score.equals("?") ? 0 : Integer.parseInt(score));
@@ -52,7 +53,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         builder.setView(makeNumberPicker());
         builder.setTitle(getArguments().getString("title"));
@@ -61,10 +62,10 @@ public class NumberPickerDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 numberPicker.clearFocus();
                 numberInput.clearFocus();
-                int value = Theme.getRawScore(!inputScore ? Integer.toString(numberPicker.getValue()) : numberInput.getText().toString());
-                if (!AccountService.isMAL() && isRating())
+                if (!AccountService.isMAL() && isRating()) {
+                    int value = Theme.getRawScore(!inputScore ? String.valueOf(numberPicker.getValue()) : numberInput.getText().toString());
                     callback.onUpdated(value, getArguments().getInt("id"));
-                else
+                } else
                     callback.onUpdated(numberPicker.getValue(), getArguments().getInt("id"));
                 dismiss();
             }
@@ -89,13 +90,13 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * @param key The argument name
      * @return int The number of the argument
      */
-    public int getValue(String key) {
+    private int getValue(String key) {
         try {
-            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() != 3 && PrefManager.getScoreType() != 1)
+            if (getArguments().getInt("id") == R.id.scorePanel && PrefManager.getScoreType() == 4 && PrefManager.getScoreType() == 3)
                 inputScore = true;
             return getArguments().getInt(key);
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
             return 0;
         }
     }
@@ -115,6 +116,6 @@ public class NumberPickerDialogFragment extends DialogFragment {
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        public void onUpdated(int number, int id);
+        void onUpdated(int number, int id);
     }
 }

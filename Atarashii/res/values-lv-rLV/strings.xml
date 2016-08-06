@@ -6,26 +6,17 @@
     <string name="title_activity_about">Informācija</string>
     <string name="title_activity_detail_view">Detalizēts Skats</string>
     <string name="title_activity_profile">Lietotāja profils</string>
-    <string name="title_activity_friends">Mani draugi</string>
-    <string name="title_activity_logout">Pārtraukt sesiju</string>
     <string name="title_activity_forum">Forums</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Pārslēgt Sarakstu</string>
     <string name="menu_inverse">Apgriezt Sarakstu</string>
-    <string name="menu_settings">Uzstādījumi</string>
     <string name="menu_sync">Pilna Sinhronizācija</string>
-    <string name="menu_sortType">Kārtot</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">Interneta savienojums nav pieejams.</string>
     <string name="toast_error_UserRecord">Lietotāja profils nav aizpildīts!</string>
-    <string name="toast_error_Search_Anime">Kļūda meklējot animes ierakstus.</string>
-    <string name="toast_error_Search_Manga">Kļūda meklējot mangas ierakstus.</string>
     <string name="toast_error_Search">Kļūda meklējot! Mēģiniet vēlāk atkārtot.</string>
     <string name="toast_error_Anime_Sync">Sinhronizācijas kļūda iegūstot animes sarakstu!</string>
     <string name="toast_error_Manga_Sync">Sinhronizācijas kļūda iegūstot mangas sarakstu!</string>
-    <string name="toast_error_SyncFailed">Sinhronizācijas kļūda! Mēģiniet vēlāk atkārtot.</string>
-    <string name="toast_error_Anime_Records">Kļūda iegūstot animes ierakstus.</string>
-    <string name="toast_error_Manga_Records">Kļūda iegūstot mangas ierakstus.</string>
     <string name="toast_error_Records">Kļūda iegūstot ierakstus. Mēģiniet vēlāk atkārtot.</string>
     <string name="toast_error_DetailsError">Atarashii nespēj ielādēt informāciju!</string>
     <string name="toast_error_VerifyProblem">Pārbaudied ievadītos datus un mēģiniet vēlreiz.</string>
@@ -34,7 +25,6 @@
     <string name="toast_info_SyncMessage">Sinhronizācija. Process var aizņemt dažas sekundes.</string>
     <string name="toast_info_Copied">Veiksmīgi nokopēts starpliktuvē!</string>
     <string name="toast_info_hold_on">Vienu mirkli, mēs vēl lādējam informāciju!</string>
-    <string name="toast_info_comment_add">Komentārs veiksmīgi aizsūtīts!</string>
     <string name="toast_info_comment_added">Tas varētu aizņemt ap 5 minūtēm līdz tas kļūs redzams.</string>
     <string name="toast_info_disabled">Šī iespēja nav pieejama uz doto mirkli :(</string>
     <string name="toast_info_disabled_youtube">Youtube video komentāri netiek atbalstīti :(</string>
@@ -42,41 +32,30 @@
     <string name="dialog_title_view">Skatīt</string>
     <string name="dialog_title_tags">Mani tegi</string>
     <string name="dialog_title_storage_value">Izmērs</string>
-    <string name="dialog_title_downloaded">Sērijas lejuplādētas</string>
     <string name="dialog_title_rewatched_times">Reizes pārskatīts</string>
     <string name="dialog_title_rewatched_priority">Pārskata prioritāte</string>
     <string name="dialog_title_storage">Glabātuves tips</string>
     <string name="dialog_title_comment">Mani komentāri</string>
-    <string name="dialog_title_fansub">Mana fansubgrupa</string>
     <string name="dialog_title_share">Dalīties</string>
     <string name="dialog_title_share_via">Dalīties caur</string>
     <string name="dialog_title_Verifying">Pārbauda</string>
     <string name="dialog_title_rating">Vērtējums</string>
-    <string name="dialog_title_logout">Piekrist pārtraukt sesiju</string>
     <string name="dialog_title_watched_update">Noskatījies</string>
     <string name="dialog_title_read_update">Esmu izlasījis</string>
     <string name="dialog_title_status">Statuss</string>
-    <string name="dialog_title_sync">Sinhronizācija</string>
     <string name="dialog_title_edit_comment">Rediģēt komentāru</string>
     <string name="dialog_title_add_comment">Pievienot komentāru</string>
-    <string name="dialog_title_add_topic">Izveidot tēmu</string>
     <string name="dialog_title_id_search">Meklēt pēc ID</string>
-    <string name="dialog_title_update_password">Atjaunot paroli</string>
     <string name="dialog_title_update_navigation">Atjaunot fonu</string>
     <string name="dialog_hint_tags">Dalīt savus tegus ar komatu</string>
     <string name="dialog_hint_comment">Ievadiet savu komentāru</string>
-    <string name="dialog_hint_fansub">Ievadiet savu fansubgrupu</string>
     <string name="dialog_message_view">Kādu sarakstu jūs vēlaties vērot?</string>
     <string name="dialog_message_logout">Pārliecināti par sesijas beigšanu? Darbība izdzēsīs visus saglabātos datus un bildes.</string>
     <string name="dialog_message_remove">Pārliecināti? Pēc izdzēšanas, atgū atpakaļ to vairs nebūš iespējams. Ne tik viegli, visādā gadījumā.</string>
     <string name="dialog_message_share">Ar kādu sarakstu jūs vēlaties dalīties?</string>
     <string name="dialog_message_Verifying">Pārliecinamies par jūsu konta kārtību. Uzgaidiet mirlkīti.</string>
-    <string name="dialog_message_update_password">Izskatās, ka jūsu parole ir mainījusies. Lūdzu mēģiniet ievadīt jauno paroli.</string>
-    <string name="dialog_message_new_password_wrong">Kļūdaini ievadīta jaunā parole.</string>
     <string name="dialog_message_update_navigation">Ievadiet bildes saikni zemāk.</string>
-    <string name="dialog_message_created_by">Izveidoja</string>
     <string name="dialog_message_last_post">Pēdējā ziņa</string>
-    <string name="dialog_message_on">tieši</string>
     <string name="dialog_label_cancel">Atcelt</string>
     <string name="dialog_label_update">Atjaunot</string>
     <string name="dialog_label_anime">Anime</string>
@@ -86,7 +65,6 @@
     <string name="dialog_title_remove">Noņemt no saraksta</string>
     <string name="dialog_label_logout">Pārtraukt sesiju</string>
     <string name="dialog_label_remove">Noņemt</string>
-    <string name="dialog_label_confirm">Piekrist</string>
     <string name="dialog_label_send">Sūtīt</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="layout_card_title_details">Informācija</string>
@@ -102,8 +80,6 @@
     <string name="layout_card_join">Reģistrācijas datums</string>
     <string name="layout_card_acces">Pieejas līmenis</string>
     <string name="access_rank_atarashii_developer">Atarashii izstrādātājs</string>
-    <string name="layout_card_anime_views">Animes saraksta skatījumi</string>
-    <string name="layout_card_manga_views">Mangas saraksta skatījumi</string>
     <string name="layout_card_anime_details">Animes Informācija</string>
     <string name="layout_card_manga_details">Mangas Informācija</string>
     <string name="layout_card_anime_time">Dienas laiks</string>
@@ -117,14 +93,13 @@
     <string name="layout_card_manga_plan">Plānots lasīt</string>
     <string name="action_viewListOnMAL">Skatīties sarakstu MAL lapā</string>
     <string name="not_specified">nenoteikts</string>
-    <string name="no_activity">Nav Aktivitātes</string>
     <string-array name="gender">
         <item>Sieviete</item>
         <item>Vīrietis</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Draugi kopš</string>
     <string name="unknown">nezināms</string>
+    <!-- BackupActivity Strings -->
     <!-- ForumActivity Strings -->
     <string name="form_hint_message">Ziņa</string>
     <!-- FirstTimeInit (Contents) Strings -->
@@ -151,21 +126,18 @@
     <string name="nav_item_my_following">Sekoju</string>
     <string name="nav_item_my_forum">Forums</string>
     <string name="nav_item_top_rated">Augstāk Novērtētie</string>
-    <string name="nav_item_airing">Raida</string>
     <string name="nav_item_most_popular">Populārākie</string>
-    <string name="nav_item_year">Gada</string>
     <string name="nav_item_just_added">Tikko Pievienotie</string>
     <string name="nav_item_upcoming">Plānotie</string>
     <!-- Tab names Strings -->
     <string name="tab_name_details">Informācija</string>
     <string name="tab_name_friends">Draugi</string>
     <string name="tab_name_following">Seko</string>
+    <!-- Day Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Pārskats</string>
-    <string name="card_name_progress">Progress</string>
     <string name="card_name_stats">Statistika</string>
     <string name="card_name_info">Informācija</string>
-    <string name="card_name_rating">Vērtējums</string>
     <string name="card_name_personal">Personisks</string>
     <string name="card_name_relations">Attiecības</string>
     <string name="card_name_titles">Alternatīvie Nosaukumi</string>
@@ -178,10 +150,8 @@
     <string name="card_content_other">Cits</string>
     <string name="card_content_none">Nekāds</string>
     <string name="card_content_rewatch_priority">Prioritāte</string>
-    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Glabātuve</string>
     <string name="card_content_storage_amount">Glabātuves apjoms (GB)</string>
-    <string name="card_content_downloaded">Ielādēts</string>
     <string name="card_content_count">Skaits</string>
     <string name="card_content_episodes">Epizodes</string>
     <string name="card_content_status">Statuss</string>
@@ -206,9 +176,48 @@
     <!-- AboutActivity (contents) Strings -->
     <!-- Preferences (contents) Strings -->
     <!-- Dialog_Status_picker (ListType) Strings -->
-    <!-- RatingPickerDialogFragment (Rating) Items -->
+    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <!-- Settings (LocalePreference Entries) Items -->
     <!-- Settings (ListPreference Entries) Items -->
-    <!-- Date (Date format output) Items -->
+    <string-array name="syncArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 Hours</item>
+    <!-- Spanish -->
+        <item>6 Hours</item>
+    <!-- Spanish -->
+        <item>8 Hours</item>
+    <!-- Spanish -->
+        <item>10 Hours</item>
+    <!-- Spanish -->
+        <item>12 Hours</item>
+    <!-- Spanish -->
+        <item>24 Hours</item>
+    <!-- Spanish -->
+        <item>2 days</item>
+    <!-- Spanish -->
+        <item>3 days</item>
+    <!-- Spanish -->
+        <item>4 days</item>
+    <!-- Spanish -->
+        <item>5 days</item>
+    <!-- Spanish -->
+        <item>6 days</item>
+    <!-- Spanish -->
+        <item>7 days</item>
+    </string-array>
+    <string name="toast_info_comment_add">Komentārs veiksmīgi aizsūtīts!</string>
+    <string name="dialog_title_downloaded">Sērijas lejuplādētas</string>
+    <string name="dialog_title_fansub">Mana fansubgrupa</string>
+    <string name="dialog_title_add_topic">Izveidot tēmu</string>
+    <!--Typo, should be your-->
+    <string name="dialog_hint_fansub">Ievadiet savu fansubgrupu</string>
+    <string name="dialog_message_created_by">Izveidoja</string>
+    <string name="layout_card_anime_views">Animes saraksta skatījumi</string>
+    <string name="layout_card_manga_views">Mangas saraksta skatījumi</string>
+    <string name="no_activity">Nav Aktivitātes</string>
+    <string name="nav_item_airing">Raida</string>
+    <string name="nav_item_year">Gada</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_downloaded">Ielādēts</string>
 </resources>

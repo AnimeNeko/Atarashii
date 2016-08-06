@@ -1,8 +1,8 @@
 package net.somethingdreadful.MAL.profile;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,53 +25,109 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import net.somethingdreadful.MAL.Card;
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.APIHelper;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    Context context;
-    View view;
-    Card imagecard;
-    Card animecard;
-    Card mangacard;
+    private View view;
+    private Card imagecard;
+    private Card animecard;
+    private Card mangacard;
+    private ProfileActivity activity;
+
+    @BindView(R.id.swiperefresh)
     public SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.network_Card)
     Card networkCard;
 
-    private ProfileActivity activity;
+    @BindView(R.id.Image)
+    ImageView image;
+    @BindView(R.id.birthdaysmall)
+    TextView tv1;
+    @BindView(R.id.locationsmall)
+    TextView tv2;
+    @BindView(R.id.commentspostssmall)
+    TextView tv3;
+    @BindView(R.id.forumpostssmall)
+    TextView tv4;
+    @BindView(R.id.lastonlinesmall)
+    TextView tv5;
+    @BindView(R.id.gendersmall)
+    TextView tv6;
+    @BindView(R.id.joindatesmall)
+    TextView tv7;
+    @BindView(R.id.accessranksmall)
+    TextView tv8;
+    @BindView(R.id.atimedayssmall)
+    TextView tv11;
+    @BindView(R.id.awatchingsmall)
+    TextView tv12;
+    @BindView(R.id.acompletedpostssmall)
+    TextView tv13;
+    @BindView(R.id.aonholdsmall)
+    TextView tv14;
+    @BindView(R.id.adroppedsmall)
+    TextView tv15;
+    @BindView(R.id.aplantowatchsmall)
+    TextView tv16;
+    @BindView(R.id.atotalentriessmall)
+    TextView tv17;
+    @BindView(R.id.mtimedayssmall)
+    TextView tv18;
+    @BindView(R.id.mwatchingsmall)
+    TextView tv19;
+    @BindView(R.id.mcompletedpostssmall)
+    TextView tv20;
+    @BindView(R.id.monholdsmall)
+    TextView tv21;
+    @BindView(R.id.mdroppedsmall)
+    TextView tv22;
+    @BindView(R.id.mplantowatchsmall)
+    TextView tv23;
+    @BindView(R.id.mtotalentriessmall)
+    TextView tv24;
+    @BindView(R.id.websitesmall)
+    TextView tv25;
+    @BindView(R.id.websitefront)
+    TextView tv26;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         view = inflater.inflate(R.layout.fragment_profile_mal, container, false);
 
+        Card.fastInit(view, R.id.details_card, R.layout.card_profile_details);
         imagecard = ((Card) view.findViewById(R.id.name_card));
-        imagecard.setContent(R.layout.card_image);
-        ((Card) view.findViewById(R.id.details_card)).setContent(R.layout.card_profile_details);
         animecard = (Card) view.findViewById(R.id.Anime_card);
-        animecard.setContent(R.layout.card_profile_anime);
         mangacard = (Card) view.findViewById(R.id.Manga_card);
-        mangacard.setContent(R.layout.card_profile_manga);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
 
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        imagecard.setContent(R.layout.card_image);
+        animecard.setContent(R.layout.card_profile_anime);
+        mangacard.setContent(R.layout.card_profile_manga);
+
+        ButterKnife.bind(this, view);
+
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
 
         TextView tv25 = (TextView) view.findViewById(R.id.websitesmall);
         tv25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webstiteclick = Uri.parse(activity.record.getProfile().getDetails().getWebsite());
+                Uri webstiteclick = Uri.parse(activity.record.getDetails().getWebsite());
                 startActivity(new Intent(Intent.ACTION_VIEW, webstiteclick));
             }
         });
@@ -90,27 +147,24 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         this.activity = (ProfileActivity) activity;
     }
 
-    public void card() { //settings for hide a card and text userprofile
-        if (PrefManager.getHideAnime()) {
+    private void card() { //settings for hide a card and text userprofile
+        if (PrefManager.getHideAnime())
             animecard.setVisibility(View.GONE);
-        }
-        if (PrefManager.getHideManga()) {
+        if (PrefManager.getHideManga())
             mangacard.setVisibility(View.GONE);
-        }
-        if (activity.record.getProfile().getMangaStats().getTotalEntries() < 1) { //if manga (total entry) is beneath the int then hide
+        if (activity.record.getMangaStats() == null || activity.record.getMangaStats().getTotalEntries() < 1)  //if manga (total entry) is beneath the int then hide
             mangacard.setVisibility(View.GONE);
-        }
-        if (activity.record.getProfile().getAnimeStats().getTotalEntries() < 1) { //if anime (total entry) is beneath the int then hide
+        if (activity.record.getAnimeStats() == null || activity.record.getAnimeStats().getTotalEntries() < 1)  //if anime (total entry) is beneath the int then hide
             animecard.setVisibility(View.GONE);
-        }
+
         Card namecard = (Card) view.findViewById(R.id.name_card);
-        namecard.Header.setText(WordUtils.capitalize(activity.record.getName()));
+        namecard.Header.setText(WordUtils.capitalize(activity.record.getUsername()));
     }
 
-    public void setcolor() {
+    private void setcolor() {
         TextView tv8 = (TextView) view.findViewById(R.id.accessranksmall);
-        String name = activity.record.getName();
-        String rank = activity.record.getProfile().getDetails().getAccessRank() != null ? activity.record.getProfile().getDetails().getAccessRank() : "";
+        String name = activity.record.getUsername();
+        String rank = activity.record.getDetails().getAccessRank() != null ? activity.record.getDetails().getAccessRank() : "";
         if (!PrefManager.getTextColor()) {
             setColor(true);
             setColor(false);
@@ -124,42 +178,41 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
             TextView tv11 = (TextView) view.findViewById(R.id.websitesmall);
             tv11.setTextColor(Color.parseColor("#002EAB"));
         }
-        if (User.isDeveloperRecord(name)) {
+        if (Profile.isDeveloper(name)) {
             tv8.setText(R.string.access_rank_atarashii_developer); //Developer
-            tv8.setTextColor(getResources().getColor(R.color.primary)); //Developer
+            tv8.setTextColor(ContextCompat.getColor(activity, R.color.primary)); //Developer
         }
     }
 
-    public void setColor(boolean type) {
+    private void setColor(boolean type) {
         int Hue;
         TextView textview;
         if (type) {
             textview = (TextView) view.findViewById(R.id.atimedayssmall); //anime
-            Hue = (int) (activity.record.getProfile().getAnimeStats().getTimeDays() * 2.5);
+            Hue = (int) (activity.record.getAnimeStats().getTimeDays() * 2.5);
         } else {
             textview = (TextView) view.findViewById(R.id.mtimedayssmall); // manga
-            Hue = (int) (activity.record.getProfile().getMangaStats().getTimeDays() * 5);
+            Hue = (int) (activity.record.getMangaStats().getTimeDays() * 5);
         }
-        if (Hue > 359) {
+        if (Hue > 359)
             Hue = 359;
-        }
         textview.setTextColor(Color.HSVToColor(new float[]{Hue, 1, (float) 0.7}));
     }
 
-    private String getStringFromResourceArray(int resArrayId, int notFoundStringId, int index) {
+    private String getStringFromResourceArray(int resArrayId, int index) {
         try { // getResources will cause a crash if an users clicks the profile fast away
             Resources res = getResources();
             try {
                 String[] types = res.getStringArray(resArrayId);
                 if (index < 0 || index >= types.length) // make sure to have a valid array index
-                    return res.getString(notFoundStringId);
+                    return res.getString(R.string.not_specified);
                 else
                     return types[index];
-            }catch (Exception e) {
-                return res.getString(notFoundStringId);
+            } catch (Exception e) {
+                return res.getString(R.string.not_specified);
             }
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "ProfileDetailsMAL.getStringFromResourceArray(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.getStringFromResourceArray(): " + e.getMessage());
             return "Error: could not receive resources";
         }
     }
@@ -170,119 +223,101 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
         networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
-    public void setText() {
-        TextView tv1 = (TextView) view.findViewById(R.id.birthdaysmall);
-        if (activity.record.getProfile().getDetails().getBirthday() == null) {
+    @SuppressLint("SetTextI18n")
+    private void setText() {
+        if (activity.record.getDetails().getBirthday() == null) {
             tv1.setText(R.string.not_specified);
         } else {
-            String birthday = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getBirthday(), activity, false);
-            tv1.setText(birthday.equals("") ? activity.record.getProfile().getDetails().getBirthday() : birthday);
+            tv1.setText(activity.record.getDetails().getBirthday());
         }
-        TextView tv2 = (TextView) view.findViewById(R.id.locationsmall);
-        if (activity.record.getProfile().getDetails().getLocation() == null) {
+        if (activity.record.getDetails().getLocation() == null)
             tv2.setText(R.string.not_specified);
-        } else {
-            tv2.setText(activity.record.getProfile().getDetails().getLocation());
-        }
-        TextView tv25 = (TextView) view.findViewById(R.id.websitesmall);
-        TextView tv26 = (TextView) view.findViewById(R.id.websitefront);
-        Card tv36 = (Card) view.findViewById(R.id.details_card);
-        if (activity.record.getProfile().getDetails().getWebsite() != null && activity.record.getProfile().getDetails().getWebsite().contains("http://") && activity.record.getProfile().getDetails().getWebsite().contains(".")) { // filter fake websites
-            tv25.setText(activity.record.getProfile().getDetails().getWebsite().replace("http://", ""));
+        else
+            tv2.setText(activity.record.getDetails().getLocation());
+        if (activity.record.getDetails().getWebsite() != null && activity.record.getDetails().getWebsite().contains("http://") && activity.record.getDetails().getWebsite().contains(".")) { // filter fake websites
+            tv25.setText(activity.record.getDetails().getWebsite().replace("http://", ""));
         } else {
             tv25.setVisibility(View.GONE);
             tv26.setVisibility(View.GONE);
         }
-        TextView tv3 = (TextView) view.findViewById(R.id.commentspostssmall);
-        tv3.setText(String.valueOf(activity.record.getProfile().getDetails().getComments()));
-        TextView tv4 = (TextView) view.findViewById(R.id.forumpostssmall);
-        tv4.setText(String.valueOf(activity.record.getProfile().getDetails().getForumPosts()));
-        TextView tv5 = (TextView) view.findViewById(R.id.lastonlinesmall);
-        if (activity.record.getProfile().getDetails().getLastOnline() != null) {
-            String lastOnline = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getLastOnline(), activity, true);
-            tv5.setText(lastOnline.equals("") ? activity.record.getProfile().getDetails().getLastOnline() : lastOnline);
+        tv3.setText(String.valueOf(activity.record.getDetails().getComments()));
+        tv4.setText(String.valueOf(activity.record.getDetails().getForumPosts()));
+        if (activity.record.getDetails().getLastOnline() != null) {
+            String lastOnline = DateTools.parseDate(activity.record.getDetails().getLastOnline(), true);
+            tv5.setText(lastOnline.equals("") ? activity.record.getDetails().getLastOnline() : lastOnline);
         } else
             tv5.setText("-");
-        TextView tv6 = (TextView) view.findViewById(R.id.gendersmall);
-        tv6.setText(getStringFromResourceArray(R.array.gender, R.string.not_specified, activity.record.getProfile().getDetails().getGenderInt()));
-        TextView tv7 = (TextView) view.findViewById(R.id.joindatesmall);
-        if (activity.record.getProfile().getDetails().getJoinDate() != null) {
-            String joinDate = MALDateTools.formatDateString(activity.record.getProfile().getDetails().getJoinDate(), activity, false);
-            tv7.setText(joinDate.equals("") ? activity.record.getProfile().getDetails().getJoinDate() : joinDate);
+        tv6.setText(getStringFromResourceArray(R.array.gender, activity.record.getDetails().getGenderInt()));
+        if (activity.record.getDetails().getJoinDate() != null) {
+            String joinDate = DateTools.parseDate(activity.record.getDetails().getJoinDate(), false);
+            tv7.setText(joinDate.equals("") ? activity.record.getDetails().getJoinDate() : joinDate);
         } else
             tv7.setText("-");
-        TextView tv8 = (TextView) view.findViewById(R.id.accessranksmall);
-        tv8.setText(activity.record.getProfile().getDetails().getAccessRank());
-        TextView tv9 = (TextView) view.findViewById(R.id.animelistviewssmall);
-        tv9.setText(String.valueOf(activity.record.getProfile().getDetails().getAnimeListViews()));
-        TextView tv10 = (TextView) view.findViewById(R.id.mangalistviewssmall);
-        tv10.setText(String.valueOf(activity.record.getProfile().getDetails().getMangaListViews()));
+        tv8.setText(activity.record.getDetails().getAccessRank());
 
-        TextView tv11 = (TextView) view.findViewById(R.id.atimedayssmall);
-        tv11.setText(activity.record.getProfile().getAnimeStats().getTimeDays().toString());
-        TextView tv12 = (TextView) view.findViewById(R.id.awatchingsmall);
-        tv12.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getWatching()));
-        TextView tv13 = (TextView) view.findViewById(R.id.acompletedpostssmall);
-        tv13.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getCompleted()));
-        TextView tv14 = (TextView) view.findViewById(R.id.aonholdsmall);
-        tv14.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getOnHold()));
-        TextView tv15 = (TextView) view.findViewById(R.id.adroppedsmall);
-        tv15.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getDropped()));
-        TextView tv16 = (TextView) view.findViewById(R.id.aplantowatchsmall);
-        tv16.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getPlanToWatch()));
-        TextView tv17 = (TextView) view.findViewById(R.id.atotalentriessmall);
-        tv17.setText(String.valueOf(activity.record.getProfile().getAnimeStats().getTotalEntries()));
+        tv11.setText(activity.record.getAnimeStats().getTimeDays().toString());
+        tv12.setText(String.valueOf(activity.record.getAnimeStats().getWatching()));
+        tv13.setText(String.valueOf(activity.record.getAnimeStats().getCompleted()));
+        tv14.setText(String.valueOf(activity.record.getAnimeStats().getOnHold()));
+        tv15.setText(String.valueOf(activity.record.getAnimeStats().getDropped()));
+        tv16.setText(String.valueOf(activity.record.getAnimeStats().getPlanToWatch()));
+        tv17.setText(String.valueOf(activity.record.getAnimeStats().getTotalEntries()));
 
-        TextView tv18 = (TextView) view.findViewById(R.id.mtimedayssmall);
-        tv18.setText(activity.record.getProfile().getMangaStats().getTimeDays().toString());
-        TextView tv19 = (TextView) view.findViewById(R.id.mwatchingsmall);
-        tv19.setText(String.valueOf(activity.record.getProfile().getMangaStats().getReading()));
-        TextView tv20 = (TextView) view.findViewById(R.id.mcompletedpostssmall);
-        tv20.setText(String.valueOf(activity.record.getProfile().getMangaStats().getCompleted()));
-        TextView tv21 = (TextView) view.findViewById(R.id.monholdsmall);
-        tv21.setText(String.valueOf(activity.record.getProfile().getMangaStats().getOnHold()));
-        TextView tv22 = (TextView) view.findViewById(R.id.mdroppedsmall);
-        tv22.setText(String.valueOf(activity.record.getProfile().getMangaStats().getDropped()));
-        TextView tv23 = (TextView) view.findViewById(R.id.mplantowatchsmall);
-        tv23.setText(String.valueOf(activity.record.getProfile().getMangaStats().getPlanToRead()));
-        TextView tv24 = (TextView) view.findViewById(R.id.mtotalentriessmall);
-        tv24.setText(String.valueOf(activity.record.getProfile().getMangaStats().getTotalEntries()));
+        tv18.setText(activity.record.getMangaStats().getTimeDays().toString());
+        tv19.setText(String.valueOf(activity.record.getMangaStats().getReading()));
+        tv20.setText(String.valueOf(activity.record.getMangaStats().getCompleted()));
+        tv21.setText(String.valueOf(activity.record.getMangaStats().getOnHold()));
+        tv22.setText(String.valueOf(activity.record.getMangaStats().getDropped()));
+        tv23.setText(String.valueOf(activity.record.getMangaStats().getPlanToRead()));
+        tv24.setText(String.valueOf(activity.record.getMangaStats().getTotalEntries()));
     }
 
     public void refresh() {
-        if (activity.record == null) {
-            if (MALApi.isNetworkAvailable(context)) {
-                Theme.Snackbar(activity, R.string.toast_error_UserRecord);
+        try {
+            if (activity.record == null) {
+                if (APIHelper.isNetworkAvailable(activity)) {
+                    Theme.Snackbar(activity, R.string.toast_error_UserRecord);
+                } else {
+                    toggle(2);
+                }
             } else {
-                toggle(2);
+                toggle(0);
+                card();
+                setText();
+                setcolor();
+
+                Picasso.with(activity)
+                        .load(activity.record.getImageUrl())
+                        .error(R.drawable.cover_error)
+                        .placeholder(R.drawable.cover_loading)
+                        .into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                                image.setImageBitmap(bitmap);
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+                                try {
+                                    Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
+                                    imagecard.wrapImage(225, 320);
+                                    image.setImageDrawable(drawable);
+                                } catch (Exception e) {
+                                    Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                                }
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                                imagecard.wrapImage(225, 320);
+                                image.setImageDrawable(drawable);
+                            }
+                        });
             }
-        } else {
-            card();
-            setText();
-            setcolor();
-
-            Picasso.with(context)
-                    .load(activity.record.getProfile()
-                            .getAvatarUrl())
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                            ((ImageView) view.findViewById(R.id.Image)).setImageBitmap(bitmap);
-                            toggle(0);
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            toggle(0);
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            toggle(0);
-                        }
-                    });
-            toggle(0);
+        } catch (IllegalStateException e) {
+            Crashlytics.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): has been closed too fast");
         }
     }
 

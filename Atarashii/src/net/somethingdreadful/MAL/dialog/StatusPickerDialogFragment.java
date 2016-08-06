@@ -10,19 +10,17 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
-import net.somethingdreadful.MAL.api.response.Anime;
-import net.somethingdreadful.MAL.api.response.GenericRecord;
-import net.somethingdreadful.MAL.api.response.Manga;
 
 public class StatusPickerDialogFragment extends DialogFragment implements OnCheckedChangeListener {
-
-    RadioGroup radio;
-    ListType type;
-    String currentStatus;
+    private ListType type;
+    private String currentStatus;
 
     @Override
-    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(makeRatiobutton());
         builder.setTitle(R.string.dialog_title_status);
@@ -43,9 +41,9 @@ public class StatusPickerDialogFragment extends DialogFragment implements OnChec
         return builder.create();
     }
 
-    public View makeRatiobutton() {
+    private View makeRatiobutton() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_status_picker, null);
-        radio = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
+        RadioGroup radio = (RadioGroup) view.findViewById(R.id.statusRadioGroup);
         type = ((DetailView) getActivity()).type;
 
         if (type == ListType.ANIME) {

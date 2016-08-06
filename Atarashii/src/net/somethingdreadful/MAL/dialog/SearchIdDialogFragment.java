@@ -14,7 +14,7 @@ import net.somethingdreadful.MAL.api.MALApi;
 
 
 public class SearchIdDialogFragment extends DialogFragment {
-    int query;
+    private int query;
 
     @Override
     public void onAttach(Activity activity) {
@@ -23,7 +23,7 @@ public class SearchIdDialogFragment extends DialogFragment {
     }
 
     @Override
-    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialog_title_id_search);
         builder.setMessage(R.string.dialog_message_id_search);

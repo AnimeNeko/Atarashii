@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:baselineAligned="false"
     android:gravity="center"
     android:orientation="horizontal">
 
@@ -17,18 +19,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/chapterLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@string/label_Chapters" />
+            android:text="@string/label_Chapters"/>
 
         <NumberPicker
             android:id="@+id/chapterPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,18 +43,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/volumeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@string/label_Volumes" />
+            android:text="@string/label_Volumes"/>
 
         <NumberPicker
             android:id="@+id/volumePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -6,25 +6,16 @@
     <string name="title_activity_about">عنا</string>
     <string name="title_activity_detail_view">عرض التفاصيل</string>
     <string name="title_activity_profile">الملف الشخصى</string>
-    <string name="title_activity_friends">أصدقائى</string>
-    <string name="title_activity_logout">تسجيل الخروج</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">غـيـِّـر القائمة</string>
     <string name="menu_inverse">قائمة معكوسة</string>
-    <string name="menu_settings">الإعدادات</string>
     <string name="menu_sync">تزامن كامل</string>
-    <string name="menu_sortType">رتب</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">لم يتم العثور على اتصال بالشبكة.</string>
     <string name="toast_error_UserRecord">الملف الشخصى فارغ!</string>
-    <string name="toast_error_Search_Anime">حدث خطأ أثناء البحث عن مدخلات الـ Anime.</string>
-    <string name="toast_error_Search_Manga">حدث خطأ أثناء البحث عن مدخلات الـ Manga.</string>
     <string name="toast_error_Search">خطأ أثناء عملية البحث! من فضلك أعد المحاولة لاحقا.</string>
     <string name="toast_error_Anime_Sync">خطأ فى التزامن أثناء الحصول على قائمة الـ Anime!</string>
     <string name="toast_error_Manga_Sync">خطأ فى التزامن أثناء الحصول على قائمة الـ Manga!</string>
-    <string name="toast_error_SyncFailed">فشل التزامن! من فضلك أعد المحاولة لاحقا.</string>
-    <string name="toast_error_Anime_Records">خطأ أثناء الحصول على مدخلات الـ Anime.</string>
-    <string name="toast_error_Manga_Records">خطأ أثناء الحصول على مدخلات الـ Manga.</string>
     <string name="toast_error_Records">خطأ أثناء الحصول على المدخلات. من فضلك أعد المحاولة لاحقا.</string>
     <string name="toast_error_Friends">خطأ فى التزامن أثناء الحصول على قائمة الأصدقاء!</string>
     <string name="toast_info_Copied">تم نسخ العنوان إلى الـ clipboard بنجاح.</string>
@@ -34,13 +25,10 @@
     <string name="dialog_title_share_via">شارك عبر</string>
     <string name="dialog_title_Verifying">جاري التحقق</string>
     <string name="dialog_title_rating">التقييم</string>
-    <string name="dialog_title_logout">تأكيد الرغبة فى تسجيل الخروج</string>
     <string name="dialog_title_watched_update">لقد شاهدت</string>
     <string name="dialog_title_read_update">لقد قرأت</string>
     <string name="dialog_title_status">الحالة</string>
-    <string name="dialog_title_sync">التزامن</string>
     <string name="dialog_title_id_search">البحث عن المعرف (ID)</string>
-    <string name="dialog_title_update_password">تحديث كلمة السر</string>
     <string name="dialog_title_update_navigation">تحديث الخلفية</string>
     <string name="dialog_message_view">أى قائمة تريد أن تعرض؟</string>
     <string name="dialog_message_logout">أتريد تسجيل الخروج؟ هذا سيؤدى إلى مسح كل بيانات و صور البرنامج المحفوظة على جهازكم.</string>
@@ -48,8 +36,6 @@
     <string name="dialog_message_remove">أأنت فعلا متأكد؟ بمجرد ذهابها فقد ذهبت إلى الأبد و لا يمكن استرجاعها. أو ليس بسهولة على أى حال.</string>
     <string name="dialog_message_share">أى قائمة تريد أن تشارك؟</string>
     <string name="dialog_message_Verifying">نتأكد من أن حسابك بخير. أنتظر لحظة.</string>
-    <string name="dialog_message_update_password">يبدو أن كلمة مرورك قد تغيرت. من فضلك أدخل كلمة المرور الجديدة أدناه.</string>
-    <string name="dialog_message_new_password_wrong">كلمة السر التي أدخلتها للتو خاطئة.</string>
     <string name="dialog_message_update_navigation">أدخل عنوان URL للصورة أدناه.</string>
     <string name="dialog_label_cancel">إلغاء الأمر</string>
     <string name="dialog_label_update">تحديث</string>
@@ -60,7 +46,6 @@
     <string name="dialog_title_remove">أزل من القائمة</string>
     <string name="dialog_label_logout">تسجيل الخروج</string>
     <string name="dialog_label_remove">أزل</string>
-    <string name="dialog_label_confirm">أكد</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; شارك قائمة Anime بواسطة Atarashiiـ: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">$username; شارك قائمة Manga بواسطة Atarashiiـ: http://myanimelist.net/mangalist/$name;!</string>
@@ -77,8 +62,6 @@
     <string name="layout_card_join">تاريخ الانضمام</string>
     <string name="layout_card_acces">رتبة الدخول</string>
     <string name="access_rank_atarashii_developer">مطور Atarashii</string>
-    <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
-    <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
     <string name="layout_card_anime_details">تفاصيل الـ Anime</string>
     <string name="layout_card_manga_details">تفاصيل الـ Manga</string>
     <string name="layout_card_anime_time">الوقت بالأيام</string>
@@ -97,8 +80,8 @@
         <item>ذكر</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">أصدقاء منذ</string>
     <string name="unknown">وقت غير معلوم</string>
+    <!-- BackupActivity Strings -->
     <!-- ForumActivity Strings -->
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="form_hint_user">اسم مستخدم MAL</string>
@@ -133,10 +116,9 @@
     <string name="tab_name_general">عام</string>
     <string name="tab_name_personal">شخصى</string>
     <string name="tab_name_details">التفاصيل</string>
+    <!-- Day Strings -->
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">نبذة</string>
-    <string name="card_name_progress">التقدم</string>
-    <string name="card_name_rating">التقييم</string>
     <string name="card_name_personal">شخصي</string>
     <string name="card_name_relations">ما يتعلق به</string>
     <string name="card_name_titles">الأسماء الأخري</string>
@@ -152,7 +134,6 @@
     <string name="card_content_my_score">تقييمى</string>
     <string name="card_content_media_type">النوع</string>
     <string name="card_content_media_status">الحالة</string>
-    <string name="card_content_aired">عرض فى</string>
     <string name="card_content_genres">الانواع</string>
     <string name="card_content_classification">التصنيف</string>
     <string name="card_content_ranked">الترتيب</string>
@@ -174,7 +155,6 @@
     <string name="card_content_english">إنجليزي</string>
     <string name="card_content_synonyms">أسماء مساوية</string>
     <string name="card_offline_error">لا يوجد اتصال متاح بالشبكة.</string>
-    <string name="card_offline_button_caption">حاول مرة أخرى</string>
     <string name="card_offline_title">أنت غير متصل بالشبكة!</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">اظهر التفاصيل على MyAnimeList</string>
@@ -240,9 +220,8 @@
     <string name="acknowledgements_card_title">المعلومات</string>
     <string name="community_card_title">منتدى Atarashii على +G</string>
     <string name="translations_card_title">التراجم</string>
-    <string name="acknowledgements">Atarashii! implements Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> by Square Inc. and <a href="https://code.google.com/p/google-gson/">google-gson</a> by Google Inc. which is used by Retrofit, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">How we use your data</a>.</string>
     <string name="app_description">ـ Atarashii! هو أفضل طريقة للوصول لــ MyAnimeList من هاتفك. التطبيق يتباهى بواجهة Android عصرية، مصنوعة بجمال، و مصحوبة بكل الوظائف التى يمكن أن تحتاجها.</string>
-    <string name="contributor_anima_summary">\"!كل التطبيقات الأخرى أى كلام!\"\n\n\nالمؤسس و كاتب الكودِ الرئيسيُ. مل من واجهات المستخدم UI البائسة فى التطبيقات الأخرى و افتقارها العام للإصلاحات و الصيانة، فأنشأ هذا البرنامج.</string>
+    <string name="contributor_anima_summary">\&amp;quot;!كل التطبيقات الأخرى أى كلام!\&amp;quot;\n\n\nالمؤسس و كاتب الكودِ الرئيسيُ. مل من واجهات المستخدم UI البائسة فى التطبيقات الأخرى و افتقارها العام للإصلاحات و الصيانة، فأنشأ هذا البرنامج.</string>
     <string name="contributor_motokochan_summary">يركز على ترتيب الكود و العمل على الخواص الصغيرة. عمل على التوسع لدعم الــ Manga.</string>
     <string name="contributor_apkawa_summary">وضع خاصية البحث.</string>
     <string name="contributor_dsko_summary">عمل على retrofit للتعامل مع الـ API.</string>
@@ -256,7 +235,6 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">اشترك بمنتدانا</a> منتدى !Atarashii على Google+ هو مكان رائع للتواصل مع المطورين و إعلامنا عن رأيك. مشاكل التطبيق، طلبات الخواص، حالة التطبيق، ستجد كل هذا فيه. نحن لا نعض، نعدك بذلك.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">القائمة الافتراضية</string>
-    <string name="summary_DefaultList">أى قائمة تريد التطبيق أن يحملها عندما يفتح؟</string>
     <string name="preference_category_list">القائمة</string>
     <string name="preference_category_synchronisation">التزامن</string>
     <string name="preference_category_sharing">إعدادات أخري</string>
@@ -272,6 +250,7 @@
     <string name="preference_profileTextColors">عطل النص الملون</string>
     <string name="preference_profileAnimeHide">اخف تفاصيل الـ Anime دائما</string>
     <string name="preference_profileMangaHide">اخف تفاصيل الـ Manga دائما</string>
+    <string name="summary_DefaultList">أى قائمة تريد التطبيق أن يحملها عندما يفتح؟</string>
     <string name="preference_summary_TraditionList">استخدم القائمة التقليدية بدلا من الأغلفة. يحتاج إعادة التشغيل ليبدأ بالعمل.</string>
     <string name="preference_summary_synchronisation">إذا كان مفعلاً، Atarashii سيقوم بالتزامن فى الخلفية</string>
     <string name="preference_summary_Language">غير اللغة الإفتراضية إلى اللغة التى ترغبها. يحتاج إعادة التشغيل ليبدأ بالعمل.</string>
@@ -290,31 +269,7 @@
     <string name="listType_planned">مخطط</string>
     <string name="listType_Completed">أكتمل</string>
     <string name="listType_InProgress">يشاهـَد / يقرئ</string>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-    <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>غير مقيم</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>1: مروع</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>2: فظيع</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>3: سئ جدا</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>4: سئ</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>5: متوسط</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>6: لا بأس به</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>7: جيد</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>8: جيد جدا</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>9: عظيم</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>10: تحفة</item>
-    </string-array>
+    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -331,70 +286,33 @@
         <item>مخطط</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>العربية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الهولاندية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الإنجليزية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الفرنسية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الألمانية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>اليونانية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>البولاندية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>البرتغالية (البرازيل)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>البرتغالية (البرتغال)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الروسية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>الإسبانية</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>التركية</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 ساعات</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 ساعات</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 ساعات</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 ساعات</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 ساعة</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 ساعة</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>48 ساعة</item>
+    <!-- Spanish -->
+        <item>3 days</item>
+    <!-- Spanish -->
+        <item>4 days</item>
+    <!-- Spanish -->
+        <item>5 days</item>
+    <!-- Spanish -->
+        <item>6 days</item>
+    <!-- Spanish -->
+        <item>7 days</item>
     </string-array>
-    <!-- Date (Date format output) Items -->
-    <string name="dateformat">yy-MM-dd</string>
-    <string name="datetimeformat">yy-MM-dd, h:mm a</string>
-    <string name="datetimeformat_yesterday">\'أمس\', h:mm a</string>
-    <string name="datetimeformat_dayname">EEEE, h:mm a</string>
-    <plurals name="minutes_ago">
-        <item quantity="one">منذ دقيقة</item>
-        <item quantity="other">منذ %d دقائق</item>
-        <item quantity="zero">الآن</item>
-        <item quantity="few">منذ %d دقائق</item>
-        <item quantity="many">منذ %d دقائق</item>
-        <item quantity="two">منذ دقيقتان</item>
-    </plurals>
-    <plurals name="hours_ago">
-        <item quantity="one">منذ ساعة</item>
-        <item quantity="other">منذ %d ساعات</item>
-        <item quantity="few">منذ %d ساعات</item>
-        <item quantity="many">منذ %d ساعات</item>
-        <item quantity="two">منذ ساعتان</item>
-        <item quantity="zero">منذ %d ساعات</item>
-    </plurals>
     <string-array name="classificationArray">
         <item>G - لكل الأعمار</item>
         <item>PG - الأطفال</item>
@@ -448,4 +366,6 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
+    <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
+    <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
 </resources>

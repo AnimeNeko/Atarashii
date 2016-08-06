@@ -2,13 +2,20 @@ package net.somethingdreadful.MAL.tasks;
 
 public enum TaskJob {
     GETLIST,
+    GETFRIENDLIST,
+    BROWSE,
     FORCESYNC,
     GETMOSTPOPULAR,
+    GETMOSTPOPULARS,
+    GETMOSTPOPULARY,
     GETTOPRATED,
+    GETTOPRATEDS,
+    GETTOPRATEDY,
     GETJUSTADDED,
     GETUPCOMING,
-    GET,
     GETDETAILS,
     UPDATE,
+    REVIEWS,
+    RECOMMENDATION,
     SEARCH
 }

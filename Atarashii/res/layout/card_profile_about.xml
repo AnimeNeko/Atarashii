@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/SynopsisContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/card_content_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/atimedaysfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/card_content_episodestime"
+        android:textSize="18sp"
+        android:layout_below="@id/SynopsisContent"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/atimedayssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/atimedaysfront"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mtimedaysfront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/atimedaysfront"
+        android:text="@string/card_content_chapseen"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mtimedayssmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/mtimedaysfront"
+        android:layout_alignParentRight="true"
+        android:text="@string/layout_card_loading"
+        android:textSize="16sp" />
+</RelativeLayout>

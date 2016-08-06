@@ -1,16 +1,15 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
     <TableRow>
-
         <TextView
-            android:id="@+id/typeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_media_type"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/type"
@@ -19,64 +18,63 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
-
+            android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow>
-
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
         <TextView
             android:id="@+id/episodesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/card_content_episodes"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/episodes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
-
+            android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow>
-
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
         <TextView
             android:id="@+id/volumesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/card_content_volumes"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/volumes"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow android:layout_marginTop="8dp">
-
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
         <TextView
-            android:id="@+id/statusLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_media_status"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/status"
@@ -85,22 +83,20 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </TableRow>
 
     <TableRow
-        android:layout_marginTop="8dp"
+        android:id="@+id/startRow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/startRow">
-
+        android:layout_marginTop="8dp">
         <TextView
-            android:id="@+id/startLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_start"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/start"
@@ -109,23 +105,21 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
-
+            android:textSize="16sp"/>
     </TableRow>
 
     <TableRow
-        android:layout_marginTop="8dp"
+        android:id="@+id/endRow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/endRow">
+        android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/endLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_end"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/end"
@@ -134,18 +128,64 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow android:layout_marginTop="8dp">
+    <TableRow
+        android:id="@+id/broadcastRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_broadcast"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/durationRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_content_duration"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/layout_card_loading"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow android:layout_marginTop="8dp"
+              android:id="@+id/classificationRow">
         <TextView
             android:id="@+id/classificationLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_classification"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/classification"
@@ -154,18 +194,17 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </TableRow>
 
-    <TableRow android:layout_marginTop="8dp">
-
+    <TableRow android:layout_marginTop="8dp"
+              android:id="@+id/genreRow">
         <TextView
-            android:id="@+id/genresLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_genres"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/genres"
@@ -174,20 +213,18 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </TableRow>
 
     <TableRow
-        android:layout_marginTop="8dp"
-        android:id="@+id/producersRow">
-
+        android:id="@+id/producersRow"
+        android:layout_marginTop="8dp">
         <TextView
-            android:id="@+id/producersLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_content_producers"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/producers"
@@ -196,6 +233,6 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="@string/layout_card_loading"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </TableRow>
 </TableLayout>

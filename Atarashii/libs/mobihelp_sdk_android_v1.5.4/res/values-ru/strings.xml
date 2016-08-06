@@ -1,0 +1,80 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="mobihelp_activity_title_solution_list">Поддержка</string>
+    <string name="mobihelp_activity_title_tickets_list">Разговоры</string>
+    <string name="mobihelp_activity_title_feedback">Начать разговор</string>
+    <string name="mobihelp_activity_title_feedback_only">Отзыв</string>
+    <string name="mobihelp_activity_title_solution_article">Решение</string>
+    <string name="mobihelp_label_contact_us">Связаться с нами</string>
+    <string name="mobihelp_label_contact_us_description_text">Если ваш поиск завершился безуспешно, свяжитесь с нами</string>
+    <string name="mobihelp_label_my_conversations">Мои разговоры</string>
+    <string name="mobihelp_label_support_solutions_list_label">Решения</string>
+    <string name="mobihelp_label_request_review">Щелкните здесь для обзора приложения в PlayStore</string>
+    <string name="mobihelp_autoreply_message">Спасибо за ваш отзыв. Наш представитель поддержки свяжется с вами в ближайшее время.</string>
+    <string name="mobihelp_default_anon_user_name">Пользователь Mobihelp</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">Адрес электронной почты</string>
+    <string name="mobihelp_hint_feedback">Поделитесь своим мнением.</string>
+    <string name="mobihelp_hint_name">Имя</string>
+    <string name="mobihelp_hint_required_field">(обязательно)</string>
+    <string name="mobihelp_hint_optional_field">(по выбору)</string>
+    <string name="mobihelp_hint_enter_text_here">Здесь наберите текст сообщения</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Поиск по нашей базе знаний</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Нет подключения к Интернету.</string>
+    <string name="mobihelp_error_name_not_present">Введите имя</string>
+    <string name="mobihelp_error_email_not_present">Введите адрес электронной почты</string>
+    <string name="mobihelp_error_email_not_valid">Введите действительный адрес электронной почты</string>
+    <string name="mobihelp_error_description_not_present">Введите описание проблемы</string>
+    <string name="mobihelp_error_genreic_retry_message">Повторите попытку позже</string>
+
+    <!-- Menu Items -->
+    <string name="mobihelp_menu_item_title_search_solutions">Поиск</string>
+    <string name="mobihelp_menu_item_title_contact_us">Связаться с нами</string>
+    <string name="mobihelp_menu_item_title_submit">Передать</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Отправить</string>
+    <string name="mobihelp_content_description_device_screenshot">Снимок экрана устройства</string>
+    <string name="mobihelp_tickets_list_empty_message">Чтобы начать новый разговор, коснитесь этой области</string>
+    <string name="mobihelp_solutions_list_empty_message">Нет доступных решений</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Благодарим вас! Ваш отзыв отправлен.</string>
+    <string name="mobihelp_message_request_succeded">Отправлено успешно</string>
+    <string name="mobihelp_message_request_failed">Не удалось отправить. Повторите попытку позже</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">Не удалось загрузить эту статью</string>
+    <string name="mobihelp_message_support_agent">поддержка</string>
+    <string name="mobihelp_message_pending">отправка...</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">Если вас устраивает данное приложение, уделите минутку для его оценки. Благодарим за поддержку.</string>
+    <string name="mobihelp_rating_dialog_title">Оценить</string>
+    <string name="mobihelp_rating_dialog_rate_button">Оценить</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Не сейчас</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Отзыв</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">только что</string>
+    <string name="mobihelp_time_n_mins_ago">{mins} мин. назад</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one" tools:ignore="ImpliedQuantity">{hours} ч. назад</item>
+        <item quantity="many">{hours} ч. назад</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one" tools:ignore="ImpliedQuantity">{weeks} неделя назад</item>
+        <item quantity="many">{weeks} недель назад</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one" tools:ignore="ImpliedQuantity">{months} месяц назад</item>
+        <item quantity="many">{months} месяцев назад</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">1 день назад</string>
+    <string name="mobihelp_time_n_days_ago">{days} дней назад</string>
+    <string name="mobihelp_time_more_than_a_year_ago">больше года назад</string>
+
+</resources>

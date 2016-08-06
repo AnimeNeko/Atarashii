@@ -1,0 +1,80 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="mobihelp_activity_title_solution_list">Assistance</string>
+    <string name="mobihelp_activity_title_tickets_list">Conversations</string>
+    <string name="mobihelp_activity_title_feedback">Commencer une conversation</string>
+    <string name="mobihelp_activity_title_feedback_only">Commentaires</string>
+    <string name="mobihelp_activity_title_solution_article">Solution</string>
+    <string name="mobihelp_label_contact_us">Nous contacter</string>
+    <string name="mobihelp_label_contact_us_description_text">Si vous ne trouvez pas ce que vous recherchez, contactez-nous.</string>
+    <string name="mobihelp_label_my_conversations">Mes conversations</string>
+    <string name="mobihelp_label_support_solutions_list_label">Solutions</string>
+    <string name="mobihelp_label_request_review">"Cliquez ici pour donner votre avis sur l'application dans le Play Store"</string>
+    <string name="mobihelp_autoreply_message">"Merci pour vos commentaires. Notre représentant de l'assistance prendra contact avec vous sous peu."</string>
+    <string name="mobihelp_default_anon_user_name">Utilisateur Mobihelp</string>
+
+    <!-- UI Element hints -->
+    <string name="mobihelp_hint_email">E-mail</string>
+    <string name="mobihelp_hint_feedback">"Qu'en pensez-vous ?"</string>
+    <string name="mobihelp_hint_name">Nom</string>
+    <string name="mobihelp_hint_required_field">(obligatoire)</string>
+    <string name="mobihelp_hint_optional_field">(facultatif)</string>
+    <string name="mobihelp_hint_enter_text_here">Entrez votre message ici</string>
+    <string name="mobihelp_hint_solutions_search_query_hint">Faire une recherche dans notre base de connaissances</string>
+
+    <!-- Error Messages -->
+    <string name="mobihelp_error_no_network_connection">Aucune connexion à Internet</string>
+    <string name="mobihelp_error_name_not_present">Veuillez saisir votre nom</string>
+    <string name="mobihelp_error_email_not_present">Veuillez saisir votre adresse électronique</string>
+    <string name="mobihelp_error_email_not_valid">Veuillez saisir une adresse électronique valide</string>
+    <string name="mobihelp_error_description_not_present">Veuillez saisir une description de votre problème</string>
+    <string name="mobihelp_error_genreic_retry_message">Veuillez réessayer plus tard</string>
+
+    <!-- Menu Items -->
+    <string name="mobihelp_menu_item_title_search_solutions">Rechercher</string>
+    <string name="mobihelp_menu_item_title_contact_us">Nous contacter</string>
+    <string name="mobihelp_menu_item_title_submit">Envoyer</string>
+
+    <!-- Misc -->
+    <string name="mobihelp_content_description_send_message">Envoyer</string>
+    <string name="mobihelp_content_description_device_screenshot">"Capture d'écran de l'appareil"</string>
+    <string name="mobihelp_tickets_list_empty_message">Appuyez ici pour commencer une conversation</string>
+    <string name="mobihelp_solutions_list_empty_message">Aucune solution disponible</string>
+    <string name="mobihelp_message_ticket_submitted_thank_you">Merci ! Vos commentaires ont bien été envoyés</string>
+    <string name="mobihelp_message_request_succeded">Envoi réussi</string>
+    <string name="mobihelp_message_request_failed">"Échec de l'envoi. Veuillez essayer plus tard"</string>
+    <string name="mobihelp_message_failed_to_load_solution_article">Impossible de charger cet article</string>
+    <string name="mobihelp_message_support_agent">assistance</string>
+    <string name="mobihelp_message_pending">envoi en cours...</string>
+
+    <!-- Rating Dialog Title, Text & Button labels -->
+    <string name="mobihelp_rating_dialog_text">Si vous aimez cette application, prenez quelques minutes pour la noter. Merci de votre soutien !</string>
+    <string name="mobihelp_rating_dialog_title">Noter</string>
+    <string name="mobihelp_rating_dialog_rate_button">Noter</string>
+    <string name="mobihelp_rating_dialog_not_now_button">Pas maintenant</string>
+    <string name="mobihelp_rating_dialog_feedback_button">Commentaires</string>
+
+    <!-- Text used to describe the time each item in the conversation -->
+    <string name="mobihelp_time_just_now">il y a quelques instants</string>
+    <string name="mobihelp_time_n_mins_ago">il y a {mins} minutes</string>
+
+    <plurals name="mobihelp_time_n_hrs_ago">
+        <item quantity="one" tools:ignore="ImpliedQuantity">il y a {hours} heure</item>
+        <item quantity="other">il y a {hours} heures</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_weeks_ago">
+        <item quantity="one" tools:ignore="ImpliedQuantity">il y a {weeks} semaine</item>
+        <item quantity="other">il y a {weeks} semaines</item>
+    </plurals>
+
+    <plurals name="mobihelp_time_n_months_ago">
+        <item quantity="one" tools:ignore="ImpliedQuantity">il y a {months} mois</item>
+        <item quantity="other">il y a {months} mois</item>
+    </plurals>
+
+    <string name="mobihelp_time_a_day_ago">il y a 1 jour</string>
+    <string name="mobihelp_time_n_days_ago">il y a {days} jours</string>
+    <string name="mobihelp_time_more_than_a_year_ago">"il y a plus d'un an"</string>
+
+</resources>

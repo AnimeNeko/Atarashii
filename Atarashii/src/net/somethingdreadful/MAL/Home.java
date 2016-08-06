@@ -1,8 +1,5 @@
 package net.somethingdreadful.MAL;
 
-import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
@@ -11,151 +8,86 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
+import com.freshdesk.mobihelp.Mobihelp;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
-import net.somethingdreadful.MAL.adapters.NavigationDrawerAdapter;
+import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.User;
-import net.somethingdreadful.MAL.dialog.LogoutConfirmationDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdateImageDialogFragment;
-import net.somethingdreadful.MAL.dialog.UpdatePasswordDialogFragment;
-import net.somethingdreadful.MAL.sql.MALSqlHelper;
-import net.somethingdreadful.MAL.tasks.APIAuthenticationErrorListener;
+import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
+import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
-import net.somethingdreadful.MAL.tasks.UserNetworkTask;
-import net.somethingdreadful.MAL.tasks.UserNetworkTaskFinishedListener;
 
-public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, IGFCallbackListener, APIAuthenticationErrorListener, View.OnClickListener, UserNetworkTaskFinishedListener, ViewPager.OnPageChangeListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    IGF af;
-    IGF mf;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
-     * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
-     * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    IGFPagerAdapter mIGFPagerAdapter;
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    ViewPager mViewPager;
-    Context context;
-    Menu menu;
-    BroadcastReceiver networkReceiver;
-    DrawerLayout DrawerLayout;
-    ListView DrawerList;
-    ActionBarDrawerToggle mDrawerToggle;
-    View mPreviousView;
-    ActionBar actionBar;
-    NavigationDrawerAdapter mNavigationDrawerAdapter;
-    RelativeLayout logout;
-    RelativeLayout settings;
-    RelativeLayout about;
-    String username;
+public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
+    private IGF af;
+    private IGF mf;
+    private Menu menu;
+    private BroadcastReceiver networkReceiver;
 
-    boolean instanceExists;
-    boolean networkAvailable;
-    boolean myList = true; //tracks if the user is on 'My List' or not
-
-    boolean callbackAnimeError = false;
-    boolean callbackMangaError = false;
-    int callbackCounter = 0;
+    private String username;
+    private boolean networkAvailable = true;
+    private boolean myList = true; //tracks if the user is on 'My List' or not
+    private int callbackCounter = 0;
+    @BindView(R.id.navigationView)
+    NavigationView navigationView;
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        if (AccountService.getAccount() != null) {
-            actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
+        //Initializing activity and application
+        Theme.context = getApplicationContext();
+
+        if (AccountService.AccountExists(this)) {
             //The following is state handling code
-            instanceExists = savedInstanceState != null && savedInstanceState.getBoolean("instanceExists", false);
-            networkAvailable = savedInstanceState == null || savedInstanceState.getBoolean("networkAvailable", true);
-            if (savedInstanceState != null) {
-                myList = savedInstanceState.getBoolean("myList");
+            if (state != null) {
+                myList = state.getBoolean("myList");
+                networkAvailable = state.getBoolean("networkAvailable", true);
             }
 
-            setContentView(R.layout.activity_home);
-            // Creates the adapter to return the Animu and Mango fragments
-            mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
-
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            DrawerLayout = (DrawerLayout) inflater.inflate(R.layout.record_home_navigationdrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-            DrawerLayout.setDrawerListener(new DrawerListener());
-            DrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+            //Initializing
+            Theme.setTheme(this, R.layout.activity_home, false);
+            Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
+            ButterKnife.bind(this);
             username = AccountService.getUsername();
-            ((TextView) DrawerLayout.findViewById(R.id.name)).setText(username);
-            ((TextView) DrawerLayout.findViewById(R.id.siteName)).setText(getString(AccountService.isMAL() ? R.string.init_hint_myanimelist : R.string.init_hint_anilist));
-            new UserNetworkTask(context, false, this).execute(username);
 
-            logout = (RelativeLayout) DrawerLayout.findViewById(R.id.logout);
-            settings = (RelativeLayout) DrawerLayout.findViewById(R.id.settings);
-            about = (RelativeLayout) DrawerLayout.findViewById(R.id.about);
-            logout.setOnClickListener(this);
-            settings.setOnClickListener(this);
-            about.setOnClickListener(this);
-            Theme.setBackground(this, logout);
-            Theme.setBackground(this, settings);
-            Theme.setBackground(this, about);
+            //Initializing NavigationView
+            navigationView.setNavigationItemSelectedListener(this);
+            navigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
+            Theme.setNavDrawer(navigationView, this, this);
 
-            if (Theme.darkTheme) {
-                DrawerLayout.findViewById(R.id.scrollView).setBackgroundColor(getResources().getColor(R.color.bg_dark));
-                DrawerLayout.findViewById(R.id.divider).setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
-                ((TextView) DrawerLayout.findViewById(R.id.logoutText)).setTextColor(getResources().getColor(R.color.text_dark));
-                ((TextView) DrawerLayout.findViewById(R.id.settingsText)).setTextColor(getResources().getColor(R.color.text_dark));
-                ((TextView) DrawerLayout.findViewById(R.id.aboutText)).setTextColor(getResources().getColor(R.color.text_dark));
-            }
-
-            DrawerList = (ListView) DrawerLayout.findViewById(R.id.listview);
-
-            NavigationItems mNavigationContent = new NavigationItems(DrawerList, context);
-            mNavigationDrawerAdapter = new NavigationDrawerAdapter(this, mNavigationContent.ITEMS);
-            DrawerList.setAdapter(mNavigationDrawerAdapter);
-            DrawerList.setOnItemClickListener(new DrawerItemClickListener());
-            DrawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
-            mDrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.string.drawer_open, R.string.drawer_close);
-            mDrawerToggle.syncState();
-
-            // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mIGFPagerAdapter);
-            mViewPager.setPageMargin(32);
-            mViewPager.setOnPageChangeListener(this);
+            //Initializing navigation toggle button
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.actionbar), R.string.drawer_open, R.string.drawer_close) {
+            };
+            drawerLayout.addDrawerListener(drawerToggle);
+            drawerToggle.syncState();
 
             networkReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     checkNetworkAndDisplayCrouton();
+                    myListChanged();
                 }
             };
         } else {
@@ -180,10 +112,6 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        checkIGF();
         switch (item.getItemId()) {
             case R.id.listType_all:
                 getRecords(true, TaskJob.GETLIST, 0);
@@ -216,33 +144,48 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             case R.id.forceSync:
                 synctask(true);
                 break;
-            case R.id.menu_inverse:
+            case R.id.sort_title:
+                sortRecords(1, item);
+                break;
+            case R.id.sort_score:
+                sortRecords(2, item);
+                break;
+            case R.id.sort_type:
+                sortRecords(3, item);
+                break;
+            case R.id.sort_status:
+                sortRecords(4, item);
+                break;
+            case R.id.sort_progress:
+                sortRecords(5, item);
+                break;
+            case R.id.menu_details:
+                item.setChecked(!item.isChecked());
                 if (af != null && mf != null) {
-                    if (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR) {
-                        af.toggleAiringTime();
-                    } else {
-                        af.inverse();
-                        mf.inverse();
-                    }
+                    af.details();
+                    mf.details();
+                }
+                break;
+            case R.id.menu_inverse:
+                item.setChecked(!item.isChecked());
+                if (af != null && mf != null) {
+                    af.inverse();
+                    mf.inverse();
                 }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * On some devices the af & mf will change into null due inactivity.
-     * This is a check to prevent any crashes and set it again.
-     */
-    public void checkIGF() {
-        if (af == null || mf == null) {
-            af = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 0);
-            mf = (IGF) mIGFPagerAdapter.getIGF(mViewPager, 1);
+    private void sortRecords(int sortType, MenuItem item) {
+        setChecked(item);
+        if (af != null && mf != null) {
+            af.sort(sortType);
+            mf.sort(sortType);
         }
     }
 
-    public void getRecords(boolean clear, TaskJob task, int list) {
-        checkIGF();
+    private void getRecords(boolean clear, TaskJob task, int list) {
         if (af != null && mf != null) {
             af.getRecords(clear, task, list);
             mf.getRecords(clear, task, list);
@@ -258,24 +201,22 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         registerReceiver(networkReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onPause() {
         super.onPause();
         if (menu != null)
             menu.findItem(R.id.action_search).collapseActionView();
-        instanceExists = true;
         unregisterReceiver(networkReceiver);
     }
 
-    public void synctask(boolean clear) {
-        getRecords(clear, TaskJob.FORCESYNC, af.list);
+    private void synctask(boolean clear) {
+        if (af != null && mf != null)
+            getRecords(clear, TaskJob.FORCESYNC, af.list);
     }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
         //This is telling out future selves that we already have some things and not to do them
-        state.putBoolean("instanceExists", true);
         state.putBoolean("networkAvailable", networkAvailable);
         state.putBoolean("myList", myList);
         super.onSaveInstanceState(state);
@@ -310,66 +251,60 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                     break;
             }
         }
+        menu.findItem(R.id.sort_title).setChecked(true);
+        myListChanged();
         return true;
     }
 
-    public void setChecked(MenuItem item) {
-        item.setChecked(true);
+    private void setChecked(MenuItem item) {
+        if (item != null)
+            item.setChecked(true);
     }
 
-    public void myListChanged() {
-        menu.findItem(R.id.menu_listType).setVisible(myList);
-        menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
-        menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
-        menu.findItem(R.id.action_search).setVisible(networkAvailable);
+    private void myListChanged() {
+        if (menu != null) {
+            if (af != null && mf != null)
+                menu.findItem(R.id.menu_details).setChecked(myList && af.getDetails());
+            menu.findItem(R.id.menu_listType).setVisible(myList);
+            menu.findItem(R.id.menu_sort).setVisible(myList);
+            menu.findItem(R.id.menu_inverse).setVisible(myList || (!AccountService.isMAL() && af.taskjob == TaskJob.GETMOSTPOPULAR));
+            menu.findItem(R.id.forceSync).setVisible(myList && networkAvailable);
+            menu.findItem(R.id.action_search).setVisible(networkAvailable);
+        }
     }
 
-    @SuppressLint("NewApi")
-    public void onLogoutConfirmed() {
-        if (af != null)
-            af.cancelNetworkTask();
-        if (mf != null)
-            mf.cancelNetworkTask();
-        MALSqlHelper.getHelper(context).deleteDatabase(context);
-        PrefManager.clear();
-        AccountService.deleteAccount();
-        startActivity(new Intent(this, Home.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
-    }
-
+    /**
+     * Creates the sync notification.
+     */
     private void syncNotify() {
-        Intent notificationIntent = new Intent(context, Home.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder syncNotificationBuilder = new Notification.Builder(context).setOngoing(true)
-                .setContentIntent(contentIntent)
+        Intent notificationIntent = new Intent(this, Home.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setOngoing(true)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.toast_info_SyncMessage));
-        Notification syncNotification;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                syncNotificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
-            }
-            syncNotification = syncNotificationBuilder.build();
-        } else {
-            syncNotification = syncNotificationBuilder.getNotification();
-        }
-        nm.notify(R.id.notification_sync, syncNotification);
+                .setContentText(getString(R.string.toast_info_SyncMessage))
+                .setContentIntent(contentIntent);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(R.id.notification_sync, mBuilder.build());
     }
 
     private void showLogoutDialog() {
-        FragmentManager fm = getFragmentManager();
-        LogoutConfirmationDialogFragment lcdf = new LogoutConfirmationDialogFragment();
-        lcdf.show(fm, "fragment_LogoutConfirmationDialog");
+        ChooseDialogFragment lcdf = new ChooseDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", getString(R.string.dialog_label_logout));
+        bundle.putString("message", getString(R.string.dialog_message_logout));
+        bundle.putString("positive", getString(R.string.dialog_label_logout));
+        lcdf.setArguments(bundle);
+        lcdf.setCallback(this);
+        lcdf.show(getFragmentManager(), "fragment_LogoutConfirmationDialog");
     }
 
-    public void checkNetworkAndDisplayCrouton() {
-        if (MALApi.isNetworkAvailable(context) && !networkAvailable) {
+    private void checkNetworkAndDisplayCrouton() {
+        if (APIHelper.isNetworkAvailable(this) && !networkAvailable)
             synctask(false);
-        }
-        networkAvailable = MALApi.isNetworkAvailable(context);
+        networkAvailable = APIHelper.isNetworkAvailable(this);
     }
 
     @Override
@@ -388,7 +323,7 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     @Override
     public void onIGFReady(IGF igf) {
         igf.setUsername(AccountService.getUsername());
-        if (igf.listType.equals(MALApi.ListType.ANIME))
+        if (igf.isAnime())
             af = igf;
         else
             mf = igf;
@@ -407,17 +342,12 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void onRecordsLoadingFinished(MALApi.ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
-        if (cancelled && !job.equals(TaskJob.FORCESYNC)) {
+    public void onRecordsLoadingFinished(TaskJob job) {
+        if (!job.equals(TaskJob.FORCESYNC)) {
             return;
         }
 
         callbackCounter++;
-
-        if (type.equals(MALApi.ListType.ANIME))
-            callbackAnimeError = error;
-        else
-            callbackMangaError = error;
 
         if (callbackCounter >= 2) {
             callbackCounter = 0;
@@ -425,73 +355,39 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
             if (job.equals(TaskJob.FORCESYNC)) {
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
-                if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Theme.Snackbar(this, R.string.toast_error_SyncFailed);
-                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Sync : R.string.toast_error_Manga_Sync);
-            } else {
-                if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                    Theme.Snackbar(this, R.string.toast_error_Records);
-                else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                    Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Anime_Records : R.string.toast_error_Manga_Records);
-                // no else here, there is nothing to be shown when everything went well
             }
         }
     }
 
     @Override
-    public void onAPIAuthenticationError(MALApi.ListType type, TaskJob job) {
-        // check if it is already showing
-        if (getFragmentManager().findFragmentByTag("fragment_updatePassword") == null) {
-            FragmentManager fm = getFragmentManager();
-            UpdatePasswordDialogFragment passwordFragment = new UpdatePasswordDialogFragment();
-            passwordFragment.show(fm, "fragment_updatePassword");
-        }
+    public void onItemClick(int id, MALApi.ListType listType, String username) {
+        Intent startDetails = new Intent(this, DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", username);
+        startActivity(startDetails);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.logout:
-                showLogoutDialog();
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-            case R.id.about:
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
             case R.id.Image:
-                Intent Profile = new Intent(context, ProfileActivity.class);
+                Intent Profile = new Intent(this, ProfileActivity.class);
                 Profile.putExtra("username", username);
                 startActivity(Profile);
                 break;
             case R.id.NDimage:
-                UpdateImageDialogFragment lcdf = new UpdateImageDialogFragment();
-                lcdf.show(getFragmentManager(), "fragment_NDImage");
+                InputDialogFragment lcdf = new InputDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", R.id.NDimage);
+                bundle.putString("title", getString(R.string.dialog_title_update_navigation));
+                bundle.putString("hint", getString(R.string.dialog_message_update_navigation));
+                bundle.putString("message", PrefManager.getNavigationBackground());
+                lcdf.setArguments(bundle);
+                lcdf.setCallback(this);
+                lcdf.show(getFragmentManager(), "fragment_InputDialogFragment");
                 break;
         }
-        DrawerLayout.closeDrawers();
-    }
-
-    @Override
-    public void onUserNetworkTaskFinished(User result) {
-        ImageView image = (ImageView) findViewById(R.id.Image);
-        ImageView image2 = (ImageView) findViewById(R.id.NDimage);
-        try {
-            Picasso.with(context)
-                    .load(result.getProfile().getAvatarUrl())
-                    .transform(new RoundedTransformation(result.getName()))
-                    .into(image);
-        } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "Home.onUserNetworkTaskFinished(): " + e.getMessage());
-        }
-        if (PrefManager.getNavigationBackground() != null)
-            Picasso.with(context)
-                    .load(PrefManager.getNavigationBackground())
-                    .into(image2);
-        image.setOnClickListener(this);
-        image2.setOnClickListener(this);
     }
 
     @Override
@@ -501,100 +397,122 @@ public class Home extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void onPageSelected(int position) {}
-
-    @Override
-    public void onPageScrollStateChanged(int state) {}
-
-    public class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (!networkAvailable && position > 2) {
-                position = 0;
-                Theme.Snackbar(Home.this, R.string.toast_error_noConnectivity);
-            }
-            myList = ((position <= 3 && myList) || position == 0);
-            checkIGF();
-            // disable swipeRefresh for other lists
-            af.setSwipeRefreshEnabled(myList);
-            mf.setSwipeRefreshEnabled(myList);
-            switch (position) {
-                case 0:
-                    getRecords(true, TaskJob.GETLIST, af.list);
-                    break;
-                case 1:
-                    Intent Profile = new Intent(context, ProfileActivity.class);
-                    Profile.putExtra("username", username);
-                    startActivity(Profile);
-                    break;
-                case 2:
-                    Intent Friends = new Intent(context, ProfileActivity.class);
-                    Friends.putExtra("username", username);
-                    Friends.putExtra("friends", username);
-                    startActivity(Friends);
-                    break;
-                case 3:
-                    if (AccountService.isMAL()) {
-                        Intent Forum = new Intent(context, ForumActivity.class);
-                        startActivity(Forum);
-                    } else {
-                        Theme.Snackbar(Home.this, R.string.toast_info_disabled);
-                    }
-                    break;
-                case 4:
-                    getRecords(true, TaskJob.GETTOPRATED, af.list);
-                    break;
-                case 5:
-                    getRecords(true, TaskJob.GETMOSTPOPULAR, af.list);
-                    break;
-                case 6:
-                    getRecords(true, TaskJob.GETJUSTADDED, af.list);
-                    break;
-                case 7:
-                    getRecords(true, TaskJob.GETUPCOMING, af.list);
-                    break;
-            }
-            myListChanged();
-
-            /*
-             * This part is for figuring out which item in the nav drawer is selected and highlighting it with colors.
-             */
-            if (position != 1 && position != 2 && position != 3) {
-                if (mPreviousView != null)
-                    mPreviousView.setBackgroundColor(Color.parseColor("#00000000"));
-                if (Theme.darkTheme)
-                    view.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
-                else
-                    view.setBackgroundColor(Color.parseColor("#E8E8E8"));
-                mPreviousView = view;
-            }
-
-            DrawerLayout.closeDrawers();
-        }
+    public void onPageSelected(int position) {
     }
 
-    private class DrawerListener implements DrawerLayout.DrawerListener {
-        @Override
-        public void onDrawerOpened(View drawerView) {
-            mDrawerToggle.onDrawerOpened(drawerView);
-            actionBar.setTitle(getTitle());
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onPositiveButtonClicked() {
+        AccountService.clearData();
+        startActivity(new Intent(this, FirstTimeInit.class));
+        System.exit(0);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        //Checking if the item should be checked & if the list status has been changed
+        switch (item.getItemId()) {
+            case R.id.nav_profile:
+            case R.id.nav_friends:
+            case R.id.nav_forum:
+            case R.id.nav_schedule:
+            case R.id.nav_charts:
+            case R.id.nav_browse:
+            case R.id.nav_settings:
+            case R.id.nav_support:
+            case R.id.nav_about:
+                break;
+            default:
+                // Set the list tracker to false. It will be updated later in the code.
+                myList = false;
+                if (item.isChecked())
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
+                break;
         }
 
-        @Override
-        public void onDrawerClosed(View drawerView) {
-            mDrawerToggle.onDrawerClosed(drawerView);
-            actionBar.setTitle(getTitle());
-        }
+        // disable swipeRefresh for other lists
+        af.setSwipeRefreshEnabled(myList);
+        mf.setSwipeRefreshEnabled(myList);
 
-        @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-            mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
-        }
+        //Closing drawer on item click
+        drawerLayout.closeDrawers();
 
-        @Override
-        public void onDrawerStateChanged(int newState) {
-            mDrawerToggle.onDrawerStateChanged(newState);
+        //Performing the action
+        switch (item.getItemId()) {
+            case R.id.nav_list:
+                getRecords(true, TaskJob.GETLIST, af.list);
+                myList = true;
+                break;
+            case R.id.nav_profile:
+                Intent Profile = new Intent(this, ProfileActivity.class);
+                Profile.putExtra("username", username);
+                startActivity(Profile);
+                break;
+            case R.id.nav_friends:
+                Intent Friends = new Intent(this, ProfileActivity.class);
+                Friends.putExtra("username", username);
+                Friends.putExtra("friends", username);
+                startActivity(Friends);
+                break;
+            case R.id.nav_forum:
+                if (networkAvailable)
+                    startActivity(new Intent(this, ForumActivity.class));
+                else
+                    Theme.Snackbar(this, R.string.toast_error_noConnectivity);
+                break;
+            case R.id.nav_schedule:
+                startActivity(new Intent(this, ScheduleActivity.class));
+                break;
+            case R.id.nav_charts:
+                startActivity(new Intent(this, ChartActivity.class));
+                break;
+            case R.id.nav_browse:
+                if (AccountService.isMAL())
+                    startActivity(new Intent(this, BrowseActivity.class));
+                else
+                    Theme.Snackbar(this, R.string.toast_info_disabled);
+                break;
+            case R.id.nav_logout: // Others subgroup
+                showLogoutDialog();
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this, Settings.class));
+                break;
+            case R.id.nav_support:
+                Mobihelp.showSupport(this);
+                break;
+            case R.id.nav_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
         }
+        myListChanged();
+        return false;
+    }
+
+    @Override
+    public void onPosInputButtonClicked(String text, int id) {
+        Picasso.with(this)
+                .load(text)
+                .placeholder(R.drawable.atarashii_background)
+                .error(R.drawable.atarashii_background)
+                .into((ImageView) findViewById(R.id.NDimage));
+        PrefManager.setNavigationBackground(text);
+        PrefManager.commitChanges();
+    }
+
+    @Override
+    public void onNegInputButtonClicked(int id) {
+        Picasso.with(this)
+                .load(R.drawable.atarashii_background)
+                .placeholder(R.drawable.atarashii_background)
+                .error(R.drawable.atarashii_background)
+                .into((ImageView) findViewById(R.id.NDimage));
+        PrefManager.setNavigationBackground(null);
+        PrefManager.commitChanges();
     }
 }

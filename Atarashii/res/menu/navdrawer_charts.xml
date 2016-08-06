@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:title="@string/nav_item_top_rated">
+            <menu>
+                <item
+                    android:id="@+id/nav_rated"
+                    android:checked="false"
+                    android:icon="@drawable/ic_star"
+                    android:title="@string/nav_item_top_rated"/>
+                <item
+                    android:id="@+id/nav_rated_season"
+                    android:checked="false"
+                    android:icon="@drawable/ic_star"
+                    android:title="@string/nav_item_top_season"/>
+                <item
+                    android:id="@+id/nav_rated_year"
+                    android:checked="false"
+                    android:icon="@drawable/ic_star"
+                    android:title="@string/nav_item_top_year"/>
+            </menu>
+        </item>
+
+        <item android:title="@string/nav_item_most_popular">
+            <menu>
+                <item
+                    android:id="@+id/nav_popular"
+                    android:checked="false"
+                    android:icon="@drawable/ic_insert_chart"
+                    android:title="@string/nav_item_most_popular"/>
+                <item
+                    android:id="@+id/nav_popular_season"
+                    android:checked="false"
+                    android:icon="@drawable/ic_insert_chart"
+                    android:title="@string/nav_item_popular_season"/>
+                <item
+                    android:id="@+id/nav_popular_year"
+                    android:checked="false"
+                    android:icon="@drawable/ic_insert_chart"
+                    android:title="@string/nav_item_popular_year"/>
+            </menu>
+        </item>
+
+        <item android:title="@string/card_content_other">
+            <menu>
+                <item
+                    android:id="@+id/nav_added"
+                    android:checked="false"
+                    android:icon="@drawable/ic_access_time"
+                    android:title="@string/nav_item_just_added"/>
+                <item
+                    android:id="@+id/nav_upcoming"
+                    android:checked="false"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/nav_item_upcoming"/>
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/nav_return"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/nav_item_return"/>
+    </group>
+</menu>

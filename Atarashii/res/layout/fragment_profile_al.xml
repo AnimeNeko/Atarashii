@@ -13,7 +13,6 @@
             android:layout_height="fill_parent">
 
             <RelativeLayout
-                android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp">
@@ -30,9 +29,9 @@
                     custom:header_Title_Color="@color/white"
                     custom:header_Title_center="true" />
 
-                <!-- Activity -->
+                <!-- About -->
                 <net.somethingdreadful.MAL.Card
-                    android:id="@+id/activity"
+                    android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
@@ -40,7 +39,7 @@
                     android:gravity="center_horizontal"
                     android:layout_below="@id/name_card"
                     custom:header_Color="@color/card_cyan"
-                    custom:header_Title="@string/layout_card_title_activity"
+                    custom:header_Title="@string/title_activity_about"
                     custom:header_Title_Color="@color/white"
                     custom:header_Title_center="true" />
             </RelativeLayout>

@@ -1,0 +1,500 @@
+<?xml version="1.0"?>
+<resources>
+    <!-- All (Actionbar Title) Strings -->
+    <string name="title_activity_firstRun">קנפוג ראשוני</string>
+    <string name="title_activity_settings">הגדרות</string>
+    <string name="title_activity_about">אודות</string>
+    <string name="title_activity_detail_view">הצג פרטים</string>
+    <string name="title_activity_profile">פרופיל משתמש</string>
+    <string name="title_activity_forum">פורום</string>
+    <string name="title_activity_backup">גיבוי</string>
+    <!-- All (Actionbar Actions) Strings -->
+    <string name="menu_listType">החלף רשימה</string>
+    <string name="menu_inverse">הפוך רשימה</string>
+    <string name="menu_sync">סנכרון מלא</string>
+    <string name="menu_backup">גיבוי</string>
+    <!-- All (Toast) Strings -->
+    <string name="toast_error_noConnectivity">לא זוהו חיבורי רשת.</string>
+    <string name="toast_error_api">זוהתה שגיאת API, נא להודיע למפתחים!</string>
+    <string name="toast_error_reviews">אין ביקורות זמינות</string>
+    <string name="toast_error_maintenance">API לא זמין, התחזוקה בהתקדמות!</string>
+    <string name="toast_error_UserRecord">פרופיל משתמש ריק!</string>
+    <string name="toast_error_Search">שגיאה בחיפוש! בבקשה נסה מאוחר יותר.</string>
+    <string name="toast_error_Anime_Sync">שגיאת סנכרון בהשגת רשימת האנימה!</string>
+    <string name="toast_error_Manga_Sync">שגיאת סנכרון בהשגת רשימת המנגה!</string>
+    <string name="toast_error_Records">שגיאה בהשגת הרשומות. בבקשה נסה מאוחר יותר.</string>
+    <string name="toast_error_DetailsError">Atarashii לא יכול לטעון את הפרטים!</string>
+    <string name="toast_error_VerifyProblem">בדוק את פרטי החיבור ונסה שוב.</string>
+    <string name="toast_error_Friends">שגיאת סנכרון בהשגת רשימת חברים!</string>
+    <string name="toast_error_nothingFound">לא נמצאו תוצאות אנימה או מנגה.</string>
+    <string name="toast_info_SyncMessage">מסנכרן הכול. זה ייקח כמה שניות.</string>
+    <string name="toast_info_password">שם משתמש וסיסמא אינם תואמים!</string>
+    <string name="toast_info_Copied">העתקת הכותרת הושלמה!</string>
+    <string name="toast_info_hold_on">רק רגע, אנחנו עדיין טוענים מידע!</string>
+    <string name="toast_info_comment_added">ייקח 5 דקות עד שתופיע ההודעה</string>
+    <string name="toast_info_disabled">תכונה זו אינה זמינה כרגע :(</string>
+    <string name="toast_info_disabled_youtube">תגובות עם סרטוני YouTube לא נתמכים כרגע :(</string>
+    <string name="toast_info_backup_saved">הגיבוי נוצר!</string>
+    <string name="toast_info_backup_revert">"השינויים בוטלו! "</string>
+    <string name="toast_info_backup_remove">הגיבוי הוסר!</string>
+    <string name="toast_info_backup_list">הגיבוי לא תואם את האתר!</string>
+    <string name="toast_info_widget_exists">" ישומון עם הרשומה הנבחרת כבר קיים!"</string>
+    <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_userername">שם משתמש לא מתאים</string>
+    <string name="dialog_title_restore">לשחזר רשימה?</string>
+    <string name="dialog_title_view">צפה</string>
+    <string name="dialog_title_tags">התגיות שלי</string>
+    <string name="dialog_title_storage_value">נפח איחסון</string>
+    <string name="dialog_title_rewatched_times">פעמים שנצפו מחדש</string>
+    <string name="dialog_title_rewatched_priority">עדיפות לצפייה מחדש</string>
+    <string name="dialog_title_storage">סוג איחסון</string>
+    <string name="dialog_title_comment">התגובות שלי</string>
+    <string name="dialog_title_share">שיתוף</string>
+    <string name="dialog_title_share_via">שתף דרך</string>
+    <string name="dialog_title_Verifying">מאמת</string>
+    <string name="dialog_title_rating">דירוג</string>
+    <string name="dialog_title_watched_update">ראיתי</string>
+    <string name="dialog_title_read_update">קראתי</string>
+    <string name="dialog_title_status">מצב</string>
+    <string name="dialog_title_edit_comment">ערוך תגובה</string>
+    <string name="dialog_title_add_comment">הוסף תגובה</string>
+    <string name="dialog_title_id_search">חפש מזהה</string>
+    <string name="dialog_title_update_navigation">עדכן רקע</string>
+    <string name="dialog_hint_tags">הפרד תגיך בפסיק</string>
+    <string name="dialog_hint_comment">הכנס תגובתך</string>
+    <string name="dialog_message_view">איזו רשימה ברצונך לראות?</string>
+    <string name="dialog_message_restore">זה עלול להסיר רשומות מהרשימה שלך!</string>
+    <string name="dialog_message_logout">בטוח להתנתק? כול המידע והתמונות ימחקו.</string>
+    <string name="dialog_message_id_search">לחץ על כפתור האנימה או המנגה לחיפוש. זכור שמזהה האנימה והמנגה אינם זהים!</string>
+    <string name="dialog_message_remove">בטוח? ברגע שנמחק, אי אפשר לשחזר. לא בקלות לפחות.</string>
+    <string name="dialog_message_share">איזו רשימה ברצונך לשתף?</string>
+    <string name="dialog_message_Verifying">בודק שהמשתמש בסדר. רק רגע.</string>
+    <string name="dialog_message_update_navigation">הכנס קישור תמונה למטה.</string>
+    <string name="dialog_message_last_post">תגובה אחרונה ע\"י</string>
+    <string name="dialog_message_username">יכול להיות שבגיבוי הנבחר אינו הגיבוי שלך!</string>
+    <string name="dialog_label_cancel">בטל</string>
+    <string name="dialog_label_update">עדכן</string>
+    <string name="dialog_label_anime">אנימה</string>
+    <string name="dialog_label_manga">מנגה</string>
+    <string name="dialog_label_animelist">רשימת האנימה שלי</string>
+    <string name="dialog_label_mangalist">רשימת המנגה שלי</string>
+    <string name="dialog_title_remove">הסר מהרשימה</string>
+    <string name="dialog_label_logout">התנתק</string>
+    <string name="dialog_label_remove">הסר</string>
+    <string name="dialog_label_send">שלח</string>
+    <string name="dialog_message_backup_reading">קורא רשומות</string>
+    <string name="dialog_message_backup_requesting">יוצר גיבוי.</string>
+    <!-- ProfileActivity (Contents) Strings -->
+    <string name="share_animelist">$username; שיתף את רשימה המנגה בעזרת Atarashii: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; שיתך את רשימת המנגה בעזרתAtarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="layout_card_title_details">פרטים</string>
+    <string name="layout_card_title_activity">פעילות</string>
+    <string name="layout_discription">אייקון יישום</string>
+    <string name="layout_card_loading">טוען</string>
+    <string name="layout_card_birthday">יום הולדת</string>
+    <string name="layout_card_location">מיקום</string>
+    <string name="layout_card_website">אתר</string>
+    <string name="layout_card_comments">תגובות</string>
+    <string name="layout_card_forum">תגובות פורום</string>
+    <string name="layout_card_last">התחברות אחרונה</string>
+    <string name="layout_card_gender">מין</string>
+    <string name="layout_card_join">תאריך הצטרפות</string>
+    <string name="layout_card_acces">דירוג חיבור</string>
+    <string name="access_rank_atarashii_developer">מפתח Atarashii</string>
+    <string name="layout_card_anime_details">פרטי אנימה</string>
+    <string name="layout_card_manga_details">פרטי מנגה</string>
+    <string name="layout_card_anime_time">זמן בימים</string>
+    <string name="layout_card_anime_watching">צופה</string>
+    <string name="layout_card_anime_completed">הושלם</string>
+    <string name="layout_card_anime_on">בהמתנה</string>
+    <string name="layout_card_anime_dropped">נזרק</string>
+    <string name="layout_card_anime_plan">מתכנן לצפות</string>
+    <string name="layout_card_anime_total">מספר רשומות</string>
+    <string name="layout_card_manga_reading">קורא</string>
+    <string name="layout_card_manga_plan">מתכנן לקרוא</string>
+    <string name="action_viewtopic">הראה דיון</string>
+    <string name="not_specified">לא מוגדר</string>
+    <string name="no_history">אין היסטוריה</string>
+    <string-array name="gender">
+        <item>נקבה</item>
+        <item>זכר</item>
+    </string-array>
+    <!-- FriendsActivity Strings -->
+    <string name="unknown">לא ידוע</string>
+    <!-- BackupActivity Strings -->
+    <string name="creation_date">צור תאריך</string>
+    <!-- ForumActivity Strings -->
+    <string name="form_hint_message">הודעה</string>
+    <!-- FirstTimeInit (Contents) Strings -->
+    <string name="init_hint_choose">ברוך הבא לAtarashii!\nבחר את האתר המועדף עליך.</string>
+    <string name="init_hint_myanimelist">MyAnimeList</string>
+    <string name="init_hint_anilist">AniList</string>
+    <string name="form_hint_user">שם משתמש ב-MAL</string>
+    <string name="form_hint_pass">סיסמא ב-MAL</string>
+    <string name="form_hint_info">הכנס פרטי התחברות ל-MyAnimeList מתחת:</string>
+    <string name="form_action_create">צור משתמש</string>
+    <string name="form_action_connect">התחבר</string>
+    <!-- IGF (MyList Cover) Strings -->
+    <string name="cover_Watching">ראיתי:</string>
+    <string name="cover_Completed">הושלם</string>
+    <string name="cover_Reading">קראתי:</string>
+    <string name="cover_OnHold">בהמתנה:</string>
+    <string name="cover_Dropped">נזרק</string>
+    <string name="cover_PlanningToWatch">מתכנן לצפות</string>
+    <string name="cover_PlanningToRead">מתכנן לקרוא</string>
+    <string name="action_PlusOneWatched">+1 צפה</string>
+    <string name="action_PlusOneRead">+1 קרא</string>
+    <string name="action_MarkAsComplete">סמן כהושלם</string>
+    <string name="label_Chapters">פרקים:</string>
+    <string name="label_Volumes">כרכים:</string>
+    <string name="label_Number">מספר:</string>
+    <!-- Navigation drawer (item & action) Strings -->
+    <string name="nav_item_my_profile">הפרופיל שלי</string>
+    <string name="nav_item_my_list">הרשימה שלי</string>
+    <string name="nav_item_my_friends">החברים שלי</string>
+    <string name="nav_item_my_following">עוקבים</string>
+    <string name="nav_item_my_forum">פורום</string>
+    <string name="nav_item_top_rated">הכי מדורגים</string>
+    <string name="nav_item_most_popular">הכי פופולארי</string>
+    <string name="nav_item_just_added">רק נוספו</string>
+    <string name="nav_item_upcoming">ישודרו</string>
+    <string name="drawer_open">פתח מגירת ניווט</string>
+    <string name="drawer_close">סגור מגירת ניווט</string>
+    <!-- Tab names Strings -->
+    <string name="tab_name_general">כללי</string>
+    <string name="tab_name_personal">אישי</string>
+    <string name="tab_name_reviews">ביקורות</string>
+    <string name="tab_name_details">פרטים</string>
+    <string name="tab_name_friends">חברים</string>
+    <string name="tab_name_following">עוקבים</string>
+    <string name="tab_name_history">היסטוריה</string>
+    <!-- Day Strings -->
+    <!-- DetailView (Card names) Strings -->
+    <string name="card_name_synopsis">תקציר</string>
+    <string name="card_name_stats">סטטיסטיקה</string>
+    <string name="card_name_info">מידע</string>
+    <string name="card_name_personal">אישי</string>
+    <string name="card_name_relations">קשרים</string>
+    <string name="card_name_titles">כותרות אלטרנטיביות</string>
+    <string name="card_name_basic">בסיסי</string>
+    <string name="card_name_other">אחר</string>
+    <string name="card_name_rewatch">נצפה/נקרא מחדש</string>
+    <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_volumes">כרכים</string>
+    <string name="card_content_my_start">תאריך ההתחלה שלי</string>
+    <string name="card_content_my_end">תאריך הסיום שלי</string>
+    <string name="card_content_other">אחר</string>
+    <string name="card_content_none">אף אחד</string>
+    <string name="card_content_chapters">פרק</string>
+    <string name="card_content_rewatch_priority">עדיפות</string>
+    <string name="card_content_storage">אחסון</string>
+    <string name="card_content_storage_amount">קיבולת אחסון (GB)</string>
+    <string name="card_content_count">ספירה</string>
+    <string name="card_content_episodes">פרקים</string>
+    <string name="card_content_status">מצב</string>
+    <string name="card_content_mal_score">ציון</string>
+    <string name="card_content_my_score">הציון שלי</string>
+    <string name="card_content_my_priority">העדיפות שלי</string>
+    <string name="card_content_my_tags">התגיות שלי</string>
+    <string name="card_content_comments">תגובות</string>
+    <string name="card_content_media_type">סוג מדיה</string>
+    <string name="card_content_media_status">מצב מדיה</string>
+    <string name="card_content_start">תאריך התחלה</string>
+    <string name="card_content_end">תהליך סיום</string>
+    <string name="card_content_producers">מפיקים</string>
+    <string name="card_content_genres">סגנונות</string>
+    <string name="card_content_classification">סיווג</string>
+    <string name="card_content_ranked">דירוג</string>
+    <string name="card_content_popularity">פופולריות</string>
+    <string name="card_content_members">חברים</string>
+    <string name="card_content_favorites">מועדפים</string>
+    <string name="card_content_loading">טוען, רק רגע.</string>
+    <string name="card_content_prequel">פרקים קודמים</string>
+    <string name="card_content_sequel">פרקים עוקבים</string>
+    <string name="card_content_alternativeversions">גרסאות אלטרנטיביות</string>
+    <string name="card_content_adaptions">עיבודים</string>
+    <string name="card_content_sidestories">סיפורי צד</string>
+    <string name="card_content_spinoffs">פיצולים</string>
+    <string name="card_content_summaries">סיכומים</string>
+    <string name="card_content_character">דמויות</string>
+    <string name="card_content_related">קשורים</string>
+    <string name="card_content_parentstory">סיפור אב</string>
+    <string name="card_content_japanese">יפנית</string>
+    <string name="card_content_english">אנגלית</string>
+    <string name="card_content_synonyms">כותרות נרדפות</string>
+    <string name="card_content_romaji">Romaji</string>
+    <string name="card_offline_error">אין חיבור רשת זמין.</string>
+    <string name="card_offline_title">אתה לא מחובר!</string>
+    <string name="episodepicker_hint">הכנס ציונך</string>
+    <!-- DetailView (Actionbar actions) Strings -->
+    <string name="action_viewMALPage">ראה פרטים ב-MyAnimeList</string>
+    <string name="action_Share">שתף</string>
+    <string name="action_Remove">הסר מהרשימה</string>
+    <string name="action_Copy">העתק כותרת</string>
+    <string name="action_AddToList">הוסף לרשימה</string>
+    <!-- DetailView (Media info) Strings -->
+    <string-array name="mediaType_Anime">
+    <!-- DetailView (Media info) Strings -->
+        <item>סדרה</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>סרט</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>OVA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>ONA</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>מיוחד</item>
+    <!-- DetailView (Media info) Strings -->
+        <item>מוזיקה</item>
+    </string-array>
+    <string-array name="mediaType_Manga">
+        <item>מנגה</item>
+        <item>רומן</item>
+        <item>One Shot</item>
+        <item>Doujin</item>
+        <item>Manwha</item>
+        <item>Manhua</item>
+        <item>OEL</item>
+    </string-array>
+    <string-array name="mediaStatus_Anime">
+        <item>סיים שידור</item>
+        <item>משודר</item>
+        <item>לא שודר עדיין</item>
+    </string-array>
+    <string-array name="mediaStatus_Manga">
+        <item>נגמר</item>
+        <item>מפורסם</item>
+        <item>לא פורסם עדיין</item>
+    </string-array>
+    <!-- Anime/Manga progress status strings -->
+    <string-array name="mediaStatus_User">
+    <!-- Anime/Manga progress status strings -->
+        <item>נגמר</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>בהמתנה</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>נזרק</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>צופה</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>מתכנן לצפות</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>קורא</item>
+    <!-- Anime/Manga progress status strings -->
+        <item>מתנן לקרוא</item>
+    </string-array>
+    <!-- BaseActionBarSearchView (Unknown) Strings -->
+    <string name="search_prompt">חפש ב-MAL</string>
+    <!-- AboutActivity (contents) Strings -->
+    <string name="contributors_card_title">תורמים עיקריים</string>
+    <string name="acknowledgements_card_title">מידע</string>
+    <string name="community_card_title">קהילת Atarashii</string>
+    <string name="translations_card_title">תרגומים</string>
+    <string name="app_description">Atarashii! היא הדרך הטובה ביותר לגשת לMyAnimeList מהטלפון שלך. זה בעל ממשק מודרני, מובנה יפה לאנדרואיד יחד עם כל הפונקציונליות שאפשר לבקש.</string>
+    <string name="contributor_anima_summary">\&amp;quot; כול שאר היישומים גרועים!\&amp;quot; \n\nמייסד ומתכנת ראשי. מאס במשק המשתמש העני של יישומים אחרים וחוסר הכללי של תחזוקה, אז הוא יצר את זה.</string>
+    <string name="contributor_motokochan_summary">מתמקד בניקוי קוד ויישום תכונות קטנות. עובד על הרחבת היישום לתמיכה במנגה.</string>
+    <string name="contributor_apkawa_summary">ממש פונקציונליות חיפוש.</string>
+    <string name="contributor_dsko_summary">מיישם retrofit לטיפול ב-API.</string>
+    <string name="contributor_ratan12_summary">מנהל את כול התרגומים, מייצר תכונות חדשות ועובד על הממשק משתמש.</string>
+    <string name="translations">Atarashii! התחיל לתמוך בשפות שונות מאז גרסת 1.4! כל אחד יכול <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217"> להצטרף לפרויקט התרגום </a> ולתרום.</string>
+    <string name="translations_notListed">השפה שלי אינה מופיעה ב oneskyapp?</string>
+    <string name="translations_notListed_summary">אם השפה שלך אינה מופיעה ברשימה אנו ממליצים לך לשאול את Ratan Dhawtal לאפשר אותה או להוסיף הערה על <a href="https://plus.google.com/113694229897758723284/posts/FsxPDiFCxT8">פוסט Google+ זה</a>. אנחנו נוסיפו בהקדם האפשרי ונגיב כדי להודיע לך.</string>
+    <string name="translations_notApproved">למה שלבי התרגום שלי עדיין לא אושרו?</string>
+    <string name="translations_notApproved_summary">סביר להניח שהתורם די עסוק בפיתוח של האפליקציה. אפשר לשלוח תזכורת למפתח אחרי חודש, רק לא לשלוח יותר מדי מהם.</string>
+    <string name="customShareText_fromAtarashii">\n\nמשותף מAtarashii! - MAL מודרני עבור אנדרואיד</string>
+    <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">הצטרף לקהילה שלנו!</a> קהילת Atarashii! ב- Google+ היא מקום נהדר לתקשורת עם המפתחים ולהודיע לנו מה אתה חושב. בעיות, בקשות לתכונות, עדכוני סטטוס, הכול שם. אנחנו לא נושכים, מבטיחים.</string>
+    <!-- Preferences (contents) Strings -->
+    <string name="dialog_DefaultList">רשימת ברירת מחדל</string>
+    <string name="dialog_DefaultaddList">רשימת ברירת מחדל להוספה</string>
+    <string name="preference_category_list">רשימה</string>
+    <string name="preference_category_synchronisation">סנכרון</string>
+    <string name="preference_category_sharing">הגדרות אחרות</string>
+    <string name="preference_category_profile">פרופיל</string>
+    <string name="preference_category_backup">גיבוי</string>
+    <string name="preference_backupsync">זמני גיבוי אוטומטיים</string>
+    <string name="preference_autoDate">עדכן תאריכים אוטומטית</string>
+    <string name="preference_backuplength">מספר הגיבויים</string>
+    <string name="preference_summary_backupsync">גיבוי אוטומטי לרשימת המנגה/אנימה אחרי זמן מסוים.</string>
+    <string name="preference_summary_autobackup">מקסימום מספר פרטי הגיבוי המותרים.</string>
+    <string name="preference_synchronisation">סנכרון אוטומאטי</string>
+    <string name="preference_Theme">ערכת נושא כהה</string>
+    <string name="preference_list_columns_portrait">עמודות ברשימה לאורך</string>
+    <string name="preference_list_columns_landscape">עמודות ברשימה לרוחב</string>
+    <string name="preference_Reset">אפס הגדרות</string>
+    <string name="preference_TraditionalList">השתמש ברשימה מסורתית</string>
+    <string name="preference_customShareText">התאם אישית שיתוף טקסט</string>
+    <string name="preference_displayVolumes">השתמש בכרכים על הכיסויים</string>
+    <string name="preference_autosync">מרווח סנכרון אוטומטי</string>
+    <string name="preference_language">שנה את השפה ל</string>
+    <string name="preference_category_language_title">שפה</string>
+    <string name="preference_title_language">שנה שפה</string>
+    <string name="preference_profileTextColors">בטל צבעי טקסט</string>
+    <string name="preference_profileAnimeHide">תמיד הסתר פרטי אנימה</string>
+    <string name="preference_profileMangaHide">תמיד הסתר פרטי מנגה</string>
+    <string name="summary_DefaultList">איזו רשימה אתה רוצה שהיישום יטען כשיפתח?</string>
+    <string name="preference_summary_autoDate">עדכן תאריך אוטומטית כאשר את/ה מתחיל/ה או מסיים/ת מנגה או אנימה</string>
+    <string name="preference_summary_TraditionList">השתמש ברשימה המנוסה-והאמיתית במקום בסגנון CoverFlow. דורש הפעלה מחדש כדי שייכנס לתוקף.</string>
+    <string name="preference_summary_AddList">כאשר יתווסף מנגה או אנימה זה יוסיף את הרשומה לרשימה הזו.</string>
+    <string name="preference_summary_synchronisation">אם מסומן, Atarashii יסנכרן ברקע.</string>
+    <string name="preference_summary_theme">אם מסומן, Atarashii ישתמש בערכת נושא אפלה.</string>
+    <string name="preference_summary_Reset">Atarashii יאפס את כול שינוי ההגדרות לברירת מחדל.</string>
+    <string name="preference_summary_list_columns">שנה/י כאן את כמות העמודות שAtarashii יראה.</string>
+    <string name="preference_summary_Language">שנה את שפת ברירת המחדל לרצוייה שלך. דורש הפעלה מחדש כדי שייכנס לתוקף.</string>
+    <string name="preference_summary_customShareText">לא אוהב את טקסט ברירת המחדל של השיתוף? צור משלך! השתמש ב- $title; $linkוב- ; במקום של הכותרת והקישור לMAL, אנחנו נעשה את השאר.</string>
+    <string name="preference_summary_autosync">זמן עד שהסנכרון האוטומטי יפעל ברקע.</string>
+    <string name="preference_summary_displayVolumes">הצג כרכים במקום פרקים על העטיפות. פעולת +1 קרא תחול גם על כרכים במקום על פרקים. דורש הפעלה מחדש כדי שייכנס לתוקף.</string>
+    <string name="preference_summary_profileTextColors">אלץ את דף הפרופיל להשתמש בצבע טקסט שחור.</string>
+    <string name="preference_summary_profileAnimeHide">הסתר פרטי אנימה בכול הפרופילים.</string>
+    <string name="preference_summary_profileMangaHide">הסתר פרטי מנגה בכול הפרופילים.</string>
+    <string name="preference_android_synchronisation">רשומות אנימה/מנגה</string>
+    <string name="preference_default_customShareText">בדוק את $title; ב-MyAnimeList!\n$link;</string>
+    <!-- Dialog_Status_picker (ListType) Strings -->
+    <string name="listType_all">הכול</string>
+    <string name="listType_onhold">בהמתנה</string>
+    <string name="listType_dropped">נזרק</string>
+    <string name="listType_planned">בתכנון</string>
+    <string name="listType_Completed">הושלם</string>
+    <string name="listType_InProgress">בתהליך</string>
+    <string name="listType_rewatching">נצפה מחדש</string>
+    <string name="listType_rereading">נקרא מחדש</string>
+    <!-- Browse (contents) Strings -->
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="listTypeArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>הכול</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>צופה</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>הושלם</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>בהמתנה</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>נזרק</item>
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>מתכנן לצפות</item>
+    </string-array>
+    <!-- Settings (LocalePreference Entries) Items -->
+    <!-- Settings (ListPreference Entries) Items -->
+    <string-array name="syncArray">
+    <!-- Settings (ListPreference Entries) Items -->
+        <item>4 שעות</item>
+    <!-- Spanish -->
+        <item>6 שעות</item>
+    <!-- Spanish -->
+        <item>8 שעות</item>
+    <!-- Spanish -->
+        <item>10 שעות</item>
+    <!-- Spanish -->
+        <item>12 שעות</item>
+    <!-- Spanish -->
+        <item>24 שעות</item>
+    <!-- Spanish -->
+        <item>יומיים</item>
+    <!-- Spanish -->
+        <item>3 ימים</item>
+    <!-- Spanish -->
+        <item>4 ימים</item>
+    <!-- Spanish -->
+        <item>5 ימים</item>
+    <!-- Spanish -->
+        <item>6 ימים</item>
+    <!-- Spanish -->
+        <item>שבוע</item>
+    </string-array>
+    <string-array name="classificationArray">
+        <item>G - לכול הגילאים</item>
+        <item>PG - ילדים</item>
+        <item>PG-13 - בני נוער 13 ומעלה</item>
+        <item>R - 17 + (\u05d0\u05dc\u05d9\u05de\u05d5\u05ea \u05d5\u05e7\u05dc\u05dc\u05d5\u05ea)</item>
+        <item>R+ - עירום מתון</item>
+        <item>Rx - סוטה</item>
+    </string-array>
+    <string-array name="priorityArray">
+        <item>נמוך</item>
+        <item>בינוני</item>
+        <item>גבוה</item>
+    </string-array>
+    <string-array name="priorityRewatchArray">
+        <item>אף אחד</item>
+        <item>נמוך</item>
+        <item>בינוני</item>
+        <item>גבוה</item>
+        <item>גבוה מאוד</item>
+    </string-array>
+    <string-array name="storageArray">
+        <item>אף אחד</item>
+        <item>דיסק קשיח</item>
+        <item>DVD / CD</item>
+        <item>אף אחד</item>
+        <item>DVD שכור</item>
+        <item>מערכת צפייה ביתית</item>
+        <item>HD חיצוני</item>
+        <item>NAS</item>
+    </string-array>
+    <string-array name="genresArray">
+        <item>פעולה</item>
+        <item>הרפתקאה</item>
+        <item>מכוניות</item>
+        <item>קומדיה</item>
+        <item>טירוף</item>
+        <item>שדים</item>
+        <item>דרמה</item>
+        <item>Ecchi</item>
+        <item>פנטזיה</item>
+        <item>משחק</item>
+        <item>הרמון</item>
+        <item>סוטה</item>
+        <item>היסטורי</item>
+        <item>אימה</item>
+        <item>Josei</item>
+        <item>ילדים</item>
+        <item>קסם</item>
+        <item>אומניות לחימה</item>
+        <item>מכונות</item>
+        <item>צבאי</item>
+        <item>מוזיקה</item>
+        <item>מיסתורין</item>
+        <item>פרודיה</item>
+        <item>משטרה</item>
+        <item>פסיכולוגי</item>
+        <item>רומנטיקה</item>
+        <item>סמוראיים</item>
+        <item>בית ספר</item>
+        <item>Sci-Fi</item>
+        <item>נערים</item>
+        <item>נערות</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Slice of Life</item>
+        <item>חלל</item>
+        <item>ספורט</item>
+        <item>כוחות על</item>
+        <item>על טבעי</item>
+        <item>מותחן</item>
+        <item>ערפדים</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
+    </string-array>
+    <string name="toast_info_comment_add">התגובה נשלחה בהצלחה!</string>
+    <string name="dialog_title_downloaded">פרקים שהורדו</string>
+    <string name="dialog_title_fansub">הקבוצות שלי</string>
+    <string name="dialog_title_add_topic">צור נושא</string>
+    <!--Typo, should be your-->
+    <string name="dialog_hint_fansub">הכנס לקבוצתך</string>
+    <string name="dialog_message_created_by">נוצר ע\"י</string>
+    <string name="dialog_message_forum_child">לראות את הקטגוריה $child1; או $child2;?</string>
+    <string name="layout_card_anime_views">הצג רשימת אנימה</string>
+    <string name="layout_card_manga_views">הצג רשימת מנגה</string>
+    <string name="no_activity">אין פעילות</string>
+    <string name="no_reviews">אין ביקורות</string>
+    <string name="read_more">קרא עוד</string>
+    <string name="show_less">הראה פחות</string>
+    <!-- ForumActivity Strings -->
+    <string name="action_add">הוסף תגובה או נושא</string>
+    <string name="form_hint_title">כותרת נושא</string>
+    <string name="nav_item_airing">משודרים</string>
+    <string name="nav_item_year">השנה</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_downloaded">הורדו</string>
+</resources>

@@ -10,7 +10,6 @@ import android.widget.DatePicker;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 
 import java.text.SimpleDateFormat;
@@ -19,11 +18,17 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    Boolean startDate;
-    DatePickerDialog mDateDialog;
+    private Boolean startDate;
+    private DatePickerDialog mDateDialog;
+    private onDateSetListener callback;
+
+    public DatePickerDialogFragment setCallback(onDateSetListener callback) {
+        this.callback = callback;
+        return this;
+    }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle state) {
         startDate = getArguments().getBoolean("startDate");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Date current = new Date();
@@ -31,7 +36,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
             if (getArguments().getString("current") != null && !getArguments().getString("current").equals("0-00-00"))
                 current = sdf.parse(getArguments().getString("current"));
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "DatePickerDialogFragment.onCreateDialog(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "DatePickerDialogFragment.onCreateDialog(): " + e.getMessage());
             Crashlytics.logException(e);
         }
 
@@ -46,7 +51,8 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         mDateDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((DetailView) getActivity()).onDialogDismissed(startDate, mDateDialog.getDatePicker().getYear(), mDateDialog.getDatePicker().getMonth() + 1, mDateDialog.getDatePicker().getDayOfMonth());
+                callback.onDateSet(startDate, mDateDialog.getDatePicker().getYear(), mDateDialog.getDatePicker().getMonth() + 1, mDateDialog.getDatePicker().getDayOfMonth());
+                dismiss();
             }
         });
 
@@ -60,12 +66,21 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         mDateDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.dialog_label_remove), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((DetailView) getActivity()).onDialogDismissed(startDate, 0, 0, 0);
+                callback.onDateSet(startDate, 0, 0, 0);
+                dismiss();
             }
         });
         return mDateDialog;
     }
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+    }
+
+    /**
+     * The interface for callback
+     */
+    public interface onDateSetListener {
+        void onDateSet(Boolean startDate, int year, int month, int day);
     }
 }

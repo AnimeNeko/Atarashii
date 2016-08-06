@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mobihelp_conversion_listitem_min_width">82dp</dimen>
+    <dimen name="mobihelp_feedback_attachment_preview_size">72dp</dimen>
+    <dimen name="mobihelp_feedback_attachment_icon_size">56dp</dimen>
+    <dimen name="mobihelp_feedback_remove_icon_size">32dp</dimen>
+    <dimen name="mobihelp_article_thick_border">2dp</dimen>
+    <dimen name="mobihelp_article_thin_border">1dp</dimen>
+</resources>

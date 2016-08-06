@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/mobihelp_support_my_conversations_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground" >
+
+        <TextView
+            android:id="@+id/mobihelp_support_my_conversations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/mobihelp_label_my_conversations"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/mobihelp_support_my_conversations_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/mobihelp_support_my_conversations"
+            android:layout_alignTop="@id/mobihelp_support_my_conversations"
+            android:layout_marginLeft="6dp"
+            android:adjustViewBounds="true"
+            android:padding="4dp"
+            android:scaleType="centerInside"
+            android:src="?attr/mh_ic_conversations" />
+
+        <TextView
+            android:id="@+id/mobihelp_support_unread_count_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/mobihelp_support_my_conversations"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/mobihelp_unread_count_oval_bg"
+            android:paddingBottom="2dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="2dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/mobihelp_ticket_unread_count_bubble_text"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/mobihelp_support_my_conversations"
+            android:background="@color/mobihelp_divider_dark" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/mobihelp_support_solutions_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@id/mobihelp_support_my_conversations_group"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:text="@string/mobihelp_label_support_solutions_list_label"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/mobihelp_support_solutions_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/mobihelp_support_solutions_label" >
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/mobihelp_divider_light"
+            android:dividerHeight="1px"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/mobihelp_solutions_list_empty_message"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone" />
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/clprogressbar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

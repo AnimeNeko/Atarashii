@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp" >
+
+        <EditText
+            android:id="@+id/mobihelp_feedback_problem_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="4dp"
+            android:gravity="top"
+            android:hint="@string/mobihelp_hint_feedback"
+            android:inputType="textLongMessage|textMultiLine|textAutoCorrect|textCapSentences"
+            android:maxLines="8"
+            android:minLines="4"
+            android:singleLine="false" >
+
+            <requestFocus />
+        </EditText>
+
+        <ImageView
+            android:id="@+id/mobihelp_feedback_add_attachment_icon"
+            android:layout_width="@dimen/mobihelp_feedback_attachment_icon_size"
+            android:layout_height="@dimen/mobihelp_feedback_attachment_icon_size"
+            android:layout_alignBottom="@id/mobihelp_feedback_problem_description"
+            android:layout_gravity="center"
+            android:background="@drawable/mobihelp_circular_selectable_item_background"
+            android:contentDescription="@string/mobihelp_content_description_action_attach_image"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="?attr/mh_ic_attach" />
+
+        <ImageView
+            android:id="@+id/mobihelp_feedback_attachment_preview_image"
+            android:layout_width="@dimen/mobihelp_feedback_attachment_preview_size"
+            android:layout_height="@dimen/mobihelp_feedback_attachment_preview_size"
+            android:layout_alignBottom="@id/mobihelp_feedback_problem_description"
+            android:layout_alignLeft="@id/mobihelp_feedback_problem_description"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="4dp"
+            android:contentDescription="@string/mobihelp_content_description_attachment"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mobihelp_progress_spinner"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/mobihelp_feedback_remove_attachment_button"
+            android:layout_width="@dimen/mobihelp_feedback_remove_icon_size"
+            android:layout_height="@dimen/mobihelp_feedback_remove_icon_size"
+            android:background="@drawable/mobihelp_close_button_background"
+            android:contentDescription="@string/mobihelp_content_description_action_attach_image"
+   			android:layout_alignLeft="@id/mobihelp_feedback_attachment_preview_image"
+   			android:layout_alignBottom="@id/mobihelp_feedback_attachment_preview_image"
+            android:visibility="gone"
+            android:scaleType="centerInside"
+            android:src="@drawable/mobihelp_ic_action_remove" />
+
+        <EditText
+            android:id="@+id/mobihelp_feedback_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mobihelp_feedback_problem_description"
+            android:layout_margin="4dp"
+            android:inputType="textPersonName|textCapWords"
+            android:hint="@string/mobihelp_hint_name"
+            android:minHeight="48dp"
+            android:singleLine="true" >
+        </EditText>
+
+        <AutoCompleteTextView
+            android:id="@+id/mobihelp_feedback_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mobihelp_feedback_name"
+            android:layout_margin="4dp"
+            android:minHeight="48dp"
+            android:hint="@string/mobihelp_hint_email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
+
+        <ProgressBar
+            android:id="@+id/mobihelp_feedback_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</ScrollView>

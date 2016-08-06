@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.profile;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -21,41 +22,69 @@ import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.adapters.FriendsGridviewAdapter;
-import net.somethingdreadful.MAL.api.MALApi;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.APIHelper;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.tasks.FriendsNetworkTask;
-import net.somethingdreadful.MAL.tasks.FriendsNetworkTaskFinishedListener;
 
 import java.util.ArrayList;
 
-public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinishedListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
-    ArrayList<User> listarray = new ArrayList<User>();
-    FriendsGridviewAdapter<User> listadapter;
-    GridView Gridview;
-    public SwipeRefreshLayout swipeRefresh;
-    ProgressBar progressBar;
-    Card networkCard;
-    boolean forcesync = false;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import lombok.Getter;
+
+public class ProfileFriends extends Fragment implements FriendsNetworkTask.FriendsNetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
+    private GridView Gridview;
     private ProfileActivity activity;
+    private FriendsGridviewAdapter<Profile> listadapter;
+    @Getter
+    private ArrayList<Profile> listarray;
+
+    @BindView(R.id.network_Card)
+    Card networkCard;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.swiperefresh)
+    public SwipeRefreshLayout swipeRefresh;
+    private boolean forcesync = false;
+    private int id;
+
+    public Fragment setId(int id) {
+        this.id = id;
+        return this;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.friends, container, false);
         Theme.setBackground(activity, view, Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
+        ButterKnife.bind(this, view);
 
         Gridview = (GridView) view.findViewById(R.id.listview);
         Gridview.setOnItemClickListener(this);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        networkCard = (Card) view.findViewById(R.id.network_Card);
-        listadapter = new FriendsGridviewAdapter<User>(activity, listarray);
+        listadapter = new FriendsGridviewAdapter<>(activity, listarray);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         swipeRefresh.setEnabled(true);
-
-        activity.setFriends(this);
         toggle(1);
+
+        if (state != null) {
+            id = state.getInt("id");
+            listarray = (ArrayList<Profile>) state.getSerializable("listarray");
+            refresh();
+        }
+        if (id == 0)
+            activity.setFriends(this);
+        else
+            activity.setFollowers(this);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putInt("id", id);
+        state.putSerializable("listarray", listarray);
+        super.onSaveInstanceState(state);
     }
 
     @Override
@@ -70,27 +99,26 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
         networkCard.setVisibility(number == 2 ? View.VISIBLE : View.GONE);
     }
 
-    public void refresh() {
+    private void refresh() {
         Gridview.setAdapter(listadapter);
         try {
             listadapter.supportAddAll(listarray);
         } catch (Exception e) {
             Crashlytics.logException(e);
-            Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.refresh(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "FriendsActivity.refresh(): " + e.getMessage());
         }
         listadapter.notifyDataSetChanged();
         toggle(0);
     }
 
     @Override
-    public void onFriendsNetworkTaskFinished(ArrayList<User> result) {
+    public void onFriendsNetworkTaskFinished(ArrayList<Profile> result) {
         if (result != null) {
             listarray = result;
-            if (result.size() == 0 && !MALApi.isNetworkAvailable(activity)) {
+            if (result.size() == 0 && !APIHelper.isNetworkAvailable(activity))
                 toggle(2);
-            } else {
+            else
                 refresh(); // show toast only if sync was forced
-            }
         } else {
             Theme.Snackbar(activity, R.string.toast_error_Friends);
         }
@@ -99,7 +127,7 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
 
     public void getRecords() {
         activity.refreshing(true);
-        new FriendsNetworkTask(activity, forcesync, this).execute(activity.record.getName());
+        new FriendsNetworkTask(forcesync, this, activity, id).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, activity.record.getUsername());
     }
 
     @Override
@@ -110,11 +138,12 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTaskFinish
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
-        if (listarray.get(position).getProfile().getDetails().getAccessRank() == null) {
-            profile.putExtra("username", listarray.get(position).getName());
-        } else
-            profile.putExtra("user", listarray.get(position));
-        startActivity(profile);
+        if (APIHelper.isNetworkAvailable(activity)) {
+            Intent profile = new Intent(activity, net.somethingdreadful.MAL.ProfileActivity.class);
+            profile.putExtra("username", listarray.get(position).getUsername());
+            startActivity(profile);
+        } else {
+            Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+        }
     }
 }

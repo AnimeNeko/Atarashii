@@ -8,14 +8,21 @@ import android.accounts.NetworkErrorException;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.freshdesk.mobihelp.Mobihelp;
+
+import net.somethingdreadful.MAL.ContentManager;
+import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
+import net.somethingdreadful.MAL.database.DatabaseHelper;
+
+import static net.somethingdreadful.MAL.account.AccountType.AniList;
+import static net.somethingdreadful.MAL.account.AccountType.MyAnimeList;
 
 public class AccountService extends Service {
     public static AccountType accountType;
@@ -25,7 +32,7 @@ public class AccountService extends Service {
     /**
      * The account version will be used to peform
      */
-    private static int accountVersion = 1;
+    private static final int accountVersion = 3;
 
     public static void create(Context context) {
         AccountService.context = context;
@@ -34,28 +41,25 @@ public class AccountService extends Service {
     /**
      * This is used for Account upgrade purpose
      */
-    private static void onUpgrade() {
-        Crashlytics.log(Log.INFO, "MALX", "AccountService.onUpgrade(): Upgrading to " + Integer.toString(accountVersion) + ".");
-        setAccountVersion(accountVersion);
-        switch (accountVersion){
+    private static void onUpgrade(int oldVersion) {
+        Crashlytics.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading from " + oldVersion + " to " + String.valueOf(accountVersion) + ".");
+        setAccountVersion();
+        switch (oldVersion + 1) {
             case 1:
-                // We support now all Anilist scores, the user needs to log out (2.1 beta 3).
-                if (!accountType.equals(AccountType.MyAnimeList))
-                    deleteAccount();
+            case 2: // We added new base models to make loading easier, the user needs to log out (2.2 beta 1).
+                deleteAccount();
+                break;
+            case 3: // The profile image is now saved in the settings
+                ContentManager cManager = new ContentManager(context);
+                if (!PrefManager.isCreated())
+                    PrefManager.create(context);
+                Profile profile = cManager.getProfileFromDB();
+                if (profile != null && profile.getImageUrl() != null) {
+                    PrefManager.setProfileImage(profile.getImageUrl());
+                    PrefManager.commitChanges();
+                }
+                break;
         }
-    }
-
-    /**
-     * Get the provider whose behavior is being controlled.
-     *
-     * @return String The provider
-     */
-    public static String getAuth() throws PackageManager.NameNotFoundException {
-        PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-        if (TextUtils.isDigitsOnly(pInfo.versionName.replace(".", "")))
-            return ".account.Provider";
-        else
-            return ".beta.account.Provider";
     }
 
     /**
@@ -64,7 +68,10 @@ public class AccountService extends Service {
      * @return String The username
      */
     public static String getUsername() {
+        if (getAccount() == null)
+            return null;
         String username = getAccount().name;
+        Mobihelp.setUserFullName(context, username);
         Crashlytics.setUserName(username);
         return username;
     }
@@ -75,9 +82,25 @@ public class AccountService extends Service {
      * @return String The password
      */
     public static String getPassword() {
-        AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount();
+        if (account == null)
+            return null;
+        AccountManager accountManager = AccountManager.get(context);
         return accountManager.getPassword(account);
+    }
+
+    private static String getAccountType() {
+        return context.getPackageName().contains("beta") ? ".beta.account.SyncAdapter.account" : ".account.SyncAdapter.account";
+    }
+
+    /**
+     * Check if an account exists.
+     *
+     * @param context The context
+     * @return boolean if there is an account
+     */
+    public static boolean AccountExists(Context context) {
+        return AccountManager.get(context).getAccountsByType(getAccountType()).length > 0;
     }
 
     /**
@@ -88,24 +111,37 @@ public class AccountService extends Service {
     public static Account getAccount() {
         if (account == null) {
             AccountManager accountManager = AccountManager.get(context);
-            Account[] myaccount = accountManager.getAccountsByType(".account.SyncAdapter.account");
-            String version = Integer.toString(accountVersion);
+            Account[] myaccount = accountManager.getAccountsByType(getAccountType());
+            String version = String.valueOf(accountVersion);
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
                 version = accountManager.getUserData(myaccount[0], "accountVersion");
-                Crashlytics.setString("Site", AccountService.accountType.toString());
-                Crashlytics.setString("accountVersion", version);
+                Theme.setCrashData("Site", AccountService.accountType.toString());
+                Theme.setCrashData("accountVersion", version);
             }
             account = myaccount.length > 0 ? myaccount[0] : null;
-            if (version == null || accountVersion != Integer.parseInt(version))
-                onUpgrade();
+            if (version == null)
+                onUpgrade(1);
+            else if (Integer.parseInt(version) != accountVersion)
+                onUpgrade(Integer.parseInt(version));
         }
         return account;
     }
 
     public static boolean isMAL() {
         getAccount();
-        return accountType.equals(AccountType.MyAnimeList);
+        if (account == null || accountType == null) {
+            AccountService.deleteAccount();
+            System.exit(0);
+        }
+
+        switch (accountType) {
+            case MyAnimeList:
+                return true;
+            case AniList:
+                return false;
+        }
+        return false;
     }
 
     /**
@@ -114,11 +150,11 @@ public class AccountService extends Service {
      * @param type The authToken string
      * @return AccountType The type of account
      */
-    public static AccountType getAccountType(String type) {
+    private static AccountType getAccountType(String type) {
         if (AccountType.AniList.toString().equals(type))
-            return AccountType.AniList;
+            return AniList;
         else
-            return AccountType.MyAnimeList;
+            return MyAnimeList;
     }
 
     /**
@@ -126,8 +162,10 @@ public class AccountService extends Service {
      */
     public static void deleteAccount() {
         AccountManager accountManager = AccountManager.get(context);
-        accountManager.removeAccount(getAccount(), null, null);
         account = null;
+        if (getAccount() != null)
+            accountManager.removeAccount(getAccount(), null, null);
+        accountType = null;
     }
 
     /**
@@ -138,10 +176,10 @@ public class AccountService extends Service {
      */
     public static void addAccount(String username, String password, AccountType accountType) {
         AccountManager accountManager = AccountManager.get(context);
-        final Account account = new Account(username, ".account.SyncAdapter.account");
+        final Account account = new Account(username, getAccountType());
         accountManager.addAccountExplicitly(account, password, null);
         accountManager.setUserData(account, "accountType", accountType.toString());
-        accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
+        accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
         AccountService.accountType = accountType;
     }
 
@@ -161,7 +199,7 @@ public class AccountService extends Service {
 
     /**
      * Get the accesToken.
-     *
+     * <p/>
      * Note: this method will return null if the accesToken is expired!
      *
      * @return String accesToken
@@ -173,23 +211,21 @@ public class AccountService extends Service {
             Long expireTime = Long.parseLong(accountManager.getUserData(getAccount(), "accesTokenTime"));
             Long time = System.currentTimeMillis() / 1000;
             Long timeLeft = expireTime - time;
-            Crashlytics.log(Log.INFO, "MALX", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
+            Crashlytics.log(Log.INFO, "Atarashii", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
             return timeLeft >= 0 ? token : null;
         } catch (Exception e) {
-            Crashlytics.log(Log.INFO, "MALX", "AccountService: The expire time could not be received.");
+            Crashlytics.log(Log.INFO, "Atarashii", "AccountService: The expire time could not be received.");
             return null;
         }
     }
 
     /**
      * Set an auth token in the accountmanager.
-     *
-     * @param accountVersion The new accountversion of the account that will be saved
      */
-    public static void setAccountVersion(int accountVersion) {
+    private static void setAccountVersion() {
         if (account != null) {
             AccountManager accountManager = AccountManager.get(context);
-            accountManager.setUserData(account, "accountVersion", Integer.toString(accountVersion));
+            accountManager.setUserData(account, "accountVersion", String.valueOf(accountVersion));
         }
     }
 
@@ -212,13 +248,13 @@ public class AccountService extends Service {
     }
 
     /**
-     * Update a password of an account.
-     *
-     * @param password The new password for an account
+     * Removes the userdata
      */
-    public static void updatePassword(String password) {
-        AccountManager accountManager = AccountManager.get(context);
-        accountManager.setPassword(getAccount(), password);
+    public static void clearData() {
+        DatabaseHelper.deleteDatabase(context);
+        PrefManager.clear();
+        Mobihelp.clearUserData(context);
+        AccountService.deleteAccount();
     }
 
     @Override

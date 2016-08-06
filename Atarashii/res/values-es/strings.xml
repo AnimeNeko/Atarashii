@@ -6,79 +6,89 @@
     <string name="title_activity_about">Acerca de</string>
     <string name="title_activity_detail_view">Vista Detallada</string>
     <string name="title_activity_profile">Perfil de usuario</string>
-    <string name="title_activity_friends">Mis amigos</string>
-    <string name="title_activity_logout">Cerrar sesión</string>
     <string name="title_activity_forum">Foro</string>
+    <string name="title_activity_backup">Copia de seguridad</string>
+    <string name="title_activity_charts">Listas</string>
+    <string name="title_activity_browse">Explorar</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Cambiar de lista</string>
     <string name="menu_inverse">Lista inversa</string>
-    <string name="menu_settings">Configuración</string>
     <string name="menu_sync">Sincronización completa</string>
-    <string name="menu_sortType">Ordenar por...</string>
+    <string name="menu_backup">Copia de seguridad</string>
+    <string name="menu_details">Detalles</string>
+    <string name="menu_sort">Ordenar</string>
+    <string name="sort_title">Titulo</string>
+    <string name="sort_type">Tipo</string>
+    <string name="sort_score">Puntuación</string>
+    <string name="sort_status">Estado</string>
+    <string name="sort_progress">Progreso</string>
     <!-- All (Toast) Strings -->
     <string name="toast_error_noConnectivity">No hay conexión de red disponible.</string>
+    <string name="toast_error_api">¡Detectado error de API, por favor notifica a los desarrolladores!</string>
+    <string name="toast_error_reviews">No hay análisis disponibles.</string>
+    <string name="toast_error_maintenance">¡API no disponible, mantenimiento en marcha!</string>
     <string name="toast_error_UserRecord">¡El perfil de usuario está vacío!</string>
-    <string name="toast_error_Search_Anime">Error mientras se buscaban registros de anime.</string>
-    <string name="toast_error_Search_Manga">Error mientras se buscaban registros de manga.</string>
     <string name="toast_error_Search">¡Ha habido un error mientras se buscaba! Por favor, inténtelo de nuevo más tarde.</string>
     <string name="toast_error_Anime_Sync">¡Error de sincronización mientras se obtenía la lista de anime!</string>
     <string name="toast_error_Manga_Sync">¡Error de sincronización mientras se obtenía la lista de manga!</string>
-    <string name="toast_error_SyncFailed">¡La sincronización ha fallado! Por favor, inténtelo de nuevo más tarde.</string>
-    <string name="toast_error_Anime_Records">Error mientras se obtenían las entradas de anime.</string>
-    <string name="toast_error_Manga_Records">Error mientras se obtenían las entradas de manga.</string>
     <string name="toast_error_Records">Error mientras se obtenían las entradas. Por favor, inténtelo de nuevo más tarde.</string>
     <string name="toast_error_DetailsError">¡Atarashii no puede cargar los detalles!</string>
+    <string name="toast_error_keys">¡Atarashii no puede obtener autorización de AL!</string>
     <string name="toast_error_VerifyProblem">Verifica tus credenciales e intenta de nuevo.</string>
     <string name="toast_error_Friends">¡Error de sincronización mientras se obtenía la lista de amigos!</string>
     <string name="toast_error_nothingFound">No se encontraron resultados de anime o manga.</string>
+    <string name="toast_error_convert">¡El comentario no pudo ser convertido!</string>
     <string name="toast_info_SyncMessage">Sincronizando todo. Esto podría tomar unos pocos segundos.</string>
+    <string name="toast_info_password">¡La combinación de usuario y contraseña no coinciden!</string>
     <string name="toast_info_Copied">¡Se ha copiado con éxito el título al portapapeles!</string>
     <string name="toast_info_hold_on">¡Espera un segundo, todavía estamos cargando la información!</string>
-    <string name="toast_info_comment_add">¡El comentario ha sido enviado con éxito!</string>
     <string name="toast_info_comment_added">Podría tomar 5 minutos hasta que sea visible</string>
     <string name="toast_info_disabled">Esta característica está actualmente desactivada :(</string>
     <string name="toast_info_disabled_youtube">No se admiten comentarios con videos de Youtube :(</string>
+    <string name="toast_info_backup_saved">¡Se ha creado la copia de seguridad!</string>
+    <string name="toast_info_backup_revert">¡Los cambios se han revertido!</string>
+    <string name="toast_info_backup_remove">¡La copia de seguridad se ha eliminado!</string>
+    <string name="toast_info_backup_list">¡La copia de seguridad no es compatible con este sitio!</string>
+    <string name="toast_info_widget_exists">¡Un widget con el registro seleccionado ya existe!</string>
+    <string name="toast_info_comment">¡El comentario es corto!</string>
+    <string name="toast_permission_backup">¡Permiso denegado por el usuario, los respaldos no pueden cargarse!</string>
     <!-- All (Dialog Title & Contents) Strings -->
+    <string name="dialog_title_userername">El nombre de usuario no coincide</string>
+    <string name="dialog_title_permission">Permiso denegado</string>
+    <string name="dialog_title_restore">¿Recuperar listas?</string>
     <string name="dialog_title_view">Vista</string>
     <string name="dialog_title_tags">Mis etiquetas</string>
     <string name="dialog_title_storage_value">Valor de almacenamiento</string>
-    <string name="dialog_title_downloaded">Episodios descargados</string>
     <string name="dialog_title_rewatched_times">Cantidad de veces vista</string>
     <string name="dialog_title_rewatched_priority">Prioridad para ver de nuevo</string>
     <string name="dialog_title_storage">Tipo de almacenamiento</string>
     <string name="dialog_title_comment">Mis comentarios</string>
-    <string name="dialog_title_fansub">Mi grupo fansub</string>
     <string name="dialog_title_share">Compartir</string>
     <string name="dialog_title_share_via">Compartir vía</string>
     <string name="dialog_title_Verifying">Verificación</string>
     <string name="dialog_title_rating">Valoración</string>
-    <string name="dialog_title_logout">Confirmar cierre de sesión</string>
     <string name="dialog_title_watched_update">He visto</string>
     <string name="dialog_title_read_update">He leído</string>
     <string name="dialog_title_status">Estado</string>
-    <string name="dialog_title_sync">Sincronización</string>
     <string name="dialog_title_edit_comment">Editar comentario</string>
     <string name="dialog_title_add_comment">Añadir comentario</string>
-    <string name="dialog_title_add_topic">Crear tema</string>
     <string name="dialog_title_id_search">Busqueda de ID</string>
-    <string name="dialog_title_update_password">Actualizar contraseña</string>
     <string name="dialog_title_update_navigation">Actualizar en segundo plano</string>
     <string name="dialog_hint_tags">Separa tus etiquetas con comas</string>
     <string name="dialog_hint_comment">Escribe tu comentario</string>
-    <string name="dialog_hint_fansub">Escribe tu grupo fansub</string>
     <string name="dialog_message_view">¿Qué lista quieres ver?</string>
+    <string name="dialog_message_permission">Por favor habilite manualmente los permisos de android.\nHa escogido no mostrarlo de nuevo.</string>
+    <string name="dialog_message_restore">¡Esto puede eliminar algunos registros de tu lista!</string>
     <string name="dialog_message_logout">¿Seguro que deseas cerrar sesión? Esto borrará toda la información e imágenes guardados.</string>
     <string name="dialog_message_id_search">Por favor presiona en el botón Anime o Manga para buscar. ¡Recuerda que los ID de Anime y Manga no son iguales!</string>
     <string name="dialog_message_remove">¿Estás completamente seguro? Una vez se vaya, se irá para siempre y no podrá ser recuperado. Al menos no de forma sencilla.</string>
     <string name="dialog_message_share">¿Qué lista quieres compartir?</string>
     <string name="dialog_message_Verifying">Asegurándose de que tu cuenta está bien. Aguanta un momento.</string>
-    <string name="dialog_message_update_password">Parece que tu contraseña ha sido cambiada. Por favor introduce la nueva a continuación.</string>
-    <string name="dialog_message_new_password_wrong">La nueva contraseña que has introducido es incorrecta.</string>
     <string name="dialog_message_update_navigation">Ingrese la dirección URL de la imagen de fondo.</string>
-    <string name="dialog_message_created_by">Creado por</string>
     <string name="dialog_message_last_post">Último mensaje por</string>
-    <string name="dialog_message_forum_child">¿Quieres ver la categoría $child1; o $child2;?</string>
-    <string name="dialog_message_on">en</string>
+    <string name="dialog_message_username">¡Es posible que la copia de seguridad seleccionada no sea la tuya!</string>
+    <string name="dialog_message_edit_comment">¿Estas seguro de que tu comentario debe ser actualizado?</string>
+    <string name="dialog_message_add_comment">¿De verdad quieres agregar un nuevo comentario?</string>
     <string name="dialog_label_cancel">Cancelar</string>
     <string name="dialog_label_update">Actualizar</string>
     <string name="dialog_label_anime">Anime</string>
@@ -88,8 +98,9 @@
     <string name="dialog_title_remove">Eliminar de la lista</string>
     <string name="dialog_label_logout">Cerrar sesión</string>
     <string name="dialog_label_remove">Eliminar</string>
-    <string name="dialog_label_confirm">Confirmar</string>
     <string name="dialog_label_send">Enviar</string>
+    <string name="dialog_message_backup_reading">Registros leídos</string>
+    <string name="dialog_message_backup_requesting">Creando copia de seguridad.</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">¡$username; compartió una lista de anime usando Atarashii: http://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">¡$username; compartió una lista de manga usando Atarashii: http://myanimelist.net/mangalist/$name;!</string>
@@ -107,8 +118,6 @@
     <string name="layout_card_join">Fecha de inscripción</string>
     <string name="layout_card_acces">Rango de acceso</string>
     <string name="access_rank_atarashii_developer">Desarrollador de Atarashii</string>
-    <string name="layout_card_anime_views">Visitas (Lista de anime)</string>
-    <string name="layout_card_manga_views">Visitas (Lista de manga)</string>
     <string name="layout_card_anime_details">Detalles (Anime)</string>
     <string name="layout_card_manga_details">Detalles (Manga)</string>
     <string name="layout_card_anime_time">Tiempo (días)</string>
@@ -120,20 +129,23 @@
     <string name="layout_card_anime_total">Total de entradas</string>
     <string name="layout_card_manga_reading">Leyendo</string>
     <string name="layout_card_manga_plan">Planeando leer</string>
-    <string name="action_viewListOnMAL">Ver lista en MAL</string>
+    <string name="action_viewListOnMAL">Ver lista en el navegador</string>
+    <string name="action_viewtopic">Ver discusión</string>
     <string name="not_specified">Sin especificado</string>
-    <string name="no_activity">Sin actividad</string>
+    <string name="no_history">Sin historia</string>
     <string-array name="gender">
         <item>Mujer</item>
         <item>Hombre</item>
     </string-array>
     <!-- FriendsActivity Strings -->
-    <string name="layout_card_friends_since">Amigos desde</string>
     <string name="unknown">desconocido</string>
+    <!-- BackupActivity Strings -->
+    <string name="creation_date">Fecha de creación</string>
     <!-- ForumActivity Strings -->
-    <string name="action_add">Añadir un comentario o tema</string>
-    <string name="form_hint_title">Título del tema</string>
     <string name="form_hint_message">Mensaje</string>
+    <string name="Page_number">Pagina numero</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
     <!-- FirstTimeInit (Contents) Strings -->
     <string name="init_hint_choose">¡Bienvenido a Atarashii!\nPor favor escoje tu sitio web preferido.</string>
     <string name="init_hint_myanimelist">MyAnimeList</string>
@@ -148,6 +160,9 @@
     <string name="cover_Completed">Completado</string>
     <string name="cover_Reading">He leído:</string>
     <string name="cover_OnHold">En espera desde el:</string>
+    <string name="cover_score">Puntuación:</string>
+    <string name="cover_type">Tipo:</string>
+    <string name="cover_status">Estado:</string>
     <string name="cover_Dropped">Abandonado</string>
     <string name="cover_PlanningToWatch">Planeando en ver</string>
     <string name="cover_PlanningToRead">Planeando en leer</string>
@@ -164,25 +179,39 @@
     <string name="nav_item_my_following">Siguiendo</string>
     <string name="nav_item_my_forum">Foro</string>
     <string name="nav_item_top_rated">Mejor Valorados</string>
-    <string name="nav_item_airing">En emisión</string>
+    <string name="nav_item_top_season">Mejor de Temporada</string>
+    <string name="nav_item_top_year">Mejor del Año</string>
     <string name="nav_item_most_popular">Más Populares</string>
-    <string name="nav_item_year">Este año</string>
+    <string name="nav_item_popular_season">Popular de Temporada</string>
+    <string name="nav_item_popular_year">Popular del Año</string>
     <string name="nav_item_just_added">Recién Añadidos</string>
     <string name="nav_item_upcoming">Próximamente</string>
+    <string name="nav_item_schedule">Horario</string>
+    <string name="nav_item_return">Regresar</string>
     <string name="drawer_open">Abrir cajón de navegación</string>
     <string name="drawer_close">Cerrar el cajón de navegación</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">General</string>
     <string name="tab_name_personal">Personal</string>
+    <string name="tab_name_reviews">Análisis</string>
+    <string name="tab_name_recommendations">Recomendaciones</string>
     <string name="tab_name_details">Detalles</string>
     <string name="tab_name_friends">Amigos</string>
     <string name="tab_name_following">Siguiendo</string>
+    <string name="tab_name_followers">Seguidores</string>
+    <string name="tab_name_history">Historia</string>
+    <!-- Day Strings -->
+    <string name="day_monday">Lunes</string>
+    <string name="day_tuesday">Martes</string>
+    <string name="day_wednesday">Miércoles</string>
+    <string name="day_thursday">Jueves</string>
+    <string name="day_friday">Viernes</string>
+    <string name="day_saturday">Sabado</string>
+    <string name="day_sunday">Domingo</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Sinopsis</string>
-    <string name="card_name_progress">Progreso</string>
     <string name="card_name_stats">Estadísticas</string>
     <string name="card_name_info">Información</string>
-    <string name="card_name_rating">Valoración</string>
     <string name="card_name_personal">Personal</string>
     <string name="card_name_relations">Relaciones</string>
     <string name="card_name_titles">Títulos alternativos</string>
@@ -193,14 +222,15 @@
     <string name="card_content_volumes">Volúmenes</string>
     <string name="card_content_my_start">Mi fecha de inicio</string>
     <string name="card_content_my_end">Mi fecha de finalización</string>
+    <string name="card_content_duration">Duración</string>
+    <string name="card_content_broadcast">Emisión</string>
+    <string name="card_content_minutes">minutos</string>
     <string name="card_content_other">Otro</string>
     <string name="card_content_none">Ninguno</string>
     <string name="card_content_chapters">Capítulos</string>
     <string name="card_content_rewatch_priority">Prioridad</string>
-    <string name="card_content_fansubbers">Fansubs</string>
     <string name="card_content_storage">Almacenamiento</string>
     <string name="card_content_storage_amount">Capacidad de almacenamiento (GB)</string>
-    <string name="card_content_downloaded">Descargado</string>
     <string name="card_content_count">Contar</string>
     <string name="card_content_episodes">Episodios</string>
     <string name="card_content_status">Estado</string>
@@ -214,7 +244,6 @@
     <string name="card_content_start">Fecha de inicio</string>
     <string name="card_content_end">Fecha de finalización</string>
     <string name="card_content_producers">Productores</string>
-    <string name="card_content_aired">Emitido</string>
     <string name="card_content_genres">Generos</string>
     <string name="card_content_classification">Clasificación</string>
     <string name="card_content_ranked">Rango</string>
@@ -235,10 +264,15 @@
     <string name="card_content_japanese">Japonés</string>
     <string name="card_content_english">Inglés</string>
     <string name="card_content_synonyms">Sinónimos</string>
+    <string name="card_content_romaji">Romaji</string>
     <string name="card_offline_error">No hay conexión de red disponible.</string>
-    <string name="card_offline_button_caption">Intentar de nuevo</string>
     <string name="card_offline_title">¡Estás fuera de línea!</string>
     <string name="episodepicker_hint">Ingrese su puntuación</string>
+    <string name="card_content_rating">Puntuación general:</string>
+    <string name="card_content_chapseen">Capítulos leídos:</string>
+    <string name="card_content_episodestime">Días de Anime:</string>
+    <string name="card_content_episeen">Episodios vistos:</string>
+    <string name="card_content_minrating">Calificación minima</string>
     <!-- DetailView (Actionbar actions) Strings -->
     <string name="action_viewMALPage">Vista detallada en MyAnimeList</string>
     <string name="action_Share">Compartir</string>
@@ -270,14 +304,11 @@
         <item>OEL</item>
     </string-array>
     <string-array name="mediaStatus_Anime">
-        <item>transmisión finalizada</item>
         <item>transmitiendo</item>
-        <item>todavía no transmitido</item>
     </string-array>
     <string-array name="mediaStatus_Manga">
         <item>finalizado</item>
         <item>Publicando</item>
-        <item>todavía no publicado</item>
     </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
@@ -303,9 +334,8 @@
     <string name="acknowledgements_card_title">Información</string>
     <string name="community_card_title">Comunidad de Atarashii</string>
     <string name="translations_card_title">Traducciones</string>
-    <string name="acknowledgements">Atarashii! fué puesto en marcha por Michael Johnson\'s &amp; Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Keyboardsurfer\'s <a href="https://github.com/keyboardsurfer/Crouton">Crouton</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> &amp; <a href="http://square.github.io/picasso/">Picasso</a> por Square Inc. y <a href="https://code.google.com/p/google-gson/">google-gson</a> por Google Inc. que es utilizado por Retrofit, todos los cuales están bajo la <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> licencia.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Cómo podemos usar tus datos</a>.</string>
     <string name="app_description">Atarashii! Es la mejor forma de acceder a MyAnimeList desde tu móvil. Cuenta con una hermosa y moderna interfaz para Android junto con toda la funcionalidad que podrías pedir.</string>
-    <string name="contributor_anima_summary">\"¡Todas las otras aplicaciones apestan!\" \n\nFundador y programador principal. Cansado de todas las otras aplicaciones con una interfaz muy mala y por lo general con mal mantenimiento, fue y creó esta aplicación.</string>
+    <string name="contributor_anima_summary">\&amp;quot;¡Todas las otras aplicaciones apestan!\&amp;quot; \n\nFundador y programador principal. Cansado de todas las otras aplicaciones con una interfaz muy mala y por lo general con mal mantenimiento, fue y creó esta aplicación.</string>
     <string name="contributor_motokochan_summary">Se enfoca en limpieza de código e implementación de pequeñas funciones. Trabajó en extender la aplicación para el soporte de manga.</string>
     <string name="contributor_apkawa_summary">Implementó la función de búsqueda.</string>
     <string name="contributor_dsko_summary">Implementó retrofit para el manejo de la API.</string>
@@ -319,13 +349,23 @@
     <string name="community"><a href="https://plus.google.com/u/0/communities/112878843573078595281">¡Únete a nuestra comunidad!</a>La comunidad de Atarashii en Google+ es un gran lugar para interactuar con los creadores y dejarnos saber lo que piensas. Problemas, implementaciones, estado de actualizaciones, está todo ahí. No mordemos, lo prometo.</string>
     <!-- Preferences (contents) Strings -->
     <string name="dialog_DefaultList">Lista por defecto</string>
-    <string name="summary_DefaultList">¿Qué lista quieres cargar al abrir la aplicación?</string>
+    <string name="dialog_DefaultaddList">Lista predeterminada para añadir</string>
     <string name="preference_category_list">Lista</string>
     <string name="preference_category_synchronisation">Sincronización</string>
     <string name="preference_category_sharing">Otras configuraciones</string>
     <string name="preference_category_profile">Perfil</string>
+    <string name="preference_category_backup">Copia de seguridad</string>
+    <string name="preference_backupsync">Intervalo de copia de seguridad automática</string>
+    <string name="preference_adultcontent">Habilitar contenido \"no seguro\" (MAL)</string>
+    <string name="preference_autoDate">Actualizar las fechas automáticamente</string>
+    <string name="preference_backuplength">La cantidad de copias de seguridad</string>
+    <string name="preference_summary_backupsync">Hacer copia de seguridad automáticamente de la lista de anime/manga cada cierto tiempo.</string>
+    <string name="preference_summary_autobackup">Máximo de elementos permitidos para la copia de seguridad.</string>
     <string name="preference_synchronisation">Sincronización automática</string>
     <string name="preference_Theme">Tema oscuro</string>
+    <string name="preference_list_columns_portrait">Lista de columnas en vertical</string>
+    <string name="preference_list_columns_landscape">Lista de columnas en horizontal</string>
+    <string name="preference_Reset">Resetear ajustes</string>
     <string name="preference_TraditionalList">Usar lista tradicional</string>
     <string name="preference_customShareText">Texto personalizado al compartir</string>
     <string name="preference_displayVolumes">Usar volúmenes en las cubiertas</string>
@@ -336,9 +376,15 @@
     <string name="preference_profileTextColors">Deshabilitar colores de texto</string>
     <string name="preference_profileAnimeHide">Ocultar siempre detalles de anime</string>
     <string name="preference_profileMangaHide">Ocultar siempre detalles de manga</string>
+    <string name="summary_DefaultList">¿Qué lista quieres cargar al abrir la aplicación?</string>
+    <string name="preference_summary_adultcontent">Mostar contenido \"no seguro\" como hentai.</string>
+    <string name="preference_summary_autoDate">Actualizar la fecha automáticamente cuando empiezas o terminas un anime o manga.</string>
     <string name="preference_summary_TraditionList">Usar la lista tried-and-true en lugar de la lista estilo coverflow. Requiere reinicio para tomar efecto.</string>
+    <string name="preference_summary_AddList">Cuando añadas un anime/manga se añadirá el registro en esta lista.</string>
     <string name="preference_summary_synchronisation">Si está marcado, Atarashii se auto-sincronizará en segundo plano.</string>
     <string name="preference_summary_theme">Si se marca, Atarashii utilizará un tema oscuro.</string>
+    <string name="preference_summary_Reset">Atarashii reseteará todos las preferencias cambiadas a por defecto.</string>
+    <string name="preference_summary_list_columns">Cambia aquí la cantidad de columnas que Atarashii debe usar.</string>
     <string name="preference_summary_Language">Cambia el idioma predeterminado por el que quieras. Requiere reiniciar para que tenga efecto.</string>
     <string name="preference_summary_customShareText">¿No te gusta el texto por defecto al compartir? ¡Crea el tuyo! Usa $title; y $link; en los campos de título y enlace a MAL, respectivamente. Nosotros haremos el resto.</string>
     <string name="preference_summary_autosync">Tiempo hasta que la auto-sincronización se realice en segundo plano.</string>
@@ -346,6 +392,7 @@
     <string name="preference_summary_profileTextColors">Forzar a la página del perfil a usar texto negro.</string>
     <string name="preference_summary_profileAnimeHide">Ocultar los detalles de anime en todos los perfiles.</string>
     <string name="preference_summary_profileMangaHide">Ocultar los detalles de manga en todos los perfiles.</string>
+    <string name="preference_summary_backup">Hacer copia de seguridad de la lista de anime y manga</string>
     <string name="preference_android_synchronisation">Entradas de anime/manga</string>
     <string name="preference_default_customShareText">¡Échale un vistazo a $title; en MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -357,31 +404,9 @@
     <string name="listType_InProgress">En curso</string>
     <string name="listType_rewatching">Viendo de nuevo</string>
     <string name="listType_rereading">Leyendo de nuevo</string>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-    <string-array name="array_ratings_text">
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>Sin valoración</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>"1: Pésimo "</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>2: Horrible</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>3: Muy Malo</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>4: Malo</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>5: Pasable</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>6: Decente</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>7: Bueno</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>8: Muy Bueno</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>9: Fantástico</item>
-    <!-- RatingPickerDialogFragment (Rating) Items -->
-        <item>10: Obra maestra</item>
-    </string-array>
+    <!-- Browse (contents) Strings -->
+    <string name="browse_genre_inc">Incluir géneros</string>
+    <string name="browse_genre_exc">Excluir géneros</string>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -398,71 +423,33 @@
         <item>Planeando ver</item>
     </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
-    <string-array name="localeArray">
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Árabe</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alemán</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Inglés</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Francés</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Alemán</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Griego</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Polaco</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugués (Brasil)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Portugués (Portugal)</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Ruso</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Español</item>
-    <!-- Settings (LocalePreference Entries) Items -->
-        <item>Turco</item>
-    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
         <item>4 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>6 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>8 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>10 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>12 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
+    <!-- Spanish -->
         <item>24 horas</item>
-    <!-- Settings (ListPreference Entries) Items -->
-        <item>48 horas</item>
+    <!-- Spanish -->
+        <item>2 días</item>
+    <!-- Spanish -->
+        <item>3 días</item>
+    <!-- Spanish -->
+        <item>4 días</item>
+    <!-- Spanish -->
+        <item>5 días</item>
+    <!-- Spanish -->
+        <item>6 días</item>
+    <!-- Spanish -->
+        <item>7 días</item>
     </string-array>
-    <!-- Date (Date format output) Items -->
-    <string name="dateformat">dd-MM-yy</string>
-    <string name="datetimeformat">dd-MM-yy, h:mm a</string>
-    <string name="datetimeformat_yesterday">\'Ayer\', h:mm a</string>
-    <string name="datetimeformat_tomorrow">\'Mañana\', h:mm a</string>
-    <string name="datetimeformat_dayname">EEEE, h:mm a</string>
-    <plurals name="minutes_ago">
-        <item quantity="one">Hace un minuto</item>
-        <item quantity="other">Hace %d minutos</item>
-    </plurals>
-    <plurals name="minutes_left">
-        <item quantity="one">En %d minuto</item>
-        <item quantity="other">En %d minutos</item>
-    </plurals>
-    <plurals name="hours_left">
-        <item quantity="one">%d hora a partir de ahora</item>
-        <item quantity="other">%d horas a partir de ahora</item>
-    </plurals>
-    <plurals name="hours_ago">
-        <item quantity="one">Hace una hora</item>
-        <item quantity="other">Hace %d horas</item>
-    </plurals>
     <string-array name="classificationArray">
         <item>G - Todas las edades</item>
         <item>PG - Infantil</item>
@@ -470,6 +457,30 @@
         <item>R - 17+ (Violencia y blasfemia)</item>
         <item>R+ - Desnudo parcial</item>
         <item>Rx - Hentai</item>
+    </string-array>
+    <string-array name="browse_sort_anime">
+        <item>Titulo</item>
+        <item>Relevancia</item>
+        <item>Fecha de inicio</item>
+        <item>Fecha de final</item>
+        <item>Puntuación</item>
+        <item>Episodio</item>
+        <item>Tipo</item>
+        <item>Miembros</item>
+        <item>Calificación</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="browse_sort_manga">
+        <item>Relevancia</item>
+        <item>Titulo</item>
+        <item>Fecha de inicio</item>
+        <item>Fecha de final</item>
+        <item>Puntuación</item>
+        <item>Volumen</item>
+        <item>Miembros</item>
+        <item>Tipo</item>
+        <item>Capitulo</item>
+        <item>ID</item>
     </string-array>
     <string-array name="priorityArray">
         <item>Baja</item>
@@ -538,4 +549,25 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
+    <string name="toast_info_comment_add">¡El comentario ha sido enviado con éxito!</string>
+    <string name="dialog_title_downloaded">Episodios descargados</string>
+    <string name="dialog_title_fansub">Mi grupo fansub</string>
+    <string name="dialog_title_add_topic">Crear tema</string>
+    <!--Typo, should be your-->
+    <string name="dialog_hint_fansub">Escribe tu grupo fansub</string>
+    <string name="dialog_message_created_by">Creado por</string>
+    <string name="dialog_message_forum_child">¿Quieres ver la categoría $child1; o $child2;?</string>
+    <string name="layout_card_anime_views">Visitas (Lista de anime)</string>
+    <string name="layout_card_manga_views">Visitas (Lista de manga)</string>
+    <string name="no_activity">Sin actividad</string>
+    <string name="no_reviews">Sin análisis</string>
+    <string name="read_more">leer más</string>
+    <string name="show_less">mostrar menos</string>
+    <!-- ForumActivity Strings -->
+    <string name="action_add">Añadir un comentario o tema</string>
+    <string name="form_hint_title">Título del tema</string>
+    <string name="nav_item_airing">En emisión</string>
+    <string name="nav_item_year">Este año</string>
+    <string name="card_content_fansubbers">Fansubs</string>
+    <string name="card_content_downloaded">Descargado</string>
 </resources>

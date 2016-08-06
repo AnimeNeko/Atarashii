@@ -6,14 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SearchEvent;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -21,35 +22,18 @@ import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.dialog.SearchIdDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
-public class SearchActivity extends ActionBarActivity implements IGFCallbackListener {
-    public String query;
-    IGF af;
-    IGF mf;
-    ViewPager ViewPager;
-    IGFPagerAdapter mIGFPagerAdapter;
-    SearchView searchView;
-    ActionBar actionBar;
+import org.apache.commons.lang3.text.WordUtils;
 
-    boolean callbackAnimeError = false;
-    boolean callbackMangaError = false;
-    boolean callbackAnimeResultEmpty = false;
-    boolean callbackMangaResultEmpty = false;
-    int callbackCounter = 0;
+public class SearchActivity extends AppCompatActivity implements IGF.IGFCallbackListener {
+    public String query;
+    private IGF af;
+    private IGF mf;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-
-        actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        mIGFPagerAdapter = new IGFPagerAdapter(getFragmentManager());
-
-        ViewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager.setAdapter(mIGFPagerAdapter);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
+        Theme.setTheme(this, R.layout.theme_viewpager, false);
+        Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
     }
 
     @Override
@@ -74,13 +58,12 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
                 FragmentManager fm = getFragmentManager();
                 (new SearchIdDialogFragment()).show(fm, "fragment_id_search");
             } else {
-                if (searchView != null) {
-                    searchView.setQuery(query, false);
-                }
                 if (af != null && mf != null) {
                     af.searchRecords(query);
                     mf.searchRecords(query);
                 }
+                Answers.getInstance().logSearch(new SearchEvent()
+                        .putQuery(query));
             }
         }
     }
@@ -115,39 +98,23 @@ public class SearchActivity extends ActionBarActivity implements IGFCallbackList
          * anime-/mangalist
          */
         igf.setUsername(AccountService.getUsername());
-        if (igf.listType.equals(ListType.ANIME))
+        if (igf.isAnime())
             af = igf;
         else
             mf = igf;
         if (query != null && !TextUtils.isDigitsOnly(query)) // there is already a search to do
-            igf.searchRecords(query);
+            igf.searchRecords(WordUtils.capitalize(query));
     }
 
     @Override
-    public void onRecordsLoadingFinished(ListType type, TaskJob job, boolean error, boolean resultEmpty, boolean cancelled) {
-        if (cancelled) {
-            return;
-        }
+    public void onRecordsLoadingFinished(TaskJob job) {
+    }
 
-        callbackCounter++;
-
-        if (type.equals(ListType.ANIME)) {
-            callbackAnimeError = error;
-            callbackAnimeResultEmpty = resultEmpty;
-        } else {
-            callbackMangaError = error;
-            callbackMangaResultEmpty = resultEmpty;
-        }
-
-        if (callbackCounter >= 2) {
-            callbackCounter = 0;
-
-            if (callbackAnimeError && callbackMangaError) // the sync failed completely
-                Theme.Snackbar(this, R.string.toast_error_Search);
-            else if (callbackAnimeError || callbackMangaError) // one list failed to sync
-                Theme.Snackbar(this, callbackAnimeError ? R.string.toast_error_Search_Anime : R.string.toast_error_Search_Manga);
-            else if (callbackAnimeResultEmpty && callbackMangaResultEmpty)
-                Theme.Snackbar(this, R.string.toast_error_nothingFound);
-        }
+    @Override
+    public void onItemClick(int id, ListType listType, String username) {
+        Intent startDetails = new Intent(getApplicationContext(), DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startActivity(startDetails);
     }
 }

@@ -1,17 +1,17 @@
 package net.somethingdreadful.MAL;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,19 +20,17 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.adapters.DetailViewRelationsAdapter;
 
-
 public class Card extends RelativeLayout {
-    public boolean center;
-    public TextView Header;
-    public ImageView Image;
-    public CardView Card;
-    public RelativeLayout Content;
+    private final boolean center;
+    public final TextView Header;
+    private ImageView Image;
+    private final CardView Card;
+    private final RelativeLayout Content;
+    private final Context context;
 
-    onCardClickListener listener;
+    private onCardClickListener listener;
     private int screenWidth;
-    private int minHeight;
-    private Float density;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public Card(Context context) {
         this(context, null);
@@ -44,6 +42,7 @@ public class Card extends RelativeLayout {
 
     public Card(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
 
         // Get attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Card, 0, 0);
@@ -52,7 +51,6 @@ public class Card extends RelativeLayout {
         int TitleColor = a.getResourceId(R.styleable.Card_header_Title_Color, android.R.color.black);
         int HeaderColor = a.getResourceId(R.styleable.Card_header_Color, R.color.bg_light);
         Integer maxWidth = a.getInteger(R.styleable.Card_card_maxWidth, 0);
-        minHeight = a.getInteger(R.styleable.Card_card_minHeight, 0);
         Integer divide = a.getInteger(R.styleable.Card_card_divide, 0);
         int content = a.getResourceId(R.styleable.Card_card_content, 0);
 
@@ -69,12 +67,34 @@ public class Card extends RelativeLayout {
         if (divide != 0 || maxWidth != 0)
             setWidth(divide, maxWidth);
         Header.setText(TitleText);
-        Header.setTextColor(getResources().getColor(TitleColor));
+        Header.setTextColor(ContextCompat.getColor(context, TitleColor));
         setHeaderColor(HeaderColor);
         if (content != 0)
             setContent(content);
 
         a.recycle();
+    }
+
+    /**
+     * Quickly init a card.
+     *
+     * @param activity The activity
+     * @param id The card ID
+     * @param content The content layout
+     */
+    public static void fastInit(Activity activity, int id, int content) {
+        ((Card) activity.findViewById(id)).setContent(content);
+    }
+
+    /**
+     * Quickly init a card.
+     *
+     * @param view The View
+     * @param id The card ID
+     * @param content The content layout
+     */
+    public static void fastInit(View view, int id, int content) {
+        ((Card) view.findViewById(id)).setContent(content);
     }
 
     /**
@@ -87,14 +107,14 @@ public class Card extends RelativeLayout {
         if (this.findViewById(R.id.ListView) != null)
             setPadding(0);
         if (Theme.darkTheme) {
-            Content.setBackgroundColor(getResources().getColor(R.color.bg_dark));
+            Content.setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_dark_background));
             initLoop(Content);
             if (this.findViewById(R.id.ListView) != null) {
                 ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.ListView);
-                ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_dark_card));
+                ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.bg_dark_card));
                 listView.setDivider(colorDrawable);
                 listView.setChildDivider(colorDrawable);
-                listView.setDividerHeight(convert(1));
+                listView.setDividerHeight(Theme.convert(1));
             }
         }
     }
@@ -103,27 +123,32 @@ public class Card extends RelativeLayout {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
             if (child instanceof TextView)
-                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) child).setTextColor(ContextCompat.getColor(context, R.color.text_dark));
             else if (child instanceof RelativeLayout) {
                 initLoop((RelativeLayout) child);
                 Theme.setBackground(getContext(), child);
             } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
-                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                child.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark_card));
         }
     }
 
+    /**
+     * Loop to apply themes on cards
+     *
+     * @param view The view that should be themed.
+     */
     private void initLoop(RelativeLayout view) {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
             if (child instanceof TextView)
-                ((TextView) child).setTextColor(getResources().getColor(R.color.text_dark));
+                ((TextView) child).setTextColor(ContextCompat.getColor(context, R.color.text_dark));
             else if (child instanceof RelativeLayout) {
                 initLoop((RelativeLayout) child);
                 Theme.setBackground(getContext(), child);
             } else if (child instanceof TableRow) {
                 initLoop((TableRow) child);
             } else if (child.getId() > 0 && getResources().getResourceEntryName(child.getId()).contains("divider"))
-                child.setBackgroundColor(getResources().getColor(R.color.bg_dark_card));
+                child.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_dark_card));
         }
     }
 
@@ -137,7 +162,7 @@ public class Card extends RelativeLayout {
      */
     public void setAllPadding(int left, int top, int right, int bottom) {
         if (Content != null)
-            Content.setPadding(convert(left), convert(top), convert(right), convert(bottom));
+            Content.setPadding(Theme.convert(left), Theme.convert(top), Theme.convert(right), Theme.convert(bottom));
     }
 
     /**
@@ -145,7 +170,7 @@ public class Card extends RelativeLayout {
      *
      * @param all The padding of all the sides
      */
-    public void setPadding(int all) {
+    private void setPadding(int all) {
         setAllPadding(all, all, all, all);
     }
 
@@ -163,43 +188,7 @@ public class Card extends RelativeLayout {
             Height = Height + (adapter.visable - 1);
 
             if (this.findViewById(R.id.ListView) != null)
-                this.findViewById(R.id.ListView).getLayoutParams().height = convert(Height);
-        }
-    }
-
-    /**
-     * Set the card at the right side of another card.
-     *
-     * @param res    The card at the left side of your desired point
-     * @param amount The amount of cards that will be at the left & right sides of your desired point
-     *               Note: This also includes this card it self
-     * @param screen The minimum amount of dp when the card will be placed at the right side
-     *               Note: Use 0 if you don't want any
-     */
-    public void setRightof(Card res, int amount, int screen) {
-        if (convert(screen) <= getScreenWidth()) {
-            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), convert(minHeight));
-            card.addRule(RelativeLayout.RIGHT_OF, res.getId());
-            card.setMargins(convert(4), 0, 0, 0);
-            this.setLayoutParams(card);
-        }
-    }
-
-    /**
-     * Set the card below of another card.
-     *
-     * @param res    The card at the left side of your desired point
-     * @param amount The amount of cards that will be at the left & right sides of your desired point
-     *               Note: This also includes this card it self
-     * @param screen The minimum amount of dp when the card will be placed below
-     *               Note: Use 0 if you don't want any
-     */
-    public void setBelowof(Card res, int amount, int screen) {
-        if (convert(screen) <= getScreenWidth()) {
-            RelativeLayout.LayoutParams card = new LayoutParams(getWidth(amount, 0), ViewGroup.LayoutParams.WRAP_CONTENT);
-            card.addRule(RelativeLayout.BELOW, res.getId());
-            card.setMargins(0, convert(8), 0, 0);
-            this.setLayoutParams(card);
+                this.findViewById(R.id.ListView).getLayoutParams().height = Theme.convert(Height);
         }
     }
 
@@ -208,9 +197,9 @@ public class Card extends RelativeLayout {
      *
      * @param color The resource id of the color
      */
-    public void setHeaderColor(int color) {
+    private void setHeaderColor(int color) {
         GradientDrawable shape = (GradientDrawable) Header.getBackground();
-        shape.setColor(getResources().getColor(color));
+        shape.setColor(ContextCompat.getColor(context, color));
     }
 
     /**
@@ -225,7 +214,7 @@ public class Card extends RelativeLayout {
         Content.findViewById(view).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onCardClickListener(v.getId());
+                listener.onCardClicked(v.getId());
             }
         });
     }
@@ -239,15 +228,15 @@ public class Card extends RelativeLayout {
     public void wrapImage(int width, int height) {
         setPadding(16);
 
-        Header.getLayoutParams().width = convert(width + 32);
-        Card.getLayoutParams().width = convert(width + 32);
-        Card.getLayoutParams().height = convert(height + 92);
+        Header.getLayoutParams().width = Theme.convert(width + 32);
+        Card.getLayoutParams().width = Theme.convert(width + 32);
+        Card.getLayoutParams().height = Theme.convert(height + 92);
 
         if (Image == null)
             Image = (ImageView) findViewById(R.id.Image);
 
-        Image.getLayoutParams().height = convert(height);
-        Image.getLayoutParams().width = convert(width);
+        Image.getLayoutParams().height = Theme.convert(height);
+        Image.getLayoutParams().width = Theme.convert(width);
 
         if (center)
             Header.setGravity(Gravity.CENTER);
@@ -270,13 +259,13 @@ public class Card extends RelativeLayout {
      * @param maxWidth The maximum width in dp
      * @return int The width that the card should be
      */
-    public int getWidth(Integer amount, Integer maxWidth) {
+    private int getWidth(Integer amount, Integer maxWidth) {
         if (amount == 0)
             amount = 1;
         int divider = amount - 1;
-        divider = convert((divider * 4) + 16);
+        divider = Theme.convert((divider * 4) + 16);
         int card = (getScreenWidth() - divider) / amount;
-        maxWidth = convert(maxWidth);
+        maxWidth = Theme.convert(maxWidth);
 
         if (card > maxWidth && maxWidth != 0)
             return maxWidth;
@@ -285,38 +274,16 @@ public class Card extends RelativeLayout {
     }
 
     /**
-     * Get the display density.
-     *
-     * @return Float The display density
-     */
-    private Float getDensity() {
-        if (density == null)
-            density = (getResources().getDisplayMetrics().densityDpi / 160f);
-        return density;
-    }
-
-    /**
-     * Convert dp to pixels.
-     *
-     * @param number The number in dp to convert in pixels
-     * @return int The converted dp in pixels
-     */
-    private int convert(int number) {
-        return Math.round(getDensity() * number);
-    }
-
-    /**
      * Get the screen width.
      *
      * @return int The screen width in pixels
      */
-    @SuppressLint("InlinedApi")
     private int getScreenWidth() {
         if (screenWidth == 0) {
             try {
-                screenWidth = convert(getResources().getConfiguration().screenWidthDp);
-            } catch (NoSuchFieldError e) {
-                screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+                screenWidth = Theme.convert(getResources().getConfiguration().screenWidthDp);
+            } catch (Exception e) {
+                Theme.logTaskCrash("Card", "getScreenWidth()", e);
             }
         }
         return screenWidth;
@@ -335,6 +302,6 @@ public class Card extends RelativeLayout {
      * The Interface that will get triggered by the OnClick method.
      */
     public interface onCardClickListener {
-        public void onCardClickListener(int id);
+        void onCardClicked(int id);
     }
 }

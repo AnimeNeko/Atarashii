@@ -1,6 +1,7 @@
 package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +10,17 @@ import android.widget.TextView;
 
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
-import net.somethingdreadful.MAL.api.response.RecordStub;
+import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
-    public Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<String, ArrayList<RecordStub>>();
-    public ArrayList<String> headers = new ArrayList<String>();
+    private final Map<String, ArrayList<RecordStub>> list = new LinkedHashMap<>();
+    public final ArrayList<String> headers = new ArrayList<>();
     public int visable;
-    ViewHolder viewHolder;
-    private Context context;
+    private final Context context;
 
     public DetailViewRelationsAdapter(Context context) {
         this.context = context;
@@ -72,7 +72,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      */
     public void addTitles(ArrayList<String> strings, String header) {
         if (strings != null) {
-            ArrayList<RecordStub> records = new ArrayList<RecordStub>();
+            ArrayList<RecordStub> records = new ArrayList<>();
             for (String stub : strings) {
                 RecordStub record = new RecordStub();
                 record.setTitle(stub);
@@ -90,7 +90,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
      */
     public void addRelations(RecordStub recordStub, String header) {
         if (recordStub != null) {
-            ArrayList<RecordStub> record = new ArrayList<RecordStub>();
+            ArrayList<RecordStub> record = new ArrayList<>();
             record.add(recordStub);
             addRelations(record, header);
         }
@@ -126,7 +126,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
     }
 
     public View getChildView(final int groupPos, final int childPos, boolean isLastChild, View convertView, ViewGroup parent) {
-        viewHolder = new ViewHolder();
+        ViewHolder viewHolder = new ViewHolder();
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -134,7 +134,7 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
 
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             if (Theme.darkTheme)
-                viewHolder.name.setTextColor(context.getResources().getColor(R.color.text_dark));
+                viewHolder.name.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
 
             convertView.setTag(viewHolder);
         } else {
@@ -166,12 +166,12 @@ public class DetailViewRelationsAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.record_details_listview_header, parent, false);
             if (Theme.darkTheme)
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.card_dark_green));
+                convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.card_dark_green));
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
         if (Theme.darkTheme)
-            name.setTextColor(context.getResources().getColor(R.color.text_dark));
+            name.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
         name.setText(headers.get(groupPos));
         return convertView;
     }

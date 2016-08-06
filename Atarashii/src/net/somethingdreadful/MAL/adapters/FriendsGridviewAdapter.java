@@ -1,7 +1,7 @@
 package net.somethingdreadful.MAL.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +13,12 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
-import net.somethingdreadful.MAL.MALDateTools;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
-import net.somethingdreadful.MAL.api.response.User;
+import net.somethingdreadful.MAL.api.BaseModels.Profile;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -26,17 +26,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
-    private Context context;
-    private ArrayList<User> list;
+    private final Context context;
+    private ArrayList<Profile> list;
 
-    public FriendsGridviewAdapter(Context context, ArrayList<User> list) {
+    public FriendsGridviewAdapter(Context context, ArrayList<Profile> list) {
         super(context, R.layout.record_friends_gridview);
         this.context = context;
         this.list = list;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        final User record = (list.get(position));
+        final Profile record = (list.get(position));
         ViewHolder viewHolder;
 
         if (view == null) {
@@ -45,16 +45,16 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
             viewHolder = new ViewHolder();
             viewHolder.username = (TextView) view.findViewById(R.id.userName);
-            viewHolder.last_online = (TextView) view.findViewById(R.id.lastonline);
+            viewHolder.lastOnline = (TextView) view.findViewById(R.id.lastonline);
+            viewHolder.lastOnlineLabel = (TextView) view.findViewById(R.id.lastonlineLabel);
             viewHolder.avatar = (ImageView) view.findViewById(R.id.profileImg);
 
             if (Theme.darkTheme) {
-                viewHolder.username.setTextColor(context.getResources().getColor(R.color.text_dark));
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.white));
+                viewHolder.lastOnline.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
+                viewHolder.lastOnlineLabel.setTextColor(ContextCompat.getColor(context, R.color.text_dark));
                 Theme.setBackground(context, view);
             }
-
-            if (!AccountService.isMAL())
-                viewHolder.last_online.setText(context.getString(R.string.unknown));
 
             view.setTag(viewHolder);
         } else {
@@ -62,25 +62,27 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
         }
 
         try {
-            String username = record.getName();
+            String username = record.getUsername();
             viewHolder.username.setText(WordUtils.capitalize(username));
-            if (User.isDeveloperRecord(username))
-                viewHolder.username.setTextColor(context.getResources().getColor(R.color.primary)); //Developer
+            if (Profile.isDeveloper(username))
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, R.color.primary)); //Developer
             else
-                viewHolder.username.setTextColor(Theme.darkTheme ? context.getResources().getColor(R.color.text_dark) : Color.parseColor("#212121"));
+                viewHolder.username.setTextColor(ContextCompat.getColor(context, Theme.darkTheme ? R.color.text_dark : R.color.bg_dark_card));
 
-            String last_online = record.getProfile().getDetails().getLastOnline();
-            if (last_online != null) {
-                last_online = MALDateTools.formatDateString(last_online, context, true);
-                viewHolder.last_online.setText(last_online.equals("") ? record.getProfile().getDetails().getLastOnline() : last_online);
+            if (record.getDetails() != null && record.getDetails().getLastOnline() != null && AccountService.isMAL()) {
+                String last_online = record.getDetails().getLastOnline();
+                last_online = DateTools.parseDate(last_online, true);
+                viewHolder.lastOnline.setText(last_online.equals("") ? record.getDetails().getLastOnline() : last_online);
+            } else {
+                viewHolder.lastOnline.setText(context.getString(R.string.unknown));
             }
-            Picasso.with(context).load(record.getProfile().getAvatarUrl())
+            Picasso.with(context).load(record.getImageUrl())
                     .error(R.drawable.cover_error)
                     .placeholder(R.drawable.cover_loading)
-                    .transform(new RoundedTransformation(record.getName()))
+                    .transform(new RoundedTransformation(record.getUsername()))
                     .into(viewHolder.avatar);
         } catch (Exception e) {
-            Crashlytics.log(Log.ERROR, "MALX", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
+            Crashlytics.log(Log.ERROR, "Atarashii", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
             Crashlytics.logException(e);
         }
         return view;
@@ -88,7 +90,7 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
     public void supportAddAll(Collection<? extends T> collection) {
         this.clear();
-        list = (ArrayList<User>) collection;
+        list = (ArrayList<Profile>) collection;
         for (T record : collection) {
             this.add(record);
         }
@@ -96,7 +98,8 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
 
     static class ViewHolder {
         TextView username;
-        TextView last_online;
+        TextView lastOnline;
+        TextView lastOnlineLabel;
         ImageView avatar;
     }
 }

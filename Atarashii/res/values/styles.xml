@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Theme -->
-    <style name="AtarashiiLightBg" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AtarashiiLightBg" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/bg_light</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="colorPrimary">@color/primary</item>
@@ -10,7 +10,7 @@
     </style>
 
     <!-- Theme -->
-    <style name="AtarashiiDarkBg" parent="@style/Theme.AppCompat">
+    <style name="AtarashiiDarkBg" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/bg_dark</item>
         <item name="android:textColor">@color/text_dark</item>
         <item name="colorPrimary">@color/primary</item>

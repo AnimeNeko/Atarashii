@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="mh_ic_menu_search" format="reference" />
+    <attr name="mh_ic_menu_submit" format="reference" />
+    <attr name="mh_ic_menu_contact_us" format="reference" />
+    <attr name="mh_ic_conversations" format="reference" />
+    <attr name="mh_ic_send" format="reference" />
+    <attr name="mh_ic_attach" format="reference" />
+    <attr name="mh_display_actionbar_for_solutions" format ="boolean" />
+
+</resources>
