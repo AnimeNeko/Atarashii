@@ -48,8 +48,10 @@
     <string name="toast_info_backup_list">Kopia zapasowa nie jest kompatybilna z tą stroną!</string>
     <string name="toast_info_widget_exists">Widget z wybranym rekordem już istnieje!</string>
     <string name="toast_info_comment">Komentarz jest krótki!</string>
+    <string name="toast_permission_backup">Odmowa uprawnień przez użytkownika, kopia zapasowa nie może zostać załadowana!</string>
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_userername">Niepasująca nazwa uzytkownika</string>
+    <string name="dialog_title_permission">Odmowa uprawnień</string>
     <string name="dialog_title_restore">Przywrócić listę?</string>
     <string name="dialog_title_view">Widok</string>
     <string name="dialog_title_tags">Moje tagi</string>
@@ -182,11 +184,19 @@
     <string name="tab_name_general">Ogólne</string>
     <string name="tab_name_personal">Osobiste</string>
     <string name="tab_name_reviews">Recenzje</string>
+    <string name="tab_name_recommendations">Rekomendacje</string>
     <string name="tab_name_details">Szczegóły</string>
     <string name="tab_name_friends">Znajomi</string>
     <string name="tab_name_following">Obserwuje</string>
     <string name="tab_name_history">Histaria</string>
     <!-- Day Strings -->
+    <string name="day_monday">Poniedziałek</string>
+    <string name="day_tuesday">Wtorek</string>
+    <string name="day_wednesday">Środa</string>
+    <string name="day_thursday">Czwartek</string>
+    <string name="day_friday">Piątek</string>
+    <string name="day_saturday">Sobota</string>
+    <string name="day_sunday">Niedziela</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Streszczenie</string>
     <string name="card_name_stats">Statystyki</string>
@@ -430,6 +440,23 @@
         <item>R - 17+ (przemoc i wulgaryzmy)</item>
         <item>R+ - Łagodna nagość</item>
         <item>Rx - Zboczone</item>
+    </string-array>
+    <string-array name="browse_sort_anime">
+        <item>Tytuł</item>
+        <item>Data rozpoczęcia</item>
+        <item>Data zakończenia</item>
+        <item>Punkty</item>
+        <item>Typ</item>
+        <item>Użytkownicy</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="browse_sort_manga">
+        <item>Tytuł</item>
+        <item>Data rozpoczęcia</item>
+        <item>Data zakończenia</item>
+        <item>Punkty</item>
+        <item>Typ</item>
+        <item>ID</item>
     </string-array>
     <string-array name="priorityArray">
         <item>Niski</item>
