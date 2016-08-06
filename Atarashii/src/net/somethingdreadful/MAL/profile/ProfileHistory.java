@@ -83,7 +83,8 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
             screen = activity.getResources().getConfiguration().screenHeightDp;
         else
             screen = activity.getResources().getConfiguration().screenWidthDp;
-        return screen / 485;
+        screen = screen / 485;
+        return screen < 1 ? 1 : screen;
     }
 
     @Override
