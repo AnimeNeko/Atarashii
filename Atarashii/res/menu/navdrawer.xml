@@ -49,8 +49,8 @@
                     android:title="@string/title_activity_settings" />
                 <item
                     android:id="@+id/nav_support"
-                    android:icon="@drawable/mobihelp_ic_conversation_dark"
-                    android:title="@string/mobihelp_activity_title_solution_list" />
+                    android:icon="@drawable/ic_error"
+                    android:title="@string/title_activity_support" />
                 <item
                     android:id="@+id/nav_about"
                     android:icon="@drawable/ic_info"

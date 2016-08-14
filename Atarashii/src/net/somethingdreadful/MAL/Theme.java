@@ -25,8 +25,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.freshdesk.mobihelp.Mobihelp;
-import com.freshdesk.mobihelp.MobihelpConfig;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -47,12 +45,6 @@ public class Theme extends Application {
         AccountService.create(getApplicationContext());
         PrefManager.create(getApplicationContext());
         context = getApplicationContext();
-
-        MobihelpConfig mobihelpConfig = new MobihelpConfig(
-                "https://atarashii.freshdesk.com",
-                BuildConfig.MOBIHELP_KEY,
-                BuildConfig.MOBIHELP_SECRET);
-        Mobihelp.init(this, mobihelpConfig);
 
         initFabric(context);
 
@@ -394,7 +386,6 @@ public class Theme extends Application {
      * @param data The log value/info
      */
     public static void setCrashData(String name, String data) {
-        Mobihelp.addCustomData(name, data);
         Crashlytics.setString(name, data);
     }
 }

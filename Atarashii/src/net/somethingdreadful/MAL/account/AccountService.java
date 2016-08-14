@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.freshdesk.mobihelp.Mobihelp;
 
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
@@ -71,7 +70,6 @@ public class AccountService extends Service {
         if (getAccount() == null)
             return null;
         String username = getAccount().name;
-        Mobihelp.setUserFullName(context, username);
         Crashlytics.setUserName(username);
         return username;
     }
@@ -253,7 +251,6 @@ public class AccountService extends Service {
     public static void clearData() {
         DatabaseHelper.deleteDatabase(context);
         PrefManager.clear();
-        Mobihelp.clearUserData(context);
         AccountService.deleteAccount();
     }
 

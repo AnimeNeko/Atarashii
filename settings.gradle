@@ -1,2 +1,1 @@
-include ':Atarashii', ':mobihelp_sdk_android_v1.5.4'
-project(':mobihelp_sdk_android_v1.5.4').projectDir = new File('Atarashii/libs/mobihelp_sdk_android_v1.5.4')
+include ':Atarashii'

@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
@@ -24,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.freshdesk.mobihelp.Mobihelp;
 import com.squareup.picasso.Picasso;
 
 import net.somethingdreadful.MAL.account.AccountService;
@@ -484,7 +484,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(new Intent(this, Settings.class));
                 break;
             case R.id.nav_support:
-                Mobihelp.showSupport(this);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://atarashii.freshdesk.com/support/tickets/new")));
                 break;
             case R.id.nav_about:
                 startActivity(new Intent(this, AboutActivity.class));
