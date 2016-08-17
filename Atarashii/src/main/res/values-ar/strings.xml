@@ -47,8 +47,8 @@
     <string name="dialog_label_logout">تسجيل الخروج</string>
     <string name="dialog_label_remove">أزل</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; شارك قائمة Anime بواسطة Atarashiiـ: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; شارك قائمة Manga بواسطة Atarashiiـ: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; شارك قائمة Anime بواسطة Atarashiiـ: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; شارك قائمة Manga بواسطة Atarashiiـ: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">تفاصيل المستخدم</string>
     <string name="layout_discription">أيقونة التطبيق</string>
     <string name="layout_card_loading">جاري التحميل</string>

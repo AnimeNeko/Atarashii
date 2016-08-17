@@ -89,8 +89,8 @@
     <string name="dialog_message_backup_reading">Ανάγνωση εγγραφών</string>
     <string name="dialog_message_backup_requesting">Δημιούργια αντιγράφου ασφαλείας.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">Ο/Η $username; μοιράστηκε ένα anime μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">Ο/Η $username; μοιράστηκε ένα manga μέσω του Atarashii: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_animelist">Ο/Η $username; μοιράστηκε ένα anime μέσω του Atarashii: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">Ο/Η $username; μοιράστηκε ένα manga μέσω του Atarashii: https://myanimelist.net/animelist/$name;!</string>
     <string name="layout_card_title_details">Λεπτομέρειες</string>
     <string name="layout_card_title_activity">Δραστηριότητα</string>
     <string name="layout_discription">Εικονίδιο εφαρμογής</string>

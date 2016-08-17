@@ -193,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     }
 
     private String getProfileURL() {
-        return AccountService.isMAL() ? "http://myanimelist.net/profile/" : "http://anilist.co/user/";
+        return AccountService.isMAL() ? "https://myanimelist.net/profile/" : "http://anilist.co/user/";
     }
 
     private void refresh() {

@@ -89,16 +89,16 @@ public class ForumActivity extends AppCompatActivity implements ForumNetworkTask
                 String[] details = webview.getTitle().split(" ");
                 switch (details[0]) {
                     case "M": // main board
-                        launchBrowser("http://myanimelist.net/forum/", "http://anilist.co/forum/categories");
+                        launchBrowser("https://myanimelist.net/forum/", "http://anilist.co/forum/categories");
                         break;
                     case "S": // sub board
-                        launchBrowser("http://myanimelist.net/forum/?subboard=" + details[1], "http://anilist.co/forum/thread/" + details[1]);
+                        launchBrowser("https://myanimelist.net/forum/?subboard=" + details[1], "http://anilist.co/forum/thread/" + details[1]);
                         break;
                     case "T": // topic list
-                        launchBrowser("http://myanimelist.net/forum/?board=" + details[1], "http://anilist.co/forum/tag?tag=" + details[1]);
+                        launchBrowser("https://myanimelist.net/forum/?board=" + details[1], "http://anilist.co/forum/tag?tag=" + details[1]);
                         break;
                     case "C": // commments
-                        launchBrowser("http://myanimelist.net/forum/?topicid=" + details[1], "http://anilist.co/forum/thread/" + details[1]);
+                        launchBrowser("https://myanimelist.net/forum/?topicid=" + details[1], "http://anilist.co/forum/thread/" + details[1]);
                         break;
                 }
                 break;

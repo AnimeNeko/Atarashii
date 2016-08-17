@@ -98,8 +98,8 @@
     <string name="dialog_label_send">Verzenden</string>
     <string name="dialog_message_backup_requesting">Herstelpunt aanmaken.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; deelde een animelijst met Atarashii: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; deelde een mangalijst met Atarashii: http://myanimelist.net/$name;!</string>
+    <string name="share_animelist">$username; deelde een animelijst met Atarashii: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; deelde een mangalijst met Atarashii: https://myanimelist.net/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_card_title_activity">Activiteit</string>
     <string name="layout_discription">Applicatie-icoon</string>

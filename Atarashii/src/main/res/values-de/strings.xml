@@ -58,8 +58,8 @@
     <string name="dialog_label_logout">Abmelden</string>
     <string name="dialog_label_remove">Entfernen</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; hat eine Animeliste über Atarashii geteilt: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; hat eine Mangaliste über Atarashii geteilt: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; hat eine Animeliste über Atarashii geteilt: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; hat eine Mangaliste über Atarashii geteilt: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_discription">Application Icon</string>
     <string name="layout_card_loading">Lade</string>

@@ -296,7 +296,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         String shareText = PrefManager.getCustomShareText();
         shareText = shareText.replace("$title;", actionBar.getTitle());
         if (AccountService.isMAL())
-            shareText = shareText.replace("$link;", "http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
+            shareText = shareText.replace("$link;", "https://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         else
             shareText = shareText.replace("$link;", "http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         shareText = shareText + getResources().getString(R.string.customShareText_fromAtarashii);
@@ -452,7 +452,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             case R.id.action_ViewMALPage:
                 Uri malurl;
                 if (AccountService.isMAL())
-                    malurl = Uri.parse("http://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
+                    malurl = Uri.parse("https://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
                 else
                     malurl = Uri.parse("http://anilist.co/" + type.toString().toLowerCase(Locale.US) + "/" + recordID + "/");
                 startActivity(new Intent(Intent.ACTION_VIEW, malurl));

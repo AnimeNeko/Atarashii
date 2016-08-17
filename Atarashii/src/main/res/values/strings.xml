@@ -107,8 +107,8 @@
     <string name="dialog_message_backup_requesting">Creating backup.</string>
 
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; shared an anime list using Atarashii: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; shared a manga list using Atarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; shared an anime list using Atarashii: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; shared a manga list using Atarashii: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_card_title_activity">Activity</string>
     <string name="layout_discription">Application Icon</string>
@@ -343,15 +343,15 @@
     <string name="translations_card_title">Translations</string>
     <string name="acknowledgements" translatable="false">Atarashii! implements Michael Johnson\'s \u0026 Ratan Dhawtal\'s <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a>, Jake Wharton\'s <a href="http://jakewharton.github.io/butterknife/">Butter Knife</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> \u0026 <a href="http://square.github.io/okhttp/">OKHttp</a> \u0026 <a href="http://square.github.io/picasso/">Picasso</a> by Square Inc. and <a href="https://code.google.com/p/google-gson/">google-gson</a> by Google Inc. which is used by Retrofit, all of which are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">How we use your data</a>.</string>
     <string name="app_description">Atarashii! is the best way to access MyAnimeList from your phone. It sports a modern, beautifully crafted Android interface coupled with all the functionality you could ask for.</string>
-    <string name="contributor_anima_name" translatable="false">Chris Fanti (<a href="http://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
+    <string name="contributor_anima_name" translatable="false">Chris Fanti (<a href="https://myanimelist.net/profile/AnimaSA">AnimaSA</a>)</string>
     <string name="contributor_anima_summary">\&quot;All the other apps suck!\&quot; \n\nFounder and main coder. Tired of the poor UI of other apps and their general lack of maintenance, he went and created this one.</string>
-    <string name="contributor_motokochan_name" translatable="false">Michael Johnson (<a href="http://myanimelist.net/profile/motokochan">motokochan</a>)</string>
+    <string name="contributor_motokochan_name" translatable="false">Michael Johnson (<a href="https://myanimelist.net/profile/motokochan">motokochan</a>)</string>
     <string name="contributor_motokochan_summary">Focuses on code cleanup and small feature implementation. Worked on extending application for manga support.</string>
-    <string name="contributor_apkawa_name" translatable="false">Arkadiy Ivanov (<a href="http://myanimelist.net/profile/apkawa">apkawa</a>)</string>
+    <string name="contributor_apkawa_name" translatable="false">Arkadiy Ivanov (<a href="https://myanimelist.net/profile/apkawa">apkawa</a>)</string>
     <string name="contributor_apkawa_summary">Implemented search functionality. </string>
-    <string name="contributor_dsko_name" translatable="false">Dustin Skoracki (<a href="http://myanimelist.net/profile/d-sko">d-sko</a>)</string>
+    <string name="contributor_dsko_name" translatable="false">Dustin Skoracki (<a href="https://myanimelist.net/profile/d-sko">d-sko</a>)</string>
     <string name="contributor_dsko_summary">Implemented retrofit for API handling.</string>
-    <string name="contributor_ratan12_name" translatable="false">Ratan Dhawtal (<a href="http://myanimelist.net/profile/ratan12">ratan12</a>)</string>
+    <string name="contributor_ratan12_name" translatable="false">Ratan Dhawtal (<a href="https://myanimelist.net/profile/ratan12">ratan12</a>)</string>
     <string name="contributor_ratan12_summary">Managing all translations, creating new features and working on the UI.</string>
     <string name="translations">Atarashii! started to support different languages since version 1.4! Everyone can <a href="http://atarashii.oneskyapp.com/collaboration/project?id=22217">join the translation project</a> to contribute.</string>
     <string name="translations_notListed">My language is not listed on oneskyapp?</string>

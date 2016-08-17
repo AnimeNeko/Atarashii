@@ -102,8 +102,8 @@
     <string name="dialog_message_backup_reading">Чтение записей</string>
     <string name="dialog_message_backup_requesting">Создание резервной копии.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; поделился списком аниме с помощью Atarashii: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; поделился списком манги с помощью Atarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; поделился списком аниме с помощью Atarashii: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; поделился списком манги с помощью Atarashii: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Подробности</string>
     <string name="layout_card_title_activity">Активность</string>
     <string name="layout_discription">Иконка приложения</string>

@@ -173,7 +173,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 tryConnection();
                 break;
             case R.id.registerButton:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://myanimelist.net/register.php"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://myanimelist.net/register.php"));
                 startActivity(browserIntent);
                 break;
             case R.id.myanimelist:

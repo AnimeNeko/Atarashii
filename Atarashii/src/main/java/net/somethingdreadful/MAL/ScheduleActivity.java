@@ -160,7 +160,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                 GLM.scrollToPositionWithOffset(sundayHeader, 0);
                 break;
             case R.id.action_ViewMALPage:
-                startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("http://myanimelist.net/anime/season/schedule")));
+                startActivity((new Intent(Intent.ACTION_VIEW)).setData(Uri.parse("https://myanimelist.net/anime/season/schedule")));
                 break;
             case R.id.forceSync:
                 new ScheduleTask(this, true, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

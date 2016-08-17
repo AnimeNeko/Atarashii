@@ -85,8 +85,8 @@
     <string name="dialog_message_backup_reading">Lendo os registros</string>
     <string name="dialog_message_backup_requesting">Criando o backup.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; compartilhou uma lista de animes usando o Atarashii: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; compartilhou uma lista de mangás usando o Atarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; compartilhou uma lista de animes usando o Atarashii: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; compartilhou uma lista de mangás usando o Atarashii: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Detalhes</string>
     <string name="layout_card_title_activity">Atividade</string>
     <string name="layout_discription">Ícone do Aplicativo</string>

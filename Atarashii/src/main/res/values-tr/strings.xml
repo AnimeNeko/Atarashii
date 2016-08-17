@@ -103,8 +103,8 @@
     <string name="dialog_message_backup_reading">Kayıtlar okunuyor</string>
     <string name="dialog_message_backup_requesting">Yedek oluşturuluyor.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username;, Atarashii\'yi kullanarak bir anime listesi paylaştı: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username;, Atarashii\'yi kullanarak bir manga listesi paylaştı: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username;, Atarashii\'yi kullanarak bir anime listesi paylaştı: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username;, Atarashii\'yi kullanarak bir manga listesi paylaştı: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Detaylar</string>
     <string name="layout_card_title_activity">Hareketler</string>
     <string name="layout_discription">Uygulama Simgesi</string>

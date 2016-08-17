@@ -85,8 +85,8 @@
     <string name="dialog_message_backup_reading">קורא רשומות</string>
     <string name="dialog_message_backup_requesting">יוצר גיבוי.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; שיתף את רשימה המנגה בעזרת Atarashii: http://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; שיתך את רשימת המנגה בעזרתAtarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; שיתף את רשימה המנגה בעזרת Atarashii: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; שיתך את רשימת המנגה בעזרתAtarashii: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">פרטים</string>
     <string name="layout_card_title_activity">פעילות</string>
     <string name="layout_discription">אייקון יישום</string>

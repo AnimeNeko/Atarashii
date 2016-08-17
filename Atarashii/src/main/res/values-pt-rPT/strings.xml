@@ -68,8 +68,8 @@
     <string name="dialog_label_remove">Remover</string>
     <string name="dialog_label_send">Enviar</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; partilhou uma lista de anime usando o Atarashii: http://myanimelist.net/mangalist/$name;!</string>
-    <string name="share_mangalist">$username; partilhou uma lista de manga usando o Atarashii: http://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; partilhou uma lista de anime usando o Atarashii: https://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_mangalist">$username; partilhou uma lista de manga usando o Atarashii: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Detalhes</string>
     <string name="layout_card_title_activity">Actividade</string>
     <string name="layout_discription">Ícone da Aplicação</string>
