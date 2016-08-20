@@ -9,7 +9,6 @@
     <string name="title_activity_detail_view">DetailView</string>
     <string name="title_activity_profile">User profile</string>
     <string name="title_activity_forum">Forum</string>
-    <string name="title_activity_backup">Backup</string>
     <string name="title_activity_charts">Charts</string>
     <string name="title_activity_browse">Browse</string>
     <string name="title_activity_support">Support</string>
@@ -18,7 +17,6 @@
     <string name="menu_listType">Switch List</string>
     <string name="menu_inverse">Inverse List</string>
     <string name="menu_sync">Full Sync</string>
-    <string name="menu_backup">Backup</string>
     <string name="menu_details">Details</string>
     <string name="menu_sort">Sort</string>
     <string name="sort_title">Title</string>
@@ -50,17 +48,10 @@
     <string name="toast_info_comment_added">It could take 5 minutes until it is visible</string>
     <string name="toast_info_disabled">This feature is currently disabled :(</string>
     <string name="toast_info_disabled_youtube">Comments with Youtube videos aren\'t supported :(</string>
-    <string name="toast_info_backup_saved">The backup has been created!</string>
-    <string name="toast_info_backup_revert">The changes have been reverted!</string>
-    <string name="toast_info_backup_remove">The backup has been removed!</string>
     <string name="toast_info_backup_list">The backup is not compatible with this site!</string>
     <string name="toast_info_comment">The comment is short!</string>
-    <string name="toast_permission_backup">Permission denied by user, the backups can\'t be loaded!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
-    <string name="dialog_title_userername">Username mismatch</string>
-    <string name="dialog_title_permission">Permission denied</string>
-    <string name="dialog_title_restore">Restore lists?</string>
     <string name="dialog_title_view">View</string>
     <string name="dialog_title_tags">My tags</string>
     <string name="dialog_title_storage_value">Storage value</string>
@@ -82,8 +73,6 @@
     <string name="dialog_hint_tags">Separate your tags with a comma</string>
     <string name="dialog_hint_comment">Enter you comment</string>
     <string name="dialog_message_view">Which list do you want to view?</string>
-    <string name="dialog_message_permission">Please enable the android permission manually.\nYou have chosen to never show it again.</string>
-    <string name="dialog_message_restore">This could remove some records in your list!</string>
     <string name="dialog_message_logout">Are you sure you wish to logout? This will erase all stored data and images.</string>
     <string name="dialog_message_id_search">Please press on the Anime or Manga button to search. Remember that Anime and Manga IDs aren\'t the same!</string>
     <string name="dialog_message_remove">Absolutely sure? Once it\'s gone, it\'s gone for good and can\'t be recovered. Not easily anyways.</string>
@@ -91,7 +80,6 @@
     <string name="dialog_message_Verifying">Making sure your account is OK. Hold tight a sec.</string>
     <string name="dialog_message_update_navigation">Enter the Image URL below.</string>
     <string name="dialog_message_last_post">Last post by</string>
-    <string name="dialog_message_username">It is possible that the chosen backup is not your backup!</string>
     <string name="dialog_message_edit_comment">Are you sure that your comment should be updated?</string>
     <string name="dialog_message_add_comment">Do you really want to add a new comment?</string>
     <string name="dialog_label_cancel">Cancel</string>
@@ -103,8 +91,6 @@
     <string name="dialog_title_remove">Remove from list</string>
     <string name="dialog_label_logout">Logout</string>
     <string name="dialog_label_remove">Remove</string>
-    <string name="dialog_message_backup_reading">Reading records</string>
-    <string name="dialog_message_backup_requesting">Creating backup.</string>
 
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; shared an anime list using Atarashii: https://myanimelist.net/animelist/$name;!</string>
@@ -368,13 +354,9 @@
     <string name="preference_category_synchronisation">Sync</string>
     <string name="preference_category_sharing">Other settings</string>
     <string name="preference_category_profile">Profile</string>
-    <string name="preference_category_backup">Backup</string>
-    <string name="preference_backupsync">Auto backup interval</string>
     <string name="preference_adultcontent">Enable NSFW content (MAL)</string>
     <string name="preference_autoDate">Update the dates automatically</string>
     <string name="preference_backuplength">The amount of backups.</string>
-    <string name="preference_summary_backupsync">Automatic backup the anime/manga list after a certain time.</string>
-    <string name="preference_summary_autobackup">The max backup items that are allowed.</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
     <string name="preference_Theme">Dark Theme</string>
     <string name="preference_list_columns_portrait">Portrait list columns</string>
@@ -406,7 +388,6 @@
     <string name="preference_summary_profileTextColors">Force the profile page to use black text colour.</string>
     <string name="preference_summary_profileAnimeHide">Hide the anime details on all profiles.</string>
     <string name="preference_summary_profileMangaHide">Hide the manga details on all profiles.</string>
-    <string name="preference_summary_backup">Backup the animelist and mangalist.</string>
     <string name="preference_android_synchronisation">Anime/Manga records</string>
     <string name="preference_default_customShareText">Check out $title; on MyAnimeList!\n$link;</string>
 
