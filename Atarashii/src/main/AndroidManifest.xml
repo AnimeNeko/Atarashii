@@ -68,9 +68,6 @@
             android:name=".ChartActivity"
             android:label="@string/title_activity_charts"/>
         <activity
-            android:name=".BackupActivity"
-            android:label="@string/title_activity_backup"/>
-        <activity
             android:name=".BrowseActivity"
             android:label="@string/title_activity_browse"/>
         <activity
