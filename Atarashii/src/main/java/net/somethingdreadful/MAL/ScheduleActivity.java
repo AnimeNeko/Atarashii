@@ -54,6 +54,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     SwipeRefreshLayout swipeRefresh;
     private GridLayoutManager GLM;
     private scheduleAdapter sa;
+    private String[] weekdays;
 
     private final int mondayHeader = 0;
     private int tuesdayHeader;
@@ -65,6 +66,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
     private int totalRecords;
     private int recordheight;
     private int columns;
+    private Activity activity;
 
     private MenuItem forceSync;
 
@@ -76,6 +78,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+        activity = this;
 
         swipeRefresh.setOnRefreshListener(this);
         swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -83,17 +86,18 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
 
         setColumns();
         recyclerView.setHasFixedSize(true);
+        weekdays = DateFormatSymbols.getInstance().getWeekdays();
         GLM = new GridLayoutManager(this, columns);
         GLM.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return checkHeader(position) == -1 ? 1 : columns;
+                return isHeader(position) == 0 ? 1 : columns;
             }
         });
 
         recyclerView.setLayoutManager(GLM);
         recyclerView.addItemDecoration(new SpacesItemDecoration());
-        sa = new scheduleAdapter(this);
+        sa = new scheduleAdapter();
         recyclerView.setAdapter(sa);
 
         if (state != null) {
@@ -187,18 +191,34 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         State.putInt("recordheight", recordheight);
     }
 
+    /**
+     * Update the records for the RecyclerView.
+     *
+     * @param weekday The cristian weekday number
+     * @param list    The schedule list which matches the weekday number
+     */
+    private void updateRecords(int weekday, ArrayList<Anime> list) {
+        Anime dayname = new Anime();
+        dayname.setTitle(StringUtils.capitalize(weekdays[weekday]));
+        records.add(dayname);
+        records.addAll(list);
+    }
+
     @Override
     public void onScheduleTaskFinished(Schedule result) {
         getProgressBar().setVisibility(View.GONE);
         if (result != null && !result.isNull()) {
             schedule = result;
-            records.addAll(schedule.getMonday());
-            records.addAll(schedule.getTuesday());
-            records.addAll(schedule.getWednesday());
-            records.addAll(schedule.getThursday());
-            records.addAll(schedule.getFriday());
-            records.addAll(schedule.getSaturday());
-            records.addAll(schedule.getSunday());
+            if (records != null && records.size() != 0)
+                records.clear();
+
+            updateRecords(2, schedule.getMonday());
+            updateRecords(3, schedule.getTuesday());
+            updateRecords(4, schedule.getWednesday());
+            updateRecords(5, schedule.getThursday());
+            updateRecords(6, schedule.getFriday());
+            updateRecords(7, schedule.getSaturday());
+            updateRecords(1, schedule.getSunday());
 
             tuesdayHeader = getSchedule().getMonday().size() + mondayHeader + 1;
             wednesdayHeader = getSchedule().getTuesday().size() + tuesdayHeader + 1;
@@ -217,53 +237,14 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * Check if position is a header.
      *
      * @param position The position to check
-     * @return int -1 if it is a record
+     * @return int 0 if it is a record
      */
-    private int checkHeader(int position) {
-        if (position == mondayHeader) {
-            return 2;
-        } else if (position == tuesdayHeader) {
-            return 3;
-        } else if (position == wednesdayHeader) {
-            return 4;
-        } else if (position == thursdayHeader) {
-            return 5;
-        } else if (position == fridayHeader) {
-            return 6;
-        } else if (position == saturdayHeader) {
-            return 7;
-        } else if (position == sundayHeader) {
+    private int isHeader(int position) {
+        if (position == mondayHeader || position == tuesdayHeader || position == wednesdayHeader || position == thursdayHeader ||
+                position == fridayHeader || position == saturdayHeader || position == sundayHeader) {
             return 1;
         } else {
-            return -1;
-        }
-    }
-
-    /**
-     * Check if position is a header.
-     *
-     * @param position The position to check
-     * @return int -1 if it is a record
-     */
-    private int getItemPos(int position) {
-        if (position < mondayHeader) {
-            return position;
-        } else if (position < tuesdayHeader) {
-            return position - 1;
-        } else if (position < wednesdayHeader) {
-            return position - 2;
-        } else if (position < thursdayHeader) {
-            return position - 3;
-        } else if (position < fridayHeader) {
-            return position - 4;
-        } else if (position < saturdayHeader) {
-            return position - 5;
-        } else if (position < sundayHeader) {
-            return position - 6;
-        } else if (position < totalRecords) {
-            return position - 7;
-        } else {
-            return position;
+            return 0;
         }
     }
 
@@ -280,51 +261,49 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
      * The custom adapter for recommendations.
      */
     public class scheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private final String[] weekdays;
-        private final Activity activity;
         private final String episodes;
         private final String members;
+        private final String unknown;
         private final boolean isMal;
 
-        public scheduleAdapter(Activity activity) {
-            this.activity = activity;
-            this.weekdays = DateFormatSymbols.getInstance().getWeekdays();
+        public scheduleAdapter() {
             this.episodes = getString(R.string.card_content_episodes) + ":";
             this.members = getString(R.string.card_content_members) + ":";
+            this.unknown = getString(R.string.unknown);
             this.isMal = AccountService.isMAL();
         }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            if (viewType != -1) {
-                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_header, null);
-                return new headerHolder(v);
+            if (viewType == 0) {
+                View v = LayoutInflater.from(activity).inflate(R.layout.record_igf_details, null);
+                return new itemHolder(v);
             } else {
-                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_igf_details, null);
-                return new itemHolder(v, activity);
+                View v = LayoutInflater.from(activity).inflate(R.layout.record_header, null);
+                return new headerHolder(v);
             }
         }
 
         @Override
         public int getItemViewType(int position) {
-            return checkHeader(position);
+            return isHeader(position);
         }
 
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             try {
+                Anime record = getRecords().get(position);
                 if (holder instanceof headerHolder) {
                     headerHolder headerHolder = (headerHolder) holder;
-                    headerHolder.header.setText(StringUtils.capitalize(weekdays[checkHeader(position)]));
-                } else if (holder instanceof itemHolder) {
-                    Anime record = getRecords().get(getItemPos(position));
+                    headerHolder.header.setText(record.getTitle());
+                } else {
                     itemHolder itemHolder = (itemHolder) holder;
                     itemHolder.label.setText(record.getTitle());
                     itemHolder.scoreCount.setText(record.getAverageScore());
                     itemHolder.typeCount.setText(record.getType());
                     itemHolder.stringStatus.setText(episodes);
-                    itemHolder.statusCount.setText(record.getEpisodes() != 0 ? String.valueOf(record.getEpisodes()) : getString(R.string.unknown));
+                    itemHolder.statusCount.setText(record.getEpisodes() != 0 ? String.valueOf(record.getEpisodes()) : unknown);
                     if (isMal) {
                         itemHolder.flavourText.setText(members);
                         itemHolder.progressCount.setText(record.getAverageScoreCount());
@@ -333,12 +312,11 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                         itemHolder.progressCount.setText(record.getAiring().getNormaltime());
                     }
 
-                    Picasso.with(getParent())
+                    Picasso.with(activity)
                             .load(record.getImageUrl())
                             .error(R.drawable.cover_error)
                             .placeholder(R.drawable.cover_loading)
                             .into(itemHolder.cover);
-                    itemHolder.cover.getLayoutParams().height = recordheight;
                 }
             } catch (Exception e) {
                 Theme.logTaskCrash("ScheduleActivity", e.getMessage(), e);
@@ -366,7 +344,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             int pos = parent.getChildLayoutPosition(view);
-            if (checkHeader(pos) == -1) {
+            if (isHeader(pos) == 0) {
                 if (pos < tuesdayHeader) {          // Monday
                     if (isNotLastColumn((pos - mondayHeader)))
                         outRect.right = space;
@@ -389,25 +367,17 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                     if (isNotLastColumn((pos - sundayHeader)))
                         outRect.right = space;
                 }
-
-                outRect.bottom = space;
-            } else { // header
-                outRect.bottom = space;
             }
+            outRect.bottom = space;
         }
     }
 
-    public class headerHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class headerHolder extends RecyclerView.ViewHolder {
         final TextView header;
 
         public headerHolder(View itemView) {
             super(itemView);
             header = (TextView) itemView.findViewById(R.id.header);
-        }
-
-        @Override
-        public void onClick(View view) {
-
         }
     }
 
@@ -424,11 +394,9 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         final TextView typeCount;
         final TextView statusCount;
         final TextView stringStatus;
-        final Activity activity;
 
-        public itemHolder(View itemView, Activity activity) {
+        public itemHolder(View itemView) {
             super(itemView);
-            this.activity = activity;
             label = (TextView) itemView.findViewById(R.id.animeName);
             progressCount = (TextView) itemView.findViewById(R.id.watchedCount);
             cover = (ImageView) itemView.findViewById(R.id.coverImage);
@@ -440,6 +408,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
             stringStatus = (TextView) itemView.findViewById(R.id.stringStatus);
 
             actionButton.setVisibility(View.GONE);
+            cover.getLayoutParams().height = recordheight;
             cover.setOnClickListener(this);
         }
 
@@ -447,11 +416,11 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
         public void onClick(View view) {
             if (APIHelper.isNetworkAvailable(activity)) {
                 Intent startDetails = new Intent(activity, DetailView.class);
-                startDetails.putExtra("recordID", records.get(getItemPos(getAdapterPosition())).getId());
+                startDetails.putExtra("recordID", records.get(getAdapterPosition()).getId());
                 startDetails.putExtra("recordType", MALApi.ListType.ANIME);
                 startActivity(startDetails);
             } else {
-                Theme.Snackbar(getParent(), R.string.toast_error_noConnectivity);
+                Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             }
         }
     }
