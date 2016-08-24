@@ -26,6 +26,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +42,11 @@ import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -100,8 +107,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
     @Override
     public void onSaveInstanceState(Bundle state) {
-        state.putSerializable("gl", gl);
-        state.putSerializable("backGl", backGl);
+        saveList("gl" + listType + activity.getClass().getSimpleName(), gl);
+        saveList("backGl" + listType + activity.getClass().getSimpleName(), backGl);
         state.putSerializable("listType", listType);
         state.putSerializable("data", data);
         state.putSerializable("taskjob", taskjob);
@@ -123,6 +130,65 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         super.onSaveInstanceState(state);
     }
 
+    /**
+     * Save the lists temp. in the storage.
+     * <p/>
+     * Since android 7 they no not suppress onSaveInstanceState which caused TransactionTooLargeExceptions errors.
+     * Currently we are saving it as a cache file in the storage.
+     * We chose not for the DB because it can cause errors when the user will press back too fast.
+     *
+     * @param key     The cache key name
+     * @param records The saved records
+     */
+    private void saveList(String key, ArrayList<GenericRecord> records) {
+        Theme.log(Log.INFO, "Atarashii", "IGF.saveList(" + key + ")");
+        try {
+            Gson gson = new Gson();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(key + ".cache", Context.MODE_PRIVATE));
+            outputStreamWriter.write(gson.toJson(records));
+            outputStreamWriter.close();
+        } catch (Exception e) {
+            Theme.logException(e);
+        }
+    }
+
+    /**
+     * Get the cache records from the storage.
+     *
+     * @param key The cache key
+     * @return The record arraylist
+     */
+    private ArrayList<GenericRecord> getSavedList(String key) {
+        Theme.log(Log.INFO, "Atarashii", "IGF.getSavedList(" + key + ")");
+        ArrayList<GenericRecord> records = new ArrayList<>();
+        Gson gson = new Gson();
+        Type type;
+        if (isAnime()) {
+            type = new TypeToken<ArrayList<Anime>>() {
+            }.getType();
+        } else {
+            type = new TypeToken<ArrayList<Manga>>() {
+            }.getType();
+        }
+        try {
+            InputStream inputStream = context.openFileInput(key + ".cache");
+            if (inputStream != null) {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String readString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((readString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(readString);
+                }
+                inputStream.close();
+                String ret = stringBuilder.toString();
+                records = gson.fromJson(ret, type);
+            }
+        } catch (Exception e) {
+            Theme.logException(e);
+        }
+        return records;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View view = inflater.inflate(R.layout.record_igf_layout, container, false);
@@ -132,10 +198,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         Gridview.setOnItemClickListener(this);
         Gridview.setOnScrollListener(this);
 
+        activity = getActivity();
+        context = activity;
+
         if (state != null) {
-            backGl = (ArrayList<GenericRecord>) state.getSerializable("backGl");
-            gl = (ArrayList<GenericRecord>) state.getSerializable("gl");
             listType = (ListType) state.getSerializable("listType");
+            isAnime = state.getBoolean("isAnime");
+            gl = getSavedList("gl" + listType + activity.getClass().getSimpleName());
+            backGl = getSavedList("backGl" + listType + activity.getClass().getSimpleName());
             taskjob = (TaskJob) state.getSerializable("taskjob");
             data = (HashMap<String, String>) state.getSerializable("data");
             page = state.getInt("page");
@@ -146,7 +216,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             query = state.getString("query");
             username = state.getString("username");
             details = state.getBoolean("details");
-            isAnime = state.getBoolean("isAnime");
             numberList = state.getBoolean("numberList");
             useSecondaryAmounts = state.getBoolean("useSecondaryAmounts");
             isList = state.getBoolean("isList");
@@ -158,8 +227,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             useSecondaryAmounts = PrefManager.getUseSecondaryAmountsEnabled();
         }
 
-        activity = getActivity();
-        context = activity;
         setColumns();
 
         if (activity instanceof Home)
