@@ -123,8 +123,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".broadcasts.BackupSync"/>
     </application>
 
 </manifest>

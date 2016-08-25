@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import net.somethingdreadful.MAL.broadcasts.AutoSync;
-import net.somethingdreadful.MAL.broadcasts.BackupSync;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, NumberPickerDialogFragment.onUpdateClickListener {
@@ -41,11 +40,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             PendingIntent autosyncalarmIntent = PendingIntent.getBroadcast(context, 0, autosyncIntent, 0);
             int intervalAutosync = PrefManager.getSyncTime() * 60 * 1000;
 
-            // autobackup
-            Intent autoBackupIntent = new Intent(context, BackupSync.class);
-            PendingIntent autoBackupalarmIntent = PendingIntent.getBroadcast(context, 0, autoBackupIntent, 0);
-            int intervalbackup = PrefManager.getBackupInterval() * 60 * 1000;
-
             switch (key) {
                 case "synchronisation_time":
                     alarmMgr.cancel(autosyncalarmIntent);
@@ -61,16 +55,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     sharedPreferences.edit().commit();
                     startActivity(new Intent(context, Home.class));
                     System.exit(0);
-                    break;
-                case "autobackup":
-                    if (PrefManager.getAutoBackup())
-                        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, intervalbackup, intervalbackup, autoBackupalarmIntent);
-                    else
-                        alarmMgr.cancel(autoBackupalarmIntent);
-                    break;
-                case "backup_time":
-                    alarmMgr.cancel(autoBackupalarmIntent);
-                    alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, intervalbackup, intervalbackup, autoBackupalarmIntent);
                     break;
                 case "darkTheme":
                     PrefManager.setTextColor(true);
@@ -93,9 +77,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 break;
             case "IGFcolumnslandscape":
                 makeNumberpicker(R.string.preference_list_columns_landscape, R.string.preference_list_columns_landscape, PrefManager.getIGFColumns(false), IGF.getMaxColumns(false), 2);
-                break;
-            case "backup_length":
-                makeNumberpicker(R.string.preference_backuplength, R.string.preference_backuplength, PrefManager.getBackupLength(), 50, 1);
                 break;
             case "reset":
                 PrefManager.clear();
@@ -132,10 +113,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 PrefManager.commitChanges();
                 startActivity(new Intent(context, Home.class));
                 System.exit(0);
-                break;
-            case R.string.preference_backuplength:
-                PrefManager.setBackupLength(number);
-                PrefManager.commitChanges();
                 break;
         }
     }

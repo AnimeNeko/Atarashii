@@ -371,42 +371,6 @@ public class PrefManager {
     }
 
     /**
-     * Set the max allowed backup items.
-     *
-     * @param length Set on true when it was completed
-     */
-    public static void setBackupLength(int length) {
-        prefEditor.putInt("backuplength", length).commit();
-    }
-
-    /**
-     * Get the max backup amount.
-     *
-     * @return int The length
-     */
-    public static int getBackupLength() {
-        return prefs.getInt("backuplength", 15);
-    }
-
-    /**
-     * Get the sync interval for backups.
-     *
-     * @return int The interval
-     */
-    public static int getBackupInterval() {
-        return Integer.parseInt(prefs.getString("backup_time", "10080"));
-    }
-
-    /**
-     * Get if the app should backup lists.
-     *
-     * @return boolean If the app should automatically backup records
-     */
-    public static boolean getAutoBackup() {
-        return prefs.getBoolean("autobackup", false);
-    }
-
-    /**
      * Get AniList title language.
      *
      * @return String The language name
