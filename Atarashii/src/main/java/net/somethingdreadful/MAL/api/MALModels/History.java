@@ -55,16 +55,18 @@ public class History implements Serializable {
          */
         @Getter
         @Setter
-        private int chapters;
+        @SerializedName("chapters_read")
+        private int chaptersRead;
 
         /**
-         * Total number of episodes of the anime.
+         * Total number watched of episodes of the anime.
          * <p/>
          * This value is the number of episodes of the anime, or null if unknown.
          */
         @Getter
         @Setter
-        private int episodes;
+        @SerializedName("watched_episodes")
+        private int watchedEpisodes;
 
         /**
          * Title of a record.
@@ -87,7 +89,7 @@ public class History implements Serializable {
         if (type.equals("anime")) {
             model.setAnime(new Anime());
             model.getAnime().setId(getItem().getId());
-            model.setValue(String.valueOf(getItem().getEpisodes()));
+            model.setValue(String.valueOf(getItem().getWatchedEpisodes()));
             model.setStatus("watched episode");
             model.getAnime().setTitle(getItem().getTitle());
             model.getAnime().setImageUrl("http://i.imgur.com/H6W5lmv.png");
@@ -95,7 +97,7 @@ public class History implements Serializable {
         } else {
             model.setManga(new Manga());
             model.getManga().setId(getItem().getId());
-            model.setValue(String.valueOf(getItem().getChapters()));
+            model.setValue(String.valueOf(getItem().getChaptersRead()));
             model.setStatus("read chapter");
             model.getManga().setTitle(getItem().getTitle());
             model.getManga().setImageUrl("http://i.imgur.com/QwKTy9M.png");
