@@ -125,7 +125,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
     public void setText() {
         if (activity.type == null || (activity.animeRecord == null && activity.mangaRecord == null)) // not enough data to do anything
             return;
-        GenericRecord record;
+        final GenericRecord record;
         if (activity.type.equals(ListType.ANIME)) {
             record = activity.animeRecord;
 
@@ -188,9 +188,11 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
                         try {
-                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
-                            cardMain.wrapImage(225, 320);
-                            image.setImageDrawable(drawable);
+                            Picasso.with(activity)
+                                    .load(record.getImageUrl().replace("l.jpg", ".jpg"))
+                                    .error(R.drawable.cover_error)
+                                    .placeholder(R.drawable.cover_loading)
+                                    .into(image);
                         } catch (Exception e) {
                             Theme.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
                         }
