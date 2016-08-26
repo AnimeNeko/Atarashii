@@ -45,61 +45,34 @@ public class ProfileDetailsMAL extends Fragment implements SwipeRefreshLayout.On
     private Card mangacard;
     private ProfileActivity activity;
 
-    @BindView(R.id.swiperefresh)
-    public SwipeRefreshLayout swipeRefresh;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.network_Card)
-    Card networkCard;
+    @BindView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.network_Card) Card networkCard;
 
-    @BindView(R.id.Image)
-    ImageView image;
-    @BindView(R.id.birthdaysmall)
-    TextView tv1;
-    @BindView(R.id.locationsmall)
-    TextView tv2;
-    @BindView(R.id.commentspostssmall)
-    TextView tv3;
-    @BindView(R.id.forumpostssmall)
-    TextView tv4;
-    @BindView(R.id.lastonlinesmall)
-    TextView tv5;
-    @BindView(R.id.gendersmall)
-    TextView tv6;
-    @BindView(R.id.joindatesmall)
-    TextView tv7;
-    @BindView(R.id.accessranksmall)
-    TextView tv8;
-    @BindView(R.id.atimedayssmall)
-    TextView tv11;
-    @BindView(R.id.awatchingsmall)
-    TextView tv12;
-    @BindView(R.id.acompletedpostssmall)
-    TextView tv13;
-    @BindView(R.id.aonholdsmall)
-    TextView tv14;
-    @BindView(R.id.adroppedsmall)
-    TextView tv15;
-    @BindView(R.id.aplantowatchsmall)
-    TextView tv16;
-    @BindView(R.id.atotalentriessmall)
-    TextView tv17;
-    @BindView(R.id.mtimedayssmall)
-    TextView tv18;
-    @BindView(R.id.mwatchingsmall)
-    TextView tv19;
-    @BindView(R.id.mcompletedpostssmall)
-    TextView tv20;
-    @BindView(R.id.monholdsmall)
-    TextView tv21;
-    @BindView(R.id.mdroppedsmall)
-    TextView tv22;
-    @BindView(R.id.mplantowatchsmall)
-    TextView tv23;
-    @BindView(R.id.mtotalentriessmall)
-    TextView tv24;
-    @BindView(R.id.websitesmall)
-    TextView tv25;
+    @BindView(R.id.Image) ImageView image;
+    @BindView(R.id.birthdaysmall) TextView tv1;
+    @BindView(R.id.locationsmall) TextView tv2;
+    @BindView(R.id.commentspostssmall) TextView tv3;
+    @BindView(R.id.forumpostssmall) TextView tv4;
+    @BindView(R.id.lastonlinesmall) TextView tv5;
+    @BindView(R.id.gendersmall) TextView tv6;
+    @BindView(R.id.joindatesmall) TextView tv7;
+    @BindView(R.id.accessranksmall) TextView tv8;
+    @BindView(R.id.atimedayssmall) TextView tv11;
+    @BindView(R.id.awatchingsmall) TextView tv12;
+    @BindView(R.id.acompletedpostssmall) TextView tv13;
+    @BindView(R.id.aonholdsmall) TextView tv14;
+    @BindView(R.id.adroppedsmall) TextView tv15;
+    @BindView(R.id.aplantowatchsmall) TextView tv16;
+    @BindView(R.id.atotalentriessmall) TextView tv17;
+    @BindView(R.id.mtimedayssmall) TextView tv18;
+    @BindView(R.id.mwatchingsmall) TextView tv19;
+    @BindView(R.id.mcompletedpostssmall) TextView tv20;
+    @BindView(R.id.monholdsmall) TextView tv21;
+    @BindView(R.id.mdroppedsmall) TextView tv22;
+    @BindView(R.id.mplantowatchsmall) TextView tv23;
+    @BindView(R.id.mtotalentriessmall) TextView tv24;
+    @BindView(R.id.websitesmall) TextView tv25;
     @BindView(R.id.websitefront)
     TextView tv26;
 
