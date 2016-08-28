@@ -80,7 +80,7 @@ public class Anime extends GenericRecord implements Serializable {
      */
     @Setter
     @Getter
-    @SerializedName("manga_adaptions")
+    @SerializedName("manga_adaptations")
     private ArrayList<RecordStub> mangaAdaptations;
 
     /**
