@@ -49,7 +49,7 @@ public class DatabaseManager {
             cv.put("watchingEnd", anime.getWatchingEnd());
             cv.put("storage", anime.getStorage());
             cv.put("storageValue", anime.getStorageValue());
-            cv.put("rewatching", anime.getRewatching());
+            cv.put("rewatching", anime.getRewatching() ? 1 : 0);
             cv.put("rewatchCount", anime.getRewatchCount());
             cv.put("rewatchValue", anime.getRewatchValue());
         }
@@ -109,7 +109,7 @@ public class DatabaseManager {
             cv.put("popularity", anime.getPopularity());
             cv.put("averageScore", anime.getAverageScore());
             cv.put("priority", anime.getPriority());
-            cv.put("rewatching", anime.getRewatching());
+            cv.put("rewatching", anime.getRewatching() ? 1 : 0);
             cv.put("notes", anime.getNotes());
         }
 
@@ -141,7 +141,7 @@ public class DatabaseManager {
         if (AccountService.isMAL()) {
             cv.put("readingStart", manga.getReadingStart());
             cv.put("readingEnd", manga.getReadingEnd());
-            cv.put("rereading", manga.getRereading());
+            cv.put("rereading", manga.getRereading() ? 1 : 0);
             cv.put("rereadCount", manga.getRereadCount());
             cv.put("rereadValue", manga.getRereadValue());
         }
@@ -185,6 +185,7 @@ public class DatabaseManager {
         cv.put("chapters", manga.getChapters());
         cv.put("volumes", manga.getVolumes());
         cv.put("imageUrl", manga.getImageUrl());
+        cv.put("rereading", manga.getRereading() ? 1 : 0);
         cv.put("chaptersRead", manga.getChaptersRead());
         cv.put("volumesRead", manga.getVolumesRead());
         cv.put("score", manga.getScore());
@@ -309,7 +310,7 @@ public class DatabaseManager {
                 cursor = sort(query.isNotNull("type"), sortType, inv);
                 break;
             case "rewatching": // rewatching/rereading
-                cursor = sort(query.whereEqGr("rewatchCount", "1").andOrEquals("watchedStatus", "watching", "rewatching", "true"), sortType, inv);
+                cursor = sort(query.whereEqGr("rewatching", "1"), sortType, inv);
                 break;
             default: // normal lists
                 cursor = sort(query.where("watchedStatus", ListType), sortType, inv);
@@ -327,7 +328,7 @@ public class DatabaseManager {
                 cursor = sort(query.isNotNull("type"), sortType, inv);
                 break;
             case "rereading": // rewatching/rereading
-                cursor = sort(query.whereEqGr("rereadCount", "1").andEquals("readStatus", "reading"), sortType, inv);
+                cursor = sort(query.whereEqGr("rereading", "1"), sortType, inv);
                 break;
             default: // normal lists
                 cursor = sort(query.where("readStatus", ListType), sortType, inv);
