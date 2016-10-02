@@ -222,10 +222,17 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("endDate", new DatePickerDialogFragment().setCallback(activity), args2);
                 break;
             case R.id.scorePanel:
-                Bundle args3 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
-                args3.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
-                args3.putInt("max", PrefManager.getMaxScore());
-                activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
+                if (PrefManager.getScoreType() <= 2) {
+                    Bundle args3 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
+                    args3.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
+                    args3.putInt("max", PrefManager.getMaxScore());
+                    activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
+                } else {
+                    Bundle args5 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
+                    args5.putString("message", Theme.getDisplayScore(activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore()));
+                    args5.putString("hint", getString(R.string.dialog_title_rating));
+                    activity.showDialog("rating", new InputDialogFragment().setCallback(activity), args5);
+                }
                 break;
             case R.id.priorityPanel:
                 Bundle args4 = bundle(R.id.priorityPanel, R.string.card_content_my_priority);

@@ -218,9 +218,9 @@ public class ALApi {
 
     public boolean addOrUpdateAnime(Anime anime) {
         if (anime.getCreateFlag())
-            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "addAnime");
+            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()/10, anime.getNotes(), anime.getRewatchCount()), "addAnime");
         else
-            return APIHelper.isOK(service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore(), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+            return APIHelper.isOK(service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()/10, anime.getNotes(), anime.getRewatchCount()), "updateAnime");
     }
 
     public boolean deleteAnimeFromList(int id) {

@@ -1,8 +1,11 @@
 package net.somethingdreadful.MAL.api.ALModels;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.Theme;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -124,6 +127,7 @@ public class Profile implements Serializable {
         if (scoreType != -1) {
             PrefManager.setScoreType(scoreType);
             PrefManager.commitChanges();
+            Theme.log(Log.INFO, "Profile.createBaseModel()", "scoreType:" + scoreType);
         }
         return model;
     }

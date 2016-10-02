@@ -27,6 +27,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
+import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
@@ -230,13 +231,25 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                 }
                 break;
             case R.id.scorePanel:
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", R.id.scorePanel);
-                bundle.putString("title", getString(R.string.dialog_title_rating));
-                bundle.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
-                bundle.putInt("max", PrefManager.getMaxScore());
-                activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), bundle);
+                if (PrefManager.getScoreType() <= 2) {
+                    Bundle args3 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
+                    args3.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
+                    args3.putInt("max", PrefManager.getMaxScore());
+                    activity.showDialog("rating", new NumberPickerDialogFragment().setOnSendClickListener(activity), args3);
+                } else {
+                    Bundle args5 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
+                    args5.putString("message", Theme.getDisplayScore(activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore()));
+                    args5.putString("hint", getString(R.string.dialog_title_rating));
+                    activity.showDialog("rating", new InputDialogFragment().setCallback(activity), args5);
+                }
                 break;
         }
+    }
+
+    private Bundle bundle(int id, int title) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        bundle.putString("title", getString(title));
+        return bundle;
     }
 }

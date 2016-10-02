@@ -651,6 +651,12 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 else
                     mangaRecord.setNotes(text);
                 break;
+            case R.id.scorePanel:
+                if (isAnime())
+                    animeRecord.setScore(Theme.getRawScore(text));
+                else
+                    mangaRecord.setScore(Theme.getRawScore(text));
+                break;
         }
         setText();
     }
