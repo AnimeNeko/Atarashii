@@ -223,7 +223,6 @@ public class DatabaseManager {
             cv.put("notes", record.getNotes());
             cv.put("favoritedCount", record.getFavoritedCount());
         } else if (record.getNotes() != null) { // Offline details
-            cv.put("score", record.getScore());
             cv.put("notes", record.getNotes());
         } else { // AniList details only
             cv.put("lsPlanned", record.getListStats().getPlanned());
@@ -231,6 +230,10 @@ public class DatabaseManager {
             cv.put("lsCompleted", record.getListStats().getCompleted());
             cv.put("lsOnHold", record.getListStats().getOnHold());
             cv.put("lsDropped", record.getListStats().getDropped());
+
+            if (-1 < record.getScore()) {
+                cv.put("score", record.getScore());
+            }
         }
         cv.put("classification", record.getClassification());
         cv.put("averageScore", record.getAverageScore());
