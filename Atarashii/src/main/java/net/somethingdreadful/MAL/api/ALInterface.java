@@ -83,8 +83,16 @@ interface ALInterface {
 
     @FormUrlEncoded
     @PUT("animelist")
-    Call<ResponseBody> updateAnime(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                   @Field("score_raw") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> updateAnimeF(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
+                                   @Field("score") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    @FormUrlEncoded
+    @PUT("animelist")
+    Call<ResponseBody> updateAnimeS(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
+                                   @Field("score") String score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    @FormUrlEncoded
+    @PUT("animelist")
+    Call<ResponseBody> updateAnimeI(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
+                                   @Field("score") int score, @Field("notes") String notes, @Field("rewatched") int rewatched);
 
     @DELETE("animelist/{anime_id}")
     Call<ResponseBody> deleteAnime(@Path("anime_id") int anime_id);

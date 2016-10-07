@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import net.somethingdreadful.MAL.BuildConfig;
+import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALModels.Follow;
@@ -217,10 +218,21 @@ public class ALApi {
     }
 
     public boolean addOrUpdateAnime(Anime anime) {
-        if (anime.getCreateFlag())
-            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()/10, anime.getNotes(), anime.getRewatchCount()), "addAnime");
-        else
-            return APIHelper.isOK(service.updateAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore()/10, anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+        if (anime.getCreateFlag()) {
+            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore() / 10, anime.getNotes(), anime.getRewatchCount()), "addAnime");
+        } else {
+            switch (PrefManager.getScoreType()) {
+                case 0: // 0 - 10
+                case 1: // 0 - 100
+                case 2: // 0 - 5
+                    return APIHelper.isOK(service.updateAnimeI(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Integer.parseInt(Theme.getDisplayScore(anime.getScore())) , anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+                case 3: // :( & :| & :)
+                    return APIHelper.isOK(service.updateAnimeS(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Theme.getDisplayScore(anime.getScore()), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+                case 4: // 0.0 - 10.0
+                default: // default
+                    return APIHelper.isOK(service.updateAnimeF(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Float.parseFloat(Theme.getDisplayScore(anime.getScore())), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+            }
+        }
     }
 
     public boolean deleteAnimeFromList(int id) {
