@@ -219,7 +219,17 @@ public class ALApi {
 
     public boolean addOrUpdateAnime(Anime anime) {
         if (anime.getCreateFlag()) {
-            return APIHelper.isOK(service.addAnime(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), anime.getScore() / 10, anime.getNotes(), anime.getRewatchCount()), "addAnime");
+            switch (PrefManager.getScoreType()) {
+                case 0: // 0 - 10
+                case 1: // 0 - 100
+                case 2: // 0 - 5
+                    return APIHelper.isOK(service.addAnimeI(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Integer.parseInt(Theme.getDisplayScore(anime.getScore())) , anime.getNotes(), anime.getRewatchCount()), "addAnime");
+                case 3: // :( & :| & :)
+                    return APIHelper.isOK(service.addAnimeS(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Theme.getDisplayScore(anime.getScore()), anime.getNotes(), anime.getRewatchCount()), "addAnime");
+                case 4: // 0.0 - 10.0
+                default: // default
+                    return APIHelper.isOK(service.addAnimeF(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Float.parseFloat(Theme.getDisplayScore(anime.getScore())), anime.getNotes(), anime.getRewatchCount()), "addAnime");
+            }
         } else {
             switch (PrefManager.getScoreType()) {
                 case 0: // 0 - 10
@@ -244,10 +254,31 @@ public class ALApi {
     }
 
     public boolean addOrUpdateManga(Manga manga) {
-        if (manga.getCreateFlag())
-            return APIHelper.isOK(service.addManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "addManga");
-        else
-            return APIHelper.isOK(service.updateManga(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), manga.getScore()), "updateManga");
+        if (manga.getCreateFlag()) {
+            switch (PrefManager.getScoreType()) {
+                case 0: // 0 - 10
+                case 1: // 0 - 100
+                case 2: // 0 - 5
+                    return APIHelper.isOK(service.addMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getDisplayScore(manga.getScore()))), "addManga");
+                case 3: // :( & :| & :)
+                    return APIHelper.isOK(service.addMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getDisplayScore(manga.getScore())), "addManga");
+                case 4: // 0.0 - 10.0
+                default: // default
+                    return APIHelper.isOK(service.addMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getDisplayScore(manga.getScore()))), "addManga");
+            }
+        }else{
+            switch (PrefManager.getScoreType()) {
+                case 0: // 0 - 10
+                case 1: // 0 - 100
+                case 2: // 0 - 5
+                    return APIHelper.isOK(service.updateMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getDisplayScore(manga.getScore()))), "updateManga");
+                case 3: // :( & :| & :)
+                    return APIHelper.isOK(service.updateMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getDisplayScore(manga.getScore())), "updateManga");
+                case 4: // 0.0 - 10.0
+                default: // default
+                    return APIHelper.isOK(service.updateMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getDisplayScore(manga.getScore()))), "updateManga");
+            }
+        }
     }
 
     public ForumThread getPosts(int id, int page) {
