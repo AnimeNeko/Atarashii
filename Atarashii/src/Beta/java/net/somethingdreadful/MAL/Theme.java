@@ -361,9 +361,9 @@ public class Theme extends Application {
             case 3:
                 switch (score) {
                     case ":(":
-                        return 33;
+                        return 30;
                     case ":|":
-                        return 67;
+                        return 60;
                     case ":)":
                         return 100;
                     default:
