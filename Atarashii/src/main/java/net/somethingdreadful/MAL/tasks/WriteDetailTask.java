@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
@@ -44,8 +44,8 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 }
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "WriteDetailTask.doInBackground(5, " + type + "): unknown API error (?): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "WriteDetailTask.doInBackground(5, " + type + "): unknown API error (?): " + e.getMessage());
+            AppLog.logException(e);
             error = true;
         }
 

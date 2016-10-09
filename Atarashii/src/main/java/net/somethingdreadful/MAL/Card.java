@@ -283,7 +283,7 @@ public class Card extends RelativeLayout {
             try {
                 screenWidth = Theme.convert(getResources().getConfiguration().screenWidthDp);
             } catch (Exception e) {
-                Theme.logTaskCrash("Card", "getScreenWidth()", e);
+                AppLog.logTaskCrash("Card", "getScreenWidth()", e);
             }
         }
         return screenWidth;

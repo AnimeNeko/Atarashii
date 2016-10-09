@@ -3,8 +3,8 @@ package net.somethingdreadful.MAL.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
@@ -58,7 +58,7 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                     break;
             }
         } catch (Exception e) {
-            Theme.logTaskCrash("ForumNetworkTask", "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);
+            AppLog.logTaskCrash("ForumNetworkTask", "doInBackground(6): " + String.format("%s-task unknown API error on id %s", type.toString(), id), e);
         }
         return result;
     }

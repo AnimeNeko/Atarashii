@@ -9,11 +9,11 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.Home;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.MALApi;
@@ -28,7 +28,7 @@ public class AutoSync extends BroadcastReceiver implements NetworkTask.NetworkTa
     @Override
     public void onReceive(Context context, Intent intent) {
         if (context == null) {
-            Theme.log(Log.ERROR, "Atarashii", "AutoSync.onReceive(): context is null");
+            AppLog.log(Log.ERROR, "Atarashii", "AutoSync.onReceive(): context is null");
             return;
         }
         PrefManager.create(context);

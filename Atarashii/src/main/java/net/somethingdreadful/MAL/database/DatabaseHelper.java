@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.FirstTimeInit;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 
 import java.io.File;
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Theme.log(Log.INFO, "Atarashii", "DatabaseTest.OnUpgrade(): Upgrading database from version " + oldVersion + " to " + newVersion);
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseTest.OnUpgrade(): Upgrading database from version " + oldVersion + " to " + newVersion);
         try {
             /**
              * Date: 14-11-2015
@@ -272,8 +272,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             // log database failures
-            Theme.initFabric(context);
-            Theme.logTaskCrash("DatabaseHelper", "onUpgrade()", e);
+            AppLog.initFabric(context);
+            AppLog.logTaskCrash("DatabaseHelper", "onUpgrade()", e);
 
             // Delete database and remove account
             DatabaseHelper.deleteDatabase(context);
@@ -285,6 +285,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             System.exit(0);
         }
 
-        Theme.log(Log.INFO, "Atarashii", "DatabaseTest.OnUpgrade(): Database upgrade finished");
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseTest.OnUpgrade(): Database upgrade finished");
     }
 }

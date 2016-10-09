@@ -127,7 +127,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
             if (result) {
                 // load account before requesting the information
                 AccountService.getAccount();
-                Theme.setCrashData("Site", AccountService.accountType.toString());
+                AppLog.setCrashData("Site", AccountService.accountType.toString());
                 PrefManager.setForceSync(true);
                 PrefManager.commitChanges();
                 dialog.dismiss();
@@ -144,7 +144,7 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
                 }
             }
         } catch (Exception e) {
-            Theme.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished()", e);
+            AppLog.logTaskCrash("FirstTimeInit", "onAuthenticationCheckFinished()", e);
             Theme.Snackbar(this, R.string.toast_error_VerifyProblem);
         }
     }

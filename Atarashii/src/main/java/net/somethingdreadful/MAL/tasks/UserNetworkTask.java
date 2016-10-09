@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.History;
@@ -29,7 +29,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
         boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
         Profile result = null;
         if (params == null) {
-            Theme.log(Log.ERROR, "Atarashii", "UserNetworkTask.doInBackground(): No username to fetch profile");
+            AppLog.log(Log.ERROR, "Atarashii", "UserNetworkTask.doInBackground(): No username to fetch profile");
             return null;
         }
         ContentManager cManager = new ContentManager(activity);
@@ -53,7 +53,7 @@ public class UserNetworkTask extends AsyncTask<String, Void, Profile> {
                 result.setActivity(activities);
             }
         } catch (Exception e) {
-            Theme.logTaskCrash("UserNetworkTask", "doInBackground(5): task unknown API error (?)", e);
+            AppLog.logTaskCrash("UserNetworkTask", "doInBackground(5): task unknown API error (?)", e);
         }
         return result;
     }

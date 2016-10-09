@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.PrefManager;
@@ -195,7 +196,7 @@ public class DetailViewGeneral extends Fragment implements Serializable, Card.on
                                     .placeholder(R.drawable.cover_loading)
                                     .into(image);
                         } catch (Exception e) {
-                            Theme.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
+                            AppLog.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
                         }
                     }
 

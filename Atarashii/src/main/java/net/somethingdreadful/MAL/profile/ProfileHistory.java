@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
@@ -108,8 +109,8 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
                 Theme.Snackbar(activity, R.string.toast_error_Records);
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "ProfileHistory.apply(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "ProfileHistory.apply(): " + e.getMessage());
+            AppLog.logException(e);
             e.printStackTrace();
         }
     }
@@ -172,7 +173,7 @@ public class ProfileHistory extends Fragment implements SwipeRefreshLayout.OnRef
                         .into(holder.imageView);
 
             } catch (Exception e) {
-                Theme.logTaskCrash("ProfileHistory", e.getMessage(), e);
+                AppLog.logTaskCrash("ProfileHistory", e.getMessage(), e);
             }
         }
 

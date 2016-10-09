@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
@@ -81,8 +82,8 @@ public class FriendsGridviewAdapter<T> extends ArrayAdapter<T> {
                     .transform(new RoundedTransformation(record.getUsername()))
                     .into(viewHolder.avatar);
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "FriendsActivity.ListViewAdapter(): " + e.getMessage());
+            AppLog.logException(e);
         }
         return view;
     }

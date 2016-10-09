@@ -110,9 +110,9 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 personal.setText();
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
+            AppLog.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
             if (!(e instanceof IllegalStateException))
-                Theme.logException(e);
+                AppLog.logException(e);
         }
         setMenu();
     }
@@ -325,7 +325,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             else
                 return types[index];
         } catch (Resources.NotFoundException e) {
-            Theme.logException(e);
+            AppLog.logException(e);
             return res.getString(R.string.unknown);
         }
     }
@@ -489,8 +489,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                     new WriteDetailTask(type, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mangaRecord);
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DetailView.onPause(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DetailView.onPause(): " + e.getMessage());
+            AppLog.logException(e);
         }
     }
 
@@ -514,7 +514,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 recordID = Integer.parseInt(splitmessage[1]);
                 getRecord(false);
             } catch (NumberFormatException e) {
-                Theme.logException(e);
+                AppLog.logException(e);
                 finish();
             }
         }
@@ -525,7 +525,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             // setup beam functionality (if NFC is available)
             NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
             if (mNfcAdapter == null) {
-                Theme.log(Log.INFO, "Atarashii", "DetailView.setupBeam(): NFC not available");
+                AppLog.log(Log.INFO, "Atarashii", "DetailView.setupBeam(): NFC not available");
             } else {
                 // Register NFC callback
                 String message_str = type.toString() + ":" + String.valueOf(recordID);
@@ -539,8 +539,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 mNfcAdapter.setNdefPushMessage(message, this);
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DetailView.setupBeam(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DetailView.setupBeam(): " + e.getMessage());
+            AppLog.logException(e);
         }
     }
 
@@ -557,8 +557,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
             setText();
         } catch (ClassCastException e) {
-            Theme.log(Log.ERROR, "Atarashii", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
+            AppLog.logException(e);
             Theme.Snackbar(this, R.string.toast_error_DetailsError);
         }
     }

@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
+import static net.somethingdreadful.MAL.AppLog.initFabric;
+
 public class Theme extends Application {
     public static boolean darkTheme;
     private static float density;
@@ -45,37 +47,13 @@ public class Theme extends Application {
         config = new Configuration();
         config.locale = locale;
         setLanguage(); //Change language when it is started
-        Theme.setCrashData("Language", locale.toString());
-    }
-
-    /**
-     * Init the Fabric plugins
-     *
-     * @param context The context
-     */
-    public static void initFabric(Context context) {
-
+        AppLog.setCrashData("Language", locale.toString());
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setLanguage(); //Change language after orientation.
-    }
-
-    /**
-     * Log task crashes
-     *
-     * @param className The class name when the crash was caught.
-     * @param message   The extra message to deliver.
-     * @param e         The Error that has been caught.
-     */
-    public static void logTaskCrash(String className, String message, Exception e) {
-        try {
-            e.printStackTrace();
-        } catch (Exception e2) {
-            e2.printStackTrace();
-        }
     }
 
     /**
@@ -95,7 +73,7 @@ public class Theme extends Application {
             Resources res = getBaseContext().getResources();
             res.updateConfiguration(config, res.getDisplayMetrics());
         } catch (Exception e) {
-            Theme.logTaskCrash("Theme", "setLanguage", e);
+            AppLog.logTaskCrash("Theme", "setLanguage", e);
         }
     }
 
@@ -233,7 +211,7 @@ public class Theme extends Application {
                 image2.setOnClickListener(listener);
             }
         } catch (Exception e) {
-            Log.e("Atarashii", "Theme.setNavDrawer(): " + e.getMessage());
+            AppLog.log(Log.ERROR, "Atarashii", "Theme.setNavDrawer(): " + e.getMessage());
         }
     }
 
@@ -330,6 +308,36 @@ public class Theme extends Application {
     }
 
     /**
+     * Display the right format for AL API commands.
+     *
+     * 0. 0 - 10
+     * 1. 0 - 100
+     * 2. 0 - 5
+     * 3. :( & :| & :)
+     * 4. 0.0 - 10.0
+     *
+     * @param score The score from the DB.
+     * @return The API score
+     */
+    public static String getALAPIScore(float score) {
+        String scoreStr = getDisplayScore(score);
+        if (scoreStr.contains("?"))
+            switch (net.somethingdreadful.MAL.PrefManager.getScoreType()) {
+                case 0:
+                case 1:
+                case 2:
+                case 4:
+                    return "0";
+                case 3:
+                    return "";
+                default:
+                    return "?";
+            }
+        else
+            return scoreStr;
+    }
+
+    /**
      * Converts a score to the raw format
      *
      * @param score The score that should be converted
@@ -362,41 +370,5 @@ public class Theme extends Application {
             default:
                 return TextUtils.isDigitsOnly(score) ? (int) (Double.parseDouble(score) * 10) : 0;
         }
-    }
-
-    /**
-     * Log information about the requests.
-     *
-     * @param name The name of the parameter
-     * @param data The log value/info
-     */
-    public static void setCrashData(String name, String data) {
-    }
-
-    /**
-     * Log information about the user.
-     *
-     * @param name The name of the user
-     */
-    public static void setUserName(String name) {
-    }
-
-    /**
-     * Log Exception.
-     *
-     * @param e The exception
-     */
-    public static void logException(Exception e) {
-        e.printStackTrace();
-    }
-
-    /**
-     * Log information.
-     *
-     * @param name The name of the parameter
-     * @param data The log value/info
-     */
-    public static void log(int level, String name, String data) {
-        Log.i(name + "l" + level, data);
     }
 }

@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
@@ -74,8 +74,8 @@ public class DatabaseManager {
             Query.newQuery(db).updateTitles(anime.getId(), true, anime.getTitleJapanese(), anime.getTitleEnglish(), anime.getTitleSynonyms(), anime.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnime(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnime(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -118,8 +118,8 @@ public class DatabaseManager {
             Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_ANIME, cv, anime.getId());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnimeList(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnimeList(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -158,8 +158,8 @@ public class DatabaseManager {
             Query.newQuery(db).updateTitles(manga.getId(), false, manga.getTitleJapanese(), manga.getTitleEnglish(), manga.getTitleSynonyms(), manga.getTitleRomaji());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveManga(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveManga(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -196,8 +196,8 @@ public class DatabaseManager {
             Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_MANGA, cv, manga.getId());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveMangaList(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveMangaList(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -370,7 +370,7 @@ public class DatabaseManager {
                 result.add(Anime.fromCursor(cursor));
             while (cursor.moveToNext());
         }
-        Theme.log(Log.INFO, "Atarashii", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager.getAnimeList(): got " + String.valueOf(cursor.getCount()));
         cursor.close();
         GenericRecord.setFromCursor(false);
         return result;
@@ -385,7 +385,7 @@ public class DatabaseManager {
             while (cursor.moveToNext());
         }
         cursor.close();
-        Theme.log(Log.INFO, "Atarashii", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager.getMangaList(): got " + String.valueOf(cursor.getCount()));
         GenericRecord.setFromCursor(false);
         return result;
     }
@@ -427,8 +427,8 @@ public class DatabaseManager {
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveFriendList(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveFriendList(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -491,8 +491,8 @@ public class DatabaseManager {
             Query.newQuery(db).updateRecord(DatabaseHelper.TABLE_PROFILE, cv, profile.getUsername());
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveProfile(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveProfile(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -510,8 +510,8 @@ public class DatabaseManager {
             result = db.delete(DatabaseHelper.TABLE_ANIME, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.deleteAnime(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.deleteAnime(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -527,8 +527,8 @@ public class DatabaseManager {
             result = db.delete(DatabaseHelper.TABLE_MANGA, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}) == 1;
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.deleteManga(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.deleteManga(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }
@@ -567,8 +567,8 @@ public class DatabaseManager {
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatabaseManager.saveScheduleDay(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveScheduleDay(): " + e.getMessage());
+            AppLog.logException(e);
         } finally {
             db.endTransaction();
         }

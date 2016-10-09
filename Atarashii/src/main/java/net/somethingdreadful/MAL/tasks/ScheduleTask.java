@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
@@ -54,7 +55,7 @@ public class ScheduleTask extends AsyncTask<String, Void, Schedule> {
                 }
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "ScheduleTask.doInBackground(): " + e.getMessage());
+            AppLog.log(Log.ERROR, "Atarashii", "ScheduleTask.doInBackground(): " + e.getMessage());
         }
         return taskResult;
     }

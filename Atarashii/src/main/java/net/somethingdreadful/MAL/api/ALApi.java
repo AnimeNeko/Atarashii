@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.BuildConfig;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.Theme;
@@ -223,24 +224,24 @@ public class ALApi {
                 case 0: // 0 - 10
                 case 1: // 0 - 100
                 case 2: // 0 - 5
-                    return APIHelper.isOK(service.addAnimeI(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Integer.parseInt(Theme.getDisplayScore(anime.getScore())) , anime.getNotes(), anime.getRewatchCount()), "addAnime");
+                    return APIHelper.isOK(service.addAnimeI(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Integer.parseInt(Theme.getALAPIScore(anime.getScore())) , anime.getNotes(), anime.getRewatchCount()), "addAnime");
                 case 3: // :( & :| & :)
-                    return APIHelper.isOK(service.addAnimeS(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Theme.getDisplayScore(anime.getScore()), anime.getNotes(), anime.getRewatchCount()), "addAnime");
+                    return APIHelper.isOK(service.addAnimeS(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Theme.getALAPIScore(anime.getScore()), anime.getNotes(), anime.getRewatchCount()), "addAnime");
                 case 4: // 0.0 - 10.0
                 default: // default
-                    return APIHelper.isOK(service.addAnimeF(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Float.parseFloat(Theme.getDisplayScore(anime.getScore())), anime.getNotes(), anime.getRewatchCount()), "addAnime");
+                    return APIHelper.isOK(service.addAnimeF(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Float.parseFloat(Theme.getALAPIScore(anime.getScore())), anime.getNotes(), anime.getRewatchCount()), "addAnime");
             }
         } else {
             switch (PrefManager.getScoreType()) {
                 case 0: // 0 - 10
                 case 1: // 0 - 100
                 case 2: // 0 - 5
-                    return APIHelper.isOK(service.updateAnimeI(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Integer.parseInt(Theme.getDisplayScore(anime.getScore())) , anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+                    return APIHelper.isOK(service.updateAnimeI(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Integer.parseInt(Theme.getALAPIScore(anime.getScore())) , anime.getNotes(), anime.getRewatchCount()), "updateAnime");
                 case 3: // :( & :| & :)
-                    return APIHelper.isOK(service.updateAnimeS(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Theme.getDisplayScore(anime.getScore()), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+                    return APIHelper.isOK(service.updateAnimeS(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Theme.getALAPIScore(anime.getScore()), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
                 case 4: // 0.0 - 10.0
                 default: // default
-                    return APIHelper.isOK(service.updateAnimeF(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Float.parseFloat(Theme.getDisplayScore(anime.getScore())), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
+                    return APIHelper.isOK(service.updateAnimeF(anime.getId(), anime.getWatchedStatus(), anime.getWatchedEpisodes(), Float.parseFloat(Theme.getALAPIScore(anime.getScore())), anime.getNotes(), anime.getRewatchCount()), "updateAnime");
             }
         }
     }
@@ -259,24 +260,24 @@ public class ALApi {
                 case 0: // 0 - 10
                 case 1: // 0 - 100
                 case 2: // 0 - 5
-                    return APIHelper.isOK(service.addMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getDisplayScore(manga.getScore()))), "addManga");
+                    return APIHelper.isOK(service.addMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getALAPIScore(manga.getScore()))), "addManga");
                 case 3: // :( & :| & :)
-                    return APIHelper.isOK(service.addMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getDisplayScore(manga.getScore())), "addManga");
+                    return APIHelper.isOK(service.addMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getALAPIScore(manga.getScore())), "addManga");
                 case 4: // 0.0 - 10.0
                 default: // default
-                    return APIHelper.isOK(service.addMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getDisplayScore(manga.getScore()))), "addManga");
+                    return APIHelper.isOK(service.addMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getALAPIScore(manga.getScore()))), "addManga");
             }
         }else{
             switch (PrefManager.getScoreType()) {
                 case 0: // 0 - 10
                 case 1: // 0 - 100
                 case 2: // 0 - 5
-                    return APIHelper.isOK(service.updateMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getDisplayScore(manga.getScore()))), "updateManga");
+                    return APIHelper.isOK(service.updateMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getALAPIScore(manga.getScore()))), "updateManga");
                 case 3: // :( & :| & :)
-                    return APIHelper.isOK(service.updateMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getDisplayScore(manga.getScore())), "updateManga");
+                    return APIHelper.isOK(service.updateMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getALAPIScore(manga.getScore())), "updateManga");
                 case 4: // 0.0 - 10.0
                 default: // default
-                    return APIHelper.isOK(service.updateMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getDisplayScore(manga.getScore()))), "updateManga");
+                    return APIHelper.isOK(service.updateMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getALAPIScore(manga.getScore()))), "updateManga");
             }
         }
     }
@@ -481,7 +482,7 @@ public class ALApi {
 
     public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime>> response = null;
-        Theme.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
+        AppLog.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
         try {
             response = service.getBrowseAnime(queries).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.convertBaseArray(response.body());
@@ -504,7 +505,7 @@ public class ALApi {
 
     public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga>> response = null;
-        Theme.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
+        AppLog.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
         try {
             response = service.getBrowseManga(queries).execute();
             return net.somethingdreadful.MAL.api.ALModels.AnimeManga.Manga.convertBaseArray(response.body());

@@ -336,8 +336,8 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
                 }
             }
         } catch (Exception e) {
-            Theme.log(Log.INFO, "Atarashii", "ProfileActivity.onIGFReady()");
-            Theme.logException(e);
+            AppLog.log(Log.INFO, "Atarashii", "ProfileActivity.onIGFReady()");
+            AppLog.logException(e);
         }
     }
 
