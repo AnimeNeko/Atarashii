@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.DatePicker;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.R;
-import net.somethingdreadful.MAL.Theme;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,8 +35,8 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
             if (getArguments().getString("current") != null && !getArguments().getString("current").equals("0-00-00"))
                 current = sdf.parse(getArguments().getString("current"));
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DatePickerDialogFragment.onCreateDialog(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DatePickerDialogFragment.onCreateDialog(): " + e.getMessage());
+            AppLog.logException(e);
         }
 
         final Calendar c = Calendar.getInstance();

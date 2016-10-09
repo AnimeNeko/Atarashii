@@ -3,8 +3,8 @@ package net.somethingdreadful.MAL.api;
 import android.app.Activity;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.PrefManager;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
@@ -233,7 +233,7 @@ public class MALApi {
 
     public ArrayList<Anime> getBrowseAnime(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Anime>> response = null;
-        Theme.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
+        AppLog.log(Log.INFO, "Atarashii", "MALApi.getBrowseAnime(): queries=" + queries.toString());
         try {
             response = service.getBrowseAnime(queries).execute();
             return AnimeList.convertBaseArray(response.body());
@@ -245,7 +245,7 @@ public class MALApi {
 
     public ArrayList<Manga> getBrowseManga(Map<String, String> queries) {
         retrofit2.Response<ArrayList<net.somethingdreadful.MAL.api.MALModels.AnimeManga.Manga>> response = null;
-        Theme.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
+        AppLog.log(Log.INFO, "Atarashii", "MALApi.getBrowseManga(): queries=" + queries.toString());
         try {
             response = service.getBrowseManga(queries).execute();
             return MangaList.convertBaseArray(response.body());

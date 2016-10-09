@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
@@ -66,11 +67,11 @@ public class RestoreTask extends AsyncTask<String, Void, Object> {
             }
 
             // notify user
-            Theme.log(Log.INFO, "Atarashii", "RestoreTask.restoreBackup(): Backup has been created");
+            AppLog.log(Log.INFO, "Atarashii", "RestoreTask.restoreBackup(): Backup has been created");
             if (callback != null)
                 callback.onRestoreTaskFinished();
         } catch (Exception e) {
-            Theme.logTaskCrash("RestoreTask", "restoreBackup()", e);
+            AppLog.logTaskCrash("RestoreTask", "restoreBackup()", e);
             if (callback != null) {
                 callback.onRestoreTaskFailed();
             }

@@ -319,7 +319,7 @@ public class ScheduleActivity extends AppCompatActivity implements Serializable,
                             .into(itemHolder.cover);
                 }
             } catch (Exception e) {
-                Theme.logTaskCrash("ScheduleActivity", e.getMessage(), e);
+                AppLog.logTaskCrash("ScheduleActivity", e.getMessage(), e);
             }
         }
 

@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
@@ -67,7 +68,7 @@ public class AuthenticationCheckTask extends AsyncTask<String, Void, Boolean> {
                 }
             }
         } catch (Exception e) {
-            Theme.logTaskCrash("AuthenticationCheckTask", "doInBackground()", e);
+            AppLog.logTaskCrash("AuthenticationCheckTask", "doInBackground()", e);
             e.printStackTrace();
         }
         return false;

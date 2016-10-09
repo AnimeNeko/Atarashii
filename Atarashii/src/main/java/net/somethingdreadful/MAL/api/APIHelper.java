@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 
@@ -63,9 +64,9 @@ public class APIHelper {
             return response.isSuccessful();
         } catch (Exception e) {
             if (response != null)
-                Theme.log(Log.ERROR, "Atarashii", "Api." + methodName + "(): " + response.message());
+                AppLog.log(Log.ERROR, "Atarashii", "Api." + methodName + "(): " + response.message());
             else
-                Theme.log(Log.ERROR, "Atarashii", "Api." + methodName + "(): " + e.getMessage());
+                AppLog.log(Log.ERROR, "Atarashii", "Api." + methodName + "(): " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -82,13 +83,13 @@ public class APIHelper {
      */
     public static void logE(Activity activity, Response response, String className, String methodName, Exception e) {
         if (response != null && activity != null) {
-            Theme.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + response.message());
+            AppLog.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + response.message());
             switch (response.code()) {
                 case 400: // Bad Request
                     Theme.Snackbar(activity, R.string.toast_error_api);
                     break;
                 case 401: // Unauthorized
-                    Theme.log(Log.ERROR, "Atarashii", className + ".doInBackground(): User is not logged in");
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): User is not logged in");
                     Theme.Snackbar(activity, R.string.toast_info_password);
                     break;
                 case 404: // Not Found
@@ -96,26 +97,26 @@ public class APIHelper {
                         Theme.Snackbar(activity, R.string.toast_error_nothingFound);
                     else
                         Theme.Snackbar(activity, R.string.toast_error_Records);
-                    Theme.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Error while getting records");
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Error while getting records");
                     break;
                 case 500: // Internal Server Error
-                    Theme.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Internal server error, API bug?");
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Internal server error, API bug?");
                     Theme.Snackbar(activity, R.string.toast_error_api);
                     break;
                 case 503: // Service Unavailable
                 case 504: // Gateway Timeout
-                    Theme.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Gateway Timeout");
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Gateway Timeout");
                     Theme.Snackbar(activity, R.string.toast_error_maintenance);
                     break;
                 default:
                     Theme.Snackbar(activity, R.string.toast_error_Records);
-                    Theme.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Unknown API error: " + response.code() + ": " + response.message());
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Unknown API error: " + response.code() + ": " + response.message());
                     break;
             }
         } else {
-            Theme.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + e.getMessage());
+            AppLog.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + e.getMessage());
         }
-        Theme.logException(e);
+        AppLog.logException(e);
         e.printStackTrace();
     }
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.DetailView;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.RoundedTransformation;
@@ -126,7 +127,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
                 }
             }
         } catch (Exception e) {
-            Theme.logTaskCrash("DetailViewReviews", "onNetworkTaskFinished()", e);
+            AppLog.logTaskCrash("DetailViewReviews", "onNetworkTaskFinished()", e);
         }
     }
 
@@ -205,7 +206,7 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
                         .into(holder.imageView);
 
             } catch (Exception e) {
-                Theme.logTaskCrash("DetailViewReviews", e.getMessage(), e);
+                AppLog.logTaskCrash("DetailViewReviews", e.getMessage(), e);
             }
         }
 

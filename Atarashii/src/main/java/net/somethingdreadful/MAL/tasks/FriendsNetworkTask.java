@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
@@ -30,7 +30,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
         boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
         ArrayList<Profile> result = null;
         if (params == null) {
-            Theme.log(Log.ERROR, "Atarashii", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
+            AppLog.log(Log.ERROR, "Atarashii", "FriendsNetworkTask.doInBackground(): No username to fetch friendlist");
             return null;
         }
         ContentManager cManager = new ContentManager(activity);
@@ -52,7 +52,7 @@ public class FriendsNetworkTask extends AsyncTask<String, Void, ArrayList<Profil
             if (result == null)
                 result = new ArrayList<>();
         } catch (Exception e) {
-            Theme.logTaskCrash("FriendsNetworkTask", "doInBackground(5): task unknown API error (?)", e);
+            AppLog.logTaskCrash("FriendsNetworkTask", "doInBackground(5): task unknown API error (?)", e);
         }
         return result;
     }

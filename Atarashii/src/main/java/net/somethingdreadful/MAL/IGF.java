@@ -141,14 +141,14 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param records The saved records
      */
     private void saveList(String key, ArrayList<GenericRecord> records) {
-        Theme.log(Log.INFO, "Atarashii", "IGF.saveList(" + key + ")");
+        AppLog.log(Log.INFO, "Atarashii", "IGF.saveList(" + key + ")");
         try {
             Gson gson = new Gson();
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(key + ".cache", Context.MODE_PRIVATE));
             outputStreamWriter.write(gson.toJson(records));
             outputStreamWriter.close();
         } catch (Exception e) {
-            Theme.logException(e);
+            AppLog.logException(e);
         }
     }
 
@@ -159,7 +159,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @return The record arraylist
      */
     private ArrayList<GenericRecord> getSavedList(String key) {
-        Theme.log(Log.INFO, "Atarashii", "IGF.getSavedList(" + key + ")");
+        AppLog.log(Log.INFO, "Atarashii", "IGF.getSavedList(" + key + ")");
         ArrayList<GenericRecord> records = new ArrayList<>();
         Gson gson = new Gson();
         Type type;
@@ -184,7 +184,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 records = gson.fromJson(ret, type);
             }
         } catch (Exception e) {
-            Theme.logException(e);
+            AppLog.logException(e);
         }
         return records;
     }
@@ -280,7 +280,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Set listType, boolean isAnime
      */
     public void setListType(ListType listType) {
-        Theme.log(Log.INFO, "Atarashii", "IGF.sort(): listType=" + listType);
+        AppLog.log(Log.INFO, "Atarashii", "IGF.sort(): listType=" + listType);
         this.listType = listType;
         isAnime = listType.equals(ListType.ANIME);
     }
@@ -357,7 +357,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * @param sortType The sort ID
      */
     public void sort(int sortType) {
-        Theme.log(Log.INFO, "Atarashii", "IGF.sort(" + listType + "): sortType=" + sortType);
+        AppLog.log(Log.INFO, "Atarashii", "IGF.sort(" + listType + "): sortType=" + sortType);
         this.sortType = sortType;
         if (taskjob.equals(TaskJob.GETFRIENDLIST) && !isLoading()) {
             sortList(sortType);
@@ -572,8 +572,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             query.put("page", String.valueOf(page));
             new NetworkTask(activity, listType, query, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "IGF.getBrowse(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "IGF.getBrowse(): " + e.getMessage());
+            AppLog.logException(e);
         }
     }
 
@@ -636,8 +636,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             }
             networkTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, args.toArray(new String[args.size()]));
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "IGF.getRecords(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "IGF.getRecords(): " + e.getMessage());
+            AppLog.logException(e);
         }
     }
 
@@ -692,8 +692,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                 Gridview.setAdapter(ga);
         } catch (Exception e) {
             if (APIHelper.isNetworkAvailable(context)) {
-                Theme.log(Log.ERROR, "Atarashii", "IGF.refresh(): " + e.getMessage());
-                Theme.logException(e);
+                AppLog.log(Log.ERROR, "Atarashii", "IGF.refresh(): " + e.getMessage());
+                AppLog.logException(e);
                 if (taskjob.equals(TaskJob.SEARCH)) {
                     Theme.Snackbar(activity, R.string.toast_error_Search);
                 } else {
@@ -736,8 +736,8 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
             else
                 resultList = (ArrayList<Manga>) result;
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "IGF.onNetworkTaskFinished(): " + result.getClass().toString());
+            AppLog.logException(e);
             resultList = null;
         }
         if (resultList != null) {
@@ -1015,7 +1015,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
                             }
                         });
             } catch (Exception e) {
-                Theme.logTaskCrash("IGF", "ListViewAdapter()", e);
+                AppLog.logTaskCrash("IGF", "ListViewAdapter()", e);
             }
             return view;
         }

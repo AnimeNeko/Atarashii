@@ -3,6 +3,7 @@ package net.somethingdreadful.MAL.forum;
 import android.content.Context;
 import android.webkit.WebView;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
@@ -281,7 +282,7 @@ public class ForumHTMLUnit {
             while (inputStream.read(buffer) != -1) ;
             return new String(buffer);
         } catch (Exception e) {
-            Theme.logTaskCrash("ForumHTMLUnit", "getResString(): " + resource, e);
+            AppLog.logTaskCrash("ForumHTMLUnit", "getResString(): " + resource, e);
         }
         return "";
     }

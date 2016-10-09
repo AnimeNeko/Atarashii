@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
-import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.api.BaseModels.Profile;
 import net.somethingdreadful.MAL.database.DatabaseHelper;
 
@@ -39,7 +39,7 @@ public class AccountService extends Service {
      * This is used for Account upgrade purpose
      */
     private static void onUpgrade(int oldVersion) {
-        Theme.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading from " + oldVersion + " to " + String.valueOf(accountVersion) + ".");
+        AppLog.log(Log.INFO, "Atarashii", "AccountService.onUpgrade(): Upgrading from " + oldVersion + " to " + String.valueOf(accountVersion) + ".");
         setAccountVersion();
         switch (oldVersion + 1) {
             case 1:
@@ -68,7 +68,7 @@ public class AccountService extends Service {
         if (getAccount() == null)
             return null;
         String username = getAccount().name;
-        Theme.setUserName(username);
+        AppLog.setUserName(username);
         return username;
     }
 
@@ -112,8 +112,8 @@ public class AccountService extends Service {
             if (myaccount.length > 0) {
                 accountType = getAccountType(accountManager.getUserData(myaccount[0], "accountType"));
                 version = accountManager.getUserData(myaccount[0], "accountVersion");
-                Theme.setCrashData("Site", AccountService.accountType.toString());
-                Theme.setCrashData("accountVersion", version);
+                AppLog.setCrashData("Site", AccountService.accountType.toString());
+                AppLog.setCrashData("accountVersion", version);
             }
             account = myaccount.length > 0 ? myaccount[0] : null;
             if (version == null)
@@ -207,10 +207,10 @@ public class AccountService extends Service {
             Long expireTime = Long.parseLong(accountManager.getUserData(getAccount(), "accesTokenTime"));
             Long time = System.currentTimeMillis() / 1000;
             Long timeLeft = expireTime - time;
-            Theme.log(Log.INFO, "Atarashii", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
+            AppLog.log(Log.INFO, "Atarashii", "AccountService: The accestoken will expire in " + Long.toString(timeLeft / 60) + " minutes.");
             return timeLeft >= 0 ? token : null;
         } catch (Exception e) {
-            Theme.log(Log.INFO, "Atarashii", "AccountService: The expire time could not be received.");
+            AppLog.log(Log.INFO, "Atarashii", "AccountService: The expire time could not be received.");
             return null;
         }
     }

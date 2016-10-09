@@ -113,8 +113,8 @@ public class DateTools {
                 return dateFormatter.format(date);
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DateTools.getDate(): " + date.toString() + ": " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DateTools.getDate(): " + date.toString() + ": " + e.getMessage());
+            AppLog.logException(e);
         }
         return null;
     }
@@ -145,8 +145,8 @@ public class DateTools {
         try {
             return (new SimpleDateFormat(formatter, Locale.getDefault())).parse(date);
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "DateTools.getDate(): " + formatter + ": " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "DateTools.getDate(): " + formatter + ": " + e.getMessage());
+            AppLog.logException(e);
         }
         return null;
     }

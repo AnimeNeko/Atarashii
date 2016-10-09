@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
@@ -76,7 +77,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     protected Object doInBackground(String... params) {
         boolean isNetworkAvailable = APIHelper.isNetworkAvailable(getContext());
         if (job == null) {
-            Theme.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): No job identifier, don't know what to do");
+            AppLog.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): No job identifier, don't know what to do");
             return null;
         }
 
@@ -169,7 +170,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                 // Check if the record is on the animelist.
                                 // after that load details if synopsis == null or else return the DB record
                                 if (record != null && (record.getSynopsis() == null || params[0].equals("true")) && record.getWatchedStatus() != null) {
-                                    Theme.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                                    AppLog.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                                     taskResult = cManager.updateWithDetails(record.getId(), record);
                                 } else {
                                     taskResult = record;
@@ -191,7 +192,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                 // Check if the record is on the mangalist
                                 // load details if synopsis == null or else return the DB record
                                 if (record != null && (record.getSynopsis() == null || params[0].equals("true")) && record.getReadStatus() != null) {
-                                    Theme.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
+                                    AppLog.log(Log.INFO, "Atarashii", String.format("NetworkTask.doInBackground(): TaskJob = %s & %sID = %s", job, type, record.getId()));
                                     taskResult = cManager.updateWithDetails(record.getId(), record);
                                 } else {
                                     taskResult = record;
@@ -216,7 +217,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         taskResult = isAnimeTask() ? cManager.getAnimeRecs(Integer.parseInt(params[0])) : cManager.getMangaRecs(Integer.parseInt(params[0]));
                     break;
                 default:
-                    Theme.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
+                    AppLog.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
             }
             /* if result is still null at this point there was no error but the API returned an empty result
              * (e. g. an empty anime-/mangalist), so create an empty list to let the callback know that
@@ -225,7 +226,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             if (taskResult == null)
                 return isArrayList() ? new ArrayList<>() : null;
         } catch (Exception e) {
-            Theme.logTaskCrash("NetworkTask", "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
+            AppLog.logTaskCrash("NetworkTask", "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
         }
         return taskResult;

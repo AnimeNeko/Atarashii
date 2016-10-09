@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.NfcHelper;
 import net.somethingdreadful.MAL.ProfileActivity;
@@ -131,7 +132,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
                                     imagecard.wrapImage(225, 320);
                                     image.setImageDrawable(drawable);
                                 } catch (Exception e) {
-                                    Theme.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                                    AppLog.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
                                 }
                             }
 
@@ -145,7 +146,7 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
                 toggle(0);
             }
         } catch (IllegalStateException e) {
-            Theme.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): has been closed too fast");
+            AppLog.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): has been closed too fast");
         }
     }
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
@@ -94,7 +95,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
                 inputScore = true;
             return getArguments().getInt(key);
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
+            AppLog.log(Log.ERROR, "Atarashii", "EpisodesPickerDialogFragment.makeNumberPicker(" + key + "): " + e.getMessage());
             return 0;
         }
     }

@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.ProfileActivity;
 import net.somethingdreadful.MAL.R;
@@ -102,8 +103,8 @@ public class ProfileFriends extends Fragment implements FriendsNetworkTask.Frien
         try {
             listadapter.supportAddAll(listarray);
         } catch (Exception e) {
-            Theme.logException(e);
-            Theme.log(Log.ERROR, "Atarashii", "FriendsActivity.refresh(): " + e.getMessage());
+            AppLog.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "FriendsActivity.refresh(): " + e.getMessage());
         }
         listadapter.notifyDataSetChanged();
         toggle(0);

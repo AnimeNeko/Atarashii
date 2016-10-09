@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
-import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.AppLog;
 
 public class Table {
     private String queryString = "";
@@ -256,7 +256,7 @@ public class Table {
         try {
             db.execSQL(queryString);
         } catch (Exception e) {
-            Theme.log(Log.INFO, "Atarashii", "Table.run(" + toString() + "): " + e.getMessage());
+            AppLog.log(Log.INFO, "Atarashii", "Table.run(" + toString() + "): " + e.getMessage());
         }
     }
 

@@ -64,8 +64,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     System.exit(0);
             }
         } catch (Exception e) {
-            Theme.log(Log.ERROR, "Atarashii", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());
-            Theme.logException(e);
+            AppLog.log(Log.ERROR, "Atarashii", "SettingsFragment.onSharedPreferenceChanged(): " + e.getMessage());
+            AppLog.logException(e);
         }
     }
 

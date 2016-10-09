@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import net.somethingdreadful.MAL.Theme;
+import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
 import java.util.ArrayList;
@@ -323,7 +323,7 @@ public class Query {
      */
     @SuppressWarnings("deprecation")
     private void log(String method, String message, boolean error) {
-        Theme.log(error ? Log.ERROR : Log.INFO, "Atarashii", "Query." + method + "(" + toString() + "): " + message);
+        AppLog.log(error ? Log.ERROR : Log.INFO, "Atarashii", "Query." + method + "(" + toString() + "): " + message);
     }
 
     /**
