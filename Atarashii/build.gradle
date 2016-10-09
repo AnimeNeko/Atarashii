@@ -28,23 +28,23 @@ android {
     productFlavors {
         Production {
             applicationId 'net.somethingdreadful.MAL'
-            versionCode 35
-            versionName '2.3.3'
+            versionCode 36
+            versionName '2.3.4'
         }
         FLOSSProduction {
             applicationId 'net.somethingdreadful.MAL'
-            versionCode 35
-            versionName '2.3.3'
+            versionCode 36
+            versionName '2.3.4'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 74
-            versionName '2.3.3'
+            versionCode 75
+            versionName '2.3.4'
         }
         FLOSSBeta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 74
-            versionName '2.3.3'
+            versionCode 75
+            versionName '2.3.4'
         }
     }
 
