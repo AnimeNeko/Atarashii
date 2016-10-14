@@ -426,6 +426,8 @@ public class GenericRecord implements Serializable {
     }
 
     public void setPersonalTags(ArrayList<String> personalTags) {
+        if (!fromCursor)
+            addDirtyField("personalTags");
         this.personalTags = personalTags;
     }
 
