@@ -127,6 +127,14 @@ public class GenericRecord implements Serializable {
     private ArrayList<String> tags;
 
     /**
+     * The user's personal tags
+     */
+    @Setter
+    @Getter
+    @SerializedName("personal_tags")
+    private ArrayList<String> personalTags;
+
+    /**
      * A list of alternative versions of this record
      */
     @Setter
@@ -180,6 +188,7 @@ public class GenericRecord implements Serializable {
         model.setScore(getScore());
         model.setPriority(getPriority());
         model.setNotes(getPersonalComments());
+        model.setPersonalTags(getPersonalTags());
     }
 
     private ArrayList<String> getTitleArray() {
