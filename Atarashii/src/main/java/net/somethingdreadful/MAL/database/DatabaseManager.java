@@ -498,11 +498,6 @@ public class DatabaseManager {
         }
     }
 
-    public void restoreLists(ArrayList<Anime> animeList, ArrayList<Manga> mangaList) {
-        saveAnimeList(animeList);
-        saveMangaList(mangaList);
-    }
-
     public boolean deleteAnime(int id) {
         boolean result = false;
         try {
