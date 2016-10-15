@@ -498,7 +498,7 @@ public class DatabaseManager {
         }
     }
 
-    public boolean deleteAnime(int id) {
+    public void deleteAnime(int id) {
         boolean result = false;
         try {
             db.beginTransaction();
@@ -512,10 +512,9 @@ public class DatabaseManager {
         }
         if (result)
             cleanupAnimeTable();
-        return result;
     }
 
-    public boolean deleteManga(int id) {
+    public void deleteManga(int id) {
         boolean result = false;
         try {
             db.beginTransaction();
@@ -529,7 +528,6 @@ public class DatabaseManager {
         }
         if (result)
             cleanupMangaTable();
-        return result;
     }
 
     public void saveSchedule(Schedule schedule) {

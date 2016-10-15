@@ -36,7 +36,7 @@ public class AutoSync extends BroadcastReceiver implements NetworkTask.NetworkTa
         if (APIHelper.isNetworkAvailable(context) && AccountService.getAccount() != null) {
             Intent notificationIntent = new Intent(context, Home.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            if (networkChange(intent) && !PrefManager.getAutosyncDone() || !networkChange(intent)) {
+            if (!networkChange(intent) || !PrefManager.getAutosyncDone()) {
                 ArrayList<String> args = new ArrayList<>();
                 args.add(ContentManager.listSortFromInt(0, MALApi.ListType.ANIME));
                 args.add(String.valueOf(1));
