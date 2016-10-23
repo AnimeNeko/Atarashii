@@ -266,6 +266,7 @@ public class DatabaseManager {
             result.setOther(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_OTHER, true));
             result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_ANIME_GENRES, "genre_id", true));
             result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_TAGS, "tag_id", true));
+            result.setPersonalTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_PERSONALTAGS, "tag_id", true));
             result.setProducers(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_PRODUCER, DatabaseHelper.TABLE_ANIME_PRODUCER, "producer_id", true));
         }
         cursor.close();
@@ -498,12 +499,7 @@ public class DatabaseManager {
         }
     }
 
-    public void restoreLists(ArrayList<Anime> animeList, ArrayList<Manga> mangaList) {
-        saveAnimeList(animeList);
-        saveMangaList(mangaList);
-    }
-
-    public boolean deleteAnime(int id) {
+    public void deleteAnime(int id) {
         boolean result = false;
         try {
             db.beginTransaction();
@@ -517,10 +513,9 @@ public class DatabaseManager {
         }
         if (result)
             cleanupAnimeTable();
-        return result;
     }
 
-    public boolean deleteManga(int id) {
+    public void deleteManga(int id) {
         boolean result = false;
         try {
             db.beginTransaction();
@@ -534,7 +529,6 @@ public class DatabaseManager {
         }
         if (result)
             cleanupMangaTable();
-        return result;
     }
 
     public void saveSchedule(Schedule schedule) {

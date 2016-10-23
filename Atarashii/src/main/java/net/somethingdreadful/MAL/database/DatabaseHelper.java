@@ -18,32 +18,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     private final Context context;
 
-    public static final String TABLE_ANIME = "anime";
-    public static final String TABLE_MANGA = "manga";
-    public static final String TABLE_PROFILE = "profile";
-    public static final String TABLE_FRIENDLIST = "friendlist";
-    public static final String TABLE_PRODUCER = "producer";
-    public static final String TABLE_ANIME_PRODUCER = "anime_producer";
-    public static final String TABLE_ANIME_OTHER_TITLES = "animeothertitles";
-    public static final String TABLE_MANGA_OTHER_TITLES = "mangaothertitles";
-    public static final String TABLE_SCHEDULE = "schedule";
+    static final String TABLE_ANIME = "anime";
+    static final String TABLE_MANGA = "manga";
+    static final String TABLE_PROFILE = "profile";
+    static final String TABLE_FRIENDLIST = "friendlist";
+    static final String TABLE_PRODUCER = "producer";
+    static final String TABLE_ANIME_PRODUCER = "anime_producer";
+    static final String TABLE_ANIME_OTHER_TITLES = "animeothertitles";
+    static final String TABLE_MANGA_OTHER_TITLES = "mangaothertitles";
+    static final String TABLE_SCHEDULE = "schedule";
 
-    public static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
-    public static final String TABLE_ANIME_MANGA_RELATIONS = "rel_anime_manga";
-    public static final String TABLE_MANGA_MANGA_RELATIONS = "rel_manga_manga";
-    public static final String TABLE_MANGA_ANIME_RELATIONS = "rel_manga_anime";
+    static final String TABLE_ANIME_ANIME_RELATIONS = "rel_anime_anime";
+    static final String TABLE_ANIME_MANGA_RELATIONS = "rel_anime_manga";
+    static final String TABLE_MANGA_MANGA_RELATIONS = "rel_manga_manga";
+    static final String TABLE_MANGA_ANIME_RELATIONS = "rel_manga_anime";
 
-    public static final String RELATION_TYPE_ALTERNATIVE = "0";
-    public static final String RELATION_TYPE_CHARACTER = "1";
-    public static final String RELATION_TYPE_SIDE_STORY = "2";
-    public static final String RELATION_TYPE_SPINOFF = "3";
-    public static final String RELATION_TYPE_SUMMARY = "4";
-    public static final String RELATION_TYPE_ADAPTATION = "5";
-    public static final String RELATION_TYPE_RELATED = "6";
-    public static final String RELATION_TYPE_PREQUEL = "7";
-    public static final String RELATION_TYPE_SEQUEL = "8";
-    public static final String RELATION_TYPE_PARENT_STORY = "9";
-    public static final String RELATION_TYPE_OTHER = "10";
+    static final String RELATION_TYPE_ALTERNATIVE = "0";
+    static final String RELATION_TYPE_CHARACTER = "1";
+    static final String RELATION_TYPE_SIDE_STORY = "2";
+    static final String RELATION_TYPE_SPINOFF = "3";
+    static final String RELATION_TYPE_SUMMARY = "4";
+    static final String RELATION_TYPE_ADAPTATION = "5";
+    static final String RELATION_TYPE_RELATED = "6";
+    static final String RELATION_TYPE_PREQUEL = "7";
+    static final String RELATION_TYPE_SEQUEL = "8";
+    static final String RELATION_TYPE_PARENT_STORY = "9";
+    static final String RELATION_TYPE_OTHER = "10";
 
     public static final String COLUMN_ID = "_id";
 
@@ -74,20 +74,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   * to avoid conversion in every query
   */
 
-    public static final String TABLE_GENRES = "genres";
+    static final String TABLE_GENRES = "genres";
     private static final String CREATE_GENRES_TABLE = "CREATE TABLE "
             + TABLE_GENRES + "("
             + COLUMN_ID + " integer primary key autoincrement, "
             + "title varchar NOT NULL "
             + ");";
-    public static final String TABLE_ANIME_GENRES = "anime_genres";
+    static final String TABLE_ANIME_GENRES = "anime_genres";
     private static final String CREATE_ANIME_GENRES_TABLE = "CREATE TABLE "
             + TABLE_ANIME_GENRES + "("
             + "anime_id integer NOT NULL REFERENCES " + TABLE_ANIME + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "genre_id integer NOT NULL REFERENCES " + TABLE_GENRES + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
             + "PRIMARY KEY(anime_id, genre_id)"
             + ");";
-    public static final String TABLE_MANGA_GENRES = "manga_genres";
+    static final String TABLE_MANGA_GENRES = "manga_genres";
     private static final String CREATE_MANGA_GENRES_TABLE = "CREATE TABLE "
             + TABLE_MANGA_GENRES + "("
             + "manga_id integer NOT NULL REFERENCES " + TABLE_MANGA + "(" + COLUMN_ID + ") ON DELETE CASCADE, "
@@ -95,22 +95,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "PRIMARY KEY(manga_id, genre_id)"
             + ");";
 
-    public static final String TABLE_TAGS = "tags";
+    static final String TABLE_TAGS = "tags";
     private static final String CREATE_TAGS_TABLE = "CREATE TABLE "
             + TABLE_TAGS + "("
             + COLUMN_ID + " integer primary key autoincrement, "
             + "title varchar NOT NULL "
             + ");";
-    public static final String TABLE_ANIME_TAGS = "anime_tags";
-    public static final String TABLE_ANIME_PERSONALTAGS = "anime_personaltags";
-    public static final String TABLE_MANGA_TAGS = "manga_tags";
-    public static final String TABLE_MANGA_PERSONALTAGS = "manga_personaltags";
+    static final String TABLE_ANIME_TAGS = "anime_tags";
+    static final String TABLE_ANIME_PERSONALTAGS = "anime_personaltags";
+    static final String TABLE_MANGA_TAGS = "manga_tags";
+    static final String TABLE_MANGA_PERSONALTAGS = "manga_personaltags";
     /* title types, working the same way as the relation types
      */
-    public static final int TITLE_TYPE_JAPANESE = 0;
-    public static final int TITLE_TYPE_ENGLISH = 1;
-    public static final int TITLE_TYPE_SYNONYM = 2;
-    public static final int TITLE_TYPE_ROMAJI = 3;
+    static final int TITLE_TYPE_JAPANESE = 0;
+    static final int TITLE_TYPE_ENGLISH = 1;
+    static final int TITLE_TYPE_SYNONYM = 2;
+    static final int TITLE_TYPE_ROMAJI = 3;
 
     private DatabaseHelper(Context context) {
         super(context, NAME, null, VERSION);

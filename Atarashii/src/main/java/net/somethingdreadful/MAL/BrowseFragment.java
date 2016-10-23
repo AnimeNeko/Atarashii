@@ -150,11 +150,6 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     }
 
     @Override
-    public void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-    }
-
-    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (BrowseActivity) activity;

@@ -17,34 +17,34 @@ apply plugin: 'io.fabric'
 apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '23.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
     }
 
     productFlavors {
         Production {
             applicationId 'net.somethingdreadful.MAL'
-            versionCode 36
-            versionName '2.3.4'
+            versionCode 37
+            versionName '2.3.5'
         }
         FLOSSProduction {
             applicationId 'net.somethingdreadful.MAL'
-            versionCode 36
-            versionName '2.3.4'
+            versionCode 37
+            versionName '2.3.5'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 75
-            versionName '2.3.4'
+            versionCode 76
+            versionName '2.3.5'
         }
         FLOSSBeta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 75
-            versionName '2.3.4'
+            versionCode 76
+            versionName '2.3.5'
         }
     }
 
@@ -68,11 +68,11 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:24.+'
-    compile 'com.android.support:support-v13:24.+'
-    compile 'com.android.support:cardview-v7:24.+'
-    compile 'com.android.support:appcompat-v7:24.+'
-    compile 'com.android.support:design:24.+'
+    compile 'com.android.support:support-v4:25.+'
+    compile 'com.android.support:support-v13:25.+'
+    compile 'com.android.support:cardview-v7:25.+'
+    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:design:25.+'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'

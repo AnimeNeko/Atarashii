@@ -34,6 +34,11 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
