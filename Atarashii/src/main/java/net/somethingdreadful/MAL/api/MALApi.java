@@ -162,7 +162,7 @@ public class MALApi {
                 nameMap.put("watchingEnd", "end");
                 nameMap.put("priority", "priority");
                 nameMap.put("personalTags", "tags");
-                nameMap.put("personalComments", "comments");
+                nameMap.put("notes", "comments");
                 nameMap.put("fansubGroup", "fansubber");
                 nameMap.put("storage", "storage_type");
                 nameMap.put("storageValue", "storage_amt");
@@ -205,8 +205,8 @@ public class MALApi {
                 nameMap.put("personalTags", "tags");
                 nameMap.put("rereadValue", "reread_value");
                 nameMap.put("rereadCount", "reread_count");
-                nameMap.put("personalComments", "comments");
                 nameMap.put("personalTags", "tags");
+                nameMap.put("notes", "comments");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : manga.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {
