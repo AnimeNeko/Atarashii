@@ -169,7 +169,6 @@ public class MALApi {
                 nameMap.put("epsDownloaded", "downloaded_eps");
                 nameMap.put("rewatchCount", "rewatch_count");
                 nameMap.put("rewatchValue", "rewatch_value");
-                nameMap.put("personalTags", "tags");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : anime.getDirty()) {
                     if (nameMap.containsKey(dirtyField)) {
@@ -205,7 +204,6 @@ public class MALApi {
                 nameMap.put("personalTags", "tags");
                 nameMap.put("rereadValue", "reread_value");
                 nameMap.put("rereadCount", "reread_count");
-                nameMap.put("personalTags", "tags");
                 nameMap.put("notes", "comments");
                 HashMap<String, String> fieldMap = new HashMap<>();
                 for (String dirtyField : manga.getDirty()) {

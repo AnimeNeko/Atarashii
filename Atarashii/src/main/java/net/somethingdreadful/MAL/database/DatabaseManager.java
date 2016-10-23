@@ -266,6 +266,7 @@ public class DatabaseManager {
             result.setOther(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_OTHER, true));
             result.setGenres(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_GENRES, DatabaseHelper.TABLE_ANIME_GENRES, "genre_id", true));
             result.setTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_TAGS, "tag_id", true));
+            result.setPersonalTags(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_PERSONALTAGS, "tag_id", true));
             result.setProducers(Query.newQuery(db).getArrayList(result.getId(), DatabaseHelper.TABLE_PRODUCER, DatabaseHelper.TABLE_ANIME_PRODUCER, "producer_id", true));
         }
         cursor.close();
