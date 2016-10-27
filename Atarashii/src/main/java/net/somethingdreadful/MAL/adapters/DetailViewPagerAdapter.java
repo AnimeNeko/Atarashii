@@ -10,7 +10,6 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
-import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
@@ -30,7 +29,6 @@ public class DetailViewPagerAdapter extends FragmentPagerAdapter {
 
     private void reCreate() {
         fragments.clear();
-        fragments.add(new DetailViewGeneral(), R.string.tab_name_general);
         fragments.add(new DetailViewDetails(), R.string.tab_name_details);
         if (!hidePersonal)
             fragments.add(new DetailViewPersonal(), R.string.tab_name_personal);

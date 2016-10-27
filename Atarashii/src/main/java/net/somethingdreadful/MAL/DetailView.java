@@ -30,7 +30,6 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALApi.ListType;
 import net.somethingdreadful.MAL.detailView.DetailViewDetails;
-import net.somethingdreadful.MAL.detailView.DetailViewGeneral;
 import net.somethingdreadful.MAL.detailView.DetailViewPersonal;
 import net.somethingdreadful.MAL.detailView.DetailViewRecs;
 import net.somethingdreadful.MAL.detailView.DetailViewReviews;
@@ -55,7 +54,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public ListType type;
     public Anime animeRecord;
     public Manga mangaRecord;
-    private DetailViewGeneral general;
     private DetailViewDetails details;
     private DetailViewPersonal personal;
     public DetailViewReviews reviews;
@@ -102,8 +100,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         try {
             actionBar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
             PageAdapter.hidePersonal(!isAdded());
-            if (general != null)
-                general.setText();
             if (details != null && !isEmpty())
                 details.setText();
             if (personal != null && !isEmpty())
@@ -151,10 +147,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      * Set refreshing on all SwipeRefreshViews
      */
     private void setRefreshing(Boolean show) {
-        if (general != null) {
-            general.swipeRefresh.setRefreshing(show);
-            general.swipeRefresh.setEnabled(!show);
-        }
         if (details != null) {
             details.swipeRefresh.setRefreshing(show);
             details.swipeRefresh.setEnabled(!show);
@@ -565,13 +557,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     @Override
     public void onNetworkTaskError(TaskJob job) {
-    }
-
-    /**
-     * Set the fragment to future use
-     */
-    public void setGeneral(DetailViewGeneral general) {
-        this.general = general;
     }
 
     /**
