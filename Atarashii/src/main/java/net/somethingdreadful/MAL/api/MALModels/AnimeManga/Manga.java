@@ -73,14 +73,6 @@ public class Manga extends GenericRecord implements Serializable {
     private int volumesRead;
 
     /**
-     * Tags assigned by the user
-     */
-    @Setter
-    @Getter
-    @SerializedName("personal_tags")
-    private ArrayList<String> personalTags;
-
-    /**
      * The date the user started reading the title
      */
     @Setter
