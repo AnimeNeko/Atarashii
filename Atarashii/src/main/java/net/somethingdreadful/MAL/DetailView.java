@@ -12,14 +12,15 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ViewFlipper;
+import android.widget.ImageView;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
@@ -49,6 +50,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import lombok.Getter;
 
 public class DetailView extends AppCompatActivity implements Serializable, NetworkTask.NetworkTaskListener, SwipeRefreshLayout.OnRefreshListener, NumberPickerDialogFragment.onUpdateClickListener, ListDialogFragment.onUpdateClickListener, ViewPager.OnPageChangeListener, ChooseDialogFragment.onClickListener, InputDialogFragment.onClickListener, DatePickerDialogFragment.onDateSetListener {
     public ListType type;
@@ -60,13 +62,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     public DetailViewRecs recommendations;
     private DetailViewPagerAdapter PageAdapter;
     private int recordID;
-    private ActionBar actionBar;
-    private ViewFlipper viewFlipper;
     private Menu menu;
     private Context context;
 
-    @BindView(R.id.pager)
-    ViewPager viewPager;
+
+    @Getter @BindView(R.id.coverImage) ImageView coverImage;
+    @Getter @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.pager) ViewPager viewPager;
+    @BindView(R.id.actionbar) Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle state) {
@@ -74,13 +77,13 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         Theme.setTheme(this, R.layout.activity_detailview, true);
         PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
-        viewPager.addOnPageChangeListener(this);
+        //collapsingToolbarLayout.setTitleEnabled(false);
+        //setSupportActionBar(toolbar);
 
-        actionBar = getSupportActionBar();
+        viewPager.addOnPageChangeListener(this);
         context = getApplicationContext();
         type = (ListType) getIntent().getSerializableExtra("recordType");
         recordID = getIntent().getIntExtra("recordID", -1);
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 
         if (state != null) {
             animeRecord = (Anime) state.getSerializable("anime");
@@ -98,7 +101,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      */
     private void setText() {
         try {
-            actionBar.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+            collapsingToolbarLayout.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
             PageAdapter.hidePersonal(!isAdded());
             if (details != null && !isEmpty())
                 details.setText();
@@ -286,7 +289,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      */
     private String makeShareText() {
         String shareText = PrefManager.getCustomShareText();
-        shareText = shareText.replace("$title;", actionBar.getTitle());
+        shareText = shareText.replace("$title;", toolbar.getTitle());
         if (AccountService.isMAL())
             shareText = shareText.replace("$link;", "https://myanimelist.net/" + type.toString().toLowerCase(Locale.US) + "/" + String.valueOf(recordID));
         else
@@ -372,8 +375,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      */
     private void getRecord(boolean forceUpdate) {
         setRefreshing(true);
-        toggleLoadingIndicator(isEmpty());
-        actionBar.setTitle(R.string.layout_card_loading);
         Bundle data = new Bundle();
         data.putInt("recordID", recordID);
         new NetworkTask(TaskJob.GETDETAILS, type, this, data, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(forceUpdate));
@@ -545,7 +546,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             else
                 mangaRecord = (Manga) result;
             setRefreshing(false);
-            toggleLoadingIndicator(false);
 
             setText();
         } catch (ClassCastException e) {
@@ -576,14 +576,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     public void setRecommendations(DetailViewRecs recommendations) {
         this.recommendations = recommendations;
-    }
-
-    /**
-     * handle the loading indicator
-     */
-    private void toggleLoadingIndicator(boolean show) {
-        if (viewFlipper != null)
-            viewFlipper.setDisplayedChild(show ? 1 : 0);
     }
 
     @Override

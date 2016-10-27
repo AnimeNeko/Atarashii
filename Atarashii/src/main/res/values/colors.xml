@@ -24,4 +24,5 @@
     <color name="panel_griditem">#AF000000</color>
     <color name="material_selected">#20ffffff</color>
     <color name="griditem_selected">#40ffffff</color>
+    <color name="bg_dark_material">#64212121</color>
 </resources>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
+    <android.support.v4.widget.NestedScrollView xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView">
@@ -67,17 +67,6 @@
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_titles"
                 custom:header_Title_Color="@color/white" />
-
-            <!-- Network card -->
-            <net.somethingdreadful.MAL.Card
-                android:id="@+id/network_Card"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                custom:card_content="@layout/card_network_connection"
-                custom:header_Color="@color/card_red"
-                custom:header_Title="@string/card_offline_title"
-                custom:header_Title_Color="@color/white" />
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
