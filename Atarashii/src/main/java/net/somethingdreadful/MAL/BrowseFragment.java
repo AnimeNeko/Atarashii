@@ -64,7 +64,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
 
         if (Theme.darkTheme) {
             setBackground(view, R.color.bg_dark_card);
-            setComponentBackground(R.color.text_dark);
+            setComponentBackground(R.color.bg_dark);
         } else {
             setBackground(view, R.color.bg_light);
             setComponentBackground(R.color.text_dark);
