@@ -90,7 +90,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     }
 
     public void setBackground(View view, int colorID) {
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(activity, colorID)));
         } else {
             view.setBackground(new ColorDrawable(ContextCompat.getColor(activity, colorID)));
@@ -137,8 +137,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     public void onSearchButton() {
         reloadEntries();
         activity.viewPager.setCurrentItem(typeSwitch.isChecked() ? 2 : 1);
-        activity.af.getBrowse(query, true);
-        activity.mf.getBrowse(query, true);
+        activity.igf.getBrowse(query, true);
     }
 
     @OnClick(R.id.genresButton)
@@ -214,5 +213,6 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
             initSpinner(statusSpinner, R.array.mediaStatus_Anime);
             initSpinner(typeSpinner, R.array.mediaType_Anime);
         }
+        activity.getBrowsePagerAdapter().isManga(manga);
     }
 }

@@ -67,6 +67,15 @@ class Fragments {
     }
 
     /**
+     * Set the fragment name by the given position.
+     *
+     * @param position The position of the fragment
+     */
+    public void setName(int position, String name) {
+        fragments.get(position).setName(name);
+    }
+
+    /**
      * Remove all fragments.
      */
     public void clear() {

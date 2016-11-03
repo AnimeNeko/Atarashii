@@ -15,17 +15,18 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import lombok.Getter;
 
 public class BrowseActivity extends AppCompatActivity implements IGF.IGFCallbackListener {
-    public IGF af;
-    public IGF mf;
+    public IGF igf;
+    @Getter BrowsePagerAdapter browsePagerAdapter;
     @BindView(R.id.pager) ViewPager viewPager;
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         Theme.setTheme(this, R.layout.theme_viewpager, false);
-        Theme.setActionBar(this, new BrowsePagerAdapter(getFragmentManager(), this));
+        browsePagerAdapter = (BrowsePagerAdapter) Theme.setActionBar(this, new BrowsePagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
 
         NfcHelper.disableBeam(this);
@@ -53,11 +54,7 @@ public class BrowseActivity extends AppCompatActivity implements IGF.IGFCallback
     @Override
     public void onIGFReady(IGF igf) {
         igf.setUsername(AccountService.getUsername());
-        if (igf.isAnime()) {
-            af = igf;
-        } else {
-            mf = igf;
-        }
+        this.igf = igf;
     }
 
     @Override

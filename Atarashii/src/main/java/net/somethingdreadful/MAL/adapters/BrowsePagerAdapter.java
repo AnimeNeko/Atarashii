@@ -19,7 +19,12 @@ public class BrowsePagerAdapter extends FragmentPagerAdapter {
 
         fragments.add(new BrowseFragment(), R.string.title_activity_browse);
         fragments.add(new IGF().setFriendList(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME));
-        fragments.add(new IGF().setFriendList(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA));
+    }
+
+    public void isManga(boolean manga) {
+        fragments.setName(1, (manga ? MALApi.ListType.MANGA : MALApi.ListType.ANIME).toString());
+        ((IGF) fragments.getFragment(1)).setListType(manga ? MALApi.ListType.MANGA : MALApi.ListType.ANIME);
+        notifyDataSetChanged();
     }
 
     @Override
