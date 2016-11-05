@@ -4,14 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +15,6 @@ import android.widget.ExpandableListView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.Card;
 import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.DetailView;
@@ -270,36 +262,6 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         title.notifyDataSetChanged();
         cardRelations.refreshList(relation);
         cardTitles.refreshList(title);
-
-
-        final String imageUrl = record.getImageUrl();
-        Picasso.with(activity)
-                .load(imageUrl)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        activity.getCoverImage().setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        try {
-                            Picasso.with(activity)
-                                    .load(imageUrl.replace("l.jpg", ".jpg"))
-                                    .error(R.drawable.cover_error)
-                                    .placeholder(R.drawable.cover_loading)
-                                    .into(activity.getCoverImage());
-                        } catch (Exception e) {
-                            AppLog.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
-                        activity.getCoverImage().setImageDrawable(drawable);
-                    }
-                });
     }
 
     @Override

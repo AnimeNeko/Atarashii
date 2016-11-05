@@ -2,11 +2,11 @@ package net.somethingdreadful.MAL;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.BrowsePagerAdapter;
@@ -63,11 +63,7 @@ public class BrowseActivity extends AppCompatActivity implements IGF.IGFCallback
     }
 
     @Override
-    public void onItemClick(int id, MALApi.ListType listType, String username) {
-        Intent startDetails = new Intent(this, DetailView.class);
-        startDetails.putExtra("recordID", id);
-        startDetails.putExtra("recordType", listType);
-        startDetails.putExtra("username", username);
-        startActivity(startDetails);
+    public void onItemClick(int id, MALApi.ListType listType, String username, View view) {
+        DetailView.createDV(this, view, id, listType, username);
     }
 }

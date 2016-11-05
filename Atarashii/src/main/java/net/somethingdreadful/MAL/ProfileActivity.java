@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.ProfilePagerAdapter;
@@ -347,12 +348,8 @@ public class ProfileActivity extends AppCompatActivity implements UserNetworkTas
     }
 
     @Override
-    public void onItemClick(int id, MALApi.ListType listType, String username) {
-        Intent startDetails = new Intent(this, DetailView.class);
-        startDetails.putExtra("recordID", id);
-        startDetails.putExtra("recordType", listType);
-        startDetails.putExtra("username", AccountService.getUsername()); // do not use the provided username which is the friends username
-        startActivity(startDetails);
+    public void onItemClick(int id, MALApi.ListType listType, String username, View view) {
+        DetailView.createDV(this, view, id, listType, AccountService.getUsername());
     }
 
     @Override

@@ -27,15 +27,15 @@
                 android:src="@drawable/atarashii_background"
                 app:layout_collapseMode="parallax"
                 android:tint="@color/bg_dark_material"
-                android:tintMode="src_atop"/>
+                android:tintMode="src_atop"
+                android:foreground="@color/bg_dark_material"/>
 
             <ImageView
                 android:id="@+id/coverImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/cover_loading"
                 app:layout_collapseMode="parallax"
-                android:background="@color/bg_dark_material"/>
+                android:transitionName="coverImage"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/actionbar"

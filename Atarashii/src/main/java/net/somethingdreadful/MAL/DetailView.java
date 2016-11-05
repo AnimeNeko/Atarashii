@@ -1,18 +1,24 @@
 package net.somethingdreadful.MAL;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +26,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
@@ -66,7 +76,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private Context context;
 
 
-    @Getter @BindView(R.id.coverImage) ImageView coverImage;
+    @BindView(R.id.coverImage) ImageView coverImage;
     @Getter @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.actionbar) Toolbar toolbar;
@@ -77,8 +87,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         Theme.setTheme(this, R.layout.activity_detailview, true);
         PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
-        //collapsingToolbarLayout.setTitleEnabled(false);
-        //setSupportActionBar(toolbar);
 
         viewPager.addOnPageChangeListener(this);
         context = getApplicationContext();
@@ -540,6 +548,37 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type) {
+        final String imageUrl = ((GenericRecord) result).getImageUrl();
+        final Activity activity = this;
+        Picasso.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.cover_loading)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        coverImage.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        try {
+                            Picasso.with(activity)
+                                    .load(imageUrl.replace("l.jpg", ".jpg"))
+                                    .error(R.drawable.cover_error)
+                                    .placeholder(R.drawable.cover_loading)
+                                    .into(coverImage);
+                        } catch (Exception e) {
+                            AppLog.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                        coverImage.setImageDrawable(drawable);
+                    }
+                });
+
         try {
             if (type == ListType.ANIME)
                 animeRecord = (Anime) result;
@@ -664,5 +703,19 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 mangaRecord.setReadingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         }
         setText();
+    }
+
+    public static void createDV(Activity activity, View view, int id, ListType listType, String username){
+        Intent startDetails = new Intent(activity, DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", username);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, "coverImage");
+            activity.startActivity(startDetails, options.toBundle());
+        } else {
+            activity.startActivity(startDetails);
+        }
     }
 }

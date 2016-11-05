@@ -38,6 +38,8 @@ import net.somethingdreadful.MAL.tasks.TaskJob;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static net.somethingdreadful.MAL.Theme.context;
+
 public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
     private IGF af;
     private IGF mf;
@@ -57,7 +59,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     public void onCreate(Bundle state) {
         super.onCreate(state);
         //Initializing activity and application
-        Theme.context = getApplicationContext();
+        context = getApplicationContext();
 
         if (AccountService.AccountExists(this)) {
             //The following is state handling code
@@ -360,12 +362,8 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     }
 
     @Override
-    public void onItemClick(int id, MALApi.ListType listType, String username) {
-        Intent startDetails = new Intent(this, DetailView.class);
-        startDetails.putExtra("recordID", id);
-        startDetails.putExtra("recordType", listType);
-        startDetails.putExtra("username", username);
-        startActivity(startDetails);
+    public void onItemClick(int id, MALApi.ListType listType, String username, View view) {
+        DetailView.createDV(this, view, id, listType, username);
     }
 
     @Override
