@@ -371,6 +371,15 @@ public class PrefManager {
     }
 
     /**
+     * Get if the user does not want to see the tabs.
+     *
+     * @return boolean If the tabs should be hidden in true or false
+     */
+    public static boolean getHideHomeTabs() {
+        return prefs.getBoolean("hideTabs", false);
+    }
+
+    /**
      * Get AniList title language.
      *
      * @return String The language name

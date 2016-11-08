@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -50,10 +51,9 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private boolean networkAvailable = true;
     private boolean myList = true; //tracks if the user is on 'My List' or not
     private int callbackCounter = 0;
-    @BindView(R.id.navigationView)
-    NavigationView navigationView;
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
+    @BindView(R.id.navigationView) NavigationView navigationView;
+    @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
+    @BindView(R.id.tabs) TabLayout tabs;
 
     @Override
     public void onCreate(Bundle state) {
@@ -71,8 +71,11 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             //Initializing
             Theme.setTheme(this, R.layout.activity_home, false);
             Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
+
             ButterKnife.bind(this);
             username = AccountService.getUsername();
+            if (PrefManager.getHideHomeTabs())
+                tabs.setVisibility(View.GONE);
 
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);

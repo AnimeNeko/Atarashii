@@ -355,6 +355,7 @@
     <string name="preference_category_sharing">Other settings</string>
     <string name="preference_category_profile">Profile</string>
     <string name="preference_adultcontent">Enable NSFW content (MAL)</string>
+    <string name="preference_hidetabs">Hide Anime and Manga tabs</string>
     <string name="preference_autoDate">Update the dates automatically</string>
     <string name="preference_backuplength">The amount of backups.</string>
     <string name="preference_synchronisation">Auto-synchronisation</string>
@@ -374,6 +375,7 @@
     <string name="preference_profileMangaHide">Hide always manga details</string>
     <string name="summary_DefaultList">Which list do you want the app to load when opened?</string>
     <string name="preference_summary_adultcontent">Show NSFW content like hentai.</string>
+    <string name="preference_summary_hidetabs">Hide the Anime and manga tabs. You still can navigate trough swiping.</string>
     <string name="preference_summary_autoDate">Update the date automatically when you start or finish an anime or a manga.</string>
     <string name="preference_summary_TraditionList">Use the tried-and-true list instead of the coverflow-esque style. Requires restart to take effect.</string>
     <string name="preference_summary_AddList">When you will add an anime/ a manga it will add the record to this list.</string>

@@ -48,7 +48,7 @@
             android:label="@string/title_activity_settings"/>
         <activity
             android:name=".DetailView"
-            android:label="@string/title_activity_detail_view">
+            android:label="@string/layout_card_loading">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
