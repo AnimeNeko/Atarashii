@@ -71,7 +71,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private DetailViewPersonal personal;
     public DetailViewReviews reviews;
     public DetailViewRecs recommendations;
-    private DetailViewPagerAdapter PageAdapter;
+    @Getter private DetailViewPagerAdapter PageAdapter;
     private int recordID;
     private Menu menu;
     private Context context;
@@ -80,7 +80,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @BindView(R.id.coverImage) ImageView coverImage;
     @BindView(R.id.bannerImage) ImageView bannerImage;
     @Getter @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.pager) ViewPager viewPager;
+    @Getter @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.actionbar) Toolbar toolbar;
     @BindView(R.id.appBar) AppBarLayout appBarLayout;
 
@@ -126,6 +126,10 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 details.setText();
             if (personal != null && !isEmpty())
                 personal.setText();
+            if (reviews != null && !isEmpty())
+                reviews.setText();
+            if (recommendations != null && !isEmpty())
+                recommendations.setText();
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
             AppLog.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
@@ -727,7 +731,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         setText();
     }
 
-    public static void createDV(Activity activity, View view, int id, ListType listType, String username){
+    public static void createDV(Activity activity, View view, int id, ListType listType, String username) {
         Intent startDetails = new Intent(activity, DetailView.class);
         startDetails.putExtra("recordID", id);
         startDetails.putExtra("recordType", listType);
