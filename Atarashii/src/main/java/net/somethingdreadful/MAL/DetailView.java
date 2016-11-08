@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
@@ -80,6 +81,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @Getter @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.actionbar) Toolbar toolbar;
+    @BindView(R.id.appBar) AppBarLayout appBarLayout;
 
     @Override
     public void onCreate(Bundle state) {
@@ -102,6 +104,14 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             getRecord(false);
         else
             setText();
+    }
+
+    /**
+     * Disable animation when back is pressed due a bug
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     /**
