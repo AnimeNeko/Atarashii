@@ -602,6 +602,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         } else {
             Picasso.with(this)
                     .load(record.getImageUrl())
+                    .error(R.drawable.atarashii_background)
                     .into(bannerImage);
         }
 
