@@ -78,6 +78,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
 
     @BindView(R.id.coverImage) ImageView coverImage;
+    @BindView(R.id.bannerImage) ImageView bannerImage;
     @Getter @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.actionbar) Toolbar toolbar;
@@ -558,7 +559,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type) {
-        final String imageUrl = ((GenericRecord) result).getImageUrl();
+        GenericRecord record = (GenericRecord) result;
+        final String imageUrl = record.getImageUrl();
         final Activity activity = this;
         Picasso.with(this)
                 .load(imageUrl)
@@ -588,6 +590,16 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                         coverImage.setImageDrawable(drawable);
                     }
                 });
+
+        if (record.getBannerUrl() != null && !record.getBannerUrl().equals("")) {
+            Picasso.with(this)
+                    .load(record.getBannerUrl())
+                    .into(bannerImage);
+        } else {
+            Picasso.with(this)
+                    .load(record.getImageUrl())
+                    .into(bannerImage);
+        }
 
         try {
             if (type == ListType.ANIME)

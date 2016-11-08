@@ -218,6 +218,15 @@ public class GenericRecord implements Serializable {
     private ArrayList<RecordStub> alternativeVersions;
 
     /**
+     * A banner URL of the record
+     * <p/>
+     * Website: AniList
+     */
+    @Setter
+    @Getter
+    private String bannerUrl;
+
+    /**
      * comments of an user.
      */
     @Getter
@@ -437,6 +446,7 @@ public class GenericRecord implements Serializable {
         result.setTitle(cursor.getString(columnNames.indexOf("title")));
         result.setType(cursor.getString(columnNames.indexOf("type")));
         result.setImageUrl(cursor.getString(columnNames.indexOf("imageUrl")));
+        result.setBannerUrl(cursor.getString(columnNames.indexOf("bannerUrl")));
         result.setSynopsis(cursor.getString(columnNames.indexOf("synopsis")));
         result.setStatus(cursor.getString(columnNames.indexOf("status")));
         result.setStartDate(cursor.getString(columnNames.indexOf("startDate")));

@@ -14,7 +14,7 @@ import java.io.File;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "MAL.db";
-    private static final int VERSION = 16;
+    private static final int VERSION = 17;
     private static DatabaseHelper instance;
     private final Context context;
 
@@ -269,6 +269,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 // Create schedule table for offline support
                 Table.create(db).createSchedule();
+            }
+
+            /**
+             * Date: 08-11-2016
+             * Database version: 17
+             * Application version: 2.4
+             *
+             * The DB didn't supported some info.
+             * - Add bannerURL for AL
+             */
+            if (oldVersion < 17) {
+                // Recreate anime and manga table
+                Table.create(db).recreateListTable(TABLE_ANIME, "");
+                Table.create(db).recreateListTable(TABLE_MANGA, "");
             }
         } catch (Exception e) {
             // log database failures

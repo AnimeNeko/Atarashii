@@ -209,6 +209,7 @@ public class DatabaseManager {
         cv.put("title", record.getTitle());
         cv.put("type", record.getType());
         cv.put("imageUrl", record.getImageUrl());
+        cv.put("bannerUrl", record.getBannerUrl());
         cv.put("synopsis", record.getSynopsisString());
         cv.put("status", record.getStatus());
         cv.put("startDate", record.getStartDate());

@@ -34,6 +34,7 @@ public class Table {
                 + "title varchar, "
                 + "type varchar, "
                 + "imageUrl varchar, "
+                + "bannerUrl varchar, "
                 + "synopsis varchar, "
                 + "status varchar, "
                 + "startDate varchar, "

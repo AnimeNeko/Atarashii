@@ -189,6 +189,7 @@ public class GenericRecord implements Serializable {
         model.setTitleSynonyms(getSynonyms());
         model.setType(getType());
         model.setImageUrl(getImageUrlLge());
+        model.setBannerUrl(getImageUrlLge());
         model.setStartDate(getStartDate());
         model.setScore(-1);
         model.setEndDate(getEndDate());
