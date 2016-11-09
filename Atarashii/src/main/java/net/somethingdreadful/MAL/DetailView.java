@@ -121,6 +121,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private void setText() {
         try {
             collapsingToolbarLayout.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+            setToolbarImages();
             PageAdapter.hidePersonal(!isAdded());
             if (details != null && !isEmpty())
                 details.setText();
@@ -563,49 +564,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     @SuppressWarnings("unchecked") // Don't panic, we handle possible class cast exceptions
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, ListType type) {
-        GenericRecord record = (GenericRecord) result;
-        final String imageUrl = record.getImageUrl();
-        final Activity activity = this;
-        Picasso.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.cover_loading)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        coverImage.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        try {
-                            Picasso.with(activity)
-                                    .load(imageUrl.replace("l.jpg", ".jpg"))
-                                    .error(R.drawable.cover_error)
-                                    .placeholder(R.drawable.cover_loading)
-                                    .into(coverImage);
-                        } catch (Exception e) {
-                            AppLog.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
-                        coverImage.setImageDrawable(drawable);
-                    }
-                });
-
-        if (record.getBannerUrl() != null && !record.getBannerUrl().equals("")) {
-            Picasso.with(this)
-                    .load(record.getBannerUrl())
-                    .into(bannerImage);
-        } else {
-            Picasso.with(this)
-                    .load(record.getImageUrl())
-                    .error(R.drawable.atarashii_background)
-                    .into(bannerImage);
-        }
-
         try {
             if (type == ListType.ANIME)
                 animeRecord = (Anime) result;
@@ -618,6 +576,58 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             AppLog.log(Log.ERROR, "Atarashii", "DetailView.onNetworkTaskFinished(): " + result.getClass().toString());
             AppLog.logException(e);
             Theme.Snackbar(this, R.string.toast_error_DetailsError);
+        }
+    }
+
+    /**
+     * Set the banner image and the cover image.
+     */
+    public void setToolbarImages() {
+        try {
+            GenericRecord record = (GenericRecord) (type == ListType.ANIME ? animeRecord : mangaRecord);
+            final String imageUrl = record.getImageUrl();
+            final Activity activity = this;
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.cover_loading)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            coverImage.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            try {
+                                Picasso.with(activity)
+                                        .load(imageUrl.replace("l.jpg", ".jpg"))
+                                        .error(R.drawable.cover_error)
+                                        .placeholder(R.drawable.cover_loading)
+                                        .into(coverImage);
+                            } catch (Exception e) {
+                                AppLog.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                            coverImage.setImageDrawable(drawable);
+                        }
+                    });
+
+            if (record.getBannerUrl() != null && !record.getBannerUrl().equals("")) {
+                Picasso.with(this)
+                        .load(record.getBannerUrl())
+                        .into(bannerImage);
+            } else {
+                Picasso.with(this)
+                        .load(record.getImageUrl())
+                        .error(R.drawable.atarashii_background)
+                        .into(bannerImage);
+            }
+        } catch (Exception e) {
+            AppLog.logException(e);
         }
     }
 
