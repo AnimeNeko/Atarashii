@@ -13,6 +13,8 @@ import net.somethingdreadful.MAL.adapters.BrowsePagerAdapter;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
@@ -65,5 +67,19 @@ public class BrowseActivity extends AppCompatActivity implements IGF.IGFCallback
     @Override
     public void onItemClick(int id, MALApi.ListType listType, String username, View view) {
         DetailView.createDV(this, view, id, listType, username);
+    }
+
+    /**
+     * Get the translation for the API.
+     *
+     * @param input      The array with the locale strings
+     * @param inputarray The array ID with the locale strings
+     * @param fixedarray The Fixed array
+     * @return ArrayList<String> The api values
+     */
+    public String getAPIValue(String input, int inputarray, int fixedarray) {
+        String[] inputString = getResources().getStringArray(inputarray);
+        String[] fixedString = getResources().getStringArray(fixedarray);
+        return fixedString[Arrays.asList(inputString).indexOf(input)];
     }
 }

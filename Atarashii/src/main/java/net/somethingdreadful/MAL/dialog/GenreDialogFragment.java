@@ -18,7 +18,7 @@ public class GenreDialogFragment extends DialogFragment implements DialogInterfa
     @Override
     public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        resArray = getResources().getStringArray(R.array.genresArray);
+        resArray = getResources().getStringArray(getArguments().getInt("arrayId"));
         boolean[] checkedItems = new boolean[resArray.length];
         if (getArguments().containsKey("current")) {
             array = getArguments().getStringArrayList("current");

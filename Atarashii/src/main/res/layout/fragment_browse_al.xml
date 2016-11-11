@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/yearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toLeftOf="@+id/typeSwitch"
+            android:foreground="@drawable/highlite_button"
+            android:gravity="center"
+            android:text="@string/card_content_year"
+            android:layout_alignLeft="@+id/seasonSpinner"
+            android:layout_alignStart="@+id/seasonSpinner"/>
+
+        <Spinner
+            android:id="@+id/seasonSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/yearButton"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <Spinner
+            android:id="@+id/statusSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/seasonSpinner"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <Spinner
+            android:id="@+id/sortSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignLeft="@+id/typeSpinner"
+            android:layout_alignStart="@+id/typeSpinner"
+            android:layout_below="@+id/typeSpinner"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/inverseSwitch"
+            android:layout_toStartOf="@+id/inverseSwitch"/>
+
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignEnd="@+id/statusSpinner"
+            android:layout_alignLeft="@+id/statusSpinner"
+            android:layout_alignRight="@+id/statusSpinner"
+            android:layout_alignStart="@+id/statusSpinner"
+            android:layout_below="@+id/statusSpinner"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/genresButton"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:foreground="@drawable/highlite_button"
+            android:gravity="center"
+            android:text="@string/card_content_genres"
+            android:layout_below="@+id/sortSpinner"
+            android:layout_alignLeft="@+id/sortSpinner"
+            android:layout_alignStart="@+id/sortSpinner"
+            android:layout_alignRight="@+id/typeSpinner"
+            android:layout_alignEnd="@+id/typeSpinner"/>
+
+        <TextView
+            android:id="@+id/genresExcludeButton"
+            android:layout_marginTop="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:foreground="@drawable/highlite_button"
+            android:gravity="center"
+            android:text="@string/card_content_genresExc"
+            android:layout_below="@+id/genresButton"
+            android:layout_alignRight="@+id/genresButton"
+            android:layout_alignEnd="@+id/genresButton"
+            android:layout_alignLeft="@+id/genresButton"
+            android:layout_alignStart="@+id/genresButton"/>
+
+        <TextView
+            android:id="@+id/searchButton"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:foreground="@drawable/highlite_button"
+            android:gravity="center"
+            android:text="@string/search_prompt"
+            android:layout_below="@+id/genresExcludeButton"
+            android:layout_alignRight="@+id/genresExcludeButton"
+            android:layout_alignEnd="@+id/genresExcludeButton"
+            android:layout_alignLeft="@+id/genresExcludeButton"
+            android:layout_alignStart="@+id/genresExcludeButton"/>
+
+        <Switch
+            android:id="@+id/typeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:checked="false"
+            android:paddingLeft="10dp"
+            android:text="@string/dialog_label_manga"
+            android:layout_above="@+id/seasonSpinner"
+            android:layout_alignRight="@+id/seasonSpinner"
+            android:layout_alignEnd="@+id/seasonSpinner"/>
+
+        <Switch
+            android:id="@+id/inverseSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:paddingLeft="10dp"
+            android:text="@string/genericSort_ascending"
+            android:layout_above="@+id/genresButton"
+            android:layout_alignRight="@+id/typeSpinner"
+            android:layout_alignEnd="@+id/typeSpinner"
+            android:layout_alignTop="@+id/sortSpinner"
+            android:checked="false"/>
+
+    </RelativeLayout>
+</ScrollView>
