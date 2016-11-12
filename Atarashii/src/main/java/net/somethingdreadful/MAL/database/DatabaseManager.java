@@ -111,6 +111,7 @@ public class DatabaseManager {
             cv.put("priority", anime.getPriority());
             cv.put("rewatching", anime.getRewatching() ? 1 : 0);
             cv.put("notes", anime.getNotes());
+            cv.put("customList", anime.getCustomList());
         }
 
         try {
@@ -190,6 +191,7 @@ public class DatabaseManager {
         cv.put("volumesRead", manga.getVolumesRead());
         cv.put("score", manga.getScore());
         cv.put("readStatus", manga.getReadStatus());
+        cv.put("customList", manga.getCustomList());
 
         try {
             db.beginTransaction();
@@ -316,6 +318,21 @@ public class DatabaseManager {
                 break;
             case "rewatching": // rewatching/rereading
                 cursor = sort(query.whereEqGr("rewatching", "1"), sortType, inv);
+                break;
+            case GenericRecord.CUSTOMLIST1:
+                cursor = sort(query.like("customList", "1____"), sortType, inv);
+                break;
+            case GenericRecord.CUSTOMLIST2:
+                cursor = sort(query.like("customList", "_1___"), sortType, inv);
+                break;
+            case GenericRecord.CUSTOMLIST3:
+                cursor = sort(query.like("customList", "__1__"), sortType, inv);
+                break;
+            case GenericRecord.CUSTOMLIST4:
+                cursor = sort(query.like("customList", "___1_"), sortType, inv);
+                break;
+            case GenericRecord.CUSTOMLIST5:
+                cursor = sort(query.like("customList", "____1"), sortType, inv);
                 break;
             default: // normal lists
                 cursor = sort(query.where("watchedStatus", ListType), sortType, inv);

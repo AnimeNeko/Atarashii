@@ -8,6 +8,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
@@ -63,6 +64,16 @@ public class ContentManager {
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_PLANTOWATCH : Manga.STATUS_PLANTOREAD;
             case 6:
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_REWATCHING : Manga.STATUS_REREADING;
+            case 7:
+                return GenericRecord.CUSTOMLIST1;
+            case 8:
+                return GenericRecord.CUSTOMLIST2;
+            case 9:
+                return GenericRecord.CUSTOMLIST3;
+            case 10:
+                return GenericRecord.CUSTOMLIST4;
+            case 11:
+                return GenericRecord.CUSTOMLIST5;
             default:
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
         }

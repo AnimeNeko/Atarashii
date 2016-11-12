@@ -55,7 +55,8 @@ public class Table {
                 + "lsReadWatch integer, "
                 + "lsCompleted integer, "
                 + "lsOnHold integer, "
-                + "lsDropped integer, ";
+                + "lsDropped integer, "
+                + "customList varchar, ";
 
         if (table.equals(DatabaseHelper.TABLE_ANIME))
             queryString += "duration integer, "

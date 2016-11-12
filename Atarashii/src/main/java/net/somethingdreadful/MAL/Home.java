@@ -54,6 +54,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     @BindView(R.id.navigationView) NavigationView navigationView;
     @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
     @BindView(R.id.tabs) TabLayout tabs;
+    @BindView(R.id.pager) ViewPager viewPager;
 
     @Override
     public void onCreate(Bundle state) {
@@ -76,6 +77,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             username = AccountService.getUsername();
             if (PrefManager.getHideHomeTabs())
                 tabs.setVisibility(View.GONE);
+            viewPager.addOnPageChangeListener(this);
 
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);
@@ -105,14 +107,50 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_home, menu);
+        getMenuInflater().inflate(AccountService.isMAL() ? R.menu.activity_home_mal : R.menu.activity_home_al, menu);
+        this.menu = menu;
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         ComponentName cn = new ComponentName(this, SearchActivity.class);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+
+        if (!AccountService.isMAL())
+            setCustomList(PrefManager.getCustomAnimeList());
         return true;
+    }
+
+    /**
+     * Properly set the Custom lists.
+     * Note: This is AL only!
+     *
+     * @param customList The Anime or Manga customList names
+     */
+    private void setCustomList(String[] customList) {
+        if (menu != null) {
+            setCustomItem(menu.findItem(R.id.customList1), customList, 0);
+            setCustomItem(menu.findItem(R.id.customList2), customList, 1);
+            setCustomItem(menu.findItem(R.id.customList3), customList, 2);
+            setCustomItem(menu.findItem(R.id.customList4), customList, 3);
+            setCustomItem(menu.findItem(R.id.customList5), customList, 4);
+        }
+    }
+
+    /**
+     * This is used to check if the MenuItem has a name in the Prefs and set it.
+     *
+     * @param item The menu item
+     * @param list The name list. Anime and Manga have different ones
+     * @param index The name index number
+     */
+    private void setCustomItem(MenuItem item, String[] list, int index) {
+        if (list.length > index) {
+            item.setTitle(list[index]);
+            item.setVisible(true);
+        } else {
+            item.setVisible(false);
+        }
     }
 
     @Override
@@ -144,6 +182,26 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 break;
             case R.id.listType_rewatching:
                 getRecords(true, TaskJob.GETLIST, 6);
+                setChecked(item);
+                break;
+            case R.id.customList1:
+                getRecords(true, TaskJob.GETLIST, 7);
+                setChecked(item);
+                break;
+            case R.id.customList2:
+                getRecords(true, TaskJob.GETLIST, 8);
+                setChecked(item);
+                break;
+            case R.id.customList3:
+                getRecords(true, TaskJob.GETLIST, 9);
+                setChecked(item);
+                break;
+            case R.id.customList4:
+                getRecords(true, TaskJob.GETLIST, 10);
+                setChecked(item);
+                break;
+            case R.id.customList5:
+                getRecords(true, TaskJob.GETLIST, 11);
                 setChecked(item);
                 break;
             case R.id.forceSync:
@@ -229,7 +287,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        this.menu = menu;
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.list) {
@@ -353,13 +410,13 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         }
 
         callbackCounter++;
-
         if (callbackCounter >= 2) {
             callbackCounter = 0;
-
             if (job.equals(TaskJob.FORCESYNC)) {
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
+                if (!AccountService.isMAL())
+                    setCustomList(PrefManager.getCustomAnimeList());
             }
         }
     }
@@ -393,8 +450,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (menu != null)
-            menu.findItem(R.id.listType_rewatching).setTitle(getString(position == 0 ? R.string.listType_rewatching : R.string.listType_rereading));
+        if (AccountService.isMAL()) {
+            if (menu != null)
+                menu.findItem(R.id.listType_rewatching).setTitle(getString(position == 0 ? R.string.listType_rewatching : R.string.listType_rereading));
+        } else {
+            setCustomList(position == 0 ? PrefManager.getCustomAnimeList() : PrefManager.getCustomMangaList());
+        }
     }
 
     @Override

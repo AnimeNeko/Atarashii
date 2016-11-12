@@ -36,6 +36,12 @@ public class GenericRecord implements Serializable {
     public static final String STATUS_REREADING = "rereading";
     public static final String STATUS_PLANTOREAD = "plan to read";
 
+    public static final String CUSTOMLIST1 = "customList1";
+    public static final String CUSTOMLIST2 = "customList2";
+    public static final String CUSTOMLIST3 = "customList3";
+    public static final String CUSTOMLIST4 = "customList4";
+    public static final String CUSTOMLIST5 = "customList5";
+
     private final String[] genresList = {"Action", "Adventure", "Cars", "Comedy", "Dementia", "Demons", "Drama",
             "Ecchi", "Fantasy", "Game", "Harem", "Hentai", "Historical", "Horror",
             "Josei", "Kids", "Magic", "Martial Arts", "Mecha", "Military", "Music",
@@ -57,6 +63,15 @@ public class GenericRecord implements Serializable {
     @Setter
     @Getter
     private String title;
+
+    /**
+     * Get the customList.
+     *
+     * Defined as 0 or 1 like 01001
+     */
+    @Setter
+    @Getter
+    private String customList;
 
     /**
      * Title of the record (Romaji)

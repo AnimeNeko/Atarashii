@@ -60,6 +60,11 @@ public class Query {
         return this;
     }
 
+    public Query like(String column, String value) {
+        queryString += " WHERE " + column + " LIKE '"+ value + "'";
+        return this;
+    }
+
     public Query andOrEquals(String column1, String value1, String column2, String value2) {
         queryString += " AND (" + column1 + " = '" + value1 + "' OR " + column2 + " = '" + value2 + "')";
         return this;

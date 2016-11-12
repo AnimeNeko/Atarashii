@@ -278,6 +278,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              *
              * The DB didn't supported some info.
              * - Add bannerURL for AL
+             * - Add custom lists for AL
              */
             if (oldVersion < 17) {
                 // Recreate anime and manga table
