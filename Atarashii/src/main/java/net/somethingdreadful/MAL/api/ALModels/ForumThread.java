@@ -14,130 +14,87 @@ public class ForumThread implements Serializable {
     /**
      * The thread id.
      */
-    @Setter
-    @Getter
-    private Integer id;
+    @Setter @Getter private Integer id;
 
     /**
      * The user thread creator id.
      */
-    @Setter
-    @Getter
-    @SerializedName("user_id")
-    private Integer userId;
-
+    @Setter @Getter @SerializedName("user_id") private Integer userId;
 
     /**
      * The thread title.
      */
-    @Setter
-    @Getter
-    private String title;
+    @Setter @Getter private String title;
 
     /**
      * The thread content.
      */
-    @Setter
-    @Getter
-    private String body;
+    @Setter @Getter private String body;
 
     /**
      * The Comment comment.
      */
-    @Setter
-    @Getter
-    private String comment;
+    @Setter @Getter private String comment;
 
     /**
      * If the thread is sticky.
      */
-    @Setter
-    @Getter
-    private Integer sticky;
+    @Setter @Getter private boolean sticky;
 
     /**
      * If the thread is locked.
      */
-    @Setter
-    @Getter
-    private Object locked;
+    @Setter @Getter private Object locked;
 
     /**
      * TODO: watch what this is
      */
-    @Setter
-    @Getter
-    @SerializedName("last_reply")
-    private String lastReply;
+    @Setter @Getter @SerializedName("last_reply") private String lastReply;
 
     /**
      * TODO: watch what this is
      */
-    @Setter
-    @Getter
-    @SerializedName("last_reply_user")
-    private Integer lastReplyUser;
+    @Setter @Getter @SerializedName("last_reply_user") private Integer lastReplyUser;
 
     /**
      * Total number of replies.
      */
-    @Setter
-    @Getter
-    @SerializedName("reply_count")
-    private Integer replyCount;
+    @Setter @Getter @SerializedName("reply_count") private Integer replyCount;
 
     /**
      * Total number of views.
      */
-    @Setter
-    @Getter
-    @SerializedName("view_count")
-    private Integer viewCount;
+    @Setter @Getter @SerializedName("view_count") private Integer viewCount;
 
     /**
      * The date of the deleted post/thread.
      */
-    @Setter
-    @Getter
-    @SerializedName("deleted_at")
-    private String deletedAt;
+    @Setter @Getter @SerializedName("deleted_at") private String deletedAt;
 
     /**
      * The date of the created post/thread.
      */
-    @Setter
-    @Getter
-    @SerializedName("created_at")
-    private String createdAt;
+    @Setter @Getter @SerializedName("created_at") private String createdAt;
 
     /**
      * Arraylist of replies.
      */
-    @Setter
-    @Getter
-    private ArrayList<Comment> comments = new ArrayList<>();
+    @Setter @Getter private ArrayList<Comment> comments = new ArrayList<>();
 
     /**
      * If you are a sub.
      */
-    @Setter
-    @Getter
-    private Boolean subscribed;
+    @Setter @Getter private Boolean subscribed;
 
     /**
      * Page information.
      */
-    @Setter
-    @Getter
-    @SerializedName("page_data")
-    private PageData pageData;
+    @Setter @Getter @SerializedName("page_data") private PageData pageData;
 
     /**
      * The user info of the replied user.
      */
-    @Setter
-    @Getter
-    private Profile user;
+    @Setter @Getter private Profile user;
 
     public ArrayList<Forum> convertBaseModel() {
         ArrayList<Forum> result = new ArrayList<>();
@@ -231,80 +188,51 @@ public class ForumThread implements Serializable {
         /**
          * The comment ID.
          */
-        @Setter
-        @Getter
-        private Integer id;
+        @Setter @Getter private Integer id;
 
         /**
          * The id of the parent comment.
          */
-        @SerializedName("parent_id")
-        @Setter
-        @Getter
-        private Object parentId;
+        @SerializedName("parent_id") @Setter @Getter private Object parentId;
 
         /**
          * TODO: watch what this is
          */
-        @Setter
-        @Getter
-        @SerializedName("depth")
-        private Integer depth;
+        @Setter @Getter @SerializedName("depth") private Integer depth;
 
         /**
          * The replied userID
          */
-        @SerializedName("user_id")
-        @Setter
-        @Getter
-        private Integer userId;
+        @SerializedName("user_id") @Setter @Getter private Integer userId;
 
         /**
          * Thread ID
          */
-        @SerializedName("thread_id")
-        @Setter
-        @Getter
-        private Integer threadId;
+        @SerializedName("thread_id") @Setter @Getter private Integer threadId;
 
         /**
          * The comment.
          */
-        @SerializedName("comment")
-        @Setter
-        @Getter
-        private String comment;
+        @SerializedName("comment") @Setter @Getter private String comment;
 
         /**
          * The create date.
          */
-        @SerializedName("created_at")
-        @Setter
-        @Getter
-        private String createdAt;
+        @SerializedName("created_at") @Setter @Getter private String createdAt;
 
         /**
          * The updated date.
          */
-        @SerializedName("updated_at")
-        @Setter
-        @Getter
-        private String updatedAt;
+        @SerializedName("updated_at") @Setter @Getter private String updatedAt;
 
         /**
          * The user info of the comment
          */
-        @SerializedName("user")
-        @Setter
-        @Getter
-        private Profile user;
+        @SerializedName("user") @Setter @Getter private Profile user;
 
         /**
          * Sub comments.
          */
-        @SerializedName("children")
-        @Setter
-        @Getter
-        private ArrayList<Comment> children = new ArrayList<>();
+        @SerializedName("children") @Setter @Getter private ArrayList<Comment> children = new ArrayList<>();
     }
 }
