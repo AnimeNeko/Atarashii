@@ -51,6 +51,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
     @BindView(R.id.episodesLabel) TextView episodesLabel;
     @BindView(R.id.volumes) TextView volumes;
     @BindView(R.id.volumesLabel) TextView volumesLabel;
+    @BindView(R.id.volumesRow) TableRow volumesRow;
     @BindView(R.id.status) TextView status;
     @BindView(R.id.start) TextView start;
     @BindView(R.id.startRow) TableRow startRow;
@@ -145,6 +146,8 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         if (!AccountService.isMAL()) {
             producers.setVisibility(View.GONE);
             producersRow.setVisibility(View.GONE);
+            classification.setVisibility(View.GONE);
+            classificationRow.setVisibility(View.GONE);
         }
 
         relation = new DetailViewRelationsAdapter(activity.getApplicationContext());
@@ -186,6 +189,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             else
                 broadcast.setText(activity.nullCheck(DateTools.parseDate(activity.animeRecord.getAiring().getTime(), true)));
             volumes.setVisibility(View.GONE);
+            volumesRow.setVisibility(View.GONE);
             volumesLabel.setVisibility(View.GONE);
             status.setText(activity.animeRecord.getStatusString(activity));
             classification.setText(activity.animeRecord.getClassificationString(activity));
