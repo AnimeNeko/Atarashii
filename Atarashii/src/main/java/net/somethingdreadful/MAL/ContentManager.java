@@ -49,6 +49,9 @@ public class ContentManager {
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
+        if (6 < i) // custom lists
+            return GenericRecord.CUSTOMLIST + (i - 6);
+
         switch (i) {
             case 0:
                 return "";
@@ -64,16 +67,6 @@ public class ContentManager {
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_PLANTOWATCH : Manga.STATUS_PLANTOREAD;
             case 6:
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_REWATCHING : Manga.STATUS_REREADING;
-            case 7:
-                return GenericRecord.CUSTOMLIST1;
-            case 8:
-                return GenericRecord.CUSTOMLIST2;
-            case 9:
-                return GenericRecord.CUSTOMLIST3;
-            case 10:
-                return GenericRecord.CUSTOMLIST4;
-            case 11:
-                return GenericRecord.CUSTOMLIST5;
             default:
                 return type.equals(MALApi.ListType.ANIME) ? Anime.STATUS_WATCHING : Manga.STATUS_READING;
         }

@@ -309,34 +309,35 @@ public class DatabaseManager {
         return getMangaList(cursor);
     }
 
+    private String regCustomList(String ListType){
+        String reg = "";
+        int listNumber = Integer.parseInt(ListType.replace(GenericRecord.CUSTOMLIST, ""));
+        for (int i = 1; i < 16; i++) {
+            if (i == listNumber)
+                reg = reg + "1";
+            else
+                reg = reg + "_";
+        }
+        return reg;
+    }
+
     public ArrayList<Anime> getAnimeList(String ListType, int sortType, int inv) {
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME);
-        switch (ListType) {
-            case "": // All
-                cursor = sort(query.isNotNull("type"), sortType, inv);
-                break;
-            case "rewatching": // rewatching/rereading
-                cursor = sort(query.whereEqGr("rewatching", "1"), sortType, inv);
-                break;
-            case GenericRecord.CUSTOMLIST1:
-                cursor = sort(query.like("customList", "1____"), sortType, inv);
-                break;
-            case GenericRecord.CUSTOMLIST2:
-                cursor = sort(query.like("customList", "_1___"), sortType, inv);
-                break;
-            case GenericRecord.CUSTOMLIST3:
-                cursor = sort(query.like("customList", "__1__"), sortType, inv);
-                break;
-            case GenericRecord.CUSTOMLIST4:
-                cursor = sort(query.like("customList", "___1_"), sortType, inv);
-                break;
-            case GenericRecord.CUSTOMLIST5:
-                cursor = sort(query.like("customList", "____1"), sortType, inv);
-                break;
-            default: // normal lists
-                cursor = sort(query.where("watchedStatus", ListType), sortType, inv);
-                break;
+        if (ListType.contains(GenericRecord.CUSTOMLIST)) {
+            cursor = sort(query.like("customList", regCustomList(ListType)), sortType, inv);
+        } else {
+            switch (ListType) {
+                case "": // All
+                    cursor = sort(query.isNotNull("type"), sortType, inv);
+                    break;
+                case "rewatching": // rewatching/rereading
+                    cursor = sort(query.whereEqGr("rewatching", "1"), sortType, inv);
+                    break;
+                default: // normal lists
+                    cursor = sort(query.where("watchedStatus", ListType), sortType, inv);
+                    break;
+            }
         }
         return getAnimeList(cursor);
     }
@@ -345,16 +346,28 @@ public class DatabaseManager {
         sortType = sortType == 5 ? -5 : sortType;
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA);
-        switch (ListType) {
-            case "": // All
-                cursor = sort(query.isNotNull("type"), sortType, inv);
-                break;
-            case "rereading": // rewatching/rereading
-                cursor = sort(query.whereEqGr("rereading", "1"), sortType, inv);
-                break;
-            default: // normal lists
-                cursor = sort(query.where("readStatus", ListType), sortType, inv);
-                break;
+        if (ListType.contains(GenericRecord.CUSTOMLIST)) {
+            String reg = "";
+            int listNumber = Integer.parseInt(ListType.replace(GenericRecord.CUSTOMLIST, ""));
+            for (int i = 1; i < 16; i++) {
+                if (i == listNumber)
+                    reg = reg + "1";
+                else
+                    reg = reg + "_";
+            }
+            cursor = sort(query.like("customList", reg), sortType, inv);
+        } else {
+            switch (ListType) {
+                case "": // All
+                    cursor = sort(query.isNotNull("type"), sortType, inv);
+                    break;
+                case "rereading": // rewatching/rereading
+                    cursor = sort(query.whereEqGr("rereading", "1"), sortType, inv);
+                    break;
+                default: // normal lists
+                    cursor = sort(query.where("readStatus", ListType), sortType, inv);
+                    break;
+            }
         }
         return getMangaList(cursor);
     }

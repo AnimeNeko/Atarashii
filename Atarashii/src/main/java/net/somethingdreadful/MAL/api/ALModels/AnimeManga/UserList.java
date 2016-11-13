@@ -120,19 +120,11 @@ public class UserList implements Serializable {
             for (int customList : customLists) {
                 result = result + customList;
             }
-            switch (result.length()) {
-                case 1:
-                    result = result + "0";
-                case 2:
-                    result = result + "0";
-                case 3:
-                    result = result + "0";
-                case 4:
-                    result = result + "0";
-                    break;
+            for (int i = result.length(); i < 15; i++) {
+                result = result + "0";
             }
         } else {
-            result = "00000";
+            result = "000000000000000";
         }
         return result;
     }

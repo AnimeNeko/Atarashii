@@ -36,6 +36,8 @@ import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -46,6 +48,10 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private IGF mf;
     private Menu menu;
     private BroadcastReceiver networkReceiver;
+
+    Integer[] ids = {R.id.customList1, R.id.customList2, R.id.customList3, R.id.customList4, R.id.customList5,
+            R.id.customList6, R.id.customList7, R.id.customList8, R.id.customList9, R.id.customList10,
+            R.id.customList11, R.id.customList12, R.id.customList13, R.id.customList14, R.id.customList15};
 
     private String username;
     private boolean networkAvailable = true;
@@ -129,19 +135,17 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
      */
     private void setCustomList(String[] customList) {
         if (menu != null) {
-            setCustomItem(menu.findItem(R.id.customList1), customList, 0);
-            setCustomItem(menu.findItem(R.id.customList2), customList, 1);
-            setCustomItem(menu.findItem(R.id.customList3), customList, 2);
-            setCustomItem(menu.findItem(R.id.customList4), customList, 3);
-            setCustomItem(menu.findItem(R.id.customList5), customList, 4);
+            for (int i = 0; i < ids.length; i++) {
+                setCustomItem(menu.findItem(ids[i]), customList, i);
+            }
         }
     }
 
     /**
      * This is used to check if the MenuItem has a name in the Prefs and set it.
      *
-     * @param item The menu item
-     * @param list The name list. Anime and Manga have different ones
+     * @param item  The menu item
+     * @param list  The name list. Anime and Manga have different ones
      * @param index The name index number
      */
     private void setCustomItem(MenuItem item, String[] list, int index) {
@@ -184,26 +188,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 getRecords(true, TaskJob.GETLIST, 6);
                 setChecked(item);
                 break;
-            case R.id.customList1:
-                getRecords(true, TaskJob.GETLIST, 7);
-                setChecked(item);
-                break;
-            case R.id.customList2:
-                getRecords(true, TaskJob.GETLIST, 8);
-                setChecked(item);
-                break;
-            case R.id.customList3:
-                getRecords(true, TaskJob.GETLIST, 9);
-                setChecked(item);
-                break;
-            case R.id.customList4:
-                getRecords(true, TaskJob.GETLIST, 10);
-                setChecked(item);
-                break;
-            case R.id.customList5:
-                getRecords(true, TaskJob.GETLIST, 11);
-                setChecked(item);
-                break;
             case R.id.forceSync:
                 synctask(true);
                 break;
@@ -234,6 +218,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 if (af != null && mf != null) {
                     af.inverse();
                     mf.inverse();
+                }
+                break;
+            default:
+                if (Arrays.asList(ids).contains(item.getItemId())) {
+                    getRecords(true, TaskJob.GETLIST, Arrays.asList(ids).indexOf(item.getItemId()) + 7);
+                    setChecked(item);
                 }
                 break;
         }

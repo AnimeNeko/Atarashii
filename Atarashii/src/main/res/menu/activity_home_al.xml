@@ -53,6 +53,46 @@
                     android:id="@+id/customList5"
                     android:title="@string/layout_card_loading"
                     res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList6"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList7"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList8"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList9"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList10"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList11"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList12"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList13"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList14"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
+                <item
+                    android:id="@+id/customList15"
+                    android:title="@string/layout_card_loading"
+                    res-auto:showAsAction="never" />
             </group>
         </menu>
     </item>

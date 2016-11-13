@@ -40,11 +40,7 @@ public class GenericRecord implements Serializable {
     public static final String STATUS_REREADING = "rereading";
     public static final String STATUS_PLANTOREAD = "plan to read";
 
-    public static final String CUSTOMLIST1 = "customList1";
-    public static final String CUSTOMLIST2 = "customList2";
-    public static final String CUSTOMLIST3 = "customList3";
-    public static final String CUSTOMLIST4 = "customList4";
-    public static final String CUSTOMLIST5 = "customList5";
+    public static final String CUSTOMLIST = "customList";
 
     private final String[] statusList = {"completed", "on-hold", "dropped", "watching", "plan to watch", "reading", "plan to read"};
 
