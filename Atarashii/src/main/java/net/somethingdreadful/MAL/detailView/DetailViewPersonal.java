@@ -17,6 +17,7 @@ import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.Theme;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
+import net.somethingdreadful.MAL.dialog.CustomListDialogFragment;
 import net.somethingdreadful.MAL.dialog.DatePickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.dialog.ListDialogFragment;
@@ -24,12 +25,15 @@ import net.somethingdreadful.MAL.dialog.MangaPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.NumberPickerDialogFragment;
 import net.somethingdreadful.MAL.dialog.StatusPickerDialogFragment;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener {
+public class DetailViewPersonal extends Fragment implements Serializable, View.OnClickListener, CustomListDialogFragment.onUpdateClickListener {
     public SwipeRefreshLayout swipeRefresh;
 
     private DetailView activity;
@@ -47,6 +51,8 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     @BindView(R.id.myPriority) TextView myPriority;
     @BindView(R.id.myTags) TextView myTags;
     @BindView(R.id.comments) TextView comments;
+    @BindView(R.id.customListpanel) RelativeLayout customListPanel;
+    @BindView(R.id.customList) TextView customList;
 
     @BindView(R.id.storage) TextView storage;
     @BindView(R.id.storage_amount) TextView storageCount;
@@ -114,8 +120,12 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         setCard(R.id.capacityPanel, true);
         setCard(R.id.rewatchPriorityPanel, true);
         setCard(R.id.countPanel, false);
-        if (!AccountService.isMAL())
+        if (!AccountService.isMAL()) {
             cardOther.setVisibility(View.GONE);
+            customListPanel.setOnClickListener(this);
+        } else {
+            customListPanel.setVisibility(View.GONE);
+        }
     }
 
     private void setCard(int id, boolean ALOnly) {
@@ -125,12 +135,32 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
             view.findViewById(id).setOnClickListener(this);
     }
 
+    private ArrayList<String> convertCustomList(String customlists, String[] listnames) {
+        ArrayList<String> finalCustomLists = new ArrayList<>();
+        for (int i = 0; i < customlists.length(); i++) {
+            if (String.valueOf(customlists.charAt(i)).equals("1"))
+                finalCustomLists.add(listnames[i]);
+        }
+        return finalCustomLists;
+    }
+
     public void setText() {
         if (activity.isAdded()) {
-            if (activity.isAnime())
+            if (activity.isAnime()) {
+                if (!AccountService.isMAL()) {
+                    String customlists = activity.animeRecord.getCustomList();
+                    String[] listnames = PrefManager.getCustomAnimeList();
+                    customList.setText(StringUtils.join(convertCustomList(customlists, listnames), ", "));
+                }
                 status.setText(activity.animeRecord.getUserStatusString(activity));
-            else
+            } else {
+                if (!AccountService.isMAL()) {
+                    String customlists = activity.mangaRecord.getCustomList();
+                    String[] listnames = PrefManager.getCustomMangaList();
+                    customList.setText(StringUtils.join(convertCustomList(customlists, listnames), ", "));
+                }
                 status.setText(activity.mangaRecord.getUserStatusString(activity));
+            }
         }
 
         if (activity.isAnime()) {
@@ -281,6 +311,13 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 args12.putInt("max", 0); // will be set to 999 in the dialog
                 activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args12);
                 break;
+            case R.id.customListpanel:
+                Bundle bundle = new Bundle();
+                String[] listnames = activity.isAnime() ? PrefManager.getCustomAnimeList() : PrefManager.getCustomMangaList();
+                bundle.putStringArray("all", listnames);
+                bundle.putStringArrayList("current", convertCustomList(activity.isAnime() ? activity.animeRecord.getCustomList() : activity.mangaRecord.getCustomList(), listnames));
+                activity.showDialog("customListpanel", new CustomListDialogFragment().setOnSendClickListener(this), bundle);
+                break;
         }
     }
 
@@ -289,5 +326,15 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
         bundle.putInt("id", id);
         bundle.putString("title", getString(title));
         return bundle;
+    }
+
+    @Override
+    public void onUpdated(String result, int id) {
+        if (activity.isAnime()) {
+            activity.animeRecord.setCustomList(result);
+        } else {
+            activity.mangaRecord.setCustomList(result);
+        }
+        setText();
     }
 }

@@ -15,6 +15,8 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import net.somethingdreadful.MAL.database.DatabaseHelper;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -61,9 +63,8 @@ public class GenericRecord implements Serializable {
     /**
      * Get the customList.
      *
-     * Defined as 0 or 1 like 01001
+     * Defined as 0 or 1 like 010010100101001
      */
-    @Setter
     @Getter
     private String customList;
 
@@ -312,6 +313,23 @@ public class GenericRecord implements Serializable {
         this.notes = notes;
     }
 
+    public void setCustomList(String customList) {
+        if (!fromCursor)
+            addDirtyField("customList");
+        this.customList = customList;
+    }
+
+    public String getCustomListAPI(){
+        ArrayList<String> finalCustomLists = new ArrayList<>();
+        for (int i = 0; i < getCustomList().length(); i++) {
+                finalCustomLists.add(String.valueOf(getCustomList().charAt(i)));
+        }
+        for (int i = finalCustomLists.size(); i < 15; i++) {
+            finalCustomLists.add("0");
+        }
+        return StringUtils.join(finalCustomLists, ",");
+    }
+
     public void setPersonalTags(String tag) {
         ArrayList<String> tags = new ArrayList<>();
         Collections.addAll(tags, TextUtils.split(tag, ","));
@@ -482,6 +500,7 @@ public class GenericRecord implements Serializable {
         GenericRecord.setFromCursor(true);
         result.setId(cursor.getInt(columnNames.indexOf(DatabaseHelper.COLUMN_ID)));
         result.setTitle(cursor.getString(columnNames.indexOf("title")));
+        result.setCustomList(cursor.getString(columnNames.indexOf("customList")));
         result.setType(cursor.getString(columnNames.indexOf("type")));
         result.setImageUrl(cursor.getString(columnNames.indexOf("imageUrl")));
         result.setBannerUrl(cursor.getString(columnNames.indexOf("bannerUrl")));

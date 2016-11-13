@@ -236,6 +236,7 @@ public class DatabaseManager {
 
             if (-1 < record.getScore()) {
                 cv.put("score", record.getScore());
+                cv.put("customList", record.getCustomList());
             }
         }
         cv.put("classification", record.getClassification());
@@ -347,15 +348,7 @@ public class DatabaseManager {
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA);
         if (ListType.contains(GenericRecord.CUSTOMLIST)) {
-            String reg = "";
-            int listNumber = Integer.parseInt(ListType.replace(GenericRecord.CUSTOMLIST, ""));
-            for (int i = 1; i < 16; i++) {
-                if (i == listNumber)
-                    reg = reg + "1";
-                else
-                    reg = reg + "_";
-            }
-            cursor = sort(query.like("customList", reg), sortType, inv);
+            cursor = sort(query.like("customList", regCustomList(ListType)), sortType, inv);
         } else {
             switch (ListType) {
                 case "": // All

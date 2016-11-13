@@ -217,6 +217,7 @@
     <string name="card_name_rewatch">Rewatch/Re-read</string>
 
     <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_customList">Custom list</string>
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_my_start">My Start Date</string>
     <string name="card_content_my_end">My End Date</string>
