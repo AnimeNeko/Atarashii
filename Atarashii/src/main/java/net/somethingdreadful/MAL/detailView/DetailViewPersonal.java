@@ -126,10 +126,12 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     }
 
     public void setText() {
-        if (activity.isAdded())
-            status.setText(activity.getUserStatusString(activity.isAnime()
-                    ? activity.animeRecord.getWatchedStatusInt()
-                    : activity.mangaRecord.getReadStatusInt()));
+        if (activity.isAdded()) {
+            if (activity.isAnime())
+                status.setText(activity.animeRecord.getUserStatusString(activity));
+            else
+                status.setText(activity.mangaRecord.getUserStatusString(activity));
+        }
 
         if (activity.isAnime()) {
             progress1Current.setText(String.valueOf(activity.animeRecord.getWatchedEpisodes()));

@@ -173,9 +173,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
         synopsis.setText(record.getSynopsis());
         synopsis.setMovementMethod(LinkMovementMethod.getInstance());
-        genres.setText("\u200F" + TextUtils.join(", ", activity.getGenresString(record.getGenresInt())));
+        genres.setText("\u200F" + TextUtils.join(", ", record.getGenresString(activity)));
         if (activity.type.equals(MALApi.ListType.ANIME)) {
-            type.setText(activity.getTypeString(activity.animeRecord.getTypeInt()));
+            type.setText(activity.animeRecord.getType());
             episodes.setText(activity.nullCheck(activity.animeRecord.getEpisodes()));
             if (activity.animeRecord.getDuration() == 0)
                 durationRow.setVisibility(View.GONE);
@@ -187,17 +187,17 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
                 broadcast.setText(activity.nullCheck(DateTools.parseDate(activity.animeRecord.getAiring().getTime(), true)));
             volumes.setVisibility(View.GONE);
             volumesLabel.setVisibility(View.GONE);
-            status.setText(activity.getStatusString(activity.animeRecord.getStatusInt()));
-            classification.setText(activity.getClassificationString(activity.animeRecord.getClassificationInt()));
+            status.setText(activity.animeRecord.getStatusString(activity));
+            classification.setText(activity.animeRecord.getClassificationString(activity));
             start.setText(activity.getDate(activity.animeRecord.getStartDate()));
             end.setText(activity.getDate(activity.animeRecord.getEndDate()));
             producers.setText("\u200F" + activity.animeRecord.getProducersString());
         } else {
-            type.setText(activity.getTypeString(activity.mangaRecord.getTypeInt()));
+            type.setText(activity.mangaRecord.getType());
             episodes.setText(activity.nullCheck(activity.mangaRecord.getChapters()));
             episodesLabel.setText(R.string.label_Chapters);
             volumes.setText(activity.nullCheck(activity.mangaRecord.getVolumes()));
-            status.setText(activity.getStatusString(activity.mangaRecord.getStatusInt()));
+            status.setText(activity.mangaRecord.getStatusString(activity));
             classificationRow.setVisibility(View.GONE);
             startRow.setVisibility(View.GONE);
             endRow.setVisibility(View.GONE);

@@ -1,5 +1,7 @@
 package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
 
+import android.app.Activity;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.text.Html;
 import android.text.Spanned;
@@ -7,6 +9,8 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
+import net.somethingdreadful.MAL.AppLog;
+import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import net.somethingdreadful.MAL.database.DatabaseHelper;
@@ -42,12 +46,6 @@ public class GenericRecord implements Serializable {
     public static final String CUSTOMLIST4 = "customList4";
     public static final String CUSTOMLIST5 = "customList5";
 
-    private final String[] genresList = {"Action", "Adventure", "Cars", "Comedy", "Dementia", "Demons", "Drama",
-            "Ecchi", "Fantasy", "Game", "Harem", "Hentai", "Historical", "Horror",
-            "Josei", "Kids", "Magic", "Martial Arts", "Mecha", "Military", "Music",
-            "Mystery", "Parody", "Police", "Psychological", "Romance", "Samurai", "School",
-            "Sci-Fi", "Seinen", "Shoujo", "Shoujo Ai", "Shounen", "Shounen Ai", "Slice of Life",
-            "Space", "Sports", "Super Power", "Supernatural", "Thriller", "Vampire", "Yaoi", "Yuri"};
     private final String[] statusList = {"completed", "on-hold", "dropped", "watching", "plan to watch", "reading", "plan to read"};
 
     /**
@@ -367,13 +365,42 @@ public class GenericRecord implements Serializable {
         this.deleteFlag = false;
     }
 
-    public ArrayList<Integer> getGenresInt() {
+    private ArrayList<Integer> getGenresInt(String[] fixedArray) {
         ArrayList<Integer> result = new ArrayList<>();
         if (getGenres() != null)
             for (String genre : getGenres())
-                result.add(Arrays.asList(genresList).indexOf(genre));
+                result.add(Arrays.asList(fixedArray).indexOf(genre));
 
         return result;
+    }
+
+    /**
+     * Get the translation from strings.xml
+     */
+    String getStringFromResourceArray(Activity activity, int resArrayId, int index) {
+        Resources res = activity.getResources();
+        try {
+            String[] types = res.getStringArray(resArrayId);
+            if (index < 0 || index >= types.length) // make sure to have a valid array index
+                return res.getString(R.string.unknown);
+            else
+                return types[index];
+        } catch (Resources.NotFoundException e) {
+            AppLog.logException(e);
+            return res.getString(R.string.unknown);
+        }
+    }
+
+    /**
+     * Get the anime or manga genre translations
+     */
+    public ArrayList<String> getGenresString(Activity activity) {
+        ArrayList<String> genres = new ArrayList<>();
+        String[] fixedArray = activity.getResources().getStringArray(R.array.genresFixedArray_all);
+        for (Integer genreInt : getGenresInt(fixedArray)) {
+            genres.add(getStringFromResourceArray(activity, R.array.genresArray_all, genreInt));
+        }
+        return genres;
     }
 
     // Use this to get a formatted version of the text suited for display in the application

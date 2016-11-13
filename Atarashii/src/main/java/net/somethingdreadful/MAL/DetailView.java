@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -56,7 +55,6 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -284,7 +282,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             if (type.equals(ListType.ANIME)) {
                 animeRecord.setCreateFlag();
                 // If the anime hasn't aired mark is planned
-                if (animeRecord.getStatusInt() != 2)
+                if (!animeRecord.getStatus().equalsIgnoreCase("not yet aired"))
                     animeRecord.setWatchedStatus(PrefManager.getAddList());
                 else
                     animeRecord.setWatchedStatus(GenericRecord.STATUS_PLANTOWATCH);
@@ -330,65 +328,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      */
     public boolean isDone() {
         return (!isEmpty()) && (type.equals(ListType.ANIME) ? animeRecord.getSynopsis() != null : mangaRecord.getSynopsis() != null);
-    }
-
-    /**
-     * Get the translation from strings.xml
-     */
-    private String getStringFromResourceArray(int resArrayId, int index) {
-        Resources res = getResources();
-        try {
-            String[] types = res.getStringArray(resArrayId);
-            if (index < 0 || index >= types.length) // make sure to have a valid array index
-                return res.getString(R.string.unknown);
-            else
-                return types[index];
-        } catch (Resources.NotFoundException e) {
-            AppLog.logException(e);
-            return res.getString(R.string.unknown);
-        }
-    }
-
-    /**
-     * Get the anime or manga mediatype translations
-     */
-    public String getTypeString(int typesInt) {
-        if (type.equals(ListType.ANIME))
-            return getStringFromResourceArray(R.array.mediaType_Anime, typesInt);
-        else
-            return getStringFromResourceArray(R.array.mediaType_Manga, typesInt);
-    }
-
-    /**
-     * Get the anime or manga status translations
-     */
-    public String getStatusString(int statusInt) {
-        if (type.equals(ListType.ANIME))
-            return getStringFromResourceArray(R.array.mediaStatus_Anime, statusInt);
-        else
-            return getStringFromResourceArray(R.array.mediaStatus_Manga, statusInt);
-    }
-
-    /**
-     * Get the anime or manga genre translations
-     */
-    public ArrayList<String> getGenresString(ArrayList<Integer> genresInt) {
-        ArrayList<String> genres = new ArrayList<>();
-        for (Integer genreInt : genresInt) {
-            genres.add(getStringFromResourceArray(R.array.genresArray, genreInt));
-        }
-        return genres;
-    }
-
-    /**
-     * Get the anime or manga classification translations
-     */
-    public String getClassificationString(Integer classificationInt) {
-        return getStringFromResourceArray(R.array.classificationArray, classificationInt);
-    }
-
-    public String getUserStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_User, statusInt);
     }
 
     /**
