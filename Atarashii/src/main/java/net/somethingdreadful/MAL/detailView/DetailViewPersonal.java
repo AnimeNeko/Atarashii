@@ -138,7 +138,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     private ArrayList<String> convertCustomList(String customlists, String[] listnames) {
         ArrayList<String> finalCustomLists = new ArrayList<>();
         for (int i = 0; i < customlists.length(); i++) {
-            if (String.valueOf(customlists.charAt(i)).equals("1"))
+            if (String.valueOf(customlists.charAt(i)).equals("1") && listnames.length >= i)
                 finalCustomLists.add(listnames[i]);
         }
         return finalCustomLists;
