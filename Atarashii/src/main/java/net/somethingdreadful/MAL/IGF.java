@@ -301,6 +301,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Filter the list by status type.
      */
     public void filter(int statusType) {
+        this.list = statusType - 1;
         switch (statusType) {
             case 1:
                 gl = backGl;
