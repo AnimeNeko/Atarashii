@@ -73,6 +73,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private int recordID;
     private Menu menu;
     private Context context;
+    private boolean coverImageLoaded = false;
 
 
     @BindView(R.id.coverImage) ImageView coverImage;
@@ -119,7 +120,8 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private void setText() {
         try {
             collapsingToolbarLayout.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
-            setToolbarImages();
+            if (!coverImageLoaded)
+                setToolbarImages();
             PageAdapter.hidePersonal(!isAdded());
             if (details != null && !isEmpty())
                 details.setText();
@@ -523,7 +525,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      */
     public void setToolbarImages() {
         try {
-            GenericRecord record = (GenericRecord) (type == ListType.ANIME ? animeRecord : mangaRecord);
+            GenericRecord record = (type == ListType.ANIME ? animeRecord : mangaRecord);
             final String imageUrl = record.getImageUrl();
             final Activity activity = this;
             Picasso.with(this)
@@ -533,6 +535,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                             coverImage.setImageBitmap(bitmap);
+                            coverImageLoaded = true;
                         }
 
                         @Override
@@ -572,6 +575,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
 
     @Override
     public void onNetworkTaskError(TaskJob job) {
+        Theme.Snackbar(this, R.string.toast_error_DetailsError);
     }
 
     /**
