@@ -64,13 +64,27 @@
                 custom:header_Title="@string/card_name_relations"
                 custom:header_Title_Color="@color/white" />
 
+            <!-- Music card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/music"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/mediainfo"
+                android:layout_below="@id/mediastats"
+                android:layout_marginTop="8dp"
+                custom:card_divide="2"
+                android:layout_marginLeft="4dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_music"
+                custom:header_Title_Color="@color/white" />
+
             <!-- Titles card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/titles"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/mediainfo"
-                android:layout_below="@id/mediastats"
+                android:layout_below="@id/music"
                 android:layout_marginTop="8dp"
                 custom:card_divide="2"
                 android:layout_marginLeft="4dp"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -26,22 +27,27 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.MALApi;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailViewDetails extends Fragment implements Serializable, ExpandableListView.OnChildClickListener {
+public class DetailViewDetails extends Fragment implements Serializable {
     private View view;
     private Card cardSynopsis;
     private Card cardMediainfo;
     private Card cardMediaStats;
     private Card cardRelations;
     private Card cardTitles;
+    private Card cardMusic;
     private DetailView activity;
     private ExpandableListView relations;
     private ExpandableListView titles;
+    private ExpandableListView musics;
     private DetailViewRelationsAdapter relation;
     private DetailViewRelationsAdapter title;
+    private DetailViewRelationsAdapter music;
 
     @BindView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
 
@@ -108,12 +114,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             cardMediaStats.setVisibility(View.VISIBLE);
             cardRelations.setVisibility(View.VISIBLE);
             cardTitles.setVisibility(View.VISIBLE);
+            cardMusic.setVisibility(View.VISIBLE);
         } else {
             cardSynopsis.setVisibility(View.GONE);
             cardMediainfo.setVisibility(View.GONE);
             cardMediaStats.setVisibility(View.GONE);
             cardRelations.setVisibility(View.GONE);
             cardTitles.setVisibility(View.GONE);
+            cardMusic.setVisibility(View.GONE);
         }
     }
 
@@ -133,12 +141,14 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
         cardMediaStats = (Card) view.findViewById(R.id.mediastats);
         cardRelations = (Card) view.findViewById(R.id.relations);
         cardTitles = (Card) view.findViewById(R.id.titles);
+        cardMusic = (Card) view.findViewById(R.id.music);
 
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_details_mediainfo);
         cardMediaStats.setContent(R.layout.card_detailview_details_mediastats);
         cardRelations.setContent(R.layout.card_detailview_details_relations);
         cardTitles.setContent(R.layout.card_detailview_details_relations);
+        cardMusic.setContent(R.layout.card_detailview_details_relations);
 
         // set all the views
         ButterKnife.bind(this, view);
@@ -148,12 +158,51 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             producersRow.setVisibility(View.GONE);
             classification.setVisibility(View.GONE);
             classificationRow.setVisibility(View.GONE);
+            cardMusic.setVisibility(View.GONE);
         }
 
         relation = new DetailViewRelationsAdapter(activity.getApplicationContext());
         relations = (ExpandableListView) cardRelations.findViewById(R.id.ListView);
-        relations.setOnChildClickListener(this);
+        relations.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPos, int childPos, long l) {
+                Intent detailView = new Intent(activity, DetailView.class);
+                detailView.putExtra("recordID", relation.getRecordStub(groupPos, childPos).getId());
+                detailView.putExtra("recordType", relation.getRecordStub(groupPos, childPos).getType());
+                startActivity(detailView);
+                return true;
+            }
+        });
         relations.setAdapter(relation);
+
+        music = new DetailViewRelationsAdapter(activity.getApplicationContext());
+        musics = (ExpandableListView) cardMusic.findViewById(R.id.ListView);
+        musics.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPos, int childPos, long l) {
+                // #[TRACK NUMBER]: \"[TITLE] ([JAPANESE TITLE])\" [SINGER] ([EPISODES])
+                Pattern pattern = Pattern.compile("\"(.+?)\\((.+?)\"(.+?)\\(");
+                Matcher matcher = pattern.matcher(music.getRecordStub(groupPos, childPos).getTitle());
+                String query;
+                if (matcher.find()) {
+                    query = TextUtils.htmlEncode(matcher.group(1) + matcher.group(3));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=" + query)));
+                } else {
+                    // #[TRACK NUMBER]: \"[TITLE] [SINGER] ([EPISODES])
+                    pattern = Pattern.compile("\"(.+?)\"(.+?)\\(");
+                    matcher = pattern.matcher(music.getRecordStub(groupPos, childPos).getTitle());
+                    if (matcher.find()) {
+                        query = TextUtils.htmlEncode(matcher.group(1) + matcher.group(2));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=" + query)));
+                    }else {
+                        query = TextUtils.htmlEncode(music.getRecordStub(groupPos, childPos).getTitle().replace("\"", ""));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=" + query)));
+                    }
+                }
+                return true;
+            }
+        });
+        musics.setAdapter(music);
 
         title = new DetailViewRelationsAdapter(activity.getApplicationContext());
         titles = (ExpandableListView) cardTitles.findViewById(R.id.ListView);
@@ -208,6 +257,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             durationRow.setVisibility(View.GONE);
             broadcastRow.setVisibility(View.GONE);
             producersRow.setVisibility(View.GONE);
+            cardMusic.setVisibility(View.GONE);
         }
 
         // Information card
@@ -234,6 +284,7 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
         relation.clear();
         title.clear();
+        music.clear();
 
         if (activity.type.equals(MALApi.ListType.ANIME)) {
             relation.addRelations(activity.animeRecord.getMangaAdaptations(), getString(R.string.card_content_adaptions));
@@ -246,6 +297,9 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             relation.addRelations(activity.animeRecord.getCharacterAnime(), getString(R.string.card_content_character));
             relation.addRelations(activity.animeRecord.getAlternativeVersions(), getString(R.string.card_content_alternativeversions));
             relation.addRelations(activity.animeRecord.getOther(), getString(R.string.card_content_other));
+
+            music.addTitles(activity.animeRecord.getOpeningTheme(), getString(R.string.card_content_opening));
+            music.addTitles(activity.animeRecord.getEndingTheme(), getString(R.string.card_content_ending));
 
             title.addTitles(activity.animeRecord.getTitleRomaji(), getString(R.string.card_content_romaji));
             title.addTitles(activity.animeRecord.getTitleJapanese(), getString(R.string.card_content_japanese));
@@ -264,17 +318,10 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
 
         relation.notifyDataSetChanged();
         title.notifyDataSetChanged();
+        music.notifyDataSetChanged();
         cardRelations.refreshList(relation);
         cardTitles.refreshList(title);
-    }
-
-    @Override
-    public boolean onChildClick(ExpandableListView parent, View v, int groupPos, int childPos, long id) {
-        Intent detailView = new Intent(activity, DetailView.class);
-        detailView.putExtra("recordID", relation.getRecordStub(groupPos, childPos).getId());
-        detailView.putExtra("recordType", relation.getRecordStub(groupPos, childPos).getType());
-        startActivity(detailView);
-        return true;
+        cardMusic.refreshList(music);
     }
 
     /**
@@ -308,6 +355,21 @@ public class DetailViewDetails extends Fragment implements Serializable, Expanda
             public void onGroupCollapse(int i) {
                 relation.collapse(i);
                 cardRelations.refreshList(relation);
+            }
+        });
+
+        musics.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+                music.expand(i);
+                cardMusic.refreshList(music);
+            }
+        });
+        musics.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int i) {
+                music.collapse(i);
+                cardMusic.refreshList(music);
             }
         });
     }

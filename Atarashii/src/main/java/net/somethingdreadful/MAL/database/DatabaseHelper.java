@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String TABLE_FRIENDLIST = "friendlist";
     static final String TABLE_PRODUCER = "producer";
     static final String TABLE_ANIME_PRODUCER = "anime_producer";
+    static final String TABLE_ANIME_MUSIC = "animemusic";
     static final String TABLE_ANIME_OTHER_TITLES = "animeothertitles";
     static final String TABLE_MANGA_OTHER_TITLES = "mangaothertitles";
     static final String TABLE_SCHEDULE = "schedule";
@@ -112,6 +113,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final int TITLE_TYPE_SYNONYM = 2;
     static final int TITLE_TYPE_ROMAJI = 3;
 
+    static final int MUSIC_TYPE_OPENING = 0;
+    static final int MUSIC_TYPE_ENDING = 1;
+
     private DatabaseHelper(Context context) {
         super(context, NAME, null, VERSION);
         this.context = context;
@@ -156,6 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ANIME_GENRES_TABLE);
         db.execSQL(CREATE_MANGA_GENRES_TABLE);
         db.execSQL(CREATE_TAGS_TABLE);
+        Table.create(db).createOtherTitles(TABLE_ANIME_MUSIC, TABLE_ANIME);
         Table.create(db).createOtherTitles(TABLE_ANIME_OTHER_TITLES, TABLE_ANIME);
         Table.create(db).createOtherTitles(TABLE_MANGA_OTHER_TITLES, TABLE_MANGA);
         db.execSQL(CREATE_PRODUCER_TABLE);

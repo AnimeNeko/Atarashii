@@ -211,6 +211,7 @@
     <string name="card_name_info">Information</string>
     <string name="card_name_personal">Personal</string>
     <string name="card_name_relations">Relations</string>
+    <string name="card_name_music">Music</string>
     <string name="card_name_titles">Alternative Titles</string>
     <string name="card_name_basic">Basic</string>
     <string name="card_name_other">Other</string>
@@ -256,6 +257,8 @@
     <string name="card_content_sequel">Sequels</string>
     <string name="card_content_alternativeversions">Alternative Versions</string>
     <string name="card_content_adaptions">Adaptions</string>
+    <string name="card_content_opening">Opening theme</string>
+    <string name="card_content_ending">Ending theme</string>
     <string name="card_content_sidestories">Side Stories</string>
     <string name="card_content_spinoffs">SpinOffs</string>
     <string name="card_content_summaries">Summaries</string>

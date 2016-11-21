@@ -72,6 +72,7 @@ public class DatabaseManager {
             Query.newQuery(db).updateLink(DatabaseHelper.TABLE_PRODUCER, DatabaseHelper.TABLE_ANIME_PRODUCER, anime.getId(), anime.getProducers(), "producer_id");
             Query.newQuery(db).updateLink(DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_PERSONALTAGS, anime.getId(), anime.getPersonalTags(), "tag_id");
             Query.newQuery(db).updateTitles(anime.getId(), true, anime.getTitleJapanese(), anime.getTitleEnglish(), anime.getTitleSynonyms(), anime.getTitleRomaji());
+            Query.newQuery(db).updateMusic(anime.getId(), anime.getOpeningTheme(), anime.getEndingTheme());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnime(): " + e.getMessage());
@@ -258,6 +259,8 @@ public class DatabaseManager {
             result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_SYNONYM));
             result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_JAPANESE));
             result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_ROMAJI));
+            result.setOpeningTheme(Query.newQuery(db).getMusic(result.getId(), DatabaseHelper.MUSIC_TYPE_OPENING));
+            result.setEndingTheme(Query.newQuery(db).getMusic(result.getId(), DatabaseHelper.MUSIC_TYPE_ENDING));
             result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_ALTERNATIVE, true));
             result.setCharacterAnime(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_CHARACTER, true));
             result.setSideStories(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SIDE_STORY, true));

@@ -67,6 +67,20 @@ public class Anime extends GenericRecord implements Serializable {
     private net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.Airing airing;
 
     /**
+     * Opening themes of the record
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> openingTheme;
+
+    /**
+     * Ending themes of the record
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> endingTheme;
+
+    /**
      * A list of producers for the anime
      * <p/>
      * Website: MyanimeList

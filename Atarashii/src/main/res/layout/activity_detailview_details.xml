@@ -57,12 +57,23 @@
                 custom:header_Title="@string/card_name_relations"
                 custom:header_Title_Color="@color/white" />
 
+            <!-- Music card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/music"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/relations"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_music"
+                custom:header_Title_Color="@color/white" />
+
             <!-- Titles card -->
             <net.somethingdreadful.MAL.Card
                 android:id="@+id/titles"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/relations"
+                android:layout_below="@id/music"
                 android:layout_marginTop="8dp"
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_titles"
