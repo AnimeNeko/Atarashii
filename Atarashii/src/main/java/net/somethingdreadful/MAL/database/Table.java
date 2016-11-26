@@ -72,7 +72,11 @@ public class Table {
                     + "storageValue float, "
                     + "rewatching integer, "
                     + "rewatchCount integer, "
-                    + "rewatchValue integer "
+                    + "rewatchValue integer, "
+                    + "officialSite varchar, "
+                    + "animeDB varchar, "
+                    + "wikipedia varchar, "
+                    + "animeNewsNetwork varchar "
                     + ");";
         else
             queryString += "chapters integer, "

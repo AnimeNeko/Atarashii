@@ -78,6 +78,17 @@
                 custom:header_Color="@color/card_green"
                 custom:header_Title="@string/card_name_titles"
                 custom:header_Title_Color="@color/white" />
+
+            <!-- External card -->
+            <net.somethingdreadful.MAL.Card
+                android:id="@+id/externalLinks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/titles"
+                android:layout_marginTop="8dp"
+                custom:header_Color="@color/card_green"
+                custom:header_Title="@string/card_name_external"
+                custom:header_Title_Color="@color/white" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

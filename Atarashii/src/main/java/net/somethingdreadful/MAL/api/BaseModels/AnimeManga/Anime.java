@@ -245,6 +245,19 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter
     private int rewatchValue;
 
+    /**
+     * External links.
+     */
+    @Getter @Setter
+    public externalLinks externalLinks;
+
+    @Getter public static class externalLinks implements Serializable {
+        @Setter String officialSite;
+        @Setter String animeDB;
+        @Setter String animeNewsNetwork;
+        @Setter String wikipedia;
+    }
+
     public void setWatchedStatus(String watchedStatus) {
         if (this.watchedStatus == null || !this.watchedStatus.equals(watchedStatus)) {
             this.watchedStatus = watchedStatus;
@@ -434,6 +447,7 @@ public class Anime extends GenericRecord implements Serializable {
         List<String> columnNames = Arrays.asList(cursor.getColumnNames());
         Anime result = (Anime) GenericRecord.fromCursor(new Anime(), cursor, columnNames);
         result.airing = new net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.Airing();
+        result.externalLinks = new externalLinks();
 
         result.setDuration(cursor.getInt(columnNames.indexOf("duration")));
         result.setEpisodes(cursor.getInt(columnNames.indexOf("episodes")));
@@ -449,6 +463,10 @@ public class Anime extends GenericRecord implements Serializable {
         result.setRewatching(cursor.getInt(columnNames.indexOf("rewatching")));
         result.setRewatchCount(cursor.getInt(columnNames.indexOf("rewatchCount")));
         result.setRewatchValue(cursor.getInt(columnNames.indexOf("rewatchValue")));
+        result.getExternalLinks().setOfficialSite(cursor.getString(columnNames.indexOf("officialSite")));
+        result.getExternalLinks().setAnimeDB(cursor.getString(columnNames.indexOf("animeDB")));
+        result.getExternalLinks().setWikipedia(cursor.getString(columnNames.indexOf("wikipedia")));
+        result.getExternalLinks().setAnimeNewsNetwork(cursor.getString(columnNames.indexOf("animeNewsNetwork")));
         return result;
     }
 }

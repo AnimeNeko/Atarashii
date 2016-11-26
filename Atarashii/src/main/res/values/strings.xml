@@ -213,11 +213,18 @@
     <string name="card_name_relations">Relations</string>
     <string name="card_name_music">Music</string>
     <string name="card_name_titles">Alternative Titles</string>
+    <string name="card_name_external">External Links</string>
     <string name="card_name_basic">Basic</string>
     <string name="card_name_other">Other</string>
     <string name="card_name_rewatch">Rewatch/Re-read</string>
 
     <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_google">Google</string>
+    <string name="card_content_youtube">Youtube</string>
+    <string name="card_content_wikipedia">Wikipedia</string>
+    <string name="card_content_official_site">Official Site</string>
+    <string name="card_content_animedb">AnimeDB</string>
+    <string name="card_content_animenewsnetwork">AnimeNewsNetwork</string>
     <string name="card_content_customList">Custom list</string>
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_my_start">My Start Date</string>

@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetailViewDetails extends Fragment implements Serializable {
     private View view;
@@ -41,6 +42,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
     private Card cardRelations;
     private Card cardTitles;
     private Card cardMusic;
+    private Card cardExternal;
     private DetailView activity;
     private ExpandableListView relations;
     private ExpandableListView titles;
@@ -72,6 +74,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
     @BindView(R.id.genres) TextView genres;
     @BindView(R.id.producers) TextView producers;
     @BindView(R.id.producersRow) TableRow producersRow;
+    @BindView(R.id.officialPanel) TextView officialPanel;
 
     @BindView(R.id.infoValue1) TextView infoValue1;
     @BindView(R.id.infoText2) TextView infoText2;
@@ -115,6 +118,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
             cardRelations.setVisibility(View.VISIBLE);
             cardTitles.setVisibility(View.VISIBLE);
             cardMusic.setVisibility(View.VISIBLE);
+            cardExternal.setVisibility(View.VISIBLE);
         } else {
             cardSynopsis.setVisibility(View.GONE);
             cardMediainfo.setVisibility(View.GONE);
@@ -122,6 +126,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
             cardRelations.setVisibility(View.GONE);
             cardTitles.setVisibility(View.GONE);
             cardMusic.setVisibility(View.GONE);
+            cardExternal.setVisibility(View.GONE);
         }
     }
 
@@ -142,6 +147,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
         cardRelations = (Card) view.findViewById(R.id.relations);
         cardTitles = (Card) view.findViewById(R.id.titles);
         cardMusic = (Card) view.findViewById(R.id.music);
+        cardExternal = (Card) view.findViewById(R.id.externalLinks);
 
         cardSynopsis.setContent(R.layout.card_detailview_synopsis);
         cardMediainfo.setContent(R.layout.card_detailview_details_mediainfo);
@@ -149,6 +155,8 @@ public class DetailViewDetails extends Fragment implements Serializable {
         cardRelations.setContent(R.layout.card_detailview_details_relations);
         cardTitles.setContent(R.layout.card_detailview_details_relations);
         cardMusic.setContent(R.layout.card_detailview_details_relations);
+        cardExternal.setContent(R.layout.card_detailview_details_external);
+        cardExternal.setAllPadding(0, 0, 0, 0);
 
         // set all the views
         ButterKnife.bind(this, view);
@@ -194,7 +202,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
                     if (matcher.find()) {
                         query = TextUtils.htmlEncode(matcher.group(1) + matcher.group(2));
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=" + query)));
-                    }else {
+                    } else {
                         query = TextUtils.htmlEncode(music.getRecordStub(groupPos, childPos).getTitle().replace("\"", ""));
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=" + query)));
                     }
@@ -245,6 +253,8 @@ public class DetailViewDetails extends Fragment implements Serializable {
             start.setText(activity.getDate(activity.animeRecord.getStartDate()));
             end.setText(activity.getDate(activity.animeRecord.getEndDate()));
             producers.setText("\u200F" + activity.animeRecord.getProducersString());
+            if (activity.animeRecord.getExternalLinks() == null && activity.animeRecord.getExternalLinks().getOfficialSite() == null)
+                officialPanel.setVisibility(View.GONE);
         } else {
             type.setText(activity.mangaRecord.getType());
             episodes.setText(activity.nullCheck(activity.mangaRecord.getChapters()));
@@ -258,6 +268,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
             broadcastRow.setVisibility(View.GONE);
             producersRow.setVisibility(View.GONE);
             cardMusic.setVisibility(View.GONE);
+            cardExternal.setVisibility(View.GONE);
         }
 
         // Information card
@@ -372,5 +383,41 @@ public class DetailViewDetails extends Fragment implements Serializable {
                 cardMusic.refreshList(music);
             }
         });
+    }
+
+    @OnClick({R.id.googlePanel, R.id.youtubePanel, R.id.wikipediaPanel, R.id.officialPanel, R.id.animedbPanel, R.id.animenewsnetworkPanel})
+    public void doClick(View view) {
+        String title = activity.isAnime() ? activity.animeRecord.getTitle() : activity.mangaRecord.getTitle();
+        String url = "https://";
+        switch (view.getId()) {
+            case R.id.googlePanel:
+                url += "google.nl/?gws_rd=ssl#q=" + TextUtils.htmlEncode(title);
+                break;
+            case R.id.youtubePanel:
+                url += "youtube.com/results?search_query=" + TextUtils.htmlEncode(title);
+                break;
+            case R.id.wikipediaPanel:
+                if (activity.isAnime() && activity.animeRecord.getExternalLinks().getWikipedia() != null)
+                    url = activity.animeRecord.getExternalLinks().getWikipedia();
+                else
+                    url += "en.wikipedia.org/wiki/" + TextUtils.htmlEncode(title);
+                break;
+            case R.id.officialPanel:
+                url = activity.animeRecord.getExternalLinks().getOfficialSite();
+                break;
+            case R.id.animedbPanel:
+                if (activity.isAnime() && activity.animeRecord.getExternalLinks().getAnimeDB() != null)
+                    url = activity.animeRecord.getExternalLinks().getAnimeDB();
+                else
+                    url += "anidb.net/perl-bin/animedb.pl?show=animelist&do.search=Search&adb.search=" + TextUtils.htmlEncode(title);
+                break;
+            case R.id.animenewsnetworkPanel:
+                if (activity.isAnime() && activity.animeRecord.getExternalLinks().getAnimeNewsNetwork() != null)
+                    url = activity.animeRecord.getExternalLinks().getAnimeNewsNetwork();
+                else
+                    url += "animenewsnetwork.com/search?q=" + TextUtils.htmlEncode(title);
+                break;
+        }
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 }

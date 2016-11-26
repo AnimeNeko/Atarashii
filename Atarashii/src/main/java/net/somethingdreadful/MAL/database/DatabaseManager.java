@@ -52,6 +52,11 @@ public class DatabaseManager {
             cv.put("rewatching", anime.getRewatching() ? 1 : 0);
             cv.put("rewatchCount", anime.getRewatchCount());
             cv.put("rewatchValue", anime.getRewatchValue());
+
+            cv.put("officialSite", anime.getExternalLinks().getOfficialSite());
+            cv.put("animeDB", anime.getExternalLinks().getAnimeDB());
+            cv.put("wikipedia", anime.getExternalLinks().getWikipedia());
+            cv.put("animeNewsNetwork", anime.getExternalLinks().getAnimeNewsNetwork());
         }
 
         try {
