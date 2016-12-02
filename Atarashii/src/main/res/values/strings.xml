@@ -909,6 +909,7 @@
     <string name="genericType_all">All types</string>
 
     <string-array name="animeType_MAL" translatable="false">
+        <item>@string/genericType_all</item>
         <item>@string/animeType_tv</item>
         <item>@string/animeType_movie</item>
         <item>@string/animeType_ova</item>
@@ -917,6 +918,7 @@
         <item>@string/animeType_music</item>
     </string-array>
     <string-array name="mangaType_MAL" translatable="false">
+        <item>@string/genericType_all</item>
         <item>@string/mangaType_manga</item>
         <item>@string/mangaType_novel</item>
         <item>@string/mangaType_oneshot</item>
