@@ -836,25 +836,29 @@
     <string name="genericStatus_all">All statuses</string>
 
     <string-array name="animeStatus_MAL" translatable="false">
+        <item>@string/genericStatus_all</item>
         <item>@string/animeStatus_finished</item>
         <item>@string/animeStatus_airing</item>
         <item>@string/animeStatus_not</item>
     </string-array>
     <string-array name="mangaStatus_MAL" translatable="false">
+        <item>@string/genericStatus_all</item>
         <item>@string/mangaStatus_finished</item>
         <item>@string/mangaStatus_airing</item>
         <item>@string/mangaStatus_not</item>
     </string-array>
 
     <string-array name="animeFixedStatus_MAL" translatable="false">
-        <item>finished airing</item>
-        <item>currently airing</item>
-        <item>not yet aired</item>
+        <item> </item>
+        <item>finished</item>
+        <item>airing</item>
+        <item>not yet</item>
     </string-array>
     <string-array name="mangaFixedStatus_MAL" translatable="false">
+        <item> </item>
         <item>finished</item>
         <item>publishing</item>
-        <item>not yet published</item>
+        <item>not yet</item>
     </string-array>
 
     <string-array name="animeStatus_AL" translatable="false">
