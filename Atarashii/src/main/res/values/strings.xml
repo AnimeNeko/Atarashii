@@ -50,6 +50,7 @@
     <string name="toast_info_disabled_youtube">Comments with Youtube videos aren\'t supported :(</string>
     <string name="toast_info_backup_list">The backup is not compatible with this site!</string>
     <string name="toast_info_comment">The comment is short!</string>
+    <string name="toast_info_no_customlist">Please sync the lists after upgrading!</string>
 
     <!-- All (Dialog Title & Contents) Strings -->
     <string name="dialog_title_view">View</string>

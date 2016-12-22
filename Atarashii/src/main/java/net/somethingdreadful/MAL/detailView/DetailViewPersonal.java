@@ -147,17 +147,25 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
     public void setText() {
         if (activity.isAdded()) {
             if (activity.isAnime()) {
-                if (!AccountService.isMAL()) {
+                if (!AccountService.isMAL()) { // after upgrading the record = null
                     String customlists = activity.animeRecord.getCustomList();
-                    String[] listnames = PrefManager.getCustomAnimeList();
-                    customList.setText(StringUtils.join(convertCustomList(customlists, listnames), ", "));
+                    if (customlists != null) {
+                        String[] listnames = PrefManager.getCustomAnimeList();
+                        customList.setText(StringUtils.join(convertCustomList(customlists, listnames), ", "));
+                    } else {
+                        customList.setText(getString(R.string.unknown));
+                    }
                 }
                 status.setText(activity.animeRecord.getUserStatusString(activity));
             } else {
-                if (!AccountService.isMAL()) {
+                if (!AccountService.isMAL()) { // after upgrading the record = null
                     String customlists = activity.mangaRecord.getCustomList();
-                    String[] listnames = PrefManager.getCustomMangaList();
-                    customList.setText(StringUtils.join(convertCustomList(customlists, listnames), ", "));
+                    if (customlists != null) {
+                        String[] listnames = PrefManager.getCustomMangaList();
+                        customList.setText(StringUtils.join(convertCustomList(customlists, listnames), ", "));
+                    } else {
+                        customList.setText(getString(R.string.unknown));
+                    }
                 }
                 status.setText(activity.mangaRecord.getUserStatusString(activity));
             }
@@ -312,11 +320,16 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("storagevalue", new NumberPickerDialogFragment().setOnSendClickListener(activity), args12);
                 break;
             case R.id.customListpanel:
-                Bundle bundle = new Bundle();
-                String[] listnames = activity.isAnime() ? PrefManager.getCustomAnimeList() : PrefManager.getCustomMangaList();
-                bundle.putStringArray("all", listnames);
-                bundle.putStringArrayList("current", convertCustomList(activity.isAnime() ? activity.animeRecord.getCustomList() : activity.mangaRecord.getCustomList(), listnames));
-                activity.showDialog("customListpanel", new CustomListDialogFragment().setOnSendClickListener(this), bundle);
+                String customList = activity.isAnime() ? activity.animeRecord.getCustomList() : activity.mangaRecord.getCustomList();
+                if (customList != null) {
+                    Bundle bundle = new Bundle();
+                    String[] listnames = activity.isAnime() ? PrefManager.getCustomAnimeList() : PrefManager.getCustomMangaList();
+                    bundle.putStringArray("all", listnames);
+                    bundle.putStringArrayList("current", convertCustomList(customList, listnames));
+                    activity.showDialog("customListpanel", new CustomListDialogFragment().setOnSendClickListener(this), bundle);
+                } else {
+                    Theme.Snackbar(activity, R.string.toast_info_no_customlist);
+                }
                 break;
         }
     }
