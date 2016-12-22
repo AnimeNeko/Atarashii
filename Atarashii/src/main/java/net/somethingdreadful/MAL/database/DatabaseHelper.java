@@ -285,9 +285,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              * - Add bannerURL for AL
              * - Add custom lists for AL
              * - Add external links for MAL
+             * - Add music table
              */
             if (oldVersion < 17) {
                 // Recreate anime and manga table
+                Table.create(db).createOtherTitles(TABLE_ANIME_MUSIC, TABLE_ANIME);
                 Table.create(db).recreateListTable(TABLE_ANIME, "");
                 Table.create(db).recreateListTable(TABLE_MANGA, "");
             }
