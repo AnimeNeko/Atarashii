@@ -260,24 +260,24 @@ public class ALApi {
                 case 0: // 0 - 10
                 case 1: // 0 - 100
                 case 2: // 0 - 5
-                    return APIHelper.isOK(service.addMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getALAPIScore(manga.getScore())), manga.getCustomListAPI()), "addManga");
+                    return APIHelper.isOK(service.addMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getALAPIScore(manga.getScore())), manga.getNotes(), manga.getRereadCount(), manga.getCustomListAPI()), "addManga");
                 case 3: // :( & :| & :)
-                    return APIHelper.isOK(service.addMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getALAPIScore(manga.getScore()), manga.getCustomListAPI()), "addManga");
+                    return APIHelper.isOK(service.addMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getALAPIScore(manga.getScore()), manga.getNotes(), manga.getRereadCount(), manga.getCustomListAPI()), "addManga");
                 case 4: // 0.0 - 10.0
                 default: // default
-                    return APIHelper.isOK(service.addMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getALAPIScore(manga.getScore())), manga.getCustomListAPI()), "addManga");
+                    return APIHelper.isOK(service.addMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getALAPIScore(manga.getScore())), manga.getNotes(), manga.getRereadCount(), manga.getCustomListAPI()), "addManga");
             }
         }else{
             switch (PrefManager.getScoreType()) {
                 case 0: // 0 - 10
                 case 1: // 0 - 100
                 case 2: // 0 - 5
-                    return APIHelper.isOK(service.updateMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getALAPIScore(manga.getScore())), manga.getCustomListAPI()), "updateManga");
+                    return APIHelper.isOK(service.updateMangaI(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Integer.parseInt(Theme.getALAPIScore(manga.getScore())), manga.getNotes(), manga.getRereadCount(), manga.getCustomListAPI()), "updateManga");
                 case 3: // :( & :| & :)
-                    return APIHelper.isOK(service.updateMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getALAPIScore(manga.getScore()), manga.getCustomListAPI()), "updateManga");
+                    return APIHelper.isOK(service.updateMangaS(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Theme.getALAPIScore(manga.getScore()), manga.getNotes(), manga.getRereadCount(), manga.getCustomListAPI()), "updateManga");
                 case 4: // 0.0 - 10.0
                 default: // default
-                    return APIHelper.isOK(service.updateMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getALAPIScore(manga.getScore())), manga.getCustomListAPI()), "updateManga");
+                    return APIHelper.isOK(service.updateMangaF(manga.getId(), manga.getReadStatus(), manga.getChaptersRead(), manga.getVolumesRead(), Float.parseFloat(Theme.getALAPIScore(manga.getScore())), manga.getNotes(), manga.getRereadCount(), manga.getCustomListAPI()), "updateManga");
             }
         }
     }
