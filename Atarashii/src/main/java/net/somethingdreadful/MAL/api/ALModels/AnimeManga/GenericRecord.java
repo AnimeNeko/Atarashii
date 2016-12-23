@@ -7,6 +7,7 @@ import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.ListStats;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -199,6 +200,7 @@ public class GenericRecord implements Serializable {
         model.setAverageScore(getAverageScore());
         model.setGenres(getGenres());
         model.setListStats(getListStats());
+        model.setLastSync(new Date());
     }
 
     private ArrayList<String> createTitleArray(String title) {

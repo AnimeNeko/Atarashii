@@ -269,7 +269,7 @@ public class GenericRecord implements Serializable {
      */
     @Setter
     @Getter
-    private Date lastUpdate;
+    private Date lastSync;
 
     /**
      * Adds the record on the website after a sync.

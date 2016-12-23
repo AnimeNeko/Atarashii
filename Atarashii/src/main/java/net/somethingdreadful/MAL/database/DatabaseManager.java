@@ -87,10 +87,27 @@ public class DatabaseManager {
         }
     }
 
+    public void clearOldRecords(GenericRecord record, String table, String methodName) {
+        Long lastSync = record.getLastSync().getTime();
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager." + methodName + "(): removing records before" + lastSync);
+
+        try {
+            db.beginTransaction();
+            Query.newQuery(db).clearOldRecords(table, lastSync);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager." + methodName + "(): " + e.getMessage());
+            AppLog.logException(e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     public void saveAnimeList(ArrayList<Anime> result) {
         for (Anime anime : result) {
             saveAnimeList(anime);
         }
+        clearOldRecords(result.get(0), DatabaseHelper.TABLE_ANIME, "saveAnimeList");
     }
 
     /**
@@ -109,6 +126,7 @@ public class DatabaseManager {
         cv.put("watchedEpisodes", anime.getWatchedEpisodes());
         cv.put("score", anime.getScore());
         cv.put("watchedStatus", anime.getWatchedStatus());
+        cv.put("lastSync", anime.getLastSync().getTime());
 
         // AniList details only
         if (!AccountService.isMAL()) {
@@ -176,6 +194,7 @@ public class DatabaseManager {
         for (Manga manga : result) {
             saveMangaList(manga);
         }
+        clearOldRecords(result.get(0), DatabaseHelper.TABLE_MANGA, "saveMangaList");
     }
 
     /**
@@ -198,6 +217,7 @@ public class DatabaseManager {
         cv.put("score", manga.getScore());
         cv.put("readStatus", manga.getReadStatus());
         cv.put("customList", manga.getCustomList());
+        cv.put("lastSync", manga.getLastSync().getTime());
 
         try {
             db.beginTransaction();
@@ -318,7 +338,7 @@ public class DatabaseManager {
         return getMangaList(cursor);
     }
 
-    private String regCustomList(String ListType){
+    private String regCustomList(String ListType) {
         String reg = "";
         int listNumber = Integer.parseInt(ListType.replace(GenericRecord.CUSTOMLIST, ""));
         for (int i = 1; i < 16; i++) {

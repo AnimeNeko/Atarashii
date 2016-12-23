@@ -61,7 +61,7 @@ public class Query {
     }
 
     public Query like(String column, String value) {
-        queryString += " WHERE " + column + " LIKE '"+ value + "'";
+        queryString += " WHERE " + column + " LIKE '" + value + "'";
         return this;
     }
 
@@ -107,7 +107,8 @@ public class Query {
 
     /**
      * Update or insert records.
-     *  @param table The table where the record should be updated
+     *
+     * @param table The table where the record should be updated
      * @param cv    The ContentValues which should be updated
      * @param id    The ID of the record
      */
@@ -119,7 +120,8 @@ public class Query {
 
     /**
      * Update or insert records.
-     *  @param table    The table where the record should be updated
+     *
+     * @param table    The table where the record should be updated
      * @param cv       The ContentValues which should be updated
      * @param username The username of the record
      */
@@ -127,6 +129,16 @@ public class Query {
         int updateResult = db.update(table, cv, "username" + " = '" + username + "'", new String[]{});
         if (updateResult == 0)
             db.insert(table, null, cv);
+    }
+
+    /**
+     * Remove old records.
+     *
+     * @param table The table where the record should be removed
+     */
+    public void clearOldRecords(String table, Long date) {
+        int removedRows = db.delete(table, "lastSync < ?", new String[]{String.valueOf(date)});
+        AppLog.log(Log.INFO, "Atarashii", "Query.clearOldRecords(): removed " + removedRows + " " + table + " records before" + date);
     }
 
     /**
@@ -245,9 +257,9 @@ public class Query {
     /**
      * Update titles for records.
      *
-     * @param id    The anime/manga ID
-     * @param op    Arraylist of strings
-     * @param en    Arraylist of strings
+     * @param id The anime/manga ID
+     * @param op Arraylist of strings
+     * @param en Arraylist of strings
      */
     public void updateMusic(int id, ArrayList<String> op, ArrayList<String> en) {
         // delete old links

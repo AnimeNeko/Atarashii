@@ -6,6 +6,7 @@ import net.somethingdreadful.MAL.PrefManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import lombok.Getter;
 
@@ -102,6 +103,7 @@ public class UserList implements Serializable {
                     anime.setNotes(detail.getNotes());
                     anime.setWatchedEpisodes(detail.getEpisodesWatched());
                     anime.setCustomList(getCustomListString(detail.getCustomLists()));
+                    anime.setLastSync(new Date());
                     newList.add(anime);
                 }
             }
@@ -158,6 +160,7 @@ public class UserList implements Serializable {
                     manga.setNotes(detail.getNotes());
                     manga.setScore(detail.getScoreraw());
                     manga.setCustomList(getCustomListString(detail.getCustomLists()));
+                    manga.setLastSync(new Date());
                     newList.add(manga);
                 }
             }
