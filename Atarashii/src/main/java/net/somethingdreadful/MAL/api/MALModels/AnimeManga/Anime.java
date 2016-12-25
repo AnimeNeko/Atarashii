@@ -178,6 +178,15 @@ public class Anime extends GenericRecord implements Serializable {
     @SerializedName("fansub_group")
     private String fansubGroup;
 
+
+    /**
+     * The fansub group the user used, if any
+     */
+    @Getter
+    @Setter
+    @SerializedName("preview")
+    private String preview;
+
     /**
      * Storage type for the series
      */
