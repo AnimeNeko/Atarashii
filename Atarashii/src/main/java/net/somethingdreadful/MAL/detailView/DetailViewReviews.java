@@ -87,6 +87,14 @@ public class DetailViewReviews extends Fragment implements NetworkTask.NetworkTa
     }
 
     /**
+     * Set record if user was way too fast for the app.
+     */
+    public void setText() {
+        if (record != null && activity.getPageAdapter().getPageTitle(activity.getViewPager().getCurrentItem()).equals(getString(R.string.tab_name_reviews)) && record.size() == 0)
+            getRecords(1);
+    }
+
+    /**
      * Get the max amount of columns.
      *
      * @return int The amount of max columns

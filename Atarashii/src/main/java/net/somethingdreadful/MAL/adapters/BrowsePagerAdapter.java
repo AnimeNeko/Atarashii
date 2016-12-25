@@ -5,9 +5,11 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import net.somethingdreadful.MAL.BrowseActivity;
-import net.somethingdreadful.MAL.BrowseFragment;
+import net.somethingdreadful.MAL.BrowseFragmentAL;
+import net.somethingdreadful.MAL.BrowseFragmentMAL;
 import net.somethingdreadful.MAL.IGF;
 import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 
 public class BrowsePagerAdapter extends FragmentPagerAdapter {
@@ -17,9 +19,14 @@ public class BrowsePagerAdapter extends FragmentPagerAdapter {
         super(fm);
         fragments = new Fragments(activity);
 
-        fragments.add(new BrowseFragment(), R.string.title_activity_browse);
+        fragments.add(AccountService.isMAL() ? new BrowseFragmentMAL() : new BrowseFragmentAL(), R.string.title_activity_browse);
         fragments.add(new IGF().setFriendList(MALApi.ListType.ANIME), String.valueOf(MALApi.ListType.ANIME));
-        fragments.add(new IGF().setFriendList(MALApi.ListType.MANGA), String.valueOf(MALApi.ListType.MANGA));
+    }
+
+    public void isManga(boolean manga) {
+        fragments.setName(1, (manga ? MALApi.ListType.MANGA : MALApi.ListType.ANIME).toString());
+        ((IGF) fragments.getFragment(1)).setListType(manga ? MALApi.ListType.MANGA : MALApi.ListType.ANIME);
+        notifyDataSetChanged();
     }
 
     @Override

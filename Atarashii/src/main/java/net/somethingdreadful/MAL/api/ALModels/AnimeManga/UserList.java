@@ -6,107 +6,50 @@ import net.somethingdreadful.MAL.PrefManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class UserList implements Serializable {
     @Getter
-    @Setter
     private Lists lists;
-    @Getter
-    @Setter
     private ArrayList<String> custom_list_anime;
-    @Getter
-    @Setter
     private ArrayList<String> custom_list_manga;
 
     @Getter
-    @Setter
     private int score_type;
     @Getter
-    @Setter
     private int notifications;
     @Getter
     @SerializedName("title_language")
     private String titleLanguage;
 
     class Lists implements Serializable {
-        @Getter
-        @Setter
-        public ArrayList<ListDetails> completed;
-        @Getter
-        @Setter
-        @SerializedName("plan_to_watch")
-        public ArrayList<ListDetails> planToWatch;
-        @Getter
-        @Setter
-        @SerializedName("plan_to_read")
-        public ArrayList<ListDetails> planToRead;
-        @Getter
-        @Setter
-        public ArrayList<ListDetails> dropped;
-        @Getter
-        @Setter
-        public ArrayList<ListDetails> watching;
-        @Getter
-        @Setter
-        public ArrayList<ListDetails> reading;
-        @Getter
-        @Setter
-        @SerializedName("on_hold")
-        public ArrayList<ListDetails> onHold;
+        @Getter @SerializedName("plan_to_watch") public ArrayList<ListDetails> planToWatch;
+        @Getter @SerializedName("plan_to_read") public ArrayList<ListDetails> planToRead;
+        @Getter @SerializedName("on_hold") public ArrayList<ListDetails> onHold;
+        @Getter public ArrayList<ListDetails> completed;
+        @Getter public ArrayList<ListDetails> dropped;
+        @Getter public ArrayList<ListDetails> watching;
+        @Getter public ArrayList<ListDetails> reading;
     }
 
     class ListDetails implements Serializable {
-        @Getter
-        @Setter
-        @SerializedName("record_id")
-        private int id;
-        @Getter
-        @Setter
-        @SerializedName("list_status")
-        private String listStatus;
-        @Getter
-        @Setter
-        private int priorty;
-        @Setter
+        @Getter @SerializedName("record_id") private int id;
+        @Getter @SerializedName("custom_lists") private ArrayList<Integer> customLists;
+        @Getter @SerializedName("list_status") private String listStatus;
+        @Getter @SerializedName("updated_time") private String updatedtime;
+        @Getter @SerializedName("added_time") private String addedtime;
+        @Getter @SerializedName("score_raw") private int scoreraw;
+        @Getter @SerializedName("episodes_watched") private int episodesWatched;
+        @Getter @SerializedName("chapters_read") private int chaptersRead;
+        @Getter @SerializedName("volumes_read") private int volumesRead;
+        @Getter private int priorty;
+        @Getter private String notes;
+        @Getter private Anime anime;
+        @Getter private Manga manga;
         private int rewatched;
-        @Setter
         private int reread;
-        @Getter
-        @Setter
-        private String notes;
-        @Getter
-        @Setter
-        @SerializedName("updated_time")
-        private String updatedtime;
-        @Getter
-        @Setter
-        @SerializedName("added_time")
-        private String addedtime;
-        @Getter
-        @Setter
-        @SerializedName("score_raw")
-        private int scoreraw;
-        @Getter
-        @Setter
-        @SerializedName("episodes_watched")
-        private int episodesWatched;
-        @Getter
-        @Setter
-        @SerializedName("chapters_read")
-        private int chaptersRead;
-        @Getter
-        @Setter
-        @SerializedName("volumes_read")
-        private int volumesRead;
-        @Getter
-        @Setter
-        private Anime anime;
-        @Getter
-        @Setter
-        private Manga manga;
 
         public boolean getRewatched() {
             return rewatched > 0;
@@ -119,6 +62,12 @@ public class UserList implements Serializable {
         PrefManager.commitChanges();
         model.setAnimeList(combineArrayAnime());
         model.setMangaList(combineArrayManga());
+
+        if (custom_list_anime != null && custom_list_anime.size() > 0)
+            PrefManager.setCustomAnimeList(custom_list_anime);
+        if (custom_list_manga != null && custom_list_manga.size() > 0)
+            PrefManager.setCustomMangaList(custom_list_manga);
+        PrefManager.commitChanges();
         return model;
     }
 
@@ -153,10 +102,33 @@ public class UserList implements Serializable {
                     anime.setRewatching(detail.getRewatched());
                     anime.setNotes(detail.getNotes());
                     anime.setWatchedEpisodes(detail.getEpisodesWatched());
+                    anime.setCustomList(getCustomListString(detail.getCustomLists()));
+                    anime.setLastSync(new Date());
                     newList.add(anime);
                 }
             }
         return newList;
+    }
+
+    /**
+     * Get the custom list strings.
+     *
+     * @param customLists The list where the record was placed
+     * @return String Atarashii custom list string.
+     */
+    private String getCustomListString(ArrayList<Integer> customLists) {
+        String result = "";
+        if (customLists != null && customLists.size() != 0) {
+            for (int customList : customLists) {
+                result = result + customList;
+            }
+            for (int i = result.length(); i < 15; i++) {
+                result = result + "0";
+            }
+        } else {
+            result = "000000000000000";
+        }
+        return result;
     }
 
     private ArrayList<net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga> combineArrayManga() {
@@ -187,6 +159,8 @@ public class UserList implements Serializable {
                     manga.setRereading(detail.getRewatched() ? 1 : 0);
                     manga.setNotes(detail.getNotes());
                     manga.setScore(detail.getScoreraw());
+                    manga.setCustomList(getCustomListString(detail.getCustomLists()));
+                    manga.setLastSync(new Date());
                     newList.add(manga);
                 }
             }

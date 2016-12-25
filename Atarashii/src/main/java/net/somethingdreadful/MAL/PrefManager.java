@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class PrefManager {
@@ -371,6 +374,15 @@ public class PrefManager {
     }
 
     /**
+     * Get if the user does not want to see the tabs.
+     *
+     * @return boolean If the tabs should be hidden in true or false
+     */
+    public static boolean getHideHomeTabs() {
+        return prefs.getBoolean("hideTabs", false);
+    }
+
+    /**
      * Get AniList title language.
      *
      * @return String The language name
@@ -384,5 +396,27 @@ public class PrefManager {
      */
     public static void setTitleNameLang(String titleName) {
         prefEditor.putString("titleNameLang", titleName);
+    }
+
+    /**
+     * set AniList custom anime lists.
+     */
+    public static void setCustomAnimeList(ArrayList<String> custom_list_anime) {
+        prefEditor.putString("customAnimeList", StringUtils.join(custom_list_anime, ","));
+    }
+
+    /**
+     * set AniList custom manga lists.
+     */
+    public static void setCustomMangaList(ArrayList<String> custom_list_manga) {
+        prefEditor.putString("customMangaList", StringUtils.join(custom_list_manga, ","));
+    }
+
+    public static String[] getCustomAnimeList() {
+        return StringUtils.split(prefs.getString("customAnimeList", ""), ",");
+    }
+
+    public static String[] getCustomMangaList() {
+        return StringUtils.split(prefs.getString("customMangaList", ""), ",");
     }
 }

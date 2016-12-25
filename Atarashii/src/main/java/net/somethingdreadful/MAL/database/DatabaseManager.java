@@ -52,6 +52,11 @@ public class DatabaseManager {
             cv.put("rewatching", anime.getRewatching() ? 1 : 0);
             cv.put("rewatchCount", anime.getRewatchCount());
             cv.put("rewatchValue", anime.getRewatchValue());
+
+            cv.put("officialSite", anime.getExternalLinks().getOfficialSite());
+            cv.put("animeDB", anime.getExternalLinks().getAnimeDB());
+            cv.put("wikipedia", anime.getExternalLinks().getWikipedia());
+            cv.put("animeNewsNetwork", anime.getExternalLinks().getAnimeNewsNetwork());
         }
 
         try {
@@ -72,9 +77,26 @@ public class DatabaseManager {
             Query.newQuery(db).updateLink(DatabaseHelper.TABLE_PRODUCER, DatabaseHelper.TABLE_ANIME_PRODUCER, anime.getId(), anime.getProducers(), "producer_id");
             Query.newQuery(db).updateLink(DatabaseHelper.TABLE_TAGS, DatabaseHelper.TABLE_ANIME_PERSONALTAGS, anime.getId(), anime.getPersonalTags(), "tag_id");
             Query.newQuery(db).updateTitles(anime.getId(), true, anime.getTitleJapanese(), anime.getTitleEnglish(), anime.getTitleSynonyms(), anime.getTitleRomaji());
+            Query.newQuery(db).updateMusic(anime.getId(), anime.getOpeningTheme(), anime.getEndingTheme());
             db.setTransactionSuccessful();
         } catch (Exception e) {
             AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager.saveAnime(): " + e.getMessage());
+            AppLog.logException(e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public void clearOldRecords(GenericRecord record, String table, String methodName) {
+        Long lastSync = record.getLastSync().getTime();
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager." + methodName + "(): removing records before" + lastSync);
+
+        try {
+            db.beginTransaction();
+            Query.newQuery(db).clearOldRecords(table, lastSync);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            AppLog.log(Log.ERROR, "Atarashii", "DatabaseManager." + methodName + "(): " + e.getMessage());
             AppLog.logException(e);
         } finally {
             db.endTransaction();
@@ -85,6 +107,7 @@ public class DatabaseManager {
         for (Anime anime : result) {
             saveAnimeList(anime);
         }
+        clearOldRecords(result.get(0), DatabaseHelper.TABLE_ANIME, "saveAnimeList");
     }
 
     /**
@@ -103,6 +126,7 @@ public class DatabaseManager {
         cv.put("watchedEpisodes", anime.getWatchedEpisodes());
         cv.put("score", anime.getScore());
         cv.put("watchedStatus", anime.getWatchedStatus());
+        cv.put("lastSync", anime.getLastSync().getTime());
 
         // AniList details only
         if (!AccountService.isMAL()) {
@@ -111,6 +135,7 @@ public class DatabaseManager {
             cv.put("priority", anime.getPriority());
             cv.put("rewatching", anime.getRewatching() ? 1 : 0);
             cv.put("notes", anime.getNotes());
+            cv.put("customList", anime.getCustomList());
         }
 
         try {
@@ -169,6 +194,7 @@ public class DatabaseManager {
         for (Manga manga : result) {
             saveMangaList(manga);
         }
+        clearOldRecords(result.get(0), DatabaseHelper.TABLE_MANGA, "saveMangaList");
     }
 
     /**
@@ -190,6 +216,8 @@ public class DatabaseManager {
         cv.put("volumesRead", manga.getVolumesRead());
         cv.put("score", manga.getScore());
         cv.put("readStatus", manga.getReadStatus());
+        cv.put("customList", manga.getCustomList());
+        cv.put("lastSync", manga.getLastSync().getTime());
 
         try {
             db.beginTransaction();
@@ -209,6 +237,7 @@ public class DatabaseManager {
         cv.put("title", record.getTitle());
         cv.put("type", record.getType());
         cv.put("imageUrl", record.getImageUrl());
+        cv.put("bannerUrl", record.getBannerUrl());
         cv.put("synopsis", record.getSynopsisString());
         cv.put("status", record.getStatus());
         cv.put("startDate", record.getStartDate());
@@ -233,6 +262,7 @@ public class DatabaseManager {
 
             if (-1 < record.getScore()) {
                 cv.put("score", record.getScore());
+                cv.put("customList", record.getCustomList());
             }
         }
         cv.put("classification", record.getClassification());
@@ -254,6 +284,8 @@ public class DatabaseManager {
             result.setTitleSynonyms(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_SYNONYM));
             result.setTitleJapanese(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_JAPANESE));
             result.setTitleRomaji(Query.newQuery(db).getTitles(result.getId(), true, DatabaseHelper.TITLE_TYPE_ROMAJI));
+            result.setOpeningTheme(Query.newQuery(db).getMusic(result.getId(), DatabaseHelper.MUSIC_TYPE_OPENING));
+            result.setEndingTheme(Query.newQuery(db).getMusic(result.getId(), DatabaseHelper.MUSIC_TYPE_ENDING));
             result.setAlternativeVersions(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_ALTERNATIVE, true));
             result.setCharacterAnime(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_CHARACTER, true));
             result.setSideStories(Query.newQuery(db).getRelation(result.getId(), DatabaseHelper.TABLE_ANIME_ANIME_RELATIONS, DatabaseHelper.RELATION_TYPE_SIDE_STORY, true));
@@ -306,19 +338,35 @@ public class DatabaseManager {
         return getMangaList(cursor);
     }
 
+    private String regCustomList(String ListType) {
+        String reg = "";
+        int listNumber = Integer.parseInt(ListType.replace(GenericRecord.CUSTOMLIST, ""));
+        for (int i = 1; i < 16; i++) {
+            if (i == listNumber)
+                reg = reg + "1";
+            else
+                reg = reg + "_";
+        }
+        return reg;
+    }
+
     public ArrayList<Anime> getAnimeList(String ListType, int sortType, int inv) {
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_ANIME);
-        switch (ListType) {
-            case "": // All
-                cursor = sort(query.isNotNull("type"), sortType, inv);
-                break;
-            case "rewatching": // rewatching/rereading
-                cursor = sort(query.whereEqGr("rewatching", "1"), sortType, inv);
-                break;
-            default: // normal lists
-                cursor = sort(query.where("watchedStatus", ListType), sortType, inv);
-                break;
+        if (ListType.contains(GenericRecord.CUSTOMLIST)) {
+            cursor = sort(query.like("customList", regCustomList(ListType)), sortType, inv);
+        } else {
+            switch (ListType) {
+                case "": // All
+                    cursor = sort(query.isNotNull("type"), sortType, inv);
+                    break;
+                case "rewatching": // rewatching/rereading
+                    cursor = sort(query.whereEqGr("rewatching", "1"), sortType, inv);
+                    break;
+                default: // normal lists
+                    cursor = sort(query.where("watchedStatus", ListType), sortType, inv);
+                    break;
+            }
         }
         return getAnimeList(cursor);
     }
@@ -327,16 +375,20 @@ public class DatabaseManager {
         sortType = sortType == 5 ? -5 : sortType;
         Cursor cursor;
         Query query = Query.newQuery(db).selectFrom("*", DatabaseHelper.TABLE_MANGA);
-        switch (ListType) {
-            case "": // All
-                cursor = sort(query.isNotNull("type"), sortType, inv);
-                break;
-            case "rereading": // rewatching/rereading
-                cursor = sort(query.whereEqGr("rereading", "1"), sortType, inv);
-                break;
-            default: // normal lists
-                cursor = sort(query.where("readStatus", ListType), sortType, inv);
-                break;
+        if (ListType.contains(GenericRecord.CUSTOMLIST)) {
+            cursor = sort(query.like("customList", regCustomList(ListType)), sortType, inv);
+        } else {
+            switch (ListType) {
+                case "": // All
+                    cursor = sort(query.isNotNull("type"), sortType, inv);
+                    break;
+                case "rereading": // rewatching/rereading
+                    cursor = sort(query.whereEqGr("rereading", "1"), sortType, inv);
+                    break;
+                default: // normal lists
+                    cursor = sort(query.where("readStatus", ListType), sortType, inv);
+                    break;
+            }
         }
         return getMangaList(cursor);
     }

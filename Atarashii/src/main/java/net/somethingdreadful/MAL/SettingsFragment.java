@@ -51,6 +51,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     else
                         alarmMgr.cancel(autosyncalarmIntent);
                     break;
+                case "hideTabs":
                 case "locale":
                     sharedPreferences.edit().commit();
                     startActivity(new Intent(context, Home.class));

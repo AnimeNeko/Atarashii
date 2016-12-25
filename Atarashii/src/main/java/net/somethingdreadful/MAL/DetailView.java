@@ -1,18 +1,24 @@
 package net.somethingdreadful.MAL;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +26,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.DetailViewPagerAdapter;
@@ -45,7 +55,6 @@ import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -60,16 +69,19 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     private DetailViewPersonal personal;
     public DetailViewReviews reviews;
     public DetailViewRecs recommendations;
-    private DetailViewPagerAdapter PageAdapter;
+    @Getter private DetailViewPagerAdapter PageAdapter;
     private int recordID;
     private Menu menu;
     private Context context;
+    private boolean coverImageLoaded = false;
 
 
-    @Getter @BindView(R.id.coverImage) ImageView coverImage;
+    @BindView(R.id.coverImage) ImageView coverImage;
+    @BindView(R.id.bannerImage) ImageView bannerImage;
     @Getter @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.pager) ViewPager viewPager;
+    @Getter @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.actionbar) Toolbar toolbar;
+    @BindView(R.id.appBar) AppBarLayout appBarLayout;
 
     @Override
     public void onCreate(Bundle state) {
@@ -77,8 +89,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         Theme.setTheme(this, R.layout.activity_detailview, true);
         PageAdapter = (DetailViewPagerAdapter) Theme.setActionBar(this, new DetailViewPagerAdapter(getFragmentManager(), this));
         ButterKnife.bind(this);
-        //collapsingToolbarLayout.setTitleEnabled(false);
-        //setSupportActionBar(toolbar);
 
         viewPager.addOnPageChangeListener(this);
         context = getApplicationContext();
@@ -97,16 +107,30 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
     }
 
     /**
+     * Disable animation when back is pressed due a bug
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    /**
      * Set text in all fragments
      */
     private void setText() {
         try {
             collapsingToolbarLayout.setTitle(type == ListType.ANIME ? animeRecord.getTitle() : mangaRecord.getTitle());
+            if (!coverImageLoaded)
+                setToolbarImages();
             PageAdapter.hidePersonal(!isAdded());
             if (details != null && !isEmpty())
                 details.setText();
             if (personal != null && !isEmpty())
                 personal.setText();
+            if (reviews != null && !isEmpty())
+                reviews.setText();
+            if (recommendations != null && !isEmpty())
+                recommendations.setText();
             if (!isEmpty()) setupBeam();
         } catch (Exception e) {
             AppLog.log(Log.ERROR, "Atarashii", "DetailView.setText(): " + e.getMessage());
@@ -260,7 +284,7 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
             if (type.equals(ListType.ANIME)) {
                 animeRecord.setCreateFlag();
                 // If the anime hasn't aired mark is planned
-                if (animeRecord.getStatusInt() != 2)
+                if (!animeRecord.getStatus().equalsIgnoreCase("not yet aired"))
                     animeRecord.setWatchedStatus(PrefManager.getAddList());
                 else
                     animeRecord.setWatchedStatus(GenericRecord.STATUS_PLANTOWATCH);
@@ -306,65 +330,6 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
      */
     public boolean isDone() {
         return (!isEmpty()) && (type.equals(ListType.ANIME) ? animeRecord.getSynopsis() != null : mangaRecord.getSynopsis() != null);
-    }
-
-    /**
-     * Get the translation from strings.xml
-     */
-    private String getStringFromResourceArray(int resArrayId, int index) {
-        Resources res = getResources();
-        try {
-            String[] types = res.getStringArray(resArrayId);
-            if (index < 0 || index >= types.length) // make sure to have a valid array index
-                return res.getString(R.string.unknown);
-            else
-                return types[index];
-        } catch (Resources.NotFoundException e) {
-            AppLog.logException(e);
-            return res.getString(R.string.unknown);
-        }
-    }
-
-    /**
-     * Get the anime or manga mediatype translations
-     */
-    public String getTypeString(int typesInt) {
-        if (type.equals(ListType.ANIME))
-            return getStringFromResourceArray(R.array.mediaType_Anime, typesInt);
-        else
-            return getStringFromResourceArray(R.array.mediaType_Manga, typesInt);
-    }
-
-    /**
-     * Get the anime or manga status translations
-     */
-    public String getStatusString(int statusInt) {
-        if (type.equals(ListType.ANIME))
-            return getStringFromResourceArray(R.array.mediaStatus_Anime, statusInt);
-        else
-            return getStringFromResourceArray(R.array.mediaStatus_Manga, statusInt);
-    }
-
-    /**
-     * Get the anime or manga genre translations
-     */
-    public ArrayList<String> getGenresString(ArrayList<Integer> genresInt) {
-        ArrayList<String> genres = new ArrayList<>();
-        for (Integer genreInt : genresInt) {
-            genres.add(getStringFromResourceArray(R.array.genresArray, genreInt));
-        }
-        return genres;
-    }
-
-    /**
-     * Get the anime or manga classification translations
-     */
-    public String getClassificationString(Integer classificationInt) {
-        return getStringFromResourceArray(R.array.classificationArray, classificationInt);
-    }
-
-    public String getUserStatusString(int statusInt) {
-        return getStringFromResourceArray(R.array.mediaStatus_User, statusInt);
     }
 
     /**
@@ -555,8 +520,62 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
         }
     }
 
+    /**
+     * Set the banner image and the cover image.
+     */
+    public void setToolbarImages() {
+        try {
+            GenericRecord record = (type == ListType.ANIME ? animeRecord : mangaRecord);
+            final String imageUrl = record.getImageUrl();
+            final Activity activity = this;
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.cover_loading)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            coverImage.setImageBitmap(bitmap);
+                            coverImageLoaded = true;
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            try {
+                                Picasso.with(activity)
+                                        .load(imageUrl.replace("l.jpg", ".jpg"))
+                                        .error(R.drawable.cover_error)
+                                        .placeholder(R.drawable.cover_loading)
+                                        .into(coverImage);
+                            } catch (Exception e) {
+                                AppLog.log(Log.ERROR, "Atarashii", "DetailViewGeneral.setText(): " + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                            coverImage.setImageDrawable(drawable);
+                        }
+                    });
+
+            if (record.getBannerUrl() != null && !record.getBannerUrl().equals("")) {
+                Picasso.with(this)
+                        .load(record.getBannerUrl())
+                        .into(bannerImage);
+            } else {
+                Picasso.with(this)
+                        .load(record.getImageUrl())
+                        .error(R.drawable.atarashii_background)
+                        .into(bannerImage);
+            }
+        } catch (Exception e) {
+            AppLog.logException(e);
+        }
+    }
+
     @Override
     public void onNetworkTaskError(TaskJob job) {
+        Theme.Snackbar(this, R.string.toast_error_DetailsError);
     }
 
     /**
@@ -664,5 +683,19 @@ public class DetailView extends AppCompatActivity implements Serializable, Netwo
                 mangaRecord.setReadingEnd(String.valueOf(year) + "-" + monthString + "-" + dayString);
         }
         setText();
+    }
+
+    public static void createDV(Activity activity, View view, int id, ListType listType, String username) {
+        Intent startDetails = new Intent(activity, DetailView.class);
+        startDetails.putExtra("recordID", id);
+        startDetails.putExtra("recordType", listType);
+        startDetails.putExtra("username", username);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, "coverImage");
+            activity.startActivity(startDetails, options.toBundle());
+        } else {
+            activity.startActivity(startDetails);
+        }
     }
 }

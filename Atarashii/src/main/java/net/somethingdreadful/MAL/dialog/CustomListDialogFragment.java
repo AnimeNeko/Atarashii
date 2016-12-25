@@ -10,7 +10,7 @@ import net.somethingdreadful.MAL.R;
 
 import java.util.ArrayList;
 
-public class GenreDialogFragment extends DialogFragment implements DialogInterface.OnMultiChoiceClickListener {
+public class CustomListDialogFragment extends DialogFragment implements DialogInterface.OnMultiChoiceClickListener {
     private onUpdateClickListener callback;
     private ArrayList<String> array = new ArrayList<>();
     private String[] resArray;
@@ -18,7 +18,7 @@ public class GenreDialogFragment extends DialogFragment implements DialogInterfa
     @Override
     public Dialog onCreateDialog(Bundle state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        resArray = getResources().getStringArray(getArguments().getInt("arrayId"));
+        resArray = getArguments().getStringArray("all");
         boolean[] checkedItems = new boolean[resArray.length];
         if (getArguments().containsKey("current")) {
             array = getArguments().getStringArrayList("current");
@@ -31,7 +31,14 @@ public class GenreDialogFragment extends DialogFragment implements DialogInterfa
         builder.setPositiveButton(R.string.dialog_label_update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
-                callback.onUpdated(array, getArguments().getInt("id"));
+                String result = "";
+                for (String aResArray : resArray) {
+                    result = result + (array.contains(aResArray) ? 1 : 0);
+                }
+                for (int i = result.length(); i < 15; i++) {
+                    result = result + "0";
+                }
+                callback.onUpdated(result, getArguments().getInt("id"));
                 dismiss();
             }
         });
@@ -56,7 +63,7 @@ public class GenreDialogFragment extends DialogFragment implements DialogInterfa
      * The interface for callback
      */
     public interface onUpdateClickListener {
-        void onUpdated(ArrayList<String> result, int id);
+        void onUpdated(String result, int id);
     }
 
     /**
@@ -65,7 +72,7 @@ public class GenreDialogFragment extends DialogFragment implements DialogInterfa
      * @param callback The activity/fragment where the callback is located
      * @return ListDialogFragment This will return the dialog itself to make init simple
      */
-    public GenreDialogFragment setOnSendClickListener(onUpdateClickListener callback) {
+    public CustomListDialogFragment setOnSendClickListener(onUpdateClickListener callback) {
         this.callback = callback;
         return this;
     }

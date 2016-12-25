@@ -204,4 +204,49 @@
                 android:layout_marginLeft="18dp" />
         </TableRow>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/customListpanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/commentspanel"
+        android:background="@drawable/highlite"
+        android:minHeight="56dp">
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_listview_pressed" />
+
+
+        <TableRow
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/card_content_customList"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/customList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/layout_card_loading"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_marginLeft="18dp" />
+        </TableRow>
+    </RelativeLayout>
 </RelativeLayout>

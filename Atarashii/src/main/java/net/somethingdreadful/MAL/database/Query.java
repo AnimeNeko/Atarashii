@@ -60,6 +60,11 @@ public class Query {
         return this;
     }
 
+    public Query like(String column, String value) {
+        queryString += " WHERE " + column + " LIKE '" + value + "'";
+        return this;
+    }
+
     public Query andOrEquals(String column1, String value1, String column2, String value2) {
         queryString += " AND (" + column1 + " = '" + value1 + "' OR " + column2 + " = '" + value2 + "')";
         return this;
@@ -102,7 +107,8 @@ public class Query {
 
     /**
      * Update or insert records.
-     *  @param table The table where the record should be updated
+     *
+     * @param table The table where the record should be updated
      * @param cv    The ContentValues which should be updated
      * @param id    The ID of the record
      */
@@ -114,7 +120,8 @@ public class Query {
 
     /**
      * Update or insert records.
-     *  @param table    The table where the record should be updated
+     *
+     * @param table    The table where the record should be updated
      * @param cv       The ContentValues which should be updated
      * @param username The username of the record
      */
@@ -122,6 +129,16 @@ public class Query {
         int updateResult = db.update(table, cv, "username" + " = '" + username + "'", new String[]{});
         if (updateResult == 0)
             db.insert(table, null, cv);
+    }
+
+    /**
+     * Remove old records.
+     *
+     * @param table The table where the record should be removed
+     */
+    public void clearOldRecords(String table, Long date) {
+        int removedRows = db.delete(table, "lastSync < ?", new String[]{String.valueOf(date)});
+        AppLog.log(Log.INFO, "Atarashii", "Query.clearOldRecords(): removed " + removedRows + " " + table + " records before" + date);
     }
 
     /**
@@ -238,6 +255,21 @@ public class Query {
     }
 
     /**
+     * Update titles for records.
+     *
+     * @param id The anime/manga ID
+     * @param op Arraylist of strings
+     * @param en Arraylist of strings
+     */
+    public void updateMusic(int id, ArrayList<String> op, ArrayList<String> en) {
+        // delete old links
+        db.delete(DatabaseHelper.TABLE_ANIME_MUSIC, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+
+        updateTitles(id, DatabaseHelper.TABLE_ANIME_MUSIC, DatabaseHelper.MUSIC_TYPE_OPENING, op);
+        updateTitles(id, DatabaseHelper.TABLE_ANIME_MUSIC, DatabaseHelper.MUSIC_TYPE_ENDING, en);
+    }
+
+    /**
      * Update Links for records.
      *
      * @param id        The anime/manga ID
@@ -276,6 +308,29 @@ public class Query {
     public ArrayList<String> getTitles(int id, boolean anime, int titleType) {
         ArrayList<String> result = new ArrayList<>();
         Cursor cursor = selectFrom("*", anime ? DatabaseHelper.TABLE_ANIME_OTHER_TITLES : DatabaseHelper.TABLE_MANGA_OTHER_TITLES)
+                .where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andEquals("titleType", String.valueOf(titleType))
+                .run();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                result.add(cursor.getString(2));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get titles from the database.
+     *
+     * @param id        The anime or manga ID
+     * @param titleType The title type
+     * @return ArrayList with titles
+     */
+    public ArrayList<String> getMusic(int id, int titleType) {
+        ArrayList<String> result = new ArrayList<>();
+        Cursor cursor = selectFrom("*", DatabaseHelper.TABLE_ANIME_MUSIC)
                 .where(DatabaseHelper.COLUMN_ID, String.valueOf(id)).andEquals("titleType", String.valueOf(titleType))
                 .run();
 

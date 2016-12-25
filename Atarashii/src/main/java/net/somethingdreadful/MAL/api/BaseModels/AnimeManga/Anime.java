@@ -1,10 +1,13 @@
 package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.text.TextUtils;
 
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
@@ -62,6 +65,20 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter
     @Setter
     private net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.Airing airing;
+
+    /**
+     * Opening themes of the record
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> openingTheme;
+
+    /**
+     * Ending themes of the record
+     */
+    @Setter
+    @Getter
+    private ArrayList<String> endingTheme;
 
     /**
      * A list of producers for the anime
@@ -228,6 +245,19 @@ public class Anime extends GenericRecord implements Serializable {
     @Getter
     private int rewatchValue;
 
+    /**
+     * External links.
+     */
+    @Getter @Setter
+    public externalLinks externalLinks;
+
+    @Getter public static class externalLinks implements Serializable {
+        @Setter String officialSite;
+        @Setter String animeDB;
+        @Setter String animeNewsNetwork;
+        @Setter String wikipedia;
+    }
+
     public void setWatchedStatus(String watchedStatus) {
         if (this.watchedStatus == null || !this.watchedStatus.equals(watchedStatus)) {
             this.watchedStatus = watchedStatus;
@@ -342,6 +372,33 @@ public class Anime extends GenericRecord implements Serializable {
         }
     }
 
+    /**
+     * Get the anime or manga classification translations
+     */
+    public String getClassificationString(Activity activity) {
+        return getStringFromResourceArray(activity, R.array.classificationArray, getClassificationInt());
+    }
+
+    public String getUserStatusString(Activity activity) {
+        return getStringFromResourceArray(activity, R.array.mediaStatus_User, getUserStatusInt(getWatchedStatus()));
+    }
+
+    /**
+     * Get the anime or manga status translations
+     */
+    public String getStatusString(Activity activity) {
+        int array;
+        String[] fixedArray;
+        if (AccountService.isMAL()) {
+            array = R.array.animeStatus_MAL;
+            fixedArray = activity.getResources().getStringArray(R.array.animeFixedStatus_MAL);
+        } else {
+            array = R.array.animeStatus_AL;
+            fixedArray = activity.getResources().getStringArray(R.array.animeFixedStatus_AL);
+        }
+        return getStringFromResourceArray(activity, array, getStatusInt(fixedArray));
+    }
+
     public Integer getClassificationInt() {
         String[] classification = {
                 "G - All Ages",
@@ -362,29 +419,8 @@ public class Anime extends GenericRecord implements Serializable {
         setWatchedStatus(ContentManager.listSortFromInt(id, MALApi.ListType.ANIME));
     }
 
-    public int getTypeInt() {
-        String[] types = {
-                "TV",
-                "Movie",
-                "OVA",
-                "ONA",
-                "Special",
-                "Music"
-        };
-        return Arrays.asList(types).indexOf(getType());
-    }
-
-    public int getStatusInt() {
-        String[] status = {
-                "finished airing",
-                "currently airing",
-                "not yet aired"
-        };
-        return Arrays.asList(status).indexOf(getStatus());
-    }
-
-    public int getWatchedStatusInt() {
-        return getUserStatusInt(getWatchedStatus());
+    public int getStatusInt(String[] fixedStatus) {
+        return Arrays.asList(fixedStatus).indexOf(getStatus());
     }
 
     public ArrayList<RecordStub> getParentStoryArray() {
@@ -411,6 +447,7 @@ public class Anime extends GenericRecord implements Serializable {
         List<String> columnNames = Arrays.asList(cursor.getColumnNames());
         Anime result = (Anime) GenericRecord.fromCursor(new Anime(), cursor, columnNames);
         result.airing = new net.somethingdreadful.MAL.api.ALModels.AnimeManga.Anime.Airing();
+        result.externalLinks = new externalLinks();
 
         result.setDuration(cursor.getInt(columnNames.indexOf("duration")));
         result.setEpisodes(cursor.getInt(columnNames.indexOf("episodes")));
@@ -426,6 +463,10 @@ public class Anime extends GenericRecord implements Serializable {
         result.setRewatching(cursor.getInt(columnNames.indexOf("rewatching")));
         result.setRewatchCount(cursor.getInt(columnNames.indexOf("rewatchCount")));
         result.setRewatchValue(cursor.getInt(columnNames.indexOf("rewatchValue")));
+        result.getExternalLinks().setOfficialSite(cursor.getString(columnNames.indexOf("officialSite")));
+        result.getExternalLinks().setAnimeDB(cursor.getString(columnNames.indexOf("animeDB")));
+        result.getExternalLinks().setWikipedia(cursor.getString(columnNames.indexOf("wikipedia")));
+        result.getExternalLinks().setAnimeNewsNetwork(cursor.getString(columnNames.indexOf("animeNewsNetwork")));
         return result;
     }
 }

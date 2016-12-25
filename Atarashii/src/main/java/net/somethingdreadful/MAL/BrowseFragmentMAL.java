@@ -27,13 +27,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BrowseFragment extends Fragment implements AdapterView.OnItemSelectedListener, NumberPickerDialogFragment.onUpdateClickListener, DatePickerDialogFragment.onDateSetListener, GenreDialogFragment.onUpdateClickListener, CompoundButton.OnCheckedChangeListener {
+public class BrowseFragmentMAL extends Fragment implements AdapterView.OnItemSelectedListener, NumberPickerDialogFragment.onUpdateClickListener, DatePickerDialogFragment.onDateSetListener, GenreDialogFragment.onUpdateClickListener, CompoundButton.OnCheckedChangeListener {
     BrowseActivity activity;
     HashMap<String, String> query;
     String startDate = "";
     String endDate = "";
     String minRating = "";
     ArrayList<String> genres = new ArrayList<>();
+
+    // Default values
+    String defaultStatus;
 
     @BindView(R.id.keyword) EditText keyword;
     @BindView(R.id.typeSwitch) Switch typeSwitch;
@@ -51,15 +54,16 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        View view = inflater.inflate(R.layout.fragment_browse, container, false);
+        View view = inflater.inflate(R.layout.fragment_browse_mal, container, false);
         Theme.setBackground(activity, view, Theme.darkTheme ? R.color.bg_dark : R.color.bg_light);
         ButterKnife.bind(this, view);
 
-        initSpinner(sortSpinner, R.array.browse_sort_anime);
-        initSpinner(statusSpinner, R.array.mediaStatus_Anime);
-        initSpinner(typeSpinner, R.array.mediaType_Anime);
+        initSpinner(sortSpinner, R.array.animeSort_MAL);
+        initSpinner(statusSpinner, R.array.animeStatus_MAL);
+        initSpinner(typeSpinner, R.array.animeType_MAL);
         initSpinner(ratingSpinner, R.array.classificationArray);
         initSpinner(genreSpinner, R.array.browse_genresArray);
+        defaultStatus = getResources().getStringArray(R.array.animeStatus_AL)[0];
         typeSwitch.setOnCheckedChangeListener(this);
 
         if (Theme.darkTheme) {
@@ -90,7 +94,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     }
 
     public void setBackground(View view, int colorID) {
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(activity, colorID)));
         } else {
             view.setBackground(new ColorDrawable(ContextCompat.getColor(activity, colorID)));
@@ -137,8 +141,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     public void onSearchButton() {
         reloadEntries();
         activity.viewPager.setCurrentItem(typeSwitch.isChecked() ? 2 : 1);
-        activity.af.getBrowse(query, true);
-        activity.mf.getBrowse(query, true);
+        activity.igf.getBrowse(query, true);
     }
 
     @OnClick(R.id.genresButton)
@@ -146,6 +149,7 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         Bundle bundle = new Bundle();
         bundle.putInt("id", R.id.genres);
         bundle.putStringArrayList("current", genres);
+        bundle.putInt("arrayId", R.array.genresArray_MAL);
         activity.showDialog("storage", new GenreDialogFragment().setOnSendClickListener(this), bundle);
     }
 
@@ -167,9 +171,26 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
         keyword.clearFocus();
         query = new HashMap<>();
         query.put("keyword", keyword.getText().toString());
+
+        // Get the chosen value and get the english API info
+        if (!sortSpinner.getSelectedItem().toString().equals("Relevance")) {
+            if (typeSwitch.isChecked())
+                query.put("sort", activity.getAPIValue(sortSpinner.getSelectedItem().toString(), R.array.mangaSort_MAL, R.array.mangaFixedSort_MAL));
+            else
+                query.put("sort", activity.getAPIValue(sortSpinner.getSelectedItem().toString(), R.array.animeSort_MAL, R.array.animeFixedSort_MAL));
+        }
+
         if (!sortSpinner.getSelectedItem().toString().equals("Relevance"))
             query.put("sort", sortSpinner.getSelectedItem().toString());
-        query.put("status", statusSpinner.getSelectedItem().toString());
+
+        // Get the chosen value and get the english API info
+        if (!defaultStatus.equals(statusSpinner.getSelectedItem().toString())) {
+            if (typeSwitch.isChecked())
+                query.put("status", activity.getAPIValue(statusSpinner.getSelectedItem().toString(), R.array.mangaStatus_MAL, R.array.mangaFixedStatus_MAL));
+            else
+                query.put("status", activity.getAPIValue(statusSpinner.getSelectedItem().toString(), R.array.animeStatus_MAL, R.array.animeFixedStatus_MAL));
+        }
+
         query.put("type", typeSpinner.getSelectedItem().toString());
         query.put("rating", ratingSpinner.getSelectedItem().toString());
         query.put("genre_type", String.valueOf(genreSpinner.getSelectedItemPosition()));
@@ -206,13 +227,16 @@ public class BrowseFragment extends Fragment implements AdapterView.OnItemSelect
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean manga) {
         if (manga) {
-            initSpinner(sortSpinner, R.array.browse_sort_manga);
-            initSpinner(statusSpinner, R.array.mediaStatus_Manga);
-            initSpinner(typeSpinner, R.array.mediaType_Manga);
+            initSpinner(sortSpinner, R.array.mangaSort_MAL);
+            initSpinner(statusSpinner, R.array.mangaStatus_MAL);
+            initSpinner(typeSpinner, R.array.mangaType_MAL);
+            defaultStatus = getResources().getStringArray(R.array.mangaStatus_MAL)[0];
         } else {
-            initSpinner(sortSpinner, R.array.browse_sort_anime);
-            initSpinner(statusSpinner, R.array.mediaStatus_Anime);
-            initSpinner(typeSpinner, R.array.mediaType_Anime);
+            initSpinner(sortSpinner, R.array.animeSort_MAL);
+            initSpinner(statusSpinner, R.array.animeStatus_MAL);
+            initSpinner(typeSpinner, R.array.animeType_MAL);
+            defaultStatus = getResources().getStringArray(R.array.animeStatus_MAL)[0];
         }
+        activity.getBrowsePagerAdapter().isManga(manga);
     }
 }

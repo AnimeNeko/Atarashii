@@ -78,31 +78,31 @@ interface ALInterface {
 
     @FormUrlEncoded
     @POST("animelist")
-    Call<ResponseBody> addAnimeF(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                @Field("score") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> addAnimeF(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes, @Field("score") float score,
+                                 @Field("notes") String notes, @Field("rewatched") int rewatched, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @POST("animelist")
-    Call<ResponseBody> addAnimeI(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                @Field("score") int score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> addAnimeI(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes, @Field("score") int score,
+                                 @Field("notes") String notes, @Field("rewatched") int rewatched, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @POST("animelist")
-    Call<ResponseBody> addAnimeS(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                @Field("score") String score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> addAnimeS(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes, @Field("score") String score,
+                                 @Field("notes") String notes, @Field("rewatched") int rewatched, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @PUT("animelist")
-    Call<ResponseBody> updateAnimeF(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                   @Field("score") float score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> updateAnimeF(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes, @Field("score") float score,
+                                    @Field("notes") String notes, @Field("rewatched") int rewatched, @Field("custom_lists") String customList);
     @FormUrlEncoded
     @PUT("animelist")
-    Call<ResponseBody> updateAnimeS(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                   @Field("score") String score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> updateAnimeS(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes, @Field("score") String score,
+                                    @Field("notes") String notes, @Field("rewatched") int rewatched, @Field("custom_lists") String customList);
     @FormUrlEncoded
     @PUT("animelist")
-    Call<ResponseBody> updateAnimeI(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes,
-                                   @Field("score") int score, @Field("notes") String notes, @Field("rewatched") int rewatched);
+    Call<ResponseBody> updateAnimeI(@Field("id") int id, @Field("list_status") String status, @Field("episodes_watched") int episodes, @Field("score") int score,
+                                    @Field("notes") String notes, @Field("rewatched") int rewatched, @Field("custom_lists") String customList);
 
     @DELETE("animelist/{anime_id}")
     Call<ResponseBody> deleteAnime(@Path("anime_id") int anime_id);
@@ -112,33 +112,33 @@ interface ALInterface {
 
     @FormUrlEncoded
     @POST("mangalist")
-    Call<ResponseBody> addMangaF(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                                @Field("volumes_read") int volumes, @Field("score") float score);
+    Call<ResponseBody> addMangaF(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters, @Field("volumes_read") int volumes,
+                                 @Field("score") float score, @Field("notes") String notes, @Field("reread") int reread, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @POST("mangalist")
-    Call<ResponseBody> addMangaI(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                                @Field("volumes_read") int volumes, @Field("score") int score);
+    Call<ResponseBody> addMangaI(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters, @Field("volumes_read") int volumes,
+                                 @Field("score") int score, @Field("notes") String notes, @Field("reread") int reread, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @POST("mangalist")
-    Call<ResponseBody> addMangaS(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                                @Field("volumes_read") int volumes, @Field("score") String score);
+    Call<ResponseBody> addMangaS(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters, @Field("volumes_read") int volumes,
+                                 @Field("score") String score, @Field("notes") String notes, @Field("reread") int reread, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @PUT("mangalist")
-    Call<ResponseBody> updateMangaF(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                                   @Field("volumes_read") int volumes, @Field("score") float score);
+    Call<ResponseBody> updateMangaF(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,@Field("volumes_read") int volumes,
+                                    @Field("score") float score, @Field("notes") String notes, @Field("reread") int reread, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @PUT("mangalist")
-    Call<ResponseBody> updateMangaS(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                                   @Field("volumes_read") int volumes, @Field("score") String score);
+    Call<ResponseBody> updateMangaS(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,@Field("volumes_read") int volumes,
+                                    @Field("score") String score, @Field("notes") String notes, @Field("reread") int reread, @Field("custom_lists") String customList);
 
     @FormUrlEncoded
     @PUT("mangalist")
-    Call<ResponseBody> updateMangaI(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,
-                                   @Field("volumes_read") int volumes, @Field("score") int score);
+    Call<ResponseBody> updateMangaI(@Field("id") int id, @Field("list_status") String status, @Field("chapters_read") int chapters,@Field("volumes_read") int volumes,
+                                    @Field("score") int score, @Field("notes") String notes, @Field("reread") int reread, @Field("custom_lists") String customList);
 
     /*
     @GET("forum/recent")

@@ -169,7 +169,7 @@ public class ForumAL implements Serializable {
         @Setter
         @Getter
         @SerializedName("sticky")
-        private Object sticky;
+        private boolean sticky;
 
         /**
          * Last post time information.

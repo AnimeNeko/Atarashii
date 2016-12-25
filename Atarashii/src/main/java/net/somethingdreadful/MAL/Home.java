@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -35,8 +36,12 @@ import net.somethingdreadful.MAL.dialog.ChooseDialogFragment;
 import net.somethingdreadful.MAL.dialog.InputDialogFragment;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static net.somethingdreadful.MAL.Theme.context;
 
 public class Home extends AppCompatActivity implements ChooseDialogFragment.onClickListener, SwipeRefreshLayout.OnRefreshListener, IGF.IGFCallbackListener, View.OnClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener, InputDialogFragment.onClickListener {
     private IGF af;
@@ -44,20 +49,24 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
     private Menu menu;
     private BroadcastReceiver networkReceiver;
 
+    Integer[] ids = {R.id.customList1, R.id.customList2, R.id.customList3, R.id.customList4, R.id.customList5,
+            R.id.customList6, R.id.customList7, R.id.customList8, R.id.customList9, R.id.customList10,
+            R.id.customList11, R.id.customList12, R.id.customList13, R.id.customList14, R.id.customList15};
+
     private String username;
     private boolean networkAvailable = true;
     private boolean myList = true; //tracks if the user is on 'My List' or not
     private int callbackCounter = 0;
-    @BindView(R.id.navigationView)
-    NavigationView navigationView;
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
+    @BindView(R.id.navigationView) NavigationView navigationView;
+    @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
+    @BindView(R.id.tabs) TabLayout tabs;
+    @BindView(R.id.pager) ViewPager viewPager;
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         //Initializing activity and application
-        Theme.context = getApplicationContext();
+        context = getApplicationContext();
 
         if (AccountService.AccountExists(this)) {
             //The following is state handling code
@@ -69,8 +78,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
             //Initializing
             Theme.setTheme(this, R.layout.activity_home, false);
             Theme.setActionBar(this, new IGFPagerAdapter(getFragmentManager()));
+
             ButterKnife.bind(this);
             username = AccountService.getUsername();
+            if (PrefManager.getHideHomeTabs())
+                tabs.setVisibility(View.GONE);
+            viewPager.addOnPageChangeListener(this);
 
             //Initializing NavigationView
             navigationView.setNavigationItemSelectedListener(this);
@@ -100,14 +113,48 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_home, menu);
+        getMenuInflater().inflate(AccountService.isMAL() ? R.menu.activity_home_mal : R.menu.activity_home_al, menu);
+        this.menu = menu;
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         ComponentName cn = new ComponentName(this, SearchActivity.class);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+
+        if (!AccountService.isMAL())
+            setCustomList(PrefManager.getCustomAnimeList());
         return true;
+    }
+
+    /**
+     * Properly set the Custom lists.
+     * Note: This is AL only!
+     *
+     * @param customList The Anime or Manga customList names
+     */
+    private void setCustomList(String[] customList) {
+        if (menu != null) {
+            for (int i = 0; i < ids.length; i++) {
+                setCustomItem(menu.findItem(ids[i]), customList, i);
+            }
+        }
+    }
+
+    /**
+     * This is used to check if the MenuItem has a name in the Prefs and set it.
+     *
+     * @param item  The menu item
+     * @param list  The name list. Anime and Manga have different ones
+     * @param index The name index number
+     */
+    private void setCustomItem(MenuItem item, String[] list, int index) {
+        if (list.length > index) {
+            item.setTitle(list[index]);
+            item.setVisible(true);
+        } else {
+            item.setVisible(false);
+        }
     }
 
     @Override
@@ -173,6 +220,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                     mf.inverse();
                 }
                 break;
+            default:
+                if (Arrays.asList(ids).contains(item.getItemId())) {
+                    getRecords(true, TaskJob.GETLIST, Arrays.asList(ids).indexOf(item.getItemId()) + 7);
+                    setChecked(item);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -224,7 +277,6 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        this.menu = menu;
         if (af != null) {
             //All this is handling the ticks in the switch list menu
             switch (af.list) {
@@ -348,24 +400,20 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
         }
 
         callbackCounter++;
-
         if (callbackCounter >= 2) {
             callbackCounter = 0;
-
             if (job.equals(TaskJob.FORCESYNC)) {
                 NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancel(R.id.notification_sync);
+                if (!AccountService.isMAL())
+                    setCustomList(PrefManager.getCustomAnimeList());
             }
         }
     }
 
     @Override
-    public void onItemClick(int id, MALApi.ListType listType, String username) {
-        Intent startDetails = new Intent(this, DetailView.class);
-        startDetails.putExtra("recordID", id);
-        startDetails.putExtra("recordType", listType);
-        startDetails.putExtra("username", username);
-        startActivity(startDetails);
+    public void onItemClick(int id, MALApi.ListType listType, String username, View view) {
+        DetailView.createDV(this, view, id, listType, username);
     }
 
     @Override
@@ -392,8 +440,12 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (menu != null)
-            menu.findItem(R.id.listType_rewatching).setTitle(getString(position == 0 ? R.string.listType_rewatching : R.string.listType_rereading));
+        if (AccountService.isMAL()) {
+            if (menu != null)
+                menu.findItem(R.id.listType_rewatching).setTitle(getString(position == 0 ? R.string.listType_rewatching : R.string.listType_rereading));
+        } else {
+            setCustomList(position == 0 ? PrefManager.getCustomAnimeList() : PrefManager.getCustomMangaList());
+        }
     }
 
     @Override
@@ -472,10 +524,7 @@ public class Home extends AppCompatActivity implements ChooseDialogFragment.onCl
                 startActivity(new Intent(this, ChartActivity.class));
                 break;
             case R.id.nav_browse:
-                if (AccountService.isMAL())
-                    startActivity(new Intent(this, BrowseActivity.class));
-                else
-                    Theme.Snackbar(this, R.string.toast_info_disabled);
+                startActivity(new Intent(this, BrowseActivity.class));
                 break;
             case R.id.nav_logout: // Others subgroup
                 showLogoutDialog();

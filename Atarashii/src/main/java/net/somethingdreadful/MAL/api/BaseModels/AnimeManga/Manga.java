@@ -1,11 +1,14 @@
 package net.somethingdreadful.MAL.api.BaseModels.AnimeManga;
 
+import android.app.Activity;
 import android.database.Cursor;
 
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.ContentManager;
 import net.somethingdreadful.MAL.PrefManager;
+import net.somethingdreadful.MAL.R;
+import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.MALApi;
 import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
@@ -236,34 +239,32 @@ public class Manga extends GenericRecord implements Serializable {
         }
     }
 
-    public int getReadStatusInt() {
-        return getUserStatusInt(getReadStatus());
+    /**
+     * Get the anime or manga status translations
+     */
+    public String getStatusString(Activity activity) {
+        int array;
+        String[] fixedArray;
+        if (AccountService.isMAL()) {
+            array = R.array.mangaStatus_MAL;
+            fixedArray = activity.getResources().getStringArray(R.array.mangaFixedStatus_MAL);
+        } else {
+            array = R.array.mangaStatus_AL;
+            fixedArray = activity.getResources().getStringArray(R.array.mangaFixedStatus_AL);
+        }
+        return getStringFromResourceArray(activity, array, getStatusInt(fixedArray));
+    }
+
+    public String getUserStatusString(Activity activity) {
+        return getStringFromResourceArray(activity, R.array.mediaStatus_User, getUserStatusInt(getReadStatus()));
     }
 
     public void setReadStatus(int id) {
         setReadStatus(ContentManager.listSortFromInt(id, MALApi.ListType.MANGA));
     }
 
-    public int getTypeInt() {
-        String[] types = {
-                "Manga",
-                "Novel",
-                "One Shot",
-                "Doujin",
-                "Manwha",
-                "Manhua",
-                "OEL"
-        };
-        return Arrays.asList(types).indexOf(getType());
-    }
-
-    public int getStatusInt() {
-        String[] status = {
-                "finished",
-                "publishing",
-                "not yet published"
-        };
-        return Arrays.asList(status).indexOf(getStatus());
+    public int getStatusInt(String[] fixedStatus) {
+        return Arrays.asList(fixedStatus).indexOf(getStatus());
     }
 
     public int getProgress(boolean useSecondaryAmount) {

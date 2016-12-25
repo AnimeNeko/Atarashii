@@ -8,6 +8,7 @@ import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.ALApi;
 import net.somethingdreadful.MAL.api.ALModels.ForumAL;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
+import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Manga;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Reviews;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Schedule;
@@ -48,6 +49,9 @@ public class ContentManager {
     }
 
     public static String listSortFromInt(int i, MALApi.ListType type) {
+        if (6 < i) // custom lists
+            return GenericRecord.CUSTOMLIST + (i - 6);
+
         switch (i) {
             case 0:
                 return "";

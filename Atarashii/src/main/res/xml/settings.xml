@@ -39,6 +39,11 @@
             android:title="@string/preference_list_columns_landscape" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="hideTabs"
+            android:summary="@string/preference_summary_hidetabs"
+            android:title="@string/preference_hidetabs" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="adultcontent"
             android:summary="@string/preference_summary_adultcontent"
             android:title="@string/preference_adultcontent" />

@@ -301,6 +301,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      * Filter the list by status type.
      */
     public void filter(int statusType) {
+        this.list = statusType - 1;
         switch (statusType) {
             case 1:
                 gl = backGl;
@@ -830,7 +831,7 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        callback.onItemClick(gl.get(position).getId(), listType, username);
+        callback.onItemClick(gl.get(position).getId(), listType, username, view);
     }
 
     static class ViewHolder {
@@ -1071,6 +1072,6 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
 
         void onRecordsLoadingFinished(TaskJob job);
 
-        void onItemClick(int id, ListType listType, String username);
+        void onItemClick(int id, ListType listType, String username, View view);
     }
 }

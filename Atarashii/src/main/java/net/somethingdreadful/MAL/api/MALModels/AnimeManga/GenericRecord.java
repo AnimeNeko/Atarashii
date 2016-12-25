@@ -6,6 +6,7 @@ import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -189,6 +190,7 @@ public class GenericRecord implements Serializable {
         model.setPriority(getPriority());
         model.setNotes(getPersonalComments());
         model.setPersonalTags(getPersonalTags());
+        model.setLastSync(new Date());
     }
 
     private ArrayList<String> getTitleArray() {

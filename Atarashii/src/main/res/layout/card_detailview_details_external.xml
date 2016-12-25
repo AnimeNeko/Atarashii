@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/googlePanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/highlite"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/card_content_google"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/googlePanel"
+        android:background="@color/bg_listview_pressed"/>
+
+    <TextView
+        android:id="@+id/youtubePanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/highlite"
+        android:gravity="center_vertical"
+        android:layout_below="@id/divider1"
+        android:paddingLeft="16dp"
+        android:text="@string/card_content_youtube"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/youtubePanel"
+        android:background="@color/bg_listview_pressed"/>
+
+    <TextView
+        android:id="@+id/wikipediaPanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/divider2"
+        android:background="@drawable/highlite"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/card_content_wikipedia"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/wikipediaPanel"
+        android:background="@color/bg_listview_pressed"/>
+
+    <TextView
+        android:id="@+id/officialPanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/divider3"
+        android:background="@drawable/highlite"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/card_content_official_site"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/officialPanel"
+        android:background="@color/bg_listview_pressed"/>
+
+    <TextView
+        android:id="@+id/animedbPanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/divider4"
+        android:background="@drawable/highlite"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/card_content_animedb"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/animedbPanel"
+        android:background="@color/bg_listview_pressed"/>
+
+    <TextView
+        android:id="@+id/animenewsnetworkPanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/divider5"
+        android:background="@drawable/highlite"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/card_content_animenewsnetwork"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+</RelativeLayout>

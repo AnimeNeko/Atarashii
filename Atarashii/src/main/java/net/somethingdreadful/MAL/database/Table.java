@@ -34,6 +34,7 @@ public class Table {
                 + "title varchar, "
                 + "type varchar, "
                 + "imageUrl varchar, "
+                + "bannerUrl varchar, "
                 + "synopsis varchar, "
                 + "status varchar, "
                 + "startDate varchar, "
@@ -54,7 +55,9 @@ public class Table {
                 + "lsReadWatch integer, "
                 + "lsCompleted integer, "
                 + "lsOnHold integer, "
-                + "lsDropped integer, ";
+                + "lsDropped integer, "
+                + "customList varchar, "
+                + "lastSync long, ";
 
         if (table.equals(DatabaseHelper.TABLE_ANIME))
             queryString += "duration integer, "
@@ -70,7 +73,11 @@ public class Table {
                     + "storageValue float, "
                     + "rewatching integer, "
                     + "rewatchCount integer, "
-                    + "rewatchValue integer "
+                    + "rewatchValue integer, "
+                    + "officialSite varchar, "
+                    + "animeDB varchar, "
+                    + "wikipedia varchar, "
+                    + "animeNewsNetwork varchar "
                     + ");";
         else
             queryString += "chapters integer, "

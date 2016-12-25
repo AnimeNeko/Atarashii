@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.adapters.IGFPagerAdapter;
@@ -106,10 +107,7 @@ public class SearchActivity extends AppCompatActivity implements IGF.IGFCallback
     }
 
     @Override
-    public void onItemClick(int id, ListType listType, String username) {
-        Intent startDetails = new Intent(getApplicationContext(), DetailView.class);
-        startDetails.putExtra("recordID", id);
-        startDetails.putExtra("recordType", listType);
-        startActivity(startDetails);
+    public void onItemClick(int id, ListType listType, String username, View view) {
+        DetailView.createDV(this, view, id, listType, username);
     }
 }
