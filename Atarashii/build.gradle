@@ -38,13 +38,13 @@ android {
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 78
-            versionName '2.4 Beta 1'
+            versionCode 79
+            versionName '2.4 Beta 2'
         }
         FLOSSBeta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 78
-            versionName '2.4 Beta 1'
+            versionCode 79
+            versionName '2.4 Beta 2'
         }
     }
 
