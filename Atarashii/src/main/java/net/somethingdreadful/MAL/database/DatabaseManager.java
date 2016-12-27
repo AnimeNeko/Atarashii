@@ -107,7 +107,8 @@ public class DatabaseManager {
         for (Anime anime : result) {
             saveAnimeList(anime);
         }
-        clearOldRecords(result.get(0), DatabaseHelper.TABLE_ANIME, "saveAnimeList");
+        if (result.size() > 0)
+            clearOldRecords(result.get(0), DatabaseHelper.TABLE_ANIME, "saveAnimeList");
     }
 
     /**
@@ -194,7 +195,8 @@ public class DatabaseManager {
         for (Manga manga : result) {
             saveMangaList(manga);
         }
-        clearOldRecords(result.get(0), DatabaseHelper.TABLE_MANGA, "saveMangaList");
+        if (result.size() > 0)
+            clearOldRecords(result.get(0), DatabaseHelper.TABLE_MANGA, "saveMangaList");
     }
 
     /**
