@@ -35,22 +35,14 @@ public class FirstTimeInit extends AppCompatActivity implements AuthenticationCh
     private ProgressDialog dialog;
     private boolean loaded = false;
 
-    @BindView(R.id.edittext_malUser)
-    EditText malUser;
-    @BindView(R.id.edittext_malPass)
-    EditText malPass;
-    @BindView(R.id.viewFlipper)
-    ViewFlipper viewFlipper;
-    @BindView(R.id.button_connectToMal)
-    Button connectButton;
-    @BindView(R.id.registerButton)
-    Button registerButton;
-    @BindView(R.id.webview)
-    WebView webview;
-    @BindView(R.id.myanimelist)
-    TextView myanimelist;
-    @BindView(R.id.anilist)
-    TextView anilist;
+    @BindView(R.id.edittext_malUser) EditText malUser;
+    @BindView(R.id.edittext_malPass) EditText malPass;
+    @BindView(R.id.viewFlipper) ViewFlipper viewFlipper;
+    @BindView(R.id.button_connectToMal) Button connectButton;
+    @BindView(R.id.registerButton) Button registerButton;
+    @BindView(R.id.webview) WebView webview;
+    @BindView(R.id.myanimelist) TextView myanimelist;
+    @BindView(R.id.anilist) TextView anilist;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
