@@ -66,7 +66,7 @@ public class GenericRecord implements Serializable {
      * Defined as 0 or 1 like 010010100101001
      */
     @Getter
-    private String customList = "000000000000000";
+    private String customList;
 
     /**
      * Title of the record (Romaji)

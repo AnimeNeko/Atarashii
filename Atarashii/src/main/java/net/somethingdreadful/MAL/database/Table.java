@@ -56,7 +56,7 @@ public class Table {
                 + "lsCompleted integer, "
                 + "lsOnHold integer, "
                 + "lsDropped integer, "
-                + "customList varchar, "
+                + "customList varchar default '000000000000000', "
                 + "lastSync long, ";
 
         if (table.equals(DatabaseHelper.TABLE_ANIME))
