@@ -27,7 +27,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -42,11 +43,8 @@ import net.somethingdreadful.MAL.tasks.NetworkTask;
 import net.somethingdreadful.MAL.tasks.TaskJob;
 import net.somethingdreadful.MAL.tasks.WriteDetailTask;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -145,8 +143,20 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         try {
             Gson gson = new Gson();
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(key + ".cache", Context.MODE_PRIVATE));
-            outputStreamWriter.write(gson.toJson(records));
-            outputStreamWriter.close();
+            JsonWriter writer = new JsonWriter(outputStreamWriter);
+            writer.setIndent("  ");
+            writer.beginArray();
+            if (isAnime())
+                for (GenericRecord record : records) {
+                    gson.toJson(record, Anime.class, writer);
+                }
+            else
+                for (GenericRecord record : records) {
+                    gson.toJson(record, Manga.class, writer);
+                }
+            writer.endArray();
+            writer.close();
+            AppLog.log(Log.INFO, "Atarashii", "IGF.saveList(" + key + "): has been saved");
         } catch (Exception e) {
             AppLog.logException(e);
         }
@@ -162,27 +172,23 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
         AppLog.log(Log.INFO, "Atarashii", "IGF.getSavedList(" + key + ")");
         ArrayList<GenericRecord> records = new ArrayList<>();
         Gson gson = new Gson();
-        Type type;
-        if (isAnime()) {
-            type = new TypeToken<ArrayList<Anime>>() {
-            }.getType();
-        } else {
-            type = new TypeToken<ArrayList<Manga>>() {
-            }.getType();
-        }
         try {
-            InputStream inputStream = context.openFileInput(key + ".cache");
-            if (inputStream != null) {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String readString;
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((readString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(readString);
+            InputStreamReader inputStream = new InputStreamReader(context.openFileInput(key + ".cache"));
+            JsonReader reader = new JsonReader(inputStream);
+            reader.beginArray();
+            if (isAnime())
+                while (reader.hasNext()) {
+                    Anime record = gson.fromJson(reader, Anime.class);
+                    records.add(record);
                 }
-                inputStream.close();
-                String ret = stringBuilder.toString();
-                records = gson.fromJson(ret, type);
-            }
+            else
+                while (reader.hasNext()) {
+                    Manga record = gson.fromJson(reader, Manga.class);
+                    records.add(record);
+                }
+            reader.endArray();
+            reader.close();
+            AppLog.log(Log.INFO, "Atarashii", "IGF.getSavedList(" + key + "): has been loaded");
         } catch (Exception e) {
             AppLog.logException(e);
         }
