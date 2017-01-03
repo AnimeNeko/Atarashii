@@ -825,9 +825,15 @@ public class IGF extends Fragment implements OnScrollListener, OnItemClickListen
     @Override
     public void onRecordStatusUpdated(ListType type) {
         // broadcast received
-        if (type != null && type.equals(listType) && isList()) {
-            clearAfterLoading = true;
-            getRecords(false, TaskJob.GETLIST, list);
+        try {
+            if (type != null && type.equals(listType) && isList()) {
+                clearAfterLoading = true;
+                getRecords(false, TaskJob.GETLIST, list);
+                saveList("gl" + listType + activity.getClass().getSimpleName(), gl);
+                saveList("backGl" + listType + activity.getClass().getSimpleName(), backGl);
+            }
+        } catch (Exception e) {
+            AppLog.logTaskCrash("IGF", "ListViewAdapter()", e);
         }
     }
 
