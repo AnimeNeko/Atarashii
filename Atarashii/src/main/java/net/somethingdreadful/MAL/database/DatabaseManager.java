@@ -89,7 +89,7 @@ public class DatabaseManager {
 
     public void clearOldRecords(GenericRecord record, String table, String methodName) {
         Long lastSync = record.getLastSync().getTime();
-        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager." + methodName + "(): removing records before" + lastSync);
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager." + methodName + "(): removing records before " + lastSync);
 
         try {
             db.beginTransaction();
