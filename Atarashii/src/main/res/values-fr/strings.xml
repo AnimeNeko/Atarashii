@@ -7,14 +7,13 @@
     <string name="title_activity_detail_view">DetailView</string>
     <string name="title_activity_profile">Profil de l\'utilisateur</string>
     <string name="title_activity_forum">Forum</string>
-    <string name="title_activity_backup">Sauvegarde</string>
     <string name="title_activity_charts">Graphiques</string>
     <string name="title_activity_browse">Consulter</string>
+    <string name="title_activity_support">Support</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Changer de liste</string>
     <string name="menu_inverse">Inverser la liste</string>
     <string name="menu_sync">Synchronisation réussie</string>
-    <string name="menu_backup">Sauvegarde</string>
     <string name="menu_details">Détails</string>
     <string name="menu_sort">Trier</string>
     <string name="sort_title">Titre</string>
@@ -45,17 +44,10 @@
     <string name="toast_info_comment_added">Ça pourrait prendre 5 minutes avant ce que ce soit visible</string>
     <string name="toast_info_disabled">Cette fonctionnalité est actuellement désactivée :(</string>
     <string name="toast_info_disabled_youtube">Les commentaires contenant des vidéos Youtube ne sont pas supportés :(</string>
-    <string name="toast_info_backup_saved">La sauvegarde a été créée !</string>
-    <string name="toast_info_backup_revert">Modification des changements selon la sauvegarde !</string>
-    <string name="toast_info_backup_remove">La sauvegarde a été supprimée !</string>
     <string name="toast_info_backup_list">La sauvegarde n\'est pas compatible avec ce site !</string>
-    <string name="toast_info_widget_exists">Un widget contenant ces enregistrements existe déjà !</string>
     <string name="toast_info_comment">Le commentaire est court!</string>
-    <string name="toast_permission_backup">Autorisation refusée par l\'utilisateur, les sauvegardes ne peuvent être chargées !</string>
+    <string name="toast_info_no_customlist">Veuillez synchroniser vos listes après la mise à niveau !</string>
     <!-- All (Dialog Title & Contents) Strings -->
-    <string name="dialog_title_userername">Nom d\'utilisateur incorrect</string>
-    <string name="dialog_title_permission">Autorisation refusée</string>
-    <string name="dialog_title_restore">Restaurer les listes ?</string>
     <string name="dialog_title_view">Vue</string>
     <string name="dialog_title_tags">Mes tags</string>
     <string name="dialog_title_storage_value">Valeur de stockage</string>
@@ -77,8 +69,6 @@
     <string name="dialog_hint_tags">Délimite tes tags par une virgule</string>
     <string name="dialog_hint_comment">Écrire ton commentaire</string>
     <string name="dialog_message_view">Quelle liste souhaites-tu afficher ?</string>
-    <string name="dialog_message_permission">Active s\'il te plaît l\'autorisation sur Android.\nTu as choisi de ne jamais le remontrer.</string>
-    <string name="dialog_message_restore">Cela pourrait supprimer des enregistrements de ta liste !</string>
     <string name="dialog_message_logout">Es-tu sûr de vouloir te déconnecter ? Cela effacera toutes les données et les images stockées.</string>
     <string name="dialog_message_id_search">Merci d\'appuyez sur le bouton Animes ou Mangas afin de le chercher. Rappelez-vous que les ID des Animes et ceux des Mangas sont différents !</string>
     <string name="dialog_message_remove">Absolument sûr ? Une fois fait, c\'est parti pour de bon et ne peut pas être récupéré. Pas facilement en tout cas.</string>
@@ -86,7 +76,6 @@
     <string name="dialog_message_Verifying">Vérification du compte. Patiente quelques secondes…</string>
     <string name="dialog_message_update_navigation">Entre l\'URL de l\'image ci-dessous.</string>
     <string name="dialog_message_last_post">Dernier post par</string>
-    <string name="dialog_message_username">Il est possible que la sauvegarde choisie ne soit pas ta sauvegarde !</string>
     <string name="dialog_message_edit_comment">Es-tu certain de vouloir mettre à jour ton commentaire ?</string>
     <string name="dialog_message_add_comment">Souhaites-tu réellement ajouter un nouveau commentaire ?</string>
     <string name="dialog_label_cancel">Annuler</string>
@@ -98,12 +87,9 @@
     <string name="dialog_title_remove">Supprimer de la liste</string>
     <string name="dialog_label_logout">Déconnexion</string>
     <string name="dialog_label_remove">Supprimer</string>
-    <string name="dialog_label_send">Envoyé</string>
-    <string name="dialog_message_backup_reading">Lecture des enregistrements</string>
-    <string name="dialog_message_backup_requesting">Création de la sauvegarde.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; a partagé une liste d\'animes via Atarashii : https://myanimelist.net/animelist/$name; !</string>
-    <string name="share_mangalist">$username; a partagé une liste de mangas via Atarashii : https://myanimelist.net/mangalist/$name; !</string>
+    <string name="share_animelist">$username; a partagé une liste d\'animes via Atarashii : http://myanimelist.net/animelist/$name; !</string>
+    <string name="share_mangalist">$username; a partagé une liste de mangas via Atarashii : http://myanimelist.net/mangalist/$name; !</string>
     <string name="layout_card_title_details">Détails</string>
     <string name="layout_card_title_activity">Activité</string>
     <string name="layout_discription">Icône de l\'application</string>
@@ -132,7 +118,6 @@
     <string name="action_viewListOnMAL">Afficher la liste dans ton navigateur</string>
     <string name="action_viewtopic">Voir la discussion</string>
     <string name="not_specified">non spécifié</string>
-    <string name="no_history">Pas d\'historique</string>
     <string-array name="gender">
         <item>Femme</item>
         <item>Homme</item>
@@ -142,7 +127,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Date de création</string>
     <!-- ForumActivity Strings -->
-    <string name="form_hint_message">Message</string>
     <string name="Page_number">Numéro de page</string>
     <string name="next">Suivant</string>
     <string name="previous">Précédent</string>
@@ -176,7 +160,6 @@
     <string name="nav_item_my_profile">Mon profil</string>
     <string name="nav_item_my_list">Ma liste</string>
     <string name="nav_item_my_friends">Mes amis</string>
-    <string name="nav_item_my_following">Abonnements</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Les mieux notés</string>
     <string name="nav_item_top_season">Top de la Saison</string>
@@ -188,8 +171,6 @@
     <string name="nav_item_upcoming">À venir</string>
     <string name="nav_item_schedule">Programme</string>
     <string name="nav_item_return">Retour</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">Général</string>
     <string name="tab_name_personal">Personnel</string>
@@ -214,11 +195,20 @@
     <string name="card_name_info">Information</string>
     <string name="card_name_personal">Personnel</string>
     <string name="card_name_relations">Relations</string>
+    <string name="card_name_music">Musique</string>
     <string name="card_name_titles">Titres alternatifs</string>
+    <string name="card_name_external">Liens externes</string>
     <string name="card_name_basic">De base</string>
     <string name="card_name_other">Autre</string>
     <string name="card_name_rewatch">Revu/Relu</string>
     <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_google">Google</string>
+    <string name="card_content_youtube">Youtube</string>
+    <string name="card_content_wikipedia">Wikipédia</string>
+    <string name="card_content_official_site">Site officiel</string>
+    <string name="card_content_animedb">AnimeDB</string>
+    <string name="card_content_animenewsnetwork">AnimeNewsNetwork</string>
+    <string name="card_content_customList">Liste personnalisée</string>
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_my_start">Ma date de début</string>
     <string name="card_content_my_end">Ma date de fin</string>
@@ -242,9 +232,11 @@
     <string name="card_content_media_type">Type de Média</string>
     <string name="card_content_media_status">Statut du Média</string>
     <string name="card_content_start">Date de Début</string>
+    <string name="card_content_year">Année</string>
     <string name="card_content_end">Date de Fin</string>
     <string name="card_content_producers">Producteurs</string>
     <string name="card_content_genres">Genres</string>
+    <string name="card_content_genresExc">Genres bloqués</string>
     <string name="card_content_classification">Classification</string>
     <string name="card_content_ranked">Classement</string>
     <string name="card_content_popularity">Popularité</string>
@@ -255,6 +247,8 @@
     <string name="card_content_sequel">Suites</string>
     <string name="card_content_alternativeversions">Versions Alternatives</string>
     <string name="card_content_adaptions">Adaptations</string>
+    <string name="card_content_opening">Générique d\'ouverture</string>
+    <string name="card_content_ending">Générique de fin</string>
     <string name="card_content_sidestories">Side Stories</string>
     <string name="card_content_spinoffs">Spin-Offs</string>
     <string name="card_content_summaries">Résumés</string>
@@ -279,40 +273,6 @@
     <string name="action_Remove">Supprimer de la liste</string>
     <string name="action_Copy">Copier le titre</string>
     <string name="action_AddToList">Ajouter à la liste</string>
-    <!-- DetailView (Media info) Strings -->
-    <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
-        <item>TV</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Film</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>OAV</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Spécial</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Musique</item>
-    </string-array>
-    <string-array name="mediaType_Manga">
-        <item>Manga</item>
-        <item>Nouvelle</item>
-        <item>One Shot</item>
-        <item>Dōjin</item>
-        <item>Manhwa</item>
-        <item>Manhua</item>
-        <item>OEL</item>
-    </string-array>
-    <string-array name="mediaStatus_Anime">
-        <item>Diffusion terminée</item>
-        <item>actuellement en diffusion</item>
-        <item>Pas encore diffusé</item>
-    </string-array>
-    <string-array name="mediaStatus_Manga">
-        <item>fini</item>
-        <item>Publié</item>
-        <item>Pas encore publié</item>
-    </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
     <!-- Anime/Manga progress status strings -->
@@ -337,7 +297,6 @@
     <string name="acknowledgements_card_title">Information</string>
     <string name="community_card_title">Communauté Atarashii</string>
     <string name="translations_card_title">Traductions</string>
-    <string name="acknowledgements">Atarashii! impl\u00e9mente <a href="https://bitbucket.org/ratan12/atarashii-api/">l\'API de MAL pour Atarashii </a> de Michael Johnson et Ratan Dhawtal, <a href="http://jakewharton.github.io/butterknife/">Butter Knife</a> de Jake Wharton, <a href="http://square.github.io/retrofit/">Retrofit</a> et <a href="http://square.github.io/okhttp/">OKHttp</a> et <a href="http://square.github.io/picasso/">Picasso</a> de Square Inc. et <a href="https://code.google.com/p/google-gson/">google-gson</a> de Google Inc. qui est utilis\u00e9 par Retrofit, tout cela est sous licence <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>.\n\n<a href="http://www.atarashiiapp.com/privacy-policy">Comment nous g\u00e9rons tes donn\u00e9es</a>.</string>
     <string name="app_description">Atarashii! est le meilleur moyen d\'accéder à MyAnimeList à partir de votre téléphone. Il arbore une interface Android bien conçue et moderne, associée à toutes les fonctionnalités dont vous pouviez rêver.</string>
     <string name="contributor_anima_summary">\" Toutes les autres applications sont mauvaises ! \"\n\nFondateur et principal développeur. Fatigué des piètres interfaces proposées par d\&#039;autres applications et leur manque général de mises à jour, il a décidé de créer sa propre application.</string>
     <string name="contributor_motokochan_summary">Se concentre sur les retouches du code et la mise en œuvre de petites fonctionnalités. A travaillé sur l’amélioration de l\'application, assurant la prise en charge des mangas.</string>
@@ -358,13 +317,10 @@
     <string name="preference_category_synchronisation">Synchronisation</string>
     <string name="preference_category_sharing">Autres paramètres</string>
     <string name="preference_category_profile">Profil</string>
-    <string name="preference_category_backup">Sauvegarde</string>
-    <string name="preference_backupsync">Intervalle de sauvegarde automatique</string>
     <string name="preference_adultcontent">Activer les contenus adultes (MAL)</string>
+    <string name="preference_hidetabs">Cacher les onglets Anime et Manga</string>
     <string name="preference_autoDate">Mettre à jour automatiquement les dates</string>
     <string name="preference_backuplength">Le nombre de sauvegardes.</string>
-    <string name="preference_summary_backupsync">Sauvegarde automatique de la liste d\'animes/de mangas après un certain délai.</string>
-    <string name="preference_summary_autobackup">Le nombre maximum d\'éléments à sauvegarder autorisés.</string>
     <string name="preference_synchronisation">Synchronisation automatique</string>
     <string name="preference_Theme">Thème sombre</string>
     <string name="preference_list_columns_portrait">Colonnes de la liste en mode Portrait</string>
@@ -382,6 +338,7 @@
     <string name="preference_profileMangaHide">Toujours cacher les détails du manga</string>
     <string name="summary_DefaultList">Quelle liste souhaites-tu afficher à l\'ouverture de l\'application ?</string>
     <string name="preference_summary_adultcontent">Montrer le contenu adulte comme les hentai.</string>
+    <string name="preference_summary_hidetabs">Cacher les onglets Anime et Manga. Vous pouvez toujours naviguer en balayant l\'écran</string>
     <string name="preference_summary_autoDate">Mettre à jour automatiquement la date de début ou fin d\'un anime ou d\'un manga.</string>
     <string name="preference_summary_TraditionList">Utiliser la liste éprouvée à la place du style « coverflow ». Nécessite un redémarrage pour prendre effet.</string>
     <string name="preference_summary_AddList">Lorsque tu vas ajouter un anime/un manga, le dossier sera ajouter à cette liste.</string>
@@ -396,7 +353,6 @@
     <string name="preference_summary_profileTextColors">Forcer l\'affichage du texte en noir sur la page de profil.</string>
     <string name="preference_summary_profileAnimeHide">Cacher les détails des animes sur tous les profils.</string>
     <string name="preference_summary_profileMangaHide">Cacher les détails des mangas sur tous les profils.</string>
-    <string name="preference_summary_backup">Sauvegarder la liste d\'animes et de mangas.</string>
     <string name="preference_android_synchronisation">Entrée d\'animes/de mangas</string>
     <string name="preference_default_customShareText">Découvrez $title; sur MyAnimeList !\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -408,9 +364,10 @@
     <string name="listType_InProgress">En cours</string>
     <string name="listType_rewatching">En revisionnage</string>
     <string name="listType_rereading">En relecture</string>
-    <!-- Browse (contents) Strings -->
-    <string name="browse_genre_inc">Inclure des genres</string>
-    <string name="browse_genre_exc">Exclure des genres</string>
+    <string-array name="browse_genresArray">
+        <item>Inclure les genres</item>
+        <item>Exclure les genres</item>
+    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -426,7 +383,31 @@
     <!-- Settings (ListPreference Entries) Items -->
         <item>Planifié</item>
     </string-array>
+    <string-array name="listTypeValuesArray" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
     <!-- Settings (LocalePreference Entries) Items -->
+    <string-array name="localeArray" translatable="false">
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Arabe</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Néerlandais</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Anglais</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Français</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Allemand</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Grec</item>
+    <!-- Settings (LocalePreference Entries) Items -->
+        <item>Hébreu</item>
+    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="syncArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -462,34 +443,24 @@
         <item>R+ - Légère Nudité</item>
         <item>Rx - Hentai</item>
     </string-array>
-    <string-array name="browse_sort_anime">
-        <item>Titre</item>
-        <item>Pertinence</item>
-        <item>Date de début</item>
-        <item>Date de fin</item>
-        <item>Note</item>
-        <item>Épisode</item>
-        <item>Type</item>
-        <item>Membres</item>
-        <item>Noté</item>
-        <item>ID</item>
-    </string-array>
-    <string-array name="browse_sort_manga">
-        <item>Pertinence</item>
-        <item>Titre</item>
-        <item>Date de début</item>
-        <item>Date de fin</item>
-        <item>Note</item>
-        <item>Volume</item>
-        <item>Membres</item>
-        <item>Type</item>
-        <item>Chapitre</item>
-        <item>ID</item>
-    </string-array>
     <string-array name="priorityArray">
         <item>Basse</item>
         <item>Moyenne</item>
         <item>Grande</item>
+    </string-array>
+    <string-array name="seasonList">
+        <item>Toutes saisons</item>
+        <item>Hiver</item>
+        <item>Printemps</item>
+        <item>Été</item>
+        <item>Automne</item>
+    </string-array>
+    <string-array name="seasonFixedList" translatable="false">
+        <item>Toutes saisons</item>
+        <item>Hiver</item>
+        <item>Printemps</item>
+        <item>Été</item>
+        <item>Automne</item>
     </string-array>
     <string-array name="priorityRewatchArray">
         <item>Aucune</item>
@@ -508,7 +479,51 @@
         <item>Disque Dur Externe</item>
         <item>NAS</item>
     </string-array>
-    <string-array name="genresArray">
+    <string name="genre_action">Action</string>
+    <string name="genre_adventure">Aventure</string>
+    <string name="genre_cars">Voitures</string>
+    <string name="genre_comedy">Comédie</string>
+    <string name="genre_dementia">Démence</string>
+    <string name="genre_demons">Démons</string>
+    <string name="genre_drama">Drame</string>
+    <string name="genre_ecchi">Ecchi</string>
+    <string name="genre_fantasy">Fantastique</string>
+    <string name="genre_game">Jeu</string>
+    <string name="genre_harem">Harem</string>
+    <string name="genre_hentai">Hentai</string>
+    <string name="genre_historical">Historique</string>
+    <string name="genre_horror">Horreur</string>
+    <string name="genre_josei">Josei</string>
+    <string name="genre_kids">Enfants</string>
+    <string name="genre_magic">Magie</string>
+    <string name="genre_machou">Magical girl</string>
+    <string name="genre_martialArts">Arts martiaux</string>
+    <string name="genre_mecha">Mecha</string>
+    <string name="genre_military">Armée</string>
+    <string name="genre_music">Musique</string>
+    <string name="genre_mystery">Mystère</string>
+    <string name="genre_parody">Parodie</string>
+    <string name="genre_police">Policier</string>
+    <string name="genre_psychological">Psychologique</string>
+    <string name="genre_romance">Romance</string>
+    <string name="genre_samurai">Samuraï</string>
+    <string name="genre_school">École</string>
+    <string name="genre_sciFi">Science-fiction</string>
+    <string name="genre_seinen">Seinen</string>
+    <string name="genre_shoujo">Shoujo</string>
+    <string name="genre_shoujoAi">Shoujo Ai</string>
+    <string name="genre_shounen">Shounen</string>
+    <string name="genre_shounenAi">Shounen Ai</string>
+    <string name="genre_sliceofLife">Tranche de vie</string>
+    <string name="genre_space">Espace</string>
+    <string name="genre_sports">Sport</string>
+    <string name="genre_superPower">Super-pouvoir</string>
+    <string name="genre_supernatural">Surnaturel</string>
+    <string name="genre_thriller">Suspense</string>
+    <string name="genre_vampire">Vampire</string>
+    <string name="genre_yaoi">Yaoi</string>
+    <string name="genre_yuri">Yuri</string>
+    <string-array name="genresFixedArray_all" translatable="false">
         <item>Action</item>
         <item>Aventure</item>
         <item>Voitures</item>
@@ -526,52 +541,102 @@
         <item>Josei</item>
         <item>Enfants</item>
         <item>Magie</item>
-        <item>Arts Martiaux</item>
+        <item>Magical girl</item>
+        <item>Arts martiaux</item>
         <item>Mecha</item>
-        <item>Militaire</item>
-        <item>Musical</item>
+        <item>Armée</item>
+        <item>Musique</item>
         <item>Mystère</item>
         <item>Parodie</item>
         <item>Policier</item>
         <item>Psychologique</item>
         <item>Romance</item>
-        <item>Samourai</item>
+        <item>Samuraï</item>
         <item>École</item>
-        <item>Science-Fiction</item>
+        <item>Science-fiction</item>
         <item>Seinen</item>
-        <item>Shōjo</item>
-        <item>Shōjo Ai</item>
-        <item>Shōnen</item>
-        <item>Shōnen Ai</item>
-        <item>Tranche de Vie</item>
-        <item>Spatial</item>
-        <item>Sports</item>
+        <item>Shoujo</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Tranche de vie</item>
+        <item>Espace</item>
+        <item>Sport</item>
         <item>Super-pouvoir</item>
         <item>Surnaturel</item>
-        <item>Thriller</item>
+        <item>Suspense</item>
         <item>Vampire</item>
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
-    <string name="toast_info_comment_add">Le commentaire a bien été envoyé !</string>
-    <string name="dialog_title_downloaded">Épisodes téléchargés</string>
-    <string name="dialog_title_fansub">Mon groupe de fansub</string>
-    <string name="dialog_title_add_topic">Créer un sujet</string>
-    <!--Typo, should be your-->
-    <string name="dialog_hint_fansub">Entrer ton groupe de fansub</string>
-    <string name="dialog_message_created_by">Créer par</string>
-    <string name="dialog_message_forum_child">Veux-tu voir la catégorie $child1; ou $child2; ?</string>
-    <string name="layout_card_anime_views">Vues de la liste d\'animes</string>
-    <string name="layout_card_manga_views">Vues de la liste de mangas</string>
-    <string name="no_activity">Aucune Activité</string>
-    <string name="no_reviews">Aucun avis</string>
-    <string name="read_more">lire davantage</string>
-    <string name="show_less">montrer moins</string>
-    <!-- ForumActivity Strings -->
-    <string name="action_add">Ajouter un commentaire ou sujet</string>
-    <string name="form_hint_title">Titre du sujet</string>
-    <string name="nav_item_airing">En diffusion</string>
-    <string name="nav_item_year">Cette Année</string>
-    <string name="card_content_fansubbers">Fansubs</string>
-    <string name="card_content_downloaded">Téléchargé</string>
+    <string name="genericSort_relevance">Pertinence</string>
+    <string name="genericSort_ascending">Croissant</string>
+    <string name="genericSort_title">Titre</string>
+    <string name="genericSort_score">Note</string>
+    <string name="genericSort_start">Date de début</string>
+    <string name="genericSort_end">Date de fin</string>
+    <string name="genericSort_type">Type</string>
+    <string name="genericSort_members">Membres</string>
+    <string name="genericSort_id">Identifiant</string>
+    <string name="genericSort_popularity">Popularité</string>
+    <string name="genericSort_added">Date d\'ajout</string>
+    <string name="animeSort_episode">Épisode</string>
+    <string name="animeSort_rated">Noté</string>
+    <string name="mangaSort_volume">Tome</string>
+    <string name="mangaSort_chapter">Chapitre</string>
+    <string-array name="animeFixedSort_MAL" translatable="false">
+        <item>Pertinence</item>
+        <item>Titre</item>
+        <item>Date de début</item>
+        <item>Date de fin</item>
+        <item>Note</item>
+        <item>Épisode</item>
+        <item>Type</item>
+        <item>Membres</item>
+        <item>Noté</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="mangaFixedSort_MAL" translatable="false">
+        <item>Pertinence</item>
+        <item>Titre</item>
+        <item>Date de début</item>
+        <item>Date de fin</item>
+        <item>Note</item>
+        <item>Tome</item>
+        <item>Chapitre</item>
+        <item>Membres</item>
+        <item>Type</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="genericFixedSort_AL" translatable="false">
+        <item>Note</item>
+        <item>Popularité</item>
+        <item>Date de début</item>
+        <item>Date de fin</item>
+        <item>Date d\'ajout</item>
+    </string-array>
+    <string name="animeStatus_finished">Diffusion terminée</string>
+    <string name="animeStatus_airing">Diffusion en cours</string>
+    <string name="animeStatus_not">Pas encore diffusé</string>
+    <string name="mangaStatus_finished">Publication terminée</string>
+    <string name="mangaStatus_airing">Publication en cours</string>
+    <string name="mangaStatus_not">Pas encore publié</string>
+    <string name="genericStatus_cancelled">Annulé</string>
+    <string name="genericStatus_all">Tous les statuts</string>
+    <string-array name="animeFixedStatus_AL" translatable="false">
+        <item>Tous les statuts</item>
+        <item>pas encore diffusé</item>
+        <item>diffusion en cours</item>
+        <item>diffusion terminée</item>
+        <item>annulé</item>
+    </string-array>
+    <string-array name="mangaFixedStatus_AL" translatable="false">
+        <item>Tous les statuts</item>
+        <item>pas encore publié</item>
+        <item>publication en cours</item>
+        <item>publication terminée</item>
+        <item>annulé</item>
+    </string-array>
+    <!-- DetailView (Media info) Strings -->
+    <string name="genericType_all">Tous les types</string>
 </resources>

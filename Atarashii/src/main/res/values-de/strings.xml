@@ -58,8 +58,8 @@
     <string name="dialog_label_logout">Abmelden</string>
     <string name="dialog_label_remove">Entfernen</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; hat eine Animeliste über Atarashii geteilt: https://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; hat eine Mangaliste über Atarashii geteilt: https://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; hat eine Animeliste über Atarashii geteilt: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; hat eine Mangaliste über Atarashii geteilt: http://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_discription">Application Icon</string>
     <string name="layout_card_loading">Lade</string>
@@ -121,8 +121,6 @@
     <string name="nav_item_most_popular">Beliebteste</string>
     <string name="nav_item_just_added">Neueste</string>
     <string name="nav_item_upcoming">Kommende</string>
-    <string name="drawer_open">Navigationsleiste öffnen</string>
-    <string name="drawer_close">Navigationsleiste schließen</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">Allgemein</string>
     <string name="tab_name_personal">Persönlich</string>
@@ -173,40 +171,6 @@
     <string name="action_Remove">Von Liste entfernen</string>
     <string name="action_Copy">Titel kopieren</string>
     <string name="action_AddToList">Zu Liste hinzufügen</string>
-    <!-- DetailView (Media info) Strings -->
-    <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
-        <item>TV</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Film</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Spezial</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Musik</item>
-    </string-array>
-    <string-array name="mediaType_Manga">
-        <item>Manga</item>
-        <item>Roman</item>
-        <item>Einzelband</item>
-        <item>Doujin</item>
-        <item>Manwha</item>
-        <item>Manhua</item>
-        <item>OEL</item>
-    </string-array>
-    <string-array name="mediaStatus_Anime">
-        <item>Ausstrahlung beendet</item>
-        <item>Ausstrahlung läuft</item>
-        <item>noch nicht ausgestrahlt</item>
-    </string-array>
-    <string-array name="mediaStatus_Manga">
-        <item>Abgeschlossen</item>
-        <item>Veröffentlichung läuft</item>
-        <item>noch nicht veröffentlicht</item>
-    </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
     <!-- Anime/Manga progress status strings -->
@@ -280,7 +244,6 @@
     <string name="listType_planned">Geplant</string>
     <string name="listType_Completed">Abgeschlossen</string>
     <string name="listType_InProgress">Aktuell</string>
-    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -332,55 +295,5 @@
         <item>R+ - leicht unbekleidet</item>
         <item>Rx - Hentai</item>
     </string-array>
-    <string-array name="genresArray">
-        <item>Action</item>
-        <item>Abenteuer</item>
-        <item>Autos</item>
-        <item>Komödie</item>
-        <item>Schwachsinn</item>
-        <item>Dämonen</item>
-        <item>Drama</item>
-        <item>Ecchi</item>
-        <item>Fantasie</item>
-        <item>Spiel</item>
-        <item>Harem</item>
-        <item>Hentai</item>
-        <item>Historisch</item>
-        <item>Horror</item>
-        <item>Josei</item>
-        <item>Kinder</item>
-        <item>Magie</item>
-        <item>Kampfkunst</item>
-        <item>Mecha</item>
-        <item>Militär</item>
-        <item>Musik</item>
-        <item>Mystery</item>
-        <item>Parodie</item>
-        <item>Polizei</item>
-        <item>Psychologisch</item>
-        <item>Romanze</item>
-        <item>Samurai</item>
-        <item>Schule</item>
-        <item>Sci-Fi</item>
-        <item>Seinen</item>
-        <item>Shoujo</item>
-        <item>Shoujo Ai</item>
-        <item>Shounen</item>
-        <item>Shounen Ai</item>
-        <item>Alltag</item>
-        <item>Weltall</item>
-        <item>Sport</item>
-        <item>Superkräfte</item>
-        <item>Übernatürlich</item>
-        <item>Thriller</item>
-        <item>Vampire</item>
-        <item>Yaoi</item>
-        <item>Yuri</item>
-    </string-array>
-    <string name="toast_info_comment_add">Dein Kommentar wurde erfolgreich gesendet!</string>
-    <string name="dialog_title_downloaded">Episoden runtergeladen</string>
-    <string name="dialog_title_fansub">Meine Fansubgruppe</string>
-    <string name="dialog_title_add_topic">Thema erstellen</string>
-    <string name="layout_card_anime_views">Ansichten Animeliste</string>
-    <string name="layout_card_manga_views">Ansichten Mangaliste</string>
+    <!-- DetailView (Media info) Strings -->
 </resources>

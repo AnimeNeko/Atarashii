@@ -7,14 +7,13 @@
     <string name="title_activity_detail_view">Подробности</string>
     <string name="title_activity_profile">Профиль</string>
     <string name="title_activity_forum">Форум</string>
-    <string name="title_activity_backup">Резервное копирование</string>
     <string name="title_activity_charts">Чарты</string>
     <string name="title_activity_browse">Просмотреть</string>
+    <string name="title_activity_support">Поддержка</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Переключить список</string>
     <string name="menu_inverse">Инвертировать список</string>
     <string name="menu_sync">Полная синхронизация</string>
-    <string name="menu_backup">Резервное копирование</string>
     <string name="menu_details">Детали</string>
     <string name="menu_sort">Сортировка</string>
     <string name="sort_title">Название</string>
@@ -45,17 +44,10 @@
     <string name="toast_info_comment_added">Это может занять около 5 минут до того, как это станет видимым</string>
     <string name="toast_info_disabled">Функция в данный момент недоступна :(</string>
     <string name="toast_info_disabled_youtube">Комментарии с сервисом YouTube не поддерживаются :(</string>
-    <string name="toast_info_backup_saved">Была создана резервная копия!</string>
-    <string name="toast_info_backup_revert">Изменения отменены!</string>
-    <string name="toast_info_backup_remove">Резервная копия удалена!</string>
     <string name="toast_info_backup_list">Резервная копия не совместима с данным сайтом!</string>
-    <string name="toast_info_widget_exists">Виджет с выбранной записью уже существует!</string>
     <string name="toast_info_comment">Комментарий слишком короткий!</string>
-    <string name="toast_permission_backup">Разрешение отклонено пользователем, невозможно загрузить резервные копии!</string>
+    <string name="toast_info_no_customlist">Пожалуйста, синхронизируйте списки после обновления!</string>
     <!-- All (Dialog Title & Contents) Strings -->
-    <string name="dialog_title_userername">Ошибка в имени профиля</string>
-    <string name="dialog_title_permission">Разрешение отклонено</string>
-    <string name="dialog_title_restore">Восстановить списки?</string>
     <string name="dialog_title_view">Вид</string>
     <string name="dialog_title_tags">Мои теги</string>
     <string name="dialog_title_storage_value">Количество</string>
@@ -77,8 +69,6 @@
     <string name="dialog_hint_tags">Разделите свои теги запятой</string>
     <string name="dialog_hint_comment">Введите свой комментарий</string>
     <string name="dialog_message_view">Какой из списков вы хотите просмотреть?</string>
-    <string name="dialog_message_permission">Пожалуйста, включите разрешение вручную в настройках Android.\nВы выбрали никогда не показывать это сообщение вновь.</string>
-    <string name="dialog_message_restore">Данное действие может удалить некоторые записи в вашем списке!</string>
     <string name="dialog_message_logout">Вы уверены, что хотите выйти из учетной записи? Это удалит все сохраненные данные и изображения.</string>
     <string name="dialog_message_id_search">Пожалуйста, нажмите на кнопку Аниме или Манга для поиска. Помните, что ID аниме и манги различаются!</string>
     <string name="dialog_message_remove">Абсолютно уверены? То, что пропало, уже не вернешь. Не так легко, во всяком случае.</string>
@@ -86,7 +76,6 @@
     <string name="dialog_message_Verifying">Проверяем, что ваша учётная запись в порядке. Подождите.</string>
     <string name="dialog_message_update_navigation">Введите URL изображения ниже.</string>
     <string name="dialog_message_last_post">Последнее сообщение</string>
-    <string name="dialog_message_username">Возможно, что выбранная резервная копия - не ваша!</string>
     <string name="dialog_message_edit_comment">Вы уверены, что хотите обновить комментарий?</string>
     <string name="dialog_message_add_comment">Вы действительно хотите добавить новый комментарий?</string>
     <string name="dialog_label_cancel">Отмена</string>
@@ -98,9 +87,6 @@
     <string name="dialog_title_remove">Удалить из списка</string>
     <string name="dialog_label_logout">Выйти</string>
     <string name="dialog_label_remove">Удалить</string>
-    <string name="dialog_label_send">Отправить</string>
-    <string name="dialog_message_backup_reading">Чтение записей</string>
-    <string name="dialog_message_backup_requesting">Создание резервной копии.</string>
     <!-- ProfileActivity (Contents) Strings -->
     <string name="share_animelist">$username; поделился списком аниме с помощью Atarashii: https://myanimelist.net/animelist/$name;!</string>
     <string name="share_mangalist">$username; поделился списком манги с помощью Atarashii: https://myanimelist.net/mangalist/$name;!</string>
@@ -132,7 +118,6 @@
     <string name="action_viewListOnMAL">Посмотреть список в браузере</string>
     <string name="action_viewtopic">Посмотреть обсуждение</string>
     <string name="not_specified">не указано</string>
-    <string name="no_history">Нет истории</string>
     <string-array name="gender">
         <item>Женский</item>
         <item>Мужской</item>
@@ -142,7 +127,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Дата создания</string>
     <!-- ForumActivity Strings -->
-    <string name="form_hint_message">Сообщение</string>
     <string name="Page_number">Номер страницы</string>
     <string name="next">След.</string>
     <string name="previous">Пред.</string>
@@ -176,7 +160,6 @@
     <string name="nav_item_my_profile">Мой профиль</string>
     <string name="nav_item_my_list">Мой список</string>
     <string name="nav_item_my_friends">Мои друзья</string>
-    <string name="nav_item_my_following">Подписки</string>
     <string name="nav_item_my_forum">Форум</string>
     <string name="nav_item_top_rated">Высоко оцененные</string>
     <string name="nav_item_top_season">Лучшие за сезон</string>
@@ -188,8 +171,6 @@
     <string name="nav_item_upcoming">Скоро выйдут</string>
     <string name="nav_item_schedule">Расписание</string>
     <string name="nav_item_return">Назад</string>
-    <string name="drawer_open">Открыть панель навигации</string>
-    <string name="drawer_close">Закрыть панель навигации</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">Общие</string>
     <string name="tab_name_personal">Мои данные</string>
@@ -214,11 +195,20 @@
     <string name="card_name_info">Информация</string>
     <string name="card_name_personal">Мои данные</string>
     <string name="card_name_relations">Связи</string>
+    <string name="card_name_music">Музыка</string>
     <string name="card_name_titles">Альтернативные названия</string>
+    <string name="card_name_external">Внешние ссылки</string>
     <string name="card_name_basic">Основное</string>
     <string name="card_name_other">Другое</string>
     <string name="card_name_rewatch">Пересмотреть/Перечитать</string>
     <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_google">Google</string>
+    <string name="card_content_youtube">Youtube</string>
+    <string name="card_content_wikipedia">Wikipedia</string>
+    <string name="card_content_official_site">Официальный сайт</string>
+    <string name="card_content_animedb">AnimeDB</string>
+    <string name="card_content_animenewsnetwork">AnimeNewsNetwork</string>
+    <string name="card_content_customList">Кастомный список</string>
     <string name="card_content_volumes">Томов</string>
     <string name="card_content_my_start">Моя дата начала</string>
     <string name="card_content_my_end">Моя дата завершения</string>
@@ -242,9 +232,11 @@
     <string name="card_content_media_type">Тип</string>
     <string name="card_content_media_status">Состояние</string>
     <string name="card_content_start">Начато</string>
+    <string name="card_content_year">Год</string>
     <string name="card_content_end">Завершено</string>
     <string name="card_content_producers">Продюсеры</string>
     <string name="card_content_genres">Жанры</string>
+    <string name="card_content_genresExc">Заблокированные жанры</string>
     <string name="card_content_classification">Классификация</string>
     <string name="card_content_ranked">Позиция</string>
     <string name="card_content_popularity">Популярность</string>
@@ -255,6 +247,8 @@
     <string name="card_content_sequel">Сиквелы</string>
     <string name="card_content_alternativeversions">Альтернативные версии</string>
     <string name="card_content_adaptions">Адаптации</string>
+    <string name="card_content_opening">Музыка опенинга</string>
+    <string name="card_content_ending">Музыка эндинга</string>
     <string name="card_content_sidestories">Побочные истории</string>
     <string name="card_content_spinoffs">Спин-оффы</string>
     <string name="card_content_summaries">Краткие изложения</string>
@@ -279,36 +273,6 @@
     <string name="action_Remove">Удалить из списка</string>
     <string name="action_Copy">Скопировать название</string>
     <string name="action_AddToList">Добавить в список</string>
-    <!-- DetailView (Media info) Strings -->
-    <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
-        <item>TV</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Фильм</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Спецвыпуск</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Музыка</item>
-    </string-array>
-    <string-array name="mediaType_Manga">
-        <item>Манга</item>
-        <item>Новелла</item>
-        <item>Одиночный выпуск</item>
-        <item>Додзинси</item>
-        <item>Манхва</item>
-        <item>Манхуа</item>
-        <item>OEL</item>
-    </string-array>
-    <string-array name="mediaStatus_Anime">
-        <item>транслируется</item>
-    </string-array>
-    <string-array name="mediaStatus_Manga">
-        <item>завершено</item>
-    </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
     <!-- Anime/Manga progress status strings -->
@@ -327,13 +291,12 @@
         <item>Планируется прочитать</item>
     </string-array>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
-    <string name="search_prompt">Поиск на MAL</string>
+    <string name="search_prompt">Поиск</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Основные разработчики</string>
     <string name="acknowledgements_card_title">Информация</string>
     <string name="community_card_title">Сообщество Atarashii</string>
     <string name="translations_card_title">Перевод</string>
-    <string name="acknowledgements">\u0412 Atarashii! \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044e\u0442\u0441\u044f <a href="https://bitbucket.org/ratan12/atarashii-api/">Atarashii MAL API</a> \u043e\u0442 Michael Johnson \u0438 Ratan Dhawtal, <a href="http://jakewharton.github.io/butterknife/">Butter Knife</a> \u043e\u0442 Jake Wharton, <a href="http://square.github.io/retrofit/">Retrofit</a>, <a href="http://square.github.io/okhttp/">OKHttp</a> \u0438 <a href="http://square.github.io/picasso/">Picasso</a> \u043e\u0442 Square Inc., \u0430 \u0442\u0430\u043a\u0436\u0435 <a href="https://code.google.com/p/google-gson/">google-gson</a> \u043e\u0442 Google Inc., \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u044b\u0439 Retrofit, \u043a\u0430\u0436\u0434\u044b\u0439 \u0438\u0437 \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u0440\u043e\u0432\u0430\u043d \u043f\u043e\u0434 <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>. \n\n<a href="http://www.atarashiiapp.com/privacy-policy">\u041a\u0430\u043a \u043c\u044b \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c \u0432\u0430\u0448\u0438 \u0434\u0430\u043d\u043d\u044b\u0435</a>.</string>
     <string name="app_description">Atarashii! - лучший способ для получения доступа к MyAnimeList с вашего телефона. Оно сочетает современный, красиво оформленный интерфейс Android на пару с функционалом, который вам мог бы потребоваться.</string>
     <string name="contributor_anima_summary">\"Все остальные приложения - отстой!\" \n\nОснователь и главный разработчик. Устав от скудного UI и общей заброшенности других приложений, он взял и создал это.</string>
     <string name="contributor_motokochan_summary">Ориентирован на чистку кода и реализацию небольших нововведений. Работал над расширением приложения для поддержки манги.</string>
@@ -354,13 +317,10 @@
     <string name="preference_category_synchronisation">Синхронизация</string>
     <string name="preference_category_sharing">Другие настройки</string>
     <string name="preference_category_profile">Профиль</string>
-    <string name="preference_category_backup">Резервное копирование</string>
-    <string name="preference_backupsync">Интервал автоматического создания резервных копий</string>
     <string name="preference_adultcontent">Включить NSFW-контент (MAL)</string>
+    <string name="preference_hidetabs">Скрыть вкладки аниме и манги</string>
     <string name="preference_autoDate">Обновлять даты автоматически</string>
     <string name="preference_backuplength">Количество резервных копий.</string>
-    <string name="preference_summary_backupsync">Автоматически создавать резервную копию списка аниме/манги после определенного времени.</string>
-    <string name="preference_summary_autobackup">Максимальное количество резервных копий.</string>
     <string name="preference_synchronisation">Авто-синхронизация</string>
     <string name="preference_Theme">Тёмная тема</string>
     <string name="preference_list_columns_portrait">Вертикальный вид колонок в списке</string>
@@ -378,6 +338,7 @@
     <string name="preference_profileMangaHide">Всегда скрывать подробности о манге</string>
     <string name="summary_DefaultList">Какой список вы бы хотели видеть при запуске приложения?</string>
     <string name="preference_summary_adultcontent">Отображает NSFW-контент, такой как хентай.</string>
+    <string name="preference_summary_hidetabs">Скрыть вкладки аниме и манги. Все сможете переключаться между ними посредством перелистывания.</string>
     <string name="preference_summary_autoDate">Обновлять дату автоматически, когда вы начинаете или заканчиваете аниме или мангу.</string>
     <string name="preference_summary_TraditionList">Использовать компактный список вместо обложек. Требует перезапуска программы.</string>
     <string name="preference_summary_AddList">Когда вы добавляете аниме/мангу, в данный лист будет добавлена запись.</string>
@@ -392,7 +353,6 @@
     <string name="preference_summary_profileTextColors">Принудительно использовать черный цвет текста на странице профиля.</string>
     <string name="preference_summary_profileAnimeHide">Скрывать подробности об аниме во всех профилях.</string>
     <string name="preference_summary_profileMangaHide">Скрывать подробности о манге во всех профилях.</string>
-    <string name="preference_summary_backup">Резервное копирование списков аниме и манги.</string>
     <string name="preference_android_synchronisation">Записи аниме/манги</string>
     <string name="preference_default_customShareText">Взгляните на $title; на MyAnimeList!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -404,9 +364,10 @@
     <string name="listType_InProgress">В процессе</string>
     <string name="listType_rewatching">Пересматриваю</string>
     <string name="listType_rereading">Перечитываю</string>
-    <!-- Browse (contents) Strings -->
-    <string name="browse_genre_inc">Включить жанры</string>
-    <string name="browse_genre_exc">Исключить жанры</string>
+    <string-array name="browse_genresArray">
+        <item>Включить жанры</item>
+        <item>Исключить жанры</item>
+    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -458,34 +419,24 @@
         <item>R+ - Частичная нагота</item>
         <item>Rx - Хентай</item>
     </string-array>
-    <string-array name="browse_sort_anime">
-        <item>Название</item>
-        <item>Релевантность</item>
-        <item>Дата начала</item>
-        <item>Дата окончания</item>
-        <item>Оценка</item>
-        <item>Эпизод</item>
-        <item>Тип</item>
-        <item>Участники</item>
-        <item>Рейтинг</item>
-        <item>ID</item>
-    </string-array>
-    <string-array name="browse_sort_manga">
-        <item>Релевантность</item>
-        <item>Название</item>
-        <item>Дата начала</item>
-        <item>Дата окончания</item>
-        <item>Оценка</item>
-        <item>Том</item>
-        <item>Участники</item>
-        <item>Тип</item>
-        <item>Глава</item>
-        <item>ID</item>
-    </string-array>
     <string-array name="priorityArray">
         <item>Низкий</item>
         <item>Средний</item>
         <item>Высокий</item>
+    </string-array>
+    <string-array name="seasonList">
+        <item>Все сезоны</item>
+        <item>Зима</item>
+        <item>Весна</item>
+        <item>Лето</item>
+        <item>Осень</item>
+    </string-array>
+    <string-array name="seasonFixedList" translatable="false">
+        <item>Все сезоны</item>
+        <item>Зима</item>
+        <item>Весна</item>
+        <item>Лето</item>
+        <item>Осень</item>
     </string-array>
     <string-array name="priorityRewatchArray">
         <item>Нет</item>
@@ -504,12 +455,56 @@
         <item>Внешний жёсткий диск</item>
         <item>Сетевое хранилище</item>
     </string-array>
-    <string-array name="genresArray">
+    <string name="genre_action">Боевик</string>
+    <string name="genre_adventure">Приключения</string>
+    <string name="genre_cars">Автомобили</string>
+    <string name="genre_comedy">Комедия</string>
+    <string name="genre_dementia">Безумие</string>
+    <string name="genre_demons">Демоны</string>
+    <string name="genre_drama">Драма</string>
+    <string name="genre_ecchi">Этти</string>
+    <string name="genre_fantasy">Фэнтези</string>
+    <string name="genre_game">Игра</string>
+    <string name="genre_harem">Гарем</string>
+    <string name="genre_hentai">Хентай</string>
+    <string name="genre_historical">Историческое</string>
+    <string name="genre_horror">Ужасы</string>
+    <string name="genre_josei">Дзёсэй</string>
+    <string name="genre_kids">Для детей</string>
+    <string name="genre_magic">Магия</string>
+    <string name="genre_machou">Девочки-волшебницы</string>
+    <string name="genre_martialArts">Боевые искусства</string>
+    <string name="genre_mecha">Меха</string>
+    <string name="genre_military">Военное</string>
+    <string name="genre_music">Музыка</string>
+    <string name="genre_mystery">Детектив</string>
+    <string name="genre_parody">Пародия</string>
+    <string name="genre_police">Полиция</string>
+    <string name="genre_psychological">Психологическое</string>
+    <string name="genre_romance">Романс</string>
+    <string name="genre_samurai">Самураи</string>
+    <string name="genre_school">Школа</string>
+    <string name="genre_sciFi">Научная фантастика</string>
+    <string name="genre_seinen">Сэйнэн</string>
+    <string name="genre_shoujo">Сёдзё</string>
+    <string name="genre_shoujoAi">Сёдзё-ай</string>
+    <string name="genre_shounen">Сёнэн</string>
+    <string name="genre_shounenAi">Сёнэн-ай</string>
+    <string name="genre_sliceofLife">Повседневность</string>
+    <string name="genre_space">Космос</string>
+    <string name="genre_sports">Спорт</string>
+    <string name="genre_superPower">Сверхспособности</string>
+    <string name="genre_supernatural">Сверхъестественное</string>
+    <string name="genre_thriller">Триллер</string>
+    <string name="genre_vampire">Вампиры</string>
+    <string name="genre_yaoi">Яой</string>
+    <string name="genre_yuri">Юри</string>
+    <string-array name="genresFixedArray_all" translatable="false">
         <item>Боевик</item>
         <item>Приключения</item>
         <item>Автомобили</item>
         <item>Комедия</item>
-        <item>Мозговыносящее</item>
+        <item>Безумие</item>
         <item>Демоны</item>
         <item>Драма</item>
         <item>Этти</item>
@@ -522,6 +517,7 @@
         <item>Дзёсэй</item>
         <item>Для детей</item>
         <item>Магия</item>
+        <item>Девочки-волшебницы</item>
         <item>Боевые искусства</item>
         <item>Меха</item>
         <item>Военное</item>
@@ -530,7 +526,7 @@
         <item>Пародия</item>
         <item>Полиция</item>
         <item>Психологическое</item>
-        <item>Мелодрама</item>
+        <item>Романс</item>
         <item>Самураи</item>
         <item>Школа</item>
         <item>Научная фантастика</item>
@@ -542,32 +538,81 @@
         <item>Повседневность</item>
         <item>Космос</item>
         <item>Спорт</item>
-        <item>Суперсила</item>
-        <item>Сверхъестественное</item>
+        <item>Сверхспособности</item>
+        <item>Паранормальное</item>
         <item>Триллер</item>
         <item>Вампиры</item>
         <item>Яой</item>
         <item>Юри</item>
     </string-array>
-    <string name="toast_info_comment_add">Комментарий успешно отправлен.</string>
-    <string name="dialog_title_downloaded">Эпизодов скачано</string>
-    <string name="dialog_title_fansub">Моя фансаб-группа</string>
-    <string name="dialog_title_add_topic">Создать тему</string>
-    <!--Typo, should be your-->
-    <string name="dialog_hint_fansub">Введите свою фансаб-группу</string>
-    <string name="dialog_message_created_by">Создано</string>
-    <string name="dialog_message_forum_child">Вы желайте посмотреть категорию $child1; или $child2;?</string>
-    <string name="layout_card_anime_views">Просм. спис. аниме</string>
-    <string name="layout_card_manga_views">Просм. спис. манги</string>
-    <string name="no_activity">Нет активности</string>
-    <string name="no_reviews">Нет рецензий</string>
-    <string name="read_more">подробнее</string>
-    <string name="show_less">свернуть</string>
-    <!-- ForumActivity Strings -->
-    <string name="action_add">Добавить комментарий или тему</string>
-    <string name="form_hint_title">Заголовок темы</string>
-    <string name="nav_item_airing">Транслируется</string>
-    <string name="nav_item_year">В этом году</string>
-    <string name="card_content_fansubbers">Фансабы</string>
-    <string name="card_content_downloaded">Скачано</string>
+    <string name="genericSort_relevance">Релевантность</string>
+    <string name="genericSort_ascending">По возрастанию</string>
+    <string name="genericSort_title">Название</string>
+    <string name="genericSort_score">Оценка</string>
+    <string name="genericSort_start">Дата начала</string>
+    <string name="genericSort_end">Дата окончания</string>
+    <string name="genericSort_type">Тип</string>
+    <string name="genericSort_members">Участники</string>
+    <string name="genericSort_id">ID</string>
+    <string name="genericSort_popularity">Популярность</string>
+    <string name="genericSort_added">Дата добавления</string>
+    <string name="animeSort_episode">Эпизод</string>
+    <string name="animeSort_rated">Рейтинг</string>
+    <string name="mangaSort_volume">Том</string>
+    <string name="mangaSort_chapter">Глава</string>
+    <string-array name="animeFixedSort_MAL" translatable="false">
+        <item>Релевантность</item>
+        <item>Название</item>
+        <item>Дата начала</item>
+        <item>Дата окончания</item>
+        <item>Оценка</item>
+        <item>Эпизод</item>
+        <item>Тип</item>
+        <item>Участники</item>
+        <item>Рейтинг</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="mangaFixedSort_MAL" translatable="false">
+        <item>Релевантность</item>
+        <item>Название</item>
+        <item>Дата начала</item>
+        <item>Дата окончания</item>
+        <item>Оценка</item>
+        <item>Том</item>
+        <item>Глава</item>
+        <item>Участники</item>
+        <item>Тип</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="genericFixedSort_AL" translatable="false">
+        <item>Оценка</item>
+        <item>Популярность</item>
+        <item>Дата начала</item>
+        <item>Дата окончания</item>
+        <item>Дата добавления</item>
+    </string-array>
+    <string name="animeStatus_finished">Трансляция завершена</string>
+    <string name="animeStatus_airing">Транслируется</string>
+    <string name="animeStatus_not">Еще не транслируется</string>
+    <string name="mangaStatus_finished">Публикация завершена</string>
+    <string name="mangaStatus_airing">Публикуется</string>
+    <string name="mangaStatus_not">Еще не публикуется</string>
+    <string name="genericStatus_cancelled">Отменено</string>
+    <string name="genericStatus_all">Все статусы</string>
+    <string-array name="animeFixedStatus_AL" translatable="false">
+        <item>Все статусы</item>
+        <item>еще не транслируется</item>
+        <item>транслируется</item>
+        <item>трансляция завершена</item>
+        <item>отменено</item>
+    </string-array>
+    <string-array name="mangaFixedStatus_AL" translatable="false">
+        <item>Все статусы</item>
+        <item>еще не публикуется</item>
+        <item>публикуется</item>
+        <item>публикация завершена</item>
+        <item>отменено</item>
+    </string-array>
+    <!-- DetailView (Media info) Strings -->
+    <string name="genericType_all">Все типы</string>
 </resources>

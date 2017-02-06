@@ -7,13 +7,12 @@
     <string name="title_activity_detail_view">Detailoverzicht</string>
     <string name="title_activity_profile">Gebruikersprofiel</string>
     <string name="title_activity_forum">Forum</string>
-    <string name="title_activity_backup">Backup</string>
     <string name="title_activity_browse">Zoeken</string>
+    <string name="title_activity_support">Ondersteuning</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Lijst veranderen</string>
     <string name="menu_inverse">Omgekeerde lijst</string>
     <string name="menu_sync">Volledige Sync</string>
-    <string name="menu_backup">Backup</string>
     <string name="menu_details">Gedetaileerd</string>
     <string name="menu_sort">Sorteer</string>
     <string name="sort_title">Titel</string>
@@ -44,16 +43,9 @@
     <string name="toast_info_comment_added">Het kan tot 5 minuten duren tot het zichtbaar is</string>
     <string name="toast_info_disabled">Deze functie is momenteel uitgeschakeld :(</string>
     <string name="toast_info_disabled_youtube">Reacties met Youtube-filmpjes worden niet ondersteund :(</string>
-    <string name="toast_info_backup_saved">De herstelpunt is aangemaakt!</string>
-    <string name="toast_info_backup_revert">De wijzigingen zijn teruggedraaid!</string>
-    <string name="toast_info_backup_remove">De herstelpunt is verwijdert!</string>
     <string name="toast_info_backup_list">De backup is niet geschikt voor deze website!</string>
-    <string name="toast_info_widget_exists">Een widget met de gekozen informatie bestaat al!</string>
     <string name="toast_info_comment">De reactie is te kort!</string>
     <!-- All (Dialog Title & Contents) Strings -->
-    <string name="dialog_title_userername">Verkeerde gebruikersnaam</string>
-    <string name="dialog_title_permission">Toegang geweigerd</string>
-    <string name="dialog_title_restore">Herstel lijsten?</string>
     <string name="dialog_title_view">Bekijken</string>
     <string name="dialog_title_tags">Mijn tags</string>
     <string name="dialog_title_storage_value">Opslagwaarde</string>
@@ -75,7 +67,6 @@
     <string name="dialog_hint_tags">Scheid je tags met een komma</string>
     <string name="dialog_hint_comment">Vul je reactie in</string>
     <string name="dialog_message_view">Welke lijst wil je bekijken?</string>
-    <string name="dialog_message_restore">Dit kan sommige items verwijderen in je lijst!</string>
     <string name="dialog_message_logout">Weet je zeker dat je wilt uitloggen? Dit zal alle opgeslagen data en foto\'s verwijderen.</string>
     <string name="dialog_message_id_search">Druk op de knop Anime of Manga om te zoeken. Onthou dat Anime- en Manga-ID\'s niet hetzelfde zijn!</string>
     <string name="dialog_message_remove">Weet je het zeker? Eenmaal verwijderd is het voorgoed weg en kan je het niet herstellen. Niet makkelijk in ieder geval.</string>
@@ -83,7 +74,6 @@
     <string name="dialog_message_Verifying">Bevestingen dat je account OK is. Een ogenblikje...</string>
     <string name="dialog_message_update_navigation">Voer de URL van de afbeelding hieronder.</string>
     <string name="dialog_message_last_post">Laatste bericht door</string>
-    <string name="dialog_message_username">Het is mogelijk dat dit herstelpunt niet jou herstelpunt is!</string>
     <string name="dialog_message_edit_comment">Weet je zeker dat jou commentaar geupdated moet worden?</string>
     <string name="dialog_message_add_comment">Wil je echt een reactie plaatsten?</string>
     <string name="dialog_label_cancel">Annuleren</string>
@@ -95,11 +85,9 @@
     <string name="dialog_title_remove">Verwijderen van lijst</string>
     <string name="dialog_label_logout">Uitloggen</string>
     <string name="dialog_label_remove">Verwijder</string>
-    <string name="dialog_label_send">Verzenden</string>
-    <string name="dialog_message_backup_requesting">Herstelpunt aanmaken.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; deelde een animelijst met Atarashii: https://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; deelde een mangalijst met Atarashii: https://myanimelist.net/$name;!</string>
+    <string name="share_animelist">$username; deelde een animelijst met Atarashii: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; deelde een mangalijst met Atarashii: http://myanimelist.net/$name;!</string>
     <string name="layout_card_title_details">Details</string>
     <string name="layout_card_title_activity">Activiteit</string>
     <string name="layout_discription">Applicatie-icoon</string>
@@ -128,7 +116,6 @@
     <string name="action_viewListOnMAL">Lijst bekijken op internet</string>
     <string name="action_viewtopic">Bekijk discussie</string>
     <string name="not_specified">niet gespecificeerd</string>
-    <string name="no_history">Geen geschiedenis</string>
     <string-array name="gender">
         <item>Vrouw</item>
         <item>Man</item>
@@ -138,7 +125,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Aanmaakdatum</string>
     <!-- ForumActivity Strings -->
-    <string name="form_hint_message">Bericht</string>
     <string name="Page_number">Pagina nummer</string>
     <string name="next">Volgende</string>
     <string name="previous">Vorige</string>
@@ -172,7 +158,6 @@
     <string name="nav_item_my_profile">Mijn profiel</string>
     <string name="nav_item_my_list">Mijn lijst</string>
     <string name="nav_item_my_friends">Mijn vrienden</string>
-    <string name="nav_item_my_following">Volgend</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">Best gewaardeerd</string>
     <string name="nav_item_most_popular">Populairste</string>
@@ -180,8 +165,6 @@
     <string name="nav_item_upcoming">Binnenkort</string>
     <string name="nav_item_schedule">Schema</string>
     <string name="nav_item_return">Terug</string>
-    <string name="drawer_open">Open de navigatiebalk</string>
-    <string name="drawer_close">Sluit de navigatiebalk</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">Algemeen</string>
     <string name="tab_name_personal">Persoonlijk</string>
@@ -190,24 +173,33 @@
     <string name="tab_name_details">Details</string>
     <string name="tab_name_friends">Vrienden</string>
     <string name="tab_name_following">Volgend</string>
+    <string name="tab_name_followers">Volgers</string>
     <string name="tab_name_history">Geschiedenis</string>
     <!-- Day Strings -->
     <string name="day_monday">Maandag</string>
+    <string name="day_tuesday">Dinsdag</string>
     <string name="day_wednesday">Woensdag</string>
     <string name="day_thursday">Donderdag</string>
     <string name="day_friday">Vrijdag</string>
     <string name="day_saturday">Zaterdag</string>
+    <string name="day_sunday">Zondag</string>
     <!-- DetailView (Card names) Strings -->
     <string name="card_name_synopsis">Samenvatting</string>
     <string name="card_name_stats">Statistieken</string>
     <string name="card_name_info">Informatie</string>
     <string name="card_name_personal">Persoonlijk</string>
     <string name="card_name_relations">Geretaleerd</string>
+    <string name="card_name_music">Muziek</string>
     <string name="card_name_titles">Alternatieve Titels</string>
     <string name="card_name_basic">Basis</string>
     <string name="card_name_other">Andere</string>
     <string name="card_name_rewatch">Herbekijk/herlees</string>
     <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_youtube">Youtube</string>
+    <string name="card_content_wikipedia">Wikipedia</string>
+    <string name="card_content_official_site">officiele Site</string>
+    <string name="card_content_animedb">AnimeDB</string>
+    <string name="card_content_animenewsnetwork">AnimeNewsNetwork</string>
     <string name="card_content_volumes">Volumes</string>
     <string name="card_content_my_start">Mijn startdatum</string>
     <string name="card_content_my_end">Mijn einddatum</string>
@@ -230,6 +222,7 @@
     <string name="card_content_media_type">Media Type</string>
     <string name="card_content_media_status">Media Status</string>
     <string name="card_content_start">Startdatum</string>
+    <string name="card_content_year">Jaar</string>
     <string name="card_content_end">Einddatum</string>
     <string name="card_content_producers">Producers</string>
     <string name="card_content_genres">Genres</string>
@@ -265,40 +258,6 @@
     <string name="action_Remove">Verwijderen van lijst</string>
     <string name="action_Copy">Kopieer titel</string>
     <string name="action_AddToList">Toevoegen aan lijst</string>
-    <!-- DetailView (Media info) Strings -->
-    <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
-        <item>Tv</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Film</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Special</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Muziek</item>
-    </string-array>
-    <string-array name="mediaType_Manga">
-        <item>Manga</item>
-        <item>Novel</item>
-        <item>One Shot</item>
-        <item>Doujin</item>
-        <item>Manwha</item>
-        <item>Manhua</item>
-        <item>OEL</item>
-    </string-array>
-    <string-array name="mediaStatus_Anime">
-        <item>uitgezonden</item>
-        <item>wordt uitgezonden</item>
-        <item>nog niet uitgezonden</item>
-    </string-array>
-    <string-array name="mediaStatus_Manga">
-        <item>voltooid</item>
-        <item>publicerend</item>
-        <item>niet gepubliceerd</item>
-    </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
     <!-- Anime/Manga progress status strings -->
@@ -342,9 +301,7 @@
     <string name="preference_category_synchronisation">Synchronisatie</string>
     <string name="preference_category_sharing">Andere instellingen</string>
     <string name="preference_category_profile">Profiel</string>
-    <string name="preference_category_backup">Backup</string>
     <string name="preference_autoDate">Werk de datum automatisch bij.</string>
-    <string name="preference_summary_backupsync">Maak automatisch periodiek een herstelpunt.</string>
     <string name="preference_synchronisation">Auto-synchronisatie</string>
     <string name="preference_Theme">Donkere thema</string>
     <string name="preference_Reset">Reset instellingen</string>
@@ -383,7 +340,6 @@
     <string name="listType_InProgress">Mee bezig</string>
     <string name="listType_rewatching">Herbekijken</string>
     <string name="listType_rereading">Herlezen</string>
-    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -435,29 +391,6 @@
         <item>R+ - Milde naaktheid</item>
         <item>Rx - Hentai</item>
     </string-array>
-    <string-array name="browse_sort_anime">
-        <item>Titel</item>
-        <item>Relevantie</item>
-        <item>Startdatum</item>
-        <item>Einddatum</item>
-        <item>Waardering</item>
-        <item>Aflevering</item>
-        <item>Type</item>
-        <item>Gebruikers</item>
-        <item>Gewaardeerd</item>
-        <item>ID</item>
-    </string-array>
-    <string-array name="browse_sort_manga">
-        <item>Relevantie</item>
-        <item>Titel</item>
-        <item>Startdatum</item>
-        <item>Einddatum</item>
-        <item>Waardering</item>
-        <item>Gebruikers</item>
-        <item>Type</item>
-        <item>Hoofdstuk</item>
-        <item>ID</item>
-    </string-array>
     <string-array name="priorityArray">
         <item>Laag</item>
         <item>Gemiddeld</item>
@@ -480,70 +413,5 @@
         <item>Externe Hardeschijf</item>
         <item>NAS</item>
     </string-array>
-    <string-array name="genresArray">
-        <item>Actie</item>
-        <item>Avontuur</item>
-        <item>Auto\'s</item>
-        <item>Komedie</item>
-        <item>Zwakzinnigheid</item>
-        <item>Demonen</item>
-        <item>Drama</item>
-        <item>Ecchi</item>
-        <item>Fantasie</item>
-        <item>Spel</item>
-        <item>Harem</item>
-        <item>Hentai</item>
-        <item>Historisch</item>
-        <item>Horror</item>
-        <item>Josei</item>
-        <item>Kinderen</item>
-        <item>Magie</item>
-        <item>vechtsport</item>
-        <item>Mecha</item>
-        <item>Militair</item>
-        <item>Muziek</item>
-        <item>Mysterieus</item>
-        <item>Parodie</item>
-        <item>Politie</item>
-        <item>Psychologisch</item>
-        <item>Romantiek</item>
-        <item>Samurai</item>
-        <item>School</item>
-        <item>Sci-Fi</item>
-        <item>Jeugd</item>
-        <item>Shoujo</item>
-        <item>Lesbiennes</item>
-        <item>Shounen</item>
-        <item>Homo\'s</item>
-        <item>Stuk van het leven</item>
-        <item>Ruimte</item>
-        <item>Sport</item>
-        <item>Super krachten</item>
-        <item>Bovennatuurlijk</item>
-        <item>Thriller</item>
-        <item>Vampier</item>
-        <item>Yaoi</item>
-        <item>Yuri</item>
-    </string-array>
-    <string name="toast_info_comment_add">De reactie is succesvol verzonden!</string>
-    <string name="dialog_title_downloaded">Gedownloade afleveringen</string>
-    <string name="dialog_title_fansub">Mijn fansubgroep</string>
-    <string name="dialog_title_add_topic">Onderwerp maken</string>
-    <!--Typo, should be your-->
-    <string name="dialog_hint_fansub">Vul je fansubgroep in</string>
-    <string name="dialog_message_created_by">Gemaakt door</string>
-    <string name="dialog_message_forum_child">Wil je de categorie $child1; of $child2; bekijken?</string>
-    <string name="layout_card_anime_views">Animelijstweergaven</string>
-    <string name="layout_card_manga_views">Mangalijstweergaven</string>
-    <string name="no_activity">Geen activiteit</string>
-    <string name="no_reviews">Geen reviews</string>
-    <string name="read_more">lees meer</string>
-    <string name="show_less">verberg informatie</string>
-    <!-- ForumActivity Strings -->
-    <string name="action_add">Voeg een reactie of onderwerp toe</string>
-    <string name="form_hint_title">Onderwerptitel</string>
-    <string name="nav_item_airing">Aan het uitzenden</string>
-    <string name="nav_item_year">Dit jaar</string>
-    <string name="card_content_fansubbers">Fansubs</string>
-    <string name="card_content_downloaded">Gedownload</string>
+    <!-- DetailView (Media info) Strings -->
 </resources>
