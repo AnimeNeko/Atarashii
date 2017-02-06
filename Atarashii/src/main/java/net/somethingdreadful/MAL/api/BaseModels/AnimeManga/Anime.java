@@ -327,6 +327,7 @@ public class Anime extends GenericRecord implements Serializable {
         // Automatically set the status on completed
         if (getEpisodes() > 0 && getWatchedEpisodes() == getEpisodes() && !getDirty().contains("watchedStatus")) {
             setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+            completed = true;
         }
 
         // Automatically set the max episode on completed
