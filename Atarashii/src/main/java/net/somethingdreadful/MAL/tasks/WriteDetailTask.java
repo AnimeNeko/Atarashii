@@ -32,11 +32,11 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         ContentManager manager = new ContentManager(activity);
 
         if (!AccountService.isMAL() && isNetworkAvailable)
-            manager.verifyAuthentication();
+            error = manager.verifyAuthentication();
 
         try {
             // Sync details if there is network connection
-            if (isNetworkAvailable) {
+            if (isNetworkAvailable && !error) {
                 if (type.equals(ListType.ANIME)) {
                     error = !manager.writeAnimeDetails((Anime) gr[0]);
                 } else {
