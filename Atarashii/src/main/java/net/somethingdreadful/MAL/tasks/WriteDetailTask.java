@@ -8,7 +8,6 @@ import android.util.Log;
 
 import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
-import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.Anime;
 import net.somethingdreadful.MAL.api.BaseModels.AnimeManga.GenericRecord;
@@ -31,8 +30,9 @@ public class WriteDetailTask extends AsyncTask<GenericRecord, Void, Boolean> {
         boolean isNetworkAvailable = APIHelper.isNetworkAvailable(activity);
         ContentManager manager = new ContentManager(activity);
 
-        if (!AccountService.isMAL() && isNetworkAvailable)
+        if (isNetworkAvailable)
             error = manager.verifyAuthentication();
+        AppLog.log(Log.INFO, "Atarashii", "WriteDetailTask.doInBackground(4, " + type + "): error: " + error);
 
         try {
             // Sync details if there is network connection

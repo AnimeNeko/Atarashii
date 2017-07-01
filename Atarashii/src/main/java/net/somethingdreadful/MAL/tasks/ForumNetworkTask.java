@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import net.somethingdreadful.MAL.AppLog;
 import net.somethingdreadful.MAL.ContentManager;
-import net.somethingdreadful.MAL.account.AccountService;
 import net.somethingdreadful.MAL.api.APIHelper;
 import net.somethingdreadful.MAL.api.BaseModels.Forum;
 
@@ -28,8 +27,9 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
     protected ArrayList<Forum> doInBackground(String... params) {
         ArrayList<Forum> result = new ArrayList<>();
         ContentManager cManager = new ContentManager(activity);
-        if (!AccountService.isMAL() && APIHelper.isNetworkAvailable(activity))
-            cManager.verifyAuthentication();
+        boolean error = false;
+        if (APIHelper.isNetworkAvailable(activity))
+            error = cManager.verifyAuthentication();
 
         try {
             switch (type) {
@@ -49,12 +49,16 @@ public class ForumNetworkTask extends AsyncTask<String, Void, ArrayList<Forum>> 
                     result = cManager.search(params[0]);
                     break;
                 case ADDCOMMENT:
-                    result = cManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null;
-                    if (result != null)
-                        result = cManager.getTopic(id, Integer.parseInt(params[1]));
+                    if (!error) {
+                        result = cManager.addComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                        if (result != null)
+                            result = cManager.getTopic(id, Integer.parseInt(params[1]));
+                    }
                     break;
                 case UPDATECOMMENT:
-                    result = cManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                    if (!error) {
+                        result = cManager.updateComment(id, params[0]) ? new ArrayList<Forum>() : null;
+                    }
                     break;
             }
         } catch (Exception e) {
