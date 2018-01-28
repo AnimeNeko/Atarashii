@@ -262,7 +262,7 @@ public class DetailViewPersonal extends Fragment implements Serializable, View.O
                 activity.showDialog("endDate", new DatePickerDialogFragment().setCallback(activity), args2);
                 break;
             case R.id.scorePanel:
-                if (PrefManager.getScoreType() <= 2) {
+                if (PrefManager.getScoreType() <= 2 || PrefManager.getScoreType() == 0) {
                     Bundle args3 = bundle(R.id.scorePanel, R.string.dialog_title_rating);
                     args3.putInt("current", activity.isAnime() ? activity.animeRecord.getScore() : activity.mangaRecord.getScore());
                     args3.putInt("max", PrefManager.getMaxScore());

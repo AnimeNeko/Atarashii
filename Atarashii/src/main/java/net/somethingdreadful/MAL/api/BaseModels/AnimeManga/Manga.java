@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.google.gson.annotations.SerializedName;
 
 import net.somethingdreadful.MAL.ContentManager;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -15,7 +16,6 @@ import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import lombok.Getter;
@@ -211,11 +211,7 @@ public class Manga extends GenericRecord implements Serializable {
 
             // Automatically set the end date on completed if it is empty
             if ((getReadingEnd() == null || getReadingEnd().equals("") || getReadingEnd().equals("0-00-00")) && PrefManager.getAutoDateSetter()) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                setReadingEnd(year + "-" + month + "-" + day);
+                setReadingEnd(DateTools.getCurrentDate());
             }
         }
 
@@ -231,11 +227,7 @@ public class Manga extends GenericRecord implements Serializable {
 
         // Automatically set the start date on start if it is empty
         if ((getReadingStart() == null || getReadingStart().equals("") || getReadingStart().equals("0-00-00")) && PrefManager.getAutoDateSetter() && started) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            setReadingStart(year + "-" + month + "-" + day);
+            setReadingStart(DateTools.getCurrentDate());
         }
     }
 

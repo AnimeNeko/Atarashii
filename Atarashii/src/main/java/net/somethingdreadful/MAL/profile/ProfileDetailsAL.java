@@ -40,20 +40,13 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
     private ProfileActivity activity;
     private ForumHTMLUnit forumHTMLUnit;
     private Card imagecard;
-    @BindView(R.id.swiperefresh)
-    public SwipeRefreshLayout swipeRefresh;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.network_Card)
-    Card networkCard;
-    @BindView(R.id.SynopsisContent)
-    TextView about;
-    @BindView(R.id.atimedayssmall)
-    TextView timeDays;
-    @BindView(R.id.mtimedayssmall)
-    TextView chapsRead;
-    @BindView(R.id.Image)
-    ImageView image;
+    @BindView(R.id.swiperefresh) public SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.network_Card) Card networkCard;
+    @BindView(R.id.SynopsisContent) TextView about;
+    @BindView(R.id.atimedayssmall) TextView timeDays;
+    @BindView(R.id.mtimedayssmall) TextView chapsRead;
+    @BindView(R.id.Image) ImageView image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -114,35 +107,31 @@ public class ProfileDetailsAL extends Fragment implements SwipeRefreshLayout.OnR
                 timeDays.setText(String.valueOf(profile.getAnimeStats().getTimeDays()));
                 chapsRead.setText(String.valueOf(profile.getMangaStats().getCompleted()));
 
-                Picasso.with(activity)
-                        .load(activity.record.getImageUrl())
-                        .error(R.drawable.cover_error)
-                        .placeholder(R.drawable.cover_loading)
-                        .into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
-                                image.setImageBitmap(bitmap);
-                            }
+                Picasso.with(activity).load(activity.record.getImageUrl()).error(R.drawable.cover_error).placeholder(R.drawable.cover_loading).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        imagecard.wrapImage(bitmap.getWidth(), bitmap.getHeight());
+                        image.setImageBitmap(bitmap);
+                    }
 
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-                                try {
-                                    Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
-                                    imagecard.wrapImage(225, 320);
-                                    image.setImageDrawable(drawable);
-                                } catch (Exception e) {
-                                    AppLog.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
-                                }
-                            }
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        try {
+                            Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_error);
+                            imagecard.wrapImage(225, 320);
+                            image.setImageDrawable(drawable);
+                        } catch (Exception e) {
+                            AppLog.log(Log.ERROR, "Atarashii", "ProfileDetailsMAL.refresh(): " + e.getMessage());
+                        }
+                    }
 
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
-                                imagecard.wrapImage(225, 320);
-                                image.setImageDrawable(drawable);
-                            }
-                        });
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.cover_loading);
+                        imagecard.wrapImage(225, 320);
+                        image.setImageDrawable(drawable);
+                    }
+                });
                 toggle(0);
             }
         } catch (IllegalStateException e) {

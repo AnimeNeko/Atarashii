@@ -47,8 +47,8 @@
     <string name="dialog_label_logout">تسجيل الخروج</string>
     <string name="dialog_label_remove">أزل</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username; شارك قائمة Anime بواسطة Atarashiiـ: https://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username; شارك قائمة Manga بواسطة Atarashiiـ: https://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; شارك قائمة Anime بواسطة Atarashiiـ: http://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; شارك قائمة Manga بواسطة Atarashiiـ: http://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">تفاصيل المستخدم</string>
     <string name="layout_discription">أيقونة التطبيق</string>
     <string name="layout_card_loading">جاري التحميل</string>
@@ -110,8 +110,6 @@
     <string name="nav_item_most_popular">الأكثر شعبية</string>
     <string name="nav_item_just_added">أضيف للتو</string>
     <string name="nav_item_upcoming">سيصدر لاحقا</string>
-    <string name="drawer_open">افتح درج التصفح</string>
-    <string name="drawer_close">اغلق درج التصفح</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">عام</string>
     <string name="tab_name_personal">شخصى</string>
@@ -162,40 +160,6 @@
     <string name="action_Remove">أزل من القائمة</string>
     <string name="action_Copy">أنسخ الاسم</string>
     <string name="action_AddToList">أضف للقائمة</string>
-    <!-- DetailView (Media info) Strings -->
-    <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
-        <item>تلفازى</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>فيلم</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>خاصة</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>موسيقى</item>
-    </string-array>
-    <string-array name="mediaType_Manga">
-        <item>Manga</item>
-        <item>رواية</item>
-        <item>One Shot</item>
-        <item>Doujin</item>
-        <item>Manwha</item>
-        <item>Manhua</item>
-        <item>OEL</item>
-    </string-array>
-    <string-array name="mediaStatus_Anime">
-        <item>انتهى عرضه</item>
-        <item>يعرض حاليا</item>
-        <item>لم يعرض بعد</item>
-    </string-array>
-    <string-array name="mediaStatus_Manga">
-        <item>منتهى</item>
-        <item>تنشر</item>
-        <item>لم تنشر بعد</item>
-    </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
     <!-- Anime/Manga progress status strings -->
@@ -269,7 +233,6 @@
     <string name="listType_planned">مخطط</string>
     <string name="listType_Completed">أكتمل</string>
     <string name="listType_InProgress">يشاهـَد / يقرئ</string>
-    <!-- Browse (contents) Strings -->
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -321,51 +284,5 @@
         <item>R+ - تعرى</item>
         <item>Rx - Hentai</item>
     </string-array>
-    <string-array name="genresArray">
-        <item>أكشن</item>
-        <item>مغامرة</item>
-        <item>سيارات</item>
-        <item>كوميدي</item>
-        <item>Dementia</item>
-        <item>شياطين</item>
-        <item>دراما</item>
-        <item>Ecchi</item>
-        <item>فانتازيا</item>
-        <item>لعبة</item>
-        <item>Harem</item>
-        <item>Hentai</item>
-        <item>تاريخى</item>
-        <item>رعب</item>
-        <item>Josei</item>
-        <item>أطفال</item>
-        <item>سحر</item>
-        <item>فنون قتالية</item>
-        <item>ميكا</item>
-        <item>عسكرى</item>
-        <item>موسيقى</item>
-        <item>غموض</item>
-        <item>بارودى</item>
-        <item>شرطة</item>
-        <item>نفسى</item>
-        <item>رومانسى</item>
-        <item>ساموراى</item>
-        <item>مدرسى</item>
-        <item>خيال علمي</item>
-        <item>Seinen</item>
-        <item>Shoujo</item>
-        <item>Shoujo Ai</item>
-        <item>Shounen</item>
-        <item>Shounen Ai</item>
-        <item>شريحة من الحياة</item>
-        <item>فضاء</item>
-        <item>رياضى</item>
-        <item>قوي خارقة</item>
-        <item>ما فوق الطبيعة</item>
-        <item>إثارة</item>
-        <item>مصاصي دماء</item>
-        <item>Yaoi</item>
-        <item>Yuri</item>
-    </string-array>
-    <string name="layout_card_anime_views">مشاهدات قائمة الــ Anime</string>
-    <string name="layout_card_manga_views">مشاهدات قائمة الــ Manga</string>
+    <!-- DetailView (Media info) Strings -->
 </resources>

@@ -13,6 +13,19 @@ import java.util.Locale;
 public class DateTools {
 
     /**
+     * Return the current date.
+     *
+     * @return String yyyy-mm-dd
+     */
+    public static String getCurrentDate(){
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        return year + "-" + month + "-" + day;
+    }
+
+    /**
      * Parse a date with an ISO8601 string.
      *
      * @param ISO8601  The ISO8601 String

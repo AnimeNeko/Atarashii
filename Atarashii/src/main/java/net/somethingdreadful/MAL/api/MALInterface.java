@@ -27,7 +27,7 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 interface MALInterface {
-    @GET("account/verify_credentials")
+    @GET("api/account/verify_credentials.xml")
     Call<ResponseBody> verifyAuthentication();
 
     @GET("anime/{anime_id}")

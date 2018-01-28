@@ -75,6 +75,7 @@ public class DetailViewDetails extends Fragment implements Serializable {
     @BindView(R.id.producers) TextView producers;
     @BindView(R.id.producersRow) TableRow producersRow;
     @BindView(R.id.officialPanel) TextView officialPanel;
+    @BindView(R.id.divider4) View officialdivider;
 
     @BindView(R.id.infoValue1) TextView infoValue1;
     @BindView(R.id.infoText2) TextView infoText2;
@@ -253,8 +254,10 @@ public class DetailViewDetails extends Fragment implements Serializable {
             start.setText(activity.getDate(activity.animeRecord.getStartDate()));
             end.setText(activity.getDate(activity.animeRecord.getEndDate()));
             producers.setText("\u200F" + activity.animeRecord.getProducersString());
-            if (activity.animeRecord.getExternalLinks() == null && activity.animeRecord.getExternalLinks().getOfficialSite() == null)
+            if (activity.animeRecord.getExternalLinks() == null || activity.animeRecord.getExternalLinks().getOfficialSite() == null) {
                 officialPanel.setVisibility(View.GONE);
+                officialdivider.setVisibility(View.GONE);
+            }
         } else {
             type.setText(activity.mangaRecord.getType());
             episodes.setText(activity.nullCheck(activity.mangaRecord.getChapters()));

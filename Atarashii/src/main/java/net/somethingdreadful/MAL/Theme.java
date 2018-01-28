@@ -273,8 +273,8 @@ public class Theme extends Application {
     public static String getDisplayScore(float score) {
         switch (net.somethingdreadful.MAL.PrefManager.getScoreType()) {
             case 0:
-                Double score1 = net.somethingdreadful.MAL.account.AccountService.isMAL() ? score : Math.floor(score / 10);
-                return score1 > 0.0 ? String.format("%.0f", score1) : "?";
+                int score1 = (int) (net.somethingdreadful.MAL.account.AccountService.isMAL() ? score : Math.floor(score / 10));
+                return score1 > 0 ? String.valueOf(score1) : "?";
             case 1:
                 return score > 0 ? String.valueOf((int) score) : "?";
             case 2:
@@ -301,7 +301,7 @@ public class Theme extends Application {
                     return ":)";
             case 4:
                 float score5 = score / 10;
-                return score5 > 0.0 ? String.format("%.1f", score5) : "?";
+                return score5 > 0.0 ? String.valueOf(score5) : "?";
             default:
                 return "?";
         }
@@ -309,7 +309,7 @@ public class Theme extends Application {
 
     /**
      * Display the right format for AL API commands.
-     *
+     * <p>
      * 0. 0 - 10
      * 1. 0 - 100
      * 2. 0 - 5

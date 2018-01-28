@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.text.TextUtils;
 
 import net.somethingdreadful.MAL.ContentManager;
+import net.somethingdreadful.MAL.DateTools;
 import net.somethingdreadful.MAL.PrefManager;
 import net.somethingdreadful.MAL.R;
 import net.somethingdreadful.MAL.account.AccountService;
@@ -14,7 +15,6 @@ import net.somethingdreadful.MAL.api.MALModels.RecordStub;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import lombok.Getter;
@@ -327,6 +327,7 @@ public class Anime extends GenericRecord implements Serializable {
         // Automatically set the status on completed
         if (getEpisodes() > 0 && getWatchedEpisodes() == getEpisodes() && !getDirty().contains("watchedStatus")) {
             setWatchedStatus(GenericRecord.STATUS_COMPLETED);
+            completed = true;
         }
 
         // Automatically set the max episode on completed
@@ -344,11 +345,7 @@ public class Anime extends GenericRecord implements Serializable {
 
             // Automatically set the end date on completed if it is empty
             if ((getWatchingEnd() == null || getWatchingEnd().equals("") || getWatchingEnd().equals("0-00-00")) && PrefManager.getAutoDateSetter()) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                setWatchingEnd(year + "-" + month + "-" + day);
+                setWatchingEnd(DateTools.getCurrentDate());
             }
         }
 
@@ -364,11 +361,7 @@ public class Anime extends GenericRecord implements Serializable {
 
         // Automatically set the start date on start if it is empty
         if ((getWatchingStart() == null || getWatchingStart().equals("") || getWatchingStart().equals("0-00-00")) && PrefManager.getAutoDateSetter() && started) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            setWatchingStart(year + "-" + month + "-" + day);
+            setWatchingStart(DateTools.getCurrentDate());
         }
     }
 

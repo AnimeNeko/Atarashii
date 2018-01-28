@@ -7,14 +7,13 @@
     <string name="title_activity_detail_view">Detay Görünümü</string>
     <string name="title_activity_profile">Kullanıcı Profili</string>
     <string name="title_activity_forum">Forum</string>
-    <string name="title_activity_backup">Yedekle</string>
     <string name="title_activity_charts">Grafik</string>
     <string name="title_activity_browse">Araştır</string>
+    <string name="title_activity_support">Destek</string>
     <!-- All (Actionbar Actions) Strings -->
     <string name="menu_listType">Listeyi Değiştir</string>
     <string name="menu_inverse">Sıralamayı Değiştir</string>
     <string name="menu_sync">Tam Senkronizasyon</string>
-    <string name="menu_backup">Yedek</string>
     <string name="menu_details">"Detaylar
 "</string>
     <string name="menu_sort">Sıralama</string>
@@ -46,17 +45,10 @@
     <string name="toast_info_comment_added">5 dakikaya görünür</string>
     <string name="toast_info_disabled">Bu özellik şu an devre dışı.</string>
     <string name="toast_info_disabled_youtube">Yorumlar Youtube videolarıyla desteklenmemektedir :(</string>
-    <string name="toast_info_backup_saved">Yedek oluşturuldu!</string>
-    <string name="toast_info_backup_revert">Değişiklikler eski haline döndü.</string>
-    <string name="toast_info_backup_remove">Yedek kaldırıldı!</string>
     <string name="toast_info_backup_list">Yedek bu site ile uyumlu değil!</string>
-    <string name="toast_info_widget_exists">Önceden kayıtlı bir widget zaten var!</string>
     <string name="toast_info_comment">Yorum çok kısa!</string>
-    <string name="toast_permission_backup">Kullanıcı tarafından izin verilmedi, yedekler yüklenemez.</string>
+    <string name="toast_info_no_customlist">Lütfen yükseltmeden sonra listeleri güncelleyiniz!</string>
     <!-- All (Dialog Title & Contents) Strings -->
-    <string name="dialog_title_userername">Kullanıcı adı uyuşmuyor</string>
-    <string name="dialog_title_permission">İzin reddedildi</string>
-    <string name="dialog_title_restore">Listeleri onar?</string>
     <string name="dialog_title_view">Göster</string>
     <string name="dialog_title_tags">Etiketlerim</string>
     <string name="dialog_title_storage_value">Depolama değeri</string>
@@ -78,8 +70,6 @@
     <string name="dialog_hint_tags">Etiketlerini virgül ile ayır</string>
     <string name="dialog_hint_comment">Yorumunu gir</string>
     <string name="dialog_message_view">Hangi listeyi görmek istiyorsunuz?</string>
-    <string name="dialog_message_permission">Lütfen izni el ile aktif edin.\nSeçimin bir daha gösterilmeyecektir.</string>
-    <string name="dialog_message_restore">Bazı kayıtlar listeden silinmiş olabilir!</string>
     <string name="dialog_message_logout">Çıkış yapmak istediğinizden emin misiniz? Bu işlem tüm saklanan verileri silinmesine sebep olacaktır.</string>
     <string name="dialog_message_id_search">Lütfen Anime veya Manga arama butonuna basın. Anime veya Manga ID\'lerin aynı olmadığını unutma!</string>
     <string name="dialog_message_remove">Kesinlikle emin misiniz? Bir defa gitti mi, bir daha geri gelmez. En azından kolay bir şekilde değil.</string>
@@ -87,7 +77,6 @@
     <string name="dialog_message_Verifying">Kullanıcı bilgileriniz kontrol ediliyor. Biraz bekleyin.</string>
     <string name="dialog_message_update_navigation">Aşağıya resim linkini gir.</string>
     <string name="dialog_message_last_post">Son gönderim</string>
-    <string name="dialog_message_username">Seçilen yedek, senin yedeğin olmayabilir!</string>
     <string name="dialog_message_edit_comment">Yorumunu güncellemek istediğinden emin misin?</string>
     <string name="dialog_message_add_comment">Gerçekten yeni bir yorum eklemek istediğinden emin misin?</string>
     <string name="dialog_label_cancel">İptal</string>
@@ -99,12 +88,9 @@
     <string name="dialog_title_remove">Listeden kaldır</string>
     <string name="dialog_label_logout">Çıkış</string>
     <string name="dialog_label_remove">Kaldır</string>
-    <string name="dialog_label_send">Gönder</string>
-    <string name="dialog_message_backup_reading">Kayıtlar okunuyor</string>
-    <string name="dialog_message_backup_requesting">Yedek oluşturuluyor.</string>
     <!-- ProfileActivity (Contents) Strings -->
-    <string name="share_animelist">$username;, Atarashii\'yi kullanarak bir anime listesi paylaştı: https://myanimelist.net/animelist/$name;!</string>
-    <string name="share_mangalist">$username;, Atarashii\'yi kullanarak bir manga listesi paylaştı: https://myanimelist.net/mangalist/$name;!</string>
+    <string name="share_animelist">$username; Atarashii\'yi kullanarak bir anime listesi paylaştı: https://myanimelist.net/animelist/$name;!</string>
+    <string name="share_mangalist">$username; Atarashii\'yi kullanarak bir manga listesi paylaştı: https://myanimelist.net/mangalist/$name;!</string>
     <string name="layout_card_title_details">Detaylar</string>
     <string name="layout_card_title_activity">Hareketler</string>
     <string name="layout_discription">Uygulama Simgesi</string>
@@ -133,7 +119,6 @@
     <string name="action_viewListOnMAL">Listeyi Tarayıcıda Göster</string>
     <string name="action_viewtopic">Yorumları göster</string>
     <string name="not_specified">Belirtilmemiş</string>
-    <string name="no_history">Tarih Yok</string>
     <string-array name="gender">
         <item>Bayan</item>
         <item>Erkek</item>
@@ -143,7 +128,6 @@
     <!-- BackupActivity Strings -->
     <string name="creation_date">Oluşturulma Tarihi</string>
     <!-- ForumActivity Strings -->
-    <string name="form_hint_message">Mesaj</string>
     <string name="Page_number">Sayfa No</string>
     <string name="next">Sonraki</string>
     <string name="previous">Önceki</string>
@@ -177,7 +161,6 @@
     <string name="nav_item_my_profile">Profilim</string>
     <string name="nav_item_my_list">Listem</string>
     <string name="nav_item_my_friends">Arkadaşlarım</string>
-    <string name="nav_item_my_following">Takip ediliyor</string>
     <string name="nav_item_my_forum">Forum</string>
     <string name="nav_item_top_rated">En Beğenilen</string>
     <string name="nav_item_top_season">Sezonun En İyileri</string>
@@ -189,8 +172,6 @@
     <string name="nav_item_upcoming">Yakında Çıkan</string>
     <string name="nav_item_schedule">Zamanla</string>
     <string name="nav_item_return">Geri Dön</string>
-    <string name="drawer_open">Navigasyon bölümünü aç</string>
-    <string name="drawer_close">Navigasyon kısmını kapat</string>
     <!-- Tab names Strings -->
     <string name="tab_name_general">Genel</string>
     <string name="tab_name_personal">Kişisel</string>
@@ -215,11 +196,20 @@
     <string name="card_name_info">Bilgi</string>
     <string name="card_name_personal">Kişisel</string>
     <string name="card_name_relations">İlgili</string>
+    <string name="card_name_music">Müzik</string>
     <string name="card_name_titles">Alternatif İsimler</string>
+    <string name="card_name_external">Harici Linkler</string>
     <string name="card_name_basic">Temel</string>
     <string name="card_name_other">Diğer</string>
     <string name="card_name_rewatch">Yeniden İzlenme/Okunma</string>
     <!-- DetailView (Res contents) Strings -->
+    <string name="card_content_google">Google</string>
+    <string name="card_content_youtube">Youtube</string>
+    <string name="card_content_wikipedia">Wikipedia</string>
+    <string name="card_content_official_site">Resmi Site</string>
+    <string name="card_content_animedb">AnimeDB</string>
+    <string name="card_content_animenewsnetwork">AnimeNewsNetwork</string>
+    <string name="card_content_customList">Özel Liste</string>
     <string name="card_content_volumes">Cilt</string>
     <string name="card_content_my_start">Başlama Tarihim</string>
     <string name="card_content_my_end">Bitiş Tarihim</string>
@@ -243,9 +233,11 @@
     <string name="card_content_media_type">Medya Türü</string>
     <string name="card_content_media_status">Medya Durumu</string>
     <string name="card_content_start">Başlama Tarihi</string>
+    <string name="card_content_year">Yıl</string>
     <string name="card_content_end">Bitiş Tarihi</string>
     <string name="card_content_producers">Prodiktör</string>
     <string name="card_content_genres">Tür</string>
+    <string name="card_content_genresExc">Engellenen türler</string>
     <string name="card_content_classification">Derecelendirme</string>
     <string name="card_content_ranked">Derece</string>
     <string name="card_content_popularity">Popülarite</string>
@@ -256,6 +248,8 @@
     <string name="card_content_sequel">Sonraki</string>
     <string name="card_content_alternativeversions">Alternatif Sürümler</string>
     <string name="card_content_adaptions">Adaptasyonlar</string>
+    <string name="card_content_opening">Açılış müziği</string>
+    <string name="card_content_ending">Kapanış müziği</string>
     <string name="card_content_sidestories">Ara Hikayeler</string>
     <string name="card_content_spinoffs">Yan Ürünler</string>
     <string name="card_content_summaries">Özetlenmiş</string>
@@ -280,40 +274,6 @@
     <string name="action_Remove">Listeden kaldır</string>
     <string name="action_Copy">Başlığı kopyala</string>
     <string name="action_AddToList">Listeye ekle</string>
-    <!-- DetailView (Media info) Strings -->
-    <string-array name="mediaType_Anime">
-    <!-- DetailView (Media info) Strings -->
-        <item>TV</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Film</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>OVA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>ONA</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Özel</item>
-    <!-- DetailView (Media info) Strings -->
-        <item>Müzik</item>
-    </string-array>
-    <string-array name="mediaType_Manga">
-        <item>Manga</item>
-        <item>Roman</item>
-        <item>One Shot</item>
-        <item>Doujin</item>
-        <item>Manwha</item>
-        <item>Manhua</item>
-        <item>OEL</item>
-    </string-array>
-    <string-array name="mediaStatus_Anime">
-        <item>Yayınlanmış</item>
-        <item>yayınlanıyor</item>
-        <item>Henüz yayınlanmamış</item>
-    </string-array>
-    <string-array name="mediaStatus_Manga">
-        <item>yayınlanmış</item>
-        <item>Yayımlanıyor</item>
-        <item>Henüz yayımlanmadı</item>
-    </string-array>
     <!-- Anime/Manga progress status strings -->
     <string-array name="mediaStatus_User">
     <!-- Anime/Manga progress status strings -->
@@ -332,7 +292,7 @@
         <item>Planlanıyor</item>
     </string-array>
     <!-- BaseActionBarSearchView (Unknown) Strings -->
-    <string name="search_prompt">MAL\'da Ara</string>
+    <string name="search_prompt">Ara</string>
     <!-- AboutActivity (contents) Strings -->
     <string name="contributors_card_title">Emeği Geçenler</string>
     <string name="acknowledgements_card_title">Bilgi</string>
@@ -358,13 +318,10 @@
     <string name="preference_category_synchronisation">Senkronizasyon</string>
     <string name="preference_category_sharing">Diğer Ayarlar</string>
     <string name="preference_category_profile">Profil</string>
-    <string name="preference_category_backup">Yedekle</string>
-    <string name="preference_backupsync">Otomatik yedekleme aralığı</string>
     <string name="preference_adultcontent">NSFW içeriklerini göster (MAL)</string>
+    <string name="preference_hidetabs">Anime ve Manga etiketlerini gizle</string>
     <string name="preference_autoDate">Otomatikman tarihi yedekle</string>
     <string name="preference_backuplength">Yedeklerin miktarı.</string>
-    <string name="preference_summary_backupsync">Belli bir süre sonra anime/manga listesini otomatik yenile.</string>
-    <string name="preference_summary_autobackup">İzin verilen en fazla yedek öğesi.</string>
     <string name="preference_synchronisation">Otomatik senkronizasyon</string>
     <string name="preference_Theme">Koyu Tema</string>
     <string name="preference_list_columns_portrait">Dİk liste sütunları</string>
@@ -382,6 +339,7 @@
     <string name="preference_profileMangaHide">Manga detaylarını her zaman gizle</string>
     <string name="summary_DefaultList">Uygulama açıldığında hangi listeyi görmek istersiniz?</string>
     <string name="preference_summary_adultcontent">Hentai gibi NSFW içerikleri göster.</string>
+    <string name="preference_summary_hidetabs">Anime ve Manga etiketlerini gizle. Yine de kaydırarak gezinebilirsiniz.</string>
     <string name="preference_summary_autoDate">Bir anime ya da manganın başlama-bitiş tarihini güncelle.</string>
     <string name="preference_summary_TraditionList">Kapak resimleri yerine geleneksel liste stilini kullan. Değişikliklerin fark etmesi için uygulamanın yeniden başlaması gerekir.</string>
     <string name="preference_summary_AddList">Bir anime/ manga ekleyeceğinde bu listeye kaydolunacak.</string>
@@ -396,7 +354,6 @@
     <string name="preference_summary_profileTextColors">Profil sayfasını siyah yazı renki kullanmaya zorla</string>
     <string name="preference_summary_profileAnimeHide">Anime detaylarını tüm profillerde gizle</string>
     <string name="preference_summary_profileMangaHide">Manga detaylarını tüm profillerde gizle</string>
-    <string name="preference_summary_backup">Anime list. veya manga list. yedekle.</string>
     <string name="preference_android_synchronisation">Anime/Manga kayıtları</string>
     <string name="preference_default_customShareText">MyAnimeList\'de $title;\'a bak!\n$link;</string>
     <!-- Dialog_Status_picker (ListType) Strings -->
@@ -408,9 +365,10 @@
     <string name="listType_InProgress">Devam Edilen</string>
     <string name="listType_rewatching">Yeniden izlenme</string>
     <string name="listType_rereading">Yeniden Okunuyor.</string>
-    <!-- Browse (contents) Strings -->
-    <string name="browse_genre_inc">Türleri dahil et</string>
-    <string name="browse_genre_exc">Türleri hariç tut</string>
+    <string-array name="browse_genresArray">
+        <item>Türleri dahil et</item>
+        <item>Türleri hariç tut</item>
+    </string-array>
     <!-- Settings (ListPreference Entries) Items -->
     <string-array name="listTypeArray">
     <!-- Settings (ListPreference Entries) Items -->
@@ -462,34 +420,24 @@
         <item>R+ - Hafif Çıplaklık</item>
         <item>Rx - Hentai</item>
     </string-array>
-    <string-array name="browse_sort_anime">
-        <item>Başlık</item>
-        <item>İlgili</item>
-        <item>Başlama tarihi</item>
-        <item>Bitiş Tarihi</item>
-        <item>Puan</item>
-        <item>Bölüm</item>
-        <item>Tür</item>
-        <item>Üyeler</item>
-        <item>Değerlendirme</item>
-        <item>ID</item>
-    </string-array>
-    <string-array name="browse_sort_manga">
-        <item>İlgili</item>
-        <item>Başlık</item>
-        <item>Başlama tarihi</item>
-        <item>Bitiş tarihi</item>
-        <item>Puan</item>
-        <item>Cilt</item>
-        <item>Üyeler</item>
-        <item>Tür</item>
-        <item>Bölüm</item>
-        <item>ID</item>
-    </string-array>
     <string-array name="priorityArray">
         <item>Düşük</item>
         <item>Orta</item>
         <item>Yüksek</item>
+    </string-array>
+    <string-array name="seasonList">
+        <item>Bütün sezonlar</item>
+        <item>Kış</item>
+        <item>Bahar</item>
+        <item>Yaz</item>
+        <item>Sonbahar</item>
+    </string-array>
+    <string-array name="seasonFixedList" translatable="false">
+        <item>Bütün sezonlar</item>
+        <item>Kış</item>
+        <item>Bahar</item>
+        <item>Yaz</item>
+        <item>Sonbahar</item>
     </string-array>
     <string-array name="priorityRewatchArray">
         <item>Yok</item>
@@ -508,32 +456,77 @@
         <item>Harici Hard Disk</item>
         <item>NAS</item>
     </string-array>
-    <string-array name="genresArray">
+    <string name="genre_action">Aksiyon</string>
+    <string name="genre_adventure">Macera</string>
+    <string name="genre_cars">Arabalar</string>
+    <string name="genre_comedy">Komedi</string>
+    <string name="genre_dementia">Kişilik Bölünmesi</string>
+    <string name="genre_demons">Şeytanlar</string>
+    <string name="genre_drama">Drama</string>
+    <string name="genre_ecchi">Ecchi</string>
+    <string name="genre_fantasy">Fantezi</string>
+    <string name="genre_game">Oyun</string>
+    <string name="genre_harem">Harem</string>
+    <string name="genre_hentai">Hentai</string>
+    <string name="genre_historical">Tarihsel</string>
+    <string name="genre_horror">Korku</string>
+    <string name="genre_josei">Kadın</string>
+    <string name="genre_kids">Çocuklar</string>
+    <string name="genre_magic">Büyü</string>
+    <string name="genre_machou">Sihirli Kız</string>
+    <string name="genre_martialArts">Dövüş Sanatları</string>
+    <string name="genre_mecha">Mecha</string>
+    <string name="genre_military">Ordu</string>
+    <string name="genre_music">Müzik</string>
+    <string name="genre_mystery">Mistik</string>
+    <string name="genre_parody">Parodi</string>
+    <string name="genre_police">Polisiye</string>
+    <string name="genre_psychological">Psikolojik</string>
+    <string name="genre_romance">Romantik</string>
+    <string name="genre_samurai">Samuray</string>
+    <string name="genre_school">Okul</string>
+    <string name="genre_sciFi">Bilim-Kurgu</string>
+    <string name="genre_seinen">Seinen</string>
+    <string name="genre_shoujo">Shoujo</string>
+    <string name="genre_shoujoAi">Shoujo Ai</string>
+    <string name="genre_shounen">Shounen</string>
+    <string name="genre_shounenAi">Shounen Ai</string>
+    <string name="genre_sliceofLife">Hayattan Bir Kesit</string>
+    <string name="genre_space">Uzay</string>
+    <string name="genre_sports">Spor</string>
+    <string name="genre_superPower">Süper Güçler</string>
+    <string name="genre_supernatural">Doğaüstü</string>
+    <string name="genre_thriller">Gerilim</string>
+    <string name="genre_vampire">Vampir</string>
+    <string name="genre_yaoi">Yaoi</string>
+    <string name="genre_yuri">Yuri</string>
+    <string-array name="genresFixedArray_all" translatable="false">
         <item>Aksiyon</item>
         <item>Macera</item>
         <item>Arabalar</item>
         <item>Komedi</item>
         <item>Kişilik Bölünmesi</item>
-        <item>Seytanlar</item>
-        <item>Dram</item>
+        <item>Şeytanlar</item>
+        <item>Drama</item>
         <item>Ecchi</item>
         <item>Fantezi</item>
         <item>Oyun</item>
         <item>Harem</item>
         <item>Hentai</item>
-        <item>Tarih</item>
+        <item>Tarihsel</item>
         <item>Korku</item>
-        <item>Josei</item>
-        <item>Çocuklar</item>
+        <item>Kadın</item>
+        <item>Çocuk</item>
         <item>Büyü</item>
+        <item>Büyülü Kız</item>
         <item>Dövüş Sanatları</item>
         <item>Mecha</item>
-        <item>Askeri</item>
+        <item>Ordu</item>
         <item>Müzik</item>
         <item>Mistik</item>
         <item>Parodi</item>
         <item>Polis</item>
-        <item>Psikoloji</item>
+        <item>Psikolojik</item>
         <item>Romantik</item>
         <item>Samuray</item>
         <item>Okul</item>
@@ -553,25 +546,74 @@
         <item>Yaoi</item>
         <item>Yuri</item>
     </string-array>
-    <string name="toast_info_comment_add">Yorum başarıyla gönderildi.</string>
-    <string name="dialog_title_downloaded">İndirilen bölüm</string>
-    <string name="dialog_title_fansub">Fansub Gruplarım</string>
-    <string name="dialog_title_add_topic">Konu oluştur</string>
-    <!--Typo, should be your-->
-    <string name="dialog_hint_fansub">Fansub Grubuna gir</string>
-    <string name="dialog_message_created_by">Oluşturan</string>
-    <string name="dialog_message_forum_child">$child1; ya da $child2; kategorisini göstermek istiyor musun?</string>
-    <string name="layout_card_anime_views">Anime listesi gösterimi</string>
-    <string name="layout_card_manga_views">Manga listesi gösterimi</string>
-    <string name="no_activity">Hareket Yok</string>
-    <string name="no_reviews">Yorum  Yok</string>
-    <string name="read_more">Daha fazlasını oku</string>
-    <string name="show_less">Daha az göster</string>
-    <!-- ForumActivity Strings -->
-    <string name="action_add">Yorum veya konu ekle</string>
-    <string name="form_hint_title">Konu başlığı</string>
-    <string name="nav_item_airing">Devam Ediyor</string>
-    <string name="nav_item_year">Bu Yıl</string>
-    <string name="card_content_fansubbers">Fansublar</string>
-    <string name="card_content_downloaded">İndirilen</string>
+    <string name="genericSort_relevance">İlgili</string>
+    <string name="genericSort_ascending">Yükselen</string>
+    <string name="genericSort_title">Başlık</string>
+    <string name="genericSort_score">Puan</string>
+    <string name="genericSort_start">Başlama Tarihi</string>
+    <string name="genericSort_end">Bitiş Tarihi</string>
+    <string name="genericSort_type">Tür</string>
+    <string name="genericSort_members">Üyeler</string>
+    <string name="genericSort_id">ID</string>
+    <string name="genericSort_popularity">Popülerlik</string>
+    <string name="genericSort_added">Yeni Eklenen</string>
+    <string name="animeSort_episode">Bölüm</string>
+    <string name="animeSort_rated">Değerlendirme</string>
+    <string name="mangaSort_volume">Cilt</string>
+    <string name="mangaSort_chapter">Bölüm</string>
+    <string-array name="animeFixedSort_MAL" translatable="false">
+        <item>İlgili</item>
+        <item>Başlık</item>
+        <item>Başlama Tarihi</item>
+        <item>Bitiş Tarihi</item>
+        <item>Puan</item>
+        <item>Bölüm</item>
+        <item>Tür</item>
+        <item>Üyeler</item>
+        <item>Değerlendirme</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="mangaFixedSort_MAL" translatable="false">
+        <item>İlgili</item>
+        <item>Başlık</item>
+        <item>Başlama Tarihi</item>
+        <item>Bitiş Tarihi</item>
+        <item>Puan</item>
+        <item>Cilt</item>
+        <item>Bölüm</item>
+        <item>Üyeler</item>
+        <item>Tür:</item>
+        <item>ID</item>
+    </string-array>
+    <string-array name="genericFixedSort_AL" translatable="false">
+        <item>Puan</item>
+        <item>Popülarite</item>
+        <item>Başlama Tarihi</item>
+        <item>Bitiş Tarihi</item>
+        <item>Eklenme Tarihi</item>
+    </string-array>
+    <string name="animeStatus_finished">Yayınlanmış</string>
+    <string name="animeStatus_airing">Yayınlanıyor</string>
+    <string name="animeStatus_not">Henüz Yayınlanmamış</string>
+    <string name="mangaStatus_finished">Yayımlanmış</string>
+    <string name="mangaStatus_airing">Yayımlanıyor</string>
+    <string name="mangaStatus_not">Henüz Yayımlanmamış</string>
+    <string name="genericStatus_cancelled">İptal Edilmiş</string>
+    <string name="genericStatus_all">Tüm Durumlar</string>
+    <string-array name="animeFixedStatus_AL" translatable="false">
+        <item>Tüm Durumlar</item>
+        <item>henüz yayınlanmamış</item>
+        <item>yayınlanıyor</item>
+        <item>yayınlanmış</item>
+        <item>iptal edilmiş</item>
+    </string-array>
+    <string-array name="mangaFixedStatus_AL" translatable="false">
+        <item>Tüm durumlar</item>
+        <item>henüz yayımlanmadı</item>
+        <item>yayımlanıyor</item>
+        <item>yayımlanmış</item>
+        <item>iptal edilmiş</item>
+    </string-array>
+    <!-- DetailView (Media info) Strings -->
+    <string name="genericType_all">Tüm türler</string>
 </resources>

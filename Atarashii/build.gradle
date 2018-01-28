@@ -18,7 +18,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -28,23 +28,23 @@ android {
     productFlavors {
         Production {
             applicationId 'net.somethingdreadful.MAL'
-            versionCode 38
-            versionName '2.3.6'
+            versionCode 40
+            versionName '2.4.1'
         }
         FLOSSProduction {
             applicationId 'net.somethingdreadful.MAL'
-            versionCode 38
-            versionName '2.3.6'
+            versionCode 40
+            versionName '2.4.1'
         }
         Beta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 78
-            versionName '2.4 Beta 1'
+            versionCode 83
+            versionName '2.4.1'
         }
         FLOSSBeta {
             applicationId 'net.somethingdreadful.MAL.beta'
-            versionCode 78
-            versionName '2.4 Beta 1'
+            versionCode 83
+            versionName '2.4.1'
         }
     }
 
@@ -73,17 +73,17 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.+'
     compile 'com.android.support:appcompat-v7:25.+'
     compile 'com.android.support:design:25.+'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    provided 'org.projectlombok:lombok:1.16.12'
-    ProductionCompile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') { transitive = true; }
-    ProductionCompile('com.crashlytics.sdk.android:answers:1.3.10@aar') { transitive = true; }
-    BetaCompile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') { transitive = true; }
-    BetaCompile('com.crashlytics.sdk.android:answers:1.3.10@aar') { transitive = true; }
+    compile 'com.jakewharton:butterknife:8.6.0'
+    apt 'com.jakewharton:butterknife-compiler:8.6.0'
+    provided 'org.projectlombok:lombok:1.16.14'
+    ProductionCompile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') { transitive = true; }
+    ProductionCompile('com.crashlytics.sdk.android:answers:1.3.11@aar') { transitive = true; }
+    BetaCompile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') { transitive = true; }
+    BetaCompile('com.crashlytics.sdk.android:answers:1.3.11@aar') { transitive = true; }
 }

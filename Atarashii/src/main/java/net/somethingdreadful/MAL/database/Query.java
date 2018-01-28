@@ -138,7 +138,7 @@ public class Query {
      */
     public void clearOldRecords(String table, Long date) {
         int removedRows = db.delete(table, "lastSync < ?", new String[]{String.valueOf(date)});
-        AppLog.log(Log.INFO, "Atarashii", "Query.clearOldRecords(): removed " + removedRows + " " + table + " records before" + date);
+        AppLog.log(Log.INFO, "Atarashii", "Query.clearOldRecords(): removed " + removedRows + " " + table + " records before " + date);
     }
 
     /**

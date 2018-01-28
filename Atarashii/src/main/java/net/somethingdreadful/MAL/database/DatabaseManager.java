@@ -89,7 +89,7 @@ public class DatabaseManager {
 
     public void clearOldRecords(GenericRecord record, String table, String methodName) {
         Long lastSync = record.getLastSync().getTime();
-        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager." + methodName + "(): removing records before" + lastSync);
+        AppLog.log(Log.INFO, "Atarashii", "DatabaseManager." + methodName + "(): removing records before " + lastSync);
 
         try {
             db.beginTransaction();
@@ -107,7 +107,8 @@ public class DatabaseManager {
         for (Anime anime : result) {
             saveAnimeList(anime);
         }
-        clearOldRecords(result.get(0), DatabaseHelper.TABLE_ANIME, "saveAnimeList");
+        if (result.size() > 0)
+            clearOldRecords(result.get(0), DatabaseHelper.TABLE_ANIME, "saveAnimeList");
     }
 
     /**
@@ -194,7 +195,8 @@ public class DatabaseManager {
         for (Manga manga : result) {
             saveMangaList(manga);
         }
-        clearOldRecords(result.get(0), DatabaseHelper.TABLE_MANGA, "saveMangaList");
+        if (result.size() > 0)
+            clearOldRecords(result.get(0), DatabaseHelper.TABLE_MANGA, "saveMangaList");
     }
 
     /**
